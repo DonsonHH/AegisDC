@@ -55,7 +55,8 @@ class WorkflowContractTests(unittest.TestCase):
     def test_frozen_plan_uses_the_same_lead_ranker_as_feedback(self):
         workflow = Workflow(after_alarm='global')
         tasks = [dict(task=i, pod=i, kind='cooling', last_check_s=0., deadline_s=300.,
-                      weight_scaled=1., already_alarm=False, flow={'available': True, 'value': flow})
+                      weight_scaled=1., already_alarm=False,
+                      flow={'available': True, 'value': flow, 'source': 'remote_flow'})
                  for i, flow in enumerate((26.88, 30.24))]
         public = dict(time_s=10., tasks=tasks, agents=[dict(tour=[0, 1], cursor=0,
             busy_target=None, first_costs_s={'0': 10., '1': 10.},
