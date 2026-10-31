@@ -82,17 +82,28 @@ def select_follow_up(workflow, candidates, first_measurement, now):
     if first_measurement['time_s'] > now:
         raise ValueError('Only an actually completed reference can branch')
     scope = workflow.after_alarm if first_measurement['alarm'] else workflow.after_normal
+    ordered = followup_order(workflow, candidates, first_measurement, scope, first_measurement['alarm'])
+    return ordered[0] if ordered else None
+
+
+def followup_order(workflow, candidates, anchor, scope, positive_support):
+    """Common ranking for frozen planning and actual measurement feedback.
+
+    Planning may use an explicitly labeled public-cue assumption. It never
+    enters the qualified measurement store or counts as a completed check.
+    """
     if scope == 'return_tour':
-        return None
-    pool = [r for r in candidates if r['task'] != first_measurement['task'] and not r['already_alarm']
-            and (r['rank_signal'] >= .05 or first_measurement['alarm'] and r['pod'] == first_measurement['pod'])]
+        return []
+    pool = [r for r in candidates if r['task'] != anchor['task'] and not r['already_alarm']
+            and (r['rank_signal'] >= .05 or positive_support and r['pod'] == anchor['pod'])]
     if scope == 'same_pod_other_profession':
-        preferred = [r for r in pool if r['pod'] == first_measurement['pod'] and r['kind'] != first_measurement['kind']]
+        preferred = [r for r in pool if r['pod'] == anchor['pod'] and r['kind'] != anchor['kind']]
     elif scope == 'same_pod':
-        preferred = [r for r in pool if r['pod'] == first_measurement['pod']]
+        preferred = [r for r in pool if r['pod'] == anchor['pod']]
     elif scope == 'different_pod':
-        preferred = [r for r in pool if r['pod'] != first_measurement['pod']]
+        preferred = [r for r in pool if r['pod'] != anchor['pod']]
     else:
         preferred = pool
-    pool = preferred or pool
-    return max(pool, key=lambda r: (rank_value(r, workflow.ranker), -r['task']), default=None)
+    preferred_ids = {r['task'] for r in preferred}
+    key = lambda r: (-rank_value(r, workflow.ranker), r['task'])
+    return sorted(preferred, key=key) + sorted((r for r in pool if r['task'] not in preferred_ids), key=key)

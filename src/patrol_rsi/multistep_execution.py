@@ -13,7 +13,7 @@ from .facility_workflow import public_outcome
 from .improver_task import PatrolProgram
 from .inspection_metrics import evaluate_episode
 from .multistep_safety import certify_dispatch
-from .multistep_workflow import Workflow, digest, rank_value, select_follow_up
+from .multistep_workflow import Workflow, digest, followup_order, select_follow_up
 from .timing_skill import TimingSkill
 from .timing_skill_control import TimingSkillSelector
 
@@ -162,19 +162,37 @@ def candidate_rows(env, public, estimator):
     return choices, rows
 
 
-def frozen_priority(public, excluded):
+def frozen_priority(public, anchor, workflow):
     """Commit task preference once, including currently busy owners; not a safety plan."""
-    ranked = []
+    rows = []
     now = public['time_s']
-    for row in public['tasks']:
-        if row['task'] == excluded or row['already_alarm']:
-            continue
-        signal, _ = task_signal(row)
-        if signal is None or signal < .05:
-            continue
-        age = now - max(0., row['last_check_s'])
-        ranked.append((signal * row['weight_scaled'], age / row['deadline_s'], -row['task'], row['task']))
-    return [r[-1] for r in sorted(ranked, reverse=True)]
+    for agent in public['agents']:
+        tour, cursor = agent['tour'], agent['cursor']
+        start, costs = now, agent['first_costs_s']
+        if agent['busy_target'] is not None:
+            busy = agent['busy_target']
+            start, costs = agent['busy_finish_s'], agent['costs_s'][str(busy)]
+            if busy == tour[cursor]:
+                cursor = (cursor + 1) % len(tour)
+        arrivals, at, previous = {}, start, None
+        for j in tour[cursor:] + tour[:cursor]:
+            at += costs[str(j)] if previous is None else agent['costs_s'][str(previous)][str(j)]
+            arrivals[j], previous = at, j
+        for j in tour:
+            row = deepcopy(public['tasks'][j])
+            if workflow.estimator == 'nominal':
+                row['history_assimilated']['available'] = False
+            signal, _ = task_signal(row)
+            finish = start + costs[str(j)]
+            rows.append({'task': j, 'pod': row['pod'], 'kind': row['kind'],
+                'rank_signal': float(signal) if signal is not None else 0., 'weight': row['weight_scaled'],
+                'lead_s': max(0., min(1800., arrivals[j]) - finish),
+                'age_ratio': min((now - max(0., row['last_check_s'])) / row['deadline_s'], 6),
+                'eta_ratio': (finish - now) / row['deadline_s'], 'already_alarm': row['already_alarm']})
+    # First dispatch already requires a positive public cue. C commits the
+    # positive-cue hypothesis now; this is explicitly NOT a measured alarm.
+    ordered = followup_order(workflow, rows, anchor, workflow.after_alarm, True)
+    return [r['task'] for r in ordered]
 
 
 class WorkflowRuntime:
@@ -198,7 +216,7 @@ class WorkflowRuntime:
                 selected = max(eligible, key=lambda r: (r['age_ratio'] + r['eta_ratio'], -r['task']), default=None)
                 if selected is not None:
                     self.first_request = deepcopy(selected)
-                    self.frozen_order = frozen_priority(public, selected['task'])
+                    self.frozen_order = frozen_priority(public, selected, self.workflow)
                     branch = 'first_public_evidence'
             elif completed:
                 event = completed[0]['completed']
@@ -220,6 +238,7 @@ class WorkflowRuntime:
                  'remaining_before': remaining, 'waiting_for_measurement': bool(pending),
                  'safe_optional_candidates': len(candidates), 'selected': deepcopy(selected),
                  'frozen_second_if_currently_legal': deepcopy(frozen_choice),
+                 'frozen_plan_basis': 'Before first result, same tool/ranker/positive-cue branch; not a qualified measurement',
                  'first_request': {'agent': self.first_request['agent'], 'task': self.first_request['task']} if self.first_request else None,
                  'public_sha256': digest(public)}
         self.frames.append(frame)
@@ -287,5 +306,8 @@ def run_workflow_episode(spec, workflow, predictor, max_checks, arm):
         'team': {'count': len(env.agents), 'per_agent': [{k: a[k] for k in
             ('id', 'role', 'zone', 'travel_m', 'service_s', 'idle_s', 'completed')} for a in env.agents]}}
     record['public_selection'] = public_outcome(record, env.asset_weights)
+    record['public_selection']['different_from_actor'] = None
+    record['public_selection']['actor_counterfactual_observed'] = False
+    record['PPO_scoring_calls'] = 0
     record['action_sha256'] = digest(decisions)
     return record, env

@@ -50,6 +50,15 @@ def load_rows(root):
     return [read(path) for path in sorted((root / 'evaluations').glob('episode-*/complete.json'))]
 
 
+def current_rows(root, source):
+    signature = sha(source / 'snapshot-manifest.json')
+    return [row for row in load_rows(root) if row['source_manifest_sha256'] == signature]
+
+
+def gate_directory(root, source):
+    return root / 'gate' / sha(source / 'snapshot-manifest.json')
+
+
 def protocol(source):
     return read(source / STAGE / 'protocol-v1.json')
 
@@ -80,8 +89,9 @@ def get_trace(root, source, case):
 def run_one(root, source, case, arm, workflow, predictor):
     p = protocol(source)
     need(case in p['cases'], 'Only six preregistered development cases')
-    key = digest({'case': case, 'arm': arm, 'workflow': workflow.to_dict()})
-    existing = [row for row in load_rows(root) if row['evaluation_key'] == key]
+    source_signature = verify_source(source)
+    key = digest({'case': case, 'arm': arm, 'workflow': workflow.to_dict(), 'source_manifest_sha256': source_signature})
+    existing = [row for row in current_rows(root, source) if row['evaluation_key'] == key]
     if existing:
         need(len(existing) == 1 and sha(Path(existing[0]['record_path'])) == existing[0]['record_sha256'], 'Reuse exact finished episode')
         return existing[0]
@@ -171,9 +181,10 @@ def model_feedback(rows):
 
 
 def call_model(root, source):
-    gate = read(root / 'gate/complete.json')
-    need(gate['passed'], 'Interface/safety gate required; no score win prerequisite')
-    rows = load_rows(root)
+    gate = read(gate_directory(root, source) / 'complete.json')
+    need(gate['passed'] and gate['source_manifest_sha256'] == verify_source(source),
+         'Exact-source interface/safety gate required; no score win prerequisite')
+    rows = current_rows(root, source)
     need(len([r for r in rows if r['arm'] in ('A', 'B', 'C', 'D')]) == 24, 'All development baseline arms finished')
     need(torch.cuda.is_available(), 'Actual allocated GPU required')
     device = torch.cuda.get_device_properties(0)
@@ -247,8 +258,8 @@ def call_model(root, source):
 
 def gate(root, source):
     import unittest
-    area = root / 'gate'
-    area.mkdir(exist_ok=False)
+    area = gate_directory(root, source)
+    area.mkdir(parents=True, exist_ok=False)
     suite = unittest.TestSuite()
     for name in ('test_multistep_workflow.py', 'test_multistep_safety.py'):
         suite.addTests(unittest.defaultTestLoader.discover(str(source / 'tests'), pattern=name))
@@ -278,23 +289,25 @@ def main():
     if args.mode == 'pilot':
         gate(root, source)
     else:
-        need(read(root / 'gate/complete.json')['passed'], 'Interface test gate')
+        check = read(gate_directory(root, source) / 'complete.json')
+        need(check['passed'] and check['source_manifest_sha256'] == verify_source(source), 'Exact-source interface test gate')
     predictor = frozen_predictor(CVAE, source / 'research/2026-10-28-m111-coverage/frozen_estimator.json')
     if args.mode == 'pilot':
         row = run_one(root, source, spec['cases'][0], 'D', Workflow(), predictor)
-        write(root / 'cost-probe.json', {'actual_seconds': row['actual_wall_seconds'], 'episode_reused': True,
+        write(root / ('cost-probe-' + sha(source / 'snapshot-manifest.json')[:12] + '.json'),
+            {'actual_seconds': row['actual_wall_seconds'], 'episode_reused': True,
             'projected_24_episode_wall_seconds': row['actual_wall_seconds'] * 24,
             'next_CPU_allocation_seconds_upper_bound': 1200})
     elif args.mode == 'baselines':
         for case in spec['cases']:
             for arm in ('A', 'B', 'C', 'D'):
                 run_one(root, source, case, arm, Workflow(), predictor)
-        write(root / 'baselines-complete.json', {'rows': [r for r in load_rows(root) if r['arm'] in ('A', 'B', 'C', 'D')]})
+        write(root / 'baselines-complete.json', {'rows': [r for r in current_rows(root, source) if r['arm'] in ('A', 'B', 'C', 'D')]})
     else:
         child = Workflow.from_dict(read(root / 'child-workflow.json')['workflow'])
         for case in spec['cases']:
             run_one(root, source, case, 'child', child, predictor)
-        write(root / 'child-complete.json', {'rows': [r for r in load_rows(root) if r['arm'] == 'child']})
+        write(root / 'child-complete.json', {'rows': [r for r in current_rows(root, source) if r['arm'] == 'child']})
 
 
 if __name__ == '__main__':
