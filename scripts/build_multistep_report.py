@@ -218,6 +218,7 @@ def main():
     summary = {'study': 'minimal-multistep-workflow-v1', 'report_markdown': text,
         'goal_alignment_markdown': (stage / '目标对照.md').read_text(encoding='utf8'),
         'prototype_and_reproduction_markdown': (stage / '原型与复现.md').read_text(encoding='utf8'),
+        'source_revision_history_markdown': (stage / '源码修订记录.md').read_text(encoding='utf8'),
         'protocol': read(stage / 'protocol-v1.json'), 'rows': rows, 'table': csv_rows,
         'paired_C_D': paired, 'group_descriptive_statistics': group_stats, 'actual_first_measurements': receipt_rows,
         'model_modification': model_change, 'raw_model_response': response, 'all_actual_model_attempts': model_attempts,
