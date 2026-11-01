@@ -74,7 +74,7 @@ def main():
     parent=MeasurementWorkflow();scores,cards=feedback(completed);failures=[]
     for _ in range(2):
         user={'task':'Propose one executable post-measurement workflow modification, not a geographic scope change.',
-            'parent':parent.to_dict(),'raw_output_contract':{'changes':'ONE or TWO changed fields','mechanism':'Short explanation: public condition, affected estimates/tasks, why not equivalent'},
+            'parent':parent.to_dict(),'raw_output_contract':{'changes':{'estimate_tool':'nominal_only'},'mechanism':'Short explanation: public condition, affected estimates/tasks, why not equivalent'},
             'allowed_values':{'estimate_tool':['direct_priority','nominal_only'],
                 'dependency_evidence':['physical','own_only'],'normal_followup':['positive_value','return_tour']},
             'semantics':'direct_priority uses fresh references ahead of old CVAE and a causal nominal forecast; nominal_only uses the nominal observer without CVAE residual in ranking. physical allows heat-balance residual as cooling-verification priority, own_only removes that diagnostic component. return_tour permanently skips further optional work after the first NORMAL actual reference; positive_value continues only if a safe task has positive net value. All tools retain the same clock; no double time stepping.',
@@ -84,7 +84,7 @@ def main():
             'score_columns':['missed_segments','weighted_censored_wait_s','travel_m','service_s','optional_checks'],
             'all_condition_scores':scores,'public_completed_feedback':cards,
             'parent_child_behavior_difference':{'current_child':'not_generated_yet','historical_fact':'Previous scope-only edit changed0of6actual trajectories; do not repeat equivalent scope changes.'},
-            'instruction':'Explain which supplied public state activates the change and how it can change a task value or action. No positive human-result prerequisite. No code, extra keys, scope fields or hidden schedule. First legal nonduplicate child ends proposal sampling.',
+            'instruction':'changes MUST be a JSON OBJECT mapping ONE or TWO registered field names to their NEW enum values, never a list of names. The example shows the shape, not a required choice. Explain which supplied public state activates the change and how it can change a task value or action. No positive human-result prerequisite. No code, extra keys, scope fields or hidden schedule. First legal nonduplicate child ends proposal sampling.',
             'prior_structural_failures':failures}
         dropped=0
         while True:

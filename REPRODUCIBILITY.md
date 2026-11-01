@@ -1,5 +1,7 @@
 # 材料可获取范围与复现层级
 
+测量作用机制实验另封存[本轮原件包](research/2026-11-01-measurement-effect/evidence/run-evidence-v1.tar.gz)：45回合、6新过程、两次模型结构失败及策略输入注记，183份关闭文件SHA已核验。旧六输入继续引用上轮包，权重沿用原清单。[本轮复现与版本说明](research/2026-11-01-measurement-effect/复现与版本说明.md)区分实际环境闭环、冻结CVAE输入回放与未实测的新提示修正。
+
 本轮最小多步原型另提供六个开发过程、31条实际评价原件、三次真实模型调用及时间线的[新结果包](research/2026-11-01-multistep-workflow/evidence/run-evidence-v1.tar.gz)，校验收据见同目录transfer-verification.json；原型与冻结子工作流重放命令见[复现说明](research/2026-11-01-multistep-workflow/原型与复现.md)。该包仅覆盖本轮新增材料，不重新打包旧历史或权重。固定CVAE与Qwen权重仍依赖原清单和集群文件，CPU/GPU推理配置分别记录。
 
 仓库公开源码、冻结协议、统计、选择／回退记录、作业日志、文件SHA、阶段报告和部分完整案例。它同时包含来自指定水域巡检论文的原理参考及后续机房适配；引用与来源见各阶段审计。
