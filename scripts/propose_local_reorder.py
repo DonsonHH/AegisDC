@@ -154,7 +154,7 @@ def main():
         'execution_signature':signature,'model_script_sha256':sha(Path(__file__)),
         'source_manifest_sha256':sha(source/'snapshot-manifest.json'),'dtype':'float32','device':'cpu','new_training':False,
         'feedback_Q1_receipt_sha256':sha(root/'Q1-complete.json') if index==2 else None})
-    seen=[]
+    seen=[ScoreExpression(baseline['R']['policy']['score_expression']).identity]
     if first is not None and first['candidate'] is not None:seen.append(ScoreExpression(first['candidate']['policy']['score_expression']).identity)
     for _ in range(allowed):
         rendered=tokenizer.apply_chat_template([{'role':'system','content':'Return exactly one JSON object: score_expression is a STRING containing a numeric expression; mechanism is a STRING. No markdown, lists or extra fields.'},
@@ -166,7 +166,7 @@ def main():
         call=area/f"call-{reservation['number']:02d}";call.mkdir()
         write(call/'start.json',{'receipt':reservation,'prompt':prompt,'rendered_prompt':rendered,'input_tokens':count,
             'input_target':3072,'output_cap':256,'thinking':False,'decoder':'greedy','dtype':'float32'})
-        begin=time.perf_counter();response=None;phase='generation'
+        begin=time.perf_counter();response=None;phase='generation';copied_example=None
         def timeout(signum,frame):raise TimeoutError('240s real generation timeout; call remains charged')
         previous=signal.signal(signal.SIGALRM,timeout);signal.setitimer(signal.ITIMER_REAL,240)
         try:
@@ -175,19 +175,22 @@ def main():
             write(call/'response.json',{'raw_response':response,'output_tokens':int(generated.shape[1]-count),'seconds':time.perf_counter()-begin})
             phase='parse_and_mutation'
             expression,mechanism=parse_response(response)
+            copied_example=expression.identity==ScoreExpression(response_example()['score_expression']).identity
             require_mutation(expression,ScoreExpression(parent['policy']['score_expression']),seen)
             phase='persist_legal_child'
             need(tuple(v._version for v in model.parameters())==versions,'Frozen model weights')
             value={'score_expression':expression.source,'mechanism':mechanism,'round':index,
                 'parent_policy_id':parent['policy_id'],'proposal_response_path':str(call/'response.json'),
                 'proposal_response_sha256':sha(call/'response.json'),'execution_signature':signature,
-                'source_manifest_sha256':sha(source/'snapshot-manifest.json'),'machine_repaired_expression':False}
+                'source_manifest_sha256':sha(source/'snapshot-manifest.json'),'machine_repaired_expression':False,
+                'copied_contract_example':copied_example}
             write(call/'accepted-interface.json',value);write(root/f'Q{index}-proposal.json',value)
             print('LEGAL_LOCAL_REORDER_CHILD',index,reservation['number'],expression.source,flush=True)
             return
         except Exception as error:
             write(call/'failed.json',{'type':type(error).__name__,'error':str(error),'raw_response':response,
-                'seconds':time.perf_counter()-begin,'charged':True,'unknown_output_upper_bound':256,'phase':phase})
+                'seconds':time.perf_counter()-begin,'charged':True,'unknown_output_upper_bound':256,'phase':phase,
+                'copied_contract_example':copied_example})
             prompt['prior_structural_failures'].append({'error':str(error),'failed_raw_response':response})
             if phase!='parse_and_mutation' or not isinstance(error,ValueError):
                 write(area/'operational-stop.json',{'phase':phase,'error':str(error),'no_resampling_after_operational_failure':True})
