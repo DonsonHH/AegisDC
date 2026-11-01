@@ -1222,5 +1222,878 @@
     "skipped": 0,
     "seconds": 3.617,
     "result": "PASS"
+  },
+  "portable_regression": {
+    "scope": "Engineering portability correction only. The original byte-exact migration result above is preserved as a same-environment historical result; no engine, equations, policy, measurements, scientific claims, or training changed.",
+    "diagnosis": {
+      "observed_CI_failure": "Python 3.11.17 / NumPy 2.3.5 / Ubuntu 26.04 failed the original raw-float process SHA expectation.",
+      "original_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+      "CI_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+      "controlled_reproduction": "The identical CI fingerprint was reproduced under the original Python 3.12.14 by disabling NumPy AVX512/AVX2/FMA3 CPU features only. Thus Python sum version changes are not necessary to explain the physical-array hash mismatch. No claim is made that Python 3.11 aggregate metrics are bit-identical before CI reruns.",
+      "physical_max_absolute_difference": {
+        "value": 7.450580596923828e-09,
+        "path": "process.process_scalars[201][3]",
+        "meaning": "stored_energy_kj"
+      },
+      "physical_max_relative_difference": {
+        "value": 1.3859803941638095e-13,
+        "path": "process.severity_proxy[205][107]"
+      },
+      "measurement_max_absolute_difference": 1.4210854715202004e-14,
+      "controlled_reproduction_exact": "actions, full assignments, all task gaps, labels, alarm flags, event times, all reported metrics, interval boundaries, all public float32 history inputs and callback times"
+    },
+    "reference": {
+      "path": "tests/fixtures/core-reference.json.gz",
+      "sha256": "6690ea03a9322a483448b9dd05cf4eeadb6b149a062e61938f37d6619ae8a96d",
+      "compressed_bytes": 2116744,
+      "source_commit": "f2c20b3a642ff1df9426e523614d3da9a5cf1129",
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.3.5",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+        "python": "3.12.14"
+      },
+      "generation": "Captured from the ORIGINAL checkout only, after verifying every recorded source file SHA. All four captures reproduced the original migration receipt hashes and metrics exactly. No current-engine outputs were accepted as new expectations.",
+      "original_episodes_rerun": 4,
+      "process_arrays": 9,
+      "process_numeric_values": 199568,
+      "completed_measurements_by_case": {
+        "history_stub_T": 1426,
+        "nominal_H": 1427,
+        "nominal_R": 1448,
+        "nominal_T": 1426
+      },
+      "public_history_input_shape": [
+        60,
+        128,
+        56
+      ],
+      "public_history_numeric_values": 430080,
+      "history_stub_not_CVAE_scientific_result": true,
+      "scientific_training": 0,
+      "LLM_calls": 0
+    },
+    "comparison_contract": {
+      "reference_identity": "SHA256 of the complete gzip fixture is pinned in the test, in addition to source commit and exact specification.",
+      "exact": [
+        "full action log and action digest",
+        "full assignment digest, including route and dispatch times",
+        "all exact task gaps",
+        "array keys, shapes, dtypes",
+        "every physical task-label mask",
+        "every measurement target, task ID, role, access/calibration flag, alarm and transition",
+        "all event and anomaly interval boundary times",
+        "integer counts and violations",
+        "all public history call times",
+        "history age, measured/verified masks and coordinate feature columns",
+        "by-role metrics",
+        "discrete event/interval scalar types, including Boolean versus integer"
+      ],
+      "continuous_float64": {
+        "rtol": 1e-12,
+        "atol": 1e-10,
+        "scope": "every original process-array value, every completed measurement value, every continuous aggregate metric, every anomaly weight"
+      },
+      "history_float32": {
+        "maximum_ULPs": 2,
+        "scope": "every public input value; discrete feature columns additionally require exact equality"
+      },
+      "nonfinite": "All reference values are finite; any NaN or infinity in actual values fails. No equal_nan behavior.",
+      "diagnostics": "Every case prints count, differing value count, maximum absolute and relative differences with array/field paths, maximum fraction of allowed error, and history ULP maximum. Diagnostics print even on numeric failure.",
+      "corruption_checks": [
+        "alarm flip",
+        "1e-12 completion-time change",
+        "missing event field",
+        "1e-6 measurement drift",
+        "NaN",
+        "infinity",
+        "three-ULP float32 drift",
+        "Boolean alarm changed to equal-valued integer"
+      ],
+      "historical_hashes": "Original physical, measurement and history byte hashes remain archived for source identity; they are not treated as portable equality assertions."
+    },
+    "reference_generation_command": "python /tmp/patrol_core_reference_generate.py /workspace/scratch/207a24314c44/Zhinengti-RSI-review /workspace/scratch/207a24314c44/Zhinengti-RSI-clean/tests/fixtures/core-reference.json.gz /workspace/scratch/207a24314c44/Zhinengti-RSI-clean/evidence/migration.json",
+    "reference_generation_source": "\"\"\"Capture original-engine values; never import or update the migrated engine.\"\"\"\nimport gzip\nimport hashlib\nimport inspect\nimport json\nimport platform\nimport subprocess\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\n\noriginal, destination, receipt_path = map(Path, sys.argv[1:4])\nreceipt = json.loads(receipt_path.read_text())\nsource_sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=original, text=True).strip()\nassert source_sha == receipt['source_commit']\nfor entry in receipt['source_files']:\n    assert hashlib.sha256((original / entry['path']).read_bytes()).hexdigest() == entry['sha256'], entry['path']\nsys.path.insert(0, str(original / 'src'))\nfrom patrol_rsi.reorder_execution import run_reorder\nfrom patrol_rsi.correction_execution import execute_correction\nfrom patrol_rsi.baseline_correction import Rule\nfrom patrol_rsi.local_score import BASE_EXPRESSION\nfrom patrol_rsi.inspection_metrics import task_labels\n\ndef native(value):\n    if isinstance(value, np.ndarray):\n        return native(value.tolist())\n    if isinstance(value, np.generic):\n        return native(value.item())\n    if isinstance(value, dict):\n        return {str(key): native(item) for key, item in value.items()}\n    if isinstance(value, (tuple, list)):\n        return [native(item) for item in value]\n    return value\n\ndef digest(value):\n    return hashlib.sha256(json.dumps(native(value), sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()\n\ndef array(value):\n    value = np.asarray(value)\n    return {'dtype': value.dtype.str, 'shape': list(value.shape), 'values': value.tolist()}\n\nspec = {'seed': 41000, 'scenario': 'aux_feeder_loss+cdu_fouling', 'duration_s': 180,\n        'fault_start_s': 335, 'noise_c': .2, 'estimator': 'nominal'}\nfixture = {'schema': 'core-numeric-reference-v1', 'source_commit': source_sha,\n           'source_files': receipt['source_files'], 'specification': spec,\n           'environment': {'python': platform.python_version(), 'numpy': np.__version__,\n                           'platform': platform.platform(), 'machine': platform.machine()},\n           'scope': 'Engineering migration only; deterministic history stub is not a trained CVAE result.',\n           'cases': {}}\nfor name in ('nominal_T', 'nominal_R', 'nominal_H', 'history_stub_T'):\n    contexts, call_times = [], []\n    def stub(context):\n        call_times.append(float(inspect.currentframe().f_back.f_locals['self'].clock))\n        contexts.append(context.copy())\n        return 50. + 20. * context[:, 0].astype(float)\n    case_spec = dict(spec, estimator='history') if name == 'history_stub_T' else spec\n    if name == 'nominal_H':\n        policy = {'kind': 'correction', 'rule': Rule().to_dict()}\n        record, env = execute_correction(case_spec, None, policy)\n    else:\n        policy = {'method': 'expression', 'score_expression': BASE_EXPRESSION} if name == 'nominal_R' else {'method': 'T'}\n        record, env = run_reorder(case_spec, stub if contexts or name == 'history_stub_T' else None, policy)\n    archived = next(case['old'] for case in receipt['cases'] if case['id'] == name)\n    metrics = {key: value for key, value in record['metrics'].items() if key != 'history_estimator_inference_s'}\n    # Original local identity must reproduce the original receipt before capture.\n    assert record['action_sha256'] == archived['action_sha256'], name\n    assert digest(record['inspection_events']) == archived['measurements_sha256'], name\n    assert digest(record['assignments']) == archived['assignments_sha256'], name\n    assert digest(record['exact_task_gaps']) == archived['exact_task_gaps_sha256'], name\n    assert env.trace.fingerprint == archived['process_fingerprint'], name\n    assert native(metrics) == archived['metrics'], name\n    if 'process_arrays' not in fixture:\n        fixture['process_arrays'] = {key: array(value) for key, value in env.trace.arrays.items()}\n        fixture['process_fingerprint'] = env.trace.fingerprint\n        fixture['task_label_mask'] = array(task_labels(env)[0])\n    fixture['cases'][name] = {'action_sha256': record['action_sha256'],\n        'measurements_sha256': digest(record['inspection_events']),\n        'assignments_sha256': digest(record['assignments']),\n        'exact_task_gaps_sha256': digest(record['exact_task_gaps']),\n        'metrics': native(metrics), 'inspection_events': native(record['inspection_events']),\n        'anomaly_intervals': native(record['anomaly_intervals']), 'by_role': native(record['by_role']),\n        'history_call_times': call_times}\n    if contexts:\n        fixture['cases'][name]['history_inputs'] = array(np.stack(contexts))\n        observed = [{'time_s': time, 'input_sha256': digest(context)} for time, context in zip(call_times, contexts)]\n        assert observed == archived['stub_input_sha256']\n    print(json.dumps({'case': name, 'matched_original_receipt': True, 'measurements': len(env.events), 'history_calls': len(contexts)}), flush=True)\nraw = json.dumps(fixture, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()\ncompressed = gzip.compress(raw, compresslevel=9, mtime=0)\ndestination.parent.mkdir(parents=True, exist_ok=True)\ndestination.write_bytes(compressed)\nprint(json.dumps({'fixture': str(destination), 'json_bytes': len(raw), 'gzip_bytes': len(compressed),\n                  'sha256': hashlib.sha256(compressed).hexdigest()}), flush=True)\n",
+    "validation_runs": [
+      {
+        "name": "original_runtime",
+        "command": "PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+        "environment": {
+          "machine": "x86_64",
+          "numpy": "2.3.5",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+          "python": "3.12.14"
+        },
+        "tests": 9,
+        "seconds": 4.062,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "result": "PASS",
+        "diagnostics": [
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_H",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1427
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "history_stub_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "case": "history_stub_T",
+            "public_history_inputs": {
+              "differing_values": 0,
+              "maximum_absolute": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_allowed_fraction": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_float32_ulps": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_relative": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "values": 430080
+            }
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_R",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1448
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          }
+        ]
+      },
+      {
+        "name": "CI_fingerprint_reproduction",
+        "command": "NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512CD,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX2,FMA3 PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+        "environment": {
+          "machine": "x86_64",
+          "numpy": "2.3.5",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+          "python": "3.12.14"
+        },
+        "tests": 9,
+        "seconds": 4.162,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "result": "PASS",
+        "diagnostics": [
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_H",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1427
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "history_stub_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "case": "history_stub_T",
+            "public_history_inputs": {
+              "differing_values": 0,
+              "maximum_absolute": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_allowed_fraction": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_float32_ulps": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_relative": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "values": 430080
+            }
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_R",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 131,
+                "maximum_absolute": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 9.411543117048773e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 2.7867761687677214e-16
+                },
+                "values": 1448
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          }
+        ]
+      }
+    ],
+    "status": "PASS in the original runtime and controlled NumPy CPU-dispatch reproduction of the CI fingerprint; Python 3.11 hosted CI rerun is still pending."
   }
 }

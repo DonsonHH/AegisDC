@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import ast
+from contextlib import redirect_stderr, redirect_stdout
 import importlib.util
 import io
 import json
@@ -56,10 +57,20 @@ def verify(root: Path, output: Path):
         result["structure"] = check_structure(root)
         stream = io.StringIO()
         suite = unittest.defaultTestLoader.discover(str(root / "tests"), pattern="test_*.py")
-        tested = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
+        with redirect_stdout(stream), redirect_stderr(stream):
+            tested = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
         (output / "tests.log").write_text(stream.getvalue(), encoding="utf-8")
         result["tests"] = {"run": tested.testsRun, "failures": len(tested.failures),
                            "errors": len(tested.errors), "skipped": len(tested.skipped)}
+        numeric = []
+        for line in stream.getvalue().splitlines():
+            if "migration_numeric " not in line:
+                continue
+            detail = json.loads(line.split("migration_numeric ", 1)[1])
+            comparisons = detail.get("comparisons") or {"public_history_inputs": detail["public_history_inputs"]}
+            numeric.append({"case": detail["case"], "maximum_absolute_by_quantity":
+                            {key: value["maximum_absolute"] for key, value in comparisons.items()}})
+        result["numeric_regression"] = {"details": "tests.log", "observed_errors": numeric}
         result["engineering"] = "PASS" if tested.wasSuccessful() and tested.testsRun > 0 and not tested.skipped else "FAIL"
         if result["engineering"] == "FAIL":
             result["test_details"] = stream.getvalue()
