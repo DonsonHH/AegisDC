@@ -50,10 +50,15 @@ def evidence_card(row,reference,load_record,category):
     public={v['task']:v for v in d['public_tasks']}
     shifts=[]
     for shift in d['completion_deltas_vs_original']:
-        j=shift['task'];p=public[j];key=(d['agent'],d['round_id'],j)
+        j=shift['task'];p=public[j]
+        # A task already completed this round first appears again in the next
+        # round of the proof. Match that future obligation, never its past event.
+        target_round=d['round_id']+(j not in d['remaining_before'])
+        key=(d['agent'],target_round,j)
         if shift['delta_completion_s']==0 and j not in d['window']:continue
         actual=observed.get(key);prior=previous.get(key)
-        shifts.append([j,concise(p['risk']),concise(p['freshness']),p['risk_value_source'],
+        if actual is not None and actual<=d['time_s']:raise ValueError('Feedback completion must follow its actual decision')
+        shifts.append([j,target_round,concise(p['risk']),concise(p['freshness']),p['risk_value_source'],
             p['direct_age_s'],shift['delta_completion_s'],actual,
             actual-prior if actual is not None and prior is not None else None])
     return {'case':row['case_id'],'category':category,'time_s':d['time_s'],
@@ -61,7 +66,7 @@ def evidence_card(row,reference,load_record,category):
         'selected':d['selected_order'],'legal_count':d['legal_permutations'],
         'reference_selected_at_same_time':peer.get((d['time_s'],d['agent']),{}).get('selected_order'),
         'different_actual_decision_observed':bool(different),
-        'task_columns':['task','public_risk','freshness','source','direct_age_s',
+        'task_columns':['task','target_round','public_risk','freshness','source','direct_age_s',
             'planned_delta_vs_same_state_original_s','actual_finish_s','actual_delta_vs_reference_same_round_s'],
         'tasks':shifts,
         'offline_outcome':{'reference':[concise(reference['metrics'][k]) for k in METRICS],
