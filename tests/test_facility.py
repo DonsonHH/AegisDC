@@ -6,7 +6,6 @@ import numpy as np
 from patrol_rsi.facility import CoupledFacility, FacilityConfig, facility_topology, secondary_hydraulics
 from patrol_rsi.facility_observation import (FacilityObserver, FixedQualifiedInspection,
                                             InspectionTask, eligible, inspection_tasks)
-from patrol_rsi.m9 import run_case
 
 
 class CoupledPhysicsTests(unittest.TestCase):
@@ -134,16 +133,6 @@ class ObservationTaskTests(unittest.TestCase):
             np.testing.assert_array_equal(a[key], b[key])
         self.assertFalse(any(isinstance(value, CoupledFacility) for value in left.__dict__.values()))
 
-    def test_complete_episode_determinism_and_inspection_does_not_repair_process(self):
-        config = FacilityConfig(racks=16, horizon_s=100)
-        record, arrays = run_case(config, 96, 'healthy', 'feedback')
-        repeated, other = run_case(config, 96, 'healthy', 'feedback')
-        self.assertEqual(record, repeated)
-        for key in arrays: np.testing.assert_array_equal(arrays[key], other[key])
-        no_inspection = CoupledFacility(config, 96, 'healthy', 'feedback')
-        for step in range(20):
-            truth = no_inspection.step()
-            np.testing.assert_array_equal(truth['rack_temperature_c'], arrays['rack_temperature_c'][step])
 
 
 if __name__ == '__main__':

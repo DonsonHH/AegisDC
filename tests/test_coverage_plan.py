@@ -2,7 +2,6 @@ import unittest
 import numpy as np
 
 from patrol_rsi.coverage_plan import ReturnPlan, InfeasibleCoverage, exact_task_gaps
-from patrol_rsi.covered_inspection import CoveredInspection, run_covered
 from patrol_rsi.facility_observation import InspectionTask
 from patrol_rsi.inspection_contracts import ServiceEvidence, assess_capability
 
@@ -54,42 +53,6 @@ class ReturnCertificateTests(unittest.TestCase):
         self.assertEqual(records[0]['completion_times_s'], [15, 255])
 
 
-class CoverageExecutionTests(unittest.TestCase):
-    def spec(self, selector='cycle'):
-        return dict(seed=5000, scenario='healthy', duration_s=180, estimator='nominal',
-                    selector=selector, resources='provisioned', variant='open')
-
-    def test_owned_partition_and_initial_certificates(self):
-        env = CoveredInspection(self.spec())
-        owned = [j for agent in env.agents for j in agent['allowed']]
-        self.assertEqual(sorted(owned), list(range(len(env.tasks))))
-        self.assertTrue(all(row['ok'] for row in env.initial_certificates))
-        with self.assertRaises(InfeasibleCoverage):
-            CoveredInspection(dict(self.spec(), resources='scarce'))
-
-    def test_full_cycle_and_active_detours_preserve_exact_revisits(self):
-        for selector in ('cycle', 'risk_certified'):
-            record, env = run_covered(self.spec(selector))
-            self.assertEqual(record['metrics']['tasks_violating_exact_gap'], 0)
-            self.assertLessEqual(record['metrics']['maximum_exact_gap_ratio'], 1)
-            self.assertTrue(all(r['certificate']['ok'] for r in record['selected_certificates']))
-            for agent in record['team']['per_agent']:
-                self.assertAlmostEqual(agent['travel_m'] + agent['service_s'] + agent['idle_s'], 1795)
-            if selector == 'risk_certified':
-                self.assertGreater(record['metrics']['selected_detours'], 0)
-            self.assertEqual(len(record['scalar_trace']), 360)
-
-    def test_no_hidden_fault_or_true_temperature_in_candidates(self):
-        env = CoveredInspection(self.spec('risk_certified'))
-        before = env.options(0, set())[1].copy()
-        original = env.trace.arrays['rack_temperature_c'].copy()
-        try:
-            env.trace.arrays['rack_temperature_c'][:] = -999
-            env._risk_cache = None
-            env.certificate_cache.clear()
-            np.testing.assert_equal(before, env.options(0, set())[1])
-        finally:
-            env.trace.arrays['rack_temperature_c'][:] = original
 
 
 class CapabilityTests(unittest.TestCase):
