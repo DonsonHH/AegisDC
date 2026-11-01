@@ -21,6 +21,19 @@ def write(path,value):path.write_text(json.dumps(value,indent=2,ensure_ascii=Fal
 def number(x):return '—' if x is None else f'{x:.3f}'.rstrip('0').rstrip('.') if isinstance(x,float) else str(x)
 
 
+def accounting(run):
+    columns=('job_id','name','state','exit_code','elapsed_seconds','allocated_cpus','node','requested_memory')
+    rows=[]
+    for line in (run/'jobs/accounting.psv').read_text().splitlines():
+        row=dict(zip(columns,line.split('|')))
+        for name in ('elapsed_seconds','allocated_cpus'):row[name]=int(row[name])
+        rows.append(row)
+    value={'allocations':rows,'allocated_CPU_core_minutes':sum(v['elapsed_seconds']*v['allocated_cpus'] for v in rows)/60,
+        'allocated_GPU_seconds':0,'counts_all_allocations_including_prestart_failure':True,'batch_step_memory_reported_separately':True}
+    write(run/'job-accounting.json',value)
+    return value
+
+
 def summarize(result):
     rows=result['rows'];m=[v['metrics'] for v in rows]
     waits=[v['consequence_weighted_censored_delay_s'] for v in m if v['consequence_weighted_censored_delay_s'] is not None]
@@ -45,7 +58,7 @@ def rank_parent(decision,expression):
 
 def make_timeline(qsteps,load_record):
     choices=[]
-    for label,step in reversed(list(qsteps.items())):
+    for label,step in sorted(qsteps.items(),key=lambda pair:(not pair[1]['selection']['accepted'],pair[0])):
         if step['candidate'] is None:continue
         expression=ScoreExpression(step['parent']['policy']['score_expression'])
         for row in sorted(step['candidate']['rows'],key=lambda v:v['case_id']):
@@ -53,13 +66,17 @@ def make_timeline(qsteps,load_record):
             value=load_record(row)
             for d in sorted(value['local_decisions'],key=lambda d:(d['time_s'],d['agent'])):
                 parent=rank_parent(d,expression)
-                if parent['order']==d['selected_order']:continue
-                choices.append((any(p['risk']>1e-9 for p in d['public_tasks']),label,step,row,value,d,parent))
+                if parent['order']==d['selected_order'] or d['selected_order']==d['window']:continue
+                choices.append((any(p['risk']>1e-9 and p['task'] in d['selected_order'] for p in d['public_tasks']),label,step,row,value,d,parent))
     if not choices:return {'observed':False,'reason':'No same-state action difference from either actual model candidate.'}
     # First actual difference with a positive public cue, otherwise first actual
     # difference. This is a post hoc explanatory illustration, not a new trial.
     _,label,step,row,value,d,parent=next((v for v in choices if v[0]),choices[0])
+    expression=ScoreExpression(step['parent']['policy']['score_expression'])
     selected=next(c for c in d['candidates'] if c['order']==d['selected_order'])
+    if expression.evaluate(parent['features'])>expression.evaluate(selected['features'])+1e-9:raise ValueError('Timeline parent score must match its replayed ranking')
+    model_expression=ScoreExpression(step['candidate']['policy']['score_expression'])
+    if abs(model_expression.evaluate(selected['features'])-selected['score'][0])>1e-9:raise ValueError('Timeline actual score mismatch')
     public={p['task']:p for p in d['public_tasks']};events=[]
     for j in d['selected_order']:
         dispatch=next((v for v in value['local_dispatches'] if v['agent']==d['agent'] and v['round_id']==d['round_id'] and v['task']==j),None)
@@ -71,7 +88,8 @@ def make_timeline(qsteps,load_record):
             'same_state_original_planned_finish_s':next(c for c in d['candidates'] if c['original'])['certificate']['first_completion_s'][str(j)],
             'parent_expression_same_state_planned_finish_s':parent['certificate']['first_completion_s'][str(j)],
             'actual_anomaly_outcomes_evaluation_only':[v for v in value['anomaly_intervals'] if v['task']==j]})
-    return {'observed':True,'selection':'Post hoc explanatory first case/time with actual Q-vs-parent same-state order difference and a positive public cue; not another independent experiment.',
+    peer=next(v for v in step['parent']['rows'] if v['case_id']==row['case_id'])
+    return {'observed':True,'selection':'Post hoc illustration: retained Q candidate first, then case/time; actual order differs from both original and same-state parent, with a positive public cue in its window if observed. Not another experiment.',
         'label':label,'case_id':row['case_id'],'source_record_sha256':row['record_sha256'],'source_record_path':row['record_path'],
         'time_s':d['time_s'],'agent':d['agent'],'round_id':d['round_id'],
         'original_order':d['window'],'parent_same_state_order':parent['order'],'actual_selected_order':d['selected_order'],
@@ -83,7 +101,7 @@ def make_timeline(qsteps,load_record):
         'model_score_on_selected_order':selected['score'][0],
         'all_public_tasks':d['public_tasks'],'all_candidate_features_and_safety':d['candidates'],
         'all_planned_completion_deltas_vs_original':d['completion_deltas_vs_original'],
-        'actual_inspections':events,'episode_outcome':row['metrics'],
+        'actual_inspections':events,'episode_outcome':row['metrics'],'actual_parent_episode_outcome':peer['metrics'],
         'causal_limit':'Candidate ranking replay uses only recorded public features. Parent alternative at this exact state is a geometric counterfactual, not another actual rollout. Full-episode task scores come from the completed real simulation; no single favorable alarm proves net benefit.'}
 
 
@@ -158,8 +176,19 @@ def main():
         'superseded_or_failed_actual_attempts':len(attempts)-len(current),
         'logical_table_rows':len(table),'logical_confirmation_methods':5,
         'actual_confirmation_policy_identities':confirmation['actual_confirmation_identities'],
-        'jobs':read(run/'job-accounting.json')}
+        'jobs':accounting(run)}
     if budget['jobs']['allocated_CPU_core_minutes']>360:raise ValueError('CPU budget')
+    dev_r,dev_q=summary['development']['R'],summary['development']['Q1']
+    con_r,con_q=summary['confirmation']['R'],summary['confirmation']['selected_Q']
+    judgment={
+        'action_space':'真实不同合法排列存在，不能把本轮未见净收益归为只有原序。',
+        'scoring_objective':'Q1把移动项改为负数；在最小化中会奖励较多移动。预定选择把等待放在移动和完成数之前，因此允许开发等待小幅改善而成本变差的Q1被保留。Q2把期限压力改负，整体退化后回退。',
+        'public_information':'当前风险只是公开代理，线索的预测价值和及时性未被独立消融；不能据此断言信息充分或不足。',
+        'model_edit':'两个合法模型子式均改变真实行为；Q1开发改善未在新确认保持，Q2开发退化，未证明优于同预算S或原Tour的独立任务增益。',
+        'experience_and_meta':'Q2实际使用Q1反馈，但无无反馈对照；经验因果贡献及固定改进器的元/递归增量均未测。',
+        'development_Q1_minus_R':{k:dev_q[k]-dev_r[k] for k in ('mean_missed','mean_wait_event_conditions_s','mean_travel_m','mean_completed_inspections')},
+        'confirmation_Q_minus_R':{k:con_q[k]-con_r[k] for k in ('mean_missed','mean_wait_event_conditions_s','mean_travel_m','mean_completed_inspections')},
+        'next_hypothesis_only':'若继续，另立协议先检验局部排序分数与整回合发现效果/移动成本是否一致；优先利用已封存开发记录作分项回放，不复用本轮确认来选式。未自动开展新试验。'}
     inventory=[{'path':path.relative_to(STAGE).as_posix(),'sha256':sha(path),'bytes':path.stat().st_size}
         for path in sorted(run.rglob('*')) if path.is_file()]
     result={'schema':'local-reorder-delivery-v1','status':'completed_finite_experiment',
@@ -171,6 +200,11 @@ def main():
         'model_calls_including_prompts_and_failures':model,
         'frozen_selection':frozen,'confirmation':confirmation,
         'real_public_evidence_to_outcome_timeline':timeline,
+        'one_page_judgment':judgment,
+        'engineering_repairs':[
+            {'attempt':0,'layer':'post-rollout audit','issue':'任务ID整数/字符串键不一致','charged_environment':True,'disposition':'失败原件/日志保留；修复后新执行核重跑'},
+            {'attempt':1,'layer':'receipt binding','issue':'实际新T执行完成，但收据路径误指旧Tour回归原件','charged_environment':True,'disposition':'被替代，不进入主比较；新旧原件路径分离并重读核验'},
+            {'job':'131065','layer':'Slurm launch','issue':'scontrol当时报告JobLaunchFailure/0:53；输出指向不存在的logs目录，随后使用既有jobs目录重提','charged_environment':False,'disposition':'未进入环境计数，分配及失败仍列入sacct成本；目录原因根据当时路径和状态推断'}],
         'prior_diagnostic_branch':'Closed; 45 evaluations/2 malformed model proposals and untested model benefit remain unchanged.',
         'interpretation':{
             'safety':'独立安全核及实际复访、账本审计支持当前固定模型中的可行性；不是现场保证。',
@@ -197,6 +231,8 @@ def main():
 
 本轮已实际完成局部重排、三个基线、S两候选和新条件确认。Qwen两轮提案阶段中，{actual_children}个合法子规则进入六条件实评；失败和重复均计费。结论须同时看发现效果和巡检成本，不能把路线改变或合法表达式当作RSI成功。
 
+**本轮没有确认出模型任务增益。** Q1开发等待比R少{number(dev_r['mean_wait_event_conditions_s']-dev_q['mean_wait_event_conditions_s'])}秒；新确认等待反而多{number(con_q['mean_wait_event_conditions_s']-con_r['mean_wait_event_conditions_s'])}秒、每回合多走{number(con_q['mean_travel_m']-con_r['mean_travel_m'])}米、平均少完成{number(con_r['mean_completed_inspections']-con_q['mean_completed_inspections'])}项，漏检相同。原Tour在确认中的平均等待也更短。
+
 ## 1. 可运行调度器与复现
 
 128机柜、18名执行者、固定专业/所属、1800秒和原重访期限保持。关闭额外检查；每次只排列本轮剩余的前最多3项，执行完承诺段再决策。任务真实完成才移出本轮账本，下一轮重新产生。安全核独立检查局部段、剩余义务和恢复后的完整基础巡回。
@@ -206,6 +242,8 @@ def main():
 ## 2. 全部方法、候选和确认结果
 
 开发是已看过的6条件；等待只在4个存在异常的条件取平均，健康条件不记0。漏检按每条件异常段计数。移动、服务、完成和待完成均为每回合全队数；最大重访取六回合最大。完整分条件表包含完整轮次数、截止边界、数值错误和原件SHA。
+
+“等待”沿用原评价：发现时计异常开始到合格报警的时间；漏检时按异常结束截断，这不代表最后找到了。先按每个条件的原后果权重计算，再对有异常条件平均。服务是18人的累计工时，回合历时始终1800秒。全部任务至少检查过一次、重访不超期、没有漏检异常，是三个不同指标；短异常仍可能发生在两次合法检查之间。
 
 开发：
 
@@ -239,20 +277,41 @@ def main():
 
 原顺序`{t['original_order']}`；父式在同一公开状态下会选`{t['parent_same_state_order']}`；模型实际承诺`{t['actual_selected_order']}`。完整公开快照、所有候选特征/证明和分数在JSON中。
 
-|任务|当时公开风险|依据/年龄|派发/s|实际完成/s|实际测量报警|
-|---|---:|---|---:|---:|---|
+|任务|公开风险|当时温度估计/输出时刻|最近直接读数年龄/s|派发/s|实际完成/s|实测温度/报警|
+|---|---:|---|---:|---:|---:|---|
 '''
         for event in t['actual_inspections']:
             public=event['public_at_decision'];measured=event['actual_measurement']
-            text+=f'|{event["task"]}|{number(public["risk"])}|{public["risk_value_source"]} / {number(public["direct_age_s"])}s|{number(event["dispatch_time_s"])}|{number(event["completion_time_s"])}|{measured["alarm"] if measured else "未完成"}|\n'
+            reading=number(measured['measurement'].get('temperature_c'))+'°C / '+str(measured['alarm']) if measured else '未完成'
+            text+=f'|{event["task"]}|{number(public["risk"])}|{number(public["value_used"])}°C / {number(public["value_output_time_s"])}s|{number(public["direct_age_s"])}|{number(event["dispatch_time_s"])}|{number(event["completion_time_s"])}|{reading}|\n'
+        cue=next((e for e in t['actual_inspections'] if e['public_at_decision']['risk']>1e-9),None)
+        text+='\n本例温度估计来自冻结CVAE；“输出时刻”和“最近直接读数年龄”分开记录。'
+        if cue is not None:
+            components={k:v for k,v in cue['public_at_decision']['risk_components'].items() if v>0}
+            labels={'public_power_gap_scaled':'公开供电缺口项','thermal_excess':'温度超限项','flow_deficit':'流量不足项'}
+            sources='、'.join(labels.get(k,k) for k in components)
+            delta=cue['completion_time_s']-cue['parent_expression_same_state_planned_finish_s'] if cue['completion_time_s'] is not None else None
+            text+=f'任务{cue["task"]}的非零风险来自{sources}，不是故障概率。其温度估计{number(cue["public_at_decision"]["value_used"])}°C本身未给热报警；实际测温到{number(cue["completion_time_s"])}秒才确认异常。模型顺序相对同刻父式计划的完成时间差为{number(delta)}秒（正数为延后）。'
+        text+='这是几何回放的时间差，父式并未在这个完全相同状态再执行一次。\n'
+        p_out,t_out=t['actual_parent_episode_outcome'],t['episode_outcome']
+        text+=f'\n该条件实际整回合：父式漏{p_out["missed_segments"]}段、等待{number(p_out["consequence_weighted_censored_delay_s"])}秒；子式漏{t_out["missed_segments"]}段、等待{number(t_out["consequence_weighted_censored_delay_s"])}秒。这里保留了退化，没有把一次排列变化当作收益。\n'
         text+='\n同刻父式排序是根据真实候选特征进行的记录回放，不是又跑了一条父策略轨迹。异常段真值只用于回合结束后的评价；单个提前检查或报警不能代替整回合净收益。\n'
     else:text+=timeline['reason']+'\n'
-    text+='''
+    text+=f'''
 ## 4. 下一步判断（一页）
 
-安全保证来自独立证明及逐回合审计；T/D/R/S体现人工设计；Q相对R和同预算S的差异才是本轮模型任务修改的观察对象。Q2使用Q1实评，说明经验链执行成功，但未检验“没有反馈”的对照。固定改进器没有改进自身，递归增量尚未测试。
+**能运行，尚未证明能改善任务。** Q1开发保留、Q2开发回退；S两次均回退R。确认Q相对R漏检相同，等待多{number(con_q['mean_wait_event_conditions_s']-con_r['mean_wait_event_conditions_s'])}秒、移动多{number(con_q['mean_travel_m']-con_r['mean_travel_m'])}米、平均少完成{number(con_r['mean_completed_inspections']-con_q['mean_completed_inspections'])}项。开发改善未在新种子/相位保持，不继续追加候选追分。
 
-行动空间不再是只有原序：当前真实决策存在合法不同排列。排序目标与代价取舍需要结合上表判断；现有公开信息是否足够，不能仅凭一轮负结果断言。模型是否提出有效修改，应按实际轨迹和任务分数判断，结构合法本身不算有效。
+|可能瓶颈|本轮证据与判断|
+|---|---|
+|行动空间不足|{judgment['action_space']}|
+|排序目标不合适|{judgment['scoring_objective']}|
+|公开信息不足|{judgment['public_information']}|
+|模型没有有效修改|{judgment['model_edit']}|
+
+安全保证来自独立证明及实际审计；T/D/R/S是人工贡献。Q2确实使用Q1结果，说明反馈链完成；没有无反馈对照，经验独立贡献未测。固定Qwen、CVAE和PPO均未训练，改进器自身/元改进与RSI递归增量未测。
+
+下一步仅建议：{judgment['next_hypothesis_only']}
 
 不启动额外窗口、候选、种子、训练、旧F2/G1b或诊断首检支线。下一研究问题须单独预登记，不用这次确认结果反向改式。
 '''
