@@ -22,5 +22,10 @@ class LocalScoreTests(unittest.TestCase):
         values={name:0. for name in FEATURES};values['risk_delay']=.1
         self.assertAlmostEqual(expr.evaluate(values),100000.)
 
+    def test_zero_cancellation_cannot_hide_intermediate_numeric_failure(self):
+        expr=ScoreExpression('(risk_delay*10*10*10*10*10*10*10)*0 + freshness_delay')
+        with self.assertRaises(ValueError):expr.evaluate({name:1. for name in FEATURES})
+        self.assertNotEqual(expr.identity,ScoreExpression('freshness_delay').identity)
+
 
 if __name__=='__main__':unittest.main()

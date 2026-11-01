@@ -68,10 +68,8 @@ class ScoreExpression:
             self.operations+=1;name={ast.Add:'add',ast.Sub:'sub',ast.Mult:'mul'}[type(node.op)]
             a,b=self._parse(node.left),self._parse(node.right)
             if a[0]==b[0]=='number':return ('number',operation(name,a[1],b[1]))
-            if name=='mul' and ('number',0.) in (a,b):return ('number',0.)
             if name in ('add','sub') and b==('number',0.):return a
             if name=='add' and a==('number',0.):return b
-            if name=='sub' and a==b:return ('number',0.)
             return (name,a,b)
         if isinstance(node,ast.Call) and isinstance(node.func,ast.Name) and node.func.id in ('min','max','safe_div') and len(node.args)==2 and not node.keywords:
             self.operations+=1;a,b=(self._parse(x) for x in node.args)
@@ -83,6 +81,10 @@ class ScoreExpression:
     def _variables(cls,node):
         if node[0]=='feature':return {node[1]}
         if node[0]=='number':return set()
+        # Detect a constant result without deleting evaluation of its children:
+        # an overflowing subtree must still fail even when later multiplied0.
+        if node[0]=='mul' and ('number',0.) in node[1:]:return set()
+        if node[0]=='sub' and node[1]==node[2]:return set()
         result=set()
         for child in node[1:]:result.update(cls._variables(child))
         return result

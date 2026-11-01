@@ -74,16 +74,57 @@ class ReorderTask(ImproverTask):
 def public_tasks(env):
     risk,_=env.public_risk();obs=env.state.observer
     recent={e['task']:e for e in env.events}
+    temperatures=env.current_history if env.mode=='history' else obs.predicted_temperature
+    gap=1-env.current_packet['public_delivered_it_kw']/np.maximum(env.current_packet['public_requested_it_kw'],1e-12)
+    thermal=np.maximum(temperatures-65.,0.)/20.
+    pod_thermal=thermal.reshape(16,8).max(1);pod_gap=gap.reshape(16,8).mean(1)
+    prior_time=float(env.clock//env.workflow.refresh_s*env.workflow.refresh_s) if env.estimator_calls else None
     result={}
     for j,task in enumerate(env.tasks):
-        if task.kind=='thermal':stamp=float(obs.temperature_stamp[task.index]);source='remote_or_qualified_temperature_or_frozen_estimate'
-        elif task.kind=='cooling':stamp=float(obs.flow_stamp[task.index]);source='observed_or_nominal_flow'
-        else:stamp=float(recent[j]['time_s']) if j in recent else -1.;source='qualified_'+task.kind if stamp>=0 else 'initial_nominal_or_unobserved'
+        pod=task.index//8 if task.kind=='thermal' else task.index
+        if task.kind=='thermal':
+            stamp=float(obs.temperature_stamp[task.index]);observed=float(obs.last_temperature[task.index]) if stamp>=0 else None
+            source='qualified_temperature' if j in recent and recent[j]['time_s']==stamp else 'remote_temperature' if stamp>=0 else 'unobserved_temperature'
+            components={'thermal_excess':float(thermal[task.index]),'public_power_gap_scaled':float(.25*gap[task.index])}
+            own=components['thermal_excess'];used=float(temperatures[task.index]);unit='degC'
+            estimate_time=max(t for t in (prior_time,stamp if stamp>=0 else None) if t is not None) if prior_time is not None or stamp>=0 else None
+            value_source='direct_assimilated_temperature' if stamp>=0 and (prior_time is None or stamp>=prior_time) else 'frozen_CVAE_mean' if prior_time is not None else 'initial_history_guess'
+            if env.mode=='nominal':value_source='causal_nominal_temperature';estimate_time=float(env.clock)
+        elif task.kind=='cooling':
+            stamp=float(obs.flow_stamp[task.index]);observed=float(obs.last_flow[task.index]) if stamp>=0 else None
+            source='qualified_flow' if j in recent and recent[j]['time_s']==stamp else 'remote_flow' if stamp>=0 else 'initial_nominal_flow'
+            own=max(1-float(obs.last_flow[task.index])/33.6,0.)
+            components={'flow_deficit':own,'same_branch_thermal_scaled':float(.25*pod_thermal[pod])}
+            used=float(obs.last_flow[task.index]);unit='kg/s';estimate_time=stamp if stamp>=0 else None
+            value_source=source
+        elif task.kind=='electrical':
+            stamp=float(recent[j]['time_s']) if j in recent else -1.;observed=float(obs.last_contact[task.index]) if stamp>=0 else None
+            source='qualified_contact' if stamp>=0 else 'initial_nominal_contact'
+            own=max(float(obs.last_contact[task.index])-60.,0.)/30.
+            components={'contact_heat':own,'public_pod_power_gap':float(pod_gap[pod]),'same_branch_thermal_scaled':float(.1*pod_thermal[pod])}
+            used=float(obs.last_contact[task.index]);unit='degC';estimate_time=stamp if stamp>=0 else None
+            value_source=source
+        else:
+            stamp=float(recent[j]['time_s']) if j in recent else -1.
+            observed=float(recent[j]['measurement']['controller_sensor_error_c']) if j in recent else None
+            source='qualified_sensor_error' if stamp>=0 else 'unobserved_sensor_error'
+            own=float(obs.sensor_bias_verified[task.index])
+            components={'verified_bias_or_initial_zero':own,'same_branch_thermal_scaled':float(.25*pod_thermal[pod])}
+            used=observed;unit='degC';estimate_time=stamp if stamp>=0 else None
+            value_source=source
+        if abs(min(sum(components.values()),4.)-float(risk[j]))>1e-9:raise ValueError('Risk provenance components do not match executed risk')
         result[j]={'task':j,'kind':task.kind,'risk':float(risk[j]),'weight':float(env.asset_weights[j]/2),
             'last_check_s':float(env.last_inspection[j]),'deadline_s':float(env.deadlines[j]),
             'direct_available':stamp>=0,'direct_time_s':stamp if stamp>=0 else None,
             'direct_age_s':float(env.clock-stamp) if stamp>=0 else None,'source':source,
-            'freshness':min((env.clock-stamp)/300.,1.) if stamp>=0 else 1.}
+            'freshness':min((env.clock-stamp)/300.,1.) if stamp>=0 else 1.,
+            'observed_value':observed,'observed_unit':unit,'professional_signal_model_or_observed':own,
+            'risk_components':components,'value_used':used,'value_output_time_s':estimate_time,
+            'risk_value_source':value_source,
+            'last_CVAE_output_time_s':prior_time,'nominal_temperature_c':float(obs.predicted_temperature[task.index if task.kind=='thermal' else pod*8]),
+            'qualified_reference':deepcopy(recent[j]['measurement']) if j in recent else None,
+            'qualified_reference_time_s':float(recent[j]['time_s']) if j in recent else None,
+            'risk_is_calibrated_fault_probability':False}
     return result
 
 

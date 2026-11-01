@@ -53,6 +53,16 @@ def record(row):
     return json.loads(gzip.decompress(path.read_bytes()))
 
 
+def validate_result(result,signature,cases):
+    expected={c['case_id']:c for c in cases};values=result['rows']
+    need(len(values)==len(expected) and {v['case_id'] for v in values}==set(expected),'Complete unique evaluation cohort')
+    for v in values:
+        need(v['execution_signature']==signature and v['policy_id']==policy_id(result['policy']),'Parent receipt must use actual current kernel and policy')
+        need(v['case_identity']==digest(expected[v['case_id']]),'Frozen case identity in parent receipt')
+        need(sha(Path(v['record_path']))==v['record_sha256'],'Parent record bytes unchanged')
+    return result
+
+
 def get_trace(root,source,case):
     spec=case['specification']
     if case['partition']=='development':
@@ -75,16 +85,22 @@ def get_trace(root,source,case):
 
 def evaluate_one(root,source,case,p,predictor):
     signature=verify(source)
-    key=digest({'case':case,'policy_id':policy_id(p),'execution_signature':signature})
-    cached=[v for v in rows(root,signature) if v['evaluation_key']==key]
+    candidates=[v for v in rows(root,signature) if v['case_id']==case['case_id'] and v['policy_id']==policy_id(p) and v.get('case_identity')==digest(case)]
+    cached=candidates
     if cached:
         need(len(cached)==1 and sha(Path(cached[0]['record_path']))==cached[0]['record_sha256'],'Exact source/AST/condition cache')
+        source_folder=Path(case['trace_folder']) if case['partition']=='development' else root/'confirmation-processes'/case['case_id']
+        need((source_folder/'complete.json').exists(),'Cached process cannot silently regenerate')
+        trace=get_trace(root,source,case)
+        need(trace.fingerprint==cached[0]['process_fingerprint'],'Cache binds current actual physical fingerprint')
+        need(cached[0]['evaluation_key']==digest({'case':case,'policy_id':policy_id(p),'execution_signature':signature,'process_fingerprint':trace.fingerprint}),'Complete cache identity')
         return cached[0]
     reservation=reserve(root,'environment-attempts',90,{'case_id':case['case_id'],'partition':case['partition'],'policy':p,'execution_signature':signature})
     area=root/'evaluations'/f"episode-{reservation['number']:02d}";area.mkdir(parents=True,exist_ok=False)
     write(area/'attempt.json',reservation);start=time.perf_counter()
     try:
         trace=get_trace(root,source,case);before=arrays_digest(trace.arrays)
+        key=digest({'case':case,'policy_id':policy_id(p),'execution_signature':signature,'process_fingerprint':trace.fingerprint})
         with patch('patrol_rsi.improver_task.phased_trace',return_value=trace):value,env=run_reorder(case['specification'],predictor,p)
         need(arrays_digest(trace.arrays)==before,'Inspection cannot modify plant')
         value.update(case_id=case['case_id'],partition=case['partition'],process_fingerprint=trace.fingerprint,
@@ -109,6 +125,7 @@ def evaluate_one(root,source,case,p,predictor):
                     reason=c['certificate']['reason'];counts[reason]=counts.get(reason,0)+1
         row={'case_id':case['case_id'],'partition':case['partition'],'specification':case['specification'],
             'policy':p,'policy_id':policy_id(p),'evaluation_key':key,'execution_signature':signature,
+            'case_identity':digest(case),
             'source_manifest_sha256':sha(source/'snapshot-manifest.json'),'process_fingerprint':trace.fingerprint,
             'metrics':value['metrics'],'record_path':str(path),'record_sha256':sha(path),'action_sha256':value['action_sha256'],
             'audit':audit,'legacy_Tour_regression':legacy,'rejection_counts':counts,
@@ -151,6 +168,13 @@ def freeze(root,source):
     need((root/'S-complete.json').exists() and (root/'Q2-complete.json').exists(),'Freeze only after two sequential search rounds')
     s=read(root/'S-complete.json')['selected'];q=read(root/'Q2-complete.json')['selected']
     protocol=read(source/STAGE/'protocol.json');history=read(source/STAGE/'historical-identities.json')
+    signature=verify(source);cases_dev=protocol['development']
+    for result in read(root/'baselines-complete.json').values():validate_result(result,signature,cases_dev)
+    for result in read(root/'S-complete.json')['archive']:validate_result(result,signature,cases_dev)
+    for name in ('Q1-complete.json','Q2-complete.json'):
+        step=read(root/name);validate_result(step['parent'],signature,cases_dev);validate_result(step['selected'],signature,cases_dev)
+        if step['candidate'] is not None:validate_result(step['candidate'],signature,cases_dev)
+    validate_result(s,signature,cases_dev);validate_result(q,signature,cases_dev)
     registration=read(root/'registration-at-freeze.json')
     occupied=set(history['seed_groups'])|set(registration['seed_groups']);seeds=[];i=43000
     while len(seeds)<2:
@@ -189,7 +213,7 @@ def main():
         result={label:evaluate(root,source,cases,policy(BASE_EXPRESSION,label) if label!='R' else initial,predictor) for label in ('T','D','R')}
         write(root/'baselines-complete.json',result)
     elif a.mode=='simple':
-        parent=read(root/'baselines-complete.json')['R'];archive=[parent];rounds=[]
+        parent=validate_result(read(root/'baselines-complete.json')['R'],signature,cases);archive=[parent];rounds=[]
         for index in range(2):
             expr='risk_delay + deadline_pressure + 0.05*travel_cost' if index==0 else '('+parent['policy']['score_expression']+') + 0.2*travel_cost'
             candidate=evaluate(root,source,cases,policy(expr),predictor);kept,selection=retain(parent,candidate)
@@ -198,7 +222,7 @@ def main():
         write(root/'S-complete.json',{'rounds':rounds,'archive':archive,'selected':parent})
     elif a.mode in ('q1','q2'):
         index=1 if a.mode=='q1' else 2
-        parent=read(root/'baselines-complete.json')['R'] if index==1 else read(root/'Q1-complete.json')['selected']
+        parent=validate_result(read(root/'baselines-complete.json')['R'] if index==1 else read(root/'Q1-complete.json')['selected'],signature,cases)
         proposal=root/f'Q{index}-proposal.json';candidate=None
         if proposal.exists():
             value=read(proposal);candidate=evaluate(root,source,cases,policy(value['score_expression']),predictor)
