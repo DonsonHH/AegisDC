@@ -50,7 +50,10 @@ def rows(root,signature):
 
 def record(row):
     path=Path(row['record_path']);need(sha(path)==row['record_sha256'],'Original actual record')
-    return json.loads(gzip.decompress(path.read_bytes()))
+    value=json.loads(gzip.decompress(path.read_bytes()))
+    need(value.get('execution_signature')==row['execution_signature'] and value.get('case_id')==row['case_id'],'Raw record execution/case identity')
+    need('policy' in value and policy_id(value['policy'])==row['policy_id'],'Raw record canonical policy identity')
+    return value
 
 
 def validate_result(result,signature,cases):
@@ -59,7 +62,7 @@ def validate_result(result,signature,cases):
     for v in values:
         need(v['execution_signature']==signature and v['policy_id']==policy_id(result['policy']),'Parent receipt must use actual current kernel and policy')
         need(v['case_identity']==digest(expected[v['case_id']]),'Frozen case identity in parent receipt')
-        need(sha(Path(v['record_path']))==v['record_sha256'],'Parent record bytes unchanged')
+        record(v)
     return result
 
 
@@ -103,15 +106,15 @@ def evaluate_one(root,source,case,p,predictor):
         key=digest({'case':case,'policy_id':policy_id(p),'execution_signature':signature,'process_fingerprint':trace.fingerprint})
         with patch('patrol_rsi.improver_task.phased_trace',return_value=trace):value,env=run_reorder(case['specification'],predictor,p)
         need(arrays_digest(trace.arrays)==before,'Inspection cannot modify plant')
-        value.update(case_id=case['case_id'],partition=case['partition'],process_fingerprint=trace.fingerprint,
+        value.update(experiment='local-reorder-v1',case_id=case['case_id'],partition=case['partition'],process_fingerprint=trace.fingerprint,
             execution_signature=signature,source_manifest_sha256=sha(source/'snapshot-manifest.json'))
-        path=area/'record.json.gz';write_gz(path,value)
+        record_path=area/'record.json.gz';write_gz(record_path,value)
         independent_schedule(value,env);independent_events(value,env);audit=audit_reorder(value,env)
         legacy=None
         if p['method']=='T' and case['partition']=='development':
-            ref=case['legacy_tour_record'];path=Path(ref['record_path'])
-            need(sha(path)==ref['record_sha256'],'Original Tour regression record')
-            old=json.loads(gzip.decompress(path.read_bytes()))
+            ref=case['legacy_tour_record'];legacy_path=Path(ref['record_path'])
+            need(sha(legacy_path)==ref['record_sha256'],'Original Tour regression record')
+            old=json.loads(gzip.decompress(legacy_path.read_bytes()))
             need(old['process_fingerprint']==trace.fingerprint,'Same Tour regression physical source')
             need(value['action_log']==old['action_log'],'New T action-for-action original Tour equality')
             need(value['inspection_events']==old['inspection_events'],'Tour actual qualified completions unchanged')
@@ -127,9 +130,10 @@ def evaluate_one(root,source,case,p,predictor):
             'policy':p,'policy_id':policy_id(p),'evaluation_key':key,'execution_signature':signature,
             'case_identity':digest(case),
             'source_manifest_sha256':sha(source/'snapshot-manifest.json'),'process_fingerprint':trace.fingerprint,
-            'metrics':value['metrics'],'record_path':str(path),'record_sha256':sha(path),'action_sha256':value['action_sha256'],
+            'metrics':value['metrics'],'record_path':str(record_path),'record_sha256':sha(record_path),'action_sha256':value['action_sha256'],
             'audit':audit,'legacy_Tour_regression':legacy,'rejection_counts':counts,
             'actual_wall_seconds':time.perf_counter()-start,'job_id':os.environ['SLURM_JOB_ID']}
+        record(row)  # Verify the just-written raw identity before publishing a receipt.
         write(area/'complete.json',row)
         print('EVALUATED',case['case_id'],p['method'],policy_id(p)[:8],row['metrics']['reordered_plans'],round(row['actual_wall_seconds'],3),flush=True)
         return row
