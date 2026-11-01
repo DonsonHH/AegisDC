@@ -38,9 +38,10 @@ class RootSampler:
         if view['legal_nonoriginal']==0:return
         a=self.first_a is None and (view['shadow_H']!=view['window'] or view['shadow_R']!=view['window'])
         d=view['discrimination']
-        if d>self.maximum:
+        excluded_a=a or self.first_a is not None and (view['time_s'],view['agent'])==(self.first_a['time_s'],self.first_a['agent'])
+        if not excluded_a and d>self.maximum:
             self.maximum=d;self.best_b=[r for r in self.best_b if r['discrimination']>=self.maximum-1e-9]
-        b=d>1e-9 and d>=self.maximum-1e-9
+        b=not excluded_a and d>1e-9 and d>=self.maximum-1e-9
         if not a and not b:return
         value=deepcopy(view);snapshot=state_factory();value['state_sha256']=digest(snapshot)
         value['_compressed_state']=zlib.compress(json.dumps(snapshot,separators=(',',':'),allow_nan=False).encode())

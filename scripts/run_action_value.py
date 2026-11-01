@@ -110,8 +110,8 @@ def main():
         for c in cases:
             t=trace_for(c);values.append({'case_id':c['case_id'],'fingerprint':t.fingerprint,'metadata_sha256':sha(Path(c['trace_folder'])/'complete.json')})
         frozen_predictor(CVAE,source/'research/2026-10-28-m111-coverage/frozen_estimator.json')
-        write(root/'inputs-verified.json',{'cases':values,'new_processes':0,'execution_signature':signature,'checkpoint_sha256':sha(CVAE)});return
-    need(read(root/'inputs-verified.json')['execution_signature']==signature,'Verified exact inputs')
+        write(root/('inputs-verified-'+signature[:12]+'.json'),{'cases':values,'new_processes':0,'execution_signature':signature,'checkpoint_sha256':sha(CVAE)});return
+    need(read(root/('inputs-verified-'+signature[:12]+'.json'))['execution_signature']==signature,'Verified exact inputs')
     if a.mode=='pilot':
         gate=root/'gate'/signature;gate.mkdir(parents=True,exist_ok=False)
         suite=unittest.defaultTestLoader.discover(str(source/'tests'),pattern='test_action_value.py')
@@ -119,7 +119,7 @@ def main():
         write(gate/'complete.json',{'passed':r.wasSuccessful() and not r.skipped,'tests':r.testsRun,'synthetic_interface_fits_only':True});need(r.wasSuccessful() and not r.skipped,'Interface gate')
     else:need(read(root/'gate'/signature/'complete.json')['passed'],'Current interface gate')
     predictor=frozen_predictor(CVAE,source/'research/2026-10-28-m111-coverage/frozen_estimator.json')
-    if a.mode=='pilot':write(root/'cost-probe.json',evaluate_one(root,source,cases[0],predictor))
+    if a.mode=='pilot':write(root/('cost-probe-'+signature[:12]+'.json'),evaluate_one(root,source,cases[0],predictor))
     elif a.mode=='tours':
         values=[evaluate_one(root,source,c,predictor) for c in cases]
         write(root/'tours-complete.json',{'execution_signature':signature,'rows':values});freeze_roots(root,values,signature)

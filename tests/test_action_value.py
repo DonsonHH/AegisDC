@@ -37,6 +37,13 @@ class FeatureTests(unittest.TestCase):
                 'round_id':0,'time_s':time_s,'agent':0,'discrimination':d},lambda:{'observed':1},[])
         self.assertEqual(sampler.selected()[0]['time_s'],10.)
 
+    def test_root_a_is_excluded_before_b_maximization(self):
+        sampler=RootSampler()
+        common={'legal_nonoriginal':1,'window':[0,1],'shadow_H':[0,1],'round_id':0,'agent':0}
+        sampler.consider(dict(common,time_s=5.,shadow_R=[1,0],discrimination=10.),lambda:{'state':1},[])
+        sampler.consider(dict(common,time_s=10.,shadow_R=[0,1],discrimination=1.),lambda:{'state':2},[])
+        self.assertEqual([(v['root_type'],v['time_s']) for v in sampler.selected()],[('A',5.),('B',10.)])
+
 
 class LearningTests(unittest.TestCase):
     def test_heldout_group_cannot_fit_scaler_and_ridge_has_known_solution(self):
