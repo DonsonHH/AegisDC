@@ -61,7 +61,7 @@ def main():
     need(len([r for r in completed if r['arm'] in ('A','B','C')])==36,'All12developmentABC conditions')
     need(all(r['audit']['passed'] for r in completed),'Real completed safety audits')
     need(not(root/'child-workflow.json').exists(),'Only one legal child')
-    area=root/'model';area.mkdir(exist_ok=False)
+    area=root/'model-v4';area.mkdir(exist_ok=False)
     torch.set_num_threads(int(os.environ['SLURM_CPUS_PER_TASK']))
     verification=verify_open_model(MODEL)
     tokenizer=AutoTokenizer.from_pretrained(MODEL,local_files_only=True,trust_remote_code=False)
@@ -98,14 +98,16 @@ def main():
         call=area/f"call-{reservation['number']:02d}";call.mkdir()
         write(call/'start.json',{'receipt':reservation,'prompt':user,'rendered_prompt':rendered,'input_tokens':count,
             'output_cap':256,'thinking':False,'decoder':'greedy','dropped_last_cards':dropped,'dtype':'float32'})
-        begin=time.perf_counter();response=None
+        begin=time.perf_counter();response=None;phase='generation'
         def timeout(signum,frame):raise TimeoutError('240s actual generation timeout; call remains charged')
         previous=signal.signal(signal.SIGALRM,timeout);signal.setitimer(signal.ITIMER_REAL,240)
         try:
             with torch.inference_mode():generated=model.generate(**inputs,max_new_tokens=256,do_sample=False)
             response=tokenizer.decode(generated[0,count:],skip_special_tokens=True)
             write(call/'response.json',{'raw_response':response,'output_tokens':int(generated.shape[1]-count),'seconds':time.perf_counter()-begin})
+            phase='compile_compact'
             child,envelope=compile_compact(response,parent)
+            phase='persist_legal_child'
             need(tuple(v._version for v in model.parameters())==versions,'Frozen model parameters')
             write(call/'accepted-interface.json',{'workflow':child.to_dict(),'assembled_envelope':envelope,'raw_compact_valid':True,'raw_full_envelope_claimed':False})
             write(root/'child-workflow.json',{'workflow':child.to_dict(),'parent':parent.to_dict(),'parent_sha256':parent.sha256,
@@ -115,8 +117,11 @@ def main():
             return
         except Exception as error:
             write(call/'failed.json',{'type':type(error).__name__,'error':str(error),'raw_response':response,
-                'seconds':time.perf_counter()-begin,'charged':True,'unknown_output_upper_bound':256})
+                'seconds':time.perf_counter()-begin,'charged':True,'unknown_output_upper_bound':256,'phase':phase})
             failures.append({'failure':str(error)})
+            if phase!='compile_compact' or not isinstance(error,ValueError):
+                write(root/'proposal-operational-stop.json',{'phase':phase,'error':str(error),'no_second_proposal_after_operational_failure':True})
+                return
         finally:
             signal.setitimer(signal.ITIMER_REAL,0);signal.signal(signal.SIGALRM,previous)
     write(root/'proposal-failure.json',{'failures':failures,'no_extra_calls':True})
