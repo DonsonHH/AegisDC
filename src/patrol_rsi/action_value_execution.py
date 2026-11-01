@@ -1,6 +1,7 @@
 """Tour-only collection and one frozen local intervention; no online learned policy."""
 from copy import deepcopy
-from functools import cmp_to_key
+import json
+import zlib
 from unittest.mock import patch
 import numpy as np
 
@@ -30,32 +31,33 @@ def public_snapshot(env):
     return snapshot
 
 
-def root_compare(a,b):
-    if a['discrimination']>b['discrimination']+1e-9:return -1
-    if b['discrimination']>a['discrimination']+1e-9:return 1
-    ak=(a['time_s'],a['agent']);bk=(b['time_s'],b['agent'])
-    return -1 if ak<bk else 1 if ak>bk else 0
-
-
 class RootSampler:
-    def __init__(self):self.first_a=None;self.best_b=[]
+    def __init__(self):self.first_a=None;self.best_b=[];self.maximum=-float('inf')
 
     def consider(self,view,state_factory,prefix):
         if view['legal_nonoriginal']==0:return
         a=self.first_a is None and (view['shadow_H']!=view['window'] or view['shadow_R']!=view['window'])
-        b=view['discrimination']>1e-9 and (len(self.best_b)<2 or root_compare(view,self.best_b[-1])<0)
+        d=view['discrimination']
+        if d>self.maximum:
+            self.maximum=d;self.best_b=[r for r in self.best_b if r['discrimination']>=self.maximum-1e-9]
+        b=d>1e-9 and d>=self.maximum-1e-9
         if not a and not b:return
-        value=deepcopy(view);value['state_snapshot']=state_factory();value['state_sha256']=digest(value['state_snapshot'])
+        value=deepcopy(view);snapshot=state_factory();value['state_sha256']=digest(snapshot)
+        value['_compressed_state']=zlib.compress(json.dumps(snapshot,separators=(',',':'),allow_nan=False).encode())
         value['prefix_action_sha256']=digest(prefix);value['prefix_steps']=len(prefix)
         value['state_excluded']={**STATE_EXCLUDED,**{k:'Action-value audit only' for k in EXCLUDED-set(STATE_EXCLUDED)}}
         if a:self.first_a=value
-        if b:self.best_b=sorted([*self.best_b,value],key=cmp_to_key(root_compare))[:2]
+        if b:self.best_b.append(value)
 
     def selected(self):
         out=[]
-        if self.first_a is not None:out.append({'root_type':'A',**self.first_a})
-        other=next((v for v in self.best_b if self.first_a is None or (v['time_s'],v['agent'])!=(self.first_a['time_s'],self.first_a['agent'])),None)
-        if other is not None:out.append({'root_type':'B',**other})
+        def expand(value,kind):
+            copy={k:deepcopy(v) for k,v in value.items() if k!='_compressed_state'}
+            copy.update(root_type=kind,state_snapshot=json.loads(zlib.decompress(value['_compressed_state'])))
+            return copy
+        if self.first_a is not None:out.append(expand(self.first_a,'A'))
+        other=next((v for v in sorted(self.best_b,key=lambda v:(v['time_s'],v['agent'])) if self.first_a is None or (v['time_s'],v['agent'])!=(self.first_a['time_s'],self.first_a['agent'])),None)
+        if other is not None:out.append(expand(other,'B'))
         return out
 
 

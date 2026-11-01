@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from patrol_rsi.action_value_features import features,FEATURE_NAMES
+from patrol_rsi.action_value_features import features,FEATURE_NAMES,task_vector
 from patrol_rsi.action_value_execution import RootSampler
 
 
@@ -19,12 +19,23 @@ class FeatureTests(unittest.TestCase):
         self.assertAlmostEqual(value[2],.1)
 
     def test_future_is_rejected_and_root_types_are_not_risk_gates(self):
+        row={'kind':'thermal','observed_value':70.,'direct_available':True,'direct_time_s':10.,'source':'qualified_temperature',
+            'raw_cvae_temperature_c':60.,'raw_cvae_time_s':30.,'nominal_temperature_c':50.,'risk':1.,'weight':1.,'last_check_s':10.,'deadline_s':100.}
+        for key in ('direct_time_s','raw_cvae_time_s'):
+            with self.assertRaises(ValueError):task_vector(dict(row,**{key:41.}),40.)
         sampler=RootSampler()
         common={'legal_nonoriginal':2,'window':[0,1],'shadow_H':[0,1],'shadow_R':[1,0],'round_id':0}
         sampler.consider(dict(common,time_s=5.,agent=0,discrimination=.1),lambda:{'observed':1},[])
         sampler.consider(dict(common,time_s=10.,agent=0,discrimination=.5),lambda:{'observed':2},[])
         selected=sampler.selected()
         self.assertEqual([(v['root_type'],v['time_s']) for v in selected],[('A',5.),('B',10.)])
+
+    def test_discrimination_uses_global_maximum_tolerance_band(self):
+        sampler=RootSampler()
+        for time_s,d in [(5.,1.),(10.,1.+.75e-9),(15.,1.+1.5e-9)]:
+            sampler.consider({'legal_nonoriginal':1,'window':[0,1],'shadow_H':[0,1],'shadow_R':[0,1],
+                'round_id':0,'time_s':time_s,'agent':0,'discrimination':d},lambda:{'observed':1},[])
+        self.assertEqual(sampler.selected()[0]['time_s'],10.)
 
 
 class LearningTests(unittest.TestCase):
