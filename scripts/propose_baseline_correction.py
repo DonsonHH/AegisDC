@@ -147,14 +147,21 @@ def render_user(data):
         lines.append(row['case']+' '+ ' '.join(k+'='+','.join('-' if v is None else str(v) for v in val) for k,val in row.items() if k!='case'))
     lines.append('Component names n(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['component_names'])))
     lines.append('Source names s(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['origin_source_names'])))
+    needed={k:set() for k in data['evidence_frames']}
+    for card in data['paired_cards']:
+        if not card.get('no_root'):
+            needed[card['evidence']].update(t for t,delta,_ in card['planned_shifts_task_delta_s_target_round'] if delta!=0)
+    used={origin for name,frame in data['evidence_frames'].items() for row in frame if row[0] in needed[name] for _,_,origin in row[-1]}
     lines.append('Origin o: group,time_s,source_index,support. Support pod:local rack digits/group@time; ?=unknown. All group times causal. Component age=case time-origin time.')
     for i,(group,stamp,source,contributors) in enumerate(data['origins_group_time_source_contributors']):
+        if i not in used:continue
         support=';'.join(pod+':r'+''.join(str(j) for j in members)+'/'+str(g or '?')+'@'+str(t if t is not None else '?') for pod,members,g,t in contributors)
         lines.append(f'o{i} {data["origin_group_names"][group]},{stamp if stamp is not None else "?"},s{source} '+support)
-    lines.append('Evidence rows: task profession pod old_public_risk direct_readout_age estimate_output_time n:value@origin. ?=unknown, never normal. All tasks in affected owned tour included.')
+    lines.append('Evidence rows: task profession pod old_public_risk direct_readout_age estimate_output_time n:value@origin. ?=unknown, never normal. All tasks with nonzero planned shifts included. Unchanged tasks have zero gain contribution for any weights, not assumed normal; their IDs/shifts remain listed. Full snapshots preserved outside prompt.')
     for name,frame in data['evidence_frames'].items():
         lines.append(name+':')
         for task,profession,pod,risk,direct_age,outtime,components in frame:
+            if task not in needed[name]:continue
             parts=' '.join(f'n{n}:{value if value is not None else "?"}@o{origin}' for n,value,origin in components)
             lines.append(f'{task} {profession} {pod} {risk} {direct_age if direct_age is not None else "?"} {outtime if outtime is not None else "?"} '+parts)
     lines.append('Paired cases: A=actual T above (verified action/measurement equality). B-A vector is actual complete-episode difference, calculated before display rounding. Planned shifts positive=delay, include other tasks, task:seconds:target_round.')
@@ -230,7 +237,7 @@ def main():
         rendered=tokenizer.apply_chat_template([{'role':'system','content':'Output exactly the complete registered JSON object; source_weights is an OBJECT and mechanism is a short STRING. Do not copy previously evaluated rules.'},
             {'role':'user','content':render_user(prompt)}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
         tokens=len(tokenizer.encode(rendered))
-        write(root/f'prompt-preflight-round{index}.json',{'prompt':prompt,'input_tokens':tokens,'within_4096':tokens<=4096,'real_model_generations':0,'anonymous_mapping':mapping})
+        write(root/f'prompt-preflight-round{index}-{sha(Path(__file__))[:10]}-{os.environ["SLURM_JOB_ID"]}.json',{'prompt':prompt,'rendered_user':render_user(prompt),'input_tokens':tokens,'within_4096':tokens<=4096,'real_model_generations':0,'anonymous_mapping':mapping})
         print('PROMPT_PREFLIGHT_TOKENS',index,tokens,flush=True);return
     area=root/f'model-round-{index}';area.mkdir(exist_ok=False);write(area/'anonymous-mapping.json',mapping)
     verification=verify_open_model(MODEL)
