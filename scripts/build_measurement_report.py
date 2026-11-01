@@ -75,6 +75,12 @@ def main():
                 for row in comparison['visible']:
                     old=before[row['task']]
                     table.append({'case_id':cid,'group':case['group'],'measurement_time_s':event['time_s'],
+                        'first_dispatch_time_s':c['optional_chain'][0]['dispatch_time_s'],
+                        'first_dispatch_estimate':c['first_request']['current_estimate'],
+                        'first_measured_value':update['value'],'first_measurement_source':update['source'],
+                        'first_prior_at_measurement_time_nominal':update['prior_same_time_nominal'],
+                        'first_prior_at_measurement_time_estimate':update['prior_same_time_estimate'],
+                        'first_physical_residual':update['residual'],'first_estimate_innovation':update['innovation'],
                         'decision_time_s':comparison['time_s'],'task':row['task'],'kind':row['kind'],'pod':row['pod'],
                         'candidate_finish_s':row['finish_s'],'lead_s':row['lead_s'],'shift_s':row['shift_s'],
                         'comparison':'Same current state: masked versus visible; not different-time readings',
@@ -82,6 +88,13 @@ def main():
                         'finish_estimate_masked':old['estimate_at_finish'],'finish_estimate_visible':row['estimate_at_finish'],
                         'signal_masked':old['corrected_signal'],'signal_visible':row['corrected_signal'],
                         'value_masked':old['value'],'value_visible':row['value'],'rank_masked':old['rank'],'rank_visible':row['rank'],
+                        'public_weight':row['weight'],
+                        'value_benefit_masked':old['value_benefit'],'value_benefit_visible':row['value_benefit'],
+                        'value_cost_masked':old['value_cost'],'value_cost_visible':row['value_cost'],
+                        'hard_safe_candidate':True,
+                        'feasibility_source':'Original current options/ReturnPlan mask; actual dispatch rechecked',
+                        'workflow_eligible_masked':row['task']!=first and not old['already_alarm'] and old['value']>0,
+                        'workflow_eligible_visible':row['task']!=first and not row['already_alarm'] and row['value']>0,
                         'source_visible':row['estimate_source'],'source_cutoff_s':row['input_cutoff_s'],
                         'direct_time_masked_s':old['direct_time_s'],'direct_time_visible_s':row['direct_time_s'],
                         'last_CVAE_input_time_s':max((t for t in c['tool_calls']['policy_visible_times'] if t<=comparison['time_s']),default=None),
@@ -191,6 +204,7 @@ def main():
     text='\n'.join(report)+'\n'
     report_path=root/'reports/2026-11-01-测量作用机制实验结果.md';report_path.write_text(text,encoding='utf8',newline='\n')
     summary={'experiment':'measurement-effect-v1','report_markdown':text,'protocol':protocol,'costs':costs,
+        'report_generator_sha256':sha(Path(__file__)),
         'reproduction_and_versions_markdown':(stage/'复现与版本说明.md').read_text(encoding='utf8'),
         'interface_gate':read(run/'gate'/SIG/'complete.json'),
         'case_facts':facts,'candidate_table':table,'all_condition_outcomes':outcomes,'actual_rows':rows,
