@@ -149,6 +149,11 @@ def render_user(data):
         'OFFLINE DEVELOPMENT: A/B are real single interventions from identical state/prefix, then restore Tour. No new validation. Unknown is not normal; proxy is not fault confirmation.',
         'Pareto parent update only if dominates parent in missed/wait/travel and not dominated by T/R. Tradeoffs archived, not formal progress; T remains reliable default.',
         'Metric vector M=missed,W=weighted censored wait(null healthy),C=travel m,V=service s,N=completions,U=remaining,P=pending,E=numeric errors. Order M,W,C,V,N,U,P,E.']
+    method_names=[k for k in data['six_condition_full_rollouts'][0] if k!='case'];aliases={}
+    for i,name in enumerate(method_names):
+        equal=next((prior for prior in method_names[:i] if all(r[name]==r[prior] for r in data['six_condition_full_rollouts'])),None)
+        if equal is not None:aliases[name]=equal
+    if aliases:lines.append('Identical full metric columns: '+','.join(k+'='+v for k,v in aliases.items()))
     profiles=[]
     for row in data['six_condition_full_rollouts']:
         for k,v in row.items():
@@ -156,7 +161,7 @@ def render_user(data):
     lines.append('Cost profiles k(index)=C,V,N,U,P,E: '+';'.join('k'+str(i)+'='+','.join(str(v) for v in values) for i,values in enumerate(profiles)))
     lines.append('Cohort entries method=M,W,cost_profile:')
     for row in data['six_condition_full_rollouts']:
-        lines.append(row['case']+' '+ ' '.join(k+'='+str(val[0])+','+('-' if val[1] is None else str(val[1]))+',k'+str(profiles.index(val[2:])) for k,val in row.items() if k!='case'))
+        lines.append(row['case']+' '+ ' '.join(k+'='+str(val[0])+','+('-' if val[1] is None else str(val[1]))+',k'+str(profiles.index(val[2:])) for k,val in row.items() if k!='case' and k not in aliases))
     lines.append('Component names n(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['component_names'])))
     lines.append('Source names s(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['origin_source_names'])))
     needed={k:set() for k in data['evidence_frames']}
@@ -189,7 +194,11 @@ def render_user(data):
             'A='+','.join(card['original'])+' B='+','.join(card['alternative'])+' shifts '+shifts+
             ' B-A='+','.join('-' if x is None else str(x) for x in card['actual_B_minus_A'])+
             ' '+card['category']+' R_prefers_B='+str(card['R_prefers_B']))
-    if data.get('Q1_actual_result') is not None:lines.append('Q1 actual result and retained parent:'+dumps(data['Q1_actual_result']))
+    if data.get('Q1_actual_result') is not None:
+        previous=data['Q1_actual_result'];decision=previous['decision']
+        lines.append('Previous actual candidate tried '+rule_text(previous['tried_rule'])+'; kept '+rule_text(previous['retained_rule'])+
+            '; accepted='+str(decision['accepted'])+' parent(M,W,C)='+dumps(decision.get('parent_vector'))+' child='+dumps(decision.get('candidate_vector'))+' dominated_by='+dumps(decision.get('dominated_by')))
+    if data.get('actual_chain_context'):lines.append(data['actual_chain_context'])
     if data.get('Q1_interface_failures'):lines.append('Q1 billed failures, no child executed: '+ '; '.join(v['error'] for v in data['Q1_interface_failures'])+'. Both rejected replies were the unchanged H example; raw replies archived, not repeated as suggestions.')
     if 'Q1_first_actual_numeric_failure' in data:lines.append('Q1 first numerical error:'+dumps(data['Q1_first_actual_numeric_failure']))
     if 'Q1_behavior_feedback' in data:lines.append('Q1 actual behavior changes:'+dumps(data['Q1_behavior_feedback']))
@@ -203,7 +212,7 @@ def main():
     from transformers import AutoTokenizer,AutoModelForCausalLM
     from patrol_rsi.m12 import verify_open_model
     from run_baseline_correction import (STAGE,verify,read,write,sha,need,validate,record,reserve)
-    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--round',type=int,choices=(1,2),required=True);p.add_argument('--prepare-only',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--round',type=int,choices=(1,2,3),required=True);p.add_argument('--prepare-only',action='store_true');a=p.parse_args()
     need('SLURM_JOB_ID' in os.environ and not torch.cuda.is_available(),'Frozen CPU Slurm proposer')
     root=a.root.resolve();source=Path(__file__).resolve().parents[1];sig=verify(source);cases=read(source/STAGE/'protocol.json')['development'];index=a.round
     baselines=read(root/'baselines-complete.json');h=validate(read(root/'H-complete.json'),sig,cases)
@@ -212,11 +221,17 @@ def main():
     labels=read(root/'pair-classification.json');need(labels['raw_pairs_sha256']==sha(root/'pairs-complete.json'),'Explicit derived labels binding')
     for item in pairs['pairs']:
         if item['root'] is not None:item['category']=labels['labels'][item['case_id']]
-    first=read(root/'Q1-complete.json') if index==2 else None
+    first=read(root/('Q2-complete.json' if index==3 else 'Q1-complete.json')) if index!=1 else None
+    if index==3:need(first['candidate'] is not None,'Last authorized call requires an actually evaluated first child')
     if first is not None:
         for key in ('parent','selected'):validate(first[key],sig,cases)
         if first['candidate'] is not None:validate(first['candidate'],sig,cases)
     prompt,mapping=prompt_data(baselines,h,pairs,first);prompt=compact_tables(prompt);parent=h if index==1 else first['selected']
+    if index==3:
+        prompt['actual_chain_context']='Phase1 produced two rejected H duplicates. Phase2 produced C1 and its six actual rollouts above. This is the last authorized call, for actual child C2 from the retained C1 result, not a third evaluated candidate. C1_* labels below identify that first actual child.'
+        for case in prompt['six_condition_full_rollouts']:
+            if 'Q1_parent' in case:case['C1_parent']=case.pop('Q1_parent')
+            if 'Q1_child' in case:case['C1_child']=case.pop('Q1_child')
     if first is not None and first['candidate'] is None:
         failed=root/'model-round-1'/'no-legal-child.json'
         prompt['Q1_interface_failures']=read(failed)['failures'] if failed.exists() else [{'error':'Operational stop; no actual child executed'}]
@@ -232,8 +247,8 @@ def main():
             for d in sorted(own['local_decisions'],key=lambda v:(v['time_s'],v['agent'])):
                 previous=prior.get((d['time_s'],d['agent']))
                 if previous is None or previous['selected_order']!=d['selected_order']:
-                    ids={p['task']:'q1_t'+str(k) for k,p in enumerate(d['public_tasks'])}
-                    first_plan={'case':'c'+str(n),'time_s':d['time_s'],'actor':'q1_u0','namespace':'q1_ labels are a separate view, not paired-card t/u labels',
+                    ids={p['task']:'c1_t'+str(k) for k,p in enumerate(d['public_tasks'])}
+                    first_plan={'case':'c'+str(n),'time_s':d['time_s'],'actor':'c1_u0','profession':d['public_tasks'][0]['kind'],'namespace':'c1_ is a separate view from paired-card t/u labels',
                         'original':[ids[j] for j in d['window']],
                         'child':[ids[j] for j in d['selected_order']],
                         'parent_observed':[ids.get(j,'other') for j in previous['selected_order']] if previous else None,
@@ -268,7 +283,8 @@ def main():
     versions=tuple(p._version for p in model.parameters())
     write(area/'startup.json',{'job_id':os.environ['SLURM_JOB_ID'],'execution_signature':sig,'model_verified':verification,
         'script_sha256':sha(Path(__file__)),'source_manifest_sha256':sha(source/'snapshot-manifest.json'),
-        'feedback_Q1_receipt_sha256':sha(root/'Q1-complete.json') if first is not None else None,
+        'feedback_Q1_receipt_sha256':sha(root/'Q1-complete.json') if index==2 else None,
+        'feedback_previous_actual_candidate_sha256':sha(root/'Q2-complete.json') if index==3 else None,
         'paired_feedback_receipt_sha256':sha(root/'pairs-complete.json'),'dtype':'float32','training':False})
     for _ in range(allowed):
         rendered=tokenizer.apply_chat_template([{'role':'system','content':'Output exactly the complete registered JSON object; source_weights is an OBJECT and mechanism is a short STRING. Do not copy previously evaluated rules.'},
