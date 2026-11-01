@@ -12,6 +12,7 @@ def main():
     model=load(a.model);values=predict(model,payload['x'])
     print(json.dumps({'predictions':[dict(zip(HEADS,map(float,v))) for v in values],
         'head_statuses':{h['name']:h['status'] for h in model['heads']},
+        'training_professions':model['training_professions'],
         'meaning':'Predicted relative outcomes for one frozen intervention then Tour; not deployment performance or calibrated probability.'},allow_nan=False))
 
 

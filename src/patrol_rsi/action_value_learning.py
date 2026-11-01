@@ -40,6 +40,8 @@ def fit_fold(rows,heldout):
         heads.append(head)
     return {'feature_names':list(FEATURE_NAMES),'lambda':1.,'fit_intercept':False,'centering':False,
         'mean':mean.tolist(),'scale':scale.tolist(),'heads':heads,'heldout_group':heldout,
+        'training_feature_min':x.min(axis=0).tolist(),'training_feature_max':x.max(axis=0).tolist(),
+        'training_professions':sorted({v['kind'] for r in train for v in r.get('root_public_state',{}).values()}),
         'training_groups':sorted({r['group_id'] for r in train}),'training_roots':sorted({r['root_id'] for r in train}),
         'train_row_count':len(train),'inference_input':'Only numeric36 public features; no valid-label masks or grouping IDs'}
 

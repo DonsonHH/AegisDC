@@ -47,6 +47,8 @@ def main():
         result={'fold':a.fold,'heldout_group':group,'training_groups':model['training_groups'],'dataset_sha256':sha(root/'dataset.json'),
             'fit_signature':manifest['fit_signature'],'model_sha256':sha(folder/'model.json'),'oof_sha256':sha(folder/'oof.json'),
             'validation_rows':len(validation),'head_statuses':[h['status'] for h in model['heads']],
+            'training_professions':model['training_professions'],
+            'validation_rows_outside_training_feature_range':int(np.any((x<np.asarray(model['training_feature_min'])-1e-9)|(x>np.asarray(model['training_feature_max'])+1e-9),axis=1).sum()),
             'training_errors':head_errors(train,predict(model,[r['x'] for r in train])),
             'OOF_errors':head_errors(validation,pred),'zero_errors':head_errors(validation,np.zeros_like(pred)),
             'OOF_rankings':pair_rankings(validation,pred),'job_id':os.environ['SLURM_JOB_ID']}
