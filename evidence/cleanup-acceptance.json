@@ -1,0 +1,192 @@
+{
+  "schema": "cleanup-acceptance-v1",
+  "date": "2026-11-02",
+  "scope": "Local engineering acceptance and saved-evidence verification; not new research evidence.",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Linux",
+    "editable_install": "PASS"
+  },
+  "verification": {
+    "engineering": "PASS",
+    "evidence": "PASS",
+    "research": "NOT_RUN",
+    "historical_research_gain": "NOT_ESTABLISHED",
+    "overall": "PASS",
+    "scope": "Engineering regression and saved-evidence recomputation; no research training or LLM calls",
+    "structure": {
+      "status": "PASS",
+      "source_modules": 21,
+      "historical_parallel_entry_points": 0,
+      "local_document_links": "checked",
+      "scope": "Structural integrity, not scientific effectiveness"
+    },
+    "tests": {
+      "run": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "verified_original_files": 20,
+    "optional_neural_checkpoint_replay": "NOT_RUN: frozen private checkpoints were not supplied"
+  },
+  "demo": {
+    "purpose": "engineering_example_not_new_research",
+    "spec": {
+      "seed": 41000,
+      "scenario": "coldplate_fouling",
+      "fault_start_s": 335,
+      "noise_c": 0.2,
+      "estimator": "nominal",
+      "control": "feedback",
+      "resources": "provisioned",
+      "episode_horizon_s": 1800,
+      "fault_duration_s": 180
+    },
+    "estimator": {
+      "name": "nominal",
+      "neural_inference": false
+    },
+    "LLM_calls": 0,
+    "executed_configuration": {
+      "episode_horizon_s": 1800,
+      "physical_step_s": 5.0,
+      "fault_start_s": 335,
+      "fault_end_s": 515,
+      "racks": 128,
+      "inspectors": 18
+    },
+    "research_status": "NOT_RUN",
+    "formal_default": "Tour",
+    "results": {
+      "tour": {
+        "metrics": {
+          "missed_segments": 0,
+          "consequence_weighted_censored_delay_s": 65.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "completed_inspections": 1426,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_ratio": 0.8,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0
+        },
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "process_sha256": "62a861e9250cb50b6b43f7a9c3257872fd187ec27f8bda765922aca57c313c21",
+        "PPO_scoring_calls": 0
+      },
+      "parent": {
+        "metrics": {
+          "missed_segments": 0,
+          "consequence_weighted_censored_delay_s": 65.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "completed_inspections": 1426,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_ratio": 0.8,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0
+        },
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "process_sha256": "62a861e9250cb50b6b43f7a9c3257872fd187ec27f8bda765922aca57c313c21",
+        "PPO_scoring_calls": 0
+      }
+    },
+    "read_next": "Open each timeline.csv to see who completed which inspection and measurement."
+  },
+  "readable_event_example": {
+    "time_s": "475.0",
+    "agent": "6",
+    "role": "thermal",
+    "task": "64",
+    "task_id": "thermal:64",
+    "kind": "thermal",
+    "x_m": "0.0",
+    "y_m": "23.0",
+    "service_s": "10.0",
+    "alarm": "True",
+    "measurement_transition": "new_measured_alert",
+    "measurement": {
+      "rack_index": 64,
+      "temperature_c": 73.53811194060523
+    }
+  },
+  "candidate_example": {
+    "source": "provided_json_no_model_called",
+    "LLM_calls": 0,
+    "outcomes": {
+      "tour": {
+        "metrics": {
+          "missed_segments": 0,
+          "consequence_weighted_censored_delay_s": 65.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "completed_inspections": 1426,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_ratio": 0.8,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0
+        },
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "process_sha256": "62a861e9250cb50b6b43f7a9c3257872fd187ec27f8bda765922aca57c313c21",
+        "PPO_scoring_calls": 0
+      },
+      "parent": {
+        "metrics": {
+          "missed_segments": 0,
+          "consequence_weighted_censored_delay_s": 65.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "completed_inspections": 1426,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_ratio": 0.8,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0
+        },
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "process_sha256": "62a861e9250cb50b6b43f7a9c3257872fd187ec27f8bda765922aca57c313c21",
+        "PPO_scoring_calls": 0
+      },
+      "candidate": {
+        "metrics": {
+          "missed_segments": 0,
+          "consequence_weighted_censored_delay_s": 65.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "completed_inspections": 1426,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_ratio": 0.8,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0
+        },
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "process_sha256": "62a861e9250cb50b6b43f7a9c3257872fd187ec27f8bda765922aca57c313c21",
+        "PPO_scoring_calls": 0
+      }
+    },
+    "decision": {
+      "parent_id": "5248ac4743c0bf7eb0567c09a6eef42f959106743679ded032d560133a355aeb",
+      "child_id": "9a3a427dac0a058f0dc0650989c0de1ce1677e1c7bd93829153cfc9695ef873f",
+      "mechanism": "人工接口示例：调整已登记的公开证据权重和陈旧性，检验提案解析、执行与反馈；不是本次Qwen生成，也不预设任务收益。",
+      "illustrative_decision": "keep_parent",
+      "comparison": "All comparable outcomes no worse, at least one better; completion must not fall",
+      "formal_default": "Tour",
+      "research_acceptance": "NOT_EVALUATED: one engineering example is not an independent study"
+    }
+  },
+  "commands": [
+    "python -m pip install -e .",
+    "python -m patrol_rsi status",
+    "python -m patrol_rsi demo --output runs/demo",
+    "python -m patrol_rsi proposal --candidate configs/candidate-example.json --output runs/proposal",
+    "python -m patrol_rsi verify --output runs/verification"
+  ],
+  "research_training": 0,
+  "LLM_calls": 0,
+  "limits": [
+    "Does not replay historical real CVAE weights or all 156 historical trajectories.",
+    "The candidate example is manually authored and has no observed improvement over its parent.",
+    "Full execution logs are generated locally under runs and are not duplicated in the maintained source tree."
+  ]
+}

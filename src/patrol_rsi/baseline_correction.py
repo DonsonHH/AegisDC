@@ -2,8 +2,7 @@
 from dataclasses import dataclass
 import math
 
-from .meta_schema import strict_json
-from .multistep_workflow import digest
+from .contracts import strict_json, digest
 
 SOURCES=('direct','model','power','cross')
 WEIGHTS=(0,.5,1,2)

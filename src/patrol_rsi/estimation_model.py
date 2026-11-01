@@ -1,4 +1,7 @@
-"""Shared node conditional VAE; targets are accepted only by training forward."""
+"""Optional temperature CVAE; weights are not bundled or used by the default demo.
+
+Retained as a research tool, not evidence of independent task benefit.
+"""
 import torch
 from torch import nn
 

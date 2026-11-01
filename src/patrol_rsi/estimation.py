@@ -1,4 +1,4 @@
-"""M10 observation-only features and bounded state-estimation controls.
+"""Observation-only features and bounded state-estimation controls.
 
 No simulator reference, target temperature or hidden scenario is accepted here.
 Physical scaling is fixed before seeing validation/test data.

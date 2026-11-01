@@ -4,18 +4,17 @@ import numpy as np
 
 from .active_inspection import ActiveInspection, CANDIDATE_FEATURES
 from .coverage_plan import InfeasibleCoverage, exact_task_gaps
-from .improver_task import ImproverTask, PatrolProgram
+from .patrol_task import FixedPatrolTask
 from .inspection_metrics import evaluate_episode
 from .local_reorder import RoundLedger, LocalPlanChecker
 from .local_score import ScoreExpression, BASE_EXPRESSION
 from .facility_observation import eligible
-from .multistep_execution import DeniedOnlineTrace
-from .multistep_workflow import digest
+from .contracts import DeniedOnlineTrace, digest
 
 
-class ReorderTask(ImproverTask):
+class ReorderTask(FixedPatrolTask):
     def __init__(self,spec,predictor):
-        super().__init__(spec,PatrolProgram(),predictor)
+        super().__init__(spec,predictor)
         self.ledgers=[RoundLedger(a['tour']) for a in self.agents]
         self.local_checks=[LocalPlanChecker(self.graph,self.tasks,a['tour'],self.deadlines,a['role']) for a in self.agents]
         self.local_pending={};self.local_dispatches=[];self.obligation_events=[];self.local_decisions=[]
@@ -186,14 +185,20 @@ def choose_local(env,method,expression):
     return choices
 
 
-def run_reorder(spec,predictor,policy):
+def run_reorder(spec,predictor,policy,*,selector=None):
+    """Run the fixed mission; an explicit public selector may replace scoring.
+
+    The optional selector has the same (env, method, expression) signature as
+    choose_local. Physical truth remains denied during every selection call.
+    """
+    select = choose_local if selector is None else selector
     method=policy['method']
     if method not in ('T','D','expression'):raise ValueError('Frozen scheduler type')
     expression=ScoreExpression(policy.get('score_expression',BASE_EXPRESSION))
     env=ReorderTask(spec,predictor);actions=[]
     while not env.done:
         trace=env.trace;env.trace=DeniedOnlineTrace()
-        try:choices=choose_local(env,method,expression)
+        try:choices=select(env,method,expression)
         finally:env.trace=trace
         actions.append({'time_s':float(env.clock),'choices':{str(i):j for i,j in choices.items()}})
         env.step(choices)

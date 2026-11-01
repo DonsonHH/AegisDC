@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from patrol_rsi.baseline_correction import Rule,choose_advantage,parse_response,response_example,advantage,relative_features,require_mutation
-from patrol_rsi.correction_selection import retain,adopt
 import json
 
 
@@ -43,14 +42,6 @@ class CorrectionTests(unittest.TestCase):
         f=relative_features(original,changed,snapshot,[0,1],5.,Rule())
         self.assertEqual((f['gain_plus'],f['gain_minus']),(0.,0.))
 
-    def test_small_wait_gain_cannot_buy_unbounded_travel(self):
-        def result(wait,travel):
-            return {'rows':[{'metrics':{'missed_segments':1,'consequence_weighted_censored_delay_s':wait,
-                'travel_m':travel,'completed_inspections':100,'numeric_scoring_failures':0},'audit':{'passed':True}} for _ in range(6)]}
-        parent=result(50.,100.);tradeoff=result(49.999,10000.);good=result(49.,99.)
-        self.assertFalse(retain(parent,tradeoff,{'T':parent,'R':parent})[1]['accepted'])
-        self.assertTrue(retain(parent,good,{'T':parent,'R':parent})[1]['accepted'])
-        self.assertEqual(adopt(parent,{'H':tradeoff})['selected'],'T')
 
 
 if __name__=='__main__':unittest.main()
