@@ -183,7 +183,7 @@ def main():
     judgment={
         'action_space':'真实不同合法排列存在，不能把本轮未见净收益归为只有原序。',
         'scoring_objective':'Q1把移动项改为负数；在最小化中会奖励较多移动。预定选择把等待放在移动和完成数之前，因此允许开发等待小幅改善而成本变差的Q1被保留。Q2把期限压力改负，整体退化后回退。',
-        'public_information':'当前风险只是公开代理，线索的预测价值和及时性未被独立消融；不能据此断言信息充分或不足。',
+        'public_information':'当前风险只是公开代理，线索预测价值未被独立消融。实际模型紧凑卡片含总风险/新鲜度；source指温度或专业数值来源，未给完整risk_components。完整风险分项仅在事后原件核验，不能写成Qwen当时已收到。信息是否充分仍待独立检验。',
         'model_edit':'两个合法模型子式均改变真实行为；Q1开发改善未在新确认保持，Q2开发退化，未证明优于同预算S或原Tour的独立任务增益。',
         'experience_and_meta':'Q2实际使用Q1反馈，但无无反馈对照；经验因果贡献及固定改进器的元/递归增量均未测。',
         'development_Q1_minus_R':{k:dev_q[k]-dev_r[k] for k in ('mean_missed','mean_wait_event_conditions_s','mean_travel_m','mean_completed_inspections')},
@@ -192,6 +192,7 @@ def main():
     inventory=[{'path':path.relative_to(STAGE).as_posix(),'sha256':sha(path),'bytes':path.stat().st_size}
         for path in sorted(run.rglob('*')) if path.is_file()]
     result={'schema':'local-reorder-delivery-v1','status':'completed_finite_experiment',
+        'postprocessing_script_sha256':sha(Path(__file__)),
         'research_baseline':'4903ed682c4fdbbde391a81829c0774963705c72','actual_execution_base':'109a6c398d31ea09e1c84fa40a63271c319c8f3f',
         'execution_signature':signature,'original_goal':'供电—液冷—自控耦合、部分可观测和异质专业约束下，决定谁在何时去哪里检查什么；本轮仅改固定所属义务的局部顺序。',
         'protocol':read(STAGE/'protocol.json'),'budget':budget,'safety':safety,
@@ -230,6 +231,8 @@ def main():
     text=f'''# 公开信息驱动的局部巡检顺序改进：一次有限实验
 
 本轮已实际完成局部重排、三个基线、S两候选和新条件确认。Qwen两轮提案阶段中，{actual_children}个合法子规则进入六条件实评；失败和重复均计费。结论须同时看发现效果和巡检成本，不能把路线改变或合法表达式当作RSI成功。
+
+这里的“实际/真实运行”指原有合成机房仿真真正执行了闭环；本轮未使用现场数据。
 
 **本轮没有确认出模型任务增益。** Q1开发等待比R少{number(dev_r['mean_wait_event_conditions_s']-dev_q['mean_wait_event_conditions_s'])}秒；新确认等待反而多{number(con_q['mean_wait_event_conditions_s']-con_r['mean_wait_event_conditions_s'])}秒、每回合多走{number(con_q['mean_travel_m']-con_r['mean_travel_m'])}米、平均少完成{number(con_r['mean_completed_inspections']-con_q['mean_completed_inspections'])}项，漏检相同。原Tour在确认中的平均等待也更短。
 
