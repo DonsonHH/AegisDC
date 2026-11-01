@@ -223,7 +223,9 @@ def main():
     for item in pairs['pairs']:
         if item['root'] is not None:item['category']=labels['labels'][item['case_id']]
     first=read(root/('Q2-complete.json' if index==3 else 'Q1-complete.json')) if index!=1 else None
-    if index==3:need(first['candidate'] is not None,'Last authorized call requires an actually evaluated first child')
+    if index==3:
+        need(read(root/'Q1-complete.json')['candidate'] is None,'Recovery cannot create a third actual model candidate')
+        need(first['candidate'] is not None,'Last authorized call requires an actually evaluated first child')
     if first is not None:
         for key in ('parent','selected'):validate(first[key],sig,cases)
         if first['candidate'] is not None:validate(first['candidate'],sig,cases)

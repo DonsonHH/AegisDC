@@ -13,6 +13,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);a=p.parse_args()
     need('SLURM_JOB_ID' in os.environ,'Slurm only')
     source=Path(__file__).resolve().parents[1];root=a.root.resolve();sig=verify(source)
+    need(read(root/'Q1-complete.json')['candidate'] is None,'Recovery is only for an initial failed phase, never a third actual candidate')
     cases=read(source/STAGE/'protocol.json')['development'];refs=read(root/'baselines-complete.json')
     for v in refs.values():validate(v,sig,cases)
     first=read(root/'Q2-complete.json');need(first['candidate'] is not None,'C1 actual six-condition evaluation required')
