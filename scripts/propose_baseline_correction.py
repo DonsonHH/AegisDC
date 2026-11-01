@@ -102,7 +102,7 @@ def prompt_data(baselines,h,pairs,first):
 
 def compact_tables(data):
     """Factor repeated provenance strings/tuples; retain every task/component."""
-    names=[];origins=[]
+    names=[];origins=[];source_names=[];group_names=[]
     def index(value,table):
         if value not in table:table.append(value)
         return table.index(value)
@@ -110,12 +110,18 @@ def compact_tables(data):
         for row in frame:
             new=[]
             for name,group,value,stamp,age,source,contributors in row[-1]:
-                origin=index([group,stamp,source,contributors],origins)
+                grouped={}
+                for location,subgroup,subtime in contributors:
+                    pod,rack=location.split('.r');key=(pod,subgroup,subtime)
+                    grouped.setdefault(key,[]).append(int(rack))
+                compressed=[[pod,indices,subgroup,subtime] for (pod,subgroup,subtime),indices in grouped.items()]
+                origin=index([index(group,group_names),stamp,index(source,source_names),compressed],origins)
                 new.append([index(name,names),value,origin])
             row[-1]=new
     data['component_names']=names;data['origins_group_time_source_contributors']=origins
+    data['origin_group_names']=group_names;data['origin_source_names']=source_names
     data['component_columns']=['name_index','value_or_null','origin_index']
-    data['provenance_note']='Origin table retains each component group/time/source/contributors. Age=current paired public time minus origin time; task direct ages are separate. Values displayed at5 significant digits, raw records and Pareto labels use full precision.'
+    data['provenance_note']='Origin=[group_index,time_s,source_index,contributors]. Contributors=[pod,local_rack_indices,group,time]; grouped equal origins preserve all members. Age=paired current time minus origin time; task direct age separate.5-significant-digit display; deltas calculated before rounding and Pareto uses full precision.'
     for card in data['paired_cards']:
         if card.get('no_root'):continue
         card.pop('actual_A');card.pop('actual_B')
