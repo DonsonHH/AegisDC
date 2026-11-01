@@ -190,9 +190,11 @@ def render_user(data):
             ' B-A='+','.join('-' if x is None else str(x) for x in card['actual_B_minus_A'])+
             ' '+card['category']+' R_prefers_B='+str(card['R_prefers_B']))
     if data.get('Q1_actual_result') is not None:lines.append('Q1 actual result and retained parent:'+dumps(data['Q1_actual_result']))
+    if data.get('Q1_interface_failures'):lines.append('Q1 billed failures, no child executed: '+ '; '.join(v['error'] for v in data['Q1_interface_failures'])+'. Both rejected replies were the unchanged H example; raw replies archived, not repeated as suggestions.')
     if 'Q1_first_actual_numeric_failure' in data:lines.append('Q1 first numerical error:'+dumps(data['Q1_first_actual_numeric_failure']))
     if 'Q1_behavior_feedback' in data:lines.append('Q1 actual behavior changes:'+dumps(data['Q1_behavior_feedback']))
-    if data.get('structural_failures'):lines.append('Previous billed invalid/duplicate outputs:'+dumps(data['structural_failures']))
+    if data.get('structural_failures'):lines.append('Previous billed failures: '+'; '.join(v['error'] for v in data['structural_failures'])+'. Do not repeat the blocked H example; raw failures are archived separately.')
+    lines.append('The example is ONLY the schema. H and listed evaluated rules are BLOCKED duplicates. Return all fields of a different allowed rule, with a short mechanism, as JSON only.')
     return re.sub(r'(?<![\w.])(-?\d+)\.0(?![\w.])',r'\1','\n'.join(lines))
 
 
@@ -215,6 +217,9 @@ def main():
         for key in ('parent','selected'):validate(first[key],sig,cases)
         if first['candidate'] is not None:validate(first['candidate'],sig,cases)
     prompt,mapping=prompt_data(baselines,h,pairs,first);prompt=compact_tables(prompt);parent=h if index==1 else first['selected']
+    if first is not None and first['candidate'] is None:
+        failed=root/'model-round-1'/'no-legal-child.json'
+        prompt['Q1_interface_failures']=read(failed)['failures'] if failed.exists() else [{'error':'Operational stop; no actual child executed'}]
     if first is not None and first['candidate'] is not None:
         prompt['Q1_first_actual_numeric_failure']=next((failure for row in first['candidate']['rows'] for failure in record(row)['numeric_failures']),None)
         behavior=[];first_plan=None
