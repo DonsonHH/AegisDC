@@ -16,7 +16,7 @@ from patrol_rsi.local_score import (ScoreExpression, parse_response,
 MODEL=Path('/share/home/renly/renly-patrol-rsi/models/Qwen3-8B-b968826d')
 METRICS=('missed_segments','consequence_weighted_censored_delay_s','travel_m',
     'service_s','completed_inspections','current_round_unfinished_obligations',
-    'unfinished_committed_tasks','reordered_plans')
+    'unfinished_committed_tasks','reordered_plans','numeric_scoring_failures')
 
 
 def concise(x):
@@ -111,7 +111,9 @@ def make_prompt(parent,baseline,first_round,load_record):
         'selection':'Safety and numeric validity first; global mean missed segments, then mean censored wait over event conditions, then mean travel, then negative total completions, lexicographic; ties keep parent. Per-condition losses are retained and reported.',
         'first_round_result':None if first_round is None else {
             'tried_expression':first_round['candidate']['policy']['score_expression'] if first_round['candidate'] else None,
-            'selection':first_round['selection'],'retained_expression':first_round['selected']['policy']['score_expression']},
+            'selection':first_round['selection'],'retained_expression':first_round['selected']['policy']['score_expression'],
+            'first_actual_numeric_failure':next((failure for row in first_round['candidate']['rows']
+                for failure in load_record(row)['numeric_failures']),None) if first_round['candidate'] else None},
         'instruction':'Return exactly one JSON OBJECT. Both score_expression and mechanism MUST be strings, never lists/objects. Use only declared feature names and operators, no Python code, markdown, future labels or extra keys. The example illustrates valid structure and is not a suggested new candidate. Explain expected effect on order and a possible cost in <=80 words.'}
 
 
@@ -143,6 +145,9 @@ def main():
     allowed=min(2,4-len(prior)) if index==1 else 4-len(prior)
     need(allowed>0,'Global four-call cap')
     prompt=make_prompt(parent,baseline,first,record);prompt['prior_structural_failures']=[]
+    if index==2 and first['candidate'] is None:
+        missing=root/'model-round-1'/'no-legal-child.json'
+        prompt['first_round_interface_failures']=read(missing)['failure_details'] if missing.exists() else 'Operational failure; no actual child executed.'
     area=root/f'model-round-{index}';area.mkdir(exist_ok=False)
     torch.set_num_threads(int(os.environ['SLURM_CPUS_PER_TASK']))
     verification=verify_open_model(MODEL)
