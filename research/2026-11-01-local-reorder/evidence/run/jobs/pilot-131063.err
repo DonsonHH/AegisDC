@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/run_local_reorder.py", line 218, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/run_local_reorder.py", line 186, in main
+    r=evaluate(root,source,cases[:1],policy(BASE_EXPRESSION,'T'),predictor)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/run_local_reorder.py", line 124, in evaluate
+    return {'policy':p,'policy_id':policy_id(p),'rows':[evaluate_one(root,source,c,p,predictor) for c in cases]}
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/run_local_reorder.py", line 124, in <listcomp>
+    return {'policy':p,'policy_id':policy_id(p),'rows':[evaluate_one(root,source,c,p,predictor) for c in cases]}
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/run_local_reorder.py", line 90, in evaluate_one
+    independent_schedule(value,env);independent_events(value,env);audit=audit_reorder(value,env)
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/audit_local_reorder.py", line 71, in audit_reorder
+    compare(c['certificate'],expected);checks+=1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/audit_local_reorder.py", line 44, in compare
+    need(all(close(stored['first_completion_s'][k],v) for k,v in expected['first_completion_s'].items()),'first future completion')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/runs/20261101-local-reorder/code-v1/scripts/audit_local_reorder.py", line 44, in <genexpr>
+    need(all(close(stored['first_completion_s'][k],v) for k,v in expected['first_completion_s'].items()),'first future completion')
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+KeyError: '0'
