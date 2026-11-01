@@ -135,6 +135,7 @@ def render_user(data):
     """Human-readable column text, not opaque compression; all six cards retained."""
     dumps=lambda x:json.dumps(x,separators=(',',':'))
     def rule_text(rule):
+        if rule is None:return 'no executed child'
         base=Rule().to_dict();diff=[]
         for k,v in rule.items():
             if k=='source_weights':diff.extend(s+'='+str(w) for s,w in v.items() if w!=base[k][s])

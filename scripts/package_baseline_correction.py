@@ -37,7 +37,7 @@ def main():
         (STAGE/'protocol.json').write_text(json.dumps(protocol,ensure_ascii=False,indent=2)+'\n',encoding='utf8',newline='\n')
         (STAGE/'.gitattributes').write_text('* -text -whitespace\n',encoding='utf8')
     dest=ROOT/'.work/baseline-correction'/('code-'+a.version);dest.mkdir(parents=True,exist_ok=False)
-    files=[*sorted((ROOT/'src').rglob('*.py')),*sorted((ROOT/'tests').glob('test_baseline_correction.py')),
+    files=[*sorted((ROOT/'src').rglob('*.py')),*sorted((ROOT/'tests').glob('test_baseline_correction.py')),*sorted((ROOT/'tests').glob('test_correction_wire.py')),
         *sorted((ROOT/'scripts').glob('*baseline_correction*.py')),
         *[ROOT/'scripts'/v for v in ('run_multistep.py','run_m12d_paired.py','audit_m11.py','audit_m111.py','audit_local_reorder.py')],
         *sorted((ROOT/'cluster').glob('baseline_correction_*.sbatch')),STAGE/'protocol.json',ROOT/'research/2026-10-28-m111-coverage/frozen_estimator.json']
@@ -45,7 +45,7 @@ def main():
     for f in files:
         name=f.relative_to(ROOT).as_posix();out=dest/name;out.parent.mkdir(parents=True,exist_ok=True)
         out.write_bytes(f.read_bytes().replace(b'\r\n',b'\n') if f.suffix=='.sbatch' else f.read_bytes());hashes[name]=sha(out)
-    kernel={k:v for k,v in hashes.items() if k.startswith(('src/','tests/')) or k.startswith('research/') or k in ('scripts/run_baseline_correction.py','scripts/audit_baseline_correction.py','scripts/audit_local_reorder.py','scripts/run_m12d_paired.py','scripts/run_multistep.py','scripts/audit_m11.py','scripts/audit_m111.py')}
+    kernel={k:v for k,v in hashes.items() if k.startswith('src/') or k=='tests/test_baseline_correction.py' or k.startswith('research/') or k in ('scripts/run_baseline_correction.py','scripts/audit_baseline_correction.py','scripts/audit_local_reorder.py','scripts/run_m12d_paired.py','scripts/run_multistep.py','scripts/audit_m11.py','scripts/audit_m111.py')}
     m={'version':a.version,'files':hashes,'execution_files':kernel,'execution_signature':digest(kernel),'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}
     (dest/'snapshot-manifest.json').write_text(json.dumps(m,indent=2)+'\n',encoding='utf8',newline='\n')
     area=STAGE/'source';area.mkdir(exist_ok=True);archive=area/('code-'+a.version+'.tar.gz')
