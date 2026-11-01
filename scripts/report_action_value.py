@@ -153,6 +153,13 @@ def main():
             worst.append({'head':name,'sample_id':r['sample_id'],'root_id':r['root_id'],'actual':r['y'][h],'prediction':prediction_by_id[r['sample_id']][h],
                 'largest_term':{'feature':FEATURE_NAMES[j],'input':r['x'][j],'train_scale':model['scale'][j],'train_max':model['training_feature_max'][j],'contribution':float(contributions[j])}})
     categories=dict(Counter(r['category'] for r in data['root_assessments']));benefit_roots={p['root_id'] for p in pareto_gains};detection_roots={r['root_id'] for r in rows if task_improvement(r['y'])}
+    proxy_directions={'positive_proxy_but_detection_worse':[],'nonpositive_proxy_but_detection_better':[],
+        'meaning':'Single detection-component disagreement, not a scalar overall-utility label; cost/work tradeoffs remain explicit.'}
+    for row in rows:
+        if row['original']:continue
+        m,w,c,n=row['y'];item={'root_id':row['root_id'],'sample_id':row['sample_id'],'H_risk_gain':row['H_gain'],'y':row['y']}
+        if row['H_gain']>1e-9 and (m>1e-9 or w is not None and w>1e-9):proxy_directions['positive_proxy_but_detection_worse'].append(item)
+        if row['H_gain']<=1e-9 and (m<-1e-9 or w is not None and w<-1e-9):proxy_directions['nonpositive_proxy_but_detection_better'].append(item)
     shadow_choices={}
     for method in ('shadow_R','shadow_H'):
         counts=Counter()
@@ -193,7 +200,7 @@ def main():
             'original_anchor':'x=zero36; valid relative labels zero; healthy wait remains null',
             'metadata_not_inputs':['group_id','seed','scenario','process_fingerprint','root_id','root_type','task_id','action_id','event intervals','branch outcomes','wait_valid']},
         'root_classifications':data['root_assessments'],'category_counts':categories,'Pareto_improvements_over_original':pareto_gains,
-        'cost_gain_vs_original_rankings':dict(gain_rank),'public_shadow_choice_outcomes':shadow_choices,'qualified_detection_improvement_roots':len(detection_roots),
+        'cost_gain_vs_original_rankings':dict(gain_rank),'public_shadow_choice_outcomes':shadow_choices,'public_proxy_direction_disagreements':proxy_directions,'qualified_detection_improvement_roots':len(detection_roots),
         'OOF_errors':errors,'zero_baseline_errors':zero,'OOF_rankings':ranks,'fold_results':fold_results,
         'fitted_model_packages':{f'fold-{i}':read(run/'fits'/f'fold-{i}'/'model.json') for i in range(4)},
         'worst_errors':worst,'event_change_counts':dict(event_status),'dataset':data,'audit':audit,'one_page_judgment':judgments,
@@ -226,6 +233,8 @@ def main():
 13根有成本型Pareto改进，每次少走1.6米而检测/完成量不变；8根存在取舍，3根所有替代均劣于原序。未发现同时改善检测且移动不增、完成不减的动作。不能因此称“没有有益动作”：成本型正例真实存在，少漏1段但多走路/少完成工作的动作也有业务取舍。
 
 [144行全动作价值表](../research/2026-11-01-action-value/全合法动作价值表.csv)保留所有分项后果、服务/末尾义务、来源和OOF预测。新增/失去确认事件在dataset的标签区逐项保存；少做工作造成的移动减少不当效率收益。
+
+风险代理方向也有具体分歧：dev-11-B两动作的H净风险提前量约−0.0001042，但实际各少漏1段；代价是多走9.3或11.3米、少完成1项。这只是检测单项与代理方向相反，不等于总体收益为正。其他根未观察到“代理正但检测更差”的该定义案例，不能泛化成代理总会反向。
 
 ## 3. 已拟合工具与四折留组结果
 
