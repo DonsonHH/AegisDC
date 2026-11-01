@@ -14,8 +14,19 @@ COLUMNS=('missed_segments','consequence_weighted_censored_delay_s','travel_m','s
     'completed_inspections','current_round_unfinished_obligations','unfinished_committed_tasks','numeric_scoring_failures')
 
 
-def short(x):return round(x,5) if isinstance(x,float) else x
+def short(x):return float(f'{x:.5g}') if isinstance(x,float) else x
 def metrics(row):return [short(row['metrics'][k]) for k in COLUMNS]
+
+
+def parse_model_response(raw):
+    rule,mechanism=parse_response(raw)
+    value=rule.to_dict()
+    # Numeric representation only: -0.0==0.0 exactly. No value clipping,
+    # field completion, inferred coefficients or semantic repair is allowed.
+    value['source_weights']={k:0.0 if v==0 else v for k,v in value['source_weights'].items()}
+    for k in ('travel_penalty','deadline_penalty','margin'):
+        if value[k]==0:value[k]=0.0
+    return rule_from_dict(value),mechanism
 
 
 def paired_feedback(value):
@@ -23,7 +34,9 @@ def paired_feedback(value):
     for n,pair in enumerate(value['pairs']):
         if pair['root'] is None:cards.append({'case':'c'+str(n),'no_root':True});continue
         root=pair['root'];rows=root['public_tasks'];ids={row['task']:'t'+str(k) for k,row in enumerate(rows)}
-        podof=lambda row:row['task']//8 if row['kind']=='thermal' else (row['task']-128)//3
+        # AisleGraph sorts by profession: thermal0:128, electrical128:144,
+        # cooling144:160, control160:176. It is not pod-interleaved.
+        podof=lambda row:row['task']//8 if row['kind']=='thermal' else row['task']-{'electrical':128,'cooling':144,'control':160}[row['kind']]
         pods={p:'p'+str(k) for k,p in enumerate(sorted({podof(row) for row in rows}))}
         mappings['c'+str(n)]={'tasks':ids,'pods':pods,'original_agent':root['agent']}
         frame=[]
@@ -85,12 +98,36 @@ def prompt_data(baselines,h,pairs,first):
     return data,mapping
 
 
+def compact_tables(data):
+    """Factor repeated provenance strings/tuples; retain every task/component."""
+    names=[];origins=[]
+    def index(value,table):
+        if value not in table:table.append(value)
+        return table.index(value)
+    for frame in data['evidence_frames'].values():
+        for row in frame:
+            new=[]
+            for name,group,value,stamp,age,source,contributors in row[-1]:
+                origin=index([group,stamp,source,contributors],origins)
+                new.append([index(name,names),value,origin])
+            row[-1]=new
+    data['component_names']=names;data['origins_group_time_source_contributors']=origins
+    data['component_columns']=['name_index','value_or_null','origin_index']
+    data['provenance_note']='Origin table retains each component group/time/source/contributors. Age=current paired public time minus origin time; task direct ages are separate. Values displayed at5 significant digits, raw records and Pareto labels use full precision.'
+    for card in data['paired_cards']:
+        if card.get('no_root'):continue
+        a,b=card.pop('actual_A'),card.pop('actual_B')
+        card['actual_A_ref']='T rollout in six_condition_full_rollouts; actual A was action/measurement verified identical.'
+        card['actual_B_minus_A']=[short(y-x) if x is not None else None for x,y in zip(a,b)]
+    return data
+
+
 def main():
     import torch
     from transformers import AutoTokenizer,AutoModelForCausalLM
     from patrol_rsi.m12 import verify_open_model
     from run_baseline_correction import (STAGE,verify,read,write,sha,need,validate,record,reserve)
-    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--round',type=int,choices=(1,2),required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--round',type=int,choices=(1,2),required=True);p.add_argument('--prepare-only',action='store_true');a=p.parse_args()
     need('SLURM_JOB_ID' in os.environ and not torch.cuda.is_available(),'Frozen CPU Slurm proposer')
     root=a.root.resolve();source=Path(__file__).resolve().parents[1];sig=verify(source);cases=read(source/STAGE/'protocol.json')['development'];index=a.round
     baselines=read(root/'baselines-complete.json');h=validate(read(root/'H-complete.json'),sig,cases)
@@ -103,7 +140,7 @@ def main():
     if first is not None:
         for key in ('parent','selected'):validate(first[key],sig,cases)
         if first['candidate'] is not None:validate(first['candidate'],sig,cases)
-    prompt,mapping=prompt_data(baselines,h,pairs,first);parent=h if index==1 else first['selected']
+    prompt,mapping=prompt_data(baselines,h,pairs,first);prompt=compact_tables(prompt);parent=h if index==1 else first['selected']
     if first is not None and first['candidate'] is not None:
         prompt['Q1_first_actual_numeric_failure']=next((failure for row in first['candidate']['rows'] for failure in record(row)['numeric_failures']),None)
     simple=read(root/'S-complete.json');seen={Rule().identity}
@@ -111,14 +148,22 @@ def main():
     if first is not None and first['candidate'] is not None:seen.add(rule_from_dict(first['candidate']['policy']['rule']).identity)
     prompt['already_evaluated_rules_no_resubmission']=[h['policy']['rule']]+[s['candidate']['policy']['rule'] for s in simple['rounds']]+([first['candidate']['policy']['rule']] if first and first['candidate'] else [])
     prompt['structural_failures']=[]
-    parse_response(json.dumps(response_example()))
+    parse_model_response(json.dumps(response_example()))
+    prompt['numeric_representation']='All equivalent JSON number spellings share identity; -0.0 and0.0 are the same parameter, never a new edit.'
     callfile=root/'model-calls.jsonl';prior=[json.loads(v) for v in callfile.read_text().splitlines()] if callfile.exists() else []
     need(not any(v['round']==index for v in prior),'No restart/resampling of a billed round')
     need(not(root/f'Q{index}-proposal.json').exists(),'First legal proposal already exists')
     allowed=min(2,4-len(prior)) if index==1 else 4-len(prior);need(allowed>0,'Four-call cap')
-    area=root/f'model-round-{index}';area.mkdir(exist_ok=False);write(area/'anonymous-mapping.json',mapping)
-    torch.set_num_threads(int(os.environ['SLURM_CPUS_PER_TASK']));verification=verify_open_model(MODEL)
+    torch.set_num_threads(int(os.environ['SLURM_CPUS_PER_TASK']))
     tokenizer=AutoTokenizer.from_pretrained(MODEL,local_files_only=True,trust_remote_code=False)
+    if a.prepare_only:
+        rendered=tokenizer.apply_chat_template([{'role':'system','content':'Output exactly the complete registered JSON object; source_weights is an OBJECT and mechanism is a short STRING. Do not copy previously evaluated rules.'},
+            {'role':'user','content':json.dumps(prompt,separators=(',',':'))}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
+        tokens=len(tokenizer.encode(rendered))
+        write(root/f'prompt-preflight-round{index}.json',{'prompt':prompt,'input_tokens':tokens,'within_4096':tokens<=4096,'real_model_generations':0,'anonymous_mapping':mapping})
+        print('PROMPT_PREFLIGHT_TOKENS',index,tokens,flush=True);return
+    area=root/f'model-round-{index}';area.mkdir(exist_ok=False);write(area/'anonymous-mapping.json',mapping)
+    verification=verify_open_model(MODEL)
     model=AutoModelForCausalLM.from_pretrained(MODEL,torch_dtype=torch.float32,attn_implementation='eager',local_files_only=True,trust_remote_code=False).eval()
     need(all(p.dtype==torch.float32 and p.device.type=='cpu' for p in model.parameters()),'CPU float32 unchanged')
     versions=tuple(p._version for p in model.parameters())
@@ -142,12 +187,12 @@ def main():
             response=tokenizer.decode(generated[0,count:],skip_special_tokens=True)
             write(call/'response.json',{'raw_response':response,'output_tokens':int(generated.shape[1]-count),'seconds':time.perf_counter()-start})
             phase='parse'
-            rule,mechanism=parse_response(response);require_mutation(rule,rule_from_dict(parent['policy']['rule']),seen)
+            rule,mechanism=parse_model_response(response);require_mutation(rule,rule_from_dict(parent['policy']['rule']),seen)
             phase='persist'
             need(tuple(p._version for p in model.parameters())==versions,'No model update')
             value={'rule':rule.to_dict(),'mechanism':mechanism,'round':index,'parent_policy_id':parent['policy_id'],
                 'execution_signature':sig,'response_path':str(call/'response.json'),'response_sha256':sha(call/'response.json'),
-                'raw_repaired':False,'copied_contract_example':rule.identity==Rule().identity}
+                'raw_repaired':False,'numeric_representation_canonicalized':True,'copied_contract_example':rule.identity==Rule().identity}
             write(call/'accepted-interface.json',value);write(root/f'Q{index}-proposal.json',value)
             print('LEGAL_CORRECTION_CHILD',index,receipt['number'],rule.to_dict(),flush=True);return
         except Exception as exc:
