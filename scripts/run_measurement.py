@@ -126,8 +126,13 @@ def audit_pairs(root, signature, cases, label):
             t=x['physical']['time_s']
             need([v for v in b['action_log'] if v['time_s']<t]==[v for v in c['action_log'] if v['time_s']<t],'Same true prefix before replan')
             different_states=digest(x['masked_state'])!=digest(x['visible_state'])
-            priority_changed=any(v['value']!=next(w['value'] for w in x['masked_ranking'] if w['task']==v['task']) for v in x['visible_ranking'])
+            priority_changed=any(abs(v['value']-next(w['value'] for w in x['masked_ranking'] if w['task']==v['task']))>1e-9 for v in x['visible_ranking'])
+            estimate_changed=any(abs(a-b)>1e-9 for field in ('temperature_c','flow','contact','raw_prior')
+                for a,b in zip(x['masked_state'][field],x['visible_state'][field]))
             item={'case_id':case['case_id'],'first_time_s':t,'state_changed':different_states,'priority_changed_at_first':priority_changed,
+                'state_changed_scope':'Includes measurement provenance; not automatically numeric estimate change',
+                'estimate_numeric_changed_at_first':estimate_changed,
+                'rank_order_changed_at_first':[v['task'] for v in x['masked_ranking']]!=[v['task'] for v in x['visible_ranking']],
                 'first_B_choice':x['actual_selected'],'first_C_choice':y['actual_selected'],
                 'first_alarm':x['first_actual_event']['alarm'],'first_reference':x['first_actual_event']['measurement']}
         else:

@@ -1,10 +1,15 @@
 import unittest
 
-from patrol_rsi.measurement_workflow import MeasurementWorkflow, choose_first, choose_followup
+from patrol_rsi.measurement_workflow import MeasurementWorkflow, choose_first, choose_followup, first_reference_alarm
 from patrol_rsi.multistep_proposal import compile_compact
 
 
 class MeasurementWorkflowTests(unittest.TestCase):
+    def test_first_normal_branch_survives_a_later_reference_on_same_task(self):
+        history = [{'event_id':[0,1,100.], 'alarm':False}, {'event_id':[0,1,200.], 'alarm':True}]
+        self.assertFalse(first_reference_alarm(history,(0,1,100.)))
+        self.assertIsNone(first_reference_alarm(history[1:],(0,1,100.)))
+
     def test_missing_data_without_evidence_does_not_trigger_diagnostic_check(self):
         row = dict(task=1, kind='thermal', pod=0, information_age_factor=1., diagnostic_evidence=0.,
             weight=1., lead_s=60., completion_cost_s=20., affected_safe_tasks=[2], already_alarm=False)

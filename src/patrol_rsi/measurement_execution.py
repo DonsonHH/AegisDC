@@ -6,7 +6,7 @@ from .coverage_plan import InfeasibleCoverage, exact_task_gaps
 from .facility_workflow import public_outcome
 from .inspection_metrics import evaluate_episode
 from .measurement_state import MeasurementState, event_key
-from .measurement_workflow import MeasurementWorkflow, rank_candidates, choose_first, choose_followup
+from .measurement_workflow import MeasurementWorkflow, rank_candidates, choose_first, choose_followup, first_reference_alarm
 from .multistep_execution import MultistepTask, DeniedOnlineTrace
 from .multistep_workflow import digest
 
@@ -131,8 +131,7 @@ def run_measurement_episode(spec, workflow, predictor, arm):
                         selected = min((r for r in candidates if r['task'] in positions), key=lambda r: positions[r['task']], default=None)
                         branch = 'fixed_second'
                     else:
-                        reference = state.qualified.get(first_request['task'])
-                        alarm = reference['alarm'] if reference and tuple(reference['event_id']) == env.first_key else None
+                        alarm = first_reference_alarm(state.updates, env.first_key)
                         selected = choose_followup(candidates, workflow, alarm)
                         branch = 'replan_masked' if arm == 'B' else 'replan_visible'
             elif env.pending_optional is not None:

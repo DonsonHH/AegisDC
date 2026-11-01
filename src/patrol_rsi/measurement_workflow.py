@@ -123,3 +123,8 @@ def choose_followup(rows, workflow, first_alarm):
         return None
     pool = [r for r in rows if r['value'] > 0 and not r['already_alarm']]
     return max(pool, key=lambda r: (r['value'], -r['task']), default=None)
+
+
+def first_reference_alarm(visible_history, first_key):
+    reference = next((v for v in visible_history if tuple(v['event_id']) == first_key), None)
+    return reference['alarm'] if reference is not None else None
