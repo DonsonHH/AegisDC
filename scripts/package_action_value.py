@@ -48,9 +48,9 @@ def main():
     for file in files:
         name=file.relative_to(ROOT).as_posix();out=dest/name;out.parent.mkdir(parents=True,exist_ok=True)
         out.write_bytes(file.read_bytes().replace(b'\r\n',b'\n') if file.suffix=='.sbatch' else file.read_bytes());hashes[name]=sha(out)
-    kernel={k:v for k,v in hashes.items() if k.startswith('src/') and k not in ('src/patrol_rsi/action_value_learning.py','src/patrol_rsi/action_value_evaluation.py')
+    kernel={k:v for k,v in hashes.items() if k.startswith('src/') and k not in ('src/patrol_rsi/action_value_learning.py','src/patrol_rsi/action_value_evaluation.py','src/patrol_rsi/action_value_data.py')
         or k.startswith('research/') or k in ('scripts/run_action_value.py','scripts/run_multistep.py','scripts/run_m12d_paired.py','scripts/audit_m11.py','scripts/audit_m111.py','scripts/audit_local_reorder.py')}
-    fit_code={k:v for k,v in hashes.items() if k in ('src/patrol_rsi/action_value_learning.py','scripts/fit_action_value.py') or k.startswith('research/')}
+    fit_code={k:v for k,v in hashes.items() if k in ('src/patrol_rsi/action_value_learning.py','src/patrol_rsi/action_value_features.py','src/patrol_rsi/action_value_evaluation.py','src/patrol_rsi/action_value_data.py','scripts/fit_action_value.py') or k.startswith('research/')}
     m={'version':a.version,'files':hashes,'execution_files':kernel,'execution_signature':digest(kernel),'fit_files':fit_code,'fit_signature':digest(fit_code),
         'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()}
     (dest/'snapshot-manifest.json').write_text(json.dumps(m,indent=2)+'\n',encoding='utf8',newline='\n')

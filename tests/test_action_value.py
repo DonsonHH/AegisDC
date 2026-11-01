@@ -65,4 +65,15 @@ class LearningTests(unittest.TestCase):
         self.assertEqual(model['heads'][2]['status'],'constant_zero_no_variation')
 
 
+class LabelTests(unittest.TestCase):
+    def test_healthy_wait_null_and_lost_confirmation_remains_visible(self):
+        from patrol_rsi.action_value_data import outcomes,event_pairs
+        keys=('missed_segments','consequence_weighted_censored_delay_s','travel_m','service_s','completed_inspections','current_round_unfinished_obligations','unfinished_committed_tasks')
+        healthy={'metrics':dict.fromkeys(keys,0)};healthy['metrics']['consequence_weighted_censored_delay_s']=None
+        self.assertIsNone(outcomes(healthy,healthy)['y'][1]);self.assertFalse(outcomes(healthy,healthy)['wait_valid'])
+        a={'anomaly_intervals':[{'task_id':'thermal:0','onset_s':100.,'end_s':200.,'first_confirmation_s':150.}]}
+        b={'anomaly_intervals':[{'task_id':'thermal:0','onset_s':100.,'end_s':200.,'first_confirmation_s':None}]}
+        self.assertEqual(event_pairs(a,b,120.)[0]['status'],'lost_confirmation')
+
+
 if __name__=='__main__':unittest.main()
