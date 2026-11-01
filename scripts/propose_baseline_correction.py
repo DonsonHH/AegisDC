@@ -134,17 +134,29 @@ def compact_tables(data):
 def render_user(data):
     """Human-readable column text, not opaque compression; all six cards retained."""
     dumps=lambda x:json.dumps(x,separators=(',',':'))
+    def rule_text(rule):
+        base=Rule().to_dict();diff=[]
+        for k,v in rule.items():
+            if k=='source_weights':diff.extend(s+'='+str(w) for s,w in v.items() if w!=base[k][s])
+            elif v!=base[k]:diff.append(k+'='+str(v))
+        return 'H' if not diff else 'H except '+','.join(diff)
     lines=['Return one complete JSON object, all6 fields. mechanism<=12 English words. No markdown/code/extra fields.',
         'Example shape (already evaluated; do NOT copy):'+dumps(response_example()),
         'Domains: each source weight in[0,.5,1,2], not all0; freshness flat|linear300; penalties in[0,.05,.2,1]; margin in[0,.001,.01]. Same numeric values including -0 share identity.',
-        'Parent:'+dumps(data['parent']),
-        'Do not resubmit:'+dumps(data.get('already_evaluated_rules_no_resubmission',[])),
+        'Parent:'+rule_text(data['parent']),
+        'Already evaluated, forbidden duplicates:'+';'.join(rule_text(v) for v in data.get('already_evaluated_rules_no_resubmission',[])),
         data['formula'],data['source_semantics'],data['freshness_semantics'],
         'OFFLINE DEVELOPMENT: A/B are real single interventions from identical state/prefix, then restore Tour. No new validation. Unknown is not normal; proxy is not fault confirmation.',
         'Pareto parent update only if dominates parent in missed/wait/travel and not dominated by T/R. Tradeoffs archived, not formal progress; T remains reliable default.',
         'Metric vector M=missed,W=weighted censored wait(null healthy),C=travel m,V=service s,N=completions,U=remaining,P=pending,E=numeric errors. Order M,W,C,V,N,U,P,E.']
+    profiles=[]
     for row in data['six_condition_full_rollouts']:
-        lines.append(row['case']+' '+ ' '.join(k+'='+','.join('-' if v is None else str(v) for v in val) for k,val in row.items() if k!='case'))
+        for k,v in row.items():
+            if k!='case' and v[2:] not in profiles:profiles.append(v[2:])
+    lines.append('Cost profiles k(index)=C,V,N,U,P,E: '+';'.join('k'+str(i)+'='+','.join(str(v) for v in values) for i,values in enumerate(profiles)))
+    lines.append('Cohort entries method=M,W,cost_profile:')
+    for row in data['six_condition_full_rollouts']:
+        lines.append(row['case']+' '+ ' '.join(k+'='+str(val[0])+','+('-' if val[1] is None else str(val[1]))+',k'+str(profiles.index(val[2:])) for k,val in row.items() if k!='case'))
     lines.append('Component names n(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['component_names'])))
     lines.append('Source names s(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['origin_source_names'])))
     needed={k:set() for k in data['evidence_frames']}
@@ -167,7 +179,9 @@ def render_user(data):
     lines.append('Paired cases: A=actual T above (verified action/measurement equality). B-A vector is actual complete-episode difference, calculated before display rounding. Planned shifts positive=delay, include other tasks, task:seconds:target_round.')
     for card in data['paired_cards']:
         if card.get('no_root'):lines.append(card['case']+' no legal root');continue
-        shifts=' '.join(f'{t}:{seconds}:{r}' for t,seconds,r in card['planned_shifts_task_delta_s_target_round'])
+        groups={}
+        for task,seconds,r in card['planned_shifts_task_delta_s_target_round']:groups.setdefault(r,[]).append(f'{task}:{seconds}')
+        shifts=' '.join('round'+str(r)+'='+','.join(items) for r,items in groups.items())
         lines.append(f'{card["case"]} time={card["time_s"]} {card["evidence"]} u0 round={card["round"]} '+
             'A='+','.join(card['original'])+' B='+','.join(card['alternative'])+' shifts '+shifts+
             ' B-A='+','.join('-' if x is None else str(x) for x in card['actual_B_minus_A'])+
