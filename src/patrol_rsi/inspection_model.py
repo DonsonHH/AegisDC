@@ -1,4 +1,7 @@
-"""Shared task-score PPO with public-state critic and hard legal masks."""
+"""Optional shared PPO implementation; not active in the protected workflow demo.
+
+Retained as a research tool, not evidence of independent task benefit.
+"""
 from __future__ import annotations
 
 import numpy as np

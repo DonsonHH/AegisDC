@@ -3,8 +3,7 @@ import ast
 import json
 import math
 
-from .meta_schema import strict_json
-from .multistep_workflow import digest
+from .contracts import strict_json, digest
 
 FEATURES=('risk_delay','deadline_pressure','deadline_peak','travel_cost','freshness_delay')
 BASE_EXPRESSION='risk_delay + 0.2*deadline_pressure + 0.05*travel_cost'

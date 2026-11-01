@@ -1,14 +1,13 @@
 """Adapt only selection; the archived physical execution and safety kernel stay intact."""
 from copy import deepcopy
 from dataclasses import asdict,is_dataclass
-from unittest.mock import patch
 import math
 import numpy as np
 
 from .baseline_correction import Rule,rule_from_dict,relative_features,choose_advantage,advantage
 from .local_score import ScoreExpression,BASE_EXPRESSION
 from .reorder_execution import public_tasks,features_for,lower,run_reorder
-from .multistep_workflow import digest
+from .contracts import digest
 
 
 def native(x):
@@ -141,8 +140,8 @@ def correction_selector(env,policy,intervention):
 
 
 def execute_correction(spec,predictor,policy,intervention=None):
-    with patch('patrol_rsi.reorder_execution.choose_local',side_effect=lambda env,*_:correction_selector(env,policy,intervention)):
-        record,env=run_reorder(spec,predictor,{'method':'T'})
+    record,env=run_reorder(spec,predictor,{'method':'T'},
+        selector=lambda env,*_:correction_selector(env,policy,intervention))
     record['policy']=deepcopy(policy)
     record['root_candidates']=env.root_candidates if policy['kind']=='T' and intervention is None else {}
     record['intervention_verified']=getattr(env,'intervention_verified',None)

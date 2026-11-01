@@ -1,0 +1,2099 @@
+{
+  "schema": "core-migration-v1",
+  "source_commit": "f2c20b3a642ff1df9426e523614d3da9a5cf1129",
+  "scope": "Engineering migration equivalence only; not a new scientific comparison or performance improvement.",
+  "executed": {
+    "old_episodes": 4,
+    "new_episodes": 4,
+    "full_horizon_seconds": 1800,
+    "scientific_training": 0,
+    "LLM_calls": 0,
+    "real_CVAE_checkpoint_loaded": false
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Linux"
+  },
+  "compared": [
+    "process_fingerprint",
+    "full_action_log_sha256",
+    "full_completed_measurements_sha256",
+    "full_assignments_sha256",
+    "exact_task_gap_sha256",
+    "all_metrics_except_wall_clock_inference_time",
+    "history_stub_input_sequence_and_observed_call_times"
+  ],
+  "excluded": [
+    "history_estimator_inference_s is wall-clock timing only",
+    "internal object layout and state snapshot hashes may change after inheritance flattening"
+  ],
+  "history_stub": "50 + 20 * first context feature; deterministic interface fixture, NOT CVAE inference evidence. Callback call times were observed from the calling task public clock, not fabricated from the expected schedule.",
+  "result": "PASS",
+  "cases": [
+    {
+      "id": "nominal_T",
+      "old": {
+        "case": "nominal_T",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "method": "T"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "measurements_sha256": "b9f37707932e90bae3c2743cda3766a1848efc5a860108b825555ff29c306999",
+        "assignments_sha256": "6313249ec0cec1443baf5538e5b51fa4487be4b4455aadb08372125feaeead9d",
+        "exact_task_gaps_sha256": "d3f9509f3fadad472cd70f319e025b064275f025d8e40e6e0e9bac4b0c22213d",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1426,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "idle_s": 3846.599999999998,
+          "public_return": -0.24989780921039118,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 62,
+          "unfinished_committed_tasks": 32,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 514,
+          "reordered_plans": 0,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "new": {
+        "case": "nominal_T",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "method": "T"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "measurements_sha256": "b9f37707932e90bae3c2743cda3766a1848efc5a860108b825555ff29c306999",
+        "assignments_sha256": "6313249ec0cec1443baf5538e5b51fa4487be4b4455aadb08372125feaeead9d",
+        "exact_task_gaps_sha256": "d3f9509f3fadad472cd70f319e025b064275f025d8e40e6e0e9bac4b0c22213d",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1426,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "idle_s": 3846.599999999998,
+          "public_return": -0.24989780921039118,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 62,
+          "unfinished_committed_tasks": 32,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 514,
+          "reordered_plans": 0,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "exact_match": true
+    },
+    {
+      "id": "nominal_R",
+      "old": {
+        "case": "nominal_R",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "method": "expression",
+          "score_expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "6f1123e4484d560e46ad627b002e815bf5a2ff74ad11b1e843392336a5aef1e4",
+        "measurements_sha256": "a5e320c617662feeff29acc8f64aedd2ac03994d6d6847ac8b2eb87fe17f49f3",
+        "assignments_sha256": "b4373a36164375b996c695ca414ebfbca1f485174f39ecf1ed1ee3a0a15e571d",
+        "exact_task_gaps_sha256": "f15b0c1e16a637bfee260f7aecbb9b6adffd6d5a6a465cf6d68d364b42aa6e43",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 60.7061423377738,
+          "detected_only_mean_delay_s": 72.5,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1448,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11664.799999999996,
+          "service_s": 16890.0,
+          "idle_s": 3755.199999999999,
+          "public_return": -0.2238985286598017,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8833333333333333,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 40,
+          "unfinished_committed_tasks": 26,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 520,
+          "reordered_plans": 180,
+          "decision_points_with_alternative": 520
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "new": {
+        "case": "nominal_R",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "method": "expression",
+          "score_expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "6f1123e4484d560e46ad627b002e815bf5a2ff74ad11b1e843392336a5aef1e4",
+        "measurements_sha256": "a5e320c617662feeff29acc8f64aedd2ac03994d6d6847ac8b2eb87fe17f49f3",
+        "assignments_sha256": "b4373a36164375b996c695ca414ebfbca1f485174f39ecf1ed1ee3a0a15e571d",
+        "exact_task_gaps_sha256": "f15b0c1e16a637bfee260f7aecbb9b6adffd6d5a6a465cf6d68d364b42aa6e43",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 60.7061423377738,
+          "detected_only_mean_delay_s": 72.5,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1448,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11664.799999999996,
+          "service_s": 16890.0,
+          "idle_s": 3755.199999999999,
+          "public_return": -0.2238985286598017,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8833333333333333,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 40,
+          "unfinished_committed_tasks": 26,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 520,
+          "reordered_plans": 180,
+          "decision_points_with_alternative": 520
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "exact_match": true
+    },
+    {
+      "id": "nominal_H",
+      "old": {
+        "case": "nominal_H",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "kind": "correction",
+          "rule": {
+            "source_weights": {
+              "direct": 1.0,
+              "model": 1.0,
+              "power": 1.0,
+              "cross": 1.0
+            },
+            "freshness": "flat",
+            "travel_penalty": 0.05,
+            "deadline_penalty": 0.2,
+            "margin": 0.0
+          }
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "354ace0fc979e3c2d6ce864e8463d86416dff038ccc0201f37d08ed6048fe3dc",
+        "measurements_sha256": "d04e381593c826c7c33af9648ccbb2852456c6f067e4703eda2188bfe8471764",
+        "assignments_sha256": "994ee443fded64f5ca709073d5a7d572f19c6c8ed5e9898bf61ebee4c26a6eb3",
+        "exact_task_gaps_sha256": "b5790c79e7c5cc34b3154a2842a1f14262e5268a047121e96595d2184b23e397",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1427,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11799.299999999992,
+          "service_s": 16680.0,
+          "idle_s": 3830.699999999998,
+          "public_return": -0.24958967783290723,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.9333333333333333,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 61,
+          "unfinished_committed_tasks": 31,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 514,
+          "reordered_plans": 2,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "new": {
+        "case": "nominal_H",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "nominal"
+        },
+        "policy": {
+          "kind": "correction",
+          "rule": {
+            "source_weights": {
+              "direct": 1.0,
+              "model": 1.0,
+              "power": 1.0,
+              "cross": 1.0
+            },
+            "freshness": "flat",
+            "travel_penalty": 0.05,
+            "deadline_penalty": 0.2,
+            "margin": 0.0
+          }
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "354ace0fc979e3c2d6ce864e8463d86416dff038ccc0201f37d08ed6048fe3dc",
+        "measurements_sha256": "d04e381593c826c7c33af9648ccbb2852456c6f067e4703eda2188bfe8471764",
+        "assignments_sha256": "994ee443fded64f5ca709073d5a7d572f19c6c8ed5e9898bf61ebee4c26a6eb3",
+        "exact_task_gaps_sha256": "b5790c79e7c5cc34b3154a2842a1f14262e5268a047121e96595d2184b23e397",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1427,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11799.299999999992,
+          "service_s": 16680.0,
+          "idle_s": 3830.699999999998,
+          "public_return": -0.24958967783290723,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.9333333333333333,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 61,
+          "unfinished_committed_tasks": 31,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 0,
+          "local_plan_count": 514,
+          "reordered_plans": 2,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [],
+        "stub_input_sha256": [],
+        "stub_only_not_CVAE_scientific_result": false
+      },
+      "exact_match": true
+    },
+    {
+      "id": "history_stub_T",
+      "old": {
+        "case": "history_stub_T",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "history"
+        },
+        "policy": {
+          "method": "T"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "measurements_sha256": "b9f37707932e90bae3c2743cda3766a1848efc5a860108b825555ff29c306999",
+        "assignments_sha256": "6313249ec0cec1443baf5538e5b51fa4487be4b4455aadb08372125feaeead9d",
+        "exact_task_gaps_sha256": "d3f9509f3fadad472cd70f319e025b064275f025d8e40e6e0e9bac4b0c22213d",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1426,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "idle_s": 3846.599999999998,
+          "public_return": -0.25051034686627965,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 62,
+          "unfinished_committed_tasks": 32,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 60,
+          "local_plan_count": 514,
+          "reordered_plans": 0,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [
+          30.0,
+          60.0,
+          90.0,
+          120.0,
+          150.0,
+          180.0,
+          210.0,
+          240.0,
+          270.0,
+          300.0,
+          330.0,
+          360.0,
+          390.0,
+          420.0,
+          450.0,
+          480.0,
+          510.0,
+          540.0,
+          570.0,
+          600.0,
+          630.0,
+          660.0,
+          690.0,
+          720.0,
+          750.0,
+          780.0,
+          810.0,
+          840.0,
+          870.0,
+          900.0,
+          930.0,
+          960.0,
+          990.0,
+          1020.0,
+          1050.0,
+          1080.0,
+          1110.0,
+          1140.0,
+          1170.0,
+          1200.0,
+          1230.0,
+          1260.0,
+          1290.0,
+          1320.0,
+          1350.0,
+          1380.0,
+          1410.0,
+          1440.0,
+          1470.0,
+          1500.0,
+          1530.0,
+          1560.0,
+          1590.0,
+          1620.0,
+          1650.0,
+          1680.0,
+          1710.0,
+          1740.0,
+          1770.0,
+          1800.0
+        ],
+        "stub_input_sha256": [
+          {
+            "time_s": 30.0,
+            "input_sha256": "0ad6b6bf1335a7af5390cfd6eea9a8051546f597db20f796b056981ba097fefa"
+          },
+          {
+            "time_s": 60.0,
+            "input_sha256": "1962055f664821ed235263ab53e2eb12232d44edfe5e7750807620e0e3477f0a"
+          },
+          {
+            "time_s": 90.0,
+            "input_sha256": "f2edbb452edb9422d37f444fd3a60aff5a05d29d66a620c52ac4112cf897d7fb"
+          },
+          {
+            "time_s": 120.0,
+            "input_sha256": "952e057052de9ede7f3a43738eff8f73417502e1b20f125c112a8d4dad82d882"
+          },
+          {
+            "time_s": 150.0,
+            "input_sha256": "8460df1c343c4202aab33b3f71796ddf4a542494dd680e504d0c72cc5a326e5d"
+          },
+          {
+            "time_s": 180.0,
+            "input_sha256": "02494e66f1ad0275adc9404d5cb5e82dade4c37e2d81a91105e426798dbcd624"
+          },
+          {
+            "time_s": 210.0,
+            "input_sha256": "0885a3dfdffa4bf6aeff9e9cf5752bc4f53f41c86c865b526b7f31885a3a126d"
+          },
+          {
+            "time_s": 240.0,
+            "input_sha256": "ad3871eb51d5175b553dccfaf95021c629b0910d8f61afcc03c61a98fc1f143a"
+          },
+          {
+            "time_s": 270.0,
+            "input_sha256": "4d0225c311853d834cd7e557d24e49889bc21d075e1757875d2c6e4a2a11a676"
+          },
+          {
+            "time_s": 300.0,
+            "input_sha256": "06680271f14470ef029f447274aaccccaf6e0107b813633a7598e62b346f1bd7"
+          },
+          {
+            "time_s": 330.0,
+            "input_sha256": "7839ea279c885651d57786f600f86cc3f4c74676879675040ee4b634f401f694"
+          },
+          {
+            "time_s": 360.0,
+            "input_sha256": "5548fb002fee1740ff35d84ff71a8643af3b9f2c3acbc8cbebde5e0ac6e5f37c"
+          },
+          {
+            "time_s": 390.0,
+            "input_sha256": "52d28c4c7fbc11ca40501bee2818cd5f72b4edf3abd300a558c2dbf312a04d8d"
+          },
+          {
+            "time_s": 420.0,
+            "input_sha256": "017c87512f1a0f0be73b17e840884011802e00d7c13f31d68594e058693e48ec"
+          },
+          {
+            "time_s": 450.0,
+            "input_sha256": "50c570015a147cc6d3d508b3f990be088289ac6465877dab8f34c9414bc54b5b"
+          },
+          {
+            "time_s": 480.0,
+            "input_sha256": "67c631ab7825d9b6b897b890bd1a50928b50fc395d3ead2f5fb6020fc84abc79"
+          },
+          {
+            "time_s": 510.0,
+            "input_sha256": "90aea9d3757008dd4b2a51a658d6694c66ab5edc987daa33ec524d13d416a531"
+          },
+          {
+            "time_s": 540.0,
+            "input_sha256": "714326695c29fa0e6ff564659e436902a3c82f7e06b983e8a304552595bda5ff"
+          },
+          {
+            "time_s": 570.0,
+            "input_sha256": "7077bd69836d3e1ffb61f3b99c296e4b4d01152a72a01e1d113a8c724722e8c3"
+          },
+          {
+            "time_s": 600.0,
+            "input_sha256": "7209434a19b6365c4495120251e6e2c0e971df3aecba9b04fb8eaf862a48e640"
+          },
+          {
+            "time_s": 630.0,
+            "input_sha256": "1c6582b1f986d2559f26146ef00cddf446a6f1ccc65bcfb5edbf15a5e36f89bf"
+          },
+          {
+            "time_s": 660.0,
+            "input_sha256": "0d3a750535de248550011bab4273b27ebb25555df0334d527dd1177851469aab"
+          },
+          {
+            "time_s": 690.0,
+            "input_sha256": "1b210f89a5c56b5fe9190cda023dcc41fcf57cffd0b7ce46fde79f7c12d02e13"
+          },
+          {
+            "time_s": 720.0,
+            "input_sha256": "915c457fd707300938da4a71ed023cff7409482b4a36d3abb010290a44c255ab"
+          },
+          {
+            "time_s": 750.0,
+            "input_sha256": "483e7de91d9db48ac9b3947cab2d14297ce74c4e89c2a8336a483813b35b6f70"
+          },
+          {
+            "time_s": 780.0,
+            "input_sha256": "00cb447367c24ac94321505dbca228984dc22dcfe77763de5862522c8e4cd0ce"
+          },
+          {
+            "time_s": 810.0,
+            "input_sha256": "77c5aa2ab3f6e66ed0cef99d9168ddbf01e6da9e4fbf2f922f41f36e308ee0d9"
+          },
+          {
+            "time_s": 840.0,
+            "input_sha256": "7f1916e594336ea8e7d328e8980378a500417c59c7f725cc55c9c65c35b27437"
+          },
+          {
+            "time_s": 870.0,
+            "input_sha256": "65e3cc9570171d13373320f4d61a415e2d084606fa21110ebc1bb38e97fd6b94"
+          },
+          {
+            "time_s": 900.0,
+            "input_sha256": "1570057cdb8d5058b34fff37af33d3364ac7736d82d6d7b04245e3bb2e556529"
+          },
+          {
+            "time_s": 930.0,
+            "input_sha256": "a3f075c305e2c645f8ad606262ac9cd066f79c6bb227afc4bf7f1aff1288e812"
+          },
+          {
+            "time_s": 960.0,
+            "input_sha256": "cf0877bad8b7ec63d41d70054527dd6a0418d0f3227284f5a493c01c687d3c54"
+          },
+          {
+            "time_s": 990.0,
+            "input_sha256": "a463d906ce6ff8de7e7ac396c40870f00032c54ad6d7c51ce112160bfd68f8a4"
+          },
+          {
+            "time_s": 1020.0,
+            "input_sha256": "54e0f648215f027142ba75ec5ed22a7c55c68e38fa5898e31dd20dd0eab35fb8"
+          },
+          {
+            "time_s": 1050.0,
+            "input_sha256": "ac25857ec4a7367b4cb16902b663fe22f58ab79951b8751383d476cf76f282aa"
+          },
+          {
+            "time_s": 1080.0,
+            "input_sha256": "8dc17a391e56b716a200f3a6838fbda1c7292db44a6959cbb3a7e37f0114a33a"
+          },
+          {
+            "time_s": 1110.0,
+            "input_sha256": "4ed99304c0a894ca6d59abe101764001dd33386cf78bc2760b4bec7ed92e2b18"
+          },
+          {
+            "time_s": 1140.0,
+            "input_sha256": "8dc37e3c71ce7a8d36568cb5a1ee329f3bd02b8d2f3859198e64693ad0c7542f"
+          },
+          {
+            "time_s": 1170.0,
+            "input_sha256": "52c88c678ec0c5753e82da2c639a3e0a3ba839e7c7600b72a1445f5aa9159396"
+          },
+          {
+            "time_s": 1200.0,
+            "input_sha256": "63df867f1f7f56c05c5c9c3d84c1f5061fd5584a2a30c51bf4f64229405e3013"
+          },
+          {
+            "time_s": 1230.0,
+            "input_sha256": "e5234315e6333081fcc211dd45309e71c2a065e3d4058cdf79e6cdfc0c00815e"
+          },
+          {
+            "time_s": 1260.0,
+            "input_sha256": "e69c4103a0fe877bd042bb8ca95388495c0197263d145030b7c9c9fc0a51db1f"
+          },
+          {
+            "time_s": 1290.0,
+            "input_sha256": "d7d6eebdcdf1f2d202dcdb768b2a1856823f6f2f71373dfedf1b60f5b07284fa"
+          },
+          {
+            "time_s": 1320.0,
+            "input_sha256": "e2e609bd49d6de0354c2c2e74adfcfc05a8fce6e9b61c804fedc181d08203a05"
+          },
+          {
+            "time_s": 1350.0,
+            "input_sha256": "aefbe496f112cedaab4363414026ad46fed1915ee750af75f576054a5c7b43ce"
+          },
+          {
+            "time_s": 1380.0,
+            "input_sha256": "1fae00cf80186454ce8d97c2fc1ab4dc62da3e25829f96cd6c88c3e1db55ded5"
+          },
+          {
+            "time_s": 1410.0,
+            "input_sha256": "5cbc07b582465696ad4a27113651a5af847854197baafa48e0638c342a32fc35"
+          },
+          {
+            "time_s": 1440.0,
+            "input_sha256": "54a8d0ce98e7e6d83f6853334dabfff622d2b6be15f9ab35b9643a31daf077bf"
+          },
+          {
+            "time_s": 1470.0,
+            "input_sha256": "2bd177d26c6415f0b660eee6fa63982bde557897971c072a438b3b593c18d27f"
+          },
+          {
+            "time_s": 1500.0,
+            "input_sha256": "893a4d825bda6919ed36622c5a644c43d51ee754ac3d00490cb753a2387b046b"
+          },
+          {
+            "time_s": 1530.0,
+            "input_sha256": "cdea641b74464f9a0ad656e0735ba6f9356872c24ec14e01af1ed0df37f7f24f"
+          },
+          {
+            "time_s": 1560.0,
+            "input_sha256": "836c466eafa3f117e2da9b839972ec7a3b22f1e18db3ec4f6296e7b5781716d3"
+          },
+          {
+            "time_s": 1590.0,
+            "input_sha256": "d0f8d69c6095809ccf25169e6471ae0caa238c99321431ae85fe495c8b9cb272"
+          },
+          {
+            "time_s": 1620.0,
+            "input_sha256": "ede36e2335cf8b02ebe15a60e3ad1e12b439fd0ee10db660a288614504cea08c"
+          },
+          {
+            "time_s": 1650.0,
+            "input_sha256": "9d532312e6896805747d377542a393742c2f35a9cd464f3e7f8d31e7387efecd"
+          },
+          {
+            "time_s": 1680.0,
+            "input_sha256": "fa7e4c6bf1ef2197efe18cf23bddf26f6e8922b93fb02fdc02ad51413e1070fb"
+          },
+          {
+            "time_s": 1710.0,
+            "input_sha256": "442ed817a205857bfa50e699b70ac43ac534c8a0b3939ece0b3fb11944ed2941"
+          },
+          {
+            "time_s": 1740.0,
+            "input_sha256": "7b92650e2865cab6d83af85b1c388c2a59a15f52a4b379ee1c00f3d7b2aecda9"
+          },
+          {
+            "time_s": 1770.0,
+            "input_sha256": "d2d6b3371d36e1e24ef472a05b525d19af5a52c21e318e63308e5b457031eae0"
+          },
+          {
+            "time_s": 1800.0,
+            "input_sha256": "8a6a35ca79c80510ee5dea493072e972cf0d993d4d5a900e17bc3ac3234cebbc"
+          }
+        ],
+        "stub_only_not_CVAE_scientific_result": true
+      },
+      "new": {
+        "case": "history_stub_T",
+        "specification": {
+          "seed": 41000,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "duration_s": 180,
+          "fault_start_s": 335,
+          "noise_c": 0.2,
+          "estimator": "history"
+        },
+        "policy": {
+          "method": "T"
+        },
+        "process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+        "action_sha256": "9cdd310bfe9b4a6b477bb1beef9a2f795a61ed201b588603e20f65e5443d1086",
+        "measurements_sha256": "b9f37707932e90bae3c2743cda3766a1848efc5a860108b825555ff29c306999",
+        "assignments_sha256": "6313249ec0cec1443baf5538e5b51fa4487be4b4455aadb08372125feaeead9d",
+        "exact_task_gaps_sha256": "d3f9509f3fadad472cd70f319e025b064275f025d8e40e6e0e9bac4b0c22213d",
+        "metrics": {
+          "anomaly_segments": 6,
+          "confirmed_segments": 4,
+          "missed_segments": 2,
+          "miss_rate": 0.33333333333333337,
+          "consequence_weighted_censored_delay_s": 58.50731106967116,
+          "detected_only_mean_delay_s": 71.25,
+          "false_measured_confirmations": 0,
+          "completed_inspections": 1426,
+          "final_professional_coverage": 1.0,
+          "mean_overdue_fraction": 0.0,
+          "maximum_inspection_age_s": 305.0,
+          "travel_m": 11793.399999999992,
+          "service_s": 16670.0,
+          "idle_s": 3846.599999999998,
+          "public_return": -0.25051034686627965,
+          "invalid_assignments": 0,
+          "duplicate_reservations": 0,
+          "unserved_IT_kwh": 2.118460104716565,
+          "tasks_violating_exact_gap": 0,
+          "maximum_exact_gap_s": 310.0,
+          "maximum_exact_gap_ratio": 0.8,
+          "extra_checks": 0,
+          "completed_rounds_total": 136,
+          "current_round_unfinished_obligations": 62,
+          "unfinished_committed_tasks": 32,
+          "numeric_scoring_failures": 0,
+          "estimator_calls": 60,
+          "local_plan_count": 514,
+          "reordered_plans": 0,
+          "decision_points_with_alternative": 514
+        },
+        "action_steps": 359,
+        "estimator_call_times": [
+          30.0,
+          60.0,
+          90.0,
+          120.0,
+          150.0,
+          180.0,
+          210.0,
+          240.0,
+          270.0,
+          300.0,
+          330.0,
+          360.0,
+          390.0,
+          420.0,
+          450.0,
+          480.0,
+          510.0,
+          540.0,
+          570.0,
+          600.0,
+          630.0,
+          660.0,
+          690.0,
+          720.0,
+          750.0,
+          780.0,
+          810.0,
+          840.0,
+          870.0,
+          900.0,
+          930.0,
+          960.0,
+          990.0,
+          1020.0,
+          1050.0,
+          1080.0,
+          1110.0,
+          1140.0,
+          1170.0,
+          1200.0,
+          1230.0,
+          1260.0,
+          1290.0,
+          1320.0,
+          1350.0,
+          1380.0,
+          1410.0,
+          1440.0,
+          1470.0,
+          1500.0,
+          1530.0,
+          1560.0,
+          1590.0,
+          1620.0,
+          1650.0,
+          1680.0,
+          1710.0,
+          1740.0,
+          1770.0,
+          1800.0
+        ],
+        "stub_input_sha256": [
+          {
+            "time_s": 30.0,
+            "input_sha256": "0ad6b6bf1335a7af5390cfd6eea9a8051546f597db20f796b056981ba097fefa"
+          },
+          {
+            "time_s": 60.0,
+            "input_sha256": "1962055f664821ed235263ab53e2eb12232d44edfe5e7750807620e0e3477f0a"
+          },
+          {
+            "time_s": 90.0,
+            "input_sha256": "f2edbb452edb9422d37f444fd3a60aff5a05d29d66a620c52ac4112cf897d7fb"
+          },
+          {
+            "time_s": 120.0,
+            "input_sha256": "952e057052de9ede7f3a43738eff8f73417502e1b20f125c112a8d4dad82d882"
+          },
+          {
+            "time_s": 150.0,
+            "input_sha256": "8460df1c343c4202aab33b3f71796ddf4a542494dd680e504d0c72cc5a326e5d"
+          },
+          {
+            "time_s": 180.0,
+            "input_sha256": "02494e66f1ad0275adc9404d5cb5e82dade4c37e2d81a91105e426798dbcd624"
+          },
+          {
+            "time_s": 210.0,
+            "input_sha256": "0885a3dfdffa4bf6aeff9e9cf5752bc4f53f41c86c865b526b7f31885a3a126d"
+          },
+          {
+            "time_s": 240.0,
+            "input_sha256": "ad3871eb51d5175b553dccfaf95021c629b0910d8f61afcc03c61a98fc1f143a"
+          },
+          {
+            "time_s": 270.0,
+            "input_sha256": "4d0225c311853d834cd7e557d24e49889bc21d075e1757875d2c6e4a2a11a676"
+          },
+          {
+            "time_s": 300.0,
+            "input_sha256": "06680271f14470ef029f447274aaccccaf6e0107b813633a7598e62b346f1bd7"
+          },
+          {
+            "time_s": 330.0,
+            "input_sha256": "7839ea279c885651d57786f600f86cc3f4c74676879675040ee4b634f401f694"
+          },
+          {
+            "time_s": 360.0,
+            "input_sha256": "5548fb002fee1740ff35d84ff71a8643af3b9f2c3acbc8cbebde5e0ac6e5f37c"
+          },
+          {
+            "time_s": 390.0,
+            "input_sha256": "52d28c4c7fbc11ca40501bee2818cd5f72b4edf3abd300a558c2dbf312a04d8d"
+          },
+          {
+            "time_s": 420.0,
+            "input_sha256": "017c87512f1a0f0be73b17e840884011802e00d7c13f31d68594e058693e48ec"
+          },
+          {
+            "time_s": 450.0,
+            "input_sha256": "50c570015a147cc6d3d508b3f990be088289ac6465877dab8f34c9414bc54b5b"
+          },
+          {
+            "time_s": 480.0,
+            "input_sha256": "67c631ab7825d9b6b897b890bd1a50928b50fc395d3ead2f5fb6020fc84abc79"
+          },
+          {
+            "time_s": 510.0,
+            "input_sha256": "90aea9d3757008dd4b2a51a658d6694c66ab5edc987daa33ec524d13d416a531"
+          },
+          {
+            "time_s": 540.0,
+            "input_sha256": "714326695c29fa0e6ff564659e436902a3c82f7e06b983e8a304552595bda5ff"
+          },
+          {
+            "time_s": 570.0,
+            "input_sha256": "7077bd69836d3e1ffb61f3b99c296e4b4d01152a72a01e1d113a8c724722e8c3"
+          },
+          {
+            "time_s": 600.0,
+            "input_sha256": "7209434a19b6365c4495120251e6e2c0e971df3aecba9b04fb8eaf862a48e640"
+          },
+          {
+            "time_s": 630.0,
+            "input_sha256": "1c6582b1f986d2559f26146ef00cddf446a6f1ccc65bcfb5edbf15a5e36f89bf"
+          },
+          {
+            "time_s": 660.0,
+            "input_sha256": "0d3a750535de248550011bab4273b27ebb25555df0334d527dd1177851469aab"
+          },
+          {
+            "time_s": 690.0,
+            "input_sha256": "1b210f89a5c56b5fe9190cda023dcc41fcf57cffd0b7ce46fde79f7c12d02e13"
+          },
+          {
+            "time_s": 720.0,
+            "input_sha256": "915c457fd707300938da4a71ed023cff7409482b4a36d3abb010290a44c255ab"
+          },
+          {
+            "time_s": 750.0,
+            "input_sha256": "483e7de91d9db48ac9b3947cab2d14297ce74c4e89c2a8336a483813b35b6f70"
+          },
+          {
+            "time_s": 780.0,
+            "input_sha256": "00cb447367c24ac94321505dbca228984dc22dcfe77763de5862522c8e4cd0ce"
+          },
+          {
+            "time_s": 810.0,
+            "input_sha256": "77c5aa2ab3f6e66ed0cef99d9168ddbf01e6da9e4fbf2f922f41f36e308ee0d9"
+          },
+          {
+            "time_s": 840.0,
+            "input_sha256": "7f1916e594336ea8e7d328e8980378a500417c59c7f725cc55c9c65c35b27437"
+          },
+          {
+            "time_s": 870.0,
+            "input_sha256": "65e3cc9570171d13373320f4d61a415e2d084606fa21110ebc1bb38e97fd6b94"
+          },
+          {
+            "time_s": 900.0,
+            "input_sha256": "1570057cdb8d5058b34fff37af33d3364ac7736d82d6d7b04245e3bb2e556529"
+          },
+          {
+            "time_s": 930.0,
+            "input_sha256": "a3f075c305e2c645f8ad606262ac9cd066f79c6bb227afc4bf7f1aff1288e812"
+          },
+          {
+            "time_s": 960.0,
+            "input_sha256": "cf0877bad8b7ec63d41d70054527dd6a0418d0f3227284f5a493c01c687d3c54"
+          },
+          {
+            "time_s": 990.0,
+            "input_sha256": "a463d906ce6ff8de7e7ac396c40870f00032c54ad6d7c51ce112160bfd68f8a4"
+          },
+          {
+            "time_s": 1020.0,
+            "input_sha256": "54e0f648215f027142ba75ec5ed22a7c55c68e38fa5898e31dd20dd0eab35fb8"
+          },
+          {
+            "time_s": 1050.0,
+            "input_sha256": "ac25857ec4a7367b4cb16902b663fe22f58ab79951b8751383d476cf76f282aa"
+          },
+          {
+            "time_s": 1080.0,
+            "input_sha256": "8dc17a391e56b716a200f3a6838fbda1c7292db44a6959cbb3a7e37f0114a33a"
+          },
+          {
+            "time_s": 1110.0,
+            "input_sha256": "4ed99304c0a894ca6d59abe101764001dd33386cf78bc2760b4bec7ed92e2b18"
+          },
+          {
+            "time_s": 1140.0,
+            "input_sha256": "8dc37e3c71ce7a8d36568cb5a1ee329f3bd02b8d2f3859198e64693ad0c7542f"
+          },
+          {
+            "time_s": 1170.0,
+            "input_sha256": "52c88c678ec0c5753e82da2c639a3e0a3ba839e7c7600b72a1445f5aa9159396"
+          },
+          {
+            "time_s": 1200.0,
+            "input_sha256": "63df867f1f7f56c05c5c9c3d84c1f5061fd5584a2a30c51bf4f64229405e3013"
+          },
+          {
+            "time_s": 1230.0,
+            "input_sha256": "e5234315e6333081fcc211dd45309e71c2a065e3d4058cdf79e6cdfc0c00815e"
+          },
+          {
+            "time_s": 1260.0,
+            "input_sha256": "e69c4103a0fe877bd042bb8ca95388495c0197263d145030b7c9c9fc0a51db1f"
+          },
+          {
+            "time_s": 1290.0,
+            "input_sha256": "d7d6eebdcdf1f2d202dcdb768b2a1856823f6f2f71373dfedf1b60f5b07284fa"
+          },
+          {
+            "time_s": 1320.0,
+            "input_sha256": "e2e609bd49d6de0354c2c2e74adfcfc05a8fce6e9b61c804fedc181d08203a05"
+          },
+          {
+            "time_s": 1350.0,
+            "input_sha256": "aefbe496f112cedaab4363414026ad46fed1915ee750af75f576054a5c7b43ce"
+          },
+          {
+            "time_s": 1380.0,
+            "input_sha256": "1fae00cf80186454ce8d97c2fc1ab4dc62da3e25829f96cd6c88c3e1db55ded5"
+          },
+          {
+            "time_s": 1410.0,
+            "input_sha256": "5cbc07b582465696ad4a27113651a5af847854197baafa48e0638c342a32fc35"
+          },
+          {
+            "time_s": 1440.0,
+            "input_sha256": "54a8d0ce98e7e6d83f6853334dabfff622d2b6be15f9ab35b9643a31daf077bf"
+          },
+          {
+            "time_s": 1470.0,
+            "input_sha256": "2bd177d26c6415f0b660eee6fa63982bde557897971c072a438b3b593c18d27f"
+          },
+          {
+            "time_s": 1500.0,
+            "input_sha256": "893a4d825bda6919ed36622c5a644c43d51ee754ac3d00490cb753a2387b046b"
+          },
+          {
+            "time_s": 1530.0,
+            "input_sha256": "cdea641b74464f9a0ad656e0735ba6f9356872c24ec14e01af1ed0df37f7f24f"
+          },
+          {
+            "time_s": 1560.0,
+            "input_sha256": "836c466eafa3f117e2da9b839972ec7a3b22f1e18db3ec4f6296e7b5781716d3"
+          },
+          {
+            "time_s": 1590.0,
+            "input_sha256": "d0f8d69c6095809ccf25169e6471ae0caa238c99321431ae85fe495c8b9cb272"
+          },
+          {
+            "time_s": 1620.0,
+            "input_sha256": "ede36e2335cf8b02ebe15a60e3ad1e12b439fd0ee10db660a288614504cea08c"
+          },
+          {
+            "time_s": 1650.0,
+            "input_sha256": "9d532312e6896805747d377542a393742c2f35a9cd464f3e7f8d31e7387efecd"
+          },
+          {
+            "time_s": 1680.0,
+            "input_sha256": "fa7e4c6bf1ef2197efe18cf23bddf26f6e8922b93fb02fdc02ad51413e1070fb"
+          },
+          {
+            "time_s": 1710.0,
+            "input_sha256": "442ed817a205857bfa50e699b70ac43ac534c8a0b3939ece0b3fb11944ed2941"
+          },
+          {
+            "time_s": 1740.0,
+            "input_sha256": "7b92650e2865cab6d83af85b1c388c2a59a15f52a4b379ee1c00f3d7b2aecda9"
+          },
+          {
+            "time_s": 1770.0,
+            "input_sha256": "d2d6b3371d36e1e24ef472a05b525d19af5a52c21e318e63308e5b457031eae0"
+          },
+          {
+            "time_s": 1800.0,
+            "input_sha256": "8a6a35ca79c80510ee5dea493072e972cf0d993d4d5a900e17bc3ac3234cebbc"
+          }
+        ],
+        "stub_only_not_CVAE_scientific_result": true
+      },
+      "exact_match": true
+    }
+  ],
+  "source_files": [
+    {
+      "path": "src/patrol_rsi/active_inspection.py",
+      "sha256": "63d486edc35cfd7541a7b0d40cb6539e12c62198119c290a40bfe32c1aef7cc8"
+    },
+    {
+      "path": "src/patrol_rsi/aisles.py",
+      "sha256": "8364706d4c46565ca3fa028f31b79ce8a276b78cbaa6dee496014e4f57316739"
+    },
+    {
+      "path": "src/patrol_rsi/baseline_correction.py",
+      "sha256": "c909d223c2f2f5ad92168e950201a883198a0089e641204d53335b84f4195196"
+    },
+    {
+      "path": "src/patrol_rsi/correction_execution.py",
+      "sha256": "43f9e393744e11beb90947b0091bb41e5f9874d6364146dbd133254f68c964ea"
+    },
+    {
+      "path": "src/patrol_rsi/correction_selection.py",
+      "sha256": "25c271147fd374ae34d1c106a576956f748914b4b89e0b13045e83b4fbd68bbe"
+    },
+    {
+      "path": "src/patrol_rsi/coverage_plan.py",
+      "sha256": "21390989b7828655404b10d45c9ad252a48722438ac669fd7cb4b597d64403a2"
+    },
+    {
+      "path": "src/patrol_rsi/estimation.py",
+      "sha256": "3f8afc4227134e26e03a0499e4db422a7d616635abe3cd3b882cd4c788dd29c7"
+    },
+    {
+      "path": "src/patrol_rsi/estimation_model.py",
+      "sha256": "248fb23e9bb158743021bcea91d73231914ee22c40f87506a49e86ac027992bf"
+    },
+    {
+      "path": "src/patrol_rsi/facility.py",
+      "sha256": "df9e84214d8aa2b28c1d9ab7b8d7515d0863e62c697469ba7f85724a771cc102"
+    },
+    {
+      "path": "src/patrol_rsi/facility_observation.py",
+      "sha256": "9637c0d2d1cdb83426035dd3fb2aaed0cb267783771d22ba024ccffda4f21a57"
+    },
+    {
+      "path": "src/patrol_rsi/improver_task.py",
+      "sha256": "ae0b9fe02f320dc7b91172ba1131ae4fbd2867b67e870201667fb7a7610a1457"
+    },
+    {
+      "path": "src/patrol_rsi/inspection_contracts.py",
+      "sha256": "803bef71270d6a66ce985ae4b881865b4b3fd741567c02c67641adfb187a08ef"
+    },
+    {
+      "path": "src/patrol_rsi/inspection_metrics.py",
+      "sha256": "35d9a5831b8abccd80ed4a30d8ed7dbb8fe19fffb3913817e5ae932fe503379d"
+    },
+    {
+      "path": "src/patrol_rsi/inspection_model.py",
+      "sha256": "afee4776cf4d85b9b0e367ba8ef4f438dc89618ebd251a13a8d90abb42cd13a4"
+    },
+    {
+      "path": "src/patrol_rsi/local_reorder.py",
+      "sha256": "85c1b2352f5182104af8e2c6d128d970ce46bd2f6f92796581ca04e7f22e46bb"
+    },
+    {
+      "path": "src/patrol_rsi/local_score.py",
+      "sha256": "c53efe12369fa2f751068e8909cf431a293e0874365e2423c75dd572eaf9000b"
+    },
+    {
+      "path": "src/patrol_rsi/meta_schema.py",
+      "sha256": "8693b09f24286be102f2a05a2952ce30cb3419f58f688eb201ad898ba15b909e"
+    },
+    {
+      "path": "src/patrol_rsi/multistep_execution.py",
+      "sha256": "bdbdc94d19be495dc17715d5539d3b2d13da0302aba38da1386a6b628ff3daaf"
+    },
+    {
+      "path": "src/patrol_rsi/multistep_workflow.py",
+      "sha256": "861243d9c0c17e32502a95f34aae9f12242c4dd22a8904e86e7d118086677d83"
+    },
+    {
+      "path": "src/patrol_rsi/estimation_data.py",
+      "sha256": "b72d134c40b4f544c3f78858c3c274b001899b1064231538fd663ce52acfcd85"
+    },
+    {
+      "path": "src/patrol_rsi/m9.py",
+      "sha256": "69ed5fb8277b36aa92ec55b8a3773c0a708df9eeb0cfb68dd86b49be7406de27"
+    },
+    {
+      "path": "src/patrol_rsi/facility_workflow.py",
+      "sha256": "ceb537a132f3a7f9fc72797d9427f98015eac188991b62ffe773292681584a11"
+    },
+    {
+      "path": "src/patrol_rsi/reorder_execution.py",
+      "sha256": "1983304e312d9b66ddea52a16718f6f9a76bc43087c2d254f167d2e1307f3256"
+    }
+  ],
+  "validation_command": "PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+  "migration_runner_source": "import hashlib\nimport json\nimport sys\nimport inspect\nimport time\nfrom pathlib import Path\nimport numpy as np\nsys.path.insert(0, str(Path(sys.argv[1]) / 'src'))\nfrom patrol_rsi.reorder_execution import run_reorder\nfrom patrol_rsi.local_score import BASE_EXPRESSION\nfrom patrol_rsi.correction_execution import execute_correction\nfrom patrol_rsi.baseline_correction import Rule\n\ndef native(v):\n    if isinstance(v, np.ndarray): return native(v.tolist())\n    if isinstance(v, np.generic): return native(v.item())\n    if isinstance(v, dict): return {str(k): native(x) for k, x in v.items()}\n    if isinstance(v, (tuple, list)): return [native(x) for x in v]\n    return v\n\ndef digest(v):\n    return hashlib.sha256(json.dumps(native(v), sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()\n\nscenario = 'aux_feeder_loss+cdu_fouling'\nspec = {'seed': 41000, 'scenario': scenario, 'duration_s': 180, 'fault_start_s': 335, 'noise_c': .2, 'estimator': 'nominal'}\nkind = sys.argv[3]\ninputs = []\n\ndef stub(context):\n    inputs.append({'time_s': float(inspect.currentframe().f_back.f_locals['self'].clock), 'input_sha256': digest(context)})\n    return 50. + 20. * context[:, 0].astype(float)\n\nif kind == 'history_stub_T':\n    spec['estimator'] = 'history'\n    policy = {'method': 'T'}\n    record, env = run_reorder(spec, stub, policy)\nelif kind == 'nominal_H':\n    policy = {'kind': 'correction', 'rule': Rule().to_dict()}\n    record, env = execute_correction(spec, None, policy)\nelse:\n    policy = {'method': 'T'} if kind == 'nominal_T' else {'method': 'expression', 'score_expression': BASE_EXPRESSION}\n    record, env = run_reorder(spec, None, policy)\nmetrics = {k:v for k,v in record['metrics'].items() if k != 'history_estimator_inference_s'}\nsummary = {'case': kind, 'specification': spec, 'policy': policy,\n    'process_fingerprint': env.trace.fingerprint,\n    'action_sha256': record['action_sha256'],\n    'measurements_sha256': digest(record['inspection_events']),\n    'assignments_sha256': digest(record['assignments']),\n    'exact_task_gaps_sha256': digest(record['exact_task_gaps']),\n    'metrics': metrics, 'action_steps': len(record['action_log']),\n    'estimator_call_times': [v['time_s'] for v in inputs],\n    'stub_input_sha256': inputs, 'stub_only_not_CVAE_scientific_result': bool(inputs)}\nPath(sys.argv[2]).write_text(json.dumps(native(summary), ensure_ascii=False, indent=2)+'\\n')\nprint(json.dumps({'case':kind, 'actions':record['action_sha256'], 'completed':metrics['completed_inspections'], 'calls':len(inputs)}),flush=True)\n",
+  "self_contained_regression": {
+    "command": "PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 3.617,
+    "result": "PASS"
+  },
+  "portable_regression": {
+    "scope": "Engineering portability correction only. The original byte-exact migration result above is preserved as a same-environment historical result; no engine, equations, policy, measurements, scientific claims, or training changed.",
+    "diagnosis": {
+      "observed_CI_failure": "Python 3.11.17 / NumPy 2.3.5 / Ubuntu 26.04 failed the original raw-float process SHA expectation.",
+      "original_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+      "CI_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+      "controlled_reproduction": "The identical CI fingerprint was reproduced under the original Python 3.12.14 by disabling NumPy AVX512/AVX2/FMA3 CPU features only. Thus Python sum version changes are not necessary to explain the physical-array hash mismatch. No claim is made that Python 3.11 aggregate metrics are bit-identical before CI reruns.",
+      "physical_max_absolute_difference": {
+        "value": 7.450580596923828e-09,
+        "path": "process.process_scalars[201][3]",
+        "meaning": "stored_energy_kj"
+      },
+      "physical_max_relative_difference": {
+        "value": 1.3859803941638095e-13,
+        "path": "process.severity_proxy[205][107]"
+      },
+      "measurement_max_absolute_difference": 1.4210854715202004e-14,
+      "controlled_reproduction_exact": "actions, full assignments, all task gaps, labels, alarm flags, event times, all reported metrics, interval boundaries, all public float32 history inputs and callback times"
+    },
+    "reference": {
+      "path": "tests/fixtures/core-reference.json.gz",
+      "sha256": "6690ea03a9322a483448b9dd05cf4eeadb6b149a062e61938f37d6619ae8a96d",
+      "compressed_bytes": 2116744,
+      "source_commit": "f2c20b3a642ff1df9426e523614d3da9a5cf1129",
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.3.5",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+        "python": "3.12.14"
+      },
+      "generation": "Captured from the ORIGINAL checkout only, after verifying every recorded source file SHA. All four captures reproduced the original migration receipt hashes and metrics exactly. No current-engine outputs were accepted as new expectations.",
+      "original_episodes_rerun": 4,
+      "process_arrays": 9,
+      "process_numeric_values": 199568,
+      "completed_measurements_by_case": {
+        "history_stub_T": 1426,
+        "nominal_H": 1427,
+        "nominal_R": 1448,
+        "nominal_T": 1426
+      },
+      "public_history_input_shape": [
+        60,
+        128,
+        56
+      ],
+      "public_history_numeric_values": 430080,
+      "history_stub_not_CVAE_scientific_result": true,
+      "scientific_training": 0,
+      "LLM_calls": 0
+    },
+    "comparison_contract": {
+      "reference_identity": "SHA256 of the complete gzip fixture is pinned in the test, in addition to source commit and exact specification.",
+      "exact": [
+        "full action log and action digest",
+        "full assignment digest, including route and dispatch times",
+        "all exact task gaps",
+        "array keys, shapes, dtypes",
+        "every physical task-label mask",
+        "every measurement target, task ID, role, access/calibration flag, alarm and transition",
+        "all event and anomaly interval boundary times",
+        "integer counts and violations",
+        "all public history call times",
+        "history age, measured/verified masks and coordinate feature columns",
+        "by-role metrics",
+        "discrete event/interval scalar types, including Boolean versus integer"
+      ],
+      "continuous_float64": {
+        "rtol": 1e-12,
+        "atol": 1e-10,
+        "scope": "every original process-array value, every completed measurement value, every continuous aggregate metric, every anomaly weight"
+      },
+      "history_float32": {
+        "maximum_ULPs": 2,
+        "scope": "every public input value; discrete feature columns additionally require exact equality"
+      },
+      "nonfinite": "All reference values are finite; any NaN or infinity in actual values fails. No equal_nan behavior.",
+      "diagnostics": "Every case prints count, differing value count, maximum absolute and relative differences with array/field paths, maximum fraction of allowed error, and history ULP maximum. Diagnostics print even on numeric failure.",
+      "corruption_checks": [
+        "alarm flip",
+        "1e-12 completion-time change",
+        "missing event field",
+        "1e-6 measurement drift",
+        "NaN",
+        "infinity",
+        "three-ULP float32 drift",
+        "Boolean alarm changed to equal-valued integer"
+      ],
+      "historical_hashes": "Original physical, measurement and history byte hashes remain archived for source identity; they are not treated as portable equality assertions."
+    },
+    "reference_generation_command": "python /tmp/patrol_core_reference_generate.py /workspace/scratch/207a24314c44/Zhinengti-RSI-review /workspace/scratch/207a24314c44/Zhinengti-RSI-clean/tests/fixtures/core-reference.json.gz /workspace/scratch/207a24314c44/Zhinengti-RSI-clean/evidence/migration.json",
+    "reference_generation_source": "\"\"\"Capture original-engine values; never import or update the migrated engine.\"\"\"\nimport gzip\nimport hashlib\nimport inspect\nimport json\nimport platform\nimport subprocess\nimport sys\nfrom pathlib import Path\n\nimport numpy as np\n\noriginal, destination, receipt_path = map(Path, sys.argv[1:4])\nreceipt = json.loads(receipt_path.read_text())\nsource_sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=original, text=True).strip()\nassert source_sha == receipt['source_commit']\nfor entry in receipt['source_files']:\n    assert hashlib.sha256((original / entry['path']).read_bytes()).hexdigest() == entry['sha256'], entry['path']\nsys.path.insert(0, str(original / 'src'))\nfrom patrol_rsi.reorder_execution import run_reorder\nfrom patrol_rsi.correction_execution import execute_correction\nfrom patrol_rsi.baseline_correction import Rule\nfrom patrol_rsi.local_score import BASE_EXPRESSION\nfrom patrol_rsi.inspection_metrics import task_labels\n\ndef native(value):\n    if isinstance(value, np.ndarray):\n        return native(value.tolist())\n    if isinstance(value, np.generic):\n        return native(value.item())\n    if isinstance(value, dict):\n        return {str(key): native(item) for key, item in value.items()}\n    if isinstance(value, (tuple, list)):\n        return [native(item) for item in value]\n    return value\n\ndef digest(value):\n    return hashlib.sha256(json.dumps(native(value), sort_keys=True, separators=(',', ':'), allow_nan=False).encode()).hexdigest()\n\ndef array(value):\n    value = np.asarray(value)\n    return {'dtype': value.dtype.str, 'shape': list(value.shape), 'values': value.tolist()}\n\nspec = {'seed': 41000, 'scenario': 'aux_feeder_loss+cdu_fouling', 'duration_s': 180,\n        'fault_start_s': 335, 'noise_c': .2, 'estimator': 'nominal'}\nfixture = {'schema': 'core-numeric-reference-v1', 'source_commit': source_sha,\n           'source_files': receipt['source_files'], 'specification': spec,\n           'environment': {'python': platform.python_version(), 'numpy': np.__version__,\n                           'platform': platform.platform(), 'machine': platform.machine()},\n           'scope': 'Engineering migration only; deterministic history stub is not a trained CVAE result.',\n           'cases': {}}\nfor name in ('nominal_T', 'nominal_R', 'nominal_H', 'history_stub_T'):\n    contexts, call_times = [], []\n    def stub(context):\n        call_times.append(float(inspect.currentframe().f_back.f_locals['self'].clock))\n        contexts.append(context.copy())\n        return 50. + 20. * context[:, 0].astype(float)\n    case_spec = dict(spec, estimator='history') if name == 'history_stub_T' else spec\n    if name == 'nominal_H':\n        policy = {'kind': 'correction', 'rule': Rule().to_dict()}\n        record, env = execute_correction(case_spec, None, policy)\n    else:\n        policy = {'method': 'expression', 'score_expression': BASE_EXPRESSION} if name == 'nominal_R' else {'method': 'T'}\n        record, env = run_reorder(case_spec, stub if contexts or name == 'history_stub_T' else None, policy)\n    archived = next(case['old'] for case in receipt['cases'] if case['id'] == name)\n    metrics = {key: value for key, value in record['metrics'].items() if key != 'history_estimator_inference_s'}\n    # Original local identity must reproduce the original receipt before capture.\n    assert record['action_sha256'] == archived['action_sha256'], name\n    assert digest(record['inspection_events']) == archived['measurements_sha256'], name\n    assert digest(record['assignments']) == archived['assignments_sha256'], name\n    assert digest(record['exact_task_gaps']) == archived['exact_task_gaps_sha256'], name\n    assert env.trace.fingerprint == archived['process_fingerprint'], name\n    assert native(metrics) == archived['metrics'], name\n    if 'process_arrays' not in fixture:\n        fixture['process_arrays'] = {key: array(value) for key, value in env.trace.arrays.items()}\n        fixture['process_fingerprint'] = env.trace.fingerprint\n        fixture['task_label_mask'] = array(task_labels(env)[0])\n    fixture['cases'][name] = {'action_sha256': record['action_sha256'],\n        'measurements_sha256': digest(record['inspection_events']),\n        'assignments_sha256': digest(record['assignments']),\n        'exact_task_gaps_sha256': digest(record['exact_task_gaps']),\n        'metrics': native(metrics), 'inspection_events': native(record['inspection_events']),\n        'anomaly_intervals': native(record['anomaly_intervals']), 'by_role': native(record['by_role']),\n        'history_call_times': call_times}\n    if contexts:\n        fixture['cases'][name]['history_inputs'] = array(np.stack(contexts))\n        observed = [{'time_s': time, 'input_sha256': digest(context)} for time, context in zip(call_times, contexts)]\n        assert observed == archived['stub_input_sha256']\n    print(json.dumps({'case': name, 'matched_original_receipt': True, 'measurements': len(env.events), 'history_calls': len(contexts)}), flush=True)\nraw = json.dumps(fixture, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()\ncompressed = gzip.compress(raw, compresslevel=9, mtime=0)\ndestination.parent.mkdir(parents=True, exist_ok=True)\ndestination.write_bytes(compressed)\nprint(json.dumps({'fixture': str(destination), 'json_bytes': len(raw), 'gzip_bytes': len(compressed),\n                  'sha256': hashlib.sha256(compressed).hexdigest()}), flush=True)\n",
+    "validation_runs": [
+      {
+        "name": "original_runtime",
+        "command": "PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+        "environment": {
+          "machine": "x86_64",
+          "numpy": "2.3.5",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+          "python": "3.12.14"
+        },
+        "tests": 9,
+        "seconds": 4.062,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "result": "PASS",
+        "diagnostics": [
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_H",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1427
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "history_stub_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "case": "history_stub_T",
+            "public_history_inputs": {
+              "differing_values": 0,
+              "maximum_absolute": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_allowed_fraction": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_float32_ulps": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_relative": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "values": 430080
+            }
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_R",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1448
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522",
+            "case": "nominal_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[0].measurement.temperature_c",
+                  "value": 0.0
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.asset_weights[0]",
+                  "value": 0.0
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          }
+        ]
+      },
+      {
+        "name": "CI_fingerprint_reproduction",
+        "command": "NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512CD,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX2,FMA3 PYTHONPATH=src python -m unittest discover -s tests -p test_core_migration.py -v",
+        "environment": {
+          "machine": "x86_64",
+          "numpy": "2.3.5",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+          "python": "3.12.14"
+        },
+        "tests": 9,
+        "seconds": 4.162,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "result": "PASS",
+        "diagnostics": [
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_H",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1427
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "history_stub_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "case": "history_stub_T",
+            "public_history_inputs": {
+              "differing_values": 0,
+              "maximum_absolute": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_allowed_fraction": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_float32_ulps": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "maximum_relative": {
+                "path": "history_inputs[0][0][0]",
+                "value": 0.0
+              },
+              "values": 430080
+            }
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_R",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 131,
+                "maximum_absolute": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 9.411543117048773e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[835].measurement.temperature_c",
+                  "value": 2.7867761687677214e-16
+                },
+                "values": 1448
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          },
+          {
+            "actual_process_fingerprint": "ad7dfdca48bdf3f3e7a980c9fbf0fd6c91b8b13816b0f380e8a481e5378fbf6a",
+            "case": "nominal_T",
+            "comparisons": {
+              "interval_weights": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "anomaly_intervals[0].weight",
+                  "value": 0.0
+                },
+                "values": 6
+              },
+              "measurements": {
+                "differing_values": 120,
+                "maximum_absolute": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 1.4210854715202004e-14
+                },
+                "maximum_allowed_fraction": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 9.612424180340094e-05
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "inspection_events[824].measurement.temperature_c",
+                  "value": 2.9705953466536365e-16
+                },
+                "values": 1426
+              },
+              "metrics": {
+                "differing_values": 0,
+                "maximum_absolute": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_allowed_fraction": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "metrics.consequence_weighted_censored_delay_s",
+                  "value": 0.0
+                },
+                "values": 10
+              },
+              "process": {
+                "differing_values": 12096,
+                "maximum_absolute": {
+                  "path": "process.process_scalars[201][3]",
+                  "value": 7.450580596923828e-09
+                },
+                "maximum_allowed_fraction": {
+                  "path": "process.process_scalars[203][4]",
+                  "value": 0.0017340168054482896
+                },
+                "maximum_float32_ulps": {
+                  "path": null,
+                  "value": 0
+                },
+                "maximum_relative": {
+                  "path": "process.severity_proxy[205][107]",
+                  "value": 1.3859803941638095e-13
+                },
+                "values": 199568
+              }
+            },
+            "reference_process_fingerprint": "c47ad5db649813b54470c1fa8afefdffca1a3541abab201a0820f75fd2859522"
+          }
+        ]
+      }
+    ],
+    "status": "PASS in the original runtime and controlled NumPy CPU-dispatch reproduction of the CI fingerprint; Python 3.11 hosted CI rerun is still pending."
+  }
+}
