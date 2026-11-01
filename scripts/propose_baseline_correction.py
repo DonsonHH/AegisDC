@@ -164,17 +164,20 @@ def render_user(data):
         if not card.get('no_root'):
             needed[card['evidence']].update(t for t,delta,_ in card['planned_shifts_task_delta_s_target_round'] if delta!=0)
     used={origin for name,frame in data['evidence_frames'].items() for row in frame if row[0] in needed[name] for _,_,origin in row[-1]}
-    lines.append('Origin o: group,time_s,source_index,support. Support pod:local rack digits/group@time; ?=unknown. All group times causal. Component age=case time-origin time.')
+    display_origins=[];origin_alias={}
     for i,(group,stamp,source,contributors) in enumerate(data['origins_group_time_source_contributors']):
         if i not in used:continue
-        support=';'.join(pod+':r'+''.join(str(j) for j in members)+'/'+str(g or '?')+'@'+str(t if t is not None else '?') for pod,members,g,t in contributors)
-        lines.append(f'o{i} {data["origin_group_names"][group]},{stamp if stamp is not None else "?"},s{source} '+support)
+        origin=[group,stamp,source]
+        if origin not in display_origins:display_origins.append(origin)
+        origin_alias[i]=display_origins.index(origin)
+    lines.append('Origin o=group,time_s,source. Component age=case time-origin time. Cross/pod-power refer to task pod below; cross time is oldest max contributor. Individual rack-member details are in raw audit, not this prompt. ?=unknown.')
+    for i,(group,stamp,source) in enumerate(display_origins):lines.append(f'o{i} {data["origin_group_names"][group]},{stamp if stamp is not None else "?"},s{source}')
     lines.append('Evidence rows: task profession pod old_public_risk direct_readout_age estimate_output_time n:value@origin. ?=unknown, never normal. All tasks with nonzero planned shifts included. Unchanged tasks have zero gain contribution for any weights, not assumed normal; their IDs/shifts remain listed. Full snapshots preserved outside prompt.')
     for name,frame in data['evidence_frames'].items():
         lines.append(name+':')
         for task,profession,pod,risk,direct_age,outtime,components in frame:
             if task not in needed[name]:continue
-            parts=' '.join(f'n{n}:{value if value is not None else "?"}@o{origin}' for n,value,origin in components)
+            parts=' '.join(f'n{n}:{value if value is not None else "?"}@o{origin_alias[origin]}' for n,value,origin in components)
             lines.append(f'{task} {profession} {pod} {risk} {direct_age if direct_age is not None else "?"} {outtime if outtime is not None else "?"} '+parts)
     lines.append('Paired cases: A=actual T above (verified action/measurement equality). B-A vector is actual complete-episode difference, calculated before display rounding. Planned shifts positive=delay, include other tasks, task:seconds:target_round.')
     for card in data['paired_cards']:
@@ -224,8 +227,8 @@ def main():
             for d in sorted(own['local_decisions'],key=lambda v:(v['time_s'],v['agent'])):
                 previous=prior.get((d['time_s'],d['agent']))
                 if previous is None or previous['selected_order']!=d['selected_order']:
-                    ids={p['task']:'t'+str(k) for k,p in enumerate(d['public_tasks'])}
-                    first_plan={'case':'c'+str(n),'time_s':d['time_s'],'actor':'u0',
+                    ids={p['task']:'q1_t'+str(k) for k,p in enumerate(d['public_tasks'])}
+                    first_plan={'case':'c'+str(n),'time_s':d['time_s'],'actor':'q1_u0','namespace':'q1_ labels are a separate view, not paired-card t/u labels',
                         'original':[ids[j] for j in d['window']],
                         'child':[ids[j] for j in d['selected_order']],
                         'parent_observed':[ids.get(j,'other') for j in previous['selected_order']] if previous else None,
