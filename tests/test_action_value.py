@@ -74,6 +74,7 @@ class LabelTests(unittest.TestCase):
         a={'anomaly_intervals':[{'task_id':'thermal:0','onset_s':100.,'end_s':200.,'first_confirmation_s':150.}]}
         b={'anomaly_intervals':[{'task_id':'thermal:0','onset_s':100.,'end_s':200.,'first_confirmation_s':None}]}
         self.assertEqual(event_pairs(a,b,120.)[0]['status'],'lost_confirmation')
+        with self.assertRaises(ValueError):event_pairs(a,b,150.)
 
 
 if __name__=='__main__':unittest.main()

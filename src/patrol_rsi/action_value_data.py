@@ -25,7 +25,7 @@ def event_pairs(original,branch,root_time):
     for k,a in aa.items():
         b=bb[k];ta,tb=a['first_confirmation_s'],b['first_confirmation_s']
         status='both_missed' if ta is None and tb is None else 'new_confirmation' if ta is None else 'lost_confirmation' if tb is None else 'earlier' if tb<ta-1e-9 else 'later' if tb>ta+1e-9 else 'same'
-        if ta!=tb and any(t is not None and t<root_time-1e-9 for t in (ta,tb)):raise ValueError('Identical prefix cannot change a prior confirmation')
+        if ta!=tb and any(t is not None and t<=root_time+1e-9 for t in (ta,tb)):raise ValueError('Identical prefix cannot change a confirmation completed at/before the root')
         result.append({'task_id':k[0],'onset_s':k[1],'end_s':k[2],'original_first_s':ta,'candidate_first_s':tb,
             'status':status,'difference_s':tb-ta if ta is not None and tb is not None else None})
     return result

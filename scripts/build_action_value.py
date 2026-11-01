@@ -17,17 +17,19 @@ def main():
     frozen=read(root/'roots-frozen.json');branches=read(root/'branches-complete.json');protocol=read(source/STAGE/'protocol.json')
     need(branches['execution_signature']==frozen['execution_signature']==sig and branches['frozen_roots_sha256']==sha(root/'roots-frozen.json'),'Frozen complete branch cohort')
     need(len(branches['groups'])==len(frozen['roots'])<=24,'All selected roots represented')
+    need(len({v['root_id'] for v in branches['groups']})==len(frozen['roots']) and {v['root_id'] for v in branches['groups']}=={v['root_id'] for v in frozen['roots']},'Unique complete frozen-root set')
     groups=[];samples=[];checks={'prefix_states':0,'same_time_measurements':0,'all_legal_actions':True}
     for group in branches['groups']:
         r=next(r for r in frozen['roots'] if r['root_id']==group['root_id']);need(digest(r)==group['root_sha256'],'Root bytes before branch results')
         legal=[c for c in r['candidates'] if c['certificate']['ok']];original=next(c for c in legal if c['original'])
         actual={tuple(row['intervention']['execute_order']):row for row in group['rows']}
-        need(len(actual)==len(legal) and set(actual)=={tuple(c['order']) for c in legal},'Every safe permutation, including original, actually executed')
+        need(len(group['rows'])==len(actual)==len(legal) and set(actual)=={tuple(c['order']) for c in legal},'Every safe permutation once, including original, actually executed')
         base_row=actual[tuple(r['window'])];base=record(base_row)
         base_event={(e['task'],e['time_s']):e['measurement'] for e in base['inspection_events']}
         own=[]
         for c in legal:
             row=actual[tuple(c['order'])];value=record(row)
+            need(row['intervention']['root_id']==r['root_id'] and row['case_id']==r['case_id'] and row['group_id']==r['group_id'],'Exact root/case/development group in each branch')
             need(row['execution_signature']==sig and value['process_fingerprint']==r['process_fingerprint'],'Same kernel and physical process')
             state=value['intervention_verified'];need(digest(state['state_snapshot'])==state['state_sha256']==r['state_sha256'],'Actual full paired state')
             need(digest(value['action_log'][:state['prefix_steps']])==r['prefix_action_sha256'],'Actual paired prefix actions')
@@ -54,6 +56,15 @@ def main():
         groups.append({'root_id':r['root_id'],'case_id':r['case_id'],'group_id':r['group_id'],
             'legal_action_count':len(legal),**classify_root(own)})
     need(len(samples)<=144,'Finite action budget')
+    aliases={}
+    for row in samples:aliases.setdefault(digest(row['x']),[]).append(row)
+    conflicts=[]
+    for aliased in aliases.values():
+        for h,name in enumerate(('missed','wait_s','travel_m','completed')):
+            valid=[r for r in aliased if r['y'][h] is not None]
+            if valid and max(r['y'][h] for r in valid)-min(r['y'][h] for r in valid)>1e-9:
+                conflicts.append({'head':name,'samples':[r['sample_id'] for r in valid],'groups':sorted({r['group_id'] for r in valid}),
+                    'label_min':min(r['y'][h] for r in valid),'label_max':max(r['y'][h] for r in valid)})
     value={'schema':'public36-local-action-outcome-v1','execution_signature':sig,'feature_names':list(FEATURE_NAMES),
         'heads':['missed','wait_s','travel_m','completed'],'source_plan_sha256':protocol['plan_sha256'],
         'root_manifest_sha256':sha(root/'roots-frozen.json'),'branch_receipts_sha256':sha(root/'branches-complete.json'),
@@ -61,6 +72,8 @@ def main():
         'label_source_sha256':sha(source/'src/patrol_rsi/action_value_data.py'),'builder_sha256':sha(Path(__file__)),
         'all_development_groups':sorted({c['group_id'] for c in protocol['development']}),
         'samples':samples,'root_assessments':groups,'audit':checks,'missing_roots':frozen['missing'],
+        'public_root_contexts':{r['root_id']:{'time_s':r['time_s'],'public_tasks':r['public_tasks'],'shadow_H':r['shadow_H'],'shadow_R':r['shadow_R']} for r in frozen['roots']},
+        'identical_x_label_conflicts':conflicts,
         'semantics':'One realized full-episode intervention then Tour, not expected POMDP value. Only x enters models; masks/group/event fields are labels/audit only.'}
     write(root/'dataset.json',value);write(root/'dataset-seal.json',{'dataset_sha256':sha(root/'dataset.json'),'sample_count':len(samples),
         'root_count':len(groups),'execution_signature':sig,'complete_all_safe_actions':True,'feature_source_sha256':value['feature_source_sha256']})
