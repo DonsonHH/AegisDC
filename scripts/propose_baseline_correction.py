@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import signal
 import time
@@ -168,7 +169,7 @@ def render_user(data):
     if 'Q1_first_actual_numeric_failure' in data:lines.append('Q1 first numerical error:'+dumps(data['Q1_first_actual_numeric_failure']))
     if 'Q1_behavior_feedback' in data:lines.append('Q1 actual behavior changes:'+dumps(data['Q1_behavior_feedback']))
     if data.get('structural_failures'):lines.append('Previous billed invalid/duplicate outputs:'+dumps(data['structural_failures']))
-    return '\n'.join(lines)
+    return re.sub(r'(?<![\w.])(-?\d+)\.0(?![\w.])',r'\1','\n'.join(lines))
 
 
 def main():
