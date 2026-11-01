@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1];STAGE=ROOT/'research/2026-11-01-baselin
 REMOTE='/share/home/renly/renly-patrol-rsi/runs/20261101-baseline-correction/'
 sys.path[:0]=[str(ROOT/'src'),str(ROOT/'scripts')]
 from patrol_rsi.baseline_correction import Rule,rule_from_dict
-from patrol_rsi.correction_selection import vector,dominates,adopt
+from patrol_rsi.correction_selection import vector,dominates,adopt,retain
 from patrol_rsi.multistep_workflow import digest
 from patrol_rsi.local_score import ScoreExpression,BASE_EXPRESSION
 from propose_baseline_correction import parse_model_response
@@ -77,6 +77,7 @@ def main():
     started=time.perf_counter();cpu=time.process_time()
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,required=True);a=p.parse_args();run=a.run.resolve()
     actual_mode=(run/'actual-chain-complete.json').exists()
+    assert actual_mode,'Final actual-candidate chain required; a legacy phase checkpoint cannot seal the study'
     study=read(run/('actual-chain-complete.json' if actual_mode else 'study-complete.json'));base=study['references'];archive=study['archive'];sig=study['execution_signature']
     pairs=read(run/'pairs-complete.json');roots=read(run/'roots-frozen.json');labels=read(run/'pair-classification.json')
     assert pairs['frozen_roots_sha256']==sha(run/'roots-frozen.json') and labels['raw_pairs_sha256']==sha(run/'pairs-complete.json')
@@ -130,6 +131,11 @@ def main():
             'same_prefix_state_verified':True,'root_sha256':item['root_sha256']})
     qsteps=[v['step'] for v in study['actual_candidate_chain']] if actual_mode else [read(run/f'Q{i}-complete.json') for i in (1,2)]
     model_labels=('C1','C2') if actual_mode else ('Q1','Q2');simple=read(run/'S-complete.json')
+    for step in simple['rounds']+qsteps:
+        if step['candidate'] is not None:
+            selected,decision=retain(step['parent'],step['candidate'],base)
+            assert selected==step['selected'] and decision==step['selection']
+    assert qsteps[0]['parent']==archive['H'] and qsteps[1]['parent']==qsteps[0]['selected']
     behavior={}
     for label,step in zip(model_labels,qsteps):
         if step['candidate'] is None:behavior[label]={'status':'No executable child; no environment benefit evaluation'};continue
@@ -149,6 +155,7 @@ def main():
     assert len(attempts)<=60 and len(calls)<=4
     assert len(attempts)==len(list((run/'evaluations').glob('*/attempt.json')))
     assert len(cache)<=len(attempts),'Cannot use a stale global counter snapshot'
+    assert len(cache)==sum(read(p)['execution_signature']==sig for p in (run/'evaluations').glob('*/complete.json')),'Every completed current-kernel record must be delivered'
     assert {v['number'] for v in attempts}==set(range(len(attempts)))
     assert {v['number'] for v in calls}==set(range(len(calls)))
     model=[]
