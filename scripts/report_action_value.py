@@ -53,6 +53,16 @@ def main():
     original_tour={};root_selection_checks=0
     for receipt in tours['rows']:
         v=raw(receipt);decisions=sorted([d for d in v['local_decisions'] if d['legal_nonoriginal']],key=lambda d:(d['time_s'],d['agent']))
+        for d in decisions:
+            public=d['feature_rows'];original=next(c['certificate'] for c in d['candidates'] if c['original']);scores=[]
+            for c in d['candidates']:
+                if not c['certificate']['ok']:continue
+                total=0.
+                for j,row in public.items():
+                    cv=row['raw_cvae_temperature_c'];u=min(abs(cv-row['nominal_temperature_c'])/20.,1.) if cv is not None else 0.
+                    total+=row['weight']*(row['risk']/4.+u)*(original['first_completion_s'][j]-c['certificate']['first_completion_s'][j])/row['deadline_s']
+                scores.append(total/len(public))
+            need(abs(max(scores)-min(scores)-d['discrimination'])<1e-12,'Independent public discrimination formula')
         aa=next((d for d in decisions if d['shadow_H']!=d['window'] or d['shadow_R']!=d['window']),None)
         others=[d for d in decisions if aa is None or (d['time_s'],d['agent'])!=(aa['time_s'],aa['agent'])]
         maximum=max((d['discrimination'] for d in others),default=0.)
@@ -74,6 +84,12 @@ def main():
         prior={(e['task'],e['time_s']):e['measurement'] for e in base['inspection_events']}
         samples={tuple(r['order']):r for r in rows if r['root_id']==root['root_id']}
         original_cert=safe[tuple(root['window'])]['certificate']
+        logged_cv=root['state_snapshot']['av_raw_cvae']
+        for j,public in root['feature_rows'].items():
+            if public['raw_cvae_temperature_c'] is not None:
+                need(public['raw_cvae_time_s']==root['state_snapshot']['av_raw_cvae_time_s']<=root['time_s'],'Raw CVAE output timestamp in complete state')
+                # All sampled roots are thermal; for other professions contract uses pod mean.
+                if public['kind']=='thermal':need(public['raw_cvae_temperature_c']==logged_cv['values'][int(j)],'Raw output, not later direct assimilation')
         for receipt in group['rows']:
             v=raw(receipt);iv=v['intervention_verified']
             need(iv['state_sha256']==digest(iv['state_snapshot'])==root['state_sha256'],'Real complete state equality')
@@ -172,7 +188,10 @@ def main():
     result={'schema':'action-value-preexperiment-delivery-v1','completion_date':'2026-11-02','status':'completed_fixed_development_experiment',
         'protocol':read(STAGE/'protocol.json'),'budget':budget,'dataset_seal':seal,'data_contract':{'feature_names':list(FEATURE_NAMES),'only_model_input':'x numeric36',
             'heads':list(HEADS),'wait_null':'Label mask only, never inference input','grouping':'Whole underlying seed held out including all processes/roots/actions',
-            'metadata_not_inputs':['seed','scenario','root_id','root_type','event intervals','branch outcomes','wait_valid']},
+            'label_units':{'missed':'relative segment count,lower better','wait_s':'relative weighted censored seconds,lower better;valid mask labels only',
+                'travel_m':'relative meters,lower better','completed':'relative task completions,higher better'},
+            'original_anchor':'x=zero36; valid relative labels zero; healthy wait remains null',
+            'metadata_not_inputs':['group_id','seed','scenario','process_fingerprint','root_id','root_type','task_id','action_id','event intervals','branch outcomes','wait_valid']},
         'root_classifications':data['root_assessments'],'category_counts':categories,'Pareto_improvements_over_original':pareto_gains,
         'cost_gain_vs_original_rankings':dict(gain_rank),'public_shadow_choice_outcomes':shadow_choices,'qualified_detection_improvement_roots':len(detection_roots),
         'OOF_errors':errors,'zero_baseline_errors':zero,'OOF_rankings':ranks,'fold_results':fold_results,
