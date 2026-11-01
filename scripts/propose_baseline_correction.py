@@ -8,6 +8,7 @@ import time
 
 from patrol_rsi.baseline_correction import (Rule,rule_from_dict,parse_response,require_mutation,response_contract,response_example)
 from patrol_rsi.multistep_workflow import digest
+from patrol_rsi.local_score import ScoreExpression,BASE_EXPRESSION
 
 MODEL=Path('/share/home/renly/renly-patrol-rsi/models/Qwen3-8B-b968826d')
 COLUMNS=('missed_segments','consequence_weighted_censored_delay_s','travel_m','service_s',
@@ -67,7 +68,8 @@ def paired_feedback(value):
             'alternative':[ids[j] for j in root['alternative_order']],
             'planned_shifts_task_delta_s_target_round':shifts,
             'actual_A':metrics(pair['A']),'actual_B':metrics(pair['B']),
-            'category':pair['category'],'R_prefers_B':alt['score'][0]<orig['score'][0]-1e-9,
+            'actual_B_minus_A_exact_before_display':[short(pair['B']['metrics'][k]-pair['A']['metrics'][k]) if pair['A']['metrics'][k] is not None else None for k in COLUMNS],
+            'category':pair['category'],'R_prefers_B':ScoreExpression(BASE_EXPRESSION).evaluate(alt['features'])<ScoreExpression(BASE_EXPRESSION).evaluate(orig['features'])-1e-9,
             'paired_prefix_verified':pair['prefix_verified']})
     return {'evidence_columns':['task','profession','pod','original_public_risk','direct_age_s','estimate_output_s','components'],
         'component_columns':['name','group','value_or_null','time_s','age_s','source','max_or_power_contributors'],
@@ -116,9 +118,9 @@ def compact_tables(data):
     data['provenance_note']='Origin table retains each component group/time/source/contributors. Age=current paired public time minus origin time; task direct ages are separate. Values displayed at5 significant digits, raw records and Pareto labels use full precision.'
     for card in data['paired_cards']:
         if card.get('no_root'):continue
-        a,b=card.pop('actual_A'),card.pop('actual_B')
+        card.pop('actual_A');card.pop('actual_B')
         card['actual_A_ref']='T rollout in six_condition_full_rollouts; actual A was action/measurement verified identical.'
-        card['actual_B_minus_A']=[short(y-x) if x is not None else None for x,y in zip(a,b)]
+        card['actual_B_minus_A']=card.pop('actual_B_minus_A_exact_before_display')
     return data
 
 
