@@ -41,7 +41,8 @@ def audit_reorder(record,env):
             for key in ('completion_s','due_s'):
                 need(len(stored[key])==len(expected[key]) and all(close(a,b) for a,b in zip(stored[key],expected[key])),key)
             for key in ('segment_and_bridge_travel_s','minimum_slack_s','restored_period_s'):need(close(stored[key],expected[key]),key)
-            need(all(close(stored['first_completion_s'][k],v) for k,v in expected['first_completion_s'].items()),'first future completion')
+            first={str(k):v for k,v in stored['first_completion_s'].items()}
+            need(all(close(first[k],v) for k,v in expected['first_completion_s'].items()),'first future completion')
         elif 'failed_task' in expected:
             need(stored['failed_task']==expected['failed_task'] and close(stored['finish_s'],expected['finish_s']) and close(stored['due_s'],expected['due_s']),'rejected delayed task')
     timeline=[]

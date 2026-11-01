@@ -87,6 +87,9 @@ def evaluate_one(root,source,case,p,predictor):
         trace=get_trace(root,source,case);before=arrays_digest(trace.arrays)
         with patch('patrol_rsi.improver_task.phased_trace',return_value=trace):value,env=run_reorder(case['specification'],predictor,p)
         need(arrays_digest(trace.arrays)==before,'Inspection cannot modify plant')
+        value.update(case_id=case['case_id'],partition=case['partition'],process_fingerprint=trace.fingerprint,
+            execution_signature=signature,source_manifest_sha256=sha(source/'snapshot-manifest.json'))
+        path=area/'record.json.gz';write_gz(path,value)
         independent_schedule(value,env);independent_events(value,env);audit=audit_reorder(value,env)
         legacy=None
         if p['method']=='T' and case['partition']=='development':
@@ -99,9 +102,6 @@ def evaluate_one(root,source,case,p,predictor):
             order=lambda a:(a['time_s'],a['agent'])
             need(sorted(value['assignments'],key=order)==sorted(old['assignments'],key=order),'Tour physical task/path equality')
             legacy={'passed':True,'source_record_sha256':ref['record_sha256'],'old_scores_used_as_research_baseline':False}
-        value.update(case_id=case['case_id'],partition=case['partition'],process_fingerprint=trace.fingerprint,
-            execution_signature=signature,source_manifest_sha256=sha(source/'snapshot-manifest.json'))
-        path=area/'record.json.gz';write_gz(path,value)
         counts={}
         for d in value['local_decisions']:
             for c in d['candidates']:
