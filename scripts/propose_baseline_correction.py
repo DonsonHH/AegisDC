@@ -130,6 +130,47 @@ def compact_tables(data):
     return data
 
 
+def render_user(data):
+    """Human-readable column text, not opaque compression; all six cards retained."""
+    dumps=lambda x:json.dumps(x,separators=(',',':'))
+    lines=['Return one complete JSON object, all6 fields. mechanism<=12 English words. No markdown/code/extra fields.',
+        'Example shape (already evaluated; do NOT copy):'+dumps(response_example()),
+        'Domains: each source weight in[0,.5,1,2], not all0; freshness flat|linear300; penalties in[0,.05,.2,1]; margin in[0,.001,.01]. Same numeric values including -0 share identity.',
+        'Parent:'+dumps(data['parent']),
+        'Do not resubmit:'+dumps(data.get('already_evaluated_rules_no_resubmission',[])),
+        data['formula'],data['source_semantics'],data['freshness_semantics'],
+        'OFFLINE DEVELOPMENT: A/B are real single interventions from identical state/prefix, then restore Tour. No new validation. Unknown is not normal; proxy is not fault confirmation.',
+        'Pareto parent update only if dominates parent in missed/wait/travel and not dominated by T/R. Tradeoffs archived, not formal progress; T remains reliable default.',
+        'Metric vector M=missed,W=weighted censored wait(null healthy),C=travel m,V=service s,N=completions,U=remaining,P=pending,E=numeric errors. Order M,W,C,V,N,U,P,E.']
+    for row in data['six_condition_full_rollouts']:
+        lines.append(row['case']+' '+ ' '.join(k+'='+','.join('-' if v is None else str(v) for v in val) for k,val in row.items() if k!='case'))
+    lines.append('Component names n(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['component_names'])))
+    lines.append('Source names s(index):'+','.join(f'{i}={s}' for i,s in enumerate(data['origin_source_names'])))
+    lines.append('Origin o: group,time_s,source_index,support. Support pod:local rack digits/group@time; ?=unknown. All group times causal. Component age=case time-origin time.')
+    for i,(group,stamp,source,contributors) in enumerate(data['origins_group_time_source_contributors']):
+        support=';'.join(pod+':r'+''.join(str(j) for j in members)+'/'+str(g or '?')+'@'+str(t if t is not None else '?') for pod,members,g,t in contributors)
+        lines.append(f'o{i} {data["origin_group_names"][group]},{stamp if stamp is not None else "?"},s{source} '+support)
+    lines.append('Evidence rows: task profession pod old_public_risk direct_readout_age estimate_output_time n:value@origin. ?=unknown, never normal. All tasks in affected owned tour included.')
+    for name,frame in data['evidence_frames'].items():
+        lines.append(name+':')
+        for task,profession,pod,risk,direct_age,outtime,components in frame:
+            parts=' '.join(f'n{n}:{value if value is not None else "?"}@o{origin}' for n,value,origin in components)
+            lines.append(f'{task} {profession} {pod} {risk} {direct_age if direct_age is not None else "?"} {outtime if outtime is not None else "?"} '+parts)
+    lines.append('Paired cases: A=actual T above (verified action/measurement equality). B-A vector is actual complete-episode difference, calculated before display rounding. Planned shifts positive=delay, include other tasks, task:seconds:target_round.')
+    for card in data['paired_cards']:
+        if card.get('no_root'):lines.append(card['case']+' no legal root');continue
+        shifts=' '.join(f'{t}:{seconds}:{r}' for t,seconds,r in card['planned_shifts_task_delta_s_target_round'])
+        lines.append(f'{card["case"]} time={card["time_s"]} {card["evidence"]} u0 round={card["round"]} '+
+            'A='+','.join(card['original'])+' B='+','.join(card['alternative'])+' shifts '+shifts+
+            ' B-A='+','.join('-' if x is None else str(x) for x in card['actual_B_minus_A'])+
+            ' '+card['category']+' R_prefers_B='+str(card['R_prefers_B']))
+    if data.get('Q1_actual_result') is not None:lines.append('Q1 actual result and retained parent:'+dumps(data['Q1_actual_result']))
+    if 'Q1_first_actual_numeric_failure' in data:lines.append('Q1 first numerical error:'+dumps(data['Q1_first_actual_numeric_failure']))
+    if 'Q1_behavior_feedback' in data:lines.append('Q1 actual behavior changes:'+dumps(data['Q1_behavior_feedback']))
+    if data.get('structural_failures'):lines.append('Previous billed invalid/duplicate outputs:'+dumps(data['structural_failures']))
+    return '\n'.join(lines)
+
+
 def main():
     import torch
     from transformers import AutoTokenizer,AutoModelForCausalLM
@@ -151,6 +192,26 @@ def main():
     prompt,mapping=prompt_data(baselines,h,pairs,first);prompt=compact_tables(prompt);parent=h if index==1 else first['selected']
     if first is not None and first['candidate'] is not None:
         prompt['Q1_first_actual_numeric_failure']=next((failure for row in first['candidate']['rows'] for failure in record(row)['numeric_failures']),None)
+        behavior=[];first_plan=None
+        peers={r['case_id']:r for r in first['parent']['rows']}
+        for n,row in enumerate(first['candidate']['rows']):
+            own=record(row);old=record(peers[row['case_id']])
+            behavior.append(['c'+str(n),own['action_sha256']!=old['action_sha256'],own['metrics']['reordered_plans'],old['metrics']['reordered_plans']])
+            if first_plan is not None:continue
+            prior={(d['time_s'],d['agent']):d for d in old['local_decisions']}
+            for d in sorted(own['local_decisions'],key=lambda v:(v['time_s'],v['agent'])):
+                previous=prior.get((d['time_s'],d['agent']))
+                if previous is None or previous['selected_order']!=d['selected_order']:
+                    ids={p['task']:'t'+str(k) for k,p in enumerate(d['public_tasks'])}
+                    first_plan={'case':'c'+str(n),'time_s':d['time_s'],'actor':'u0',
+                        'original':[ids[j] for j in d['window']],
+                        'child':[ids[j] for j in d['selected_order']],
+                        'parent_observed':[ids.get(j,'other') for j in previous['selected_order']] if previous else None,
+                        'risk_and_component_sources':[[ids[p['task']],short(p['risk']),[[c['group'],short(c['value']),c['time_s']] for c in p['evidence_components']]] for p in d['public_tasks'] if p['task'] in d['window']],
+                        'planned_shifts':[[ids[v['task']],v['delta_completion_s'],v['target_round']] for v in d['completion_deltas_vs_original']],
+                        'scope':'Actual first recorded plan difference; full-episode metrics above include downstream harms.'}
+                    break
+        prompt['Q1_behavior_feedback']={'case_changed_child_reordered_parent_reordered':behavior,'first_plan':first_plan}
     simple=read(root/'S-complete.json');seen={Rule().identity}
     for step in simple['rounds']:seen.add(rule_from_dict(step['candidate']['policy']['rule']).identity)
     if first is not None and first['candidate'] is not None:seen.add(rule_from_dict(first['candidate']['policy']['rule']).identity)
@@ -166,7 +227,7 @@ def main():
     tokenizer=AutoTokenizer.from_pretrained(MODEL,local_files_only=True,trust_remote_code=False)
     if a.prepare_only:
         rendered=tokenizer.apply_chat_template([{'role':'system','content':'Output exactly the complete registered JSON object; source_weights is an OBJECT and mechanism is a short STRING. Do not copy previously evaluated rules.'},
-            {'role':'user','content':json.dumps(prompt,separators=(',',':'))}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
+            {'role':'user','content':render_user(prompt)}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
         tokens=len(tokenizer.encode(rendered))
         write(root/f'prompt-preflight-round{index}.json',{'prompt':prompt,'input_tokens':tokens,'within_4096':tokens<=4096,'real_model_generations':0,'anonymous_mapping':mapping})
         print('PROMPT_PREFLIGHT_TOKENS',index,tokens,flush=True);return
@@ -181,7 +242,7 @@ def main():
         'paired_feedback_receipt_sha256':sha(root/'pairs-complete.json'),'dtype':'float32','training':False})
     for _ in range(allowed):
         rendered=tokenizer.apply_chat_template([{'role':'system','content':'Output exactly the complete registered JSON object; source_weights is an OBJECT and mechanism is a short STRING. Do not copy previously evaluated rules.'},
-            {'role':'user','content':json.dumps(prompt,separators=(',',':'))}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
+            {'role':'user','content':render_user(prompt)}],tokenize=False,add_generation_prompt=True,enable_thinking=False)
         inputs=tokenizer(rendered,return_tensors='pt');count=int(inputs['input_ids'].numel())
         need(count<=4096,'4096-token pre-generation bound; compact tables without dropping any conditions')
         receipt=reserve(root,'model-calls',4,{'round':index,'parent_policy_id':parent['policy_id'],'execution_signature':sig})
