@@ -8,7 +8,7 @@
 
 | 项目 | 当前状态 |
 |---|---|
-| 可维护的执行入口 | `status`、`demo`、`explain`、`proposal`、`verify` 五个命令 |
+| 可维护的执行入口 | `status`、`demo`、`explain`、`proposal`、`verify`；`study`显式启动冻结研究 |
 | 默认巡检 | 名义状态估计＋固定巡回 Tour；可评价人工给定的受限局部规则 |
 | 学习工具 | CVAE需要外部冻结权重；PPO源码保留，但不参与默认局部调度 |
 | 已有科研证据 | 有真实仿真、模型修改和负结果；没有稳定任务增益或递归增益结论 |
@@ -46,6 +46,8 @@ python -m patrol_rsi proposal --candidate configs/candidate-example.json --outpu
 ```
 
 这个候选是人工样例，不是大模型生成结果；运行记录会标注`provided_json_no_model_called`。以上命令不会下载或调用Qwen，不会重训科研模型，也不会自动启动下一轮研究。
+
+正式反馈研究使用单独的 `study` 命令，方案与预算固定在 [configs/feedback-study.json](configs/feedback-study.json)。它需要一个已准备、通过权重校验的离线Slurm推理任务；`--ssh-host`使用本机已解锁的SSH认证，密钥不进入仓库。运行步骤、完整结果与原件索引统一放在 [反馈研究交付](evidence/feedback-study/README.md)。
 
 未安装包时，Bash先运行 `export PYTHONPATH="$PWD/src"`；PowerShell先运行 `$env:PYTHONPATH="$PWD\src"`，然后使用相同的 `python -m patrol_rsi ...` 命令。
 

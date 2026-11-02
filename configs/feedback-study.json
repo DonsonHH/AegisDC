@@ -1,0 +1,262 @@
+{
+  "id": "feedback-study-20261102-v1",
+  "question": "同一固定开源模型，在相同候选预算下，读取真实开发后果是否更容易提出有用巡检排序修改，并保持到新条件？",
+  "starting_commit": "71c2960552adaf19ae5133828338c62ef136ae02",
+  "development": [
+    {
+      "case_id": "development-00",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41000,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335
+      }
+    },
+    {
+      "case_id": "development-01",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41000,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335
+      }
+    },
+    {
+      "case_id": "development-02",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41000,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335
+      }
+    },
+    {
+      "case_id": "development-03",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41001,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335
+      }
+    },
+    {
+      "case_id": "development-04",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41001,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335
+      }
+    },
+    {
+      "case_id": "development-05",
+      "phase": "development",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 41001,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "case_id": "confirmation-00",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80521,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 705
+      }
+    },
+    {
+      "case_id": "confirmation-01",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80521,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705
+      }
+    },
+    {
+      "case_id": "confirmation-02",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80521,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705
+      }
+    },
+    {
+      "case_id": "confirmation-03",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80539,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 705
+      }
+    },
+    {
+      "case_id": "confirmation-04",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80539,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705
+      }
+    },
+    {
+      "case_id": "confirmation-05",
+      "phase": "confirmation",
+      "spec": {
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "seed": 80539,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705
+      }
+    }
+  ],
+  "known_development_seeds": [
+    41000,
+    41001,
+    42000,
+    42001,
+    62011,
+    62017
+  ],
+  "model": {
+    "id": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "manifest_sha256": "a1a327b7aee47f77c9348796bcb2d459d8792a8bc6644339b713668528af4361",
+    "dtype": "float16",
+    "attention": "eager",
+    "enable_thinking": false,
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "max_new_tokens": 512,
+    "paired_seeds": [
+      909001,
+      909002
+    ],
+    "torch": "2.7.1+cu126",
+    "transformers": "4.57.1",
+    "model_numpy": "2.3.4"
+  },
+  "tools": {
+    "estimator": "nominal",
+    "numpy": "2.3.5",
+    "PPO": false,
+    "CVAE": false,
+    "ridge": false,
+    "extra_checks": false,
+    "local_window_max": 3
+  },
+  "limits": {
+    "candidates_per_arm": 2,
+    "model_calls": 4,
+    "environment_attempts": 82,
+    "expected_max_main_attempts": 78,
+    "neural_training": 0,
+    "research_plus_preflight_attempts_cap": 90,
+    "regression_tests": "Separate deterministic engineering checks, never counted as independent research evidence or model candidate evaluations."
+  },
+  "parent_expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost",
+  "search": "Round1: multiply risk coefficient by10. Round2: reduce deadline coefficient by10 relative to retained parent. Same scalar DSL, no additional candidates.",
+  "selection": {
+    "safety": "Any assignment, reservation, exact revisit or numeric scoring violation rejects the candidate.",
+    "key": [
+      "mean_missed_segments",
+      "mean_wait_s + 0.01*mean_travel_m - 0.1*mean_completed_inspections",
+      "mean_travel_m",
+      "-mean_completed_inspections"
+    ],
+    "wait": "Mean only over conditions with anomaly segments; healthy wait remains null. Other means include all six conditions.",
+    "ties": "Retain parent if first differing key is not lower by more than1e-9.",
+    "tradeoffs": "Case-specific degradation allowed and reported. Mean missed segments has strict priority. All five final groups retain their actual selected strategy, including fallbacks."
+  },
+  "feedback": {
+    "F": "Parent and previous-candidate execution metrics, actual decision/measurement examples and development retention; offline evaluator outcomes explicitly training feedback.",
+    "N": "Task, DSL, common starting parent and previous own raw proposal/syntax result only; no execution outcome or retention decision. Round2 is still anchored at the original R.",
+    "forbidden": [
+      "confirmation outcomes",
+      "seed values",
+      "fault schedule",
+      "hidden fault labels",
+      "oracle actions",
+      "future arrays"
+    ]
+  },
+  "cache": "One completed evaluation per core source hash, canonical strategy and exact condition. Alias labels reference it; not independent trials.",
+  "confirmation_rule": "Seal selected rules before reading any confirmation outcome; each unique strategy-condition runs once; no further proposals.",
+  "interpretation": "Small paired pilot with two independent confirmation seeds and one proposal chain per model group; no statistical-power, general learning advantage or recursive improvement claim.",
+  "pre_freeze_audit": {
+    "discarded_confirmation_seeds": [
+      62011,
+      62017
+    ],
+    "reason": "A red-before-green guard test actually executed these six conditions before the confirmation gate existed. They are engineering-seen, never independent confirmation.",
+    "engineering_environment_attempts": 8,
+    "model_calls": 0,
+    "seen_confirmation_outcomes_used_for_candidate_choice": false
+  }
+}

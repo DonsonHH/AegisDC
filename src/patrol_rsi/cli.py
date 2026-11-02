@@ -249,9 +249,17 @@ def main(argv=None):
     p.add_argument("--output", required=True, help="必须是新目录")
     p = sub.add_parser("verify", help="工程检查＋历史证据复算，科研效果单独列出")
     p.add_argument("--output", required=True)
+    p = sub.add_parser("study", help="显式启动已冻结的反馈对比研究；会调用开源模型")
+    p.add_argument("--protocol", required=True)
+    p.add_argument("--output", required=True)
+    p.add_argument("--ssh-host", required=True)
+    p.add_argument("--mailbox", required=True, help="已启动的有限Slurm推理任务的共享目录")
     args = parser.parse_args(argv)
     try:
-        if args.command == "explain":
+        if args.command == "study":
+            from .feedback_study import run_study
+            result = run_study(args)
+        elif args.command == "explain":
             from .case_report import run_explanation
             result = run_explanation(args)
         else:

@@ -27,6 +27,7 @@ flowchart TD
 | 巡检策略 | `reorder_execution.py`、`baseline_correction.py`、`correction_execution.py` | Tour和受限局部规则；不能改物理过程、人员权限或评价标准 |
 | 约束检查 | `coverage_plan.py`、`local_reorder.py`、`inspection_contracts.py` | 路程、服务、任务账本和重访义务；只覆盖声明的静态、确定时间条件 |
 | 评价与入口 | `inspection_metrics.py`、`case_report.py`、`cli.py` | 漏检、等待、移动、服务、完成量和可读回看；少完成工作造成的省路程不能单报效率收益 |
+| 有限研究外循环 | `feedback_study.py`、`model_proposals.py` | 冻结方案、计数与缓存、隔离反馈、有限离线提案、先封存后确认；不修改原执行核 |
 
 主要实现入口位于 `src/patrol_rsi/`：`facility.py`处理物理过程，`facility_observation.py`处理观测和专业任务，`coverage_plan.py`处理返回计划，`baseline_correction.py`定义受限局部修正。运行统一从 `python -m patrol_rsi` 进入，不再从历史阶段脚本选择入口。
 
