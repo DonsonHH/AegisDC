@@ -18,6 +18,12 @@ class RiskEpisodes:
         self.ttl = ttl
 
     def observe(self, now, risks):
+        # Expired obligations must not suppress a fresh rising edge at this time.
+        # Continuous positive risk still does not reopen an expired episode.
+        for j, event in list(self.pending.items()):
+            if now > event['expires_s']:
+                event['status'] = 'expired'
+                del self.pending[j]
         for j, risk in enumerate(risks):
             high = float(risk) > 0
             if high and not self.high[j] and j not in self.pending:
@@ -27,10 +33,6 @@ class RiskEpisodes:
                 self.events.append(event)
                 self.pending[j] = event
             self.high[j] = high
-        for j, event in list(self.pending.items()):
-            if now > event['expires_s']:
-                event['status'] = 'expired'
-                del self.pending[j]
 
     def complete(self, completion):
         event = self.pending.get(completion['task'])

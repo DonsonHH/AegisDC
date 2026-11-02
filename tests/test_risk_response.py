@@ -6,6 +6,27 @@ SPEC=dict(seed=0,scenario='aux_feeder_loss+cdu_fouling',duration_s=180,
           fault_start_s=335,noise_c=.2,estimator='nominal',control='feedback',resources='provisioned')
 
 class RiskResponseTests(unittest.TestCase):
+    def test_expired_event_does_not_swallow_a_new_rising_edge(self):
+        ledger=RiskEpisodes(1)
+        ledger.observe(0,[.2])
+        ledger.observe(120,[0])
+        self.assertIn(0,ledger.pending)
+        ledger.observe(125,[.3])
+        self.assertEqual(len(ledger.events),2)
+        self.assertEqual(ledger.events[0]['status'],'expired')
+        self.assertEqual(ledger.pending[0]['visible_s'],125)
+        self.assertEqual(ledger.pending[0]['expires_s'],245)
+        ledger.observe(130,[.4])
+        self.assertEqual(len(ledger.events),2)
+
+    def test_expiry_without_a_new_rising_edge_does_not_reopen(self):
+        ledger=RiskEpisodes(1)
+        ledger.observe(0,[.2])
+        ledger.observe(125,[.3])
+        self.assertFalse(ledger.pending)
+        self.assertEqual(len(ledger.events),1)
+        self.assertEqual(ledger.events[0]['status'],'expired')
+
     def test_opportunity_rule_can_protect_a_lower_risk_waiting_task(self):
         import numpy as np
         from patrol_rsi.contracts import DeniedOnlineTrace
