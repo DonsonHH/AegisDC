@@ -1,5 +1,7 @@
 # 事件优先级对照：没有观察到新增排序收益
 
+旧实验完整原件已发布：[event-priority-20261102.zip](https://github.com/DonsonHH/Zhinengti-RSI/releases/download/event-studies-20261102-v1/event-priority-20261102.zip)。包内含51个原始索引文件、42份压缩轨迹、26个与封存SHA一致的源码文件、原始配置与选择记录；校验清单为`SHA256SUMS.json`。这是过期边界修复前的历史记录，没有重跑或替换结果。ZIP SHA256：`432bb03f3a0b47286deffe869898fc5e437fc6d0cd3c0996a5deaac08d648aec`。
+
 本轮方向：同一事件候选空间中，检验“先避免其他任务失去下一步检查机会”是否比先到先服务更有效。方案与规则见[冻结配置](../../configs/event-priority.json)。不增加人员、资格、候选权限或事件有效期，不打断在途任务；新排序只用当前公开信息和确定的移动/服务时间。
 
 ## 先解释旧问题
