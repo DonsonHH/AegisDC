@@ -31,17 +31,22 @@ def completed_request(folder, index, protocol_sha):
     response_path = folder / f"response-{index:02d}.json"
     started_path = folder / f"started-{index:02d}.json"
     if response_path.exists():
-        request = json.loads(request_path.read_text(encoding="utf-8"))
+        request, request_sha = read_request(request_path)
         response = json.loads(response_path.read_text(encoding="utf-8"))
         if (response["protocol_sha256"] != protocol_sha or request["protocol_sha256"] != protocol_sha
                 or response["call_index"] != index or request["call_index"] != index
-                or response["request_sha256"] != sha_file(request_path)
+                or response["request_sha256"] != request_sha or response["run_id"] != request["run_id"]
                 or response["status"] not in ("completed", "failed")):
             raise ValueError("Completed response identity mismatch")
         return request
     if started_path.exists():
         raise RuntimeError("Ambiguous started-only call; inspect its terminal job before resolving, never regenerate")
     return None
+
+
+def read_request(path):
+    content = path.read_bytes()
+    return json.loads(content.decode("utf-8")), hashlib.sha256(content).hexdigest()
 
 
 def main():
@@ -113,7 +118,7 @@ def main():
             time.sleep(1)
         if started_path.exists() or response_path.exists():
             raise RuntimeError("Another worker already claimed this request")
-        request = json.loads(request_path.read_text(encoding="utf-8"))
+        request, request_sha = read_request(request_path)
         if request["protocol_sha256"] != protocol_sha or request["call_index"] != index:
             raise ValueError("Wrong request identity")
         if run_id is not None and request["run_id"] != run_id:
@@ -124,7 +129,7 @@ def main():
         with started_path.open("x", encoding="utf-8") as stream:
             json.dump({"call_index": index, "protocol_sha256": protocol_sha, "status": "started"}, stream)
         result = {"call_index": index, "protocol_sha256": protocol_sha,
-                  "request_sha256": sha_file(request_path), "job_id": metadata["job_id"]}
+                  "request_sha256": request_sha, "run_id": run_id, "job_id": metadata["job_id"]}
         started = time.perf_counter()
         try:
             torch.manual_seed(request["seed"])

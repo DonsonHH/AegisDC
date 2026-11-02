@@ -28,13 +28,14 @@ from .reorder_execution import run_reorder
 
 
 def save_json(path, value):
+    encoded = (json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode("utf-8")
     temporary = path.with_name(path.name + ".tmp")
-    with temporary.open("w", encoding="utf-8") as stream:
-        json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
-        stream.write("\n")
+    with temporary.open("wb") as stream:
+        stream.write(encoded)
         stream.flush()
         os.fsync(stream.fileno())
     temporary.replace(path)
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def read_json(path):
@@ -212,7 +213,7 @@ class SSHMailbox:
         request = {"call_index": index, "protocol_sha256": self.protocol_sha, "run_id": self.run_id,
                    "messages": messages, "seed": seed}
         local = self.folder / f"request-{index:02d}.json"
-        save_json(local, request)
+        expected_sha = save_json(local, request)
         target = f"{self.remote}/request-{index:02d}.json"
         subprocess.run(["scp", *self.options, str(local), f"{self.host}:{target}.tmp"], check=True, timeout=30, capture_output=True)
         subprocess.run(["ssh", *self.options, self.host, f"mv -- {shlex.quote(target+'.tmp')} {shlex.quote(target)}"],
@@ -226,7 +227,7 @@ class SSHMailbox:
             if result.returncode == 0:
                 value = strict_json(result.stdout.decode("utf-8"))
                 if (value["protocol_sha256"] != self.protocol_sha or value["call_index"] != index
-                        or value["request_sha256"] != hashlib.sha256(local.read_bytes()).hexdigest()):
+                        or value["request_sha256"] != expected_sha or value["run_id"] != self.run_id):
                     raise ValueError("Model response identity mismatch")
                 return value
             time.sleep(2)

@@ -8,7 +8,7 @@ import subprocess
 from unittest.mock import patch
 
 from patrol_rsi.feedback_study import EvaluationStore, FeedbackStudy, SSHMailbox, build_messages, retain, save_json
-from patrol_rsi.model_proposals import completed_request, sha_file
+from patrol_rsi.model_proposals import completed_request, read_request, sha_file
 from patrol_rsi.local_score import BASE_EXPRESSION
 
 
@@ -56,7 +56,7 @@ class FeedbackIsolationTests(unittest.TestCase):
     def test_stale_mailbox_response_cannot_become_a_new_model_proposal(self):
         with tempfile.TemporaryDirectory() as folder:
             backend = SSHMailbox("fixture-host", "/fixture", folder, "protocol-sha", "fresh-run")
-            old = {"protocol_sha256": "protocol-sha", "call_index": 0, "request_sha256": "old-request",
+            old = {"protocol_sha256": "protocol-sha", "call_index": 0, "request_sha256": "old-request", "run_id": "old-run",
                    "status": "completed", "raw": "old reply"}
             outputs = [subprocess.CompletedProcess([], 0, b"", b""),
                        subprocess.CompletedProcess([], 0, b"", b""),
@@ -71,12 +71,22 @@ class FeedbackIsolationTests(unittest.TestCase):
             request = {"call_index": 0, "protocol_sha256": "p", "run_id": "run", "messages": []}
             path = folder / "request-00.json"
             path.write_text(json.dumps(request), encoding="utf-8")
-            response = {"protocol_sha256": "p", "call_index": 0, "request_sha256": sha_file(path), "status": "completed"}
+            response = {"protocol_sha256": "p", "call_index": 0, "request_sha256": sha_file(path), "status": "completed", "run_id": "run"}
             (folder / "response-00.json").write_text(json.dumps(response), encoding="utf-8")
             self.assertEqual(completed_request(folder, 0, "p")["run_id"], "run")
             (folder / "started-01.json").write_text("{}", encoding="utf-8")
             with self.assertRaisesRegex(RuntimeError, "started-only"):
                 completed_request(folder, 1, "p")
+
+    def test_request_identity_and_parsing_use_one_immutable_byte_snapshot(self):
+        import hashlib
+        a = b'{"prompt":"A"}'
+        b = b'{"prompt":"B"}'
+        with patch.object(Path, "read_bytes", side_effect=[a, b]) as reader:
+            request, identity = read_request(Path("fixture"))
+            self.assertEqual(request, {"prompt": "A"})
+            self.assertEqual(identity, hashlib.sha256(a).hexdigest())
+            self.assertEqual(reader.call_count, 1)
 
     def test_no_feedback_prompt_does_not_reveal_outcomes_or_retention(self):
         protocol = {"selection": {"rule": "fixed utility"}}
