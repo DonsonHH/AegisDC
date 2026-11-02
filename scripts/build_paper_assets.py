@@ -136,6 +136,15 @@ tables['LIFECYCLE'] = ('范围为12个主过程内各方法的全部风险事件
     table(['方法', '事件总数', '有效期内测量闭合', '过期未测', '晚测闭合', '回合末待处理'], life_table)+
     '\n\n下表为交叉属性及决策统计，不能与上表或彼此相加：正常闭合的分母为有效期内测量；同刻／先有信号的分母为全部已测（含晚测）；竞争的分母为存在合法且预算允许事件的决策。\n\n'+
     table(['方法', '正常/有效期内测量', '同刻/全部已测', '先有信号/全部已测', '多事件竞争/事件可选决策'], life_cross))
+search_summary = read(ROOT/'evidence/response-defer/summary.json')
+search_proposals = read(ROOT/'evidence/response-defer/proposals.json')
+assert search_summary['next_action'] == 'stop_no_improvement_found_in_registered_search'
+assert search_summary['environment_attempts'] == 108 and search_summary['model_calls'] == 0
+unique_search = {p['rule_sha256']:p for p in search_proposals}
+assert len(unique_search)==9 and max(70+p['aggregate']['net'] for p in unique_search.values())==60
+tables['SEARCH'] = table(['链', '规则', '确认/89段', '新增/丢失（相对FIFO）', '净增', '开发保留'],
+    [[p['chain'],p['proposal'],70+p['aggregate']['net'],f"{p['aggregate']['gained']}/{p['aggregate']['lost']}",
+      p['aggregate']['net'],'是' if p['aggregate']['eligible'] else '否'] for p in search_proposals])
 for key, value in tables.items():
     (GENERATED/('table_'+key.lower()+'.md')).write_text(value+'\n', encoding='utf-8', newline='\n')
 with (GENERATED/'table_main.csv').open('w', encoding='utf-8-sig', newline='') as stream:
@@ -242,9 +251,9 @@ ax.text(5.5, 2.55, 'New measurements update public information', ha='center', fo
 box(.25, .45, 2.65, 1.1, 'Hidden physical process', 'Fault labels and full state\nused only offline', color='#f3f4f5')
 box(4.1, .45, 2.65, 1.1, 'Offline evaluation', 'Confirmed / missed intervals\ntravel / service / revisit gaps', color='#f3f4f5')
 arrow((3.0, 1.0), (4., 1.0)); arrow((9.8, 3.1), (6.9, 1.5))
-box(8.0, .45, 2.7, 1.1, 'RQ3: planned selector', 'Respond or defer\nnot implemented in this study', color='#fff6e9', dashed=True)
+box(8.0, .45, 2.7, 1.1, 'RQ3: optional rule selector', 'Respond or defer interface\nfeedback gain not evaluated', color='#fff6e9', dashed=True)
 ax.text(.25, 4.65, 'Online: only public information enters selection', fontsize=11, weight='bold')
-ax.text(.25, 1.85, 'Retrospective truth and future workflow research', fontsize=10, color='#5e6d7b')
+ax.text(.25, 1.85, 'Offline evaluation and optional workflow interface', fontsize=10, color='#5e6d7b')
 save(fig, 'fig01_execution_framework')
 
 fig, ax = plt.subplots(figsize=(8.5, 5.0))
@@ -306,6 +315,9 @@ save(fig, 'fig03_paired_timeline')
 metric_snapshot = {'purpose': 'Writing derivatives only; no environment execution, training or model calls.',
                    'main': main, 'costs': cost_data,
                    'lifecycle_denominators': life_data,
+                   'response_search': {'actual_development_evaluations':108,'proposal_opportunities':12,
+                                       'unique_rules':9,'best_confirmed_segments':60,'baseline_confirmed_segments':70,
+                                       'model_calls':0,'new_confirmation_evaluations':0},
                    'primary_paired': primary, 'response_or_routine_opportunities': {
                        'extra_dispatches': extra, 'routine_head_also_certified': head_legal,
                        'independent_processes': 12, 'scope': 'Retrospective same-state feasibility count, not an intervention.'},
