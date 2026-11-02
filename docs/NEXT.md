@@ -6,7 +6,7 @@
 
 建议先读[一页导师讨论摘要](../paper/supervisor-brief.md)、[贡献表](../paper/research-map.md)及[机制主稿](../paper/manuscript_zh.md)。
 
-会面汇报可使用[五屏离线汇报页](../paper/supervisor-briefing.html)与[约5分钟口语讲稿及追问准备](../paper/supervisor-talk.md)，先看模拟场景，再看执行架构、主结果图、同一负责人时间轴和已完成成果。两种指定分辨率的截图与检查记录见[汇报改版记录](../paper/briefing-review.md)，[原四屏版](../paper/briefing-history/958e777c/supervisor-briefing.html)保留供对比。本次仅整理汇报材料，未新增研究执行。
+会面汇报可使用[五屏离线汇报页](../paper/supervisor-briefing.html)与[手动分阶段讲稿](../paper/supervisor-talk.md)，先看模拟场景，再看任务插入、主结果、同一负责人执行链和已完成成果。当前18个阶段全部手动，可逆、可跳至完整图；原五屏结构与科学结论保持。两种分辨率的阶段截图、打印与功能检查见[验证记录](../paper/briefing-review.md)，[静态原版与改动对比](../paper/briefing-comparison.md)保留可供回看。本次未新增研究执行。
 
 ## 已完成证据
 

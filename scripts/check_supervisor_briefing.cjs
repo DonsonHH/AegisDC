@@ -6,14 +6,15 @@ const {spawn} = require('node:child_process');
 const {pathToFileURL} = require('node:url');
 
 const root = process.cwd();
-const work = path.join(root, '.work/briefing-v2-browser');
-const previews = path.join(root, 'paper/generated/briefing-previews');
+const work = path.join(root, '.work/briefing-v3-browser');
+const previews = path.join(root, 'paper/generated/briefing-animation-previews');
 fs.mkdirSync(work, {recursive:true});
 fs.mkdirSync(previews, {recursive:true});
 const htmlPath = path.join(root, 'paper/supervisor-briefing.html');
 const copiedHtml = path.join(work, 'standalone.html');
 fs.copyFileSync(htmlPath, copiedHtml);
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const manifest = JSON.parse(fs.readFileSync(path.join(root,'paper/generated/briefing-manifest.json'),'utf8'));
 const report = {
   html_sha256: hash(htmlPath), manifest_sha256:hash(path.join(root, 'paper/generated/briefing-manifest.json')),
   checker_sha256:hash(__filename), offline_single_file:true, viewports:[], interactions:{},
@@ -49,9 +50,9 @@ async function click(selector){
   await send('Input.dispatchMouseEvent',{type:'mousePressed',...location,button:'left',clickCount:1});
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',...location,button:'left',clickCount:1});
 }
-async function key(key,code){
-  await send('Input.dispatchKeyEvent',{type:'keyDown',key,windowsVirtualKeyCode:code});
-  await send('Input.dispatchKeyEvent',{type:'keyUp',key,windowsVirtualKeyCode:code});
+async function key(key,code,modifiers=0){
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key,windowsVirtualKeyCode:code,modifiers});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key,windowsVirtualKeyCode:code,modifiers});
 }
 async function screen(number){
   await evaluate(`location.hash='#screen-${number}'`);
@@ -59,10 +60,11 @@ async function screen(number){
   await evaluate('document.fonts.ready.then(()=>true)');
   await delay(80);
 }
-async function inspect(width,height,number){
+async function settle(){await waitFor(`document.getAnimations().filter(a=>a.playState==='running').length===0`);}
+async function inspect(width,height,number,label){
   const result=await evaluate(`(()=>{
     const s=document.querySelector('.slide.is-active');
-    const toolbar=document.querySelector('.toolbar').getBoundingClientRect();
+    const toolbar=document.querySelector('.stage-controls').getBoundingClientRect();
     const outside=[];const sizes=[];const graphicOverflow=[];const textOverlaps=[];
     for(const svg of s.querySelectorAll('svg')){
       const v=svg.viewBox.baseVal;const m=svg.getScreenCTM();
@@ -86,14 +88,15 @@ async function inspect(width,height,number){
       visibleScreens:[...document.querySelectorAll('.slide')].filter(e=>!e.hidden&&getComputedStyle(e).display!=='none').length,
       toolbarTop:toolbar.top,sourceBottom:s.querySelector('.source-row').getBoundingClientRect().bottom,
       minimumSvgTextPx:Math.min(...sizes),svgTextOutsideViewBox:outside,graphicOverflow,svgTextOverlaps:textOverlaps,
-      nativeFigures:s.querySelectorAll('[data-native]').length,notesVisible:!!document.querySelector('dialog[open]')};
+      stage:s.dataset.stageIndex,caption:s.querySelector('.live-caption').textContent,captionFits:s.querySelector('.lead').scrollWidth<=s.querySelector('.lead').clientWidth,groups:[...s.querySelectorAll('[data-stage-key]')].map(e=>({key:e.dataset.stageKey,state:e.dataset.stageState,opacity:getComputedStyle(e).opacity})),geometry:[...s.querySelectorAll('svg')].map(e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height].map(v=>Math.round(v*100)/100)}),nativeFigures:s.querySelectorAll('[data-native]').length,notesVisible:!!document.querySelector('dialog[open]')};
   })()`);
   report.viewports.push(result);
-  const file=path.join(previews,`${width}x${height}-screen-${number}.png`);
+  const file=path.join(previews,`${width}x${height}-screen-${number}-${label}.png`);
   const screenshot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
   fs.writeFileSync(file,Buffer.from(screenshot.data,'base64'));
   report.screenshot_sha256[path.relative(root,file).replaceAll('\\','/')]=hash(file);
   assert(result.visibleScreens===1,'Visible screen count');
+  assert(result.captionFits,'Stage caption overflows');
   assert(result.documentWidth<=width,'Horizontal overflow');
   assert(result.documentHeight<=height,'Vertical scroll: '+number+' at '+width);
   assert(result.sourceBottom<result.toolbarTop-5,'Bottom controls cover content');
@@ -101,6 +104,7 @@ async function inspect(width,height,number){
   assert(result.graphicOverflow.length===0,'Graphic overflows its allocated area: '+JSON.stringify(result.graphicOverflow));
   assert(result.svgTextOverlaps.length===0,'SVG labels overlap: '+JSON.stringify(result.svgTextOverlaps));
   assert(result.minimumSvgTextPx>=15,'SVG text too small');
+  return result;
 }
 
 (async()=>{
@@ -128,10 +132,61 @@ async function inspect(width,height,number){
     await send('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
     await send('Page.navigate',{url:pathToFileURL(copiedHtml).href});
     await waitFor(`document.readyState==='complete'&&document.querySelectorAll('.slide').length===5`);
+    const stateSignature = value => JSON.stringify({stage:value.stage,caption:value.caption,groups:value.groups});
+    const geometry = new Map();
+    const expectedFocus = {
+      1:[['gap-check-645'],['gap-abnormality'],['gap-check-885'],['gap-conclusion']],
+      2:[['insertion-original'],['insertion-request'],['insertion-check'],['insertion-approved']],
+      3:[['bar-tour'],['bar-fifo','gain-net'],['bar-shuffled'],['paired-processes','travel-cost','completion-cost']],
+      4:[['chain-fifo-23'],['case-task-17'],['case-task-21']],
+      5:[['completed-work'],['registered-negative','feedback-unproven'],['supervisor-questions']],
+    };
+    await settle();
+    const initial = await evaluate(`document.querySelector('.slide.is-active').dataset.stageIndex`);
+    await delay(400);
+    assert(initial===await evaluate(`document.querySelector('.slide.is-active').dataset.stageIndex`),'Autoplay after load');
+    report.interactions.noAutoplayOnLoad=true;
+    let motionObserved=false;
     for(const [width,height] of [[1366,768],[1920,1080]]){
       await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
-      for(let number=1;number<=5;number++){await screen(number);await inspect(width,height,number);}
+      for(let number=1;number<=5;number++){
+        await screen(number);await click('#reset-stage');await settle();
+        const count=manifest.teaching_stages[number-1].stages.length;
+        const states=[];
+        for(let index=0;index<count;index++){
+          if(index){
+            await click('#next-stage');
+            const motions=await evaluate(`document.getAnimations().map(a=>({property:a.transitionProperty,duration:a.effect.getTiming().duration}))`);
+            if(motions.length){assert(motions.every(a=>a.property==='opacity'&&a.duration===180),'Unexpected motion property or duration');motionObserved=true;}
+            await settle();
+          }
+          const view=await inspect(width,height,number,'stage-'+(index+1));
+          assert(view.stage===String(index),'Wrong phase');
+          assert(view.caption===manifest.teaching_stages[number-1].stages[index].caption,'Caption mismatch');
+          for(const key of expectedFocus[number][index])assert(view.groups.some(g=>g.key===key&&g.state==='current'&&g.opacity==='1'),'Missing phase emphasis '+key);
+          const key=width+'-'+number;
+          if(!geometry.has(key))geometry.set(key,JSON.stringify(view.geometry));
+          else assert(geometry.get(key)===JSON.stringify(view.geometry),'Diagram moved between phases');
+          states.push(stateSignature(view));
+        }
+        for(let index=count-2;index>=0;index--){
+          await click('#previous-stage');await settle();
+          const back=await evaluate(`(()=>{const s=document.querySelector('.slide.is-active');return{stage:s.dataset.stageIndex,caption:s.querySelector('.live-caption').textContent,groups:[...s.querySelectorAll('[data-stage-key]')].map(e=>({key:e.dataset.stageKey,state:e.dataset.stageState,opacity:getComputedStyle(e).opacity}))}})()`);
+          assert(stateSignature(back)===states[index],'Reverse phase differs');
+        }
+        await click('#show-complete');await settle();
+        const full=await inspect(width,height,number,'complete');
+        assert(full.groups.every(g=>g.state==='complete'&&g.opacity==='1'),'Complete view still hides content');
+        assert(geometry.get(width+'-'+number)===JSON.stringify(full.geometry),'Complete view moved diagram');
+        await click('#previous-stage');await settle();
+        assert(await evaluate(`document.querySelector('.slide.is-active').dataset.stageIndex===${JSON.stringify(String(count-1))}`),'Return from complete view');
+        await click('#reset-stage');await settle();
+      }
     }
+    report.interactions.allStagesReversible=true;
+    report.interactions.skipToCompleteAndBack=true;
+    report.interactions.fixedDiagramGeometry=true;
+    report.interactions.pointerOpacityTransition=motionObserved;
     report.interactions.dataGraphics=await evaluate(`(()=>{
       const bars=[...document.querySelectorAll('[data-method]')].map(e=>[e.dataset.method,Number(e.dataset.count)]);
       return document.querySelectorAll('main [data-rack]').length===128&&document.querySelectorAll('main [data-agent]').length===18&&
@@ -140,21 +195,28 @@ async function inspect(width,height,number){
     report.interactions.twoDiscussionQuestions=await evaluate(`document.querySelectorAll('#screen-5 .discussion li').length===2`);
     await key('Home',36);await waitFor(`document.querySelector('.slide.is-active').id==='screen-1'`);
     report.interactions.firstPreviousDisabled=await evaluate(`document.querySelector('#previous').disabled`);
-    await click('#next');await waitFor(`document.querySelector('.slide.is-active').id==='screen-2'`);
-    await key('ArrowRight',39);await waitFor(`document.querySelector('.slide.is-active').id==='screen-3'`);
-    await key('ArrowLeft',37);await waitFor(`document.querySelector('.slide.is-active').id==='screen-2'`);
-    report.interactions.arrowsAndButtons=true;
+    await key(' ',32);await settle();
+    report.interactions.spaceAdvancesInstantly=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='1'&&!document.querySelector('#screen-1').classList.contains('step-motion')`);
+    await key(' ',32,8);await settle();
+    report.interactions.shiftSpaceReverses=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='0'`);
+    await click('#next-stage');await click('#previous-stage');await settle();
+    report.interactions.interruptedTransitionReverses=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='0'`);
+    await click('#next-stage');await settle();await key('ArrowRight',39);
+    await waitFor(`document.querySelector('.slide.is-active').id==='screen-2'`);
+    await click('#next-stage');await settle();await key('ArrowLeft',37);
+    await waitFor(`document.querySelector('.slide.is-active').id==='screen-1'`);
+    report.interactions.arrowsPreservePerScreenStage=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='1'&&document.querySelector('#screen-2').dataset.stageIndex==='1'`);
     await key('5',53);await waitFor(`document.querySelector('.slide.is-active').id==='screen-5'`);
     report.interactions.lastNextDisabled=await evaluate(`document.querySelector('#next').disabled`);
-    await key('n',78);await waitFor(`document.querySelector('#notes-dialog').open`);
-    report.interactions.notesMatchScreen=await evaluate(`document.querySelector('#notes-title').textContent.includes('第5屏')&&document.querySelector('.notes-section.is-active').textContent.includes('9条登记规则')`);
+    await click('#next-stage');await settle();await key('n',78);await waitFor(`document.querySelector('#notes-dialog').open`);
+    report.interactions.notesMatchStage=await evaluate(`document.querySelector('#notes-title').textContent.includes('阶段2')&&document.querySelector('.phase-note.is-current-note').textContent.includes('9条登记规则')`);
     await key('ArrowLeft',37);
-    report.interactions.dialogBlocksSlideNavigation=await evaluate(`document.querySelector('.slide.is-active').id==='screen-5'`);
+    report.interactions.dialogBlocksNavigation=await evaluate(`document.querySelector('.slide.is-active').id==='screen-5'&&document.querySelector('#screen-5').dataset.stageIndex==='1'`);
     await key('Escape',27);await waitFor(`!document.querySelector('#notes-dialog').open`);
     await key('q',81);await waitFor(`document.querySelector('#materials-dialog').open`);
     await click('#materials-dialog summary');
     report.interactions.faq=await evaluate(`document.querySelectorAll('#materials-dialog details').length===8&&document.querySelector('#materials-dialog details').open`);
-    report.interactions.pinnedSources=await evaluate(`[...document.querySelectorAll('#materials-dialog a')].every(a=>/d011e3229d65c03da1ebd0765e1c1c6fe829fff3|958e777c3a229bdabfe4e9448d6c2c01bc35b82a/.test(a.href))`);
+    report.interactions.pinnedSources=await evaluate(`[...document.querySelectorAll('#materials-dialog a')].every(a=>/d011e3229d65c03da1ebd0765e1c1c6fe829fff3|958e777c3a229bdabfe4e9448d6c2c01bc35b82a|c2e1dbec392456f293f8e6714555c7d4502e535a/.test(a.href))`);
     await key('Escape',27);await waitFor(`!document.querySelector('#materials-dialog').open`);
     for(const [number,keyName] of [[2,'framework'],[3,'paired'],[4,'timeline']]){
       await screen(number);await click(`#screen-${number} [data-figure="${keyName}"]`);
@@ -164,27 +226,41 @@ async function inspect(width,height,number){
       await key('Escape',27);await waitFor(`!document.querySelector('#figure-dialog').open`);
     }
     report.interactions.threeOriginalFigures=true;
+    let nativeCount=0;
     for(let number=1;number<=5;number++){
-      await screen(number);
+      await screen(number);await click('#show-complete');await settle();
       const count=await evaluate(`document.querySelectorAll('#screen-${number} [data-native]').length`);
-      for(let i=1;i<=count;i++){
-        // Find by DOM index so the fifth screen's mixed layout is handled too.
-        await evaluate(`document.querySelectorAll('#screen-${number} [data-native]')[${i-1}].id='native-check-target'`);
+      for(let i=0;i<count;i++){
+        await evaluate(`document.querySelectorAll('#screen-${number} [data-native]')[${i}].id='native-check-target'`);
         await click('#native-check-target');
         await waitFor(`document.querySelector('#figure-dialog').open&&document.querySelector('#large-figure').complete&&document.querySelector('#large-figure').naturalWidth>0`);
         await key('Escape',27);await waitFor(`!document.querySelector('#figure-dialog').open`);
-        await evaluate(`document.querySelector('#native-check-target').removeAttribute('id')`);
+        await evaluate(`document.querySelector('#native-check-target').removeAttribute('id')`);nativeCount++;
       }
     }
-    report.interactions.nineNativeFigures=true;
-    await screen(4);
-    report.interactions.caseTimingBoundary=await evaluate(`document.querySelector('#screen-4').textContent.includes('665秒已派出例行检查，685秒才出现风险提示')`);
+    report.interactions.completeNativeFigures=nativeCount===10;
+    await screen(1);await click('#reset-stage');await settle();
+    await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+    await click('#next-stage');
+    report.interactions.reducedMotion=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='1'&&document.getAnimations().length===0`);
+    await delay(500);
+    report.interactions.noAutoplayAfterStep=await evaluate(`document.querySelector('#screen-1').dataset.stageIndex==='1'`);
+    await send('Emulation.setEmulatedMedia',{features:[]});
     await click('#fullscreen');await waitFor('!!document.fullscreenElement');
     await click('#fullscreen');await waitFor('!document.fullscreenElement');report.interactions.fullscreen=true;
+    await send('Emulation.setEmulatedMedia',{media:'print'});
+    report.interactions.printComplete=await evaluate(`(()=>{
+      const all=[...document.querySelectorAll('main [data-stage-state]')];
+      return [...document.querySelectorAll('.slide')].every(e=>getComputedStyle(e).display==='block')&&all.every(e=>getComputedStyle(e).opacity==='1')&&
+        [...document.querySelectorAll('.overview-caption')].every(e=>getComputedStyle(e).display!=='none')&&getComputedStyle(document.querySelector('.stage-controls')).display==='none';
+    })()`);
+    const pdf=await send('Page.printToPDF',{landscape:true,printBackground:true,preferCSSPageSize:true});
+    const pdfPath=path.join(work,'complete-print.pdf');fs.writeFileSync(pdfPath,Buffer.from(pdf.data,'base64'));report.print_pdf_sha256=hash(pdfPath);
+    await send('Emulation.setEmulatedMedia',{media:'screen'});
     await send('Page.navigate',{url:pathToFileURL(copiedHtml).href+'#screen-5'});
     await waitFor(`document.readyState==='complete'&&document.querySelector('.slide.is-active')?.id==='screen-5'`);
     report.interactions.directLinkToFifth=true;
-    assert(Object.values(report.interactions).every(Boolean),'Interaction failure');
+    assert(Object.values(report.interactions).every(Boolean),'Content/function check failed: '+JSON.stringify(report.interactions));
     assert(report.externalRequests.length===0&&report.exceptions.length===0,'Network dependency or browser error');
     assert(hash(htmlPath)===report.html_sha256,'HTML changed during browser check');
     report.status='PASS';

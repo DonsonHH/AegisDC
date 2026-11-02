@@ -4,18 +4,20 @@
 
 ## 建议阅读顺序
 
-1. 汇报时打开[五屏离线汇报页](supervisor-briefing.html)，先建立模拟机房情境，再依次展示执行架构、数据结果、同一负责人案例和当前成果。[口语讲稿与追问准备](supervisor-talk.md)可用于约5分钟的预演，页面内也能按N查看当前讲稿、按Q查看追问。
+1. 汇报时打开[五屏离线汇报页](supervisor-briefing.html)，按每屏的“下一步／上一步”手动讲解，或点“完整图”直接看全部内容。[阶段讲稿与追问准备](supervisor-talk.md)与18个阶段一一对应，仍按约5分钟安排；N查看当前阶段讲稿，Q查看追问。
 2. [一页导师讨论摘要](supervisor-brief.md)：主要结果、负结果与需要讨论的贡献定位，适合会后阅读。
 3. [研究问题与贡献表](research-map.md)：主文RQ1—RQ2与证据边界。
 4. [正文](manuscript_zh.md)或[公式图表预览](manuscript_zh.html)：已收束的8章机制稿。
 
-五屏汇报页使用9张可编辑SVG主图，包括机房结构、实际漏检时间轴、新旧执行架构、总确认量柱状图、12过程净增图、两张案例时间轴、成果图和登记规则比较图。3张论文原图另放在点击放大的区域，图表与讲稿均内嵌。下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。方向键、数字1—5及底部按钮均可切屏；原文链接需要联网。
+五屏汇报沿用现有图并增加同一巡检员的关键执行链。各屏分别4、4、4、3、3个阶段，以局部透明度高亮／淡入解释顺序。鼠标触发180毫秒过渡，键盘与减少动态效果模式即时切换，无自动播放或循环。3张论文原图仍可点击放大，SVG导出、原图弹窗与打印都显示完整内容。
 
-[来源校验清单](generated/briefing-manifest.json)、[作图数据](generated/briefing-chart-data.json)、[SVG源图](figures/briefing-v2/)、[改版与验证记录](briefing-review.md)和[浏览器检查结果](generated/briefing-browser-verification.json)可复核当前交付。[原四屏成品](briefing-history/958e777c/supervisor-briefing.html)与[原讲稿](briefing-history/958e777c/supervisor-talk.md)按`958e777c`逐字节保留，供前后对比。
+下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。左右键、数字1—5和底部按钮翻页；空格下一步，Shift+空格上一步；“从头讲”只重置本屏。“完整图”可跳过阶段；翻页保留每屏进度。原文链接需要联网。
+
+[来源校验清单](generated/briefing-manifest.json)、[作图数据](generated/briefing-chart-data.json)、[完整SVG源图](figures/briefing-v3/)、[改动前后对比](briefing-comparison.md)、[验证记录](briefing-review.md)、[浏览器检查](generated/briefing-browser-verification.json)及[实际打印检查](generated/briefing-print-verification.json)可复核当前交付。[静态五屏原版](briefing-history/c2e1dbec/supervisor-briefing.html)与源文件按`c2e1dbec`逐字节保存；更早的[四屏版](briefing-history/958e777c/supervisor-briefing.html)也保留。
 
 成品已包含在仓库中。重新生成时运行`python scripts/build_supervisor_briefing.py`，只需Python标准库；该命令还会逐项核对时间线原件，因此需将[主验证Release](https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1)中的`p02-coupled-tour.json.gz`与`p02-coupled-fifo.json.gz`放入`runs/event-validation-amended-20261102`。生成过程不新增研究执行。
 
-本地浏览器复核命令为`node scripts/check_supervisor_briefing.cjs`，使用Node内置WebSocket与已安装的Chrome，验证单文件断网、1366×768与1920×1080的全部五屏及控制功能，输出对应截图和检查JSON。可用环境变量`BRIEFING_CHROME`指定浏览器程序路径。
+本地复核顺序为`node scripts/check_supervisor_briefing.cjs`、`python scripts/check_briefing_print.py`。浏览器脚本使用Node内置WebSocket与已安装的Chrome，核对单文件断网、两个指定分辨率下的全部18阶段和完整图、反向操作、减少动态效果、键盘及原图等功能，并输出阶段截图和临时完整打印PDF。可用`BRIEFING_CHROME`指定浏览器程序路径。打印脚本使用pypdf和Poppler读取、渲染这份PDF，核对五页及关键文字完整性；临时文件位于`.work/briefing-v3-browser`。
 
 ## 章节与材料
 

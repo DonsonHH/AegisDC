@@ -38,6 +38,7 @@ def main() -> None:
     read_bytes('scripts/build_supervisor_briefing.py')
     read_bytes('scripts/briefing_diagrams.py')
     read_bytes('scripts/check_supervisor_briefing.cjs')
+    read_bytes('scripts/check_briefing_print.py')
     metrics = read_json('paper/generated/metrics.json')
     summary = read_json('evidence/event-validation/final/summary.json')
     rows = read_json('evidence/event-validation/final/rows.json')
@@ -56,6 +57,9 @@ def main() -> None:
     for identity in baseline['files'].values():
         if 'sha256' in identity:
             assert hashlib.sha256(read_bytes(identity['archived_as'])).hexdigest() == identity['sha256']
+    animation_baseline = read_json('paper/briefing-history/c2e1dbec/baseline.json')
+    for identity in animation_baseline['files'].values():
+        assert hashlib.sha256(read_bytes(identity['archived_as'])).hexdigest() == identity['sha256']
 
     primary = [p for p in pairs if p['group'] == 'coupled']
     assert len(primary) == summary['primary_paired_processes'] == 12
@@ -126,6 +130,10 @@ def main() -> None:
     assert not t17['measurements'][0]['extra_event_visit']
     assert t17['dispatches'][0]['time_s'] == 665
     assert t17['public_events'][0]['visible_s'] == 685
+    t21 = timeline['tasks']['21']['fifo']
+    assert t21['measurements'][0]['extra_event_visit']
+    assert (t21['public_events'][0]['visible_s'], t21['dispatches'][0]['time_s'],
+            t21['measurements'][0]['time_s'], t21['interval']['end_s']) == (650, 705, 725, 710)
 
     # Data for the new explanatory diagrams comes only from these saved records.
     config = raw['tour']['process']['configuration']
@@ -176,9 +184,21 @@ def main() -> None:
                              for p in unique_rules.values()],
         'scope': 'Only saved simulation records. Diagrams redraw observations and execution logic, not new evaluations.',
     }
+    facts['execution_chains'] = {}
+    expected = {'tour': [(11, 605), (9, 620), (17, 645), (21, 695)],
+                'fifo': [(11, 605), (23, 635), (9, 665), (17, 690), (21, 725)]}
+    for method in ['tour', 'fifo']:
+        wanted = {task for task, _ in expected[method]}
+        events = [m for m in raw[method]['inspection_events']
+                  if m['agent'] == 1 and 605 <= m['time_s'] <= 725 and m['task'] in wanted]
+        assert [(m['task'], m['time_s']) for m in events] == expected[method]
+        facts['execution_chains'][method] = [
+            {'task': m['task'], 'completion_s': m['time_s'],
+             'extra_event_visit': bool(m.get('extra_event_visit', False))} for m in events]
+    facts['execution_chains']['scope'] = 'Same owner; key tasks only, intermediate visits omitted. Whole-policy trajectory comparison.'
     assert (facts['racks'], facts['inspectors'], facts['missed_gap']['gap_s']) == (128, 18, 240)
     diagrams = build_diagrams(facts)
-    diagram_folder = PAPER / 'figures/briefing-v2'
+    diagram_folder = PAPER / 'figures/briefing-v3'
     diagram_folder.mkdir(parents=True, exist_ok=True)
     diagram_hashes = {}
     for name, diagram in diagrams.items():
@@ -205,12 +225,27 @@ def main() -> None:
     talk = read_bytes('paper/supervisor-talk.md').decode('utf-8')
     notes = []
     talk_sections = []
+    lessons = []
     for number in range(1, 6):
         match = re.search(rf'^## {number} ([^\n]+)\n(.*?)(?=^## |\Z)', talk, flags=re.M | re.S)
         assert match, f'Missing talk section {number}'
-        talk_sections.append(match[2])
+        stages = re.findall(r'^### 阶段(\d+)：([^\n]+)\n(.*?)(?=^### |\Z)', match[2], re.M | re.S)
+        assert len(stages) == [4, 4, 4, 3, 3][number - 1]
+        phase_notes = []
+        lesson = {'screen': number, 'stages': []}
+        for index, (ordinal, label, spoken) in enumerate(stages):
+            assert int(ordinal) == index + 1
+            spoken = spoken.strip()
+            assert '\n\n' not in spoken, 'Each stage has one speaking paragraph'
+            caption = spoken.split('。', 1)[0] + ('。' if '。' in spoken else '')
+            talk_sections.append(spoken)
+            lesson['stages'].append({'label': label, 'caption': caption, 'spoken': spoken})
+            phase_notes.append(f'<section class="phase-note" data-note-stage="{index}"><h4>'
+                               + html.escape('阶段' + ordinal + '：' + label) + '</h4>'
+                               + paragraphs(spoken) + '</section>')
+        lessons.append(lesson)
         notes.append(f'<section class="notes-section" data-note="{number}"><h3>'
-                     + html.escape(match[1]) + '</h3>' + paragraphs(match[2]) + '</section>')
+                     + html.escape(match[1]) + '</h3>' + ''.join(phase_notes) + '</section>')
     faq_section = talk.split('## 追问准备\n', 1)[1].split('\n## 会后阅读', 1)[0]
     faqs = re.findall(r'^### ([^\n]+)\n(.*?)(?=^### |\Z)', faq_section, flags=re.M | re.S)
     assert len(faqs) == 8
@@ -231,9 +266,11 @@ def main() -> None:
         'SCENE_SVG': diagrams['facility'], 'GAP_SVG': diagrams['missed-gap'],
         'ARCHITECTURE_SVG': diagrams['execution'], 'RESULTS_SVG': diagrams['confirmations'],
         'PAIRS_SVG': diagrams['paired-net'], 'TIMELINE17_SVG': diagrams['task-17'],
+        'CHAIN_SVG': diagrams['execution-chain'],
         'TIMELINE21_SVG': diagrams['task-21'], 'COMPLETED_SVG': diagrams['completed-work'],
         'RULES_SVG': diagrams['registered-rules'],
         'FIGURE_DATA': json.dumps(figures, ensure_ascii=False).replace('</', '<\\/'),
+        'LESSON_DATA': json.dumps(lessons, ensure_ascii=False).replace('</', '<\\/'),
         'SOURCE_BASE': 'https://github.com/DonsonHH/Zhinengti-RSI/blob/d011e3229d65c03da1ebd0765e1c1c6fe829fff3',
         **time_values,
     }
@@ -247,7 +284,11 @@ def main() -> None:
     destination.write_text(output, encoding='utf-8', newline='\n')
     manifest = {
         'purpose': 'Comprehension-first five-screen supervisor briefing, derived from existing frozen evidence.',
-        'version': 2, 'previous_version': baseline['commit'],
+        'version': 3, 'previous_version': animation_baseline['commit'],
+        'teaching_stages': lessons,
+        'motion': {'trigger': 'manual_only', 'property': 'opacity', 'duration_ms': 180,
+                   'easing': 'cubic-bezier(0.23, 1, 0.32, 1)', 'keyboard_instant': True,
+                   'reduced_motion_instant': True, 'autoplay': False},
         'screens': 5, 'planned_seconds': [45, 60, 65, 75, 55],
         'main_processes': len(primary), 'main_segments': main_results['fifo'][1],
         'main_confirmations': {method: result[0] for method, result in main_results.items()},
