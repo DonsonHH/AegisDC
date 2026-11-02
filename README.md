@@ -6,6 +6,8 @@
 
 论文已按用户选择收束为[机制稿导师讨论版](paper/README.md)：[一页讨论摘要](paper/supervisor-brief.md)、[贡献表](paper/research-map.md)、[正文](paper/manuscript_zh.md)及[公式图表预览](paper/manuscript_zh.html)。主文中心为RQ1—RQ2，并保留同权限搜索负结果；反馈设计移至[独立备忘](paper/feedback-design.md)。
 
+向导师汇报可直接使用[四屏离线汇报页](paper/supervisor-briefing.html)与[约5分钟讲稿](paper/supervisor-talk.md)，按问题、结果、同一负责人的案例和搜索负结果展开。下载HTML后用Edge或Chrome打开即可，图表与讲稿已内嵌。
+
 最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。当前工作为导师讨论稿件，不安排新增实验，见[NEXT](docs/NEXT.md)。
 
 ## 现在做到哪里

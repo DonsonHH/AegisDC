@@ -6,6 +6,8 @@
 
 建议先读[一页导师讨论摘要](../paper/supervisor-brief.md)、[贡献表](../paper/research-map.md)及[机制主稿](../paper/manuscript_zh.md)。
 
+会面汇报可使用[四屏离线汇报页](../paper/supervisor-briefing.html)与[约5分钟讲稿及追问准备](../paper/supervisor-talk.md)，依次展示机制、主结果、同一负责人时间线和搜索负结果。本次仅整理汇报材料，未新增研究执行。
+
 ## 已完成证据
 
 - 事件确认包：108次成功执行、1次保留的工程失败；主分析12个过程，Tour/FIFO/置乱确认28/70/25段（共89段）。FIFO新增45、丢失3，平均净增3.50段，探索性区间[2.42,4.50]；移动+0.50%，完成量−0.33%，检查违规零。[交付](../evidence/event-validation/final/README.md)。

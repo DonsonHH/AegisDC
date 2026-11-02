@@ -4,9 +4,14 @@
 
 ## 建议阅读顺序
 
-1. [一页导师讨论摘要](supervisor-brief.md)：主要结果、负结果与需要讨论的贡献定位。
-2. [研究问题与贡献表](research-map.md)：主文RQ1—RQ2与证据边界。
-3. [正文](manuscript_zh.md)或[公式图表预览](manuscript_zh.html)：已收束的8章机制稿。
+1. 汇报时打开[四屏离线汇报页](supervisor-briefing.html)，按“问题和方法、整体成果、具体案例、当前进度”讲约5分钟。[讲稿与追问准备](supervisor-talk.md)可用于预演，页面内也能按N查看当前讲稿、按Q查看追问。
+2. [一页导师讨论摘要](supervisor-brief.md)：主要结果、负结果与需要讨论的贡献定位，适合会后阅读。
+3. [研究问题与贡献表](research-map.md)：主文RQ1—RQ2与证据边界。
+4. [正文](manuscript_zh.md)或[公式图表预览](manuscript_zh.html)：已收束的8章机制稿。
+
+四屏汇报页使用现有论文原图、封存结果和同一负责人的时间线，图表与讲稿均内嵌。下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。方向键、数字1—4及底部按钮均可切屏，点击图像可放大；原文链接需要联网。[来源校验清单](generated/briefing-manifest.json)记录数字与原件身份。
+
+成品已包含在仓库中。重新生成时运行`python scripts/build_supervisor_briefing.py`，只需Python标准库；该命令还会逐项核对时间线原件，因此需将[主验证Release](https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1)中的`p02-coupled-tour.json.gz`与`p02-coupled-fifo.json.gz`放入`runs/event-validation-amended-20261102`。生成过程不新增研究执行。
 
 ## 章节与材料
 
