@@ -79,6 +79,13 @@ def status():
         result["已证明的范围"] = "预定12个热—冷耦合过程中的FIFO事件响应收益、成本及风险位置对照；见完整报告的适用范围"
         result["尚未证明"] = "跨域或四专业全面泛化、模型反馈独立贡献、递归改进增益、现场有效性"
         result["唯一下一任务"] = "本验证包已结束并冻结FIFO研究基线；下一阶段准备现在插入/暂缓的有限后果反馈协议，见docs/NEXT.md"
+    search = ROOT / "evidence/response-defer/summary.json"
+    if search.exists():
+        receipt = strict_json(search.read_text(encoding="utf-8"))
+        result["响应暂缓开发搜索"] = {"environment_attempts":receipt["environment_attempts"],
+            "candidate_opportunities":receipt["candidate_opportunities"],"decision":receipt["next_action"],
+            "model_calls":receipt["model_calls"],"read":"evidence/response-defer/README.md"}
+        result["唯一下一任务"] = "搜索未找到改进，按门槛停止；明确论文主线或另立新假设，不自动追加模型调用，见docs/NEXT.md"
     return result
 
 

@@ -1,10 +1,10 @@
 {
   "date": "2026-11-02",
-  "base_repository_commit": "a3c44c4f48c85a19d43465f81f08d2b09eeee735",
+  "base_repository_commit": "106b3d55",
   "writing_readiness": "ready_for_structure_and_evidence_backed_body_draft",
   "submission_readiness": "not_assessed",
   "active_research_question": "RQ3 response/defer workflow improvement from real consequences",
-  "new_environment_evaluations": 0,
+  "new_environment_evaluations": 108,
   "new_model_calls": 0,
   "new_training": 0,
   "claims": [
@@ -20,7 +20,7 @@
       "sources": [
         {
           "path": "src/patrol_rsi/risk_response.py",
-          "sha256": "1ffb477fc25079679284aead05c7f52e67e14c7c5ab348c0baba61e1e9dde355",
+          "sha256": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
           "detail": "RiskEpisodes.observe/complete; ResponseTask.choose/step"
         },
         {
@@ -99,7 +99,7 @@
     },
     {
       "id": "C4-RQ3",
-      "status": "planned_not_implemented_or_executed",
+      "status": "interface_implemented_search_stopped_feedback_unverified",
       "claim": "Whether real execution consequences improve response/defer selection beyond matched search and no-feedback model.",
       "manuscript_sections": [
         "5",
@@ -108,8 +108,18 @@
       "sources": [
         {
           "path": "src/patrol_rsi/risk_response.py",
-          "sha256": "1ffb477fc25079679284aead05c7f52e67e14c7c5ab348c0baba61e1e9dde355",
-          "detail": "Current choose always uses legal FIFO event before routine; no learned binary gate"
+          "sha256": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
+          "detail": "Bounded response_rule path implemented;zero rule matchesFIFO;select_response only uses certified public candidates."
+        },
+        {
+          "path": "evidence/response-defer/summary.json",
+          "detail": "Registered search stopped;no model or final-confirmation execution.",
+          "sha256": "0e40b9a103450500d0e78831a2ebb85b6a9da8bd664f67d8d48eca6a5b9e386d"
+        },
+        {
+          "path": "src/patrol_rsi/response_rule.py",
+          "detail": "Strict bounded numeric rule and certified two-choice selector.",
+          "sha256": "9ef3ed48f7698a41a2e8afac7611f8ec78bd8392211fd1dd6fa130c4850c2a74"
         }
       ],
       "development_data_rule": "Current36 cases are seen. New final conditions require separate frozen protocol. No feedback-gain numbers supplied."
@@ -125,7 +135,7 @@
       "sources": [
         {
           "path": "paper/generated/metrics.json",
-          "sha256": "f3aa5b8aa7ffa72830a1aa27c64080d2c173b79c590d0c0b862bbd97ddda78ed",
+          "sha256": "be5fefe24afbcfa7438727937861393fecb6d72d5be7039d0873a89d8d483d6e",
           "detail": "response_or_routine_opportunities;12 raw source episode hashes"
         }
       ],
@@ -197,7 +207,18 @@
     "model_appendix": "model-appendix.md",
     "supplement": "supplement.md",
     "RQ3": "../docs/RQ3_SPEC.md",
-    "new_scientific_executions": 0,
+    "new_scientific_executions": 108,
     "review_record": "revision-review.md"
+  },
+  "optimization_study": {
+    "phase": "registered_search_stopped",
+    "proposal_opportunities": 12,
+    "unique_rules": 9,
+    "new_development_evaluations": 108,
+    "historical_fifo_records_reused": 12,
+    "new_confirmation_evaluations": 0,
+    "model_calls": 0,
+    "training": 0,
+    "next_step": "user_direction_on_paper_scope_or_new_hypothesis"
   }
 }

@@ -1,0 +1,808 @@
+{
+  "id": "response-defer-20261102-v1",
+  "study_id": "response-defer-20261102-v1",
+  "status": "frozen_before_search",
+  "recorded_at": "2026-11-02T09:29:52.586113+00:00",
+  "question": "Does real execution consequence feedback improve a bounded respond/defer rule beyondFIFO, matched search and no-feedback model?",
+  "positioning": "Existing feedback optimization ideas applied to a constrained professional confirmation task; no new general reflection or safety-filter claim.",
+  "execution": {
+    "ttl_s": 120,
+    "extra_visit_budget": 12,
+    "priority": "fifo"
+  },
+  "rule_contract": {
+    "version": 1,
+    "weights_range": [
+      -4,
+      4
+    ],
+    "bias_range": [
+      -2,
+      2
+    ],
+    "features": {
+      "risk": "public risk/4 in[0,1]",
+      "age": "event age/120 in[0,1]",
+      "extra_time": "certified event minus head finish/300 in[-6,6]",
+      "slack_difference": "event minus head minimum return slack/600 in[-1,1]"
+    },
+    "decision": "score>=0 respond;otherwise certified routine head;forced actions unchanged"
+  },
+  "development": [
+    {
+      "id": "p00-coupled",
+      "spec": {
+        "seed": 101003,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 0,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p01-coupled",
+      "spec": {
+        "seed": 101040,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 9,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p02-coupled",
+      "spec": {
+        "seed": 101077,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 20,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p03-coupled",
+      "spec": {
+        "seed": 101114,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 29,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p04-coupled",
+      "spec": {
+        "seed": 101151,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 36,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p05-coupled",
+      "spec": {
+        "seed": 101188,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 45,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p06-coupled",
+      "spec": {
+        "seed": 101225,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 56,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p07-coupled",
+      "spec": {
+        "seed": 101262,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 65,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p08-coupled",
+      "spec": {
+        "seed": 101299,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 76,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p09-coupled",
+      "spec": {
+        "seed": 101336,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 85,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p10-coupled",
+      "spec": {
+        "seed": 101373,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 100,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    },
+    {
+      "id": "p11-coupled",
+      "spec": {
+        "seed": 101410,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 117,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "id": "final-00",
+      "stratum": {
+        "duration_s": 120,
+        "noise_c": 0.2,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701001,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 120,
+        "fault_start_s": 150,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 7
+      }
+    },
+    {
+      "id": "final-01",
+      "stratum": {
+        "duration_s": 120,
+        "noise_c": 0.2,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701044,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 120,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 18,
+        "public_risk_pulses": [
+          {
+            "task": 58,
+            "start_s": 305,
+            "end_s": 335,
+            "risk": 0.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-02",
+      "stratum": {
+        "duration_s": 120,
+        "noise_c": 1.0,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701087,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 120,
+        "fault_start_s": 520,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 31
+      }
+    },
+    {
+      "id": "final-03",
+      "stratum": {
+        "duration_s": 120,
+        "noise_c": 1.0,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701130,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 120,
+        "fault_start_s": 705,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 42,
+        "public_risk_pulses": [
+          {
+            "task": 82,
+            "start_s": 675,
+            "end_s": 705,
+            "risk": 0.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-04",
+      "stratum": {
+        "duration_s": 180,
+        "noise_c": 0.2,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701173,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 150,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 53
+      }
+    },
+    {
+      "id": "final-05",
+      "stratum": {
+        "duration_s": 180,
+        "noise_c": 0.2,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701216,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 64,
+        "public_risk_pulses": [
+          {
+            "task": 104,
+            "start_s": 305,
+            "end_s": 335,
+            "risk": 0.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-06",
+      "stratum": {
+        "duration_s": 180,
+        "noise_c": 1.0,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701259,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 520,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 75
+      }
+    },
+    {
+      "id": "final-07",
+      "stratum": {
+        "duration_s": 180,
+        "noise_c": 1.0,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701302,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 86,
+        "public_risk_pulses": [
+          {
+            "task": 126,
+            "start_s": 675,
+            "end_s": 705,
+            "risk": 0.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-08",
+      "stratum": {
+        "duration_s": 240,
+        "noise_c": 0.2,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701345,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 240,
+        "fault_start_s": 150,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 97
+      }
+    },
+    {
+      "id": "final-09",
+      "stratum": {
+        "duration_s": 240,
+        "noise_c": 0.2,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701388,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 240,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 108,
+        "public_risk_pulses": [
+          {
+            "task": 20,
+            "start_s": 305,
+            "end_s": 335,
+            "risk": 0.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-10",
+      "stratum": {
+        "duration_s": 240,
+        "noise_c": 1.0,
+        "spurious": false
+      },
+      "spec": {
+        "seed": 3701431,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 240,
+        "fault_start_s": 520,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 119
+      }
+    },
+    {
+      "id": "final-11",
+      "stratum": {
+        "duration_s": 240,
+        "noise_c": 1.0,
+        "spurious": true
+      },
+      "spec": {
+        "seed": 3701474,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 240,
+        "fault_start_s": 705,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 126,
+        "public_risk_pulses": [
+          {
+            "task": 38,
+            "start_s": 675,
+            "end_s": 705,
+            "risk": 0.5
+          }
+        ]
+      }
+    }
+  ],
+  "seen_seeds": [
+    0,
+    41000,
+    41001,
+    42000,
+    42001,
+    62011,
+    62017,
+    80521,
+    80539,
+    93002,
+    93011,
+    94003,
+    94012,
+    101003,
+    101040,
+    101077,
+    101114,
+    101151,
+    101188,
+    101225,
+    101262,
+    101299,
+    101336,
+    101373,
+    101410
+  ],
+  "search_chains": [
+    {
+      "id": "S0",
+      "proposal_seed": 35001,
+      "proposals": [
+        {
+          "id": "risk",
+          "rule": {
+            "version": 1,
+            "bias": -1,
+            "weights": {
+              "risk": 4,
+              "age": 0,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "age",
+          "rule": {
+            "version": 1,
+            "bias": -0.75,
+            "weights": {
+              "risk": 0,
+              "age": 1,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "risk_time",
+          "rule": {
+            "version": 1,
+            "bias": -0.1,
+            "weights": {
+              "risk": 1,
+              "age": 1,
+              "extra_time": -4,
+              "slack_difference": 1
+            }
+          }
+        },
+        {
+          "id": "risk_slack",
+          "rule": {
+            "version": 1,
+            "bias": -0.25,
+            "weights": {
+              "risk": 4,
+              "age": 1,
+              "extra_time": -1,
+              "slack_difference": 4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "proposal_seed": 35002,
+      "proposals": [
+        {
+          "id": "risk",
+          "rule": {
+            "version": 1,
+            "bias": -0.75,
+            "weights": {
+              "risk": 4,
+              "age": 0,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "age",
+          "rule": {
+            "version": 1,
+            "bias": -0.125,
+            "weights": {
+              "risk": 0,
+              "age": 1,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "risk_time",
+          "rule": {
+            "version": 1,
+            "bias": -0.1,
+            "weights": {
+              "risk": 1,
+              "age": 1,
+              "extra_time": -4,
+              "slack_difference": 1
+            }
+          }
+        },
+        {
+          "id": "risk_slack",
+          "rule": {
+            "version": 1,
+            "bias": -0.25,
+            "weights": {
+              "risk": 4,
+              "age": 1,
+              "extra_time": -1,
+              "slack_difference": 4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "proposal_seed": 35003,
+      "proposals": [
+        {
+          "id": "risk",
+          "rule": {
+            "version": 1,
+            "bias": -0.1,
+            "weights": {
+              "risk": 4,
+              "age": 0,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "age",
+          "rule": {
+            "version": 1,
+            "bias": -0.125,
+            "weights": {
+              "risk": 0,
+              "age": 1,
+              "extra_time": 0,
+              "slack_difference": 0
+            }
+          }
+        },
+        {
+          "id": "risk_time",
+          "rule": {
+            "version": 1,
+            "bias": -0.1,
+            "weights": {
+              "risk": 4,
+              "age": 1,
+              "extra_time": -1,
+              "slack_difference": 1
+            }
+          }
+        },
+        {
+          "id": "risk_slack",
+          "rule": {
+            "version": 1,
+            "bias": -0.25,
+            "weights": {
+              "risk": 2,
+              "age": 1,
+              "extra_time": -1,
+              "slack_difference": 2
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "run_directory": "runs/event-validation-amended-20261102",
+    "index_path": "evidence/event-validation/final/local-artifacts.json",
+    "index_sha256": "906e8a3d01906e05197462ac6396c69bd3ff2e704502a74563df1c972709a7b1",
+    "historical_records_reused": 12,
+    "not_new_evaluations": true
+  },
+  "budgets": {
+    "search_environment_attempts": 144,
+    "no_feedback_environment_attempts": 144,
+    "feedback_environment_attempts": 144,
+    "confirmation_environment_attempts": 120,
+    "all_environment_attempts": 552,
+    "model_calls": 24,
+    "proposals_per_chain": 4,
+    "chains_per_arm": 3,
+    "training": 0
+  },
+  "limits": {
+    "model_calls": 24,
+    "environment_attempts": 552
+  },
+  "model": {
+    "id": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "manifest_sha256": "a1a327b7aee47f77c9348796bcb2d459d8792a8bc6644339b713668528af4361",
+    "dtype": "float16",
+    "attention": "eager",
+    "enable_thinking": false,
+    "do_sample": true,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "max_new_tokens": 512,
+    "torch": "2.7.1+cu126",
+    "transformers": "4.57.1",
+    "model_numpy": "2.3.4",
+    "max_input_tokens": 4096,
+    "max_time_s": 240,
+    "minimum_gpu_memory_gb": 24
+  },
+  "model_chains": [
+    {
+      "chain": 0,
+      "paired_generation_seeds": [
+        960001,
+        960002,
+        960003,
+        960004
+      ]
+    },
+    {
+      "chain": 1,
+      "paired_generation_seeds": [
+        960101,
+        960102,
+        960103,
+        960104
+      ]
+    },
+    {
+      "chain": 2,
+      "paired_generation_seeds": [
+        960201,
+        960202,
+        960203,
+        960204
+      ]
+    }
+  ],
+  "prompts": {
+    "common": "You propose a bounded linear response/defer rule, not code. A qualified event visit and a routine head have already passed the same ownership, reservation, horizon, revisit-return and extra-visit-budget checker. If both differ and are legal, score = bias + risk_weight*(public_risk/4) + age_weight*(event_age_seconds/120) + extra_time_weight*((event_finish-head_finish)/300) + slack_difference_weight*((event_min_slack-head_min_slack)/600). Score>=0 responds to the fixed FIFO event; score<0 executes the routine head without closing the event. Forced or identical actions are outside your control. Four weights must each be finite in[-4,4], bias finite in[-2,2]. Zero weights and zero bias reproduceFIFO. Return exactly one JSON object with version1,bias,andweights{risk,age,extra_time,slack_difference}. No code,markdown,explanations,extra keys,task IDs or future labels. The study optimizes confirmed abnormal intervals while preserving revisit constraints and limiting travel and completion costs. The common known baseline comes from12 previously seen synthetic thermal-cooling processes. Uncalibrated risk is not a failure probability. Task score is not minimized: positive gate score means respond. Do not change TTL,people,estimator,qualifications,budget or certificate. Repeated conditions or candidates are not independent experiments.",
+    "no_feedback": "Read common context and previous proposal identities only. No task outcome, selected-best parent or search performance is supplied.",
+    "feedback": "Read common context and your own previous executed actions, gained/lost confirmations, timing and cost. Use the last valid consequence packet after a failed call.",
+    "common_context_max_utf8_bytes": 6500,
+    "feedback_max_utf8_bytes": 6000,
+    "common_must_not_be_truncated": true,
+    "zero_rule_example": {
+      "version": 1,
+      "bias": 0,
+      "weights": {
+        "risk": 0,
+        "age": 0,
+        "extra_time": 0,
+        "slack_difference": 0
+      }
+    }
+  },
+  "development_retention": {
+    "minimum_total_net_confirmations": 1,
+    "maximum_travel_increase_pct": 5,
+    "maximum_completion_loss_pct": 2,
+    "order": "Eligibility requires positive total net vsFIFO,mean cost caps and all safety zero. Among eligible rules minimize(-net,mean censored wait,mean travel);ties retain earlier rule. This exploratory headroom gate is not final confirmation evidence."
+  },
+  "search_gate": "If all12 registered search candidates fail development eligibility, stop the package with no model calls and no confirmation evaluation. Do not expand rules or change scores after outcomes.",
+  "final_decision": {
+    "minimum_mean_net_confirmations": 1,
+    "maximum_travel_increase_pct": 5,
+    "maximum_completion_loss_pct": 2,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261103,
+    "claims": "Task benefit: mean across chains/processes net>=1 vsFIFO and exploratory95 lower bound>0,mean cost caps and all safety zero. Independent feedback increment additionally requires mean net>=1 and lower bound>0 forF-minusN andF-minusS. Report all chains,not only the best. Fonly beatsFIFO supports rule optimization,not isolated feedback gain."
+  },
+  "failure_policy": {
+    "environment": "Any unexpected failure consumes an attempt and halts;no automatic retry or replacement.",
+    "model": "Failure or invalid/duplicate proposal consumes that proposal slot. No automatic retry;continue remaining registered slots. Keep last validFfeedback. Ambiguous started inference must be resolved by terminal job evidence before any further call."
+  },
+  "reuse": "Identical spec+canonicalrule may reuse exact records;proposal slot still charged. Report unique actual evaluations separately from labels. HistoricalFIFO records remain byte-identical.",
+  "confirmation_scope": "Predeclared3 durations x2 noise levels x2 false-cue conditions,one new process percell. Structured mixed stresses,not independently identified marginal factor effects;no new-confirmation result in proposal messages.",
+  "analysis_units": "Independent proposal chains for improver variation; paired process seeds for rule effects. Final uncertainty resamples chains and processes separately as crossed units;3 chains are exploratory,not population reliability.",
+  "core_source_files": [
+    "active_inspection.py",
+    "aisles.py",
+    "contracts.py",
+    "coverage_plan.py",
+    "estimation.py",
+    "facility.py",
+    "facility_observation.py",
+    "inspection_metrics.py",
+    "patrol_task.py",
+    "process.py",
+    "response_rule.py",
+    "risk_response.py",
+    "model_proposals.py"
+  ],
+  "scope": "Search phase executes now only after engineering verification. Model and confirmation phases must retain this core and protocol; orchestration additions cannot tune frozen prompts or rules using search outcomes."
+}

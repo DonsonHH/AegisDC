@@ -6,6 +6,8 @@
 
 论文已进入[结构与正文写作](paper/README.md)：[研究问题与贡献表](paper/research-map.md)、[中文工作稿](paper/manuscript_zh.md)和[公式图表预览](paper/manuscript_zh.html)。现有正文覆盖问题定义、事件执行、机制实验和分析；反馈章节明确保留为待验证研究设计。
 
+最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。接口已实现，反馈增量仍未验证，下一方向见[NEXT](docs/NEXT.md)。
+
 ## 现在做到哪里
 
 | 项目 | 当前状态 |
