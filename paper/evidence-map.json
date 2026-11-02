@@ -1,10 +1,10 @@
 {
   "date": "2026-11-02",
-  "base_repository_commit": "106b3d55",
-  "writing_readiness": "ready_for_structure_and_evidence_backed_body_draft",
+  "base_repository_commit": "1c567db4804f6ccaf7bfee46cb9f5092a9f2619e",
+  "writing_readiness": "mechanism_manuscript_ready_for_supervisor_discussion",
   "submission_readiness": "not_assessed",
-  "active_research_question": "RQ3 response/defer workflow improvement from real consequences",
-  "new_environment_evaluations": 108,
+  "active_research_question": null,
+  "new_environment_evaluations": 0,
   "new_model_calls": 0,
   "new_training": 0,
   "claims": [
@@ -98,33 +98,6 @@
       "interpretation": "Actual extra visits89 vs81; cost, feasibility and observations may change. Not strict matched-cost information isolation."
     },
     {
-      "id": "C4-RQ3",
-      "status": "interface_implemented_search_stopped_feedback_unverified",
-      "claim": "Whether real execution consequences improve response/defer selection beyond matched search and no-feedback model.",
-      "manuscript_sections": [
-        "5",
-        "6.7"
-      ],
-      "sources": [
-        {
-          "path": "src/patrol_rsi/risk_response.py",
-          "sha256": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
-          "detail": "Bounded response_rule path implemented;zero rule matchesFIFO;select_response only uses certified public candidates."
-        },
-        {
-          "path": "evidence/response-defer/summary.json",
-          "detail": "Registered search stopped;no model or final-confirmation execution.",
-          "sha256": "0e40b9a103450500d0e78831a2ebb85b6a9da8bd664f67d8d48eca6a5b9e386d"
-        },
-        {
-          "path": "src/patrol_rsi/response_rule.py",
-          "detail": "Strict bounded numeric rule and certified two-choice selector.",
-          "sha256": "9ef3ed48f7698a41a2e8afac7611f8ec78bd8392211fd1dd6fa130c4850c2a74"
-        }
-      ],
-      "development_data_rule": "Current36 cases are seen. New final conditions require separate frozen protocol. No feedback-gain numbers supplied."
-    },
-    {
       "id": "OPPORTUNITY",
       "status": "verified_retrospective_count",
       "claim": "89 extra FIFO event dispatches all had a certified legal routine head in the same state.",
@@ -156,6 +129,30 @@
         }
       ],
       "interpretation": "Same own-task prefix and position, not necessarily identical global observations. Comparison of complete policy trajectories, not a single-insertion counterfactual."
+    },
+    {
+      "id": "SEARCH-DIAG",
+      "status": "registered_development_negative_result",
+      "claim": "12 candidate opportunities represent9 distinct rules and108 actual development evaluations over12 seen processes;all confirm28-60/89 vsFIFO70/89;stop branch executed with0 model calls and0 held-out evaluations.",
+      "manuscript_sections": [
+        "5",
+        "6.7",
+        "7.2",
+        "8"
+      ],
+      "sources": [
+        {
+          "path": "evidence/response-defer/summary.json",
+          "detail": "Search stop decision and actual accounting",
+          "sha256": "0e40b9a103450500d0e78831a2ebb85b6a9da8bd664f67d8d48eca6a5b9e386d"
+        },
+        {
+          "path": "evidence/response-defer/proposals.json",
+          "detail": "All canonical rules,paired outcomes and reused record identities",
+          "sha256": "4dfc6e89e8595b0c9e5931c9fffbd48fd3e8c874e62ed4c3203e5d591c6395b2"
+        }
+      ],
+      "interpretation": "Descriptive comparison on a finite registered subset;not a global rule-space optimum or a test of feedback effectiveness."
     }
   ],
   "completion_requirements": [
@@ -180,9 +177,9 @@
       "state": "written"
     },
     {
-      "requirement": "KeepRQ3 unproven and four-group design visible",
-      "artifact": "manuscript_zh.md sections5 and6.7",
-      "state": "explicit_pending"
+      "requirement": "Keep unexecuted feedback design outside mechanism manuscript contributions",
+      "artifact": "feedback-design.md;manuscript_zh.md section7.5;../docs/RQ3_SPEC.md",
+      "state": "moved_to_outlook_and_separate_memo_under_explicit_user_choice"
     },
     {
       "requirement": "Unify stale project-wide evidence wording",
@@ -196,19 +193,20 @@
     }
   ],
   "before_submission": [
-    "ConcludeRQ3 or explicitly choose mechanism-only paper branch",
-    "Complete closest-method novelty and comparison decisions",
-    "Supervisor review of formulation and proof",
-    "Choose target venue and author/affiliation metadata",
-    "Apply target template and final language review"
+    "Supervisor review of task-specific contribution and feasibility proof",
+    "R9 full-text constraint comparison and final comparator positioning",
+    "Choose venue,author and affiliation metadata",
+    "Final language/template review and human AI-use disclosure verification"
   ],
   "current_revision_scope": {
     "record": "revision-review.md",
     "model_appendix": "model-appendix.md",
     "supplement": "supplement.md",
     "RQ3": "../docs/RQ3_SPEC.md",
-    "new_scientific_executions": 108,
-    "review_record": "revision-review.md"
+    "new_scientific_executions": 0,
+    "review_record": "revision-review.md",
+    "feedback_design": "feedback-design.md",
+    "supervisor_brief": "supervisor-brief.md"
   },
   "optimization_study": {
     "phase": "registered_search_stopped",
@@ -219,6 +217,46 @@
     "new_confirmation_evaluations": 0,
     "model_calls": 0,
     "training": 0,
-    "next_step": "user_direction_on_paper_scope_or_new_hypothesis"
-  }
+    "next_step": "mechanism_discussion_route_selected_no_new_experiments"
+  },
+  "paper_scope": {
+    "route": "mechanism_discussion",
+    "primary_questions": [
+      "RQ1",
+      "RQ2"
+    ],
+    "diagnostic": "same-permission_registered_search_development_only",
+    "user_decision_date": "2026-11-02",
+    "user_decision": "先收束现有稿与负结果，供导师讨论",
+    "feedback_in_core_claims": false,
+    "new_experiments_scheduled": false
+  },
+  "deferred_research": [
+    {
+      "id": "C4-RQ3",
+      "status": "deferred_research_not_a_manuscript_contribution",
+      "claim": "Whether real execution consequences improve response/defer selection beyond matched search and no-feedback model.",
+      "manuscript_sections": [
+        "7.5 outlook;separate feedback-design.md"
+      ],
+      "sources": [
+        {
+          "path": "src/patrol_rsi/risk_response.py",
+          "sha256": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
+          "detail": "Bounded response_rule path implemented;zero rule matchesFIFO;select_response only uses certified public candidates."
+        },
+        {
+          "path": "evidence/response-defer/summary.json",
+          "detail": "Registered search stopped;no model or final-confirmation execution.",
+          "sha256": "0e40b9a103450500d0e78831a2ebb85b6a9da8bd664f67d8d48eca6a5b9e386d"
+        },
+        {
+          "path": "src/patrol_rsi/response_rule.py",
+          "detail": "Strict bounded numeric rule and certified two-choice selector.",
+          "sha256": "9ef3ed48f7698a41a2e8afac7611f8ec78bd8392211fd1dd6fa130c4850c2a74"
+        }
+      ],
+      "development_data_rule": "Current36 cases are seen. New final conditions require separate frozen protocol. No feedback-gain numbers supplied."
+    }
+  ]
 }

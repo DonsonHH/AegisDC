@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>后果反馈研究备忘</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f3f5f7;color:#18252f;font:17px/1.85 "Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+header{max-width:1040px;margin:32px auto 0;padding:24px 48px;background:#203a4c;color:#fff;border-radius:8px 8px 0 0}header p{margin:0;font-size:14px;color:#d5e1ea}
+article{max-width:1040px;margin:0 auto 60px;background:white;padding:36px 56px 60px;box-shadow:0 6px 32px #1b304010}h1{font-size:29px;line-height:1.5;margin-top:0}h2{font-size:23px;border-top:1px solid #dce4eb;padding-top:24px;margin-top:40px}h3{font-size:19px;margin-top:26px}
+p{margin:16px 0}a{color:#1b5e92;text-decoration-thickness:1px;text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px}nav a{color:#eef5fa;font-size:13px}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.6;display:block;overflow-x:auto;margin:22px 0}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid #dce4eb;min-width:65px}th{background:#edf3f8;color:#203b50;white-space:nowrap}tbody tr:nth-child(even){background:#f9fbfd}img{display:block;width:100%;height:auto;margin:24px auto}code{font:13px/1.6 Consolas,monospace;background:#f0f3f6;padding:1px 4px;border-radius:3px}pre{background:#f1f4f7;padding:18px;overflow-x:auto;line-height:1.6}pre code{padding:0;background:none;white-space:pre-wrap}.equation{position:relative;padding:16px 38px 16px 10px;overflow-x:auto;margin:22px 0;background:#fafbfd}.equation-number{position:absolute;right:10px;top:20px;font-size:14px;color:#536675}math{font-family:"Cambria Math",serif}math[display="inline"]{font-size:1.05em}footer{font-size:13px;color:#627180;border-top:1px solid #dce4eb;margin-top:32px;padding-top:16px}
+@media(max-width:700px){header,article{margin:0;padding:22px}h1{font-size:25px}body{font-size:16px}th,td{padding:7px;font-size:12px}}@media print{body{background:white}header{color:#18252f;background:white;margin:0}header p{color:#536675}nav{display:none}article{box-shadow:none;padding:16px;max-width:none;margin:0}a{color:inherit}h2,h3{break-after:avoid}img,table,.equation{break-inside:avoid}}
+</style></head><body><header><p>后续研究备忘 · 模型组未执行，不属于当前主稿完成贡献</p><nav><a href="#section-1">1 保留的反馈研究设计（接口已实现，反馈增量待验证）</a><a href="#section-5">2 与机制稿的关系</a></nav></header><article><h1>后果反馈研究备忘</h1>
+<p>状态：用户已于2026-11-02选择先收束机制稿和负结果供导师讨论。本文件保留原研究问题与设计，不属于当前主稿的方法贡献，不代表模型组已执行或已获收益。</p>
+<p>原RQ3关注真实运行后果是否改善响应／暂缓规则。受限接口已实现；注册S搜索的9条不同规则未通过开发保留门槛，故原包按预定分支结束，模型调用和新确认评价均为0。当前不恢复该包，也不自动追加候选。若后续继续自改进，先明确新假设与独立协议。</p>
+<h2 id="section-1">1 保留的反馈研究设计（接口已实现，反馈增量待验证）</h2>
+<h3 id="section-2">1.1 修改空间与执行边界</h3>
+<p>在固定FIFO候选外增加受限选择器。若非例行头的FIFO事件候选 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mi>e</mi><mi>a</mi></msub></mrow></math>及例行头 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mi>h</mi><mi>a</mi></msub></mrow></math>均有合法证书，则规则输出 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mi>g</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><msub><mi mathvariant="script">I</mi><mi>t</mi></msub><mo>,</mo><msub><mi>e</mi><mi>a</mi></msub><mo>,</mo><msub><mi>h</mi><mi>a</mi></msub><mo stretchy="false">)</mo><mo>∈</mo><mo stretchy="false">{</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mo>,</mo><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi></mrow><mo stretchy="false">}</mo></mrow></math>。响应执行 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mi>e</mi><mi>a</mi></msub></mrow></math>；暂缓执行 <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mi>h</mi><mi>a</mi></msub></mrow></math>并保留事件，完成后重新决策。若只有一种选择合法，则执行合法项。候选期限、任务所属、资格、服务、预算及返回检查继续由原执行边界管理。</p>
+<p>固定FIFO对应“有合法事件就响应”的规则。现有12个主过程中的89次额外事件派单均同时具有合法例行头，证明二选一接口有实际选择机会。89个决策共享12个过程，不作为89个独立试验。</p>
+<p>实现使用固定线性阈值：输入为公开风险除以4、事件年龄除以120秒、两候选预计完成时刻之差除以300秒，以及两证书最小余量之差除以600秒；四个系数各在[-4,4]，截距在[-2,2]。分数大于等于0响应，否则执行合法例行头。只接受声明字段与有限数字，不接受代码或任意表达式。零系数零截距与FIFO动作和测量一致。</p>
+<p><strong>当前状态。</strong> <code>ResponseRule</code>、独立候选选择器及 <code>run_response(..., response_rule=...)</code>已实现并通过工程检验，默认仍为FIFO。第6.7节的有限开发搜索未找到通过保留条件的规则，按封存门槛停止，因此没有执行模型组或新确认。本节后续四组比较是保留的研究设计，不能填入反馈已取得增量的结论。</p>
+<h3 id="section-3">1.2 四组比较与后果反馈</h3>
+<table>
+<thead>
+<tr>
+<th>组别</th>
+<th>修改／提案来源</th>
+<th>核心作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>固定FIFO</td>
+<td>固定规则</td>
+<td>提供已验证研究底座</td>
+</tr>
+<tr>
+<td>同空间简单搜索</td>
+<td>预先规定的规则候选</td>
+<td>控制额外搜索机会和评价次数</td>
+</tr>
+<tr>
+<td>无后果反馈模型</td>
+<td>同一模型，读取共同问题与规则信息</td>
+<td>估计模型先验及提案能力</td>
+</tr>
+<tr>
+<td>真实后果反馈模型</td>
+<td>共同信息加已完成动作及其后果</td>
+<td>检验执行经验的独立增量</td>
+</tr>
+</tbody>
+</table>
+<p>反馈包应包含实际选择、事件与例行完成时刻、新增／丢失确认、移动、完成量、拒绝和回退原因。每次生成的规则通过固定解析器及范围检查，再以实际执行评价，不以模型说明代替结果。若调用失败，上一份有效反馈继续保留，失败次数按预先规则计费。</p>
+<h3 id="section-4">1.3 封存与回答RQ3的条件</h3>
+<p>四组使用相同规则空间和候选评价预算，模型组共用权重、输入长度边界、推理资源及调用预算。使用多条独立提案链，固定每链修改机会、候选保留及失败重试规则；各链先完成开发选择并封存，再进入未用于提案的新过程确认。当前36个条件属于已见材料。</p>
+<p>RQ3的证据应同时覆盖新过程的任务增量和等预算对照。模型利用反馈改进巡检流程支持任务层自改进；若进一步讨论递归改进器能力，还需比较更新前后改进器在新任务、相同总预算下寻找规则的效率。当前论文可以先完成任务层问题，再决定更强RSI主张的范围。</p>
+<h2 id="section-5">2 与机制稿的关系</h2>
+<p>当前<a href="manuscript_zh.html">机制主稿</a>只以RQ1—RQ2为中心，第5章描述已实现的同权限规则诊断，6.7节保留搜索负结果。其结论不解释为后果反馈无效，也不承担递归改进器有效性的主张。</p>
+<p><a href="../docs/RQ3_SPEC.md">原冻结方案与停止分支</a> · <a href="../evidence/response-defer/README.md">搜索交付</a></p>
+<footer>可编辑Markdown与封存证据的静态预览。公式为MathML；未新增科研回合。</footer></article></body></html>

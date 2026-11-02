@@ -4,9 +4,9 @@
 
 项目以指定巡检论文的部分观测、状态估计和多执行者学习思想为基础。当前保留供电—液冷—自控合成模型、专业任务、受保护巡回和有限流程修改；历史实验通过归档快照访问。
 
-论文已进入[结构与正文写作](paper/README.md)：[研究问题与贡献表](paper/research-map.md)、[中文工作稿](paper/manuscript_zh.md)和[公式图表预览](paper/manuscript_zh.html)。现有正文覆盖问题定义、事件执行、机制实验和分析；反馈章节明确保留为待验证研究设计。
+论文已按用户选择收束为[机制稿导师讨论版](paper/README.md)：[一页讨论摘要](paper/supervisor-brief.md)、[贡献表](paper/research-map.md)、[正文](paper/manuscript_zh.md)及[公式图表预览](paper/manuscript_zh.html)。主文中心为RQ1—RQ2，并保留同权限搜索负结果；反馈设计移至[独立备忘](paper/feedback-design.md)。
 
-最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。接口已实现，反馈增量仍未验证，下一方向见[NEXT](docs/NEXT.md)。
+最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。当前工作为导师讨论稿件，不安排新增实验，见[NEXT](docs/NEXT.md)。
 
 ## 现在做到哪里
 

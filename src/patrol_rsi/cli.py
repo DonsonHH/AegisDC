@@ -86,6 +86,13 @@ def status():
             "candidate_opportunities":receipt["candidate_opportunities"],"decision":receipt["next_action"],
             "model_calls":receipt["model_calls"],"read":"evidence/response-defer/README.md"}
         result["唯一下一任务"] = "搜索未找到改进，按门槛停止；明确论文主线或另立新假设，不自动追加模型调用，见docs/NEXT.md"
+    paper = ROOT / "paper/evidence-map.json"
+    if paper.exists():
+        scope = strict_json(paper.read_text(encoding="utf-8")).get("paper_scope", {})
+        if scope.get("route") == "mechanism_discussion":
+            result["论文主线"] = {"questions":scope["primary_questions"],"status":"supervisor_discussion_draft",
+                "feedback_in_core_claims":False,"read":"paper/README.md"}
+            result["唯一下一任务"] = "机制稿与负结果已按用户选择收束，供导师讨论；没有新实验计划，见docs/NEXT.md"
     return result
 
 

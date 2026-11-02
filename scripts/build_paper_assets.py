@@ -251,9 +251,9 @@ ax.text(5.5, 2.55, 'New measurements update public information', ha='center', fo
 box(.25, .45, 2.65, 1.1, 'Hidden physical process', 'Fault labels and full state\nused only offline', color='#f3f4f5')
 box(4.1, .45, 2.65, 1.1, 'Offline evaluation', 'Confirmed / missed intervals\ntravel / service / revisit gaps', color='#f3f4f5')
 arrow((3.0, 1.0), (4., 1.0)); arrow((9.8, 3.1), (6.9, 1.5))
-box(8.0, .45, 2.7, 1.1, 'RQ3: optional rule selector', 'Respond or defer interface\nfeedback gain not evaluated', color='#fff6e9', dashed=True)
+ax.text(8.55, 4.45, 'FIFO', ha='center', fontsize=9, color='#425a70')
 ax.text(.25, 4.65, 'Online: only public information enters selection', fontsize=11, weight='bold')
-ax.text(.25, 1.85, 'Offline evaluation and optional workflow interface', fontsize=10, color='#5e6d7b')
+ax.text(.25, 1.85, 'Retrospective truth and execution audit', fontsize=10, color='#5e6d7b')
 save(fig, 'fig01_execution_framework')
 
 fig, ax = plt.subplots(figsize=(8.5, 5.0))
@@ -328,6 +328,12 @@ write(GENERATED/'metrics.json', metric_snapshot)
 
 manuscript_path = PAPER/'manuscript_zh.md'
 text = manuscript_path.read_text(encoding='utf-8')
+scope = json.loads((PAPER/'evidence-map.json').read_text(encoding='utf-8')).get('paper_scope', {})
+if scope.get('route') == 'mechanism_discussion':
+    assert re.findall(r'\*\*RQ(\d+)\*\*', text) == ['1', '2']
+    assert '## 5 同权限响应规则诊断' in text
+    assert '反馈驱动流程改进' not in text
+    assert (PAPER/'feedback-design.md').is_file()
 for key, value in tables.items():
     region = f'<!-- GENERATED_TABLE_{key}_START -->\n{value}\n<!-- GENERATED_TABLE_{key}_END -->'
     pattern = rf'<!-- GENERATED_TABLE_{key}_START -->.*?<!-- GENERATED_TABLE_{key}_END -->'
@@ -359,7 +365,7 @@ def render_preview(source_text, title, subtitle):
     for name in ['fig01_execution_framework', 'fig02_paired_confirmations', 'fig03_paired_timeline']:
         data = base64.b64encode((FIGURES/(name+'.png')).read_bytes()).decode()
         body = body.replace('src="figures/'+name+'.png"', 'src="data:image/png;base64,'+data+'"')
-    for name in ['manuscript_zh', 'model-appendix', 'supplement']:
+    for name in ['manuscript_zh', 'model-appendix', 'supplement', 'feedback-design']:
         body = body.replace('href="'+name+'.md"', 'href="'+name+'.html"')
     toc = []
     def heading(match):
@@ -385,18 +391,21 @@ article{max-width:1040px;margin:0 auto 60px;background:white;padding:36px 56px 6
 p{margin:16px 0}a{color:#1b5e92;text-decoration-thickness:1px;text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px}nav a{color:#eef5fa;font-size:13px}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.6;display:block;overflow-x:auto;margin:22px 0}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid #dce4eb;min-width:65px}th{background:#edf3f8;color:#203b50;white-space:nowrap}tbody tr:nth-child(even){background:#f9fbfd}img{display:block;width:100%;height:auto;margin:24px auto}code{font:13px/1.6 Consolas,monospace;background:#f0f3f6;padding:1px 4px;border-radius:3px}pre{background:#f1f4f7;padding:18px;overflow-x:auto;line-height:1.6}pre code{padding:0;background:none;white-space:pre-wrap}.equation{position:relative;padding:16px 38px 16px 10px;overflow-x:auto;margin:22px 0;background:#fafbfd}.equation-number{position:absolute;right:10px;top:20px;font-size:14px;color:#536675}math{font-family:"Cambria Math",serif}math[display="inline"]{font-size:1.05em}footer{font-size:13px;color:#627180;border-top:1px solid #dce4eb;margin-top:32px;padding-top:16px}
 @media(max-width:700px){header,article{margin:0;padding:22px}h1{font-size:25px}body{font-size:16px}th,td{padding:7px;font-size:12px}}@media print{body{background:white}header{color:#18252f;background:white;margin:0}header p{color:#536675}nav{display:none}article{box-shadow:none;padding:16px;max-width:none;margin:0}a{color:inherit}h2,h3{break-after:avoid}img,table,.equation{break-inside:avoid}}
 '''
-page, math_count = render_preview(text, '耦合设施巡检论文工作稿', '中文工作稿 · 2026-11-02 · RQ1—RQ2已有证据，RQ3补强中')
+page, math_count = render_preview(text, '受约束事件确认 机制稿导师讨论版', '机制稿 · 2026-11-02 · RQ1—RQ2与同权限搜索负结果')
 (PAPER/'manuscript_zh.html').write_text(page, encoding='utf-8', newline='\n')
 auxiliary = {}
-for name, title in [('model-appendix', '附录A 合成模型'), ('supplement', '补充材料')]:
+for name, title in [('model-appendix', '附录A 合成模型'), ('supplement', '补充材料'), ('feedback-design', '后果反馈研究备忘')]:
     path = PAPER/(name+'.md')
-    preview, counts = render_preview(path.read_text(encoding='utf-8'), title, '论文附录 · 方程形式、数值设定与证据身份')
+    subtitle = '后续研究备忘 · 模型组未执行，不属于当前主稿完成贡献' if name=='feedback-design' else '论文附录 · 方程形式、数值设定与证据身份'
+    preview, counts = render_preview(path.read_text(encoding='utf-8'), title, subtitle)
     (PAPER/(name+'.html')).write_text(preview, encoding='utf-8', newline='\n')
     auxiliary[name] = {'source_sha256': sha(path.read_bytes()), 'html_sha256': sha(preview.encode()), 'mathml_formulas': counts}
 assert all((FIGURES/(n+'.svg')).is_file() for n in ['fig01_execution_framework', 'fig02_paired_confirmations', 'fig03_paired_timeline'])
 validation = {'status': 'PASS', 'successful_research_records_reused': 108, 'new_environment_evaluations': 0,
               'new_model_calls': 0, 'new_training': 0, 'source_files_hashed': len(sources),
               'main_processes': 12, 'main_segments': 89, 'main_confirmations': [main[m]['confirmed_segments'] for m in ['tour', 'fifo', 'shuffled']],
+              'paper_scope': scope.get('route'), 'primary_questions': scope.get('primary_questions'),
+              'feedback_in_core_claims': scope.get('feedback_in_core_claims'),
               'mathml_formulas': math_count, 'auxiliary_previews': auxiliary, 'embedded_figures': 3, 'unresolved_table_placeholders': 0,
               'figures': {p.name: sha(p.read_bytes()) for p in sorted(FIGURES.iterdir())},
               'manuscript_sha256': sha(manuscript_path.read_bytes()),
