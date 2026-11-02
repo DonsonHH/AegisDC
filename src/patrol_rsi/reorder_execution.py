@@ -111,6 +111,10 @@ def public_tasks(env):
             components={'verified_bias_or_initial_zero':own,'same_branch_thermal_scaled':float(.25*pod_thermal[pod])}
             used=observed;unit='degC';estimate_time=stamp if stamp>=0 else None
             value_source=source
+        pulse_risk = max((p['risk'] for p in getattr(env, 'public_risk_pulses', [])
+                          if p['task'] == j and p['start_s'] <= env.clock < p['end_s']), default=0.)
+        if pulse_risk:
+            components['synthetic_public_cue_increment'] = max(0., pulse_risk-min(sum(components.values()),4.))
         if abs(min(sum(components.values()),4.)-float(risk[j]))>1e-9:raise ValueError('Risk provenance components do not match executed risk')
         result[j]={'task':j,'kind':task.kind,'risk':float(risk[j]),'weight':float(env.asset_weights[j]/2),
             'last_check_s':float(env.last_inspection[j]),'deadline_s':float(env.deadlines[j]),

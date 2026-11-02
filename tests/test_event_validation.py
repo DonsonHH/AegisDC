@@ -12,6 +12,15 @@ SPEC = dict(seed=0, scenario='aux_feeder_loss+cdu_fouling', duration_s=180,
 
 
 class EventValidationTests(unittest.TestCase):
+    def test_tour_explains_false_cue_without_changing_physical_measurements(self):
+        clean = dict(SPEC, scenario='healthy')
+        noisy = dict(clean, public_risk_pulses=[dict(task=0,start_s=335,end_s=365,risk=.5)])
+        a, _ = run_reorder(clean,None,{'method':'T'})
+        b, _ = run_reorder(noisy,None,{'method':'T'})
+        self.assertEqual(a['action_log'],b['action_log'])
+        self.assertEqual(a['inspection_events'],b['inspection_events'])
+        self.assertEqual(b['metrics']['anomaly_segments'],0)
+
     def test_pairing_reports_gains_losses_and_rejects_different_processes(self):
         import copy
         a = {'process_sha256':'same','anomaly_intervals':[
