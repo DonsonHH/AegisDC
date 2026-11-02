@@ -1,9 +1,9 @@
 {
   "status": "PASS",
-  "html_sha256": "6cf3630c76f20f7aacb2ae2603e2adf8639a77e16fa3efeae8c8ab9be918b9f4",
-  "pdf_sha256": "31bedfb875a2a569be6dcfdec44152e9d3f632de2e976668b7e629ec27289abf",
-  "checker_sha256": "57f884615832729ced4044277951ccff26db48905037cf89b9f11fc3a674d0d3",
-  "page_count": 15,
+  "html_sha256": "167009b82708ad66093604af17cd8964ec61429ab01348da76e19cfaa64936e6",
+  "pdf_sha256": "5097e752f0a602a0d9e9cf4f95bcf4b2033e5e3c212bb9d44bc5e7e30b2417bf",
+  "checker_sha256": "8ba0215bb1f3b208a15743b0cf1870515962dfd0c6f2cedcef91ca72f0806056",
+  "page_count": 17,
   "verified_terms": [
     "128",
     "161",
@@ -27,111 +27,136 @@
     "25/89",
     "77段热异常",
     "12段制冷异常",
-    "+0.50%",
+    "0.50%",
     "下降约0.33%",
     "两本任务账",
     "离线评分与约束审计",
-    "登记规则09",
-    "不是现场运行标准",
+    "研究决策",
+    "项目主线摘要",
+    "原理框①",
+    "原理框②",
+    "原理框③",
+    "800kJ/K",
+    "0.7604",
+    "229次",
+    "4R-1",
+    "0.05",
+    "0.20",
+    "第1周",
+    "第2周",
+    "第3周",
+    "条款原文",
+    "VAE-UNet",
     "RMSE",
     "R²",
     "0.484",
     "0.462",
     "0.424",
     "0.401",
-    "不同任务与指标",
     "FirstIn,FirstOut"
   ],
   "pages": [
     {
       "page": 1,
-      "text_characters": 710,
-      "text_start": "从耦合设施模型到风险驱动巡检\n导师自阅研究进展报告\n本次先回应上次沟通提出的事情\n设施层面： 已把配电、双回路液冷和设备自控接入同一合成过程；当前为128机柜、16组设备和18名虚拟\n巡检员。\n风险与",
-      "render_sha256": "95f9acbae7e0e3404d4e5c1aff4b4c78f63ba0545d087dc7917dea6403374193"
+      "text_characters": 695,
+      "text_start": "从耦合设施模型到风险驱动巡检\n导师自阅研究进展报告 · 2026-11-03修订\n项目主线摘要\n围绕部分测温条件下的短时异常确认，本项目建立配电、液冷与自控耦合模型，用返回时间核查保护例行\n巡检，再以",
+      "render_sha256": "cf6ab59059448aee60f0c0297beaf935f9f13036655e93894b7d9ade0fff373f"
     },
     {
       "page": 2,
-      "text_characters": 961,
-      "text_start": "供电把能量送入机柜，也约束冷却设备的可用功率\n10 kV入口\n电气拓扑标签\n变压／380 V AC\n容量、效率与损耗代理\nUPS／整流\n固定转换效率代理\n54 V DC\n机柜侧电压标签\n128个算力机",
-      "render_sha256": "b241f17322565df865eea01109484e164711fbb4705b4630572635ddcccd51bb"
+      "text_characters": 1021,
+      "text_start": "CDU指冷却液分配与换热单元。一次回路连接设施冷源，二次回路连接机柜冷板，两侧通过CDU交换热量。El\nCapitan和Cray EX官方资料提供了这类架构参照。LLNL工程说明、HPE设备资料。\n供",
+      "render_sha256": "d517d5b8326968f849e4d430c12a5148c2cb469599ed6019f5490533fe2535e4"
     },
     {
       "page": 3,
-      "text_characters": 815,
-      "text_start": "当前模\n型\n已经表示的关系 仍需补足的工程细节\n液冷 并联支路准稳态流量、集中热容、CDU换热与冷却塔排热真实管网、运输时延、工质参数、设备冗余切换\n设备自\n控\n温度驱动的比例目标和一阶指令滞后 正式",
-      "render_sha256": "9226e57d15da9bbe21a219fa7ff03cddecf6f131731aeeda81a85361f6557e7d"
+      "text_characters": 729,
+      "text_start": "原理框①：先做热平衡预测，再用量测校正\nT\u0000−i,k+1 = T\u0000i,k + (Δt/C)[Pi − Ui(T\u0000i,k − Ts,p) − Ua(T\u0000i,k − Ta)]\nUi = 12[max(q̂",
+      "render_sha256": "927b28ca3403821fe710b645f8521694dbb905e38ba0bc6ea18519d76b33a5cd"
     },
     {
       "page": 4,
-      "text_characters": 349,
-      "text_start": "2. 风险热点在哪里：先看公开估计，再看事后状态\n巡检端看不到所有设备的真实状态。名义估计指用公开读数、测量历史和简化物理关系推算未测状态，再据此形成\n风险提示。\n以下重绘已有工程回看的一帧：辅助供电",
-      "render_sha256": "3d556152913fc071b23e2b12d7e807ba48dddec3888675883c7bd9f2691ea2a2"
+      "text_characters": 173,
+      "text_start": "巡检端的公开热风险分\n已有工程例，仿真时钟500秒，128个机柜\n组01 组02 组03 组04\n组05 组06 组07 组08\n组09\n64 67\n70\n组10 组11 组12\n组13 组14 组1",
+      "render_sha256": "9dbb086f10972d3e3241cc2b9ec8350ab6439bdd25b36fbaf75de815f08125e9"
     },
     {
       "page": 5,
-      "text_characters": 472,
+      "text_characters": 419,
       "text_start": "事后设备代表温度（°C）\n已有工程例，仿真时钟500秒，128个机柜\n组01 组02 组03 组04\n组05 组06 组07 组08\n组09\n64 67\n70\n组10 组11 组12\n组13 组14 ",
-      "render_sha256": "958855821175046db1cdf24f58d13431cc8b111aedc8f71cfc90b39855775ab7"
+      "render_sha256": "2292f6175bf68065aaf4944cebd99a731960b673001c7269462027595488f362"
     },
     {
       "page": 6,
-      "text_characters": 954,
-      "text_start": "3. FIFO到底怎么派单\nFIFO＝First In, First Out，先入先出。 在本程序里：每名巡检员空闲时（刚开始，或上一项完成后），从自己负\n责、当下可以执行的待确认请求中，选择最早出现",
-      "render_sha256": "39c73f3df15cdea1d810ae657db40d6b1228d02eae00629ecb4a42a175520c7c"
+      "text_characters": 853,
+      "text_start": "3. 保护例行巡检，再按FIFO安排加查\nFIFO（First In, First Out，先入先出）的核心操作是：在原巡检循环仍能按期完成的前提下，对本人负责的合规风\n险请求按出现时间先后处理。 每",
+      "render_sha256": "203a374641a83701e1ddc5e31660f7dc16f67ecb3398cdf59ed2766e7acd750e"
     },
     {
       "page": 7,
-      "text_characters": 753,
-      "text_start": "巡检员实际检查什么\n专业 完成检查后得到什么 人数 每次服务 最大重访间隔\n热检查 该机柜代表温度 12 10秒 300秒\n电气检查 该组电气接触温度 2 20秒 600秒\n制冷检查 该组冷却液流量 ",
-      "render_sha256": "a743036cff0a3a1ace39c21099b5a06da1eb1f1a5fb30ad4bf01ec5bd3e10b73"
+      "text_characters": 718,
+      "text_start": "专业 完成检查后得到什么 人数 每次服务 最大重访间隔\n热检查 该机柜代表温度 12 10秒 300秒\n电气检查 该组电气接触温度 2 20秒 600秒\n制冷检查 该组冷却液流量 2 20秒 600秒",
+      "render_sha256": "b673028cf04a26370600a75c6ad2da6b283a487385e56ed14eeb19b5f69abed9"
     },
     {
       "page": 8,
-      "text_characters": 940,
-      "text_start": "所以先查10号。 它在450秒先进入待办，8号在455秒才进入；尽管8号此时的风险分更高，FIFO仍先服务较早的一\n条。风险分不是百分比，也不是FIFO的第一排序键。\n实际执行：先加查机柜10、8，再",
-      "render_sha256": "249bfdbe32c3533acc68e208f811321227334d6102d1bf3ce784740bfbc679b8"
+      "text_characters": 586,
+      "text_start": "实际执行：先加查机柜10、8，再完成原定机柜0\n额外查机柜10\n500秒完成\n额外查机柜8\n515秒完成\n原定机柜0\n540秒完成\n545秒截止\n470 500 515 540 550\n仿真秒数；每个",
+      "render_sha256": "cd42cd39d51de95f6b4a5e1ccea7bf89bbc5fea2ee5284fd7b583ef32e378798"
     },
     {
       "page": 9,
-      "text_characters": 418,
-      "text_start": "每回合为30分钟仿真、18名执行者，全体额外访问总上限12次；当前结果限定于已冻结的开放通道和确定耗时配\n置。\n为什么另看“确认”而不只看重访？ 当前保护配置中，Tour与FIFO都没有硬重访违规；这",
-      "render_sha256": "0d5ecc3aa0f2adfe62695d489d0e585bc7dceab1af2f40632a7f0a0cf057cc74"
+      "text_characters": 826,
+      "text_start": "过程 种子 目标柜号／设备组 故障开始→结束／秒 热／冷异常段\n01 101003 0号／第1组 150→330 8／1\n02 101040 9号／第2组 335→515 6／1\n03 101077 ",
+      "render_sha256": "2bf9aa70345095d7cde061f137dfd18e38eca418139b492d807d3e7110986f94"
     },
     {
       "page": 10,
-      "text_characters": 253,
-      "text_start": "每个独立过程的净增\n过程01 +3\n过程02 +7\n过程03 +3\n过程04 +5\n过程05 +2\n过程06 +5\n过程07 +4\n过程08 +5\n过程09 +1\n过程10 +4\n过程11 +3\n过程",
-      "render_sha256": "e59baef6e4338667b848025415f7d062fabe732ca1b7ba81a269ff2906013414"
+      "text_characters": 191,
+      "text_start": "策略 本次比较中的操作\n固定巡回Tour 沿专业例行清单循环\n事件响应FIFO 保留例行循环，插入通过返回核算的风险检查\n风险位置对照 保持专业与负责人权限，在该范围内打乱风险指向\n确认了多少段异常？",
+      "render_sha256": "55d3405e0dd0b695c2df79afa2fcd4df13326a298a9f7d8b0b8cb97c16c86862"
     },
     {
       "page": 11,
-      "text_characters": 851,
-      "text_start": "收益与代价：实际结果放回预先约定的探索性门槛\n三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。\n每过程净增确认\n段／过程，越高越好\n至少1段\n实际 3.50段／过程\n0 1 2 3",
-      "render_sha256": "e134ab7e784b4501389bac38c8106efe059a0668ecbbd07c5ad3b65554cba0bf"
+      "text_characters": 266,
+      "text_start": "每个独立过程的净增\n过程01 +3\n过程02 +7\n过程03 +3\n过程04 +5\n过程05 +2\n过程06 +5\n过程07 +4\n过程08 +5\n过程09 +1\n过程10 +4\n过程11 +3\n过程",
+      "render_sha256": "1fcc65f93efda742df4b9d8e426c3034214933848c0bb722a5ce9253c93aa3d8"
     },
     {
       "page": 12,
-      "text_characters": 924,
-      "text_start": "同权限的9条登记响应／暂缓规则曾在这12个已见过程确认28—60段，都未超过FIFO的70段。这是有限开发负结\n果，不证明整个规则空间无解；模型反馈及RSI的独立增益仍未建立。\n5. 原VAE论文怎样",
-      "render_sha256": "dce9e506c066bf8aacd9c05d2d45e89b468a3c7dff36f3e1d623a65b99399d3e"
+      "text_characters": 755,
+      "text_start": "收益与代价：实际结果放回预先约定的探索性门槛\n三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。\n每过程净增确认\n段／过程，越高越好\n至少1段\n实际 3.50段／过程\n0 1 2 3",
+      "render_sha256": "9fa56ac9f1a01f547a7492a2366055d05c2cfbf9a57e3a84e0541322b1559de3"
     },
     {
       "page": 13,
-      "text_characters": 841,
-      "text_start": "当前能比较什么，哪些还没完成\n问题 现在已有的证据 还需怎样对齐\n事件机制是否比固定巡回\n多确认异常\n本任务12过程，28／70／25段及成\n本、约束检查\nTour是机制开关对照，不能单凭它宣称优于成",
-      "render_sha256": "759efd7281f64538e9dfeefe155cb83886ad903e6c541feb9a0751c4afe63c7c"
+      "text_characters": 978,
+      "text_start": "九条响应／暂缓规则：得分式与确认结果\nz≥0加查，z<0先做例行任务；各行展示同12个已见过程的开发结果。\nFIFO 70段\n01 4R−1 28段\n02 A−0.75 33段\n03 R+A−4E+S",
+      "render_sha256": "c6d73d66f7454e15ccbd3d1b7c12939ea000133221b8e0bcd3ec0bb3c9db52c5"
     },
     {
       "page": 14,
-      "text_characters": 393,
-      "text_start": "机柜17：新增确认（例行访问）\n事后异常窗口 680—705秒\nTour\nFIFO\n645 测量正常\n690 确认异常\n685 风险提示\n665 派出例行检查\n640秒 680秒 720秒\n17号66",
-      "render_sha256": "25ee6e133b0cc6bf8605da2d560a71d3f5dd8edd5e6d7a3fcf11e780cfbb47ec"
+      "text_characters": 1004,
+      "text_start": "RSI（Recursive Self-Improvement，自改进）指让模型根据执行反馈修改规则，再通过独立评价保留有效修\n改。本轮九条规则用于诊断可改进空间，模型调用和训练均为0；后续先建立有区分",
+      "render_sha256": "8c1c5cf881ce94abdbbfac1b375447d83cc1a0b218955ac14be565ab76ee5ebb"
     },
     {
       "page": 15,
-      "text_characters": 316,
-      "text_start": "来源与继续查阅\n合成模型方程、单位与参数：物理形式与合成数值分别列示。\n主机制验证及完整原件：12个主过程及其他健康／轻微／误提示条件分别报告。\n同权限规则搜索负结果：9条规则与停止条件。\n导师工程参",
-      "render_sha256": "ae0c5659f188f25d475323b4b267c2abf096c48c6af1a771798128c5e5c4fadd"
+      "text_characters": 1261,
+      "text_start": "比较口径：原文预测对象是水域重要度，本项目预测设备温度并评价专业确认；两类指标各自在本任务内解释。原文Average分数的归\n一分母仍需随复现对齐。当前历史PPO／CVAE材料按既有实现记录，VAE-",
+      "render_sha256": "39b81754f8cb57db1d90f7657bd9c4d928ec079344dd329305536d965238d094"
+    },
+    {
+      "page": 16,
+      "text_characters": 853,
+      "text_start": "两项标准已定位：GB/T 48023-2026于2026-07-30发布、2027-02-01实施；GB/T 48097-2026于2026-08-28发\n布、2027-03-01实施。现有核查取得官",
+      "render_sha256": "b41582dab0fa6455d33e093a6a2f5339929a1b5b0dc142fcaa86c9d7a55b60c0"
+    },
+    {
+      "page": 17,
+      "text_characters": 487,
+      "text_start": "机柜21：丢失确认（额外访问）\n事后异常窗口 650—710秒\nTour\nFIFO\n695 确认异常\n725 正常\n650 风险提示\n705 额外派单\n640秒 680秒 720秒\n21号650秒见风",
+      "render_sha256": "44288277c9ed90d85a5463917682131ca6dbba793654711391dbd7263e885d9c"
     }
   ]
 }

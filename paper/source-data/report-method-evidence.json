@@ -1,0 +1,663 @@
+{
+  "schema_version": 1,
+  "extracted_on": "2026-11-03",
+  "scope": "Read-only extraction from frozen evidence and retained gzip records. No simulation, estimator replay, training or model calls. Null input/component values mean not retained, not zero.",
+  "sources": [
+    {
+      "path": "evidence/event-validation/final/protocol.json",
+      "sha256": "60950af1ca004a2f6f04018a6d073e545295dc7279788886bb3f26a3196d34a3",
+      "bytes": 21160
+    },
+    {
+      "path": "evidence/event-validation/final/seal.json",
+      "sha256": "5aaf37ad2176595a3c8f5a61472107cfbfb7af026c8972f19d261fe999d521dc",
+      "bytes": 2680
+    },
+    {
+      "path": "evidence/event-validation/final/local-artifacts.json",
+      "sha256": "906e8a3d01906e05197462ac6396c69bd3ff2e704502a74563df1c972709a7b1",
+      "bytes": 26563
+    },
+    {
+      "path": "src/patrol_rsi/active_inspection.py",
+      "sha256": "8985435aaecc8a099f6e61bc2faac9d940a87b75025938ad8f49b847e31322cc",
+      "bytes": 15547,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/estimation.py",
+      "sha256": "3b613b66de55a8b88a91be98c34d0bca2a817459abac54de432f0884d4254492",
+      "bytes": 7471,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/facility_observation.py",
+      "sha256": "9637c0d2d1cdb83426035dd3fb2aaed0cb267783771d22ba024ccffda4f21a57",
+      "bytes": 9172,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/facility.py",
+      "sha256": "18b4a5f72809d799073a8e443c6e8e5a80e4d04e89e4660b3853edafb191724d",
+      "bytes": 20079,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/aisles.py",
+      "sha256": "8364706d4c46565ca3fa028f31b79ce8a276b78cbaa6dee496014e4f57316739",
+      "bytes": 8386,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/patrol_task.py",
+      "sha256": "af15485b34a8d04d9b21bdeeb5bb746b100799b167f7b7c975a344dce7009335",
+      "bytes": 6145,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "src/patrol_rsi/inspection_metrics.py",
+      "sha256": "35d9a5831b8abccd80ed4a30d8ed7dbb8fe19fffb3913817e5ae932fe503379d",
+      "bytes": 5219,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "runs/event-validation-amended-20261102/source/process.py",
+      "sha256": "ba499582a0feb524480b3aa587e8e6a623522fe0513452c0b175f39ead8e49a6",
+      "bytes": 7509,
+      "matches_frozen_source_seal": true
+    },
+    {
+      "path": "runs/event-validation-amended-20261102/source/risk_response.py",
+      "sha256": "1ffb477fc25079679284aead05c7f52e67e14c7c5ab348c0baba61e1e9dde355",
+      "bytes": 18357,
+      "matches_frozen_source_seal": true
+    }
+  ],
+  "method_basis": {
+    "estimator": "nominal",
+    "step_s": 5.0,
+    "rack_count": 128,
+    "racks_per_pod": 8,
+    "fixed_temperature_indices": {
+      "start": 0,
+      "stop_inclusive": 124,
+      "step": 4,
+      "count": 32
+    },
+    "fixed_flow_pod_indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "thermal_risk_expression": "min(4, max(T_hat_degC - 65, 0)/20 + 0.25*(1 - P_del_kW/max(P_req_kW, 1e-12)))",
+    "thermal_risk_source": "src/patrol_rsi/active_inspection.py:93-115",
+    "temperature_update_source": "src/patrol_rsi/facility_observation.py:92-109; src/patrol_rsi/estimation.py:28-38",
+    "fault_modifiers": {
+      "aux_feeder_loss": {
+        "pod_aux_feed_multiplier": 0.05
+      },
+      "cdu_fouling": {
+        "pod_cdu_heat_exchange_multiplier": 0.2
+      }
+    },
+    "fault_modifier_source": "src/patrol_rsi/facility.py:115-149; runs/event-validation-amended-20261102/source/process.py:15-37"
+  },
+  "primary_processes": {
+    "selection": "evidence/event-validation/final/protocol.json /cases where group == coupled",
+    "count": 12,
+    "all_indices_zero_based": true,
+    "all_have_same_scenario": "aux_feeder_loss+cdu_fouling",
+    "all_use_nominal_estimator": true,
+    "all_paired_anomaly_interval_keys_identical": true,
+    "anomaly_segments_by_role": {
+      "thermal": 77,
+      "electrical": 0,
+      "cooling": 12,
+      "control": 0
+    },
+    "professional_measurement_summary_tour_only": {
+      "maximum_recorded_professional_contact_temperature_c": 46.0467512696332,
+      "maximum_recorded_professional_abs_sensor_error_c": 0.0,
+      "scope": "Recorded completed professional measurements only; these maxima are not full physical-trajectory maxima."
+    },
+    "cases": [
+      {
+        "id": "p00-coupled",
+        "seed": 101003,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 0,
+        "fault_pod_index": 0,
+        "affected_rack_range_inclusive": [
+          0,
+          7
+        ],
+        "fault_start_s": 150,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 330,
+        "anomaly_segments_by_role": {
+          "thermal": 8,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p00-coupled-tour.json.gz",
+            "sha256": "4c3ae5cb961a68cd39856c43118d3e3f23eeb7097a575cd1fb8d47b8dd9ac6c7",
+            "bytes": 703389
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p00-coupled-fifo.json.gz",
+            "sha256": "9937e15ec98b266a927fe0fc9e7a27e299165ae94e5c1971d6544a23b4b18482",
+            "bytes": 155276
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p00-coupled-shuffled.json.gz",
+            "sha256": "9a9399e9377e552880c1ff2b2899e8511187aa1b29b181a5c631cb2678a6505f",
+            "bytes": 153784
+          }
+        }
+      },
+      {
+        "id": "p01-coupled",
+        "seed": 101040,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 9,
+        "fault_pod_index": 1,
+        "affected_rack_range_inclusive": [
+          8,
+          15
+        ],
+        "fault_start_s": 335,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 515,
+        "anomaly_segments_by_role": {
+          "thermal": 6,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p01-coupled-tour.json.gz",
+            "sha256": "c7029d27c313941dd2e7f08cc9e878853e47a4a7ef641a0b687f7b7acdccec71",
+            "bytes": 700113
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p01-coupled-fifo.json.gz",
+            "sha256": "ddd471aef1065ea1030051073fe77e52a26849d5d5e0c844ed8b9827eb2a940d",
+            "bytes": 154695
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p01-coupled-shuffled.json.gz",
+            "sha256": "22a2dbaa86159278d7a5974068fd48e0a2d4298087ed0d6c807ab3af74b4af83",
+            "bytes": 152343
+          }
+        }
+      },
+      {
+        "id": "p02-coupled",
+        "seed": 101077,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 20,
+        "fault_pod_index": 2,
+        "affected_rack_range_inclusive": [
+          16,
+          23
+        ],
+        "fault_start_s": 520,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 700,
+        "anomaly_segments_by_role": {
+          "thermal": 6,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p02-coupled-tour.json.gz",
+            "sha256": "2b783ba50fa638bc26848896f4b07d4a1c8e2cc9b8dfee787015ba7fcd1071b6",
+            "bytes": 699034
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p02-coupled-fifo.json.gz",
+            "sha256": "4a0a608de93636dcdb4dc07ec821c959cbf95211ca8f4000b4aeaab3c99627e7",
+            "bytes": 154203
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p02-coupled-shuffled.json.gz",
+            "sha256": "d79ad975a6ecca9dff1a4d0e0ca40c9c8cfadec0d4ff008061e38d3d7a5ef0bd",
+            "bytes": 151395
+          }
+        }
+      },
+      {
+        "id": "p03-coupled",
+        "seed": 101114,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 29,
+        "fault_pod_index": 3,
+        "affected_rack_range_inclusive": [
+          24,
+          31
+        ],
+        "fault_start_s": 705,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 885,
+        "anomaly_segments_by_role": {
+          "thermal": 7,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p03-coupled-tour.json.gz",
+            "sha256": "6841d3328bb7091b5822743c665577e46469feb6a5bb0c3e4e20e69106a82a45",
+            "bytes": 697100
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p03-coupled-fifo.json.gz",
+            "sha256": "7ecc32ad121366adb84cc89e83a77d4b2006713a659e6e3d10d779c5d7590abf",
+            "bytes": 152963
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p03-coupled-shuffled.json.gz",
+            "sha256": "4395f4c18bd6bc1caea01699d766bf29541f558f80808c40ea86bbb426093ac6",
+            "bytes": 151647
+          }
+        }
+      },
+      {
+        "id": "p04-coupled",
+        "seed": 101151,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 36,
+        "fault_pod_index": 4,
+        "affected_rack_range_inclusive": [
+          32,
+          39
+        ],
+        "fault_start_s": 150,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 330,
+        "anomaly_segments_by_role": {
+          "thermal": 7,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p04-coupled-tour.json.gz",
+            "sha256": "855ef41ffc4b43e8869a01ea30525452838abfd2c67387c932c2b6c3ede74e91",
+            "bytes": 704559
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p04-coupled-fifo.json.gz",
+            "sha256": "c639893ead73bd4d93d8360c9fc754f6c20ca5f3cb6e58e7edebb3fb08b7dc8d",
+            "bytes": 156491
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p04-coupled-shuffled.json.gz",
+            "sha256": "9eea75094286d557e7748fca8385c91a3392fb3d95e4f4065f52fb8c4e496794",
+            "bytes": 157149
+          }
+        }
+      },
+      {
+        "id": "p05-coupled",
+        "seed": 101188,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 45,
+        "fault_pod_index": 5,
+        "affected_rack_range_inclusive": [
+          40,
+          47
+        ],
+        "fault_start_s": 335,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 515,
+        "anomaly_segments_by_role": {
+          "thermal": 7,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p05-coupled-tour.json.gz",
+            "sha256": "9c9bb965399557bcd0fc32fb9d95762cf9d2510b80ce4944f483f91069a29dde",
+            "bytes": 702546
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p05-coupled-fifo.json.gz",
+            "sha256": "d6888c7f57e3d84d90440f8f61593c8029914596eed8f256649d9ad1c301d737",
+            "bytes": 155003
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p05-coupled-shuffled.json.gz",
+            "sha256": "f02d6f43ef799606f68c1302c32bab0064f326ce76fc26cfb318d0c7873ccde0",
+            "bytes": 156314
+          }
+        }
+      },
+      {
+        "id": "p06-coupled",
+        "seed": 101225,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 56,
+        "fault_pod_index": 7,
+        "affected_rack_range_inclusive": [
+          56,
+          63
+        ],
+        "fault_start_s": 520,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 700,
+        "anomaly_segments_by_role": {
+          "thermal": 6,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p06-coupled-tour.json.gz",
+            "sha256": "e77bf328dbfb11ec0268fe7bdbc07819d681ec35bbe4e7daadc47631098a4470",
+            "bytes": 697834
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p06-coupled-fifo.json.gz",
+            "sha256": "816c5570572fd89192200a52ea8b93b28b7168b19c393da96d8bf2bc9c91729a",
+            "bytes": 152591
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p06-coupled-shuffled.json.gz",
+            "sha256": "f66259f4f2fbf9931dc2b9f41349fd3b30830c87f54fd17221a0277745d7e0c3",
+            "bytes": 152763
+          }
+        }
+      },
+      {
+        "id": "p07-coupled",
+        "seed": 101262,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 65,
+        "fault_pod_index": 8,
+        "affected_rack_range_inclusive": [
+          64,
+          71
+        ],
+        "fault_start_s": 705,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 885,
+        "anomaly_segments_by_role": {
+          "thermal": 6,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p07-coupled-tour.json.gz",
+            "sha256": "413383cb6facb3965d42aff2b0ac9e30b75ef3ffd1c8873aca8f3baf2c5828dd",
+            "bytes": 698709
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p07-coupled-fifo.json.gz",
+            "sha256": "315b3717f8c7bf92bf1ca959bcc73ae43fb49c1c881633f43ac3464d68ad4009",
+            "bytes": 151907
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p07-coupled-shuffled.json.gz",
+            "sha256": "18598b41718ef360eabdfab53beba8eb26979a3f9e985094ca110c2ba8eb4aa8",
+            "bytes": 153383
+          }
+        }
+      },
+      {
+        "id": "p08-coupled",
+        "seed": 101299,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 76,
+        "fault_pod_index": 9,
+        "affected_rack_range_inclusive": [
+          72,
+          79
+        ],
+        "fault_start_s": 150,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 330,
+        "anomaly_segments_by_role": {
+          "thermal": 7,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p08-coupled-tour.json.gz",
+            "sha256": "b6fc82adc96aacac3af5b98a4106023b952097a854b9a2aa22b08e32d5f87a71",
+            "bytes": 701216
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p08-coupled-fifo.json.gz",
+            "sha256": "2aad901c2b0311df584c5d188d69720e9415c843745fff86ff23edc1125ae266",
+            "bytes": 157552
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p08-coupled-shuffled.json.gz",
+            "sha256": "4ea4474700a87208b7fd3573634bf0924434aace41f7c94b2d65613c3d72d603",
+            "bytes": 156589
+          }
+        }
+      },
+      {
+        "id": "p09-coupled",
+        "seed": 101336,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 85,
+        "fault_pod_index": 10,
+        "affected_rack_range_inclusive": [
+          80,
+          87
+        ],
+        "fault_start_s": 335,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 515,
+        "anomaly_segments_by_role": {
+          "thermal": 7,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p09-coupled-tour.json.gz",
+            "sha256": "4e135e1f1fa4904bdb0e4c9c1d282c4c026c319f0ff9852455d005429c970dfd",
+            "bytes": 701067
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p09-coupled-fifo.json.gz",
+            "sha256": "0214c5f5cf67430c5d4ba575c09f597c32cb55e5cb31dbed270f2e4dbe56f1a3",
+            "bytes": 154278
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p09-coupled-shuffled.json.gz",
+            "sha256": "9bfb47aa89c4916290b62bacbe1b16671c814d0b19b675f1a39256c660cfab25",
+            "bytes": 153925
+          }
+        }
+      },
+      {
+        "id": "p10-coupled",
+        "seed": 101373,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 100,
+        "fault_pod_index": 12,
+        "affected_rack_range_inclusive": [
+          96,
+          103
+        ],
+        "fault_start_s": 520,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 700,
+        "anomaly_segments_by_role": {
+          "thermal": 4,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p10-coupled-tour.json.gz",
+            "sha256": "05ecb857afd5b0798acf517b10f6a3c2a465954c27d75b12d3d5248225094395",
+            "bytes": 699537
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p10-coupled-fifo.json.gz",
+            "sha256": "d7f58dbb072b3a12c0dc5643009ee4bb119a662caed3a296bf2fcd0056d0d4c1",
+            "bytes": 153030
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p10-coupled-shuffled.json.gz",
+            "sha256": "db6e9f54dafcd6451b7ed1ff9a8b7c4c2415fe9692bcb4383cc15d50e41225d7",
+            "bytes": 153868
+          }
+        }
+      },
+      {
+        "id": "p11-coupled",
+        "seed": 101410,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "fault_anchor_rack_index": 117,
+        "fault_pod_index": 14,
+        "affected_rack_range_inclusive": [
+          112,
+          119
+        ],
+        "fault_start_s": 705,
+        "fault_duration_s": 180,
+        "fault_end_s_exclusive": 885,
+        "anomaly_segments_by_role": {
+          "thermal": 6,
+          "electrical": 0,
+          "cooling": 1,
+          "control": 0
+        },
+        "records": {
+          "tour": {
+            "path": "runs/event-validation-amended-20261102/p11-coupled-tour.json.gz",
+            "sha256": "2422921c583cd2c2911feabaa4ba2153c0e562e27db2cb538d7ea2aa72ade0ae",
+            "bytes": 698135
+          },
+          "fifo": {
+            "path": "runs/event-validation-amended-20261102/p11-coupled-fifo.json.gz",
+            "sha256": "1d3ad2cb48b380b42869625c91bcd2aa157d95d75f4c5df4ea778575f014fffd",
+            "bytes": 152178
+          },
+          "shuffled": {
+            "path": "runs/event-validation-amended-20261102/p11-coupled-shuffled.json.gz",
+            "sha256": "c1c3cf7f725c7b93a41cb5284151bbb4abc4019d1c3cd7b481da51dd8ba67ff7",
+            "bytes": 151909
+          }
+        }
+      }
+    ]
+  },
+  "risk_470s": {
+    "source": {
+      "path": "runs/event-validation-amended-20261102/p01-coupled-fifo.json.gz",
+      "sha256": "ddd471aef1065ea1030051073fe77e52a26849d5d5e0c844ed8b9827eb2a940d",
+      "bytes": 154695
+    },
+    "case": "p01-coupled",
+    "agent": 0,
+    "time_s": 470.0,
+    "decision_source_json_pointer": "/decisions/387",
+    "routine_head": 0,
+    "selected_task": 10,
+    "risk_values_verified_against_sealed_source": true,
+    "component_recomputation_status": "not_recomputable_from_retained_inputs",
+    "retained_top_level_keys": [
+      "metrics",
+      "by_role",
+      "anomaly_intervals",
+      "inspection_events",
+      "public_events",
+      "decisions",
+      "dispatches",
+      "action_log",
+      "action_sha256",
+      "exact_task_gaps",
+      "process_sha256",
+      "response_config",
+      "spec",
+      "process_metadata",
+      "location_metadata"
+    ],
+    "candidates": [
+      {
+        "task": 10,
+        "task_id": "thermal:10",
+        "public_risk_at_470s": 0.008122894711187073,
+        "risk_source_json_pointer": "/decisions/387/candidates/2/public_risk",
+        "event_visible_s": 450.0,
+        "event_expires_s": 570.0,
+        "event_source_json_pointer": "/public_events/4",
+        "certificate_ok": true,
+        "budget_allowed": true,
+        "component_inputs_at_470s": {
+          "nominal_estimated_temperature_c": null,
+          "public_requested_it_kw": null,
+          "public_delivered_it_kw": null
+        },
+        "risk_components_at_470s": {
+          "thermal_excess": null,
+          "quarter_public_power_gap": null,
+          "preclip_sum": null,
+          "upper_clip_applied": null
+        }
+      },
+      {
+        "task": 8,
+        "task_id": "thermal:8",
+        "public_risk_at_470s": 0.06563121182584858,
+        "risk_source_json_pointer": "/decisions/387/candidates/1/public_risk",
+        "event_visible_s": 455.0,
+        "event_expires_s": 575.0,
+        "event_source_json_pointer": "/public_events/6",
+        "certificate_ok": true,
+        "budget_allowed": true,
+        "component_inputs_at_470s": {
+          "nominal_estimated_temperature_c": null,
+          "public_requested_it_kw": null,
+          "public_delivered_it_kw": null
+        },
+        "risk_components_at_470s": {
+          "thermal_excess": null,
+          "quarter_public_power_gap": null,
+          "preclip_sum": null,
+          "upper_clip_applied": null
+        }
+      }
+    ],
+    "missing_for_component_recomputation": [
+      "FIFO nominal observer predicted_temperature for racks 10 and 8 at t=470 s",
+      "current_packet public_requested_it_kw for racks 10 and 8 at t=470 s",
+      "current_packet public_delivered_it_kw for racks 10 and 8 at t=470 s"
+    ],
+    "missing_for_independent_temperature_update_audit": [
+      "previous nominal estimated temperature plus relevant fixed/mobile measurement history",
+      "per-step public pump command, fixed/last measured pod flow and secondary supply temperature"
+    ],
+    "scope": "Total scores and queue order are source-verified. The record does not retain packet/state/risk-component arrays. No temperatures or power terms were inferred from the recorded risk totals. A Tour or other engineering record is not substituted for FIFO state."
+  }
+}

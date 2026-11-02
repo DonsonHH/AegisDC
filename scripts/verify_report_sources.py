@@ -17,6 +17,10 @@ def load(path):return json.loads(path.read_text(encoding='utf-8'))
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def load_gzip(path):
+    with gzip.open(path,'rt',encoding='utf-8') as stream:return json.load(stream)
+
+
 def main():
     frozen_count=0
     for index,folder in [('evidence/event-validation/final/local-artifacts.json','runs/event-validation-amended-20261102'),
@@ -105,6 +109,45 @@ def main():
         rules.setdefault(proposal['rule_sha256'],data['main']['fifo']['confirmed']+sum(p['net'] for p in proposal['paired']))
     encoded={e.attrib['data-rule-sha']:int(e.attrib['data-confirmed']) for e in drawings['registered-rules'].iter() if 'data-rule-sha' in e.attrib}
     assert encoded==rules and len(rules)==9
+    expected_expressions=['4R−1','A−0.75','R+A−4E+S−0.1','4R+A−E+4S−0.25',
+                          '4R−0.75','A−0.125','4R−0.1','4R+A−E+S−0.1','2R+A−E+2S−0.25']
+    expressions=[e.attrib['data-rule-expression'] for e in drawings['registered-rules'].iter() if 'data-rule-expression' in e.attrib]
+    assert expressions==expected_expressions
+    methods=load(ROOT/'paper/source-data/report-method-evidence.json')
+    diagnosis=load(ROOT/'paper/source-data/report-rule-diagnosis.json')
+    for identity in methods['sources']:assert digest(ROOT/identity['path'])==identity['sha256']
+    for name,identity in diagnosis['source_files'].items():assert digest(ROOT/name)==identity['sha256'],name
+    primary_specs={r['id']:r['spec'] for r in protocol['cases'] if r['group']=='coupled'}
+    assert data['fault_cases']==methods['primary_processes']['cases'] and len(data['fault_cases'])==12
+    for case in data['fault_cases']:
+        spec=primary_specs[case['id']]
+        assert case['seed']==spec['seed'] and case['scenario']==spec['scenario']=='aux_feeder_loss+cdu_fouling'
+        assert case['fault_anchor_rack_index']==spec['fault_rack'] and case['fault_pod_index']==spec['fault_rack']//8
+        assert case['fault_start_s']==spec['fault_start_s'] and case['fault_duration_s']==spec['duration_s']==180
+        assert case['fault_end_s_exclusive']==spec['fault_start_s']+spec['duration_s']
+    deferred=0;maximum_risk=0.;losses=0;gains=0
+    for match in diagnosis['s0_risk_matches_existing_tour']:
+        case=match['case'];s0=load_gzip(ROOT/f'runs/response-defer-search-20261102/S0-risk-{case}.json.gz')
+        tour=load_gzip(ROOT/match['tour_file'])
+        assert s0['process_sha256']==tour['process_sha256'] and s0['action_log']==tour['action_log']
+        decisions=[r for r in s0['binary_decisions'] if r['reason']=='rule']
+        assert all(r['choice']=='defer' for r in decisions)
+        deferred+=len(decisions);maximum_risk=max(maximum_risk,max((r['features']['risk']*4 for r in decisions),default=0))
+        first=load_gzip(ROOT/f'runs/event-validation-amended-20261102/{case}-fifo.json.gz')
+        age=load_gzip(ROOT/f'runs/response-defer-search-20261102/S1-age-{case}.json.gz')
+        confirmed=lambda record:{(r['task_id'],r['onset_s'],r['end_s']) for r in record['anomaly_intervals'] if r['detected']}
+        lost=confirmed(first)-confirmed(age);gains+=len(confirmed(age)-confirmed(first));losses+=len(lost)
+        for task,start,end in lost:
+            measurements=[r for r in age['inspection_events'] if r['task_id']==task]
+            assert not any(start<=r['time_s']<=end for r in measurements)
+            after=min((r for r in measurements if r['time_s']>end),key=lambda r:r['time_s'])
+            assert not after['alarm']
+    assert deferred==229 and math.isclose(maximum_risk,.7604212881250225) and (gains,losses)==(2,12)
+    example=diagnosis['trace_examples']['p00_first_difference_and_loss']
+    assert data['rule_diagnosis_example']==example
+    marker=next(e for e in drawings['rule-diagnosis'].iter() if 'data-diagnosis-case' in e.attrib)
+    assert {k:float(marker.attrib[k]) for k in ['data-anomaly-start','data-anomaly-end','data-fifo-dispatch','data-fifo-measured','data-rule-measured']}=={
+        'data-anomaly-start':310.,'data-anomaly-end':335.,'data-fifo-dispatch':300.,'data-fifo-measured':320.,'data-rule-measured':365.}
     threshold_keys={'net_confirmations':'minimum_mean_net_confirmations',
                     'travel_delta_pct':'maximum_travel_increase_pct',
                     'completed_loss_pct':'maximum_completion_loss_pct'}
@@ -121,6 +164,10 @@ def main():
             'actual_visits_checked':3,'primary_anomaly_kinds':dict(counts),
             'embedded_svg_files_checked':len(drawings),'embedded_hotspot_values_checked':256,
             'registered_rules_checked':len(rules),'main_costs_recomputed_from_rows':True,'new_environment_evaluations':0,
+            'fault_processes_checked':12,'diagnosis_input_hashes_checked':len(diagnosis['source_files']),
+            's0_risk_deferred_binary_decisions':deferred,'s0_risk_maximum_observed_score_input':maximum_risk,
+            's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
+            'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
             'scope':'Read existing full records and public report extracts only; no simulation, training or research-model inference.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')

@@ -73,11 +73,11 @@ async function inspect(selector,width,height,label){
   report.browser=await send('Browser.getVersion');await send('Page.enable');await send('Runtime.enable');await send('Network.enable');
   await send('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:-1,uploadThroughput:-1});
   await send('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
-  await send('Page.navigate',{url:pathToFileURL(copy).href});await waitFor(`document.readyState==='complete'&&document.querySelectorAll('[data-report-section]').length===7`);
+  await send('Page.navigate',{url:pathToFileURL(copy).href});await waitFor(`document.readyState==='complete'&&document.querySelectorAll('[data-report-section]').length===8`);
   report.checks.noScriptsOrPresenterControls=await evaluate(`document.querySelectorAll('script,.stage-controls,.toolbar,.slide,dialog,[data-stage-from]').length===0`);
   report.checks.appendixOptional=await evaluate(`!document.querySelector('.case-appendix').open`);
   report.checks.allCoreContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none'&&getComputedStyle(e).opacity==='1')`);
-  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===11&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
+  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===12&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
   report.checks.contentsResolve=await evaluate(`[...document.querySelectorAll('.contents a')].every(a=>document.querySelector(a.getAttribute('href')))`);
   report.checks.noAnimations=await evaluate(`document.getAnimations().length===0&&[...document.querySelectorAll('*')].every(e=>getComputedStyle(e).animationName==='none'&&getComputedStyle(e).transitionDuration==='0s')`);
   report.checks.actualFifoQueue=await evaluate(`(()=>{const t=document.querySelector('[data-table="fifo-queue"]').textContent;return t.includes('450秒')&&t.includes('455秒')&&t.includes('0.0081')&&t.includes('0.0656')&&t.indexOf('机柜10')<t.indexOf('机柜8')})()`);
@@ -85,15 +85,21 @@ async function inspect(selector,width,height,label){
   report.checks.twoCompleteHeatmaps=await evaluate(`document.querySelectorAll('[data-kind="risk"][data-rack]').length===128&&document.querySelectorAll('[data-kind="temperature"][data-rack]').length===128`);
   report.checks.primaryOutcomeValues=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-method]')].map(e=>[e.dataset.method,Number(e.dataset.count)]))===JSON.stringify([['tour',28],['fifo',70],['shuffled',25]])`);
   report.checks.allRegisteredRulesShown=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-rule-sha]')].map(e=>Number(e.dataset.confirmed)))===JSON.stringify([28,33,59,43,30,60,47,60,49])`);
-  report.checks.costThresholdsShown=await evaluate(`(()=>{const rows=[...document.querySelectorAll('[data-cost-key]')];return rows.length===3&&rows.every(e=>Number(e.dataset.value)>0&&Number(e.dataset.threshold)>0)&&document.querySelector('#figure-outcome-costs').textContent.includes('不是现场运行标准')})()`);
+  report.checks.costThresholdsShown=await evaluate(`(()=>{const rows=[...document.querySelectorAll('[data-cost-key]')];return rows.length===3&&rows.every(e=>Number(e.dataset.value)>0&&Number(e.dataset.threshold)>0)&&document.querySelector('#figure-outcome-costs').textContent.includes('研究决策')})()`);
   report.checks.completeInspectionArchitecture=await evaluate(`(()=>{const t=document.querySelector('#figure-inspection-architecture').textContent;return ['公开观测','名义估计','两本任务账','执行边界与FIFO','执行检查与更新','离线评分'].every(v=>t.includes(v))})()`);
   report.checks.mentorRequestsAddressed=await evaluate(`(()=>{const t=document.body.textContent;return ['10 kV','380 V','CDU','E/G','风险热点','RMSE','R²','48023-2026','48097-2026','2027-02-01','2027-03-01'].every(s=>t.includes(s))})()`);
-  report.checks.boundariesVisible=await evaluate(`(()=>{const t=document.body.textContent;return t.includes('不是严格等实际成本')&&t.includes('尚无原算法同任务横向实验')&&t.includes('不是故障概率')&&t.includes('尚未据正式条文')})()`);
-  const regions=[['#overview','overview'],['#figure-model','model'],['#standards','standards'],['#scale','scale'],
-    ['#hotspots','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],
+  report.checks.summaryPrecedesFirstTable=await evaluate(`(()=>{const summary=document.querySelector('.project-summary'),table=document.querySelector('table');return !!summary&&(summary.compareDocumentPosition(table)&Node.DOCUMENT_POSITION_FOLLOWING)!==0&&summary.textContent.includes('31.5%')&&summary.textContent.includes('78.7%')})()`);
+  report.checks.threeReadablePrinciples=await evaluate(`document.querySelectorAll('.principle-box').length===3&&[...document.querySelectorAll('.formula-scroll')].every(e=>e.getBoundingClientRect().height>40)&&document.querySelector('#principle-estimation').textContent.includes('800 kJ/K')&&document.querySelector('#principle-risk').textContent.includes('0.25')&&document.querySelector('#principle-return').textContent.includes('完整')`);
+  report.checks.allFaultCasesShown=await evaluate(`document.querySelector('[data-table="fault-cases"]').tBodies[0].rows.length===12&&document.querySelector('#results').textContent.includes('0.05')&&document.querySelector('#results').textContent.includes('0.20')`);
+  report.checks.ruleMechanismAndDiagnosis=await evaluate(`(()=>{const t=document.querySelector('#results').textContent;return document.querySelectorAll('[data-rule-expression]').length===9&&['229次','0.7604','规则06','300秒派出','365秒','模型调用和训练均为0'].every(v=>t.includes(v))})()`);
+  report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['第1周','第2周','第3周','条款原文','VAE-UNet','Greedy','DRL','128／256／512','训练预算','FLOP/s'].every(v=>t.includes(v))})()`);
+  report.checks.scopeNotesCollected=await evaluate(`(()=>{const t=document.body.textContent;return document.querySelectorAll('.scope-note').length>=5&&t.includes('实际额外访问分别为89、81次')&&t.includes('官方元数据')&&t.includes('日志保留了当时总分')})()`);
+  const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],
+    ['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],
+    ['#figure-public-risk','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],['#principle-return','return-formula'],
     ['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
-    ['#results','results'],['#figure-outcome-costs','outcome-costs'],['#figure-registered-rules','registered-rules'],
-    ['#comparison','paper-metrics'],['#figure-original-paper-scores','paper-comparison']];
+    ['#results','results'],['[data-table="fault-cases"]','fault-cases'],['#figure-outcome-costs','outcome-costs'],['#figure-registered-rules','registered-rules'],['#figure-rule-diagnosis','rule-diagnosis'],
+    ['#comparison','paper-metrics'],['#figure-original-paper-scores','paper-comparison'],['#roadmap','roadmap']];
   for(const [width,height] of [[1366,768],[1920,1080]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate('window.scrollTo(0,0)');await delay(100);
@@ -106,7 +112,7 @@ async function inspect(selector,width,height,label){
     await evaluate(`document.querySelector('.case-appendix').open=false`);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  for(const [selector,label] of [['#overview','overview'],['#hotspots','hotspots'],['#fifo','fifo'],['#comparison','comparison']])await inspect(selector,390,844,label);
+  for(const [selector,label] of [['.project-summary','summary'],['#overview','overview'],['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],['#hotspots','hotspots'],['#fifo','fifo'],['#principle-return','return-formula'],['#comparison','comparison'],['#roadmap','roadmap']])await inspect(selector,390,844,label);
   await send('Emulation.setEmulatedMedia',{media:'print'});
   report.checks.printAppendixVisible=await evaluate(`document.querySelector('#figure-execution-chain').getBoundingClientRect().height>0`);
   report.checks.printContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none')&&getComputedStyle(document.querySelector('.contents')).display==='none'`);
@@ -120,7 +126,7 @@ finally{
   report.checked_at_utc=new Date().toISOString();
   fs.writeFileSync(path.join(root,'paper/generated/supervisor-report-verification.json'),JSON.stringify(report,null,2)+'\n');
   fs.writeFileSync(path.join(root,'paper/generated/briefing-browser-verification.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({status:report.status,error:report.error,checks:report.checks,views:report.views},null,2));
+  console.log(JSON.stringify({status:report.status,error:report.error,checks:report.checks,viewCount:report.views.length,screenshotCount:Object.keys(report.screenshot_sha256).length},null,2));
   if(socket?.readyState===WebSocket.OPEN){try{await send('Browser.close');}catch{}socket.close();}
   if(browser.exitCode===null)browser.kill();
 }})();

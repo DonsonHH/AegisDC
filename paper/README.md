@@ -4,18 +4,18 @@
 
 ## 建议入口
 
-1. [自阅研究进展报告](supervisor-briefing.html)：先回应上次沟通要求，再看模型／规模、风险热点、FIFO真实流程、当前结果及原论文指标与对照。核心内容全部直接可见，文末回溯附例可按需展开。
+1. [自阅研究进展报告](supervisor-briefing.html)：主线摘要后依次阅读耦合模型、估计与风险公式、巡检保护、故障实验、规则诊断、原文指标及下一步路线图。核心内容全部直接可见，文末回溯附例可按需展开。
 2. [本次采用的导师要求](mentor-requests.md)、[工程参照核查](research/mentor-engineering-reference-20261103.md)、[原论文指标核查](research/original-paper-metrics-20261103.md)：分别对应截图要求、El Capitan／国家标准及原文评价设计。
 3. [机制稿摘要](supervisor-brief.md)、[贡献表](research-map.md)、[正文](manuscript_zh.md)／[公式图表预览](manuscript_zh.html)：供进一步审阅论文，而非当前报告的操作说明。
 
 网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
-正文放入10张本项目图：设施耦合架构、完整巡检系统架构、FIFO流程、风险与温度热点、实际执行时序、主确认量、逐过程净增、收益代价和9条规则负结果。另有1张明确标注来源的原论文对照图；文末保留3张本项目回溯附图。所有本项目数据图沿用封存记录。
+正文放入11张本项目图及1张注明来源的原论文图，文末保留3张本项目回溯附图。本次补齐3个原理框、12过程故障表，九规则图直接显示得分式，并增加15秒等待规则的实际错窗时序；末尾给出三个工作周的拟定路线图。所有研究数值沿用封存记录，规则诊断只读原有轨迹。
 
 ## 来源与复建
 
 - [报告Markdown源文](supervisor-report.md)、[绘图输入](generated/supervisor-report-data.json)、[完整SVG](figures/supervisor-report/)、[来源manifest](generated/briefing-manifest.json)。
-- [用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[两轴审读及落实](briefing-code-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
+- [本次修订与逐项核对](report-revision-20261103.md)、[用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[上一版两轴审读](briefing-code-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
 - 已发布主结果仍见`evidence/event-validation/final`；工程热点图使用已保存的工程回看，未计作12主过程的新样本。原论文数值是原文内部对照，未冒充本项目实测。
 
 构建：`python scripts/build_supervisor_report.py`，使用已有写作环境中的markdown-it-py和Python标准库；[写作依赖](requirements-writing.txt)可放在隔离目录`.work/paper-writing-deps`。数值来自有原件SHA的紧凑快照及原有JSON/SVG，不需要重跑模拟。旧命令`python scripts/build_supervisor_briefing.py`已转到同一静态报告构建，避免恢复旧动画。
@@ -24,6 +24,7 @@
 
 ## 历史沟通材料
 
+- [本次润色前的自阅版](briefing-history/65f025fd/supervisor-briefing.html)及源文按`65f025fd`逐字节保存。
 - [18阶段演示版](briefing-history/2db2adf1/supervisor-briefing.html)及源文件按`2db2adf1`保存。
 - [静态五屏版](briefing-history/c2e1dbec/supervisor-briefing.html)与[早期四屏版](briefing-history/958e777c/supervisor-briefing.html)也保留。
 

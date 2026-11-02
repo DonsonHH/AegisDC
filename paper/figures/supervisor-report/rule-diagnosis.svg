@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 500" role="img" aria-labelledby="rule-diagnosis-title rule-diagnosis-description" data-chart="rule-diagnosis">
+<title id="rule-diagnosis-title">规则06与FIFO对机柜4的实际检查时序</title>
+<desc id="rule-diagnosis-description">FIFO300秒派出机柜4的例行检查、320秒确认；等待规则315秒先查例行12、340秒再查4、365秒测量正常。事后异常段310到335秒。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >15秒等待规则的一次时序得失：机柜4的确认窗口</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >同一过程、同一巡检员的两条实际轨迹；首次选单分歧发生在260秒。</text>
+<text x="18" y="127" font-size="23" fill="#172d3b" text-anchor="start" font-weight="400" >评价异常段</text>
+<rect x="345" y="102" width="312.5" height="33" fill="#f8dfb2" />
+<text x="501.25" y="94" font-size="22" fill="#b27420" text-anchor="middle" font-weight="600" >310—335秒</text>
+<text x="18" y="218" font-size="23" fill="#2369a5" text-anchor="start" font-weight="400" >FIFO实际轨迹</text>
+<text x="18" y="322" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >等待规则实际轨迹</text>
+<rect x="220" y="191" width="250" height="40" fill="#eaf2f8" />
+<text x="345" y="218" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >例行查4</text>
+<circle cx="470" cy="211" r="7" fill="#b63f50" />
+<text x="484" y="213" font-size="22" fill="#b63f50" text-anchor="start" font-weight="600" >320秒告警，确认</text>
+<rect x="407.5" y="290" width="312.5" height="40" fill="#eaf2f8" stroke="white" stroke-width="2"/>
+<text x="563.75" y="317" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >先做例行12</text>
+<rect x="720" y="290" width="312.5" height="40" fill="#fff2dc" stroke="white" stroke-width="2"/>
+<text x="876.25" y="317" font-size="23" fill="#b27420" text-anchor="middle" font-weight="600" >再加查4</text>
+<circle cx="1032.5" cy="310" r="7" fill="#7b8791" />
+<text x="1032.5" y="273" font-size="22" fill="#526675" text-anchor="middle" font-weight="600" >365秒正常</text>
+<text x="407.5" y="365" font-size="21" fill="#526675" text-anchor="middle" font-weight="400" >315秒选择暂缓</text>
+<line x1="220" y1="390" x2="1220" y2="390" stroke="#dce4e9" stroke-width="2" />
+<line x1="220" y1="390" x2="220" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="220" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >300秒</text>
+<line x1="470" y1="390" x2="470" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="470" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >320秒</text>
+<line x1="720" y1="390" x2="720" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="720" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >340秒</text>
+<line x1="970" y1="390" x2="970" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="970" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >360秒</text>
+<line x1="1220" y1="390" x2="1220" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="1220" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >380秒</text>
+<text x="18" y="473" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >实际结果：FIFO在异常段内完成测量；等待规则的测量落在异常结束之后。</text>
+<g data-diagnosis-case="p00-coupled" data-anomaly-start="310.0" data-anomaly-end="335.0" data-fifo-dispatch="300.0" data-fifo-measured="320.0" data-rule-measured="365.0"></g>
+</svg>

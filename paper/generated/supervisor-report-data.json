@@ -722,41 +722,1511 @@
   "registered_rules": [
     {
       "rule_sha256": "b348be3023884fb27e70211369ac7207166fae5290ef2c58344571b93e724039",
-      "confirmed": 28
+      "confirmed": 28,
+      "rule": {
+        "version": 1,
+        "bias": -1.0,
+        "weights": {
+          "risk": 4.0,
+          "age": 0.0,
+          "extra_time": 0.0,
+          "slack_difference": 0.0
+        }
+      }
     },
     {
       "rule_sha256": "9948125dc1a0fdda202383542101a87c41976b6459122c4b5df7584c75a2982f",
-      "confirmed": 33
+      "confirmed": 33,
+      "rule": {
+        "version": 1,
+        "bias": -0.75,
+        "weights": {
+          "risk": 0.0,
+          "age": 1.0,
+          "extra_time": 0.0,
+          "slack_difference": 0.0
+        }
+      }
     },
     {
       "rule_sha256": "3b93830def94e5009e0c4ba3c6e80068b1ce10a36de0877e861d5c1ae050ed88",
-      "confirmed": 59
+      "confirmed": 59,
+      "rule": {
+        "version": 1,
+        "bias": -0.1,
+        "weights": {
+          "risk": 1.0,
+          "age": 1.0,
+          "extra_time": -4.0,
+          "slack_difference": 1.0
+        }
+      }
     },
     {
       "rule_sha256": "6292572b67bf3657316e3f607f5f46a18e5aee28bdf2d53c8759f0e01207081f",
-      "confirmed": 43
+      "confirmed": 43,
+      "rule": {
+        "version": 1,
+        "bias": -0.25,
+        "weights": {
+          "risk": 4.0,
+          "age": 1.0,
+          "extra_time": -1.0,
+          "slack_difference": 4.0
+        }
+      }
     },
     {
       "rule_sha256": "b08ae6c5c68e463125d825c0d38c6b55bb50c136c13336536a2369045c332c78",
-      "confirmed": 30
+      "confirmed": 30,
+      "rule": {
+        "version": 1,
+        "bias": -0.75,
+        "weights": {
+          "risk": 4.0,
+          "age": 0.0,
+          "extra_time": 0.0,
+          "slack_difference": 0.0
+        }
+      }
     },
     {
       "rule_sha256": "c9b8f9cc37f031b275681f92500b9b51ff403b897278b4e313c3cfabfedfd949",
-      "confirmed": 60
+      "confirmed": 60,
+      "rule": {
+        "version": 1,
+        "bias": -0.125,
+        "weights": {
+          "risk": 0.0,
+          "age": 1.0,
+          "extra_time": 0.0,
+          "slack_difference": 0.0
+        }
+      }
     },
     {
       "rule_sha256": "8236b1627de879fd9188f71f605f88983459ff06ab8316e2d64127029a0e2d1c",
-      "confirmed": 47
+      "confirmed": 47,
+      "rule": {
+        "version": 1,
+        "bias": -0.1,
+        "weights": {
+          "risk": 4.0,
+          "age": 0.0,
+          "extra_time": 0.0,
+          "slack_difference": 0.0
+        }
+      }
     },
     {
       "rule_sha256": "328cdedb02a768922c8f49db69cadf60dc6888139a9d9b6c0a52854c5d59fdb9",
-      "confirmed": 60
+      "confirmed": 60,
+      "rule": {
+        "version": 1,
+        "bias": -0.1,
+        "weights": {
+          "risk": 4.0,
+          "age": 1.0,
+          "extra_time": -1.0,
+          "slack_difference": 1.0
+        }
+      }
     },
     {
       "rule_sha256": "24c5531ac7d5505d1ce8d58aff726099f1dd67dd567143462d1d5613d3ad3f77",
-      "confirmed": 49
+      "confirmed": 49,
+      "rule": {
+        "version": 1,
+        "bias": -0.25,
+        "weights": {
+          "risk": 2.0,
+          "age": 1.0,
+          "extra_time": -1.0,
+          "slack_difference": 2.0
+        }
+      }
     }
   ],
+  "fault_cases": [
+    {
+      "id": "p00-coupled",
+      "seed": 101003,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 0,
+      "fault_pod_index": 0,
+      "affected_rack_range_inclusive": [
+        0,
+        7
+      ],
+      "fault_start_s": 150,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 330,
+      "anomaly_segments_by_role": {
+        "thermal": 8,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p00-coupled-tour.json.gz",
+          "sha256": "4c3ae5cb961a68cd39856c43118d3e3f23eeb7097a575cd1fb8d47b8dd9ac6c7",
+          "bytes": 703389
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p00-coupled-fifo.json.gz",
+          "sha256": "9937e15ec98b266a927fe0fc9e7a27e299165ae94e5c1971d6544a23b4b18482",
+          "bytes": 155276
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p00-coupled-shuffled.json.gz",
+          "sha256": "9a9399e9377e552880c1ff2b2899e8511187aa1b29b181a5c631cb2678a6505f",
+          "bytes": 153784
+        }
+      }
+    },
+    {
+      "id": "p01-coupled",
+      "seed": 101040,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 9,
+      "fault_pod_index": 1,
+      "affected_rack_range_inclusive": [
+        8,
+        15
+      ],
+      "fault_start_s": 335,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 515,
+      "anomaly_segments_by_role": {
+        "thermal": 6,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p01-coupled-tour.json.gz",
+          "sha256": "c7029d27c313941dd2e7f08cc9e878853e47a4a7ef641a0b687f7b7acdccec71",
+          "bytes": 700113
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p01-coupled-fifo.json.gz",
+          "sha256": "ddd471aef1065ea1030051073fe77e52a26849d5d5e0c844ed8b9827eb2a940d",
+          "bytes": 154695
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p01-coupled-shuffled.json.gz",
+          "sha256": "22a2dbaa86159278d7a5974068fd48e0a2d4298087ed0d6c807ab3af74b4af83",
+          "bytes": 152343
+        }
+      }
+    },
+    {
+      "id": "p02-coupled",
+      "seed": 101077,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 20,
+      "fault_pod_index": 2,
+      "affected_rack_range_inclusive": [
+        16,
+        23
+      ],
+      "fault_start_s": 520,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 700,
+      "anomaly_segments_by_role": {
+        "thermal": 6,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p02-coupled-tour.json.gz",
+          "sha256": "2b783ba50fa638bc26848896f4b07d4a1c8e2cc9b8dfee787015ba7fcd1071b6",
+          "bytes": 699034
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p02-coupled-fifo.json.gz",
+          "sha256": "4a0a608de93636dcdb4dc07ec821c959cbf95211ca8f4000b4aeaab3c99627e7",
+          "bytes": 154203
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p02-coupled-shuffled.json.gz",
+          "sha256": "d79ad975a6ecca9dff1a4d0e0ca40c9c8cfadec0d4ff008061e38d3d7a5ef0bd",
+          "bytes": 151395
+        }
+      }
+    },
+    {
+      "id": "p03-coupled",
+      "seed": 101114,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 29,
+      "fault_pod_index": 3,
+      "affected_rack_range_inclusive": [
+        24,
+        31
+      ],
+      "fault_start_s": 705,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 885,
+      "anomaly_segments_by_role": {
+        "thermal": 7,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p03-coupled-tour.json.gz",
+          "sha256": "6841d3328bb7091b5822743c665577e46469feb6a5bb0c3e4e20e69106a82a45",
+          "bytes": 697100
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p03-coupled-fifo.json.gz",
+          "sha256": "7ecc32ad121366adb84cc89e83a77d4b2006713a659e6e3d10d779c5d7590abf",
+          "bytes": 152963
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p03-coupled-shuffled.json.gz",
+          "sha256": "4395f4c18bd6bc1caea01699d766bf29541f558f80808c40ea86bbb426093ac6",
+          "bytes": 151647
+        }
+      }
+    },
+    {
+      "id": "p04-coupled",
+      "seed": 101151,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 36,
+      "fault_pod_index": 4,
+      "affected_rack_range_inclusive": [
+        32,
+        39
+      ],
+      "fault_start_s": 150,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 330,
+      "anomaly_segments_by_role": {
+        "thermal": 7,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p04-coupled-tour.json.gz",
+          "sha256": "855ef41ffc4b43e8869a01ea30525452838abfd2c67387c932c2b6c3ede74e91",
+          "bytes": 704559
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p04-coupled-fifo.json.gz",
+          "sha256": "c639893ead73bd4d93d8360c9fc754f6c20ca5f3cb6e58e7edebb3fb08b7dc8d",
+          "bytes": 156491
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p04-coupled-shuffled.json.gz",
+          "sha256": "9eea75094286d557e7748fca8385c91a3392fb3d95e4f4065f52fb8c4e496794",
+          "bytes": 157149
+        }
+      }
+    },
+    {
+      "id": "p05-coupled",
+      "seed": 101188,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 45,
+      "fault_pod_index": 5,
+      "affected_rack_range_inclusive": [
+        40,
+        47
+      ],
+      "fault_start_s": 335,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 515,
+      "anomaly_segments_by_role": {
+        "thermal": 7,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p05-coupled-tour.json.gz",
+          "sha256": "9c9bb965399557bcd0fc32fb9d95762cf9d2510b80ce4944f483f91069a29dde",
+          "bytes": 702546
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p05-coupled-fifo.json.gz",
+          "sha256": "d6888c7f57e3d84d90440f8f61593c8029914596eed8f256649d9ad1c301d737",
+          "bytes": 155003
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p05-coupled-shuffled.json.gz",
+          "sha256": "f02d6f43ef799606f68c1302c32bab0064f326ce76fc26cfb318d0c7873ccde0",
+          "bytes": 156314
+        }
+      }
+    },
+    {
+      "id": "p06-coupled",
+      "seed": 101225,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 56,
+      "fault_pod_index": 7,
+      "affected_rack_range_inclusive": [
+        56,
+        63
+      ],
+      "fault_start_s": 520,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 700,
+      "anomaly_segments_by_role": {
+        "thermal": 6,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p06-coupled-tour.json.gz",
+          "sha256": "e77bf328dbfb11ec0268fe7bdbc07819d681ec35bbe4e7daadc47631098a4470",
+          "bytes": 697834
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p06-coupled-fifo.json.gz",
+          "sha256": "816c5570572fd89192200a52ea8b93b28b7168b19c393da96d8bf2bc9c91729a",
+          "bytes": 152591
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p06-coupled-shuffled.json.gz",
+          "sha256": "f66259f4f2fbf9931dc2b9f41349fd3b30830c87f54fd17221a0277745d7e0c3",
+          "bytes": 152763
+        }
+      }
+    },
+    {
+      "id": "p07-coupled",
+      "seed": 101262,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 65,
+      "fault_pod_index": 8,
+      "affected_rack_range_inclusive": [
+        64,
+        71
+      ],
+      "fault_start_s": 705,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 885,
+      "anomaly_segments_by_role": {
+        "thermal": 6,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p07-coupled-tour.json.gz",
+          "sha256": "413383cb6facb3965d42aff2b0ac9e30b75ef3ffd1c8873aca8f3baf2c5828dd",
+          "bytes": 698709
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p07-coupled-fifo.json.gz",
+          "sha256": "315b3717f8c7bf92bf1ca959bcc73ae43fb49c1c881633f43ac3464d68ad4009",
+          "bytes": 151907
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p07-coupled-shuffled.json.gz",
+          "sha256": "18598b41718ef360eabdfab53beba8eb26979a3f9e985094ca110c2ba8eb4aa8",
+          "bytes": 153383
+        }
+      }
+    },
+    {
+      "id": "p08-coupled",
+      "seed": 101299,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 76,
+      "fault_pod_index": 9,
+      "affected_rack_range_inclusive": [
+        72,
+        79
+      ],
+      "fault_start_s": 150,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 330,
+      "anomaly_segments_by_role": {
+        "thermal": 7,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p08-coupled-tour.json.gz",
+          "sha256": "b6fc82adc96aacac3af5b98a4106023b952097a854b9a2aa22b08e32d5f87a71",
+          "bytes": 701216
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p08-coupled-fifo.json.gz",
+          "sha256": "2aad901c2b0311df584c5d188d69720e9415c843745fff86ff23edc1125ae266",
+          "bytes": 157552
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p08-coupled-shuffled.json.gz",
+          "sha256": "4ea4474700a87208b7fd3573634bf0924434aace41f7c94b2d65613c3d72d603",
+          "bytes": 156589
+        }
+      }
+    },
+    {
+      "id": "p09-coupled",
+      "seed": 101336,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 85,
+      "fault_pod_index": 10,
+      "affected_rack_range_inclusive": [
+        80,
+        87
+      ],
+      "fault_start_s": 335,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 515,
+      "anomaly_segments_by_role": {
+        "thermal": 7,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p09-coupled-tour.json.gz",
+          "sha256": "4e135e1f1fa4904bdb0e4c9c1d282c4c026c319f0ff9852455d005429c970dfd",
+          "bytes": 701067
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p09-coupled-fifo.json.gz",
+          "sha256": "0214c5f5cf67430c5d4ba575c09f597c32cb55e5cb31dbed270f2e4dbe56f1a3",
+          "bytes": 154278
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p09-coupled-shuffled.json.gz",
+          "sha256": "9bfb47aa89c4916290b62bacbe1b16671c814d0b19b675f1a39256c660cfab25",
+          "bytes": 153925
+        }
+      }
+    },
+    {
+      "id": "p10-coupled",
+      "seed": 101373,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 100,
+      "fault_pod_index": 12,
+      "affected_rack_range_inclusive": [
+        96,
+        103
+      ],
+      "fault_start_s": 520,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 700,
+      "anomaly_segments_by_role": {
+        "thermal": 4,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p10-coupled-tour.json.gz",
+          "sha256": "05ecb857afd5b0798acf517b10f6a3c2a465954c27d75b12d3d5248225094395",
+          "bytes": 699537
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p10-coupled-fifo.json.gz",
+          "sha256": "d7f58dbb072b3a12c0dc5643009ee4bb119a662caed3a296bf2fcd0056d0d4c1",
+          "bytes": 153030
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p10-coupled-shuffled.json.gz",
+          "sha256": "db6e9f54dafcd6451b7ed1ff9a8b7c4c2415fe9692bcb4383cc15d50e41225d7",
+          "bytes": 153868
+        }
+      }
+    },
+    {
+      "id": "p11-coupled",
+      "seed": 101410,
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "fault_anchor_rack_index": 117,
+      "fault_pod_index": 14,
+      "affected_rack_range_inclusive": [
+        112,
+        119
+      ],
+      "fault_start_s": 705,
+      "fault_duration_s": 180,
+      "fault_end_s_exclusive": 885,
+      "anomaly_segments_by_role": {
+        "thermal": 6,
+        "electrical": 0,
+        "cooling": 1,
+        "control": 0
+      },
+      "records": {
+        "tour": {
+          "path": "runs/event-validation-amended-20261102/p11-coupled-tour.json.gz",
+          "sha256": "2422921c583cd2c2911feabaa4ba2153c0e562e27db2cb538d7ea2aa72ade0ae",
+          "bytes": 698135
+        },
+        "fifo": {
+          "path": "runs/event-validation-amended-20261102/p11-coupled-fifo.json.gz",
+          "sha256": "1d3ad2cb48b380b42869625c91bcd2aa157d95d75f4c5df4ea778575f014fffd",
+          "bytes": 152178
+        },
+        "shuffled": {
+          "path": "runs/event-validation-amended-20261102/p11-coupled-shuffled.json.gz",
+          "sha256": "c1c3cf7f725c7b93a41cb5284151bbb4abc4019d1c3cd7b481da51dd8ba67ff7",
+          "bytes": 151909
+        }
+      }
+    }
+  ],
+  "method_basis": {
+    "estimator": "nominal",
+    "step_s": 5.0,
+    "rack_count": 128,
+    "racks_per_pod": 8,
+    "fixed_temperature_indices": {
+      "start": 0,
+      "stop_inclusive": 124,
+      "step": 4,
+      "count": 32
+    },
+    "fixed_flow_pod_indices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "thermal_risk_expression": "min(4, max(T_hat_degC - 65, 0)/20 + 0.25*(1 - P_del_kW/max(P_req_kW, 1e-12)))",
+    "thermal_risk_source": "src/patrol_rsi/active_inspection.py:93-115",
+    "temperature_update_source": "src/patrol_rsi/facility_observation.py:92-109; src/patrol_rsi/estimation.py:28-38",
+    "fault_modifiers": {
+      "aux_feeder_loss": {
+        "pod_aux_feed_multiplier": 0.05
+      },
+      "cdu_fouling": {
+        "pod_cdu_heat_exchange_multiplier": 0.2
+      }
+    },
+    "fault_modifier_source": "src/patrol_rsi/facility.py:115-149; runs/event-validation-amended-20261102/source/process.py:15-37"
+  },
+  "rule_diagnosis_example": {
+    "case": "p00-coupled",
+    "rule": "S1-age",
+    "agent": 0,
+    "time_window_s": [
+      245.0,
+      390.0
+    ],
+    "process_sha256": "b261bdf3514a99289a4664c7724234845b585e02bf7c888f439c06fefd63bb3b",
+    "fifo": {
+      "intervals": [
+        {
+          "task": 4,
+          "task_id": "thermal:4",
+          "kind": "thermal",
+          "onset_s": 310.0,
+          "end_s": 335.0,
+          "samples": 5,
+          "weight": 1.0281790109694067,
+          "first_confirmation_s": 320.0,
+          "detected": true,
+          "delay_or_censor_s": 10.0
+        },
+        {
+          "task": 6,
+          "task_id": "thermal:6",
+          "kind": "thermal",
+          "onset_s": 250.0,
+          "end_s": 340.0,
+          "samples": 18,
+          "weight": 1.0912484110990919,
+          "first_confirmation_s": 280.0,
+          "detected": true,
+          "delay_or_censor_s": 30.0
+        }
+      ],
+      "public_events": [
+        {
+          "event_id": 7,
+          "task": 6,
+          "visible_s": 255.0,
+          "initial_public_risk": 0.008216813711975846,
+          "expires_s": 375.0,
+          "status": "measured",
+          "measurement_s": 280.0,
+          "measured_alarm": true,
+          "signal_source_task": 6,
+          "agent": 0
+        },
+        {
+          "event_id": 10,
+          "task": 4,
+          "visible_s": 315.0,
+          "initial_public_risk": 0.013020660814884621,
+          "expires_s": 435.0,
+          "status": "measured",
+          "measurement_s": 320.0,
+          "measured_alarm": true,
+          "signal_source_task": 4,
+          "agent": 0
+        }
+      ],
+      "dispatches": [
+        {
+          "time_s": 245.0,
+          "agent": 0,
+          "task": 2,
+          "routine_head": 2,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 260.0,
+          "minimum_projected_slack_s": 70.0
+        },
+        {
+          "time_s": 260.0,
+          "agent": 0,
+          "task": 6,
+          "routine_head": 4,
+          "extra_event_visit": true,
+          "event_id": 7,
+          "certified_finish_s": 280.0,
+          "minimum_projected_slack_s": 55.0
+        },
+        {
+          "time_s": 280.0,
+          "agent": 0,
+          "task": 2,
+          "routine_head": 4,
+          "extra_event_visit": true,
+          "event_id": 8,
+          "certified_finish_s": 300.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 300.0,
+          "agent": 0,
+          "task": 4,
+          "routine_head": 4,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 320.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 320.0,
+          "agent": 0,
+          "task": 6,
+          "routine_head": 6,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 335.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 335.0,
+          "agent": 0,
+          "task": 12,
+          "routine_head": 12,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 355.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 355.0,
+          "agent": 0,
+          "task": 14,
+          "routine_head": 14,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 370.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 370.0,
+          "agent": 0,
+          "task": 8,
+          "routine_head": 8,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 390.0,
+          "minimum_projected_slack_s": 30.0
+        },
+        {
+          "time_s": 390.0,
+          "agent": 0,
+          "task": 10,
+          "routine_head": 10,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 405.0,
+          "minimum_projected_slack_s": 30.0
+        }
+      ],
+      "measurements": [
+        {
+          "time_s": 245.0,
+          "agent": 0,
+          "task": 0,
+          "task_id": "thermal:0",
+          "alarm": true,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 260.0,
+          "agent": 0,
+          "task": 2,
+          "task_id": "thermal:2",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 280.0,
+          "agent": 0,
+          "task": 6,
+          "task_id": "thermal:6",
+          "alarm": true,
+          "extra_event_visit": true,
+          "response_event_id": 7
+        },
+        {
+          "time_s": 300.0,
+          "agent": 0,
+          "task": 2,
+          "task_id": "thermal:2",
+          "alarm": true,
+          "extra_event_visit": true,
+          "response_event_id": 8
+        },
+        {
+          "time_s": 320.0,
+          "agent": 0,
+          "task": 4,
+          "task_id": "thermal:4",
+          "alarm": true,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 335.0,
+          "agent": 0,
+          "task": 6,
+          "task_id": "thermal:6",
+          "alarm": true,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 355.0,
+          "agent": 0,
+          "task": 12,
+          "task_id": "thermal:12",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 370.0,
+          "agent": 0,
+          "task": 14,
+          "task_id": "thermal:14",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 390.0,
+          "agent": 0,
+          "task": 8,
+          "task_id": "thermal:8",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        }
+      ]
+    },
+    "rule_record": {
+      "intervals": [
+        {
+          "task": 4,
+          "task_id": "thermal:4",
+          "kind": "thermal",
+          "onset_s": 310.0,
+          "end_s": 335.0,
+          "samples": 5,
+          "weight": 1.0281790109694067,
+          "first_confirmation_s": null,
+          "detected": false,
+          "delay_or_censor_s": 25.0
+        },
+        {
+          "task": 6,
+          "task_id": "thermal:6",
+          "kind": "thermal",
+          "onset_s": 250.0,
+          "end_s": 340.0,
+          "samples": 18,
+          "weight": 1.0912484110990919,
+          "first_confirmation_s": 295.0,
+          "detected": true,
+          "delay_or_censor_s": 45.0
+        }
+      ],
+      "public_events": [
+        {
+          "event_id": 7,
+          "task": 6,
+          "visible_s": 255.0,
+          "initial_public_risk": 0.008216813711975846,
+          "expires_s": 375.0,
+          "status": "measured",
+          "measurement_s": 295.0,
+          "measured_alarm": true,
+          "signal_source_task": 6,
+          "agent": 0
+        },
+        {
+          "event_id": 10,
+          "task": 4,
+          "visible_s": 315.0,
+          "initial_public_risk": 0.013020660814884621,
+          "expires_s": 435.0,
+          "status": "measured",
+          "measurement_s": 365.0,
+          "measured_alarm": false,
+          "signal_source_task": 4,
+          "agent": 0
+        }
+      ],
+      "dispatches": [
+        {
+          "time_s": 245.0,
+          "agent": 0,
+          "task": 2,
+          "routine_head": 2,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 260.0,
+          "minimum_projected_slack_s": 70.0
+        },
+        {
+          "time_s": 260.0,
+          "agent": 0,
+          "task": 4,
+          "routine_head": 4,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 280.0,
+          "minimum_projected_slack_s": 70.0
+        },
+        {
+          "time_s": 280.0,
+          "agent": 0,
+          "task": 6,
+          "routine_head": 6,
+          "extra_event_visit": false,
+          "event_id": 7,
+          "certified_finish_s": 295.0,
+          "minimum_projected_slack_s": 70.0
+        },
+        {
+          "time_s": 295.0,
+          "agent": 0,
+          "task": 2,
+          "routine_head": 12,
+          "extra_event_visit": true,
+          "event_id": 8,
+          "certified_finish_s": 315.0,
+          "minimum_projected_slack_s": 45.0
+        },
+        {
+          "time_s": 315.0,
+          "agent": 0,
+          "task": 12,
+          "routine_head": 12,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 340.0,
+          "minimum_projected_slack_s": 45.0
+        },
+        {
+          "time_s": 340.0,
+          "agent": 0,
+          "task": 4,
+          "routine_head": 14,
+          "extra_event_visit": true,
+          "event_id": 10,
+          "certified_finish_s": 365.0,
+          "minimum_projected_slack_s": 10.0
+        },
+        {
+          "time_s": 365.0,
+          "agent": 0,
+          "task": 14,
+          "routine_head": 14,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 390.0,
+          "minimum_projected_slack_s": 10.0
+        },
+        {
+          "time_s": 390.0,
+          "agent": 0,
+          "task": 8,
+          "routine_head": 8,
+          "extra_event_visit": false,
+          "event_id": null,
+          "certified_finish_s": 410.0,
+          "minimum_projected_slack_s": 10.0
+        }
+      ],
+      "measurements": [
+        {
+          "time_s": 245.0,
+          "agent": 0,
+          "task": 0,
+          "task_id": "thermal:0",
+          "alarm": true,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 260.0,
+          "agent": 0,
+          "task": 2,
+          "task_id": "thermal:2",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 280.0,
+          "agent": 0,
+          "task": 4,
+          "task_id": "thermal:4",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 295.0,
+          "agent": 0,
+          "task": 6,
+          "task_id": "thermal:6",
+          "alarm": true,
+          "extra_event_visit": false,
+          "response_event_id": 7
+        },
+        {
+          "time_s": 315.0,
+          "agent": 0,
+          "task": 2,
+          "task_id": "thermal:2",
+          "alarm": true,
+          "extra_event_visit": true,
+          "response_event_id": 8
+        },
+        {
+          "time_s": 340.0,
+          "agent": 0,
+          "task": 12,
+          "task_id": "thermal:12",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        },
+        {
+          "time_s": 365.0,
+          "agent": 0,
+          "task": 4,
+          "task_id": "thermal:4",
+          "alarm": false,
+          "extra_event_visit": true,
+          "response_event_id": 10
+        },
+        {
+          "time_s": 390.0,
+          "agent": 0,
+          "task": 14,
+          "task_id": "thermal:14",
+          "alarm": false,
+          "extra_event_visit": false,
+          "response_event_id": null
+        }
+      ],
+      "binary_decisions": [
+        {
+          "time_s": 260.0,
+          "agent": 0,
+          "event_task": 6,
+          "routine_head": 4,
+          "selected": 4,
+          "reason": "rule",
+          "choice": "defer",
+          "features": {
+            "risk": 0.005965418247463293,
+            "age": 0.041666666666666664,
+            "extra_time": 0.0,
+            "slack_difference": -0.025
+          },
+          "score": -0.08333333333333334
+        },
+        {
+          "time_s": 295.0,
+          "agent": 0,
+          "event_task": 2,
+          "routine_head": 12,
+          "selected": 2,
+          "reason": "rule",
+          "choice": "respond",
+          "features": {
+            "risk": 0.042035449742291765,
+            "age": 0.25,
+            "extra_time": 0.0,
+            "slack_difference": -0.041666666666666664
+          },
+          "score": 0.125
+        },
+        {
+          "time_s": 315.0,
+          "agent": 0,
+          "event_task": 4,
+          "routine_head": 12,
+          "selected": 12,
+          "reason": "rule",
+          "choice": "defer",
+          "features": {
+            "risk": 0.0032551652037211554,
+            "age": 0.0,
+            "extra_time": -0.016666666666666666,
+            "slack_difference": -0.03333333333333333
+          },
+          "score": -0.125
+        },
+        {
+          "time_s": 340.0,
+          "agent": 0,
+          "event_task": 4,
+          "routine_head": 14,
+          "selected": 4,
+          "reason": "rule",
+          "choice": "respond",
+          "features": {
+            "risk": 0.001020466374052939,
+            "age": 0.20833333333333334,
+            "extra_time": 0.03333333333333333,
+            "slack_difference": -0.058333333333333334
+          },
+          "score": 0.08333333333333334
+        }
+      ]
+    },
+    "first_global_action_difference": {
+      "time_s": 260.0,
+      "agent": 0,
+      "all_prior_action_rows_identical": true,
+      "candidate_rows_identical": true,
+      "fifo_decision": {
+        "time_s": 260.0,
+        "agent": 0,
+        "routine_head": 4,
+        "selected": 6,
+        "candidates": [
+          {
+            "task": 4,
+            "certificate": {
+              "ok": true,
+              "candidate": 4,
+              "clock_s": 260.0,
+              "cursor_before": 2,
+              "cursor_after": 3,
+              "candidate_finish_s": 280.0,
+              "candidate_due_s": 350.0,
+              "fallback_order": [
+                6,
+                12,
+                14,
+                8,
+                10,
+                16,
+                18,
+                20,
+                22,
+                0,
+                2,
+                4
+              ],
+              "fallback_completion_s": [
+                295.0,
+                315.0,
+                330.0,
+                350.0,
+                365.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                475.0,
+                490.0,
+                510.0
+              ],
+              "fallback_due_s": [
+                365.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                455.0,
+                470.0,
+                490.0,
+                505.0,
+                545.0,
+                560.0,
+                580.0
+              ],
+              "repeating_cycle_s": 230.0,
+              "minimum_projected_slack_s": 70.0
+            },
+            "public_risk": 0.0,
+            "event_id": null,
+            "budget_allowed": true
+          },
+          {
+            "task": 6,
+            "certificate": {
+              "ok": true,
+              "candidate": 6,
+              "clock_s": 260.0,
+              "cursor_before": 2,
+              "cursor_after": 2,
+              "candidate_finish_s": 280.0,
+              "candidate_due_s": 365.0,
+              "fallback_order": [
+                4,
+                6,
+                12,
+                14,
+                8,
+                10,
+                16,
+                18,
+                20,
+                22,
+                0,
+                2
+              ],
+              "fallback_completion_s": [
+                295.0,
+                310.0,
+                330.0,
+                345.0,
+                365.0,
+                380.0,
+                400.0,
+                415.0,
+                435.0,
+                450.0,
+                490.0,
+                505.0
+              ],
+              "fallback_due_s": [
+                350.0,
+                580.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                455.0,
+                470.0,
+                490.0,
+                505.0,
+                545.0,
+                560.0
+              ],
+              "repeating_cycle_s": 230.0,
+              "minimum_projected_slack_s": 55.0
+            },
+            "public_risk": 0.023861672989853172,
+            "event_id": 7,
+            "budget_allowed": true
+          }
+        ]
+      },
+      "rule_decision": {
+        "time_s": 260.0,
+        "agent": 0,
+        "routine_head": 4,
+        "selected": 4,
+        "candidates": [
+          {
+            "task": 4,
+            "certificate": {
+              "ok": true,
+              "candidate": 4,
+              "clock_s": 260.0,
+              "cursor_before": 2,
+              "cursor_after": 3,
+              "candidate_finish_s": 280.0,
+              "candidate_due_s": 350.0,
+              "fallback_order": [
+                6,
+                12,
+                14,
+                8,
+                10,
+                16,
+                18,
+                20,
+                22,
+                0,
+                2,
+                4
+              ],
+              "fallback_completion_s": [
+                295.0,
+                315.0,
+                330.0,
+                350.0,
+                365.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                475.0,
+                490.0,
+                510.0
+              ],
+              "fallback_due_s": [
+                365.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                455.0,
+                470.0,
+                490.0,
+                505.0,
+                545.0,
+                560.0,
+                580.0
+              ],
+              "repeating_cycle_s": 230.0,
+              "minimum_projected_slack_s": 70.0
+            },
+            "public_risk": 0.0,
+            "event_id": null,
+            "budget_allowed": true
+          },
+          {
+            "task": 6,
+            "certificate": {
+              "ok": true,
+              "candidate": 6,
+              "clock_s": 260.0,
+              "cursor_before": 2,
+              "cursor_after": 2,
+              "candidate_finish_s": 280.0,
+              "candidate_due_s": 365.0,
+              "fallback_order": [
+                4,
+                6,
+                12,
+                14,
+                8,
+                10,
+                16,
+                18,
+                20,
+                22,
+                0,
+                2
+              ],
+              "fallback_completion_s": [
+                295.0,
+                310.0,
+                330.0,
+                345.0,
+                365.0,
+                380.0,
+                400.0,
+                415.0,
+                435.0,
+                450.0,
+                490.0,
+                505.0
+              ],
+              "fallback_due_s": [
+                350.0,
+                580.0,
+                385.0,
+                400.0,
+                420.0,
+                435.0,
+                455.0,
+                470.0,
+                490.0,
+                505.0,
+                545.0,
+                560.0
+              ],
+              "repeating_cycle_s": 230.0,
+              "minimum_projected_slack_s": 55.0
+            },
+            "public_risk": 0.023861672989853172,
+            "event_id": 7,
+            "budget_allowed": true
+          }
+        ]
+      }
+    },
+    "rule315_saved_candidates": {
+      "time_s": 315.0,
+      "agent": 0,
+      "routine_head": 12,
+      "selected": 12,
+      "candidates": [
+        {
+          "task": 12,
+          "certificate": {
+            "ok": true,
+            "candidate": 12,
+            "clock_s": 315.0,
+            "cursor_before": 4,
+            "cursor_after": 5,
+            "candidate_finish_s": 340.0,
+            "candidate_due_s": 385.0,
+            "fallback_order": [
+              14,
+              8,
+              10,
+              16,
+              18,
+              20,
+              22,
+              0,
+              2,
+              4,
+              6,
+              12
+            ],
+            "fallback_completion_s": [
+              355.0,
+              375.0,
+              390.0,
+              410.0,
+              425.0,
+              445.0,
+              460.0,
+              500.0,
+              515.0,
+              535.0,
+              550.0,
+              570.0
+            ],
+            "fallback_due_s": [
+              400.0,
+              420.0,
+              435.0,
+              455.0,
+              470.0,
+              490.0,
+              505.0,
+              545.0,
+              615.0,
+              580.0,
+              595.0,
+              640.0
+            ],
+            "repeating_cycle_s": 230.0,
+            "minimum_projected_slack_s": 45.0
+          },
+          "public_risk": 0.0,
+          "event_id": null,
+          "budget_allowed": true
+        },
+        {
+          "task": 4,
+          "certificate": {
+            "ok": true,
+            "candidate": 4,
+            "clock_s": 315.0,
+            "cursor_before": 4,
+            "cursor_after": 4,
+            "candidate_finish_s": 335.0,
+            "candidate_due_s": 580.0,
+            "fallback_order": [
+              12,
+              14,
+              8,
+              10,
+              16,
+              18,
+              20,
+              22,
+              0,
+              2,
+              4,
+              6
+            ],
+            "fallback_completion_s": [
+              360.0,
+              375.0,
+              395.0,
+              410.0,
+              430.0,
+              445.0,
+              465.0,
+              480.0,
+              520.0,
+              535.0,
+              555.0,
+              570.0
+            ],
+            "fallback_due_s": [
+              385.0,
+              400.0,
+              420.0,
+              435.0,
+              455.0,
+              470.0,
+              490.0,
+              505.0,
+              545.0,
+              615.0,
+              635.0,
+              595.0
+            ],
+            "repeating_cycle_s": 230.0,
+            "minimum_projected_slack_s": 25.0
+          },
+          "public_risk": 0.013020660814884621,
+          "event_id": 10,
+          "budget_allowed": true
+        }
+      ]
+    },
+    "counterfactual_boundary": "The event4 certified finish335s is a stored candidate projection, not an observed positive measurement under that unchosen action. Actual FIFO320s was positive; actual rule365s was normal."
+  },
   "primary_anomaly_kinds": {
     "thermal": 77,
     "cooling": 12

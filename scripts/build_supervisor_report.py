@@ -53,6 +53,10 @@ def main():
     engineering=load('paper/source-data/engineering-snapshot-500.json')
     fifo=load('paper/source-data/fifo-decision-p01-470.json')
     kinds=load('paper/source-data/primary-anomaly-kinds.json')
+    method_evidence=load('paper/source-data/report-method-evidence.json')
+    rule_diagnosis=load('paper/source-data/report-rule-diagnosis.json')
+    read('paper/research/report-method-formulas-20261103.md')
+    read('paper/research/report-rule-diagnosis-20261103.md')
     assert kinds['counts']=={'thermal':77,'cooling':12}
     archive=load('paper/briefing-history/2db2adf1/baseline.json')
     for identity in archive['files'].values():assert hashlib.sha256(read(identity['archived_as'])).hexdigest()==identity['sha256']
@@ -60,7 +64,7 @@ def main():
     original=read('paper/research/original-paper-metrics-20261103.md').decode('utf-8')
     read('paper/model-appendix.md')
     read('paper/mentor-requests.md')
-    for source in ['src/patrol_rsi/risk_response.py','src/patrol_rsi/active_inspection.py','src/patrol_rsi/facility.py','src/patrol_rsi/facility_observation.py','src/patrol_rsi/aisles.py']:
+    for source in ['src/patrol_rsi/risk_response.py','src/patrol_rsi/active_inspection.py','src/patrol_rsi/facility.py','src/patrol_rsi/facility_observation.py','src/patrol_rsi/aisles.py','src/patrol_rsi/coverage_plan.py','src/patrol_rsi/response_rule.py','src/patrol_rsi/inspection_metrics.py']:
         read(source)
     primary=[p for p in pairs if p['group']=='coupled']
     assert len(primary)==summary['primary_paired_processes']==12
@@ -85,11 +89,15 @@ def main():
     for proposal in proposals:
         assert proposal['status']=='completed' and len(proposal['paired'])==12
         assert sum(p['net'] for p in proposal['paired'])==proposal['aggregate']['net']
-        row={'rule_sha256':proposal['rule_sha256'],'confirmed':main_results['fifo']['confirmed']+proposal['aggregate']['net']}
+        row={'rule_sha256':proposal['rule_sha256'],'confirmed':main_results['fifo']['confirmed']+proposal['aggregate']['net'],'rule':proposal['rule']}
         if row['rule_sha256'] in registered:assert registered[row['rule_sha256']]==row
         registered[row['rule_sha256']]=row
     assert len(registered)==9 and max(row['confirmed'] for row in registered.values())==60
     assert [(r['rule_sha256'],r['confirmed']) for r in registered.values()]==[(r['rule_sha256'],r['confirmed']) for r in legacy['registered_rules']]
+    assert [(r['rule_sha256'],r['confirmed'],r['rule']) for r in registered.values()]==[(r['canonical_rule_sha256'],r['confirmed'],r['rule']) for r in rule_diagnosis['unique_rules']]
+    assert method_evidence['primary_processes']['anomaly_segments_by_role']=={'thermal':77,'electrical':0,'cooling':12,'control':0}
+    assert rule_diagnosis['unique_rules'][0]['binary_decision_counts']['rule:defer']==229
+    assert all(row['action_log_identical'] for row in rule_diagnosis['s0_risk_matches_existing_tour'])
     assert len(engineering['public_thermal_risk'])==len(engineering['offline_temperature_c'])==128
     assert sum(v is not None for v in engineering['remote_temperature_c'])==32
     assert engineering['kind']=='engineering_explanation_not_research_gain' and engineering['method']=='tour'
@@ -109,6 +117,9 @@ def main():
     data={'main':main_results,'primary_comparisons':comp,'engineering':engineering,'fifo':fifo,
           'main_costs':metrics['main'],'decision_thresholds':protocol['decision_thresholds'],
           'registered_rules':list(registered.values()),
+          'fault_cases':method_evidence['primary_processes']['cases'],
+          'method_basis':method_evidence['method_basis'],
+          'rule_diagnosis_example':rule_diagnosis['trace_examples']['p00_first_difference_and_loss'],
           'primary_anomaly_kinds':kinds['counts'],
           'paper_scores':paper,'paper_metric_scope':'Original water-task score; not directly comparable to professional anomaly confirmation.',
           'new_environment_evaluations':0,'new_research_model_calls':0,'new_training':0}
@@ -130,17 +141,18 @@ def main():
         path=folder/(name+'.svg');path.write_text(drawing,encoding='utf-8',newline='\n')
         figure_hashes[path.relative_to(ROOT).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
     figure_notes={
-        'model':'计算职责示意；CDU、泵阀与仪表在工程设备中可集成。当前参数仍是合成设定。',
-        'public-risk':'已有工程回看：固定巡回，500秒。风险为公开估计的合成代理，不是概率。',
-        'offline-temperature':'同一工程过程的事后内部温度，不是现场空气实测；未传入在线选择。',
-        'fifo-cycle':'程序只从该执行者自己的合规请求中选择；移动和测量不会被新提示中断。',
+        'model':'本项目集中参数模型的供电、双回路液冷与局部控制计算关系。',
+        'public-risk':'已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。',
+        'offline-temperature':'同一工程过程500秒的事后设备代表温度。',
+        'fifo-cycle':'每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。',
         'inspection-architecture':'根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。',
-        'fifo-actions':'主验证包p01-coupled的实际记录；色块宽度按移动＋服务的仿真耗时绘制。',
+        'fifo-actions':'主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。',
         'outcome-costs':'本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。',
-        'registered-rules':'本项目已有开发负结果，按规则内容去重保留9条；没有新增仿真、训练或模型调用。',
+        'registered-rules':'本项目9个唯一规则的得分式；R、A、E、S分别对应正文中的归一风险、等待、额外耗时与余量差。',
+        'rule-diagnosis':'主过程01的完整策略轨迹对照，机柜4；等待规则为图中06号，按记录重绘。',
         'original-paper-scores':'原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。',
         'confirmations':'当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。',
-        'paired-net':'过程01—12对应p00—p11；11个净增、1个不变，不是新增独立样本。',
+        'paired-net':'过程01—12为预登记的12个配对过程；11个净增、1个持平。',
         'execution-chain':'p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。',
         'task-17':'17号665秒派出的是例行访问；其公开风险685秒才出现。',
         'task-21':'21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。',
@@ -157,7 +169,12 @@ def main():
     task_table=table(['专业','完成检查后得到什么','人数','每次服务','最大重访间隔'],[
         [name,measurement,fifo['task_contract'][kind]['inspectors'],f"{fifo['task_contract'][kind]['service_s']:g}秒",f"{fifo['task_contract'][kind]['revisit_limit_s']:g}秒"]
         for kind,name,measurement in [('thermal','热检查','该机柜代表温度'),('electrical','电气检查','该组电气接触温度'),('cooling','制冷检查','该组冷却液流量'),('control','自控检查','传感读数误差（完成校验后）')]], 'task-contract')
-    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'TASK_TABLE':task_table,
+    fault_table=table(['过程','种子','目标柜号／设备组','故障开始→结束／秒','热／冷异常段'],[
+        [f'{index+1:02d}',row['seed'],f"{row['fault_anchor_rack_index']}号／第{row['fault_pod_index']+1}组",
+         f"{row['fault_start_s']:g}→{row['fault_end_s_exclusive']:g}",
+         f"{row['anomaly_segments_by_role']['thermal']}／{row['anomaly_segments_by_role']['cooling']}"]
+        for index,row in enumerate(method_evidence['primary_processes']['cases'])],'fault-cases')
+    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'TASK_TABLE':task_table,'FAULT_TABLE':fault_table,
         'VISIT_BUDGET':str(protocol['extra_visit_budget']),
         'GAINED':str(gained),'LOST':str(lost),'NET':str(gained-lost),'MEAN_NET':f"{comp['net_confirmations']['mean']:.2f}",
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
@@ -166,7 +183,7 @@ def main():
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
     parts=re.split(r'<!-- section:([a-z-]+) -->',source)
     title=md.render(parts[0]);sections=[];navigation=[]
-    labels={'overview':'要求回应','model':'模型与规模','hotspots':'风险热点','fifo':'FIFO流程','results':'当前结果','comparison':'原文指标与对照','sources':'来源'}
+    labels={'overview':'报告主线','model':'耦合模型','hotspots':'风险怎么算','fifo':'巡检机制','results':'实验与诊断','comparison':'原文评价','roadmap':'下一步路线图','sources':'来源'}
     for index in range(1,len(parts),2):
         identity,body=parts[index:index+2]
         body=re.sub(r'\{\{FIGURE:([a-z0-9-]+)\}\}',lambda m:'\n\n'+figure(m[1])+'\n\n',body)
@@ -195,14 +212,14 @@ def main():
     destination=PAPER/'supervisor-briefing.html';destination.write_text(output,encoding='utf-8',newline='\n')
     data_path=PAPER/'generated/supervisor-report-data.json';write_json(data_path,data)
     write_json(PAPER/'generated/briefing-chart-data.json',data)
-    manifest={'version':4,'mode':'self_reading_report','previous_version':BASE,'animations':False,'presenter_controls':False,
+    manifest={'version':5,'mode':'self_reading_report','previous_version':'65f025fda0920ecb14614bcac4913f98cc575766','animations':False,'presenter_controls':False,
         'sections':list(labels),'primary_processes':12,'primary_anomaly_segments':89,'main_results':main_results,
         'engineering_frame_scope':engineering['kind'],'fifo_example_case':fifo['case'],'new_environment_evaluations':0,
         'new_research_model_calls':0,'new_training':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),
         'data_sha256':hashlib.sha256(data_path.read_bytes()).hexdigest(),'figure_sha256':figure_hashes,'source_sha256':SOURCES,
         'scope':'Report derivation and source identity. It does not replace independent visual/source verification.'}
     write_json(PAPER/'generated/briefing-manifest.json',manifest)
-    print(f'Built self-reading static report: 7 visible sections, {len(drawings)} source-backed diagrams, no animation or presenter controls.')
+    print(f'Built self-reading static report: {len(labels)} visible sections, {len(drawings)} source-backed diagrams, no animation or presenter controls.')
 
 
 if __name__=='__main__':main()
