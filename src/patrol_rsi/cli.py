@@ -70,6 +70,15 @@ def status():
         result["事件优先级对照"] = {"evaluations": priority["actual_evaluations"],
             "selected": priority["selected"], "read": "evidence/event-priority/README.md"}
         result["唯一下一任务"] = "扩大独立条件验证事件机制，记录候选竞争机会；暂不增加排序复杂度，见docs/NEXT.md"
+    validation = ROOT / "evidence/event-validation/final/summary.json"
+    if validation.exists():
+        receipt = strict_json(validation.read_text(encoding="utf-8"))
+        result["新研究实验"] = "COMPLETED_BOUNDED_EVENT_VALIDATION"
+        result["有限事件验证"] = {"evaluations": receipt["evaluations"], "attempts": receipt["total_attempts"],
+            "decision": receipt["decision"], "gates": receipt["gates"], "read": "evidence/event-validation/final/README.md"}
+        result["已证明的范围"] = "预定12个热—冷耦合过程中的FIFO事件响应收益、成本及风险位置对照；见完整报告的适用范围"
+        result["尚未证明"] = "跨域或四专业全面泛化、模型反馈独立贡献、递归改进增益、现场有效性"
+        result["唯一下一任务"] = "本验证包已结束并冻结FIFO研究基线；下一阶段准备现在插入/暂缓的有限后果反馈协议，见docs/NEXT.md"
     return result
 
 

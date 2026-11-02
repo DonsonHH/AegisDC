@@ -30,6 +30,7 @@ flowchart TD
 | 有限研究外循环 | `feedback_study.py`、`model_proposals.py` | 冻结方案、计数与缓存、隔离反馈、有限离线提案、先封存后确认；不修改原执行核 |
 | 事件确认执行 | `risk_response.py` | 风险事件账本、单项完成后重规划、新候选返回证书及有限机制试验 |
 | 事件优先级对照 | `priority_study.py` | 固定动作空间内比较FIFO、风险与一步机会保护；开发选择后封存确认 |
+| 有限事件归因验证 | `event_validation.py` | 独立故障位置、同专业目标置乱、补查上限、冻结尝试预算、原件继承与过程级配对评价；本包已结束 |
 
 主要实现入口位于 `src/patrol_rsi/`：`facility.py`处理物理过程，`facility_observation.py`处理观测和专业任务，`coverage_plan.py`处理返回计划，`baseline_correction.py`定义受限局部修正。运行统一从 `python -m patrol_rsi` 进入，不再从历史阶段脚本选择入口。
 
