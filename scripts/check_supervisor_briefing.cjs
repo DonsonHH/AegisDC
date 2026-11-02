@@ -61,6 +61,12 @@ async function screen(number){
   await delay(80);
 }
 async function settle(){await waitFor(`document.getAnimations().filter(a=>a.playState==='running').length===0`);}
+// Serialized into Chrome; shared by forward and reverse observations only.
+const snapshotStageSource = `() => {
+  const slide=document.querySelector('.slide.is-active');
+  return {stage:slide.dataset.stageIndex,caption:slide.querySelector('.live-caption').textContent,
+    groups:[...slide.querySelectorAll('[data-stage-key]')].map(e=>({key:e.dataset.stageKey,state:e.dataset.stageState,opacity:getComputedStyle(e).opacity}))};
+}`;
 async function inspect(width,height,number,label){
   const result=await evaluate(`(()=>{
     const s=document.querySelector('.slide.is-active');
@@ -88,7 +94,8 @@ async function inspect(width,height,number,label){
       visibleScreens:[...document.querySelectorAll('.slide')].filter(e=>!e.hidden&&getComputedStyle(e).display!=='none').length,
       toolbarTop:toolbar.top,sourceBottom:s.querySelector('.source-row').getBoundingClientRect().bottom,
       minimumSvgTextPx:Math.min(...sizes),svgTextOutsideViewBox:outside,graphicOverflow,svgTextOverlaps:textOverlaps,
-      stage:s.dataset.stageIndex,caption:s.querySelector('.live-caption').textContent,captionFits:s.querySelector('.lead').scrollWidth<=s.querySelector('.lead').clientWidth,groups:[...s.querySelectorAll('[data-stage-key]')].map(e=>({key:e.dataset.stageKey,state:e.dataset.stageState,opacity:getComputedStyle(e).opacity})),geometry:[...s.querySelectorAll('svg')].map(e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height].map(v=>Math.round(v*100)/100)}),nativeFigures:s.querySelectorAll('[data-native]').length,notesVisible:!!document.querySelector('dialog[open]')};
+      ...(${snapshotStageSource})(),captionFits:s.querySelector('.lead').scrollWidth<=s.querySelector('.lead').clientWidth,
+      geometry:[...s.querySelectorAll('svg')].map(e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height].map(v=>Math.round(v*100)/100)}),nativeFigures:s.querySelectorAll('[data-native]').length,notesVisible:!!document.querySelector('dialog[open]')};
   })()`);
   report.viewports.push(result);
   const file=path.join(previews,`${width}x${height}-screen-${number}-${label}.png`);
@@ -171,7 +178,7 @@ async function inspect(width,height,number,label){
         }
         for(let index=count-2;index>=0;index--){
           await click('#previous-stage');await settle();
-          const back=await evaluate(`(()=>{const s=document.querySelector('.slide.is-active');return{stage:s.dataset.stageIndex,caption:s.querySelector('.live-caption').textContent,groups:[...s.querySelectorAll('[data-stage-key]')].map(e=>({key:e.dataset.stageKey,state:e.dataset.stageState,opacity:getComputedStyle(e).opacity}))}})()`);
+          const back=await evaluate(`(${snapshotStageSource})()`);
           assert(stateSignature(back)===states[index],'Reverse phase differs');
         }
         await click('#show-complete');await settle();

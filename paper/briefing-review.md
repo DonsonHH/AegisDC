@@ -23,6 +23,8 @@
 
 [浏览器验证JSON](generated/briefing-browser-verification.json)将当前HTML、manifest、验证脚本及46张截图绑定到SHA；[实际打印验证](generated/briefing-print-verification.json)绑定相同HTML与打印PDF及五页渲染身份。[manifest](generated/briefing-manifest.json)保留18阶段说明、动画参数、数据与源文件身份。
 
+[两轴代码审查](briefing-code-review.md)：规范轴未发现硬性问题，1条重复采样的低优先级判断项已修正并复核；需求轴未发现遗漏或错误行为。
+
 ## 截图索引
 
 下表链接每屏的初始、中间、最终阶段与完整图；其余阶段也全部保存在同目录并接受检查。
