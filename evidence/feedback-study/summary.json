@@ -1,0 +1,242 @@
+{
+  "protocol_sha256": "60f447504a36427b952d4e41a2b1fda1509155fc9b58710ee12907d1810f50f9",
+  "selected": {
+    "T": {
+      "expression": null,
+      "source": "T"
+    },
+    "R": {
+      "expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost",
+      "source": "R"
+    },
+    "S": {
+      "expression": "10*risk_delay + 0.02*deadline_pressure + 0.05*travel_cost",
+      "source": "S2"
+    },
+    "N": {
+      "expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost - 0.1*deadline_peak",
+      "source": "N1"
+    },
+    "F": {
+      "expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost",
+      "source": "R"
+    }
+  },
+  "selection_log": [
+    {
+      "candidate": "S1",
+      "parent": "R",
+      "accepted": true,
+      "metrics": {
+        "missed_segments": 1.3333333333333333,
+        "travel_m": 11668.516666666663,
+        "service_s": 16881.666666666668,
+        "completed_inspections": 1447.5,
+        "current_round_unfinished_obligations": 40.5,
+        "reordered_plans": 180.33333333333334,
+        "wait_s": 66.16808929294166,
+        "safety_violations": 0,
+        "selection_key": [
+          1.3333333333333333,
+          38.103255959608305,
+          11668.516666666663,
+          -1447.5
+        ]
+      },
+      "expression": "10*risk_delay + 0.2*deadline_pressure + 0.05*travel_cost"
+    },
+    {
+      "candidate": "S2",
+      "parent": "S1",
+      "accepted": true,
+      "metrics": {
+        "missed_segments": 1.3333333333333333,
+        "travel_m": 11665.916666666662,
+        "service_s": 16879.166666666668,
+        "completed_inspections": 1447.3333333333333,
+        "current_round_unfinished_obligations": 40.666666666666664,
+        "reordered_plans": 166.5,
+        "wait_s": 66.16808929294166,
+        "safety_violations": 0,
+        "selection_key": [
+          1.3333333333333333,
+          38.093922626274974,
+          11665.916666666662,
+          -1447.3333333333333
+        ]
+      },
+      "expression": "10*risk_delay + 0.02*deadline_pressure + 0.05*travel_cost"
+    },
+    {
+      "candidate": "N1",
+      "parent": "R",
+      "accepted": true,
+      "metrics": {
+        "missed_segments": 1.3333333333333333,
+        "travel_m": 11876.399999999996,
+        "service_s": 16786.666666666668,
+        "completed_inspections": 1437.8333333333333,
+        "current_round_unfinished_obligations": 50.166666666666664,
+        "reordered_plans": 192.16666666666666,
+        "wait_s": 69.91808929294166,
+        "safety_violations": 0,
+        "selection_key": [
+          1.3333333333333333,
+          44.89875595960828,
+          11876.399999999996,
+          -1437.8333333333333
+        ]
+      },
+      "expression": "risk_delay + 0.2*deadline_pressure + 0.05*travel_cost - 0.1*deadline_peak"
+    },
+    {
+      "candidate": "N2",
+      "parent": "N1",
+      "accepted": false,
+      "metrics": {
+        "missed_segments": 1.3333333333333333,
+        "travel_m": 11890.699999999995,
+        "service_s": 16776.666666666668,
+        "completed_inspections": 1436.8333333333333,
+        "current_round_unfinished_obligations": 51.166666666666664,
+        "reordered_plans": 187.66666666666666,
+        "wait_s": 69.91808929294166,
+        "safety_violations": 0,
+        "selection_key": [
+          1.3333333333333333,
+          45.141755959608275,
+          11890.699999999995,
+          -1436.8333333333333
+        ]
+      },
+      "expression": "risk_delay + 0.2*deadline_pressure - 0.1*deadline_peak + 0.05*travel_cost - 0.05*freshness_delay"
+    },
+    {
+      "candidate": "F1",
+      "parent": "R",
+      "accepted": false,
+      "status": "NOT_EXECUTED",
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 5.76 GiB. GPU 0 has a total capacity of 31.73 GiB of which 912.25 MiB is free. Including non-PyTorch memory, this process has 30.84 GiB memory in use. Of the allocated memory 18.82 GiB is allocated by PyTorch, and 11.65 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "candidate": "F2",
+      "parent": "R",
+      "accepted": false,
+      "metrics": {
+        "missed_segments": 1.5,
+        "travel_m": 12360.799999999994,
+        "service_s": 16666.666666666668,
+        "completed_inspections": 1429.8333333333333,
+        "current_round_unfinished_obligations": 58.166666666666664,
+        "reordered_plans": 178.16666666666666,
+        "wait_s": 68.66714423108348,
+        "safety_violations": 0,
+        "selection_key": [
+          1.5,
+          49.29181089775011,
+          12360.799999999994,
+          -1429.8333333333333
+        ]
+      },
+      "expression": "risk_delay + 0.2*deadline_pressure - 0.05*travel_cost"
+    }
+  ],
+  "confirmation": {
+    "T": {
+      "missed_segments": 2.0,
+      "travel_m": 11793.399999999992,
+      "service_s": 16670.0,
+      "completed_inspections": 1426.0,
+      "current_round_unfinished_obligations": 62.0,
+      "reordered_plans": 0.0,
+      "wait_s": 63.97575088270667,
+      "safety_violations": 0,
+      "selection_key": [
+        2.0,
+        39.309750882706595,
+        11793.399999999992,
+        -1426.0
+      ]
+    },
+    "R": {
+      "missed_segments": 2.3333333333333335,
+      "travel_m": 11665.066666666664,
+      "service_s": 16890.0,
+      "completed_inspections": 1448.0,
+      "current_round_unfinished_obligations": 40.0,
+      "reordered_plans": 180.0,
+      "wait_s": 68.31926091269055,
+      "safety_violations": 0,
+      "selection_key": [
+        2.3333333333333335,
+        40.16992757935719,
+        11665.066666666664,
+        -1448.0
+      ]
+    },
+    "S": {
+      "missed_segments": 2.3333333333333335,
+      "travel_m": 11668.88333333333,
+      "service_s": 16873.333333333332,
+      "completed_inspections": 1447.0,
+      "current_round_unfinished_obligations": 41.0,
+      "reordered_plans": 167.5,
+      "wait_s": 68.31926091269055,
+      "safety_violations": 0,
+      "selection_key": [
+        2.3333333333333335,
+        40.30809424602384,
+        11668.88333333333,
+        -1447.0
+      ]
+    },
+    "N": {
+      "missed_segments": 2.3333333333333335,
+      "travel_m": 11880.899999999996,
+      "service_s": 16780.0,
+      "completed_inspections": 1437.5,
+      "current_round_unfinished_obligations": 50.5,
+      "reordered_plans": 192.33333333333334,
+      "wait_s": 68.31926091269055,
+      "safety_violations": 0,
+      "selection_key": [
+        2.3333333333333335,
+        43.37826091269051,
+        11880.899999999996,
+        -1437.5
+      ]
+    },
+    "F": {
+      "missed_segments": 2.3333333333333335,
+      "travel_m": 11665.066666666664,
+      "service_s": 16890.0,
+      "completed_inspections": 1448.0,
+      "current_round_unfinished_obligations": 40.0,
+      "reordered_plans": 180.0,
+      "wait_s": 68.31926091269055,
+      "safety_violations": 0,
+      "selection_key": [
+        2.3333333333333335,
+        40.16992757935719,
+        11665.066666666664,
+        -1448.0
+      ]
+    }
+  },
+  "actual_environment_attempts": 66,
+  "actual_model_calls": 4,
+  "neural_training": 0,
+  "status": "completed",
+  "scope": "Small paired pilot with two independent confirmation seeds and one proposal chain per model group; no statistical-power, general learning advantage or recursive improvement claim.",
+  "study_id": "feedback-study-20261102-v1",
+  "model_task_gain": "NOT_ESTABLISHED",
+  "feedback_causal_effect": "NOT_IDENTIFIED",
+  "valid_generated_candidates": {
+    "N": 2,
+    "F": 1
+  },
+  "independent_confirmation_seeds": 2,
+  "preflight_environment_attempts": 8,
+  "frozen_implementation_commit": "b668367f5503ee21c2c292f2935cac15d57d5846",
+  "summary_origin": "Raw summary.json in release archive; added fields state interpretation and provenance only."
+}

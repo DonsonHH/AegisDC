@@ -1,5 +1,7 @@
 # 当前保留的研究证据
 
+新增研究交付见 [feedback-study/](feedback-study/README.md)：冻结方案、全部候选、五组新确认及原件索引。大体积原件通过GitHub Release提供，源码仓库只保留小表和SHA。下文20份指清理时保留的历史原件，不包括这次新增研究，也不改写历史字节。
+
 这里保留 **20份历史原件，3,181,579字节**。来源是清理前提交
 [`f2c20b3a`](https://github.com/DonsonHH/Zhinengti-RSI/tree/f2c20b3a642ff1df9426e523614d3da9a5cf1129)，原字节未修改。
 路径、来源和SHA-256见 [provenance.json](provenance.json)。

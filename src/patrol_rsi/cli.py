@@ -34,7 +34,7 @@ def project_path(value: str | None, default: str) -> Path:
 
 
 def status():
-    return {
+    result = {
         "研究问题": "真实运行反馈能否帮助改进受资格、工时和持续重访约束的巡检流程？",
         "当前执行路径": "原机房过程 → 公开观测/名义估计 → 受保护Tour或局部规则 → 实际测量 → 评价",
         "默认策略": "Tour",
@@ -46,6 +46,18 @@ def status():
         "新研究实验": "NOT_RUN",
         "历史快照": f"https://github.com/DonsonHH/Zhinengti-RSI/tree/{SOURCE_COMMIT}",
     }
+    completed = ROOT / "evidence/feedback-study/summary.json"
+    if completed.exists():
+        receipt = strict_json(completed.read_text(encoding="utf-8"))
+        result["新研究实验"] = "COMPLETED_PILOT"
+        result["最新反馈研究"] = {
+            "protocol": receipt["study_id"], "environment_attempts": receipt["actual_environment_attempts"],
+            "model_calls": receipt["actual_model_calls"], "model_task_gain": receipt["model_task_gain"],
+            "feedback_causal_effect": receipt["feedback_causal_effect"],
+            "read": "evidence/feedback-study/README.md",
+        }
+        result["唯一下一任务"] = "本轮协议已结束；依据失败和新确认结果另行定义问题，见docs/NEXT.md"
+    return result
 
 
 def frozen_estimator(checkpoint: str | None, expected_sha: str | None):
@@ -233,7 +245,7 @@ def verify(args):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="巡检项目统一入口：status / demo / explain / proposal / verify")
+    parser = argparse.ArgumentParser(description="巡检项目统一入口：status / demo / explain / proposal / verify / study")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("status", help="只读显示主线、状态、实际工具与下一任务")
     for command in ("demo", "proposal"):

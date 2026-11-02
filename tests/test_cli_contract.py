@@ -10,8 +10,10 @@ from patrol_rsi.cli import compare_candidate, frozen_estimator, load_demo, run_e
 
 class EntryPointTests(unittest.TestCase):
     def test_status_keeps_engineering_and_research_separate(self):
-        self.assertEqual(status()["新研究实验"], "NOT_RUN")
+        self.assertEqual(status()["新研究实验"], "COMPLETED_PILOT")
         self.assertEqual(status()["默认策略"], "Tour")
+        self.assertEqual(status()["最新反馈研究"]["model_task_gain"], "NOT_ESTABLISHED")
+        self.assertEqual(status()["最新反馈研究"]["feedback_causal_effect"], "NOT_IDENTIFIED")
 
     def test_missing_checkpoint_never_becomes_a_neural_demo(self):
         predictor, info = frozen_estimator(None, None)
