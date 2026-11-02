@@ -1,7 +1,7 @@
 """One entry point for understanding, running and checking the retained project.
 
-Commands never download models, call an LLM, train research models, or start
-historical campaigns. Demo/proposal runs are labelled engineering examples.
+Engineering commands never call a model or train one. The explicit study
+command consumes its frozen inference/evaluation budget; demos remain examples.
 """
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def status():
         "研究问题": "真实运行反馈能否帮助改进受资格、工时和持续重访约束的巡检流程？",
         "当前执行路径": "原机房过程 → 公开观测/名义估计 → 受保护Tour或局部规则 → 实际测量 → 评价",
         "默认策略": "Tour",
-        "可选工具": {"CVAE": "需要本地冻结权重及SHA；默认不启用", "PPO": "保留实现，未接入默认局部调度", "Qwen": "保留历史证据；这些命令不调用模型"},
+        "可选工具": {"CVAE": "需要本地冻结权重及SHA；默认不启用", "PPO": "保留实现，未接入默认局部调度", "Qwen": "工程演示不调用；study显式调用固定模型，完成记录见最新反馈研究"},
         "本地验收": "python -m patrol_rsi verify --output runs/verification",
         "已证明的范围": "核心行为可回归，保留的历史数据与预测可复算",
         "尚未证明": "稳定任务增益、经验独立贡献、递归改进增益、现场有效性",
