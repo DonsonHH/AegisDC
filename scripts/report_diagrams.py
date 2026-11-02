@@ -108,6 +108,79 @@ def dispatch_cycle():
                '正在移动或测量时不打断。完成后只在本执行者负责的合规请求中先到先处理；无合法事件则继续例行任务。每次完成后重新筛选，不是固定返回时间表。',p)
 
 
+def inspection_architecture():
+    p=[text(18,32,'本项目巡检系统：观测、派单、执行与评价怎样连接',29,weight=650),
+       text(18,66,'上方为在线闭环；公开观测经名义估计形成风险，FIFO规则保持固定。',22,MUTED)]
+    boxes=[(18,'公开观测与估计','遥测＋已完成的专业测量','名义估计 → 风险提示'),
+           (338,'两本任务账','原循环下一项＋风险待办','分别保留，分别推进'),
+           (658,'执行边界与FIFO','资格、所属、预约、期限、预算','合法请求中按首次提示排序'),
+           (978,'执行检查与更新','移动、服务、完成专业量测','测量完成后更新观测与待办')]
+    for i,(x,title,first,second) in enumerate(boxes):
+        p += [rect(x,92,270,117,'#f2f6f9',rx=3),text(x+135,125,title,25,BLUE,'middle',600),
+              text(x+135,160,first,18,MUTED,'middle'),text(x+135,191,second,18,MUTED,'middle')]
+        if i<len(boxes)-1:p.append(arrow(x+278,150,boxes[i+1][0]-10,150,BLUE))
+    p += ['<path d="M1113,209 V260 H153 V218" fill="none" stroke="#2369a5" stroke-width="2"/>',
+          text(620,252,'新测量进入下一轮；设备自控仍由设施模型自己的回路运行',22,BLUE,'middle'),
+          text(18,326,'离线评价：将真实异常区间与执行记录对齐',26,MUTED,weight=600)]
+    p += node(18,355,395,'内部状态与异常标签','事后读取，不提供给在线派单',GREY,height=83)
+    p += node(668,355,580,'离线评分与约束审计','有效确认、等待、移动／服务成本与重访间隔',GREY,height=83)
+    p += [arrow(423,397,658,397,GREY),arrow(1200,215,1110,344,GREY),
+          text(1190,317,'执行记录',19,MUTED),
+          text(18,488,'巡检通过测量改变信息和确认时机；当前不模拟巡检员维修设备，也不把隐藏故障标签输入调度器。',22,MUTED)]
+    return svg('inspection-architecture',1280,515,'本项目公开观测到巡检执行、反馈及离线审计的总体架构',
+               '公开观测由名义估计更新风险，原例行和风险待办分账，经过资格、所属、预约、返回核算和预算检查，由固定FIFO派单。测量反馈在线观测；内部真值只与执行记录一起用于离线评分。',p)
+
+
+def outcome_costs(data):
+    comp=data['primary_comparisons'];thresholds=data['decision_thresholds']
+    p=[text(18,32,'收益与代价：实际结果放回预先约定的探索性门槛',29,weight=650),
+       text(18,66,'三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。',22,MUTED)]
+    panels=[('net_confirmations',comp['net_confirmations']['mean'],thresholds['minimum_mean_net_confirmations'],5.5,
+             '每过程净增确认','段／过程，越高越好','至少1段'),
+            ('travel_delta_pct',comp['travel_delta_pct'],thresholds['maximum_travel_increase_pct'],5.5,
+             '移动距离增加','%，越低越好','不超过5%'),
+            ('completed_loss_pct',comp['completed_loss_pct'],thresholds['maximum_completion_loss_pct'],2.2,
+             '完成检查量下降','%，越低越好','不超过2%')]
+    for index,(key,value,threshold,maximum,title,unit,limit) in enumerate(panels):
+        left=18+index*430;start=left+20;width=335;scale=lambda v:start+v/maximum*width
+        p += [text(left,115,title,26,INK,weight=600),text(left,151,unit,21,MUTED),
+              line(start,230,start+width,230,LINE,2),line(scale(threshold),178,scale(threshold),241,GOLD,2,**{'stroke-dasharray':'5 4'}),
+              text(scale(threshold),294,limit,20,GOLD,'middle'),
+              text(left,339,f'实际 {value:.2f}'+('段／过程' if index==0 else '%'),25,BLUE,weight=650)]
+        if index==0:
+            lo,hi=comp['net_confirmations']['percentile95']
+            p += [line(scale(lo),207,scale(hi),207,BLUE,3),line(scale(lo),201,scale(lo),213,BLUE,2),
+                  line(scale(hi),201,scale(hi),213,BLUE,2),dot(scale(value),207,BLUE,7)]
+        else:p.append(rect(start,191,max(1,scale(value)-start),26,BLUE))
+        p.append(f'<g data-cost-key="{key}" data-value="{value}" data-threshold="{threshold}"></g>')
+        for tick in [0,1,2,3,4,5] if index<2 else [0,.5,1,1.5,2]:
+            x=scale(tick);p += [line(x,230,x,236,GREY),text(x,259,f'{tick:g}',18,MUTED,'middle')]
+    tour=data['main_costs']['tour'];fifo=data['main_costs']['fifo']
+    p += [text(18,381,f"有异常过程的加权截尾等待：{tour['mean_consequence_weighted_censored_delay_s']:.2f} → {fifo['mean_consequence_weighted_censored_delay_s']:.2f}秒；资格、预约、完整重访违规均为0。",23,TEAL,weight=600),
+          text(18,419,'净增点的横线为探索性95%自举区间；代价按过程求均值。以上门槛是研究决策约定，不是现场运行标准。',21,MUTED)]
+    return svg('outcome-costs',1280,445,'FIFO相对固定巡回的净确认、移动代价和完成量代价',
+               '每过程净增3.50段，探索性95%自举区间2.42到4.50；移动增加约0.50%，完成量下降约0.33%；门槛依次为至少1段、不超过5%、不超过2%。违规为0。',p)
+
+
+def registered_rules(rows, baseline):
+    scale=lambda value:235+value/89*945
+    p=[text(18,32,'已有负结果：9条不同规则都没有超过FIFO',29,weight=650),
+       text(18,66,'每条规则在同一组12个已见过程上的总确认段数；这些是开发比较，不是新独立验证。',22,MUTED),
+       line(scale(baseline),104,scale(baseline),555,BLUE,3,**{'stroke-dasharray':'5 4'}),
+       text(scale(baseline),99,f'FIFO {baseline}段',25,BLUE,'middle',650)]
+    for index,row in enumerate(rows):
+        y=131+index*47;value=row['confirmed']
+        p += [text(18,y+22,f'登记规则{index+1:02d}',23,MUTED),
+              rect(scale(0),y,scale(value)-scale(0),29,'#a6b5bf',**{'data-rule-sha':row['rule_sha256'],'data-confirmed':value}),
+              text(scale(value)+12,y+23,f'{value}段',22,INK,weight=600)]
+    p.append(line(scale(0),567,scale(89),567,LINE))
+    for tick in [0,20,40,60,70,89]:
+        x=scale(tick);p += [line(x,567,x,574,GREY),text(x,603,tick,20,MUTED,'middle')]
+    p.append(text(18,651,'最好的登记规则确认60段，FIFO为70段；尚未调用模型，不能据此评价反馈或RSI增益。',22,MUTED))
+    return svg('registered-rules',1280,678,'9条登记规则的确认量及FIFO70段基线',
+               '九条规则依次确认'+','.join(str(r['confirmed']) for r in rows)+'段，均低于FIFO70段。不代表整个规则空间的最优性。',p)
+
+
 def fifo_actions(fifo):
     scale=lambda t:100+(t-470)/80*1070
     p=[text(18,34,'实际执行：先加查机柜10、8，再完成原定机柜0',29,weight=650)]
@@ -153,7 +226,9 @@ def clean_legacy(source):
 
 def build_report_diagrams(data, inherited):
     drawings={'model':coupled_model(),'public-risk':heatmap(data['engineering']),
-              'offline-temperature':heatmap(data['engineering'],True),'fifo-cycle':dispatch_cycle(),
-              'fifo-actions':fifo_actions(data['fifo']),'original-paper-scores':paper_scores(data['paper_scores'])}
+              'offline-temperature':heatmap(data['engineering'],True),'inspection-architecture':inspection_architecture(),
+              'fifo-cycle':dispatch_cycle(),'fifo-actions':fifo_actions(data['fifo']),
+              'outcome-costs':outcome_costs(data),'registered-rules':registered_rules(data['registered_rules'],data['main']['fifo']['confirmed']),
+              'original-paper-scores':paper_scores(data['paper_scores'])}
     for name,source in inherited.items():drawings[name]=clean_legacy(source)
     return drawings

@@ -10,10 +10,12 @@
 
 网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
+正文放入10张本项目图：设施耦合架构、完整巡检系统架构、FIFO流程、风险与温度热点、实际执行时序、主确认量、逐过程净增、收益代价和9条规则负结果。另有1张明确标注来源的原论文对照图；文末保留3张本项目回溯附图。所有本项目数据图沿用封存记录。
+
 ## 来源与复建
 
 - [报告Markdown源文](supervisor-report.md)、[绘图输入](generated/supervisor-report-data.json)、[完整SVG](figures/supervisor-report/)、[来源manifest](generated/briefing-manifest.json)。
-- [用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
+- [用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[两轴审读及落实](briefing-code-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
 - 已发布主结果仍见`evidence/event-validation/final`；工程热点图使用已保存的工程回看，未计作12主过程的新样本。原论文数值是原文内部对照，未冒充本项目实测。
 
 构建：`python scripts/build_supervisor_report.py`，使用已有写作环境中的markdown-it-py和Python标准库；[写作依赖](requirements-writing.txt)可放在隔离目录`.work/paper-writing-deps`。数值来自有原件SHA的紧凑快照及原有JSON/SVG，不需要重跑模拟。旧命令`python scripts/build_supervisor_briefing.py`已转到同一静态报告构建，避免恢复旧动画。

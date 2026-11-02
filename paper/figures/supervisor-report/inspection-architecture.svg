@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 515" role="img" aria-labelledby="inspection-architecture-title inspection-architecture-description" data-chart="inspection-architecture">
+<title id="inspection-architecture-title">本项目公开观测到巡检执行、反馈及离线审计的总体架构</title>
+<desc id="inspection-architecture-description">公开观测由名义估计更新风险，原例行和风险待办分账，经过资格、所属、预约、返回核算和预算检查，由固定FIFO派单。测量反馈在线观测；内部真值只与执行记录一起用于离线评分。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >本项目巡检系统：观测、派单、执行与评价怎样连接</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >上方为在线闭环；公开观测经名义估计形成风险，FIFO规则保持固定。</text>
+<rect x="18" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="153" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >公开观测与估计</text>
+<text x="153" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >遥测＋已完成的专业测量</text>
+<text x="153" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >名义估计 → 风险提示</text>
+<line x1="296" y1="150" x2="328" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M320,155 L328,150 L320,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="338" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="473" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >两本任务账</text>
+<text x="473" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >原循环下一项＋风险待办</text>
+<text x="473" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >分别保留，分别推进</text>
+<line x1="616" y1="150" x2="648" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M640,155 L648,150 L640,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="658" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="793" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行边界与FIFO</text>
+<text x="793" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >资格、所属、预约、期限、预算</text>
+<text x="793" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >合法请求中按首次提示排序</text>
+<line x1="936" y1="150" x2="968" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M960,155 L968,150 L960,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="978" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="1113" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行检查与更新</text>
+<text x="1113" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >移动、服务、完成专业量测</text>
+<text x="1113" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >测量完成后更新观测与待办</text>
+<path d="M1113,209 V260 H153 V218" fill="none" stroke="#2369a5" stroke-width="2"/>
+<text x="620" y="252" font-size="22" fill="#2369a5" text-anchor="middle" font-weight="400" >新测量进入下一轮；设备自控仍由设施模型自己的回路运行</text>
+<text x="18" y="326" font-size="26" fill="#526675" text-anchor="start" font-weight="600" >离线评价：将真实异常区间与执行记录对齐</text>
+<rect x="18" y="355" width="395" height="83" fill="#f2f6f9" rx="3"/>
+<text x="215.5" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >内部状态与异常标签</text>
+<text x="215.5" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >事后读取，不提供给在线派单</text>
+<rect x="668" y="355" width="580" height="83" fill="#f2f6f9" rx="3"/>
+<text x="958" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >离线评分与约束审计</text>
+<text x="958" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >有效确认、等待、移动／服务成本与重访间隔</text>
+<line x1="423" y1="397" x2="658" y2="397" stroke="#7b8791" stroke-width="2" /><path d="M650,402 L658,397 L650,392" fill="none" stroke="#7b8791" stroke-width="2"/>
+<line x1="1200" y1="215" x2="1110" y2="344" stroke="#7b8791" stroke-width="2" /><path d="M1110.48,334.578 L1110,344 L1118.68,340.3" fill="none" stroke="#7b8791" stroke-width="2"/>
+<text x="1190" y="317" font-size="19" fill="#526675" text-anchor="start" font-weight="400" >执行记录</text>
+<text x="18" y="488" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >巡检通过测量改变信息和确认时机；当前不模拟巡检员维修设备，也不把隐藏故障标签输入调度器。</text>
+</svg>

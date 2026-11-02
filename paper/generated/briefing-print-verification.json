@@ -1,9 +1,9 @@
 {
   "status": "PASS",
-  "html_sha256": "7e0ed245278bcb26ae4c968a25b61027ef08567e652ab0b63b77dc92e33a08d9",
-  "pdf_sha256": "edb0306b81b555299f5e7204332fdd2120eb70414f1326e2825c853f0916f92d",
-  "checker_sha256": "0fa2554796384c5d3358665017b3a4a600a95a7e18ad42e693c0c9e9d91b73ad",
-  "page_count": 14,
+  "html_sha256": "6cf3630c76f20f7aacb2ae2603e2adf8639a77e16fa3efeae8c8ab9be918b9f4",
+  "pdf_sha256": "31bedfb875a2a569be6dcfdec44152e9d3f632de2e976668b7e629ec27289abf",
+  "checker_sha256": "57f884615832729ced4044277951ccff26db48905037cf89b9f11fc3a674d0d3",
+  "page_count": 15,
   "verified_terms": [
     "128",
     "161",
@@ -28,7 +28,11 @@
     "77段热异常",
     "12段制冷异常",
     "+0.50%",
-    "-0.33%",
+    "下降约0.33%",
+    "两本任务账",
+    "离线评分与约束审计",
+    "登记规则09",
+    "不是现场运行标准",
     "RMSE",
     "R²",
     "0.484",
@@ -71,54 +75,60 @@
     },
     {
       "page": 6,
-      "text_characters": 712,
+      "text_characters": 954,
       "text_start": "3. FIFO到底怎么派单\nFIFO＝First In, First Out，先入先出。 在本程序里：每名巡检员空闲时（刚开始，或上一项完成后），从自己负\n责、当下可以执行的待确认请求中，选择最早出现",
-      "render_sha256": "73b632d435f95913fada436f5504178222bb3f9a2267bd00eb264a1568a42567"
+      "render_sha256": "39c73f3df15cdea1d810ae657db40d6b1228d02eae00629ecb4a42a175520c7c"
     },
     {
       "page": 7,
-      "text_characters": 804,
-      "text_start": "两本账，而不是一条被风险替换掉的路线\n账本 记录什么 什么时候推进或关闭\n原例行清\n单\n固定循环中的下一项检查 完成原定下一项后，指针才走到下一项\n待确认清\n单\n程序在某任务的公开风险由0变正时自动建",
-      "render_sha256": "073fae1ae7c41debe218fe99cf354fb0d6991cacda35835f6dde7a459dbb194a"
+      "text_characters": 753,
+      "text_start": "巡检员实际检查什么\n专业 完成检查后得到什么 人数 每次服务 最大重访间隔\n热检查 该机柜代表温度 12 10秒 300秒\n电气检查 该组电气接触温度 2 20秒 600秒\n制冷检查 该组冷却液流量 ",
+      "render_sha256": "a743036cff0a3a1ace39c21099b5a06da1eb1f1a5fb30ad4bf01ec5bd3e10b73"
     },
     {
       "page": 8,
-      "text_characters": 999,
-      "text_start": "为什么还能连续加查，原任务为什么没有丢\n每次检查完成后都重新决策。 第一项加查完成后，系统可以再次批准另一项，只要原循环仍来得及；返回核查给的\n是保底可行方案，不是随后必须照抄的固定时间表。这份核算结",
-      "render_sha256": "c5991e2cdf840092e57d4a1beee3e99f1826f60a6b31f965fd17e6ff31cd0935"
+      "text_characters": 940,
+      "text_start": "所以先查10号。 它在450秒先进入待办，8号在455秒才进入；尽管8号此时的风险分更高，FIFO仍先服务较早的一\n条。风险分不是百分比，也不是FIFO的第一排序键。\n实际执行：先加查机柜10、8，再",
+      "render_sha256": "249bfdbe32c3533acc68e208f811321227334d6102d1bf3ce784740bfbc679b8"
     },
     {
       "page": 9,
-      "text_characters": 100,
-      "text_start": "确认了多少段异常？\n0\n30\n60\n89\n28/89\n固定巡回\nTour\n70/89\n事件响应\nFIFO\n25/89\n风险位置打乱\n当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。",
-      "render_sha256": "2bb0221a45f0bcf4825664e1b0bcbecc5ded8000be0d6d34df30f8c3ce370f5f"
+      "text_characters": 418,
+      "text_start": "每回合为30分钟仿真、18名执行者，全体额外访问总上限12次；当前结果限定于已冻结的开放通道和确定耗时配\n置。\n为什么另看“确认”而不只看重访？ 当前保护配置中，Tour与FIFO都没有硬重访违规；这",
+      "render_sha256": "0d5ecc3aa0f2adfe62695d489d0e585bc7dceab1af2f40632a7f0a0cf057cc74"
     },
     {
       "page": 10,
-      "text_characters": 347,
+      "text_characters": 253,
       "text_start": "每个独立过程的净增\n过程01 +3\n过程02 +7\n过程03 +3\n过程04 +5\n过程05 +2\n过程06 +5\n过程07 +4\n过程08 +5\n过程09 +1\n过程10 +4\n过程11 +3\n过程",
-      "render_sha256": "370a99ef5b132aeb159c5886b53a2972f1e5c8324af5bbb1ff5015fb80bce09e"
+      "render_sha256": "e59baef6e4338667b848025415f7d062fabe732ca1b7ba81a269ff2906013414"
     },
     {
       "page": 11,
-      "text_characters": 1018,
-      "text_start": "比较项 FIFO相对Tour的实际结果 解释\n有异常过程的加权截尾等待 78.16秒 → 49.69秒 漏检以异常结束截尾，权重是合成任务设定\n这支持正确风险位置和事件确认机制在所测条件中的任务价值。",
-      "render_sha256": "b592b8aba2b4a3efacec7efccd741a3df9e6492dc6d85b1ecfca2f360adc9fe7"
+      "text_characters": 851,
+      "text_start": "收益与代价：实际结果放回预先约定的探索性门槛\n三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。\n每过程净增确认\n段／过程，越高越好\n至少1段\n实际 3.50段／过程\n0 1 2 3",
+      "render_sha256": "e134ab7e784b4501389bac38c8106efe059a0668ecbbd07c5ad3b65554cba0bf"
     },
     {
       "page": 12,
-      "text_characters": 990,
-      "text_start": "原文在相同水域任务中比较DRL、Greedy、VRP循环，并把VAE与Myopic估计器交叉组合做消融。测试采用100个\n未参与训练的场景，图中为其表8／9的终值均值与95%区间，各场景内比较方法。“",
-      "render_sha256": "730a75d89c29305482673d5f69febba4731a536ef9715446570f140e6ade5bb1"
+      "text_characters": 924,
+      "text_start": "同权限的9条登记响应／暂缓规则曾在这12个已见过程确认28—60段，都未超过FIFO的70段。这是有限开发负结\n果，不证明整个规则空间无解；模型反馈及RSI的独立增益仍未建立。\n5. 原VAE论文怎样",
+      "render_sha256": "dce9e506c066bf8aacd9c05d2d45e89b468a3c7dff36f3e1d623a65b99399d3e"
     },
     {
       "page": 13,
+      "text_characters": 841,
+      "text_start": "当前能比较什么，哪些还没完成\n问题 现在已有的证据 还需怎样对齐\n事件机制是否比固定巡回\n多确认异常\n本任务12过程，28／70／25段及成\n本、约束检查\nTour是机制开关对照，不能单凭它宣称优于成",
+      "render_sha256": "759efd7281f64538e9dfeefe155cb83886ad903e6c541feb9a0751c4afe63c7c"
+    },
+    {
+      "page": 14,
       "text_characters": 393,
       "text_start": "机柜17：新增确认（例行访问）\n事后异常窗口 680—705秒\nTour\nFIFO\n645 测量正常\n690 确认异常\n685 风险提示\n665 派出例行检查\n640秒 680秒 720秒\n17号66",
       "render_sha256": "25ee6e133b0cc6bf8605da2d560a71d3f5dd8edd5e6d7a3fcf11e780cfbb47ec"
     },
     {
-      "page": 14,
+      "page": 15,
       "text_characters": 316,
       "text_start": "来源与继续查阅\n合成模型方程、单位与参数：物理形式与合成数值分别列示。\n主机制验证及完整原件：12个主过程及其他健康／轻微／误提示条件分别报告。\n同权限规则搜索负结果：9条规则与停止条件。\n导师工程参",
       "render_sha256": "ae0c5659f188f25d475323b4b267c2abf096c48c6af1a771798128c5e5c4fadd"

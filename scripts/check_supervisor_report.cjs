@@ -77,18 +77,23 @@ async function inspect(selector,width,height,label){
   report.checks.noScriptsOrPresenterControls=await evaluate(`document.querySelectorAll('script,.stage-controls,.toolbar,.slide,dialog,[data-stage-from]').length===0`);
   report.checks.appendixOptional=await evaluate(`!document.querySelector('.case-appendix').open`);
   report.checks.allCoreContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none'&&getComputedStyle(e).opacity==='1')`);
-  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===8&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
+  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===11&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
   report.checks.contentsResolve=await evaluate(`[...document.querySelectorAll('.contents a')].every(a=>document.querySelector(a.getAttribute('href')))`);
   report.checks.noAnimations=await evaluate(`document.getAnimations().length===0&&[...document.querySelectorAll('*')].every(e=>getComputedStyle(e).animationName==='none'&&getComputedStyle(e).transitionDuration==='0s')`);
   report.checks.actualFifoQueue=await evaluate(`(()=>{const t=document.querySelector('[data-table="fifo-queue"]').textContent;return t.includes('450秒')&&t.includes('455秒')&&t.includes('0.0081')&&t.includes('0.0656')&&t.indexOf('机柜10')<t.indexOf('机柜8')})()`);
   report.checks.returnBudget=await evaluate(`(()=>{const t=document.querySelector('[data-table="return-budget"]').textContent;return ['525秒','540秒','545秒','20秒','5秒'].every(v=>t.includes(v))})()`);
   report.checks.twoCompleteHeatmaps=await evaluate(`document.querySelectorAll('[data-kind="risk"][data-rack]').length===128&&document.querySelectorAll('[data-kind="temperature"][data-rack]').length===128`);
   report.checks.primaryOutcomeValues=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-method]')].map(e=>[e.dataset.method,Number(e.dataset.count)]))===JSON.stringify([['tour',28],['fifo',70],['shuffled',25]])`);
+  report.checks.allRegisteredRulesShown=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-rule-sha]')].map(e=>Number(e.dataset.confirmed)))===JSON.stringify([28,33,59,43,30,60,47,60,49])`);
+  report.checks.costThresholdsShown=await evaluate(`(()=>{const rows=[...document.querySelectorAll('[data-cost-key]')];return rows.length===3&&rows.every(e=>Number(e.dataset.value)>0&&Number(e.dataset.threshold)>0)&&document.querySelector('#figure-outcome-costs').textContent.includes('不是现场运行标准')})()`);
+  report.checks.completeInspectionArchitecture=await evaluate(`(()=>{const t=document.querySelector('#figure-inspection-architecture').textContent;return ['公开观测','名义估计','两本任务账','执行边界与FIFO','执行检查与更新','离线评分'].every(v=>t.includes(v))})()`);
   report.checks.mentorRequestsAddressed=await evaluate(`(()=>{const t=document.body.textContent;return ['10 kV','380 V','CDU','E/G','风险热点','RMSE','R²','48023-2026','48097-2026','2027-02-01','2027-03-01'].every(s=>t.includes(s))})()`);
   report.checks.boundariesVisible=await evaluate(`(()=>{const t=document.body.textContent;return t.includes('不是严格等实际成本')&&t.includes('尚无原算法同任务横向实验')&&t.includes('不是故障概率')&&t.includes('尚未据正式条文')})()`);
   const regions=[['#overview','overview'],['#figure-model','model'],['#standards','standards'],['#scale','scale'],
-    ['#hotspots','hotspots'],['#fifo','fifo-flow'],['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
-    ['#results','results'],['#comparison','paper-metrics'],['#figure-original-paper-scores','paper-comparison']];
+    ['#hotspots','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],
+    ['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
+    ['#results','results'],['#figure-outcome-costs','outcome-costs'],['#figure-registered-rules','registered-rules'],
+    ['#comparison','paper-metrics'],['#figure-original-paper-scores','paper-comparison']];
   for(const [width,height] of [[1366,768],[1920,1080]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate('window.scrollTo(0,0)');await delay(100);

@@ -48,6 +48,7 @@ def main():
     rows=load('evidence/event-validation/final/rows.json')
     pairs=load('evidence/event-validation/final/pairs.json')
     metrics=load('paper/generated/metrics.json')
+    proposals=load('evidence/response-defer/proposals.json')
     legacy=load('paper/briefing-history/2db2adf1/briefing-chart-data.json')
     engineering=load('paper/source-data/engineering-snapshot-500.json')
     fifo=load('paper/source-data/fifo-decision-p01-470.json')
@@ -80,6 +81,15 @@ def main():
     lost=sum(p['fifo_minus_tour']['lost'] for p in primary)
     assert (gained,lost)==(45,3) and main_results['fifo']['confirmed']-main_results['tour']['confirmed']==gained-lost
     comp=summary['primary_comparisons']['fifo_minus_tour']
+    registered={}
+    for proposal in proposals:
+        assert proposal['status']=='completed' and len(proposal['paired'])==12
+        assert sum(p['net'] for p in proposal['paired'])==proposal['aggregate']['net']
+        row={'rule_sha256':proposal['rule_sha256'],'confirmed':main_results['fifo']['confirmed']+proposal['aggregate']['net']}
+        if row['rule_sha256'] in registered:assert registered[row['rule_sha256']]==row
+        registered[row['rule_sha256']]=row
+    assert len(registered)==9 and max(row['confirmed'] for row in registered.values())==60
+    assert [(r['rule_sha256'],r['confirmed']) for r in registered.values()]==[(r['rule_sha256'],r['confirmed']) for r in legacy['registered_rules']]
     assert len(engineering['public_thermal_risk'])==len(engineering['offline_temperature_c'])==128
     assert sum(v is not None for v in engineering['remote_temperature_c'])==32
     assert engineering['kind']=='engineering_explanation_not_research_gain' and engineering['method']=='tour'
@@ -97,6 +107,8 @@ def main():
         paper.append({'method':method,'wqp':parse(values[1]),'algae':parse(values[2])})
     assert paper[0]['wqp']['mean']==.484 and paper[1]['wqp']['mean']==.462
     data={'main':main_results,'primary_comparisons':comp,'engineering':engineering,'fifo':fifo,
+          'main_costs':metrics['main'],'decision_thresholds':protocol['decision_thresholds'],
+          'registered_rules':list(registered.values()),
           'primary_anomaly_kinds':kinds['counts'],
           'paper_scores':paper,'paper_metric_scope':'Original water-task score; not directly comparable to professional anomaly confirmation.',
           'new_environment_evaluations':0,'new_research_model_calls':0,'new_training':0}
@@ -122,7 +134,10 @@ def main():
         'public-risk':'已有工程回看：固定巡回，500秒。风险为公开估计的合成代理，不是概率。',
         'offline-temperature':'同一工程过程的事后内部温度，不是现场空气实测；未传入在线选择。',
         'fifo-cycle':'程序只从该执行者自己的合规请求中选择；移动和测量不会被新提示中断。',
+        'inspection-architecture':'根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。',
         'fifo-actions':'主验证包p01-coupled的实际记录；色块宽度按移动＋服务的仿真耗时绘制。',
+        'outcome-costs':'本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。',
+        'registered-rules':'本项目已有开发负结果，按规则内容去重保留9条；没有新增仿真、训练或模型调用。',
         'original-paper-scores':'原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。',
         'confirmations':'当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。',
         'paired-net':'过程01—12对应p00—p11；11个净增、1个不变，不是新增独立样本。',
@@ -139,15 +154,10 @@ def main():
         [f"{r['decision_s']:g}秒",r['selected_task'],f"{r['finish_s']:g}秒",f"{r['projected_return_finish_s']:g}秒",f"{r['routine_due_s']:g}秒",f"{r['minimum_full_cycle_slack_s']:g}秒"] for r in fifo['checks']], 'return-budget')
     hotspot_table=table(['机柜','当时公开风险分','名义估计温度／°C','事后代表温度／°C','固定温度遥测点'],[
         [r,f"{engineering['public_thermal_risk'][r]:.4f}",f"{engineering['public_estimated_temperature_c'][r]:.2f}",f"{engineering['offline_temperature_c'][r]:.2f}",'是' if engineering['remote_temperature_c'][r] is not None else '否'] for r in [64,67,70]],'hotspot-values')
-    cost_table=table(['比较项','FIFO相对Tour的实际结果','解释'],[
-        ['移动距离',f"+{comp['travel_delta_pct']:.2f}%",'按过程求均值'],
-        ['完成检查量',f"−{comp['completed_loss_pct']:.2f}%",'包含原例行和额外访问'],
-        ['资格、预约、完整重访违规','0','成功运行的模型内约束检查'],
-        ['有异常过程的加权截尾等待',f"{metrics['main']['tour']['mean_consequence_weighted_censored_delay_s']:.2f}秒 → {metrics['main']['fifo']['mean_consequence_weighted_censored_delay_s']:.2f}秒",'漏检以异常结束截尾，权重是合成任务设定']], 'outcome-costs')
     task_table=table(['专业','完成检查后得到什么','人数','每次服务','最大重访间隔'],[
         [name,measurement,fifo['task_contract'][kind]['inspectors'],f"{fifo['task_contract'][kind]['service_s']:g}秒",f"{fifo['task_contract'][kind]['revisit_limit_s']:g}秒"]
         for kind,name,measurement in [('thermal','热检查','该机柜代表温度'),('electrical','电气检查','该组电气接触温度'),('cooling','制冷检查','该组冷却液流量'),('control','自控检查','传感读数误差（完成校验后）')]], 'task-contract')
-    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'COST_TABLE':cost_table,'TASK_TABLE':task_table,
+    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'TASK_TABLE':task_table,
         'VISIT_BUDGET':str(protocol['extra_visit_budget']),
         'GAINED':str(gained),'LOST':str(lost),'NET':str(gained-lost),'MEAN_NET':f"{comp['net_confirmations']['mean']:.2f}",
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
@@ -192,7 +202,7 @@ def main():
         'data_sha256':hashlib.sha256(data_path.read_bytes()).hexdigest(),'figure_sha256':figure_hashes,'source_sha256':SOURCES,
         'scope':'Report derivation and source identity. It does not replace independent visual/source verification.'}
     write_json(PAPER/'generated/briefing-manifest.json',manifest)
-    print('Built self-reading static report: 7 visible sections, 11 source-backed diagrams, no animation or presenter controls.')
+    print(f'Built self-reading static report: 7 visible sections, {len(drawings)} source-backed diagrams, no animation or presenter controls.')
 
 
 if __name__=='__main__':main()

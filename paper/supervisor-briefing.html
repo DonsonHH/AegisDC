@@ -1410,7 +1410,48 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 <p>风险分是温度偏离、功率需求缺口等构成的<strong>合成严重度代理，不是故障概率</strong>。右图是设备代表温度，不是机房空气实测；65°C是本研究的热异常评价约定。本轮没有用VAE推理生成这张图。</p>
 </section><section id="fifo" data-report-section="fifo"><h2>3. FIFO到底怎么派单</h2>
 <p><strong>FIFO＝First In, First Out，先入先出。</strong> 在本程序里：每名巡检员空闲时（刚开始，或上一项完成后），从<strong>自己负责、当下可以执行</strong>的待确认请求中，选择最早出现的一条。它不是18人共用的一条任意抢单队列，也不在收到风险时中断当前移动或测量。</p>
-<p>FIFO只负责请求排序：风险由上游估计产生，测量由执行者完成。下例的排队、核查与派单已经由仿真程序自动执行，网页展示的是这些记录。</p>
+<p>先看整个巡检系统如何接起来：公开观测经过名义估计产生风险，两本账记录例行与加查义务，执行后再用新测量更新观测。图的下半部分说明真实异常状态怎样用于事后评价。</p>
+<figure id="figure-inspection-architecture"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 515" role="img" aria-labelledby="inspection-architecture-title inspection-architecture-description" data-chart="inspection-architecture">
+<title id="inspection-architecture-title">本项目公开观测到巡检执行、反馈及离线审计的总体架构</title>
+<desc id="inspection-architecture-description">公开观测由名义估计更新风险，原例行和风险待办分账，经过资格、所属、预约、返回核算和预算检查，由固定FIFO派单。测量反馈在线观测；内部真值只与执行记录一起用于离线评分。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >本项目巡检系统：观测、派单、执行与评价怎样连接</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >上方为在线闭环；公开观测经名义估计形成风险，FIFO规则保持固定。</text>
+<rect x="18" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="153" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >公开观测与估计</text>
+<text x="153" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >遥测＋已完成的专业测量</text>
+<text x="153" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >名义估计 → 风险提示</text>
+<line x1="296" y1="150" x2="328" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M320,155 L328,150 L320,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="338" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="473" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >两本任务账</text>
+<text x="473" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >原循环下一项＋风险待办</text>
+<text x="473" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >分别保留，分别推进</text>
+<line x1="616" y1="150" x2="648" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M640,155 L648,150 L640,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="658" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="793" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行边界与FIFO</text>
+<text x="793" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >资格、所属、预约、期限、预算</text>
+<text x="793" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >合法请求中按首次提示排序</text>
+<line x1="936" y1="150" x2="968" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M960,155 L968,150 L960,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="978" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="1113" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行检查与更新</text>
+<text x="1113" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >移动、服务、完成专业量测</text>
+<text x="1113" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >测量完成后更新观测与待办</text>
+<path d="M1113,209 V260 H153 V218" fill="none" stroke="#2369a5" stroke-width="2"/>
+<text x="620" y="252" font-size="22" fill="#2369a5" text-anchor="middle" font-weight="400" >新测量进入下一轮；设备自控仍由设施模型自己的回路运行</text>
+<text x="18" y="326" font-size="26" fill="#526675" text-anchor="start" font-weight="600" >离线评价：将真实异常区间与执行记录对齐</text>
+<rect x="18" y="355" width="395" height="83" fill="#f2f6f9" rx="3"/>
+<text x="215.5" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >内部状态与异常标签</text>
+<text x="215.5" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >事后读取，不提供给在线派单</text>
+<rect x="668" y="355" width="580" height="83" fill="#f2f6f9" rx="3"/>
+<text x="958" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >离线评分与约束审计</text>
+<text x="958" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >有效确认、等待、移动／服务成本与重访间隔</text>
+<line x1="423" y1="397" x2="658" y2="397" stroke="#7b8791" stroke-width="2" /><path d="M650,402 L658,397 L650,392" fill="none" stroke="#7b8791" stroke-width="2"/>
+<line x1="1200" y1="215" x2="1110" y2="344" stroke="#7b8791" stroke-width="2" /><path d="M1110.48,334.578 L1110,344 L1118.68,340.3" fill="none" stroke="#7b8791" stroke-width="2"/>
+<text x="1190" y="317" font-size="19" fill="#526675" text-anchor="start" font-weight="400" >执行记录</text>
+<text x="18" y="488" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >巡检通过测量改变信息和确认时机；当前不模拟巡检员维修设备，也不把隐藏故障标签输入调度器。</text>
+</svg>
+</div><figcaption>根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。</figcaption></figure>
+<p>FIFO只负责其中的请求排序。下例的排队、核查与派单已经由仿真程序自动执行，网页展示的是这些记录。</p>
 <p>这里把FIFO用作固定、可解释的派单基线；本轮评价的是风险确认机制的收益、约束和实际代价，不预设FIFO为最优策略。</p>
 <figure id="figure-fifo-cycle"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 355" role="img" aria-labelledby="fifo-cycle-title fifo-cycle-description" data-chart="fifo-cycle">
 <title id="fifo-cycle-title">FIFO在本巡检程序中的完整决策循环</title>
@@ -1564,9 +1605,132 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 </svg>
 </div><figcaption>过程01—12对应p00—p11；11个净增、1个不变，不是新增独立样本。</figcaption></figure></div>
 <p><strong>有效确认</strong>要求有资格的执行者完成检查、测量告警，并且测量发生在该对象的评价异常期间。新机制新增45段、丢失3段，净增42段；平均每过程净增3.50段，探索性95%自举区间为[2.42, 4.50]。</p>
-<div class="table-wrap"><table data-table="outcome-costs"><thead><tr><th>比较项</th><th>FIFO相对Tour的实际结果</th><th>解释</th></tr></thead><tbody><tr><td>移动距离</td><td>+0.50%</td><td>按过程求均值</td></tr><tr><td>完成检查量</td><td>−0.33%</td><td>包含原例行和额外访问</td></tr><tr><td>资格、预约、完整重访违规</td><td>0</td><td>成功运行的模型内约束检查</td></tr><tr><td>有异常过程的加权截尾等待</td><td>78.16秒 → 49.69秒</td><td>漏检以异常结束截尾，权重是合成任务设定</td></tr></tbody></table></div>
+<figure id="figure-outcome-costs"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 445" role="img" aria-labelledby="outcome-costs-title outcome-costs-description" data-chart="outcome-costs">
+<title id="outcome-costs-title">FIFO相对固定巡回的净确认、移动代价和完成量代价</title>
+<desc id="outcome-costs-description">每过程净增3.50段，探索性95%自举区间2.42到4.50；移动增加约0.50%，完成量下降约0.33%；门槛依次为至少1段、不超过5%、不超过2%。违规为0。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >收益与代价：实际结果放回预先约定的探索性门槛</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。</text>
+<text x="18" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >每过程净增确认</text>
+<text x="18" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >段／过程，越高越好</text>
+<line x1="38" y1="230" x2="373" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="98.9091" y1="178" x2="98.9091" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="98.9091" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >至少1段</text>
+<text x="18" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 3.50段／过程</text>
+<line x1="185.197" y1="207" x2="312.091" y2="207" stroke="#2369a5" stroke-width="3" />
+<line x1="185.197" y1="201" x2="185.197" y2="213" stroke="#2369a5" stroke-width="2" />
+<line x1="312.091" y1="201" x2="312.091" y2="213" stroke="#2369a5" stroke-width="2" />
+<circle cx="251.182" cy="207" r="7" fill="#2369a5" />
+<g data-cost-key="net_confirmations" data-value="3.5" data-threshold="1"></g>
+<line x1="38" y1="230" x2="38" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="38" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="98.9091" y1="230" x2="98.9091" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="98.9091" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="159.818" y1="230" x2="159.818" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="159.818" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<line x1="220.727" y1="230" x2="220.727" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="220.727" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >3</text>
+<line x1="281.636" y1="230" x2="281.636" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="281.636" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >4</text>
+<line x1="342.545" y1="230" x2="342.545" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="342.545" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >5</text>
+<text x="448" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >移动距离增加</text>
+<text x="448" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >%，越低越好</text>
+<line x1="468" y1="230" x2="803" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="772.545" y1="178" x2="772.545" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="772.545" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >不超过5%</text>
+<text x="448" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 0.50%</text>
+<rect x="468" y="191" width="30.4285" height="26" fill="#2369a5" />
+<g data-cost-key="travel_delta_pct" data-value="0.4995732076133001" data-threshold="5"></g>
+<line x1="468" y1="230" x2="468" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="468" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="528.909" y1="230" x2="528.909" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="528.909" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="589.818" y1="230" x2="589.818" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="589.818" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<line x1="650.727" y1="230" x2="650.727" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="650.727" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >3</text>
+<line x1="711.636" y1="230" x2="711.636" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="711.636" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >4</text>
+<line x1="772.545" y1="230" x2="772.545" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="772.545" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >5</text>
+<text x="878" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >完成检查量下降</text>
+<text x="878" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >%，越低越好</text>
+<line x1="898" y1="230" x2="1233" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="1202.55" y1="178" x2="1202.55" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="1202.55" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >不超过2%</text>
+<text x="878" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 0.33%</text>
+<rect x="898" y="191" width="49.8321" height="26" fill="#2369a5" />
+<g data-cost-key="completed_loss_pct" data-value="0.3272557269752239" data-threshold="2"></g>
+<line x1="898" y1="230" x2="898" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="898" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="974.136" y1="230" x2="974.136" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="974.136" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0.5</text>
+<line x1="1050.27" y1="230" x2="1050.27" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1050.27" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="1126.41" y1="230" x2="1126.41" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1126.41" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1.5</text>
+<line x1="1202.55" y1="230" x2="1202.55" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1202.55" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<text x="18" y="381" font-size="23" fill="#147469" text-anchor="start" font-weight="600" >有异常过程的加权截尾等待：78.16 → 49.69秒；资格、预约、完整重访违规均为0。</text>
+<text x="18" y="419" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >净增点的横线为探索性95%自举区间；代价按过程求均值。以上门槛是研究决策约定，不是现场运行标准。</text>
+</svg>
+</div><figcaption>本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。</figcaption></figure>
+<p>图中的完成量包含原例行和额外访问；等待包含漏检截尾，权重采用合成任务设定。实际移动增加约+0.50%，完成检查量下降约0.33%。</p>
 <p>这支持正确风险位置和事件确认机制在所测条件中的任务价值。位置对照实际额外访问为81次，FIFO为89次，<strong>不是严格等实际成本比较</strong>。这些结果来自整套在线机制，不能把全部增量单独归于FIFO排序、VAE、PPO或模型反馈。</p>
 <p>临时加查会改变后续例行检查时刻，因此可能新增确认，也可能把另一次检查移出短时异常窗口。具体回溯图放在文末的可选附例中。</p>
+<h3>已有规则搜索的负结果也完整展示</h3>
+<figure id="figure-registered-rules"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 678" role="img" aria-labelledby="registered-rules-title registered-rules-description" data-chart="registered-rules">
+<title id="registered-rules-title">9条登记规则的确认量及FIFO70段基线</title>
+<desc id="registered-rules-description">九条规则依次确认28,33,59,43,30,60,47,60,49段，均低于FIFO70段。不代表整个规则空间的最优性。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >已有负结果：9条不同规则都没有超过FIFO</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >每条规则在同一组12个已见过程上的总确认段数；这些是开发比较，不是新独立验证。</text>
+<line x1="978.258" y1="104" x2="978.258" y2="555" stroke="#2369a5" stroke-width="3" stroke-dasharray="5 4"/>
+<text x="978.258" y="99" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="650" >FIFO 70段</text>
+<text x="18" y="153" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则01</text>
+<rect x="235" y="131" width="297.303" height="29" fill="#a6b5bf" data-rule-sha="b348be3023884fb27e70211369ac7207166fae5290ef2c58344571b93e724039" data-confirmed="28"/>
+<text x="544.303" y="154" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >28段</text>
+<text x="18" y="200" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则02</text>
+<rect x="235" y="178" width="350.393" height="29" fill="#a6b5bf" data-rule-sha="9948125dc1a0fdda202383542101a87c41976b6459122c4b5df7584c75a2982f" data-confirmed="33"/>
+<text x="597.393" y="201" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >33段</text>
+<text x="18" y="247" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则03</text>
+<rect x="235" y="225" width="626.461" height="29" fill="#a6b5bf" data-rule-sha="3b93830def94e5009e0c4ba3c6e80068b1ce10a36de0877e861d5c1ae050ed88" data-confirmed="59"/>
+<text x="873.461" y="248" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >59段</text>
+<text x="18" y="294" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则04</text>
+<rect x="235" y="272" width="456.573" height="29" fill="#a6b5bf" data-rule-sha="6292572b67bf3657316e3f607f5f46a18e5aee28bdf2d53c8759f0e01207081f" data-confirmed="43"/>
+<text x="703.573" y="295" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >43段</text>
+<text x="18" y="341" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则05</text>
+<rect x="235" y="319" width="318.539" height="29" fill="#a6b5bf" data-rule-sha="b08ae6c5c68e463125d825c0d38c6b55bb50c136c13336536a2369045c332c78" data-confirmed="30"/>
+<text x="565.539" y="342" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >30段</text>
+<text x="18" y="388" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则06</text>
+<rect x="235" y="366" width="637.079" height="29" fill="#a6b5bf" data-rule-sha="c9b8f9cc37f031b275681f92500b9b51ff403b897278b4e313c3cfabfedfd949" data-confirmed="60"/>
+<text x="884.079" y="389" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >60段</text>
+<text x="18" y="435" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则07</text>
+<rect x="235" y="413" width="499.045" height="29" fill="#a6b5bf" data-rule-sha="8236b1627de879fd9188f71f605f88983459ff06ab8316e2d64127029a0e2d1c" data-confirmed="47"/>
+<text x="746.045" y="436" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >47段</text>
+<text x="18" y="482" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则08</text>
+<rect x="235" y="460" width="637.079" height="29" fill="#a6b5bf" data-rule-sha="328cdedb02a768922c8f49db69cadf60dc6888139a9d9b6c0a52854c5d59fdb9" data-confirmed="60"/>
+<text x="884.079" y="483" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >60段</text>
+<text x="18" y="529" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >登记规则09</text>
+<rect x="235" y="507" width="520.281" height="29" fill="#a6b5bf" data-rule-sha="24c5531ac7d5505d1ce8d58aff726099f1dd67dd567143462d1d5613d3ad3f77" data-confirmed="49"/>
+<text x="767.281" y="530" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >49段</text>
+<line x1="235" y1="567" x2="1180" y2="567" stroke="#dce4e9" stroke-width="2" />
+<line x1="235" y1="567" x2="235" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="235" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="447.36" y1="567" x2="447.36" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="447.36" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >20</text>
+<line x1="659.719" y1="567" x2="659.719" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="659.719" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >40</text>
+<line x1="872.079" y1="567" x2="872.079" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="872.079" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >60</text>
+<line x1="978.258" y1="567" x2="978.258" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="978.258" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >70</text>
+<line x1="1180" y1="567" x2="1180" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="1180" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >89</text>
+<text x="18" y="651" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >最好的登记规则确认60段，FIFO为70段；尚未调用模型，不能据此评价反馈或RSI增益。</text>
+</svg>
+</div><figcaption>本项目已有开发负结果，按规则内容去重保留9条；没有新增仿真、训练或模型调用。</figcaption></figure>
 <p>同权限的9条登记响应／暂缓规则曾在这12个已见过程确认28—60段，都未超过FIFO的70段。这是有限开发负结果，不证明整个规则空间无解；模型反馈及RSI的独立增益仍未建立。</p>
 </section><section id="comparison" data-report-section="comparison"><h2>5. 原VAE论文怎样评价先进性，当前横向对比做到哪里</h2>
 <p>原文将<strong>估计图准不准、重要区域有没有长期漏访、计算是否够快</strong>分开检验，不能只看训练回报或一项覆盖率。<a href="https://doi.org/10.1016/j.eswa.2025.126483">P1</a></p>

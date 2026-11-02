@@ -5,7 +5,10 @@ import ast
 import gzip
 import hashlib
 import json
+import math
 from pathlib import Path
+from statistics import mean
+import xml.etree.ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -69,10 +72,55 @@ def main():
         record=ROOT/'runs/event-validation-amended-20261102'/name;assert digest(record)==identity
         with gzip.open(record,'rt',encoding='utf-8') as stream:counts.update(a['kind'] for a in json.load(stream)['anomaly_intervals'])
     assert dict(counts)==kinds['counts']=={'thermal':77,'cooling':12}
+    # Bind the source checks to the actual delivered HTML and every embedded SVG.
+    manifest=load(ROOT/'paper/generated/briefing-manifest.json')
+    html=(ROOT/'paper/supervisor-briefing.html').read_text(encoding='utf-8')
+    assert manifest['html_sha256']==digest(ROOT/'paper/supervisor-briefing.html')
+    for name,identity in manifest['source_sha256'].items():assert digest(ROOT/name)==identity,name
+    drawings={}
+    for name,identity in manifest['figure_sha256'].items():
+        path=ROOT/name;assert digest(path)==identity,name
+        source=path.read_text(encoding='utf-8');assert source in html,name
+        drawings[path.stem]=ET.fromstring(source)
+    data_path=ROOT/'paper/generated/supervisor-report-data.json';data=load(data_path)
+    assert digest(data_path)==manifest['data_sha256']
+    for name,kind,values in [('public-risk','risk',engineering['public_thermal_risk']),
+                             ('offline-temperature','temperature',engineering['offline_temperature_c'])]:
+        encoded={int(e.attrib['data-rack']):float(e.attrib['data-value']) for e in drawings[name].iter() if e.attrib.get('data-kind')==kind}
+        assert encoded==dict(enumerate(values)),name
+    rows=load(ROOT/'evidence/event-validation/final/rows.json')
+    for method in ['tour','fifo','shuffled']:
+        selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
+        assert data['main'][method]['confirmed']==sum(r['confirmed_segments'] for r in selected)
+        for field,raw in [('mean_travel_m','travel_m'),('mean_service_s','service_s'),
+                          ('mean_completed_inspections','completed_inspections'),
+                          ('mean_consequence_weighted_censored_delay_s','consequence_weighted_censored_delay_s')]:
+            assert math.isclose(data['main_costs'][method][field],mean(r[raw] for r in selected),rel_tol=1e-12),field
+    protocol=load(ROOT/'evidence/event-validation/final/protocol.json')
+    assert data['decision_thresholds']==protocol['decision_thresholds']
+    summary=load(ROOT/'evidence/event-validation/final/summary.json')
+    assert data['primary_comparisons']==summary['primary_comparisons']['fifo_minus_tour']
+    proposals=load(ROOT/'evidence/response-defer/proposals.json');rules={}
+    for proposal in proposals:
+        rules.setdefault(proposal['rule_sha256'],data['main']['fifo']['confirmed']+sum(p['net'] for p in proposal['paired']))
+    encoded={e.attrib['data-rule-sha']:int(e.attrib['data-confirmed']) for e in drawings['registered-rules'].iter() if 'data-rule-sha' in e.attrib}
+    assert encoded==rules and len(rules)==9
+    threshold_keys={'net_confirmations':'minimum_mean_net_confirmations',
+                    'travel_delta_pct':'maximum_travel_increase_pct',
+                    'completed_loss_pct':'maximum_completion_loss_pct'}
+    markers=[e for e in drawings['outcome-costs'].iter() if 'data-cost-key' in e.attrib]
+    assert len(markers)==3 and {e.attrib['data-cost-key'] for e in markers}==set(threshold_keys)
+    for e in markers:
+        key=e.attrib['data-cost-key'];value=data['primary_comparisons'][key]
+        if key=='net_confirmations':value=value['mean']
+        assert float(e.attrib['data-value'])==value
+        assert float(e.attrib['data-threshold'])==protocol['decision_thresholds'][threshold_keys[key]]
     report={'status':'PASS','html_sha256':digest(ROOT/'paper/supervisor-briefing.html'),
             'checker_sha256':digest(Path(__file__)),'unchanged_frozen_files':frozen_count,
             'engineering_frame_arrays_checked':4,'actual_fifo_queue_checked':True,'both_return_certificates_checked':True,
-            'actual_visits_checked':3,'primary_anomaly_kinds':dict(counts),'new_environment_evaluations':0,
+            'actual_visits_checked':3,'primary_anomaly_kinds':dict(counts),
+            'embedded_svg_files_checked':len(drawings),'embedded_hotspot_values_checked':256,
+            'registered_rules_checked':len(rules),'main_costs_recomputed_from_rows':True,'new_environment_evaluations':0,
             'scope':'Read existing full records and public report extracts only; no simulation, training or research-model inference.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')
