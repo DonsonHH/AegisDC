@@ -288,6 +288,7 @@ def main(argv=None):
     p = sub.add_parser("validate-events", help="运行冻结的事件机制与风险信息归因验证；不调用模型")
     p.add_argument("--protocol")
     p.add_argument("--output", required=True)
+    p.add_argument("--resume-from", help="仅供明确授权的预算修订：核验并继承停止包，不重跑成功原件")
     args = parser.parse_args(argv)
     try:
         if args.command == "validate-events":

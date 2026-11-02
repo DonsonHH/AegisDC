@@ -3,6 +3,7 @@ import csv
 import gzip
 import hashlib
 import json
+import shutil
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,6 +16,53 @@ from .risk_response import run_response
 
 def write(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+
+
+def load_resume(protocol, prior, index_path):
+    """Read-only validation of the approved amendment and immutable prior attempts."""
+    amendment = protocol.get('amendment', {})
+    if amendment.get('authorization') != 'user_approved':
+        raise ValueError('Budget amendment is pending user decision')
+    current_sources = {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in Path(__file__).parent.glob('*.py')}
+    if current_sources != amendment['resumption_source_sha256']:
+        raise ValueError('Resumption code differs from the reviewed amendment')
+    index_bytes = index_path.read_bytes()
+    if hashlib.sha256(index_bytes).hexdigest() != amendment['prior_index_sha256']:
+        raise ValueError('Prior index identity mismatch')
+    index = json.loads(index_bytes)
+    for name, expected in index.items():
+        path = (prior/name).resolve()
+        if not path.is_relative_to(prior.resolve()):
+            raise ValueError('Prior artifact path escapes run directory')
+        data = path.read_bytes()
+        if len(data) != expected['bytes'] or hashlib.sha256(data).hexdigest() != expected['sha256']:
+            raise ValueError('Prior artifact changed: '+name)
+    old_protocol = json.loads((prior/'protocol.json').read_text(encoding='utf-8'))
+    original = {k:v for k,v in protocol.items() if k != 'amendment'}
+    original['max_evaluations'] = old_protocol['max_evaluations']
+    if original != old_protocol or protocol['max_evaluations'] != old_protocol['max_evaluations']+1:
+        raise ValueError('Amendment may add only one failed-attempt allowance; scientific protocol must match')
+    attempts = json.loads((prior/'attempts.json').read_text(encoding='utf-8'))
+    expected_keys = [(c['id'],m) for c in old_protocol['cases'] for m in old_protocol['methods']]
+    if (len(attempts) != 10 or [a['status'] for a in attempts] != ['completed']*9+['failed']
+            or [(a['case'],a['method']) for a in attempts] != expected_keys[:10]
+            or attempts[-1]['error'] != 'Risk provenance components do not match executed risk'):
+        raise ValueError('Unexpected prior attempt history')
+    rows = json.loads((prior/'rows.json').read_text(encoding='utf-8'))
+    if len(rows) != 9 or [(r['case'],r['method']) for r in rows] != expected_keys[:9]:
+        raise ValueError('Prior successful rows do not match attempts')
+    case_by_id = {c['id']:c for c in protocol['cases']}
+    for row in rows:
+        case = case_by_id[row['case']]
+        if case['spec'].get('public_risk_pulses'):
+            raise ValueError('Cannot inherit a case affected by the provenance repair')
+        if row['record'] not in index:
+            raise ValueError('Prior record absent from immutable index')
+        with gzip.open(prior/row['record'],'rt',encoding='utf-8') as stream:
+            record = json.load(stream)
+        if record['spec'] != case['spec']:
+            raise ValueError('Prior record specification mismatch')
+    return attempts, {(r['case'],r['method']):r for r in rows}, index
 
 
 def confirmed(record):
@@ -92,13 +140,31 @@ def run_validation(args):
     path = Path(args.protocol) if args.protocol else ROOT/'configs/event-validation.json'
     protocol = json.loads(path.read_text(encoding='utf-8'))
     cases = protocol['cases']
-    if len(cases)*len(protocol['methods']) != protocol['max_evaluations'] or protocol['methods'] != ['tour','fifo','shuffled']:
+    resume = getattr(args,'resume_from',None)
+    expected_budget = len(cases)*len(protocol['methods']) + int(bool(resume))
+    if expected_budget != protocol['max_evaluations'] or protocol['methods'] != ['tour','fifo','shuffled']:
         raise ValueError('Invalid frozen evaluation budget or methods')
     if len({c['id'] for c in cases}) != len(cases):
         raise ValueError('Duplicate cases')
     if {c['spec']['seed'] for c in cases} & set(protocol['seen_seeds']):
         raise ValueError('Seen confirmation seed')
+    attempts, inherited, prior_index = [], {}, {}
+    if resume:
+        prior = Path(resume)
+        index_path = ROOT/protocol['amendment']['prior_index_path']
+        attempts, inherited, prior_index = load_resume(protocol,prior,index_path)
+    elif 'amendment' in protocol:
+        raise ValueError('An amendment must explicitly inherit the stopped package')
     out = Path(args.output); out.mkdir(parents=True, exist_ok=False)
+    if resume:
+        for name in prior_index:
+            target = out/'prior'/name
+            target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copyfile(prior/name,target)
+        write(out/'prior-index.json',prior_index)
+        write(out/'inheritance.json',{'original_attempts':len(attempts),'reused_successful_records':len(inherited),
+                                    'scope':'Original9 results retain old source seal; new evaluations use current seal.'})
+        write(out/'attempts.json',attempts)
     sources = {p.name: p.read_bytes() for p in Path(__file__).parent.glob('*.py')}
     (out/'source').mkdir()
     for name, data in sources.items():
@@ -107,10 +173,18 @@ def run_validation(args):
     write(out/'seal.json', {'at':datetime.now(timezone.utc).isoformat(),
         'protocol_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
         'source_sha256':{name:hashlib.sha256(data).hexdigest() for name,data in sources.items()}})
-    attempts, rows, pairs = [], [], []
+    rows, pairs = [], []
     for case in cases:
         records = {}
         for method in protocol['methods']:
+            key = (case['id'],method)
+            if key in inherited:
+                row = inherited[key]
+                shutil.copyfile(out/'prior'/row['record'],out/row['record'])
+                with gzip.open(out/row['record'],'rt',encoding='utf-8') as stream:
+                    records[method] = json.load(stream)
+                rows.append(row)
+                continue
             if len(attempts) >= protocol['max_evaluations']:
                 raise RuntimeError('Budget exhausted')
             attempt = {'case':case['id'],'method':method,'status':'started','at':datetime.now(timezone.utc).isoformat()}
@@ -158,5 +232,8 @@ def run_validation(args):
     with (out/'results.csv').open('w',encoding='utf-8-sig',newline='') as stream:
         writer = csv.DictWriter(stream,fieldnames=list(rows[0])); writer.writeheader()
         writer.writerows(dict(r,event_outcomes=json.dumps(r['event_outcomes'],sort_keys=True)) for r in rows)
-    summary = summarize(protocol,rows,pairs); write(out/'summary.json',summary)
+    summary = summarize(protocol,rows,pairs)
+    summary.update(total_attempts=len(attempts),failed_attempts=sum(a['status']=='failed' for a in attempts),
+                   reused_successful_records=len(inherited),new_successful_evaluations=len(rows)-len(inherited))
+    write(out/'summary.json',summary)
     return summary

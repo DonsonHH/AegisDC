@@ -1,0 +1,704 @@
+{
+  "question": "Does bounded FIFO event response improve effective confirmation, and does correct risk location contribute?",
+  "status": "frozen_before_execution",
+  "methods": [
+    "tour",
+    "fifo",
+    "shuffled"
+  ],
+  "max_evaluations": 109,
+  "extra_visit_budget": 12,
+  "ttl_s": 120,
+  "cases": [
+    {
+      "id": "p00-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101003,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 0,
+        "fault_start_s": 150,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70001
+    },
+    {
+      "id": "p00-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101003,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 0,
+        "fault_start_s": 150,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70001
+    },
+    {
+      "id": "p00-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101003,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 0,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70001
+    },
+    {
+      "id": "p01-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101040,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 9,
+        "fault_start_s": 335,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 9,
+            "start_s": 335,
+            "end_s": 365,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70002
+    },
+    {
+      "id": "p01-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101040,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 9,
+        "fault_start_s": 335,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70002
+    },
+    {
+      "id": "p01-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101040,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 9,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70002
+    },
+    {
+      "id": "p02-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101077,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 20,
+        "fault_start_s": 520,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70003
+    },
+    {
+      "id": "p02-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101077,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 20,
+        "fault_start_s": 520,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70003
+    },
+    {
+      "id": "p02-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101077,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 20,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70003
+    },
+    {
+      "id": "p03-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101114,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 29,
+        "fault_start_s": 705,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 29,
+            "start_s": 705,
+            "end_s": 735,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70004
+    },
+    {
+      "id": "p03-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101114,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 29,
+        "fault_start_s": 705,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70004
+    },
+    {
+      "id": "p03-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101114,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 29,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70004
+    },
+    {
+      "id": "p04-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101151,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 36,
+        "fault_start_s": 150,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70005
+    },
+    {
+      "id": "p04-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101151,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 36,
+        "fault_start_s": 150,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70005
+    },
+    {
+      "id": "p04-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101151,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 36,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70005
+    },
+    {
+      "id": "p05-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101188,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 45,
+        "fault_start_s": 335,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 45,
+            "start_s": 335,
+            "end_s": 365,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70006
+    },
+    {
+      "id": "p05-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101188,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 45,
+        "fault_start_s": 335,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70006
+    },
+    {
+      "id": "p05-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101188,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 45,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70006
+    },
+    {
+      "id": "p06-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101225,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 56,
+        "fault_start_s": 520,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70007
+    },
+    {
+      "id": "p06-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101225,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 56,
+        "fault_start_s": 520,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70007
+    },
+    {
+      "id": "p06-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101225,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 56,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70007
+    },
+    {
+      "id": "p07-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101262,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 65,
+        "fault_start_s": 705,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 65,
+            "start_s": 705,
+            "end_s": 735,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70008
+    },
+    {
+      "id": "p07-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101262,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 65,
+        "fault_start_s": 705,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70008
+    },
+    {
+      "id": "p07-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101262,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 65,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70008
+    },
+    {
+      "id": "p08-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101299,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 76,
+        "fault_start_s": 150,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70009
+    },
+    {
+      "id": "p08-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101299,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 76,
+        "fault_start_s": 150,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70009
+    },
+    {
+      "id": "p08-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101299,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 76,
+        "fault_start_s": 150,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70009
+    },
+    {
+      "id": "p09-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101336,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 85,
+        "fault_start_s": 335,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 85,
+            "start_s": 335,
+            "end_s": 365,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70010
+    },
+    {
+      "id": "p09-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101336,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 85,
+        "fault_start_s": 335,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70010
+    },
+    {
+      "id": "p09-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101336,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 85,
+        "fault_start_s": 335,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70010
+    },
+    {
+      "id": "p10-healthy",
+      "group": "healthy",
+      "spec": {
+        "seed": 101373,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 100,
+        "fault_start_s": 520,
+        "scenario": "healthy",
+        "duration_s": 60
+      },
+      "permutation_seed": 70011
+    },
+    {
+      "id": "p10-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101373,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 100,
+        "fault_start_s": 520,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70011
+    },
+    {
+      "id": "p10-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101373,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 100,
+        "fault_start_s": 520,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70011
+    },
+    {
+      "id": "p11-healthy_spurious",
+      "group": "healthy_spurious",
+      "spec": {
+        "seed": 101410,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 117,
+        "fault_start_s": 705,
+        "scenario": "healthy",
+        "duration_s": 60,
+        "public_risk_pulses": [
+          {
+            "task": 117,
+            "start_s": 705,
+            "end_s": 735,
+            "risk": 0.5
+          }
+        ]
+      },
+      "permutation_seed": 70012
+    },
+    {
+      "id": "p11-mild",
+      "group": "mild",
+      "spec": {
+        "seed": 101410,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 117,
+        "fault_start_s": 705,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60
+      },
+      "permutation_seed": 70012
+    },
+    {
+      "id": "p11-coupled",
+      "group": "coupled",
+      "spec": {
+        "seed": 101410,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned",
+        "fault_rack": 117,
+        "fault_start_s": 705,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180
+      },
+      "permutation_seed": 70012
+    }
+  ],
+  "seen_seeds": [
+    0,
+    41000,
+    41001,
+    42000,
+    42001,
+    62011,
+    62017,
+    80521,
+    80539,
+    93002,
+    93011,
+    94003,
+    94012
+  ],
+  "scope": "12 new process seeds; one compound thermal-cooling condition, one 60-second coldplate perturbation, and one healthy condition per seed. Six healthy cases receive a declared synthetic false risk pulse; six do not. No four-profession generalization claim.",
+  "ablation": "Deterministic random single-cycle permutation within each same-profession owner tour; no hidden information. Risk values and ownership are preserved. Each policy has endogenous observations, so event streams and realized visits/costs are not strictly matched. Head visits do not consume the 12 extra-dispatch allowance. No priority selection or fitting.",
+  "primary": "All 12 predeclared coupled cases, including any with zero evaluation anomalies. Unit is paired process seed, never abnormal segment. Report all other groups separately.",
+  "bootstrap_seed": 20261102,
+  "bootstrap_replicates": 10000,
+  "decision_thresholds": {
+    "minimum_anomalous_primary_processes": 8,
+    "minimum_mean_net_confirmations": 1,
+    "maximum_travel_increase_pct": 5,
+    "maximum_completion_loss_pct": 2
+  },
+  "decision": "Exploratory engineering thresholds, not validated operational standards: primary mean net >=1 and bootstrap lower bound >0; mean relative travel <=5%, mean completion loss <=2%, all safety violations zero. Require >=8 primary processes with anomalies. Apply same net criterion to FIFO versus shuffled for information attribution. Otherwise preserve conditional findings and stop; no automatic extra seeds, new priority, or model calls.",
+  "failure": "Maximum108 actual attempts. Any failure is logged and halts this package; no automatic retries or replacement conditions.",
+  "measurement": "Report gains and losses, delay with miss censoring, travel, service, completions, actual extra visits, safety, pending/expired/measured/measured_late, normal closure, same-time versus prior-signal measurements, and multiple legal event opportunities.",
+  "rule_selection": "No tuning on these conditions. All seeds and physical cases become seen immediately after execution. Replays are not independent samples.",
+  "amendment": {
+    "authorization": "pending_user",
+    "reason": "One previously recorded failed attempt caused by synthetic public cue provenance omission. Reuse9 completed records; run99 remaining successful evaluations; total109 attempts including1 failure.",
+    "prior_index_path": "evidence/event-validation/local-artifacts.json",
+    "prior_index_sha256": "632e3551ee1d4502525f2bbc23b769e11fce1b73b9d78a9b881487715eac5230",
+    "resumption_source_sha256": {
+      "active_inspection.py": "8985435aaecc8a099f6e61bc2faac9d940a87b75025938ad8f49b847e31322cc",
+      "aisles.py": "8364706d4c46565ca3fa028f31b79ce8a276b78cbaa6dee496014e4f57316739",
+      "baseline_correction.py": "cc95dea540ccf84745f0971da76c9a7a7eba4edd54e9b2c7edd5bd9cbaf63b3f",
+      "case_report.py": "3cdc856c3aba3edd995e8548a2d371fec0a17051bd3b6a2d36472499015724f3",
+      "cli.py": "e5bf7e65c2f4b31f28708989df7974b7279f6c03c1740b4eb7febc001edd91c7",
+      "contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee",
+      "correction_execution.py": "99edbeb0a0fef02b6a331491ef23bf826428b877f34f780143409642808d1cbe",
+      "coverage_plan.py": "21390989b7828655404b10d45c9ad252a48722438ac669fd7cb4b597d64403a2",
+      "estimation.py": "3b613b66de55a8b88a91be98c34d0bca2a817459abac54de432f0884d4254492",
+      "estimation_model.py": "cc8f81b1df218778fef132c4bdb94fea683cab4389367be6ac80027d983c7b91",
+      "event_validation.py": "ef6435e76ec536c4c9197343bce3b16e61e6c2637fca6a53422d3556ec4313b0",
+      "facility.py": "18b4a5f72809d799073a8e443c6e8e5a80e4d04e89e4660b3853edafb191724d",
+      "facility_observation.py": "9637c0d2d1cdb83426035dd3fb2aaed0cb267783771d22ba024ccffda4f21a57",
+      "feedback_study.py": "e213a0893dfa952336d75614ae4d4fa842bd6ecff6ac3ab5866cf449dee6fb4a",
+      "inspection_contracts.py": "803bef71270d6a66ce985ae4b881865b4b3fd741567c02c67641adfb187a08ef",
+      "inspection_metrics.py": "35d9a5831b8abccd80ed4a30d8ed7dbb8fe19fffb3913817e5ae932fe503379d",
+      "inspection_model.py": "3d868ab07e4e4b443b0263e8ecaf874d2987e93c2f49a660209b0ea3f1e9976b",
+      "local_reorder.py": "85c1b2352f5182104af8e2c6d128d970ce46bd2f6f92796581ca04e7f22e46bb",
+      "local_score.py": "ad038d751ba3c4789c48b4570db3074a0b624e61eb148842002e9d70fa6edd77",
+      "model_proposals.py": "084da419417fcc508afcd5a8b79824a48bd1c211a48b9f8a6b0933621fe74246",
+      "patrol_task.py": "af15485b34a8d04d9b21bdeeb5bb746b100799b167f7b7c975a344dce7009335",
+      "priority_study.py": "d8c16e77df2c6e686f07ed8aa8dcdfe66d089f5608666bde6c2b614abc449f11",
+      "process.py": "ba499582a0feb524480b3aa587e8e6a623522fe0513452c0b175f39ead8e49a6",
+      "reorder_execution.py": "54df49a608fd042282eafcafd47a4558d94463153bcbcfe890dd7ce63c8ccdb3",
+      "risk_response.py": "1ffb477fc25079679284aead05c7f52e67e14c7c5ab348c0baba61e1e9dde355",
+      "__init__.py": "11fd54e54b1212df954cd2b2598e4297816a8a7d8113aab42e570fda60e75cc9",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
+    },
+    "scope": "Only attempt allowance changes. Original scientific cases, methods, thresholds and seeds are preserved. Prior source identity remains attached to inherited records. No automatic extra retry after this amendment."
+  }
+}

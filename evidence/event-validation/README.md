@@ -12,4 +12,6 @@
 
 当前等待用户决定是否明确修订上限为109次：保留9次成功原件和1次失败记录，仅补跑失败项和未执行项，不改变条件、方法或决策阈值。未获选择前，不执行补跑。
 
+续跑实现与[修订草案](../../configs/event-validation-amendment-draft.json)已准备，草案状态为`pending_user`。入口会先检查原件索引SHA、每个原件、9次成功与1次失败的准确顺序、原条件一致性和续跑源码身份；随后才允许在新目录执行。模拟记录测试证明成功原件被复用，失败仍计入总次数。当前草案执行时会在建立输出目录前拒绝，不代表预算修订已获确认。
+
 本地原件目录：`runs/event-validation-20261102`。当前完整索引：[local-artifacts.json](local-artifacts.json)；已完成逐条件记录：[rows.json](rows.json)；配对增减与成本：[pairs.json](pairs.json)；执行状态：[status.json](status.json)。这些是未完成包的透明记录，不构成新的独立主结果。
