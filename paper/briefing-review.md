@@ -1,38 +1,34 @@
-# 手动分阶段汇报验证记录
+# 导师自阅报告：重构与核对记录
 
-本版基于`c2e1dbec`静态五屏，保留五屏和整体配色。主要调整见[修改前后对比](briefing-comparison.md)，[原版HTML](briefing-history/c2e1dbec/supervisor-briefing.html)及源文件逐字节保留。[当前HTML](supervisor-briefing.html)由模板、封存数据和[阶段讲稿](supervisor-talk.md)重建。
+当前入口为[自阅报告](supervisor-briefing.html)，源文为[supervisor-report.md](supervisor-report.md)。本次用途按用户2026-11-03说明调整，默认连续阅读，取消演示动画、分步、N／Q讲稿操作和脚本依赖。技术要求来自[匿名整理的上次沟通内容](mentor-requests.md)，用途变化与[旧版对比](briefing-comparison.md)另存。
 
-## 屏内逻辑
+## 内容回应
 
-1. 645秒正常检查，680—705秒事后异常，885秒正常检查，最后合看240秒间隔仍漏25秒。灰区明确为事后评价。
-2. 原任务A、B、C，出现待确认X，核查合法性和后续期限，通过才显示A、X、B、C；失败仍保持原巡回。
-3. Tour28/89，FIFO70/89及净增42，位置对照25/89，最后成本与11/12个正收益过程；明确位置置乱不等于严格等实际成本。
-4. 同一巡检员11@605的共同起点与两条关键任务链，再分开解释17号例行访问的收益和21号额外访问的损失。完整轨迹比较的因果边界继续保留，链中省略访问明确标注。
-5. 四项成果，再整组有限开发负结果，最后两个导师问题；不逐个动画9个点。
+- 模型：供电—一次／二次液冷—本地设备控制之间的关系、三条核心计算关系和161个集中温度状态；当前电气／管网／控制简化与规模未验证分别列出。
+- 工程依据：核对LLNL、HPE原始资料；两项相关GB/T标准只确认元数据，明确2027实施、正式条款尚待核读，未宣称符合标准。
+- 风险图：从已有工程回看截取500秒的原巡回公开风险与事后温度，128个柜号逐项对应。工程例不并入主研究样本，公开与事后信息区分，32个固定遥测点标出。
+- FIFO：空闲时先筛自己的合法待办，再按首次提示时间排序；用10号450秒先提示／8号455秒后提示但分更高的真实队列解释。两次实际加查完成于500／515秒，原0号于540秒完成，早于545截止；两次完整返回核算余量20／5秒均来自原记录。
+- 当前结果：12个主过程、89段异常（77热＋12冷），28／70／25及成本、零约束违规和有限规则负结果保持。原论文与本项目指标不可直接排性能名次，同任务实验、标准条款映射和E/G规模基准继续列为待补。
+- 原论文：逐页核对指标、式1／2、估计器与规划器对照，表8／9四方法均值和95%CI用于原文内部图；不把30%曲线描述改写成终值或推理速度改善。详见[指标核查](research/original-paper-metrics-20261103.md)。
 
-每个阶段的屏幕说明来自同一段讲稿的第一句话，N中标出当前阶段。各屏4、4、4、3、3，共18阶段，讲稿正文约690个汉字，另有数字与缩写，仍按五分钟安排。问答不计入。
+## 实际核对范围
 
-## 验证范围
+1. 构建器从原JSON、带原件SHA的紧凑快照、既有SVG和原始来源核查生成HTML；数值与基准编码交叉核对。生成过程不导入或调用研究模拟器。
+2. [独立原件核对](generated/supervisor-report-source-verification.json)直接读取完整本地工程记录与主实验gzip，核对风险／温度数组、两条队列请求、两份返回证书、实际派单和测量，以及专业人数／服务时间／期限。原两包340个文件与原索引SHA全部一致。
+3. [浏览器核对](generated/supervisor-report-verification.json)在单独复制的HTML上禁用网络，检查1366×768、1920×1080各12个阅读区域，另检查390×844的4个区域，共28个视图。没有应用脚本、动画、分步控件、外部请求或浏览器异常；目录锚点可用，核心内容和8张主图默认可见。3张回溯图在可选附例中，另展开检查。
+4. SVG文字范围与重叠检查通过；宽度检查未见页面横向溢出。窄屏较宽图在图内横向查看，保持标签字号，不把全图压成小字。
+5. [打印核对](generated/supervisor-report-print-verification.json)使用实际Chrome打印PDF，核对模型、标准日期、队列、期限、结果和原论文数值的文字完整性；Poppler渲染供布局查看。打印会包含可选附例，页面数量不再按五屏演示限制。
+6. 原主论文、原数值指标、研究代码和协议未修改；没有新增仿真、训练、研究模型推理或独立实验样本。原演示HTML及14份相关源文件按2db2adf1逐字节保留。
 
-- 构建器逐项核对原主结果、两份封存轨迹、任务17／21的派单和事件时刻，以及新增关键执行链。读取记录而不运行模拟器；输出完整SVG、HTML、作图数据与manifest。
-- Chrome在单独复制的一份HTML上禁用网络，检查1366×768和1920×1080的全部18个阶段与每屏完整图，共46个截图状态。检查SVG和文字不越界／重叠、说明不溢出、底部控件不遮挡，并逐阶段比较图表几何位置不变。
-- 每个阶段按反序返回，比较阶段内容与正序相同；验证跳至完整图并退回、从头讲、跨页保留进度、快速打断／反转、空格／Shift+空格即时操作、左右翻页、N当前阶段、Q及来源、全部原图和SVG放大、全屏与深链接。
-- 开始和手动推进后均检查不会自动继续；鼠标过渡只涉及opacity、时长180毫秒。减少动态效果模式即时变化，仍保留阶段语义。无外部网络请求或浏览器异常。
-- 打印媒体下显示全部阶段、全部五屏并隐藏控制栏；实际Chrome打印PDF有5页。pypdf检查关键时间、全部结果、任务插入及问题文字，Poppler渲染后查看页面布局。
-- 原机制验证包185个文件、搜索包155个文件共340份原件与原索引SHA一致。主论文、实验指标、研究代码和协议未修改；本次新研究执行、训练和研究模型调用均为0。
+## 阅读预览
 
-[浏览器验证JSON](generated/briefing-browser-verification.json)将当前HTML、manifest、验证脚本及46张截图绑定到SHA；[实际打印验证](generated/briefing-print-verification.json)绑定相同HTML与打印PDF及五页渲染身份。[manifest](generated/briefing-manifest.json)保留18阶段说明、动画参数、数据与源文件身份。
-
-[两轴代码审查](briefing-code-review.md)：规范轴未发现硬性问题，1条重复采样的低优先级判断项已修正并复核；需求轴未发现遗漏或错误行为。
-
-## 截图索引
-
-下表链接每屏的初始、中间、最终阶段与完整图；其余阶段也全部保存在同目录并接受检查。
-
-|屏|1366×768|1920×1080|
+|内容|1366×768|1920×1080|
 |---|---|---|
-|1|[初始](generated/briefing-animation-previews/1366x768-screen-1-stage-1.png) / [中间](generated/briefing-animation-previews/1366x768-screen-1-stage-2.png) / [最终](generated/briefing-animation-previews/1366x768-screen-1-stage-4.png) / [完整](generated/briefing-animation-previews/1366x768-screen-1-complete.png)|[初始](generated/briefing-animation-previews/1920x1080-screen-1-stage-1.png) / [中间](generated/briefing-animation-previews/1920x1080-screen-1-stage-2.png) / [最终](generated/briefing-animation-previews/1920x1080-screen-1-stage-4.png) / [完整](generated/briefing-animation-previews/1920x1080-screen-1-complete.png)|
-|2|[初始](generated/briefing-animation-previews/1366x768-screen-2-stage-1.png) / [中间](generated/briefing-animation-previews/1366x768-screen-2-stage-2.png) / [最终](generated/briefing-animation-previews/1366x768-screen-2-stage-4.png) / [完整](generated/briefing-animation-previews/1366x768-screen-2-complete.png)|[初始](generated/briefing-animation-previews/1920x1080-screen-2-stage-1.png) / [中间](generated/briefing-animation-previews/1920x1080-screen-2-stage-2.png) / [最终](generated/briefing-animation-previews/1920x1080-screen-2-stage-4.png) / [完整](generated/briefing-animation-previews/1920x1080-screen-2-complete.png)|
-|3|[初始](generated/briefing-animation-previews/1366x768-screen-3-stage-1.png) / [中间](generated/briefing-animation-previews/1366x768-screen-3-stage-2.png) / [最终](generated/briefing-animation-previews/1366x768-screen-3-stage-4.png) / [完整](generated/briefing-animation-previews/1366x768-screen-3-complete.png)|[初始](generated/briefing-animation-previews/1920x1080-screen-3-stage-1.png) / [中间](generated/briefing-animation-previews/1920x1080-screen-3-stage-2.png) / [最终](generated/briefing-animation-previews/1920x1080-screen-3-stage-4.png) / [完整](generated/briefing-animation-previews/1920x1080-screen-3-complete.png)|
-|4|[初始](generated/briefing-animation-previews/1366x768-screen-4-stage-1.png) / [中间](generated/briefing-animation-previews/1366x768-screen-4-stage-2.png) / [最终](generated/briefing-animation-previews/1366x768-screen-4-stage-3.png) / [完整](generated/briefing-animation-previews/1366x768-screen-4-complete.png)|[初始](generated/briefing-animation-previews/1920x1080-screen-4-stage-1.png) / [中间](generated/briefing-animation-previews/1920x1080-screen-4-stage-2.png) / [最终](generated/briefing-animation-previews/1920x1080-screen-4-stage-3.png) / [完整](generated/briefing-animation-previews/1920x1080-screen-4-complete.png)|
-|5|[初始](generated/briefing-animation-previews/1366x768-screen-5-stage-1.png) / [中间](generated/briefing-animation-previews/1366x768-screen-5-stage-2.png) / [最终](generated/briefing-animation-previews/1366x768-screen-5-stage-3.png) / [完整](generated/briefing-animation-previews/1366x768-screen-5-complete.png)|[初始](generated/briefing-animation-previews/1920x1080-screen-5-stage-1.png) / [中间](generated/briefing-animation-previews/1920x1080-screen-5-stage-2.png) / [最终](generated/briefing-animation-previews/1920x1080-screen-5-stage-3.png) / [完整](generated/briefing-animation-previews/1920x1080-screen-5-complete.png)|
+|要求与进度|[查看](generated/report-previews/1366x768-overview.png)|[查看](generated/report-previews/1920x1080-overview.png)|
+|耦合模型|[查看](generated/report-previews/1366x768-model.png)|[查看](generated/report-previews/1920x1080-model.png)|
+|风险热点|[查看](generated/report-previews/1366x768-hotspots.png)|[查看](generated/report-previews/1920x1080-hotspots.png)|
+|FIFO队列|[查看](generated/report-previews/1366x768-fifo-queue.png)|[查看](generated/report-previews/1920x1080-fifo-queue.png)|
+|实际执行与核算|[查看](generated/report-previews/1366x768-fifo-actions.png)|[查看](generated/report-previews/1920x1080-fifo-actions.png)|
+|原论文数值对照|[查看](generated/report-previews/1366x768-paper-comparison.png)|[查看](generated/report-previews/1920x1080-paper-comparison.png)|
+
+应用侧自动预览工具曾返回本地内核资产路径错误，因此采用本机Chrome直接验证相同HTML；这不作为网站渲染故障。完整单文件和本地HTTP预览继续可用。

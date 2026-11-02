@@ -1,223 +1,97 @@
 {
-  "purpose": "Comprehension-first five-screen supervisor briefing, derived from existing frozen evidence.",
-  "version": 3,
-  "previous_version": "c2e1dbec392456f293f8e6714555c7d4502e535a",
-  "teaching_stages": [
-    {
-      "screen": 1,
-      "stages": [
-        {
-          "label": "先看645秒检查",
-          "caption": "645秒这次检查正常，先从它看起。",
-          "spoken": "645秒这次检查正常，先从它看起。左边是128个机柜、18名虚拟巡检员的模拟机房。"
-        },
-        {
-          "label": "中间出现短时异常",
-          "caption": "680—705秒之间有25秒异常，灰区来自事后评价，巡检员当时不能提前知道它。",
-          "spoken": "680—705秒之间有25秒异常，灰区来自事后评价，巡检员当时不能提前知道它。"
-        },
-        {
-          "label": "再看885秒检查",
-          "caption": "885秒再次检查时也正常，所以两次都按时检查，仍可能错过中间的异常。",
-          "spoken": "885秒再次检查时也正常，所以两次都按时检查，仍可能错过中间的异常。"
-        },
-        {
-          "label": "合看间隔与持续时间",
-          "caption": "检查间隔240秒未超过300秒上限，却漏掉了25秒异常。",
-          "spoken": "检查间隔240秒未超过300秒上限，却漏掉了25秒异常。这就是我想通过临时加查解决的问题。"
-        }
-      ]
+  "version": 4,
+  "mode": "self_reading_report",
+  "previous_version": "2db2adf146357ec35306503ed15183c0c4100d20",
+  "animations": false,
+  "presenter_controls": false,
+  "sections": [
+    "overview",
+    "model",
+    "hotspots",
+    "fifo",
+    "results",
+    "comparison",
+    "sources"
+  ],
+  "primary_processes": 12,
+  "primary_anomaly_segments": 89,
+  "main_results": {
+    "tour": {
+      "confirmed": 28,
+      "segments": 89
     },
-    {
-      "screen": 2,
-      "stages": [
-        {
-          "label": "先保留原巡回",
-          "caption": "原办法按A、B、C的顺序循环检查，这叫固定巡回，缩写Tour。",
-          "spoken": "原办法按A、B、C的顺序循环检查，这叫固定巡回，缩写Tour。字母只表示任务顺序。"
-        },
-        {
-          "label": "风险只提出请求",
-          "caption": "系统当时可见的遥测或检查信息提示风险后，先记下待确认X，此时还没有获准加查。",
-          "spoken": "系统当时可见的遥测或检查信息提示风险后，先记下待确认X，此时还没有获准加查。"
-        },
-        {
-          "label": "核算资格和后续期限",
-          "caption": "先核对资格、所属、预算和后续期限，检查不通过就保持原巡回。",
-          "spoken": "先核对资格、所属、预算和后续期限，检查不通过就保持原巡回。返回证书就是核算加查后，原任务还来不来得及。"
-        },
-        {
-          "label": "通过才允许插入",
-          "caption": "全部检查通过后，才允许在A后加查X，再继续B、C，原任务不会跳过。",
-          "spoken": "全部检查通过后，才允许在A后加查X，再继续B、C，原任务不会跳过。合法事件先到先处理，缩写FIFO。"
-        }
-      ]
+    "fifo": {
+      "confirmed": 70,
+      "segments": 89
     },
-    {
-      "screen": 3,
-      "stages": [
-        {
-          "label": "固定巡回的基线",
-          "caption": "固定巡回Tour在相同的89段异常中，确认了28段。",
-          "spoken": "固定巡回Tour在相同的89段异常中，确认了28段。12个不同种子的模拟过程才是配对单位，89是其中的异常片段数。"
-        },
-        {
-          "label": "事件响应的增量",
-          "caption": "允许风险驱动的加查后，FIFO确认70段，新增45、丢失3，净增42段。",
-          "spoken": "允许风险驱动的加查后，FIFO确认70段，新增45、丢失3，净增42段。确认要求有资格的人员完成检查，并在异常期间测到异常。"
-        },
-        {
-          "label": "风险位置对照",
-          "caption": "把风险指向的位置在同专业内打乱，只确认25段，这是检验位置线索的对照。",
-          "spoken": "把风险指向的位置在同专业内打乱，只确认25段，这是检验位置线索的对照。实际访问量和成本也变了，不能叫严格等实际成本比较。"
-        },
-        {
-          "label": "实际成本和逐过程结果",
-          "caption": "移动增加0.50%，完成量减少0.33%，12个过程中11个净增、1个不变，相关违规为0。",
-          "spoken": "移动增加0.50%，完成量减少0.33%，12个过程中11个净增、1个不变，相关违规为0。结论范围是这些合成过程。"
-        }
-      ]
-    },
-    {
-      "screen": 4,
-      "stages": [
-        {
-          "label": "共同起点与顺序分叉",
-          "caption": "同一巡检员在605秒完成任务11后，Tour继续原任务，FIFO先加查任务23，再继续原任务。",
-          "spoken": "同一巡检员在605秒完成任务11后，Tour继续原任务，FIFO先加查任务23，再继续原任务。链只列关键任务，其他访问省略。"
-        },
-        {
-          "label": "机柜17新增确认",
-          "caption": "17号665秒已派出例行检查，685秒才见到它的风险，690秒正好确认异常。",
-          "spoken": "17号665秒已派出例行检查，685秒才见到它的风险，690秒正好确认异常。Tour早在645秒检查时，异常还没开始；这不是看到17号风险后才赶去。"
-        },
-        {
-          "label": "机柜21丢失确认",
-          "caption": "21号650秒见到风险，705秒额外派单，725秒完成检查时，异常已经在710秒结束。",
-          "spoken": "21号650秒见到风险，705秒额外派单，725秒完成检查时，异常已经在710秒结束。Tour在695秒确认过它。两条完整策略的取舍不能全部归因于某一次插入。"
-        }
-      ]
-    },
-    {
-      "screen": 5,
-      "stages": [
-        {
-          "label": "先看四项成果",
-          "caption": "机制、固定条件下的可行性证明、实验和中文讨论初稿都已完成。",
-          "spoken": "机制、固定条件下的可行性证明、实验和中文讨论初稿都已完成。证明使用既定路线与确定耗时等条件。"
-        },
-        {
-          "label": "有限的开发负结果",
-          "caption": "9条登记规则确认28—60段，都没超过FIFO的70段，这不代表所有规则都无解。",
-          "spoken": "9条登记规则确认28—60段，都没超过FIFO的70段，这不代表所有规则都无解。模型反馈和自改进的独立收益仍未证明。"
-        },
-        {
-          "label": "最后讨论两件事",
-          "caption": "今天请您判断两件事：当前机制能否独立成稿？如果需要补强，最关键的直接比较是什么？",
-          "spoken": "今天请您判断两件事：当前机制能否独立成稿？如果需要补强，最关键的直接比较是什么？"
-        }
-      ]
+    "shuffled": {
+      "confirmed": 25,
+      "segments": 89
     }
-  ],
-  "motion": {
-    "trigger": "manual_only",
-    "property": "opacity",
-    "duration_ms": 180,
-    "easing": "cubic-bezier(0.23, 1, 0.32, 1)",
-    "keyboard_instant": true,
-    "reduced_motion_instant": true,
-    "autoplay": false
   },
-  "screens": 5,
-  "planned_seconds": [
-    45,
-    60,
-    65,
-    75,
-    55
-  ],
-  "main_processes": 12,
-  "main_segments": 89,
-  "main_confirmations": {
-    "tour": 28,
-    "fifo": 70,
-    "shuffled": 25
+  "engineering_frame_scope": "engineering_explanation_not_research_gain",
+  "fifo_example_case": "p01-coupled",
+  "new_environment_evaluations": 0,
+  "new_research_model_calls": 0,
+  "new_training": 0,
+  "html_sha256": "7e0ed245278bcb26ae4c968a25b61027ef08567e652ab0b63b77dc92e33a08d9",
+  "data_sha256": "b2361a515b26542f4540ea1858f75f264d7fc4f73e6e6463b6a0c6b021c138fc",
+  "figure_sha256": {
+    "paper/figures/supervisor-report/model.svg": "7a84fc1ea0d84f1b8eb14bd7416f010d8b1bdaf472b17584f7e8b8e1ca824386",
+    "paper/figures/supervisor-report/public-risk.svg": "dddeb3234bffc868590c8852692e6087aa04cfa1372de25e27e5d5d50a5a16f5",
+    "paper/figures/supervisor-report/offline-temperature.svg": "209de3de92c4d4f8a4248b74545efae1beb85c48d9f2a8a68cb107f376032fb9",
+    "paper/figures/supervisor-report/fifo-cycle.svg": "39f97a7f6210c8471e963df1636eb4d3938cb2fac426a4fa483032f81b4d8b48",
+    "paper/figures/supervisor-report/fifo-actions.svg": "3531b847ab669e29b27bfd40f35873c07feb8daa1c84b2be63f6a750d0ad4fea",
+    "paper/figures/supervisor-report/original-paper-scores.svg": "38020396ea5c321ff857a6c094d3ac87684df2fe6d9a1c7f9867883a38ee56a1",
+    "paper/figures/supervisor-report/confirmations.svg": "6e2e01020a762304c287b49336497287dbff097701bb5a228029ab5b43e5d7ee",
+    "paper/figures/supervisor-report/paired-net.svg": "895d0171cd8d4a927ff43bb121771b9f2595439767dcffed79c6cb37cc2c0792",
+    "paper/figures/supervisor-report/execution-chain.svg": "19b9364160a02990f79892f31b966ab085da8152e6b526b4b86ccc8c1488245c",
+    "paper/figures/supervisor-report/task-17.svg": "6a23a5178fcfaad6355080d951eddc47190f6cd9cd873c4a27e19a4221f7839e",
+    "paper/figures/supervisor-report/task-21.svg": "29b6b8c4238f108249ce6ae17930a02c378309ade90b2c8b724a892c8b271c9b"
   },
-  "gained": 45,
-  "lost": 3,
-  "net": 42,
-  "successful_run_safety_totals": {
-    "tasks_violating_exact_gap": 0,
-    "invalid_assignments": 0,
-    "duplicate_reservations": 0
-  },
-  "search_unique_rules": 9,
-  "search_confirmation_range": [
-    28,
-    60
-  ],
-  "search_actual_development_evaluations": 108,
-  "timeline_raw_records_checked": 2,
-  "embedded_original_paper_figures": 3,
-  "main_svg_diagrams": {
-    "paper/figures/briefing-v3/facility.svg": "d9c9d4eef8c0b47d6d33afd1c926ed2b944f92656be866ebeb2fff66f9ce061c",
-    "paper/figures/briefing-v3/missed-gap.svg": "a57822c872832de1201483684599f324f9d0e59100b00b1d6586985c8a3212f7",
-    "paper/figures/briefing-v3/execution.svg": "427353f2746422cf0df90fc18400f76fe1c28fcf5bc767cffb0d1abd3ce1a416",
+  "source_sha256": {
+    "scripts/build_supervisor_report.py": "789d0ce4947f296b36daa0ec800dd8452d2bd6304ae55b64b1ca1a697743488a",
+    "scripts/report_diagrams.py": "bf15faec938ed6d96a91be3440d328aea5887d02efb8057782231d007af5da47",
+    "scripts/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
+    "evidence/event-validation/final/summary.json": "51fae7731efdd304392dd5b219218a9b48452865af1681f1f2c9968553d2b9f3",
+    "evidence/event-validation/final/protocol.json": "60950af1ca004a2f6f04018a6d073e545295dc7279788886bb3f26a3196d34a3",
+    "evidence/event-validation/final/rows.json": "3926c8233cc22e6c273aff559c0df67a5501dd2d962704af607994aef2e433be",
+    "evidence/event-validation/final/pairs.json": "188261d209c4cfae955bfbf75a7e690dc9394cc6aca26b1c52a23b9dad00bbf7",
+    "paper/generated/metrics.json": "be5fefe24afbcfa7438727937861393fecb6d72d5be7039d0873a89d8d483d6e",
+    "paper/briefing-history/2db2adf1/briefing-chart-data.json": "8c4c876e285b6b0ce9ca6b36554f226f31d298da1cd5bd00fda458fa3b4b4ad8",
+    "paper/source-data/engineering-snapshot-500.json": "aa86f5a4aaf50c16c0e0e4d2f4f67ba1b03b7624582040805f699fde723ef57d",
+    "paper/source-data/fifo-decision-p01-470.json": "a182028bcc975835d178f2c44f25088c7008713f3545d670bee8b6510760f8bb",
+    "paper/source-data/primary-anomaly-kinds.json": "43abc4b87893f61f5dc929465f45f79ede29b673055efb2ee82b125bd23cdbfb",
+    "paper/briefing-history/2db2adf1/baseline.json": "f3614e43fd05050f928ad5927d0becd7e3ed7afe0a470e8fd34490258f816a30",
+    "paper/briefing-history/2db2adf1/supervisor-briefing.html": "0c883d419fa8fc95e368317da925d4532305622ed8f62bddde3301712c62ba7c",
+    "paper/briefing-history/2db2adf1/supervisor-talk.md": "574440d901217d58d1fd2edb4d53ebd90651e29ed7c273a5a6545c82ce3b56cc",
+    "paper/briefing-history/2db2adf1/briefing-template.html": "5ce7222ea5540bd09bd002c8523ea1457ac1093622eab55abc0b68192acbf005",
+    "paper/briefing-history/2db2adf1/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
+    "paper/briefing-history/2db2adf1/build_supervisor_briefing.py": "d54e5e80c7809fbf981522ffa90ed511f650486edb6c75868de80fa11315be46",
+    "paper/briefing-history/2db2adf1/check_supervisor_briefing.cjs": "25d9ba1c192f995823cd7c9a3322743c822c0cbc4a2f0f41035aa4d3474beff9",
+    "paper/briefing-history/2db2adf1/check_briefing_print.py": "072ff187be8cdde8ab5441728d06365a8760cd2d2dce6e89cf39b548c7268aeb",
+    "paper/briefing-history/2db2adf1/briefing-manifest.json": "ceed56d64bf447463c94ac926d6f6eb2714b93f7923cafa209c8103e8b9d655a",
+    "paper/briefing-history/2db2adf1/briefing-browser-verification.json": "8f8d442d0ebe4815f94b1417261502143eeabec4f96d86ca4fbfeaa297a64704",
+    "paper/briefing-history/2db2adf1/briefing-print-verification.json": "8271b80de20606ace5d178fc902e2fdec9128fd14c9d60a759d5dd1aedfce31e",
+    "paper/briefing-history/2db2adf1/briefing-review.md": "336ba59aad487a1ae7f17666799b2b905813c763f2e98d170d38b8f7a8ef7434",
+    "paper/briefing-history/2db2adf1/briefing-comparison.md": "f81dbbfbda0fab94d41ac527b6cdb29da5f6da12202995300adae0bd9fa862fa",
+    "paper/briefing-history/2db2adf1/briefing-code-review.md": "52fa2c753d9daffaf8515188c592b6a5e52f0f2bd1aaf50a88719068c2dcb60f",
+    "paper/research/mentor-engineering-reference-20261103.md": "3af36af5d7c684263261c1e43eb2396ac1352b203a0aab782f20eedc9f6e8358",
+    "paper/research/original-paper-metrics-20261103.md": "15250f43e654e9021ecb70794530a0849e7a06e02b4f4c526182846126e74e01",
+    "paper/model-appendix.md": "13bc6a6f0717456c2102306f9a9a6a7725e35353ed72502a1f8428cdb469e888",
+    "paper/mentor-requests.md": "e2161572844411168bf8f16b38236d1ffb4c2ec3a8f2650a5a07d22f24eaaac8",
+    "src/patrol_rsi/risk_response.py": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
+    "src/patrol_rsi/active_inspection.py": "8985435aaecc8a099f6e61bc2faac9d940a87b75025938ad8f49b847e31322cc",
+    "src/patrol_rsi/facility.py": "18b4a5f72809d799073a8e443c6e8e5a80e4d04e89e4660b3853edafb191724d",
+    "src/patrol_rsi/facility_observation.py": "9637c0d2d1cdb83426035dd3fb2aaed0cb267783771d22ba024ccffda4f21a57",
+    "src/patrol_rsi/aisles.py": "8364706d4c46565ca3fa028f31b79ce8a276b78cbaa6dee496014e4f57316739",
     "paper/figures/briefing-v3/confirmations.svg": "844b79c71b389d1960a55205cc1580496245efd7f3f62ea310dab667508ad1b8",
     "paper/figures/briefing-v3/paired-net.svg": "f88ddfb280121963cf67a00bfd62cc0eb21cb74647732d284162a3fc21edc410",
     "paper/figures/briefing-v3/execution-chain.svg": "b319dd87b51f4dcc44c9f0c747dd144076b01e0119614e8e5baa9c595bf29f95",
     "paper/figures/briefing-v3/task-17.svg": "5330f404d51be98aeb8814b0f868cb093b9494f1f393ddedfefb2a23183f5fe0",
     "paper/figures/briefing-v3/task-21.svg": "dbb09fac31179fafd1118aa8fcb50292f73af6f91254171b8eacbbfcbaf7fb9b",
-    "paper/figures/briefing-v3/completed-work.svg": "4b0ce55fe8fce741e8f4e015e04201cab0d4837db55ba207855f4a07962caa25",
-    "paper/figures/briefing-v3/registered-rules.svg": "d8d1eab1d203289cba0f4a1e7eaeacff3895ef15843735d3040fcea7ac014353"
+    "paper/supervisor-report.md": "9344e33bde34f2159896236a1c8b1f834ea6dbd402175bcc5c9a3fd0d376837b",
+    "paper/briefing-template.html": "5efa145d81c99ca9e23d2c63e664ecc6e3d7b13292003e27da94ec980c315a5c"
   },
-  "faq_items": 8,
-  "chart_data_sha256": "8c4c876e285b6b0ce9ca6b36554f226f31d298da1cd5bd00fda458fa3b4b4ad8",
-  "spoken_script_han_characters": 694,
-  "new_environment_evaluations": 0,
-  "new_research_model_calls": 0,
-  "new_training": 0,
-  "html_sha256": "0c883d419fa8fc95e368317da925d4532305622ed8f62bddde3301712c62ba7c",
-  "source_sha256": {
-    "scripts/build_supervisor_briefing.py": "d54e5e80c7809fbf981522ffa90ed511f650486edb6c75868de80fa11315be46",
-    "scripts/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
-    "scripts/check_supervisor_briefing.cjs": "25d9ba1c192f995823cd7c9a3322743c822c0cbc4a2f0f41035aa4d3474beff9",
-    "scripts/check_briefing_print.py": "072ff187be8cdde8ab5441728d06365a8760cd2d2dce6e89cf39b548c7268aeb",
-    "paper/generated/metrics.json": "be5fefe24afbcfa7438727937861393fecb6d72d5be7039d0873a89d8d483d6e",
-    "evidence/event-validation/final/summary.json": "51fae7731efdd304392dd5b219218a9b48452865af1681f1f2c9968553d2b9f3",
-    "evidence/event-validation/final/rows.json": "3926c8233cc22e6c273aff559c0df67a5501dd2d962704af607994aef2e433be",
-    "evidence/event-validation/final/pairs.json": "188261d209c4cfae955bfbf75a7e690dc9394cc6aca26b1c52a23b9dad00bbf7",
-    "evidence/response-defer/proposals.json": "4dfc6e89e8595b0c9e5931c9fffbd48fd3e8c874e62ed4c3203e5d591c6395b2",
-    "evidence/response-defer/summary.json": "0e40b9a103450500d0e78831a2ebb85b6a9da8bd664f67d8d48eca6a5b9e386d",
-    "paper/generated/timeline.json": "56f368103501b33b80ef83a7693a4e12b133dae59d14ff850faa8638967dc057",
-    "paper/generated/validation.json": "03cad1c4ec47b80d3edbb17c0b5708ed9b6885c5c4487fde9e93b2b9f29928c0",
-    "paper/evidence-map.json": "afc84a9223bb3310ba5bd3af093b65961e8d0a48ca964bde5f1a515722ccd4fa",
-    "paper/manuscript_zh.md": "20d92f7316a82dfd29cf163b600bb3b71fea3ea8084d607dc80e37fe03353f00",
-    "paper/briefing-history/958e777c/baseline.json": "0dcde3ae49b406c443f6689ae0210f9ef6d5a6fd6c28af4572f03f4e46af721c",
-    "paper/briefing-history/958e777c/supervisor-briefing.html": "ef524fc289edc16867966cae5425b174dcd3542bab831cf85968d1765a9c1e09",
-    "paper/briefing-history/958e777c/supervisor-talk.md": "340a47e37569b97730fd1ff3673124b264f0f6830f434dbfa03a8719d6da43cd",
-    "paper/briefing-history/958e777c/briefing-template.html": "308571936a524c8216b9fc7a9f340dafd55465a0e6bf6d19ca39539caa8a4285",
-    "paper/briefing-history/958e777c/build_supervisor_briefing.py": "39db78f1541d4888de25b7e4ed90754a20d4c82a2e59e867845d61235c57e037",
-    "paper/briefing-history/958e777c/briefing-manifest.json": "24a4694335f4c2544f074feeabf9e86208ee8f1612baddfe934251d62053b879",
-    "paper/briefing-history/c2e1dbec/baseline.json": "75c2f74bc69f09a4b50dd06831f58ce22667b5aaf804366a257fe28eed399feb",
-    "paper/briefing-history/c2e1dbec/supervisor-briefing.html": "1aa8af1e46fde4d9cdc589b7ceb699c1b89779c3b1700cf683060efef81017ce",
-    "paper/briefing-history/c2e1dbec/supervisor-talk.md": "08578ccff94aa12042e9d77ca19ca14d30f55378bf2fd3cb06e2a6202ae46f4d",
-    "paper/briefing-history/c2e1dbec/briefing-template.html": "314bc3364d1e7b9a32d405a69666fdde31ebe5630f38681e78eaa22a10e5a35d",
-    "paper/briefing-history/c2e1dbec/briefing_diagrams.py": "c1afa81b1d6c2be4c0f729ea4c5c4f7b4b8321531ee27e59089625a0a159d7dc",
-    "paper/briefing-history/c2e1dbec/build_supervisor_briefing.py": "ead0680441f8070ddb84ca09586dea5516690ea911daa1b04c4a075b5987ae6f",
-    "paper/briefing-history/c2e1dbec/check_supervisor_briefing.cjs": "ffd7bc719595cdebffa401ec3f6df5273e4d064812f13c05583864cefa9a81d6",
-    "paper/briefing-history/c2e1dbec/briefing-manifest.json": "6a45eb3129af044ce60ff1f577aa3a215c9965d5fb929fdc2139ea8ed9f51d7b",
-    "paper/briefing-history/c2e1dbec/briefing-chart-data.json": "28dc842d7b31a4f79f0488938c8f5a1a534874a5903ace2e402bfaef346ef636",
-    "paper/briefing-history/c2e1dbec/briefing-browser-verification.json": "013d69d60d5e20edcfece7b78b9e2145270364167942e35f2b49ec9d9acc3cc2",
-    "paper/briefing-history/c2e1dbec/briefing-review.md": "89383e1660fc11ce5151805a748a3dd8d1baf754aea0d98c1f47f2e8b39a816d",
-    "evidence/event-validation/final/local-artifacts.json": "906e8a3d01906e05197462ac6396c69bd3ff2e704502a74563df1c972709a7b1",
-    "runs/event-validation-amended-20261102/p02-coupled-tour.json.gz": "2b783ba50fa638bc26848896f4b07d4a1c8e2cc9b8dfee787015ba7fcd1071b6",
-    "runs/event-validation-amended-20261102/p02-coupled-fifo.json.gz": "4a0a608de93636dcdb4dc07ec821c959cbf95211ca8f4000b4aeaab3c99627e7",
-    "paper/figures/fig01_execution_framework.png": "8b43cef1021411c26f798b81b5852b1867e1f3b9c297fa5040862a28e68fce2b",
-    "paper/figures/fig02_paired_confirmations.png": "3b5ea8aa0cae179494f4b51f036f26b7c5888d90d00de9b8a07929762978d7f3",
-    "paper/figures/fig03_paired_timeline.png": "7755622aae41daca2f4894bf65cc34fb7df9a033dae96bd0d38b596ffd9bd79e",
-    "paper/supervisor-talk.md": "574440d901217d58d1fd2edb4d53ebd90651e29ed7c273a5a6545c82ce3b56cc",
-    "paper/briefing-template.html": "5ce7222ea5540bd09bd002c8523ea1457ac1093622eab55abc0b68192acbf005"
-  },
-  "scope": "Numerical and source checks. Browser rendering and interaction are checked separately."
+  "scope": "Report derivation and source identity. It does not replace independent visual/source verification."
 }

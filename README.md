@@ -6,7 +6,7 @@
 
 论文已按用户选择收束为[机制稿导师讨论版](paper/README.md)：[一页讨论摘要](paper/supervisor-brief.md)、[贡献表](paper/research-map.md)、[正文](paper/manuscript_zh.md)及[公式图表预览](paper/manuscript_zh.html)。主文中心为RQ1—RQ2，并保留同权限搜索负结果；反馈设计移至[独立备忘](paper/feedback-design.md)。
 
-向导师汇报可直接使用[五屏离线汇报页](paper/supervisor-briefing.html)与[阶段讲稿](paper/supervisor-talk.md)。现版沿用已有图，补齐同一巡检员执行链，按18个手动阶段解释漏检、任务插入、收益和损失。左右键翻页，空格分步，可退回或直接看完整图；无自动播放，图表与原论文补充图均已内嵌。[静态五屏原版与修改对比](paper/briefing-comparison.md)保留可供回看。
+当前给导师的入口是[自阅研究进展报告](paper/supervisor-briefing.html)。正文按上次建议整理配电—液冷—自控、规模边界、风险热点及原VAE论文的评价／对照方式；FIFO用真实队列、派单轨迹和期限核算解释。核心内容默认展开，去掉动画、分步按钮和讲稿依赖；可单文件离线阅读。[用途调整与历史版本](paper/briefing-comparison.md)保留供回看。
 
 最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。当前工作为导师讨论稿件，不安排新增实验，见[NEXT](docs/NEXT.md)。
 

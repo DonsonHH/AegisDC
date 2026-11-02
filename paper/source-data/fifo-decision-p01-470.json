@@ -1,0 +1,103 @@
+{
+  "source_record": "runs/event-validation-amended-20261102/p01-coupled-fifo.json.gz",
+  "source_sha256": "ddd471aef1065ea1030051073fe77e52a26849d5d5e0c844ed8b9827eb2a940d",
+  "study_release": "https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1",
+  "case": "p01-coupled",
+  "agent": 0,
+  "role": "thermal",
+  "decision_s": 470,
+  "routine_head": 0,
+  "selected": 10,
+  "queue": [
+    {
+      "task": 10,
+      "visible_s": 450.0,
+      "risk_at_decision": 0.008122894711187073,
+      "certificate_ok": true,
+      "budget_allowed": true,
+      "expires_s": 570.0
+    },
+    {
+      "task": 8,
+      "visible_s": 455.0,
+      "risk_at_decision": 0.06563121182584858,
+      "certificate_ok": true,
+      "budget_allowed": true,
+      "expires_s": 575.0
+    }
+  ],
+  "checks": [
+    {
+      "decision_s": 470,
+      "selected_task": 10,
+      "finish_s": 500.0,
+      "routine_task": 0,
+      "projected_return_finish_s": 525.0,
+      "routine_due_s": 545.0,
+      "minimum_full_cycle_slack_s": 20.0
+    },
+    {
+      "decision_s": 500,
+      "selected_task": 8,
+      "finish_s": 515.0,
+      "routine_task": 0,
+      "projected_return_finish_s": 540.0,
+      "routine_due_s": 545.0,
+      "minimum_full_cycle_slack_s": 5.0
+    }
+  ],
+  "actual_dispatches": [
+    {
+      "task": 10,
+      "dispatch_s": 470.0,
+      "completion_s": 500.0,
+      "extra_event_visit": true,
+      "alarm": true
+    },
+    {
+      "task": 8,
+      "dispatch_s": 500.0,
+      "completion_s": 515.0,
+      "extra_event_visit": true,
+      "alarm": true
+    },
+    {
+      "task": 0,
+      "dispatch_s": 515.0,
+      "completion_s": 540.0,
+      "extra_event_visit": false,
+      "alarm": false
+    }
+  ],
+  "previous_routine_completion_s": 245.0,
+  "routine_due_s": 545,
+  "revisit_limit_s": 300,
+  "scope": "One sealed actual decision for explaining the rule. Additional checks do not advance the original routine cursor.",
+  "task_contract": {
+    "thermal": {
+      "inspectors": 12,
+      "service_s": 10.0,
+      "revisit_limit_s": 300.0
+    },
+    "electrical": {
+      "inspectors": 2,
+      "service_s": 20.0,
+      "revisit_limit_s": 600.0
+    },
+    "cooling": {
+      "inspectors": 2,
+      "service_s": 20.0,
+      "revisit_limit_s": 600.0
+    },
+    "control": {
+      "inspectors": 2,
+      "service_s": 15.0,
+      "revisit_limit_s": 600.0
+    }
+  },
+  "preceding_busy_action": {
+    "task": 22,
+    "dispatch_s": 445,
+    "completion_s": 470
+  }
+}

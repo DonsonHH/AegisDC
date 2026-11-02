@@ -1,23 +1,29 @@
-# 受约束事件确认机制稿
+# 导师自阅报告与机制工作稿
 
-本版按用户2026-11-02确认的路线，先收束现有机制与负结果，供导师讨论。主文中心为RQ1任务价值与RQ2风险位置干预；同权限响应规则搜索作为开发诊断。后果反馈与递归改进留在独立备忘和展望，本轮没有新的实验计划。
+当前沟通材料按用户2026-11-03的新用途改为直接阅读的报告；研究主结果与机制工作稿保持原范围，未启动新实验。
 
-## 建议阅读顺序
+## 建议入口
 
-1. 汇报时打开[五屏离线汇报页](supervisor-briefing.html)，按每屏的“下一步／上一步”手动讲解，或点“完整图”直接看全部内容。[阶段讲稿与追问准备](supervisor-talk.md)与18个阶段一一对应，仍按约5分钟安排；N查看当前阶段讲稿，Q查看追问。
-2. [一页导师讨论摘要](supervisor-brief.md)：主要结果、负结果与需要讨论的贡献定位，适合会后阅读。
-3. [研究问题与贡献表](research-map.md)：主文RQ1—RQ2与证据边界。
-4. [正文](manuscript_zh.md)或[公式图表预览](manuscript_zh.html)：已收束的8章机制稿。
+1. [自阅研究进展报告](supervisor-briefing.html)：先回应上次沟通要求，再看模型／规模、风险热点、FIFO真实流程、当前结果及原论文指标与对照。核心内容全部直接可见，文末回溯附例可按需展开。
+2. [本次采用的导师要求](mentor-requests.md)、[工程参照核查](research/mentor-engineering-reference-20261103.md)、[原论文指标核查](research/original-paper-metrics-20261103.md)：分别对应截图要求、El Capitan／国家标准及原文评价设计。
+3. [机制稿摘要](supervisor-brief.md)、[贡献表](research-map.md)、[正文](manuscript_zh.md)／[公式图表预览](manuscript_zh.html)：供进一步审阅论文，而非当前报告的操作说明。
 
-五屏汇报沿用现有图并增加同一巡检员的关键执行链。各屏分别4、4、4、3、3个阶段，以局部透明度高亮／淡入解释顺序。鼠标触发180毫秒过渡，键盘与减少动态效果模式即时切换，无自动播放或循环。3张论文原图仍可点击放大，SVG导出、原图弹窗与打印都显示完整内容。
+网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
-下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。左右键、数字1—5和底部按钮翻页；空格下一步，Shift+空格上一步；“从头讲”只重置本屏。“完整图”可跳过阶段；翻页保留每屏进度。原文链接需要联网。
+## 来源与复建
 
-[来源校验清单](generated/briefing-manifest.json)、[作图数据](generated/briefing-chart-data.json)、[完整SVG源图](figures/briefing-v3/)、[改动前后对比](briefing-comparison.md)、[验证记录](briefing-review.md)、[浏览器检查](generated/briefing-browser-verification.json)及[实际打印检查](generated/briefing-print-verification.json)可复核当前交付。[静态五屏原版](briefing-history/c2e1dbec/supervisor-briefing.html)与源文件按`c2e1dbec`逐字节保存；更早的[四屏版](briefing-history/958e777c/supervisor-briefing.html)也保留。
+- [报告Markdown源文](supervisor-report.md)、[绘图输入](generated/supervisor-report-data.json)、[完整SVG](figures/supervisor-report/)、[来源manifest](generated/briefing-manifest.json)。
+- [用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
+- 已发布主结果仍见`evidence/event-validation/final`；工程热点图使用已保存的工程回看，未计作12主过程的新样本。原论文数值是原文内部对照，未冒充本项目实测。
 
-成品已包含在仓库中。重新生成时运行`python scripts/build_supervisor_briefing.py`，只需Python标准库；该命令还会逐项核对时间线原件，因此需将[主验证Release](https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1)中的`p02-coupled-tour.json.gz`与`p02-coupled-fifo.json.gz`放入`runs/event-validation-amended-20261102`。生成过程不新增研究执行。
+构建：`python scripts/build_supervisor_report.py`，使用已有写作环境中的markdown-it-py和Python标准库；[写作依赖](requirements-writing.txt)可放在隔离目录`.work/paper-writing-deps`。数值来自有原件SHA的紧凑快照及原有JSON/SVG，不需要重跑模拟。旧命令`python scripts/build_supervisor_briefing.py`已转到同一静态报告构建，避免恢复旧动画。
 
-本地复核顺序为`node scripts/check_supervisor_briefing.cjs`、`python scripts/check_briefing_print.py`。浏览器脚本使用Node内置WebSocket与已安装的Chrome，核对单文件断网、两个指定分辨率下的全部18阶段和完整图、反向操作、减少动态效果、键盘及原图等功能，并输出阶段截图和临时完整打印PDF。可用`BRIEFING_CHROME`指定浏览器程序路径。打印脚本使用pypdf和Poppler读取、渲染这份PDF，核对五页及关键文字完整性；临时文件位于`.work/briefing-v3-browser`。
+浏览器检查：`node scripts/check_supervisor_report.cjs`，需要支持内置WebSocket的Node及本机Chrome；可用`BRIEFING_CHROME`指定路径。实际打印核对：`python scripts/check_report_print.py`，使用pypdf和Poppler；临时文件位于`.work/self-reading-check`。完整原件独立核对：`python scripts/verify_report_sources.py`，需本机已有的完整工程与封存研究目录。所有命令均不启动新研究。
+
+## 历史沟通材料
+
+- [18阶段演示版](briefing-history/2db2adf1/supervisor-briefing.html)及源文件按`2db2adf1`保存。
+- [静态五屏版](briefing-history/c2e1dbec/supervisor-briefing.html)与[早期四屏版](briefing-history/958e777c/supervisor-briefing.html)也保留。
 
 ## 章节与材料
 
@@ -39,7 +45,7 @@
 - [后果反馈研究备忘](feedback-design.md)／[预览](feedback-design.html)：从主文移出的设计；不是当前完成贡献或新增调用安排。
 - [审阅落实记录](revision-review.md)、[路线选择记录](decision-brief.md)、[写作辅助披露记录](authoring-disclosure.md)。
 
-## 复核与当前边界
+## 机制工作稿的复核与边界
 
 `python scripts/build_paper_assets.py`只读取封存记录生成图表、表格与HTML，不执行研究。写作依赖见[requirements-writing.txt](requirements-writing.txt)，可放在隔离目录`.work/paper-writing-deps`；原研究依赖仍由`pyproject.toml`管理。
 
