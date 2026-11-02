@@ -11,10 +11,15 @@ from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
+import platform
 import shlex
 import subprocess
 import time
+import uuid
+
+import numpy as np
 
 from .case_report import compact_decisions
 from .contracts import digest, strict_json
@@ -23,7 +28,13 @@ from .reorder_execution import run_reorder
 
 
 def save_json(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("w", encoding="utf-8") as stream:
+        json.dump(value, stream, ensure_ascii=False, indent=2, allow_nan=False)
+        stream.write("\n")
+        stream.flush()
+        os.fsync(stream.fileno())
+    temporary.replace(path)
 
 
 def read_json(path):
@@ -56,6 +67,7 @@ class EvaluationStore:
         (self.folder / "evaluations").mkdir(exist_ok=True)
         self.ledger = self.folder / "evaluations.jsonl"
         self.core = core_identity()
+        self.runtime = {"python": platform.python_version(), "numpy": np.__version__}
 
     def entries(self):
         return [strict_json(s) for s in self.ledger.read_text(encoding="utf-8").splitlines()] if self.ledger.exists() else []
@@ -75,12 +87,13 @@ class EvaluationStore:
             allowed = {strategy_identity(v["expression"]) for v in selected["declaration"]["strategies"].values()}
             if strategy_identity(expression) not in allowed:
                 raise ValueError("Unselected strategy cannot read confirmation outcomes")
-        identity = digest({"core": self.core, "strategy": strategy_identity(expression), "spec": case["spec"]})
+        identity = digest({"core": self.core, "runtime": self.runtime,
+                           "strategy": strategy_identity(expression), "spec": case["spec"]})
         output = self.folder / "evaluations" / (identity + ".json.gz")
         if output.exists():
             with gzip.open(output, "rt", encoding="utf-8") as stream:
                 record = json.load(stream)
-            if record["evaluation_id"] != identity or record["core_identity"] != self.core:
+            if record["evaluation_id"] != identity or record["core_identity"] != self.core or record["runtime"] != self.runtime:
                 raise ValueError("Cache identity mismatch")
             append_json(self.ledger, {"status": "cache_reference", "evaluation_id": identity,
                                       "case_id": case["case_id"], "at": utc_now()})
@@ -98,7 +111,7 @@ class EvaluationStore:
             actual, env = run_reorder(case["spec"], None, policy)
             record = {key: actual[key] for key in ("metrics", "by_role", "action_log", "action_sha256",
                       "inspection_events", "anomaly_intervals", "obligation_events", "round_ledgers", "team", "process")}
-            record.update(evaluation_id=identity, core_identity=self.core, case=case, expression=expression,
+            record.update(evaluation_id=identity, core_identity=self.core, runtime=self.runtime, case=case, expression=expression,
                           decisions=compact_decisions(actual, env.tasks), elapsed_s=time.perf_counter() - start)
             temporary = output.with_suffix(".tmp")
             with gzip.open(temporary, "wt", encoding="utf-8") as stream:
@@ -190,12 +203,14 @@ def build_messages(protocol, parent, previous=None, feedback=None):
 
 class SSHMailbox:
     """Four finite offline inference requests over the user's verified SSH agent."""
-    def __init__(self, host, remote, folder, protocol_sha):
+    def __init__(self, host, remote, folder, protocol_sha, run_id):
         self.host, self.remote, self.folder, self.protocol_sha = host, remote.rstrip("/"), Path(folder), protocol_sha
+        self.run_id = run_id
         self.options = ["-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "-o", "ConnectTimeout=12"]
 
     def generate(self, index, messages, seed):
-        request = {"call_index": index, "protocol_sha256": self.protocol_sha, "messages": messages, "seed": seed}
+        request = {"call_index": index, "protocol_sha256": self.protocol_sha, "run_id": self.run_id,
+                   "messages": messages, "seed": seed}
         local = self.folder / f"request-{index:02d}.json"
         save_json(local, request)
         target = f"{self.remote}/request-{index:02d}.json"
@@ -210,7 +225,8 @@ class SSHMailbox:
                                     capture_output=True, timeout=25)
             if result.returncode == 0:
                 value = strict_json(result.stdout.decode("utf-8"))
-                if value["protocol_sha256"] != self.protocol_sha or value["call_index"] != index:
+                if (value["protocol_sha256"] != self.protocol_sha or value["call_index"] != index
+                        or value["request_sha256"] != hashlib.sha256(local.read_bytes()).hexdigest()):
                     raise ValueError("Model response identity mismatch")
                 return value
             time.sleep(2)
@@ -225,6 +241,8 @@ class FeedbackStudy:
         self.folder.mkdir(parents=True, exist_ok=True)
         self.store = EvaluationStore(self.folder, self.protocol["limits"]["environment_attempts"])
         p = self.protocol
+        if np.__version__ != p["tools"]["numpy"]:
+            raise ValueError("Simulation NumPy differs from pre-registration")
         dev = {c["spec"]["seed"] for c in p["development"]} | set(p["known_development_seeds"])
         confirm = {c["spec"]["seed"] for c in p["confirmation"]}
         if dev & confirm or len(p["development"]) != 6 or len(p["confirmation"]) != 6:
@@ -239,13 +257,15 @@ class FeedbackStudy:
         if seal_path.exists():
             seal = read_json(seal_path)
             if (seal["protocol_sha256"] != self.protocol_sha or seal["core_identity"] != self.store.core
-                    or seal["implementation_files"] != implementation):
+                    or seal["implementation_files"] != implementation or seal["runtime"] != self.store.runtime):
                 raise ValueError("Frozen protocol/core changed; do not reuse results")
         else:
             git = subprocess.run(["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parents[2],
                                  capture_output=True, text=True, timeout=10)
             save_json(seal_path, {"created_utc": utc_now(), "protocol_sha256": self.protocol_sha,
+                                 "run_id": uuid.uuid4().hex,
                                  "implementation_commit": git.stdout.strip(), "implementation_files": implementation,
+                                 "runtime": self.store.runtime,
                                  "core_identity": self.store.core, "contract": response_contract()})
             (self.folder / "protocol.json").write_bytes(self.protocol_path.read_bytes())
         self.labels = read_json(self.folder / "labels.json") if (self.folder / "labels.json").exists() else []
@@ -417,5 +437,6 @@ class FeedbackStudy:
 
 def run_study(args):
     study = FeedbackStudy(args.protocol, args.output)
-    backend = SSHMailbox(args.ssh_host, args.mailbox, study.folder, study.protocol_sha)
+    backend = SSHMailbox(args.ssh_host, args.mailbox, study.folder, study.protocol_sha,
+                         read_json(study.folder / "seal.json")["run_id"])
     return study.run(backend)

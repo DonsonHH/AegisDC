@@ -4,12 +4,27 @@ from pathlib import Path
 import tempfile
 from copy import deepcopy
 import unittest
+import subprocess
+from unittest.mock import patch
 
-from patrol_rsi.feedback_study import EvaluationStore, FeedbackStudy, build_messages, retain
+from patrol_rsi.feedback_study import EvaluationStore, FeedbackStudy, SSHMailbox, build_messages, retain, save_json
+from patrol_rsi.model_proposals import completed_request, sha_file
 from patrol_rsi.local_score import BASE_EXPRESSION
 
 
 class EvaluationBudgetTests(unittest.TestCase):
+    def test_numeric_scoring_failure_is_a_rejected_outcome_not_a_lost_campaign(self):
+        case = {"case_id": "numeric-fixture", "spec": {"seed": 0, "scenario": "healthy",
+                "duration_s": 900, "fault_start_s": 335, "noise_c": .2,
+                "estimator": "nominal", "control": "feedback", "resources": "provisioned"}}
+        with tempfile.TemporaryDirectory() as folder:
+            store = EvaluationStore(Path(folder), limit=1)
+            record = store.evaluate(case, "safe_div(deadline_pressure,0)*10")
+            self.assertGreater(record["metrics"]["numeric_scoring_failures"], 0)
+            self.assertEqual(record["metrics"]["invalid_assignments"], 0)
+            self.assertTrue(any(d["numeric_error"] for d in record["decisions"]))
+            self.assertEqual(store.attempt_count, 1)
+
     def test_cache_does_not_spend_another_trial_and_limit_stops_execution(self):
         case = {"case_id": "fixture", "spec": {"seed": 41000, "scenario": "healthy",
                 "duration_s": 900, "fault_start_s": 335, "noise_c": .2,
@@ -29,6 +44,40 @@ class EvaluationBudgetTests(unittest.TestCase):
 
 
 class FeedbackIsolationTests(unittest.TestCase):
+    def test_interrupted_state_replacement_preserves_the_previous_valid_state(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "state.json"
+            save_json(path, {"status": "started"})
+            with patch.object(Path, "replace", side_effect=OSError("fixture interrupted replace")):
+                with self.assertRaisesRegex(OSError, "interrupted replace"):
+                    save_json(path, {"status": "completed"})
+            self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"status": "started"})
+
+    def test_stale_mailbox_response_cannot_become_a_new_model_proposal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            backend = SSHMailbox("fixture-host", "/fixture", folder, "protocol-sha", "fresh-run")
+            old = {"protocol_sha256": "protocol-sha", "call_index": 0, "request_sha256": "old-request",
+                   "status": "completed", "raw": "old reply"}
+            outputs = [subprocess.CompletedProcess([], 0, b"", b""),
+                       subprocess.CompletedProcess([], 0, b"", b""),
+                       subprocess.CompletedProcess([], 0, json.dumps(old).encode(), b"")]
+            with patch("subprocess.run", side_effect=outputs):
+                with self.assertRaisesRegex(ValueError, "response identity mismatch"):
+                    backend.generate(0, [{"role": "user", "content": "new prompt"}], 1)
+
+    def test_worker_reuses_only_verified_completed_calls(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder = Path(name)
+            request = {"call_index": 0, "protocol_sha256": "p", "run_id": "run", "messages": []}
+            path = folder / "request-00.json"
+            path.write_text(json.dumps(request), encoding="utf-8")
+            response = {"protocol_sha256": "p", "call_index": 0, "request_sha256": sha_file(path), "status": "completed"}
+            (folder / "response-00.json").write_text(json.dumps(response), encoding="utf-8")
+            self.assertEqual(completed_request(folder, 0, "p")["run_id"], "run")
+            (folder / "started-01.json").write_text("{}", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "started-only"):
+                completed_request(folder, 1, "p")
+
     def test_no_feedback_prompt_does_not_reveal_outcomes_or_retention(self):
         protocol = {"selection": {"rule": "fixed utility"}}
         n = build_messages(protocol, BASE_EXPRESSION, {"raw": "previous proposal", "syntax_status": "valid"})

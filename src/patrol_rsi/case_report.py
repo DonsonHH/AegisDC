@@ -109,10 +109,11 @@ def compact_decisions(record, tasks):
             "selected": [tasks[j].task_id for j in decision["selected_order"]],
             "changed": not decision["selected_original"], "legal_count": len(legal),
             "public_tasks": public, "affected": affected,
+            "numeric_error": decision.get("numeric_error"),
             "without_risk_order": [tasks[j].task_id for j in without_risk["order"]],
             "candidates": [{"order": [tasks[j].task_id for j in c["order"]],
                             "original": c["original"], "features": c["features"],
-                            "score": c["score"][0]} for c in legal],
+                            "score": c.get("score", [None])[0]} for c in legal],
         })
     return rows
 

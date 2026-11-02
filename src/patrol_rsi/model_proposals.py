@@ -26,12 +26,32 @@ def sha_file(path):
     return result.hexdigest()
 
 
+def completed_request(folder, index, protocol_sha):
+    request_path = folder / f"request-{index:02d}.json"
+    response_path = folder / f"response-{index:02d}.json"
+    started_path = folder / f"started-{index:02d}.json"
+    if response_path.exists():
+        request = json.loads(request_path.read_text(encoding="utf-8"))
+        response = json.loads(response_path.read_text(encoding="utf-8"))
+        if (response["protocol_sha256"] != protocol_sha or request["protocol_sha256"] != protocol_sha
+                or response["call_index"] != index or request["call_index"] != index
+                or response["request_sha256"] != sha_file(request_path)
+                or response["status"] not in ("completed", "failed")):
+            raise ValueError("Completed response identity mismatch")
+        return request
+    if started_path.exists():
+        raise RuntimeError("Ambiguous started-only call; inspect its terminal job before resolving, never regenerate")
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", required=True)
     parser.add_argument("--mailbox", required=True)
     parser.add_argument("--protocol", required=True)
     args = parser.parse_args()
+    if not os.environ.get("SLURM_JOB_ID"):
+        raise RuntimeError("Run inference only inside a Slurm allocation")
     folder, model_path = Path(args.mailbox), Path(args.model)
     protocol_path = Path(args.protocol)
     protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
@@ -74,21 +94,35 @@ def main():
     metadata["status"] = "ready"
     save(folder / "worker.json", metadata)
     print("READY", metadata, flush=True)
+    run_id = None
     for index in range(protocol["limits"]["model_calls"]):
         request_path = folder / f"request-{index:02d}.json"
         response_path = folder / f"response-{index:02d}.json"
         started_path = folder / f"started-{index:02d}.json"
+        cached = completed_request(folder, index, protocol_sha)
+        if cached is not None:
+            if run_id is not None and cached["run_id"] != run_id:
+                raise ValueError("Cannot mix requests from different study runs")
+            run_id = cached["run_id"]
+            print("VERIFIED_COMPLETED_CALL", index, flush=True)
+            continue
         deadline = time.monotonic() + 1200
         while not request_path.exists():
             if time.monotonic() > deadline:
                 raise TimeoutError("No next request; stop allocation instead of waiting indefinitely")
             time.sleep(1)
         if started_path.exists() or response_path.exists():
-            raise RuntimeError("A request was already attempted; never regenerate it on restart")
+            raise RuntimeError("Another worker already claimed this request")
         request = json.loads(request_path.read_text(encoding="utf-8"))
         if request["protocol_sha256"] != protocol_sha or request["call_index"] != index:
             raise ValueError("Wrong request identity")
-        save(started_path, {"call_index": index, "protocol_sha256": protocol_sha, "status": "started"})
+        if run_id is not None and request["run_id"] != run_id:
+            raise ValueError("Cannot mix requests from different study runs")
+        run_id = request["run_id"]
+        metadata["run_id"] = run_id
+        save(folder / "worker.json", metadata)
+        with started_path.open("x", encoding="utf-8") as stream:
+            json.dump({"call_index": index, "protocol_sha256": protocol_sha, "status": "started"}, stream)
         result = {"call_index": index, "protocol_sha256": protocol_sha,
                   "request_sha256": sha_file(request_path), "job_id": metadata["job_id"]}
         started = time.perf_counter()
