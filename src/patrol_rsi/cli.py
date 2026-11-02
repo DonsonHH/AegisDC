@@ -64,6 +64,12 @@ def status():
         result["事件确认首轮"] = {"evaluations": response["evaluations"], "selected": response["selected"],
                                   "read": "evidence/risk-response/README.md"}
         result["唯一下一任务"] = "定位事件排队与返回约束造成的残余漏检；再预登记优先级对照，见docs/NEXT.md"
+    priority_study = ROOT / "evidence/event-priority/summary.json"
+    if priority_study.exists():
+        priority = strict_json(priority_study.read_text(encoding="utf-8"))
+        result["事件优先级对照"] = {"evaluations": priority["actual_evaluations"],
+            "selected": priority["selected"], "read": "evidence/event-priority/README.md"}
+        result["唯一下一任务"] = "扩大独立条件验证事件机制，记录候选竞争机会；暂不增加排序复杂度，见docs/NEXT.md"
     return result
 
 
@@ -276,9 +282,15 @@ def main(argv=None):
     p = sub.add_parser("respond", help="运行新风险确认机制的有限试验；不调用模型")
     p.add_argument("--protocol")
     p.add_argument("--output", required=True)
+    p = sub.add_parser("prioritize", help="固定事件空间内比较优先级；不调用模型")
+    p.add_argument("--protocol")
+    p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "respond":
+        if args.command == "prioritize":
+            from .priority_study import run_priority_study
+            result = run_priority_study(args)
+        elif args.command == "respond":
             from .risk_response import run_response_study
             result = run_response_study(args)
         elif args.command == "study":

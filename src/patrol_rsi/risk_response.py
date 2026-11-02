@@ -62,8 +62,10 @@ class ResponseChecker:
 
 
 class ResponseTask(FixedPatrolTask):
-    def __init__(self, spec, enable_events=True, ttl=120.):
+    def __init__(self, spec, enable_events=True, ttl=120., priority='fifo'):
         super().__init__(spec,None)
+        if priority not in ('fifo','risk','opportunity'):raise ValueError('Unknown event priority')
+        self.priority=priority
         self.enable_events=enable_events
         self.cursor=[0]*len(self.agents)
         self.checkers=[ResponseChecker(self,a) for a in self.agents]
@@ -94,8 +96,27 @@ class ResponseTask(FixedPatrolTask):
                   for j in targets]
             legal=[r for r in rows if r['certificate']['ok']]
             event_choices=[r for r in legal if self.enable_events and r['event_id'] is not None]
-            selected=min(event_choices,key=lambda r:(self.risk_episodes.pending[r['task']]['visible_s'],
-                         -r['public_risk'],r['task'])) if event_choices else next((r for r in legal if r['task']==head),None)
+            if self.priority=='opportunity':
+                for candidate in event_choices:
+                    j=candidate['task'];finish=candidate['certificate']['candidate_finish_s']
+                    virtual=self.last_inspection.copy();virtual[j]=finish
+                    cursor=(self.cursor[i]+1)%len(a['tour']) if j==head else self.cursor[i]
+                    lost=[]
+                    for other in event_choices:
+                        k=other['task']
+                        if k==j or other['public_risk']<=0:continue
+                        expiry=self.risk_episodes.pending[k]['expires_s']
+                        if other['certificate']['candidate_finish_s']>expiry:continue
+                        certificate=self.checkers[i].check(finish,self.tasks[j].position_m,virtual,cursor,k,reserved)
+                        if not certificate['ok'] or certificate['candidate_finish_s']>expiry:
+                            lost.append(k)
+                    candidate['lost_next_opportunities']=lost
+            def order(row):
+                age=self.risk_episodes.pending[row['task']]['visible_s']
+                if self.priority=='fifo':return (age,-row['public_risk'],row['task'])
+                if self.priority=='risk':return (-row['public_risk'],age,row['task'])
+                return (len(row['lost_next_opportunities']),-row['public_risk'],age,row['task'])
+            selected=min(event_choices,key=order) if event_choices else next((r for r in legal if r['task']==head),None)
             j=selected['task'] if selected else None
             choices[i]=j
             self.decisions.append({'time_s':self.clock,'agent':i,'routine_head':head,'selected':j,'candidates':rows})
@@ -128,8 +149,8 @@ class ResponseTask(FixedPatrolTask):
         return reward
 
 
-def run_response(spec,enable_events=True,ttl=120.):
-    env=ResponseTask(spec,enable_events,ttl);actions=[]
+def run_response(spec,enable_events=True,ttl=120.,priority='fifo'):
+    env=ResponseTask(spec,enable_events,ttl,priority);actions=[]
     while not env.done:
         trace,env.trace=env.trace,DeniedOnlineTrace()
         try:choices=env.choose()

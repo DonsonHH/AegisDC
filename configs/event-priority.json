@@ -1,0 +1,188 @@
+{
+  "question": "同一事件候选空间内，优先保护下一步可执行机会能否减少确认漏检？",
+  "base_commit": "5efd8f5b",
+  "priorities": [
+    "fifo",
+    "risk",
+    "opportunity"
+  ],
+  "ttl_s": 120,
+  "development": [
+    {
+      "id": "development-0",
+      "spec": {
+        "seed": 41000,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-1",
+      "spec": {
+        "seed": 41000,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-2",
+      "spec": {
+        "seed": 41000,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-3",
+      "spec": {
+        "seed": 41001,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-4",
+      "spec": {
+        "seed": 41001,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-5",
+      "spec": {
+        "seed": 41001,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "id": "confirmation-0",
+      "spec": {
+        "seed": 94003,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 150,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-1",
+      "spec": {
+        "seed": 94003,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60,
+        "fault_start_s": 520,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-2",
+      "spec": {
+        "seed": 94003,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-3",
+      "spec": {
+        "seed": 94012,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 520,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-4",
+      "spec": {
+        "seed": 94012,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60,
+        "fault_start_s": 705,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-5",
+      "spec": {
+        "seed": 94012,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 150,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    }
+  ],
+  "max_actual_evaluations": 42,
+  "model_calls": 0,
+  "training": 0,
+  "selection": "Minimize development mean missed, then mean censored delay on anomalous cases, then mean travel; exact ties prefer fifo, risk, opportunity in that order. Freeze before confirmation.",
+  "opportunity_rule": "For each legal pending event, simulate just its certified completion. Count other currently legal positive-risk pending events that can currently finish by their public expiry that then fail the return check or cannot finish by their public event expiry. Minimize this count, then prefer greater current public risk, earlier visibility, lower task id. No hidden abnormality end or type used.",
+  "limits": "Same owners, candidate permissions, service, observation, TTL and safety checker for all priorities. No transit/service interruption. This lookahead is not a global opportunity bound.",
+  "seen_seeds": [
+    41000,
+    41001,
+    42000,
+    42001,
+    62011,
+    62017,
+    80521,
+    80539,
+    93002,
+    93011
+  ]
+}

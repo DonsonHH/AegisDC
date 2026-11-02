@@ -6,6 +6,32 @@ SPEC=dict(seed=0,scenario='aux_feeder_loss+cdu_fouling',duration_s=180,
           fault_start_s=335,noise_c=.2,estimator='nominal',control='feedback',resources='provisioned')
 
 class RiskResponseTests(unittest.TestCase):
+    def test_opportunity_rule_can_protect_a_lower_risk_waiting_task(self):
+        import numpy as np
+        from patrol_rsi.contracts import DeniedOnlineTrace
+        env=ResponseTask(SPEC,priority='opportunity')
+        first,second=env.agents[0]['tour'][:2]
+        risks=np.zeros(len(env.tasks));risks[first]=.8;risks[second]=.2
+        env.public_risk=lambda:(risks,np.zeros(128))
+        env.risk_episodes.observe(5,risks)
+        def check(now,position,last,cursor,target,reserved):
+            if now>5 and target==second and last[first]>0:
+                return {'ok':False,'reason':'fixture_other_deadline'}
+            return {'ok':True,'candidate_finish_s':now+10}
+        env.checkers[0].check=check
+        env.trace=DeniedOnlineTrace()
+        choices=env.choose()
+        self.assertEqual(choices[0],second)
+        row=env.decisions[0]
+        self.assertEqual(next(c for c in row['candidates'] if c['task']==first)['lost_next_opportunities'],[second])
+
+    def test_each_priority_uses_the_same_certified_execution_boundary(self):
+        for priority in ['risk','opportunity']:
+            record,_=run_response(SPEC,priority=priority)
+            self.assertEqual(record['metrics']['tasks_violating_exact_gap'],0)
+            self.assertEqual(record['metrics']['invalid_assignments'],0)
+            self.assertTrue(all(d['certificate']['ok'] for d in record['dispatches']))
+
     def test_old_normal_check_does_not_discharge_new_risk_and_confirmation_deduplicates(self):
         ledger=RiskEpisodes(1)
         ledger.complete({'task':0,'time_s':10,'alarm':False,'agent':0})
