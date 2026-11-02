@@ -298,9 +298,15 @@ def main(argv=None):
     p.add_argument("--protocol")
     p.add_argument("--output", required=True)
     p.add_argument("--resume-from", help="仅供明确授权的预算修订：核验并继承停止包，不重跑成功原件")
+    p = sub.add_parser("response-search", help="冻结RQ3规则族的有限开发搜索；不调用模型或读取新确认结果")
+    p.add_argument("--protocol", required=True)
+    p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "validate-events":
+        if args.command == "response-search":
+            from .response_search import run_search
+            result = run_search(args)
+        elif args.command == "validate-events":
             from .event_validation import run_validation
             result = run_validation(args)
         elif args.command == "prioritize":

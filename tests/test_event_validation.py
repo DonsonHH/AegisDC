@@ -12,6 +12,13 @@ SPEC = dict(seed=0, scenario='aux_feeder_loss+cdu_fouling', duration_s=180,
 
 
 class EventValidationTests(unittest.TestCase):
+    def test_planned_duration_stress_values_have_valid_process_contracts(self):
+        for duration in [120,240]:
+            trace = phased_trace(0,'healthy',duration,335)
+            self.assertEqual(trace.config.fault_end_s,335+duration)
+            self.assertEqual(len(trace.packets),360)
+        with self.assertRaises(ValueError):phased_trace(0,'healthy',125,335)
+
     def test_tour_explains_false_cue_without_changing_physical_measurements(self):
         clean = dict(SPEC, scenario='healthy')
         noisy = dict(clean, public_risk_pulses=[dict(task=0,start_s=335,end_s=365,risk=.5)])

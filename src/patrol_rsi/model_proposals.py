@@ -49,6 +49,13 @@ def read_request(path):
     return json.loads(content.decode("utf-8")), hashlib.sha256(content).hexdigest()
 
 
+def enforce_input_budget(input_tokens, settings):
+    limit = settings.get('max_input_tokens')
+    if limit is not None:
+        if type(limit) is not int or limit <= 0 or input_tokens > limit:
+            raise ValueError('Input exceeds the common registered token boundary; no silent truncation')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", required=True)
@@ -137,6 +144,8 @@ def main():
             text = tokenizer.apply_chat_template(request["messages"], tokenize=False,
                                                   add_generation_prompt=True, enable_thinking=False)
             inputs = tokenizer([text], return_tensors="pt").to("cuda")
+            result['input_tokens'] = int(inputs['input_ids'].shape[-1])
+            enforce_input_budget(result['input_tokens'], settings)
             torch.cuda.reset_peak_memory_stats()
             with torch.inference_mode():
                 generated = model.generate(**inputs, do_sample=True, temperature=settings["temperature"],

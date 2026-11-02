@@ -100,7 +100,7 @@ def trace_for(racks, seed, scenario, control):
 
 class PhasedTrace(ProcessTrace):
     def __init__(self, seed, scenario, duration, start, fault_rack=None):
-        if duration not in (60, 180, 900) or start not in (150, 335, 520, 705):
+        if duration not in (60, 120, 180, 240, 900) or start not in (150, 335, 520, 705):
             raise ValueError('Frozen injection duration and phase required')
         self.config = FacilityConfig(fault_start_s=start, fault_end_s=start + duration, fault_rack=fault_rack)
         self.seed, self.scenario, self.control = seed, scenario, 'feedback'

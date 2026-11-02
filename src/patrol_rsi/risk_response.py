@@ -8,6 +8,7 @@ from .coverage_plan import ReturnPlan, InfeasibleCoverage, exact_task_gaps
 from .facility_observation import eligible
 from .inspection_metrics import evaluate_episode
 from .patrol_task import FixedPatrolTask
+from .response_rule import ResponseRule, select_response
 
 
 class RiskEpisodes:
@@ -64,7 +65,10 @@ class ResponseChecker:
 
 
 class ResponseTask(FixedPatrolTask):
-    def __init__(self, spec, enable_events=True, ttl=120., priority='fifo', extra_visit_budget=None, risk_permutation_seed=None):
+    def __init__(self, spec, enable_events=True, ttl=120., priority='fifo', extra_visit_budget=None, risk_permutation_seed=None, response_rule=None):
+        self.response_rule = ResponseRule.from_dict(response_rule) if response_rule is not None else None
+        if self.response_rule is not None and (priority != 'fifo' or ttl != 120.):
+            raise ValueError('Binary rules use fixed FIFO event ordering and120-secondTTL')
         super().__init__(spec,None)
         if extra_visit_budget is not None and (type(extra_visit_budget) is not int or extra_visit_budget < 0):
             raise ValueError('Extra visit budget must be a nonnegative integer')
@@ -88,6 +92,7 @@ class ResponseTask(FixedPatrolTask):
         self.dispatches=[]
         self.pending_dispatch={}
         self.decisions=[]
+        self.binary_decisions=[]
         self.observe_response_risk()
 
     def response_risk(self):
@@ -144,7 +149,16 @@ class ResponseTask(FixedPatrolTask):
                 if self.priority=='fifo':return (age,-row['public_risk'],row['task'])
                 if self.priority=='risk':return (-row['public_risk'],age,row['task'])
                 return (len(row['lost_next_opportunities']),-row['public_risk'],age,row['task'])
-            selected=min(event_choices,key=order) if event_choices else next((r for r in legal if r['task']==head),None)
+            event = min(event_choices,key=order) if event_choices else None
+            routine = next((r for r in legal if r['task']==head),None)
+            selected = event if event is not None else routine
+            if self.response_rule is not None:
+                gate = select_response(self.response_rule, event, routine, self.clock,
+                    self.risk_episodes.pending[event['task']]['visible_s'] if event else None)
+                selected = gate['selected']
+                self.binary_decisions.append({'time_s':self.clock,'agent':i,'event_task':event['task'] if event else None,
+                    'routine_head':head,'selected':selected['task'] if selected else None,
+                    **{k:gate[k] for k in ('reason','choice','features','score')}})
             j=selected['task'] if selected else None
             choices[i]=j
             self.decisions.append({'time_s':self.clock,'agent':i,'routine_head':head,'selected':j,'candidates':rows})
@@ -182,8 +196,8 @@ class ResponseTask(FixedPatrolTask):
         return reward
 
 
-def run_response(spec,enable_events=True,ttl=120.,priority='fifo',extra_visit_budget=None,risk_permutation_seed=None):
-    env=ResponseTask(spec,enable_events,ttl,priority,extra_visit_budget,risk_permutation_seed);actions=[]
+def run_response(spec,enable_events=True,ttl=120.,priority='fifo',extra_visit_budget=None,risk_permutation_seed=None,response_rule=None):
+    env=ResponseTask(spec,enable_events,ttl,priority,extra_visit_budget,risk_permutation_seed,response_rule);actions=[]
     while not env.done:
         trace,env.trace=env.trace,DeniedOnlineTrace()
         try:choices=env.choose()
@@ -202,12 +216,16 @@ def run_response(spec,enable_events=True,ttl=120.,priority='fifo',extra_visit_bu
         event_positive_measurements=sum(e['measured_alarm'] for e in measured),
         event_normal_measurements=sum(not e['measured_alarm'] for e in measured),
         mean_public_event_to_measurement_s=float(np.mean([e['measurement_s']-e['visible_s'] for e in measured])) if measured else None)
-    return {'metrics':metrics,'by_role':by_role,'anomaly_intervals':intervals,'inspection_events':env.events,
+    record = {'metrics':metrics,'by_role':by_role,'anomaly_intervals':intervals,'inspection_events':env.events,
             'public_events':events,'decisions':env.decisions,'dispatches':env.dispatches,
             'action_log':actions,'action_sha256':digest(actions),'exact_task_gaps':gaps,
             'process_sha256':env.trace.fingerprint,
             'response_config':{'extra_visit_budget':extra_visit_budget,'extra_dispatched':env.extra_dispatched,
-                'risk_permutation_seed':risk_permutation_seed,'risk_source_for_target':env.risk_source_for_target.tolist()}},env
+                'risk_permutation_seed':risk_permutation_seed,'risk_source_for_target':env.risk_source_for_target.tolist()}}
+    if env.response_rule is not None:
+        record['response_config']['response_rule'] = env.response_rule.to_dict()
+        record['binary_decisions'] = env.binary_decisions
+    return record, env
 
 
 def run_response_study(args):
