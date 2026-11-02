@@ -24,6 +24,7 @@ class FacilityConfig:
     horizon_s: float = 1800.0
     fault_start_s: float = 300.0
     fault_end_s: float = 1200.0
+    fault_rack: int | None = None
     medium_voltage_v: float = 10000.0
     low_voltage_ac_v: float = 380.0
     rack_dc_v: float = 54.0
@@ -58,6 +59,8 @@ class FacilityConfig:
     revisit_reference_s: float = 300.0
 
     def __post_init__(self):
+        if self.fault_rack is not None and (type(self.fault_rack) is not int or not 0 <= self.fault_rack < self.racks):
+            raise ValueError('fault_rack must be an integer inside the facility')
         if self.racks < 8 or self.racks_per_pod != 8 or self.racks % self.racks_per_pod:
             raise ValueError('Use complete pods of eight racks')
         if not (0 < self.dt_s <= 5) or self.horizon_s <= 0:
@@ -113,6 +116,9 @@ class CoupledFacility:
         c = self.config
         pod = self.seed % c.pods
         rack = pod * 8 + (self.seed * 3) % 8
+        if c.fault_rack is not None:
+            rack = c.fault_rack
+            pod = rack // c.racks_per_pod
         f = {'grid': 1.0, 'it_feed': np.ones(c.pods), 'aux_feed': np.ones(c.pods),
              'contact_r': np.ones(c.pods), 'tower': 1.0, 'primary_pump': 1.0,
              'secondary_pump': np.ones(c.pods), 'cdu': np.ones(c.pods),

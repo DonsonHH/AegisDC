@@ -64,8 +64,21 @@ class ResponseChecker:
 
 
 class ResponseTask(FixedPatrolTask):
-    def __init__(self, spec, enable_events=True, ttl=120., priority='fifo'):
+    def __init__(self, spec, enable_events=True, ttl=120., priority='fifo', extra_visit_budget=None, risk_permutation_seed=None):
         super().__init__(spec,None)
+        if extra_visit_budget is not None and (type(extra_visit_budget) is not int or extra_visit_budget < 0):
+            raise ValueError('Extra visit budget must be a nonnegative integer')
+        self.extra_visit_budget = extra_visit_budget
+        self.extra_dispatched = 0
+        self.risk_source_for_target = np.arange(len(self.tasks))
+        if risk_permutation_seed is not None:
+            rng = np.random.default_rng(risk_permutation_seed)
+            for agent in self.agents:
+                ids = np.asarray(agent['tour'])
+                if len({self.tasks[j].kind for j in ids}) != 1:
+                    raise ValueError('Risk permutation requires same-profession ownership')
+                order = rng.permutation(ids)
+                self.risk_source_for_target[order] = np.roll(order, 1)
         if priority not in ('fifo','risk','opportunity'):raise ValueError('Unknown event priority')
         self.priority=priority
         self.enable_events=enable_events
@@ -75,7 +88,16 @@ class ResponseTask(FixedPatrolTask):
         self.dispatches=[]
         self.pending_dispatch={}
         self.decisions=[]
-        self.risk_episodes.observe(self.clock,self.public_risk()[0])
+        self.observe_response_risk()
+
+    def response_risk(self):
+        return self.public_risk()[0][self.risk_source_for_target]
+
+    def observe_response_risk(self):
+        before = len(self.risk_episodes.events)
+        self.risk_episodes.observe(self.clock, self.response_risk())
+        for event in self.risk_episodes.events[before:]:
+            event['signal_source_task'] = int(self.risk_source_for_target[event['task']])
 
     def options(self,i,reserved,guard=False):
         a=self.agents[i]
@@ -87,7 +109,8 @@ class ResponseTask(FixedPatrolTask):
         return np.asarray(legal,dtype=int),np.zeros((len(legal),len(CANDIDATE_FEATURES))),np.ones(len(legal),dtype=bool)
 
     def choose(self):
-        choices={};reserved=self.reserved();risks=self.public_risk()[0]
+        choices={};reserved=self.reserved();risks=self.response_risk()
+        planned_extras = 0
         for i,a in enumerate(self.agents):
             if a['task'] is not None:continue
             head=a['tour'][self.cursor[i]]
@@ -96,7 +119,10 @@ class ResponseTask(FixedPatrolTask):
                    self.cursor[i],j,reserved),'public_risk':float(risks[j]),
                    'event_id':self.risk_episodes.pending[j]['event_id'] if j in self.risk_episodes.pending else None}
                   for j in targets]
-            legal=[r for r in rows if r['certificate']['ok']]
+            budget_available = self.extra_visit_budget is None or self.extra_dispatched + planned_extras < self.extra_visit_budget
+            for row in rows:
+                row['budget_allowed'] = row['task'] == head or budget_available
+            legal=[r for r in rows if r['certificate']['ok'] and r['budget_allowed']]
             event_choices=[r for r in legal if self.enable_events and r['event_id'] is not None]
             if self.priority=='opportunity':
                 for candidate in event_choices:
@@ -123,14 +149,19 @@ class ResponseTask(FixedPatrolTask):
             choices[i]=j
             self.decisions.append({'time_s':self.clock,'agent':i,'routine_head':head,'selected':j,'candidates':rows})
             if j is not None:
+                planned_extras += int(j != head)
                 self.pending_dispatch[i]={'time_s':self.clock,'agent':i,'task':j,'routine_head':head,
                     'extra_event_visit':j!=head,'event_id':selected['event_id'],'certificate':selected['certificate']}
                 self.dispatches.append(deepcopy(self.pending_dispatch[i]));reserved.add(j)
         return choices
 
     def step(self,choices):
+        extras = sum(j is not None and j != self.agents[i]['tour'][self.cursor[i]] for i,j in choices.items())
+        if self.extra_visit_budget is not None and self.extra_dispatched + extras > self.extra_visit_budget:
+            raise ValueError('Extra visit dispatch budget exceeded')
         before=len(self.events)
         reward=ActiveInspection.step(self,choices)
+        self.extra_dispatched += extras
         for event in self.events[before:]:
             dispatch=self.pending_dispatch.pop(event['agent'])
             if event['time_s']!=dispatch['certificate']['candidate_finish_s']:
@@ -139,7 +170,7 @@ class ResponseTask(FixedPatrolTask):
                 i=event['agent'];self.cursor[i]=(self.cursor[i]+1)%len(self.agents[i]['tour'])
             event['extra_event_visit']=dispatch['extra_event_visit']
             event['response_event_id']=dispatch['event_id']
-        self.risk_episodes.observe(self.clock,self.public_risk()[0])
+        self.observe_response_risk()
         for event in self.events[before:]:
             self.risk_episodes.complete(event)
             identity=event['response_event_id']
@@ -151,8 +182,8 @@ class ResponseTask(FixedPatrolTask):
         return reward
 
 
-def run_response(spec,enable_events=True,ttl=120.,priority='fifo'):
-    env=ResponseTask(spec,enable_events,ttl,priority);actions=[]
+def run_response(spec,enable_events=True,ttl=120.,priority='fifo',extra_visit_budget=None,risk_permutation_seed=None):
+    env=ResponseTask(spec,enable_events,ttl,priority,extra_visit_budget,risk_permutation_seed);actions=[]
     while not env.done:
         trace,env.trace=env.trace,DeniedOnlineTrace()
         try:choices=env.choose()
@@ -174,7 +205,9 @@ def run_response(spec,enable_events=True,ttl=120.,priority='fifo'):
     return {'metrics':metrics,'by_role':by_role,'anomaly_intervals':intervals,'inspection_events':env.events,
             'public_events':events,'decisions':env.decisions,'dispatches':env.dispatches,
             'action_log':actions,'action_sha256':digest(actions),'exact_task_gaps':gaps,
-            'process_sha256':env.trace.fingerprint},env
+            'process_sha256':env.trace.fingerprint,
+            'response_config':{'extra_visit_budget':extra_visit_budget,'extra_dispatched':env.extra_dispatched,
+                'risk_permutation_seed':risk_permutation_seed,'risk_source_for_target':env.risk_source_for_target.tolist()}},env
 
 
 def run_response_study(args):

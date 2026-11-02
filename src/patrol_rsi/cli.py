@@ -285,9 +285,15 @@ def main(argv=None):
     p = sub.add_parser("prioritize", help="固定事件空间内比较优先级；不调用模型")
     p.add_argument("--protocol")
     p.add_argument("--output", required=True)
+    p = sub.add_parser("validate-events", help="运行冻结的事件机制与风险信息归因验证；不调用模型")
+    p.add_argument("--protocol")
+    p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "prioritize":
+        if args.command == "validate-events":
+            from .event_validation import run_validation
+            result = run_validation(args)
+        elif args.command == "prioritize":
             from .priority_study import run_priority_study
             result = run_priority_study(args)
         elif args.command == "respond":

@@ -35,6 +35,12 @@ class FixedPatrolTask(ActiveInspection):
         self.selector, self.protected = 'risk_certified', True
         self.graph = graph_for(128, 'open')
         self.tasks = self.graph.tasks
+        self.public_risk_pulses = spec.get('public_risk_pulses', [])
+        for pulse in self.public_risk_pulses:
+            if (type(pulse['task']) is not int or not 0 <= pulse['task'] < len(self.tasks)
+                    or not 0 <= pulse['start_s'] < pulse['end_s'] <= 1800
+                    or not 0 < pulse['risk'] <= 4):
+                raise ValueError('Invalid synthetic public risk pulse')
         self.agents = build_agents(self.graph, 'provisioned')
         self.deadlines = np.asarray([DEADLINES[t.kind] for t in self.tasks])
         for agent in self.agents:
@@ -47,7 +53,7 @@ class FixedPatrolTask(ActiveInspection):
         self.initial_certificates = [p.check(5., a['position'], self.last_inspection, 0) for p, a in zip(self.plans, self.agents)]
         if not all(c['ok'] for c in self.initial_certificates):
             raise InfeasibleCoverage('Initial backlog cannot satisfy protected tour')
-        self.trace = phased_trace(spec['seed'], spec['scenario'], spec['duration_s'], spec['fault_start_s'])
+        self.trace = phased_trace(spec['seed'], spec['scenario'], spec['duration_s'], spec['fault_start_s'], spec.get('fault_rack'))
         self.config = self.trace.config
         self.mode, self.predictor = spec['estimator'], predictor
         if self.mode not in ('nominal', 'history') or self.mode == 'history' and predictor is None:
@@ -69,6 +75,16 @@ class FixedPatrolTask(ActiveInspection):
         self.certificate_evaluations, self.certificate_rejections = 0, 0
         self.detours_used = np.zeros(len(self.agents), dtype=int)
         self.baseline_completed = np.zeros(len(self.agents), dtype=int)
+
+    def public_risk(self):
+        risk, disagreement = super().public_risk()
+        if not self.public_risk_pulses:
+            return risk, disagreement
+        risk = risk.copy()
+        for pulse in self.public_risk_pulses:
+            if pulse['start_s'] <= self.clock < pulse['end_s']:
+                risk[pulse['task']] = max(risk[pulse['task']], pulse['risk'])
+        return risk, disagreement
 
     def packet(self):
         original = self.trace.packets[self.tick]

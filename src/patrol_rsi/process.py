@@ -99,10 +99,10 @@ def trace_for(racks, seed, scenario, control):
     return ProcessTrace(racks, seed, scenario, control)
 
 class PhasedTrace(ProcessTrace):
-    def __init__(self, seed, scenario, duration, start):
+    def __init__(self, seed, scenario, duration, start, fault_rack=None):
         if duration not in (60, 180, 900) or start not in (150, 335, 520, 705):
             raise ValueError('Frozen injection duration and phase required')
-        self.config = FacilityConfig(fault_start_s=start, fault_end_s=start + duration)
+        self.config = FacilityConfig(fault_start_s=start, fault_end_s=start + duration, fault_rack=fault_rack)
         self.seed, self.scenario, self.control = seed, scenario, 'feedback'
         plant = CompositeFacility(self.config, seed, scenario, 'feedback')
         keys = ('rack_temperature_c', 'secondary_supply_c', 'primary_supply_c',
@@ -133,5 +133,5 @@ class PhasedTrace(ProcessTrace):
             'unserved_IT_kwh': sum(r[1] for r in scalar) * 5 / 3600}
 
 @lru_cache(maxsize=32)
-def phased_trace(seed, scenario, duration, start):
-    return PhasedTrace(seed, scenario, duration, start)
+def phased_trace(seed, scenario, duration, start, fault_rack=None):
+    return PhasedTrace(seed, scenario, duration, start, fault_rack)
