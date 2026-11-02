@@ -3,88 +3,191 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="受约束事件确认机制的四屏导师汇报。图表与讲稿内嵌，可离线展示。">
-<title>受约束事件确认 · 导师讨论</title>
+<meta name="description" content="从模拟机房场景开始的五屏导师进度汇报。原始数据图、简化架构与讲稿均可离线展示。">
+<title>数据中心巡检研究进展 · 五屏导师汇报</title>
 <style>
-:root{color-scheme:light;--ink:#182630;--muted:#566575;--blue:#2365a8;--teal:#126b62;--red:#ae3345;--line:#d8dee2;--paper:#fff;--wash:#f4f6f8;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:disabled{cursor:default;opacity:.35}a{color:var(--blue);text-underline-offset:3px}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #b46c0d;outline-offset:4px}button{color:inherit;background:transparent;border:1px solid var(--line);border-radius:5px;padding:7px 12px}button:hover:not(:disabled){background:var(--wash)}button[aria-pressed="true"]{border-color:var(--blue);color:var(--blue)}
-.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;max-width:1660px;margin:auto;padding:16px 42px 10px;font-size:14px;color:var(--muted)}.topbar strong{font-weight:600;color:var(--ink)}.topbar span:last-child{white-space:nowrap}
-main{max-width:1660px;margin:auto}.slide{display:none;min-height:calc(100svh - 110px);padding:18px 42px 48px}.slide.is-active{display:block}.slide h1{font-size:clamp(30px,2.7vw,44px);font-weight:650;letter-spacing:-.04em;line-height:1.32;margin:6px 0 15px}.slide h2{font-size:clamp(22px,1.8vw,29px);line-height:1.5;margin:0 0 16px}.lead{font-size:clamp(20px,1.65vw,26px);line-height:1.65;margin:0 0 20px;max-width:1300px}.muted{color:var(--muted)}.small{font-size:15px;line-height:1.6}.source{font-size:13px;color:var(--muted);margin-top:16px}.scope{font-size:16px;line-height:1.6;color:var(--muted)}.blue{color:var(--blue)}.teal{color:var(--teal)}.red{color:var(--red)}
-.method{display:grid;grid-template-columns:1fr 2fr;align-items:center;gap:38px;margin-top:20px}.steps{list-style:none;margin:0;padding:0;counter-reset:step}.steps li{counter-increment:step;font-size:clamp(20px,1.7vw,27px);line-height:1.6;margin:0 0 25px;padding-left:42px;position:relative}.steps li:before{content:counter(step);position:absolute;left:0;top:2px;color:var(--blue);font-size:19px;font-weight:700}.steps strong{display:block;font-weight:650}.steps span{display:block;color:var(--muted);font-size:.76em}.takeaway{margin:24px 0 0;padding-top:18px;border-top:2px solid var(--ink);font-size:clamp(23px,2vw,31px);line-height:1.5;font-weight:600}.takeaway small{display:block;color:var(--muted);font-size:16px;font-weight:400;margin-top:8px}
-figure{margin:0}figure img{width:100%;height:auto;display:block}.figure-button{display:block;width:100%;padding:0;border:0;border-radius:0;background:white;cursor:zoom-in}.figure-button:hover:not(:disabled){background:white}.figure-button:focus-visible{outline-offset:5px}figcaption{font-size:14px;line-height:1.6;color:var(--muted);margin:7px 0 0}
-.results{display:grid;grid-template-columns:1.7fr 1fr;gap:55px;align-items:start;margin-top:26px}table{border-collapse:collapse;width:100%;font-size:clamp(20px,1.6vw,26px);line-height:1.55}th,td{text-align:left;padding:19px 12px;border-bottom:1px solid var(--line)}th{font-size:16px;color:var(--muted);font-weight:500;padding-top:0}td strong{font-size:clamp(30px,3vw,46px);font-weight:650;white-space:nowrap}tbody tr:first-child td{border-top:2px solid var(--ink)}tr.featured td{color:var(--blue)}.denominator{font-size:20px;color:var(--muted);font-weight:400}.costs{margin:0;display:grid;gap:21px;padding-top:5px}.costs div{border-bottom:1px solid var(--line);padding-bottom:16px}.costs dt{font-size:17px;color:var(--muted);margin-bottom:3px}.costs dd{margin:0;font-size:clamp(29px,3vw,44px);font-weight:600}.costs dd small{font-size:17px;font-weight:400}.result-bottom{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-top:25px}.result-bottom p{font-size:clamp(22px,1.8vw,28px);margin:0;line-height:1.6}.text-button{border:0;border-bottom:1px solid var(--blue);border-radius:0;padding:4px 0;font-size:16px;color:var(--blue);white-space:nowrap}.result-detail{font-size:17px;color:var(--muted);line-height:1.6;margin-top:14px}
-.case{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,1fr);gap:34px;align-items:start;margin-top:10px}.case figure{max-width:100%;}.case figure img{max-height:58svh;object-fit:contain;object-position:left top}.case-facts{padding-top:10px}.case-facts section{border-top:2px solid var(--ink);padding-top:13px;margin-bottom:25px}.case-facts h2{margin-bottom:5px}.case-facts p{font-size:19px;line-height:1.7;margin:4px 0}.times{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}.times span{font-size:16px;color:var(--muted)}.times strong{display:block;font-size:clamp(29px,2.6vw,41px);font-weight:650}.times em{display:block;font-size:17px;font-style:normal;margin-top:3px}.case-conclusion{font-size:21px;line-height:1.65;margin:0;padding-top:14px;border-top:1px solid var(--line)}
-.search{display:grid;grid-template-columns:1.1fr 1fr;gap:65px;margin:25px 0}.search .comparison{margin:18px 0 20px;display:grid;grid-template-columns:1fr 1fr;gap:22px}.comparison div{border-bottom:1px solid var(--line);padding-bottom:18px}.comparison strong{display:block;font-size:clamp(34px,4vw,59px);font-weight:650;line-height:1.35}.comparison span{display:block;color:var(--muted);font-size:18px;margin-bottom:5px}.comparison small{font-size:18px;font-weight:400}.search p{font-size:20px;line-height:1.65;margin:10px 0}.completed{margin:0;padding-left:24px;font-size:21px;line-height:1.8}.completed li{padding-left:5px;margin-bottom:8px}.discussion{padding-top:21px;border-top:2px solid var(--ink);margin-top:14px;font-size:clamp(23px,2.1vw,32px);line-height:1.65;font-weight:600}.discussion small{display:block;font-size:17px;color:var(--muted);font-weight:400;margin-top:8px}
-.toolbar{position:fixed;inset:auto 0 0;background:rgba(255,255,255,.97);border-top:1px solid var(--line);z-index:5;display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 35px;font-size:14px}.toolbar-group{display:flex;align-items:center;gap:9px}.toolbar .page{min-width:42px;text-align:center;font-variant-numeric:tabular-nums}.toolbar .help{color:var(--muted);font-size:13px}.toolbar .time{color:var(--muted);min-width:100px}.page-nav button{min-width:35px;padding:6px 9px;border:0}.page-nav button[aria-current="step"]{background:var(--ink);color:white}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-dialog{border:0;border-radius:7px;box-shadow:0 24px 90px #14243340;color:var(--ink);background:white;padding:0;width:min(890px,94vw);max-height:90svh}dialog::backdrop{background:#152634b0}.dialog-head{position:sticky;top:0;background:white;display:flex;gap:18px;justify-content:space-between;align-items:center;padding:18px 25px;border-bottom:1px solid var(--line);z-index:2}.dialog-head h2{font-size:22px;margin:0}.dialog-body{padding:8px 27px 30px;font-size:18px;line-height:1.8}.dialog-body h3{margin:22px 0 6px;font-size:21px}.dialog-body p{margin:12px 0}.dialog-body ul{padding-left:23px}.dialog-body details{border-bottom:1px solid var(--line);padding:15px 0}.dialog-body summary{cursor:pointer;font-size:19px;font-weight:600}.dialog-body pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.notes-section{display:none}.notes-section.is-active{display:block}#figure-dialog{width:96vw;max-height:96svh}#figure-dialog .dialog-head{padding:12px 20px}.figure-viewport{max-height:80svh;overflow:auto;text-align:center;padding:16px}.figure-viewport img{display:block;max-width:100%;max-height:74svh;width:auto;height:auto;margin:auto}.figure-viewport.is-zoomed img{max-width:none;max-height:none;width:auto;height:auto}#figure-caption{padding:0 22px 14px;font-size:15px;color:var(--muted);line-height:1.6}
-@media(min-width:1001px) and (max-height:850px){.topbar{padding-top:10px}.slide{padding-top:8px}.slide h1{font-size:32px;margin:0 0 12px}.lead{font-size:20px;line-height:1.55;margin-bottom:12px}.method{margin-top:12px;gap:25px}.method figure img{max-height:45svh;object-fit:contain;object-position:left center}.steps li{font-size:21px;line-height:1.5;margin-bottom:18px}.takeaway{font-size:24px;margin-top:16px;padding-top:13px}.takeaway small{font-size:14px}.source{margin-top:10px}.results{margin-top:18px;gap:38px}th,td{padding:14px 10px}th{padding-top:0}.costs{gap:14px}.costs div{padding-bottom:10px}.costs dd{font-size:37px}.result-bottom{margin-top:18px}.result-bottom p{font-size:23px}.result-detail{font-size:15px;margin-top:10px}.case figure img{max-height:63svh}.case-facts{padding-top:0}.case-facts h2{font-size:24px}.case-facts p{font-size:17px}.case-facts section{margin-bottom:17px;padding-top:9px}.times{margin-top:8px}.times strong{font-size:31px}.times em{font-size:15px}.case-conclusion{font-size:18px}.search{margin-top:15px;gap:40px}.search h2{font-size:25px}.search p{font-size:18px}.completed{font-size:18px}.search .comparison{margin-top:10px}.comparison strong{font-size:46px}.discussion{font-size:25px;padding-top:15px}.discussion small{font-size:15px}}
-@media(max-width:1000px){.topbar{padding:14px 24px 4px}.slide{padding:16px 24px 90px}.method{grid-template-columns:1fr 1.7fr;gap:24px}.results{gap:25px}.case{grid-template-columns:minmax(0,1.2fr) minmax(280px,1fr);gap:22px}.case-facts p{font-size:17px}.search{gap:28px}.toolbar{padding:9px 20px}.toolbar .help{display:none}}
-@media(max-width:720px){.topbar{font-size:12px;padding:12px 18px 4px}.slide{padding:14px 18px 130px;min-height:100svh}.slide h1{font-size:29px}.lead{font-size:19px}.method,.results,.case,.search{grid-template-columns:1fr;gap:20px}.method{margin-top:15px}.steps{display:grid;grid-template-columns:1fr;gap:10px}.steps li{font-size:20px;margin-bottom:8px}.method figure{margin-top:5px}.takeaway{font-size:23px}.costs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}.costs dt{font-size:13px}.costs dd{font-size:26px}.costs dd small{display:block;font-size:12px}.result-bottom{display:block}.result-bottom button{margin-top:12px}.case figure img{max-height:none}.case-facts{padding-top:0}.times strong{font-size:33px}.search{margin-top:20px}.search .comparison strong{font-size:40px}.toolbar{flex-wrap:wrap;justify-content:center;gap:6px;padding:8px 12px}.toolbar-group{gap:6px}.toolbar .time{display:none}.toolbar button{font-size:12px}.toolbar .page-nav{display:none}.dialog-body{font-size:17px;padding:6px 19px 25px}.dialog-head{padding:14px 19px}.dialog-head h2{font-size:19px}.figure-viewport{padding:5px}.discussion{font-size:24px}}
-@media print{.topbar,.toolbar,dialog,.text-button{display:none!important}.slide,.slide.is-active{display:block;min-height:0;padding:15mm 10mm;break-after:page;page-break-after:always}.slide:last-child{break-after:auto}.slide h1{font-size:27px}.lead{font-size:17px}.steps li{font-size:19px}.method{grid-template-columns:1fr 2fr}.results,.case,.search{grid-template-columns:1.5fr 1fr;gap:25px}td strong{font-size:30px}.takeaway,.discussion{font-size:21px}table{font-size:18px}.costs dd{font-size:27px}.case figure img{max-height:none}.case-facts h2{font-size:20px}.case-facts p,.search p,.completed{font-size:16px}.comparison strong{font-size:35px!important}.source,.scope{font-size:11px}@page{size:A4 landscape;margin:0}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+:root {
+  color-scheme:light; --ink:#172d3b; --muted:#526675; --blue:#2369a5;
+  --teal:#147469; --red:#b63f50; --line:#dce4e9; --wash:#f4f7f9;
+  --visual-height:clamp(300px,48svh,550px);
+  font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:white}
+button{font:inherit;cursor:pointer;background:transparent;color:inherit;border:1px solid var(--line);border-radius:5px;padding:7px 12px}
+button:disabled{opacity:.35;cursor:default}
+button:hover:not(:disabled){background:var(--wash)}
+a{color:var(--blue);text-underline-offset:3px}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #ac701b;outline-offset:4px}
+.topbar{max-width:1880px;margin:auto;padding:15px 42px 8px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:15px}
+.topbar strong{font-weight:500;color:var(--ink)}
+main{max-width:1880px;margin:auto}
+.slide{display:none;min-height:calc(100svh - 100px);padding:12px 42px 55px}
+.slide.is-active{display:block}
+h1{font-size:clamp(32px,2.55vw,49px);line-height:1.4;letter-spacing:-.035em;font-weight:650;margin:2px 0 12px}
+.lead{font-size:clamp(19px,1.45vw,27px);line-height:1.65;margin:0 0 17px;color:var(--muted)}
+.visual-pair{display:grid;grid-template-rows:minmax(0,1fr);align-items:stretch;gap:30px;height:var(--visual-height)}
+.scene-pair{grid-template-columns:.88fr 1.3fr}
+.result-pair{grid-template-columns:1.7fr 1fr}
+.case-pair{grid-template-columns:1fr 1fr;gap:27px}
+.visual-single{height:var(--visual-height)}
+figure{margin:0;height:100%;min-width:0;min-height:0}
+.native-figure{display:block;width:100%;height:100%;min-height:0;padding:0;border:0;border-radius:0;background:white;cursor:zoom-in;line-height:0}
+.native-figure:hover:not(:disabled){background:white}
+.native-figure svg{display:block;width:100%;height:100%}
+.takeaway{font-size:clamp(23px,1.85vw,34px);line-height:1.55;font-weight:600;border-top:2px solid var(--ink);padding-top:15px;margin:16px 0 0}
+.takeaway small{display:block;color:var(--muted);font-size:clamp(16px,1.14vw,21px);line-height:1.55;font-weight:400;margin-top:5px}
+.source-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:13px;color:var(--muted);font-size:14px;line-height:1.6}
+.source-row p{margin:0}
+.text-button{padding:2px 0;border:0;border-bottom:1px solid var(--blue);border-radius:0;color:var(--blue);font-size:15px;white-space:nowrap}
+.cost-strip{display:flex;gap:30px;justify-content:space-between;border-top:2px solid var(--ink);padding-top:13px;margin-top:13px;font-size:clamp(19px,1.55vw,29px);line-height:1.6}
+.cost-strip strong{font-weight:650}.teal{color:var(--teal)}.red{color:var(--red)}
+.completion-figure{height:clamp(124px,14svh,160px);margin:20px 0 12px}
+.negative{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:30px;border-top:1px solid var(--line);padding-top:10px}
+.negative figure{height:clamp(165px,19svh,215px)}
+.negative h2{font-size:clamp(22px,1.72vw,32px);line-height:1.5;margin:0 0 8px;font-weight:600}
+.negative p{font-size:clamp(17px,1.25vw,23px);line-height:1.65;margin:0;color:var(--muted)}
+.feedback-scope{font-size:clamp(16px,1.14vw,21px);line-height:1.6;margin:8px 0 0;color:var(--muted)}
+.discussion{border-top:2px solid var(--ink);padding-top:13px;margin:15px 0 0;list-style:none;counter-reset:questions}
+.discussion li{font-size:clamp(23px,1.85vw,35px);line-height:1.55;margin:6px 0;counter-increment:questions;font-weight:600}
+.discussion li::before{content:counter(questions)'. ';color:var(--blue)}
+.toolbar{position:fixed;inset:auto 0 0;z-index:5;background:rgba(255,255,255,.98);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 30px;font-size:14px}
+.toolbar-group{display:flex;gap:8px;align-items:center}
+.page{min-width:42px;text-align:center;font-variant-numeric:tabular-nums}
+.time{color:var(--muted);min-width:82px}
+.page-nav button{border:0;padding:6px 9px}
+.page-nav button[aria-current="step"]{background:var(--ink);color:white}
+.help{color:var(--muted);font-size:12px}
+dialog{border:0;padding:0;border-radius:7px;width:min(900px,94vw);max-height:90svh;color:var(--ink);box-shadow:0 24px 90px #14243340}
+dialog::backdrop{background:#152634b0}
+.dialog-head{position:sticky;top:0;z-index:2;background:white;border-bottom:1px solid var(--line);padding:18px 25px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.dialog-head h2{font-size:22px;margin:0}
+.dialog-body{padding:8px 27px 28px;font-size:18px;line-height:1.8}
+.dialog-body h3{font-size:21px;margin:20px 0 7px}
+.dialog-body p{margin:12px 0}
+.dialog-body ul{padding-left:24px}
+.dialog-body details{padding:15px 0;border-bottom:1px solid var(--line)}
+.dialog-body summary{cursor:pointer;font-size:19px;font-weight:600}
+.notes-section{display:none}.notes-section.is-active{display:block}
+.small{font-size:14px;color:var(--muted)}
+#figure-dialog{width:96vw;max-height:96svh}
+#figure-dialog .dialog-head{padding:12px 20px}
+.figure-viewport{max-height:80svh;padding:14px;overflow:auto;text-align:center}
+.figure-viewport img{display:block;max-width:100%;max-height:74svh;width:auto;height:auto;margin:auto}
+.figure-viewport.is-zoomed img{max-width:none;max-height:none;width:auto;height:auto}
+#figure-caption{padding:0 22px 14px;font-size:15px;color:var(--muted);line-height:1.65}
+@media(min-width:1001px) and (max-height:850px){
+  .topbar{padding-top:10px;padding-bottom:4px;font-size:14px}
+  .slide{padding-top:8px;padding-bottom:48px}
+  h1{font-size:32px;margin-bottom:10px}
+  .lead{font-size:19px;line-height:1.55;margin-bottom:10px}
+  .takeaway{font-size:24px;margin-top:12px;padding-top:11px}
+  .takeaway small{font-size:16px}
+  .cost-strip{font-size:20px;gap:20px;padding-top:11px;margin-top:10px}
+  .source-row{font-size:13px;margin-top:10px}
+  .completion-figure{margin-top:14px;margin-bottom:8px;height:124px}
+  .negative{gap:22px;padding-top:8px}
+  .negative h2{font-size:23px}.negative p{font-size:17px}
+  .negative figure{height:165px}.feedback-scope{font-size:16px;margin-top:6px}
+  .discussion{margin-top:11px;padding-top:9px}.discussion li{font-size:24px}
+}
+@media(max-width:1150px){.help,.time{display:none}.toolbar{padding-left:18px;padding-right:18px}.toolbar-group{gap:6px}.page-nav button{padding:6px}}
+@media(max-width:1000px){
+  :root{--visual-height:clamp(260px,40svh,440px)}
+  .topbar{padding:14px 24px 5px}.slide{padding:12px 24px 100px}
+  .visual-pair{gap:18px}.toolbar .page-nav{display:none}
+  .cost-strip{flex-wrap:wrap;justify-content:start;gap:6px 25px}
+  .negative{grid-template-columns:1fr 1fr;gap:16px}
+}
+@media(max-width:720px){
+  .topbar{font-size:12px;padding:12px 18px 5px}.slide{padding:12px 18px 135px;min-height:100svh}
+  h1{font-size:28px}.lead{font-size:18px}
+  .visual-pair{height:auto;grid-template-columns:1fr;gap:18px}
+  .scene-pair figure{height:310px}.scene-pair figure:last-child{height:270px}
+  .result-pair figure{height:300px}.result-pair figure:last-child{height:360px}
+  .case-pair figure{height:280px}.visual-single{height:300px}
+  .takeaway{font-size:22px}.takeaway small{font-size:15px}
+  .source-row{align-items:start;flex-direction:column;gap:6px;font-size:12px}
+  .text-button{font-size:14px}.cost-strip{font-size:19px}
+  .completion-figure{height:155px;overflow:auto}.completion-figure button{min-width:720px}
+  .negative{grid-template-columns:1fr;gap:8px}.negative h2{font-size:22px}.negative p{font-size:17px}
+  .negative figure{height:115px}.feedback-scope{font-size:16px}
+  .discussion li{font-size:23px}.toolbar{justify-content:center;flex-wrap:wrap;gap:6px;padding:8px 12px}
+  .toolbar button{font-size:12px}.dialog-head{padding:14px 18px}.dialog-head h2{font-size:19px}
+  .dialog-body{padding:6px 19px 25px;font-size:17px}
+}
+@media print{
+  .toolbar,.topbar,dialog,.text-button{display:none!important}
+  .slide,.slide.is-active{display:block;min-height:0;break-after:page;padding:10mm 9mm}
+  .slide:last-child{break-after:auto}.visual-pair,.visual-single{height:105mm}
+  h1{font-size:27px}.lead{font-size:17px}.takeaway{font-size:20px}.cost-strip{font-size:18px}
+  .source-row{font-size:11px}.completion-figure{height:27mm}.negative figure{height:35mm}
+  .negative h2{font-size:22px}.negative p,.feedback-scope{font-size:15px}.discussion li{font-size:22px}
+  @page{size:A4 landscape;margin:0}
+}
 </style>
 </head>
 <body>
-<header class="topbar"><strong>受约束事件确认</strong><span>导师讨论版　约5分钟</span></header>
-<main aria-label="四屏汇报">
-<section class="slide is-active" id="screen-1" aria-labelledby="title-1" data-duration="1分钟">
-<h1 id="title-1" tabindex="-1">风险提示后的专业确认</h1>
-<p class="lead">例行检查满足最大间隔，仍可能错过两次访问之间的短时异常。<br>新风险出现后，系统增加一次受约束的确认检查。</p>
-<div class="method">
-<ol class="steps">
-<li><strong>例行巡回继续保留</strong><span>完成额外检查后，继续原有例行义务</span></li>
-<li><strong>新风险单独建账</strong><span>公开线索形成待确认的专业任务</span></li>
-<li><strong>检查通过才插入访问</strong><span>资格、所属、预约、预算与返回可行性</span></li>
-</ol>
-<figure><button class="figure-button" data-figure="framework" aria-label="放大机制图"><img src="{{FIGURE_FRAMEWORK}}" alt="论文图1：公开观测形成两类义务，经执行约束选择FIFO检查，测量更新公开信息，隐藏过程只用于事后评价"></button><figcaption>论文图1。在线选择使用公开信息，隐藏状态只用于事后评价。点击可放大。</figcaption></figure>
+<header class="topbar"><strong>模拟数据中心巡检：研究进展</strong><span>导师讨论版　5屏，约5分钟</span></header>
+<main aria-label="五屏导师汇报">
+<section class="slide is-active" id="screen-1" aria-labelledby="title-1" data-duration="45秒">
+<h1 id="title-1" tabindex="-1">按时巡检，也会漏掉两次检查之间的短时异常</h1>
+<p class="lead">先看我搭建的模拟机房，再看其中一台机柜的封存仿真记录。</p>
+<div class="visual-pair scene-pair">
+<figure><button class="native-figure" data-native aria-label="放大模拟机房结构图">{{SCENE_SVG}}</button></figure>
+<figure><button class="native-figure" data-native aria-label="放大两次检查之间的漏检时间轴">{{GAP_SVG}}</button></figure>
 </div>
-<p class="takeaway">返回证书：临时加查以后，后面的例行检查还来得及吗？<small>条件性保证使用确定的行程与服务时间。当前合法事件按出现时间优先处理，即FIFO。</small></p>
-<p class="source">来源：正文4.2—4.5</p>
+<p class="takeaway">研究问题：出现线索时，能不能及时多查一次？</p>
+<div class="source-row"><p>封存仿真p02-coupled，机柜17。灰区来自事后异常评价，图示未新增实验。</p><span>点击主图可放大</span></div>
 </section>
-<section class="slide" id="screen-2" aria-labelledby="title-2" data-duration="1分30秒" hidden>
-<h1 id="title-2" tabindex="-1">更多异常确认，以及对应的执行成本</h1>
-<p class="lead">{{PROCESSES}}个预定合成热—冷耦合过程，共{{SEGMENTS}}段评价异常</p>
-<div class="results">
-<table aria-label="主机制比较"><thead><tr><th scope="col">方法</th><th scope="col">确认／异常段</th><th scope="col">汇总确认比例</th></tr></thead><tbody>
-<tr><td>固定巡回 Tour</td><td><strong>{{TOUR}}</strong><span class="denominator"> / {{SEGMENTS}}</span></td><td>{{TOUR_PCT}}%</td></tr>
-<tr class="featured"><td>事件响应 FIFO</td><td><strong>{{FIFO}}</strong><span class="denominator"> / {{SEGMENTS}}</span></td><td>{{FIFO_PCT}}%</td></tr>
-<tr><td>同专业风险位置打乱</td><td><strong>{{SHUFFLED}}</strong><span class="denominator"> / {{SEGMENTS}}</span></td><td>{{SHUFFLED_PCT}}%</td></tr>
-</tbody></table>
-<dl class="costs"><div><dt>相对Tour，每过程平均移动</dt><dd>+{{TRAVEL_PCT}}%</dd></div><div><dt>每过程平均完成检查量</dt><dd>−{{COMPLETION_LOSS_PCT}}%</dd></div><div><dt>资格、预约、完整重访违规</dt><dd>0 <small>成功运行审计</small></dd></div></dl>
+<section class="slide" id="screen-2" aria-labelledby="title-2" data-duration="1分钟" hidden>
+<h1 id="title-2" tabindex="-1">我在原来的巡回中，加入了受约束的临时加查</h1>
+<p class="lead">风险提示是当时可见的遥测与已有检查信息，用来提出“去确认一下”的请求。</p>
+<div class="visual-single"><figure><button class="native-figure" data-native aria-label="放大原巡回与新事件响应的执行架构">{{ARCHITECTURE_SVG}}</button></figure></div>
+<p class="takeaway">“返回证书”就是一次核算：加查后，原任务还来不来得及？<small>使用既定路程与服务耗时核算，资格、所属和访问预算继续受约束。</small></p>
+<div class="source-row"><p>来源：正文4.2—4.5。简图展示实际执行逻辑，完整架构包含公开信息与事后评价的边界。</p><button class="text-button" data-figure="framework">查看论文完整架构图</button></div>
+</section>
+<section class="slide" id="screen-3" aria-labelledby="title-3" data-duration="1分05秒" hidden>
+<h1 id="title-3" tabindex="-1">新机制把确认量从{{TOUR}}段提高到了{{FIFO}}段</h1>
+<p class="lead"><strong>{{PROCESSES}}个独立过程</strong>是不同种子的模拟场景。<strong>{{SEGMENTS}}段异常</strong>是其中各设备连续异常的时间片段。</p>
+<div class="visual-pair result-pair">
+<figure><button class="native-figure" data-native aria-label="放大三种方法的总确认量柱状图">{{RESULTS_SVG}}</button></figure>
+<figure><button class="native-figure" data-native aria-label="放大12个独立过程的净增图">{{PAIRS_SVG}}</button></figure>
 </div>
-<div class="result-bottom"><p><span class="teal">新增{{GAINED}}段</span>，<span class="red">丢失{{LOST}}段</span>，净增<strong>{{NET}}段</strong><br><span class="small muted">{{POSITIVE}}个过程净收益为正，{{ZERO}}个为零</span></p><button class="text-button" data-figure="paired">查看12个过程的损益图</button></div>
-<p class="result-detail">平均每过程净增{{MEAN_NET}}段，探索性95%自举区间 [{{CI_LOWER}}, {{CI_UPPER}}]。结论范围为所测试的合成过程。</p>
-<p class="source">来源：正文6.3—6.4，配对统计与运行审计</p>
+<div class="cost-strip"><span><strong class="teal">新增{{GAINED}}</strong>，<strong class="red">丢失{{LOST}}</strong>，净增{{NET}}段</span><span>移动 <strong>+{{TRAVEL_PCT}}%</strong></span><span>完成量 <strong>−{{COMPLETION_LOSS_PCT}}%</strong></span><span>相关违规 <strong>0</strong></span></div>
+<div class="source-row"><p>确认＝异常期间，有资格的人完成检查并测到异常。违规项为资格、预约与完整重访；成本为每过程均值相对Tour。结论限于这些合成过程。</p><button class="text-button" data-figure="paired">查看论文完整损益图</button></div>
 </section>
-<section class="slide" id="screen-3" aria-labelledby="title-3" data-duration="1分钟" hidden>
-<h1 id="title-3" tabindex="-1">同一巡检员的新增确认与丢失确认</h1>
-<p class="scope">同一主过程p02-coupled，同一负责人agent 1。两组均在605秒完成任务11。</p>
-<div class="case">
-<figure><button class="figure-button" data-figure="timeline" aria-label="放大完整运行时间线"><img src="{{FIGURE_TIMELINE}}" alt="论文图3：同一巡检员的任务完成链，机柜17新增确认，机柜21丢失确认"></button><figcaption>灰区为事后异常窗口。圆点为异常测量，叉号为正常测量。点击查看大图及原尺寸。</figcaption></figure>
-<div class="case-facts">
-<section><h2>机柜17 <span class="teal">新增确认</span></h2><p>异常窗口 {{T17_ONSET}}—{{T17_END}}秒</p><div class="times"><div><span>固定巡回 Tour</span><strong>{{T17_TOUR}}秒</strong><em>异常尚未出现</em></div><div><span>事件响应 FIFO</span><strong class="teal">{{T17_FIFO}}秒</strong><em>例行访问确认异常</em></div></div></section>
-<section><h2>机柜21 <span class="red">丢失确认</span></h2><p>异常窗口 {{T21_ONSET}}—{{T21_END}}秒</p><div class="times"><div><span>固定巡回 Tour</span><strong>{{T21_TOUR}}秒</strong><em>确认异常</em></div><div><span>事件响应 FIFO</span><strong class="red">{{T21_FIFO}}秒</strong><em>异常已经结束</em></div></div></section>
-<p class="case-conclusion">检查相位改变后，有的访问赶上异常，有的会错过。最大重访约束与短时异常确认需要分别评价。</p>
-</div></div>
-<p class="source">来源：正文6.6及原始轨迹。这是两条完整策略轨迹的回溯比较，不能单独归因于一次插入。</p>
+<section class="slide" id="screen-4" aria-labelledby="title-4" data-duration="1分15秒" hidden>
+<h1 id="title-4" tabindex="-1">后续检查时间变了，就会有的赶上、有的错过</h1>
+<p class="lead">同一封存过程p02-coupled，同一巡检员（编号1），比较两条完整策略轨迹。</p>
+<div class="visual-pair case-pair">
+<figure><button class="native-figure" data-native aria-label="放大机柜17新增确认的时间线">{{TIMELINE17_SVG}}</button></figure>
+<figure><button class="native-figure" data-native aria-label="放大机柜21丢失确认的时间线">{{TIMELINE21_SVG}}</button></figure>
+</div>
+<p class="takeaway">17号在665秒已派出例行检查，685秒才出现风险提示。<small>新增确认来自例行访问时间改变。这里不能把全部差异单独归因于某一次加查。</small></p>
+<div class="source-row"><p>来源：正文6.6与同一负责人的封存轨迹。灰区为事后异常窗口，标记均为实际记录时间。</p><button class="text-button" data-figure="timeline">查看论文完整运行时间线</button></div>
 </section>
-<section class="slide" id="screen-4" aria-labelledby="title-4" data-duration="1分30秒" hidden>
-<h1 id="title-4" tabindex="-1">搜索负结果与当前论文定位</h1>
-<div class="search"><div><h2>{{RULES}}条不同响应／暂缓规则，均未超过FIFO</h2><div class="comparison"><div><span>登记规则的确认量</span><strong>{{RULE_MIN}}—{{RULE_MAX}}<small> / {{SEGMENTS}}</small></strong></div><div><span>保留的FIFO基线</span><strong class="blue">{{FIFO}}<small> / {{SEGMENTS}}</small></strong></div></div><p>{{SEARCH_EVALUATIONS}}次开发评价，复用同一组{{PROCESSES}}个已见过程。规则已改变实际动作，按登记门槛停止搜索。</p><p class="muted">模型组与新确认未执行，反馈的独立收益留待后续研究。</p></div>
-<div><h2>已整理为机制论文讨论稿</h2><ul class="completed"><li>两类义务的执行机制与明确顺序</li><li>返回证书与条件性可行性保持命题</li><li>主实验、同一负责人案例及搜索负结果</li><li>模型方程、参数附录与可复核原件</li></ul><p class="scope">贡献定位：专业确认任务的具体执行契约及验证。双任务与后备可行性已有近邻，R9全文约束差异仍待核验。</p></div></div>
-<p class="discussion">这个任务特定的机制，是否值得独立形成一篇论文？<br>最需要补哪项直接比较或文献差异分析？<small>讨论确定后，再安排英文稿、目标刊会及后续反馈研究。</small></p>
-<p class="source">来源：正文第5章、6.7、7.4及一页导师讨论摘要</p>
+<section class="slide" id="screen-5" aria-labelledby="title-5" data-duration="55秒" hidden>
+<h1 id="title-5" tabindex="-1">四项成果已整理好，下一步请导师判断论文定位</h1>
+<figure class="completion-figure"><button class="native-figure" data-native aria-label="放大已完成的四项研究成果">{{COMPLETED_SVG}}</button></figure>
+<div class="negative">
+<figure><button class="native-figure" data-native aria-label="放大9条登记规则与FIFO的比较图">{{RULES_SVG}}</button></figure>
+<div><h2>{{RULES}}条“现在查／稍后查”规则，均未超过FIFO</h2><p>确认{{RULE_MIN}}—{{RULE_MAX}}段，对比FIFO的{{FIFO}}段。<br>这是有限开发负结果，不代表整个规则空间无解。</p></div>
+</div>
+<p class="feedback-scope">模型反馈与自改进（RSI：根据执行经验反复改规则）的独立收益尚未证明。</p>
+<ol class="discussion" aria-label="请导师决定的两个问题"><li>当前机制能否独立成稿？</li><li>如果需要补强，最关键的直接比较是什么？</li></ol>
+<div class="source-row"><p>来源：主文、附录与同权限搜索。{{SEARCH_EVALUATIONS}}次开发评价复用{{PROCESSES}}个已见过程；模型组和新确认未执行。</p><span>当前为导师讨论稿</span></div>
 </section>
 </main>
 <nav class="toolbar" aria-label="汇报控制">
-<div class="toolbar-group"><button id="previous" aria-label="上一屏">上一屏</button><span id="page-status" class="page" aria-live="polite">1 / 4</span><button id="next" aria-label="下一屏">下一屏</button><span id="duration" class="time">本屏1分钟</span></div>
-<div class="toolbar-group page-nav" aria-label="直接选择画面"><button data-screen="1" aria-current="step">1 问题</button><button data-screen="2">2 结果</button><button data-screen="3">3 案例</button><button data-screen="4">4 讨论</button></div>
+<div class="toolbar-group"><button id="previous" aria-label="上一屏">上一屏</button><span id="page-status" class="page" aria-live="polite">1 / 5</span><button id="next" aria-label="下一屏">下一屏</button><span id="duration" class="time">本屏45秒</span></div>
+<div class="toolbar-group page-nav" aria-label="直接选择画面"><button data-screen="1" aria-current="step">1 场景</button><button data-screen="2">2 机制</button><button data-screen="3">3 结果</button><button data-screen="4">4 案例</button><button data-screen="5">5 讨论</button></div>
 <div class="toolbar-group"><span class="help">方向键切屏</span><button id="notes-button" aria-haspopup="dialog" aria-controls="notes-dialog">讲稿 N</button><button id="materials-button" aria-haspopup="dialog" aria-controls="materials-dialog">追问／材料 Q</button><button id="fullscreen">全屏</button></div>
 </nav>
 <dialog id="notes-dialog" aria-labelledby="notes-title"><div class="dialog-head"><h2 id="notes-title">当前屏讲稿</h2><button data-close aria-label="关闭讲稿">关闭</button></div><div class="dialog-body">{{NOTES}}</div></dialog>
-<dialog id="materials-dialog" aria-labelledby="materials-title"><div class="dialog-head"><h2 id="materials-title">追问准备与阅读材料</h2><button data-close aria-label="关闭材料">关闭</button></div><div class="dialog-body">{{FAQ}}<h3>会后阅读</h3><ul><li><a href="{{SOURCE_BASE}}/paper/supervisor-brief.md" target="_blank" rel="noopener noreferrer">一页导师讨论摘要</a></li><li><a href="{{SOURCE_BASE}}/paper/manuscript_zh.md" target="_blank" rel="noopener noreferrer">完整论文正文</a></li><li><a href="{{SOURCE_BASE}}/evidence/event-validation/final/README.md" target="_blank" rel="noopener noreferrer">主机制验证报告</a></li><li><a href="{{SOURCE_BASE}}/evidence/response-defer/README.md" target="_blank" rel="noopener noreferrer">同权限搜索负结果</a></li><li><a href="{{SOURCE_BASE}}/paper/research/closest-methods-20261102.md" target="_blank" rel="noopener noreferrer">近邻方法核查</a></li></ul><p class="small muted">图表与讲稿已内嵌，本页可单文件离线展示。以上原文链接需联网。证据基线为d011e322。</p></div></dialog>
-<dialog id="figure-dialog" aria-labelledby="figure-title"><div class="dialog-head"><h2 id="figure-title">论文图</h2><div class="toolbar-group"><button id="figure-zoom" aria-pressed="false">原尺寸</button><button data-close aria-label="关闭大图">关闭</button></div></div><div class="figure-viewport" id="figure-viewport"><img id="large-figure" alt=""></div><p id="figure-caption"></p></dialog>
-<noscript><p style="padding:20px">切屏需要启用JavaScript。也可在浏览器中打印，查看全部四屏。</p></noscript>
+<dialog id="materials-dialog" aria-labelledby="materials-title"><div class="dialog-head"><h2 id="materials-title">追问准备与阅读材料</h2><button data-close aria-label="关闭材料">关闭</button></div><div class="dialog-body">{{FAQ}}<h3>会后阅读</h3><ul><li><a href="{{SOURCE_BASE}}/paper/supervisor-brief.md" target="_blank" rel="noopener noreferrer">一页导师讨论摘要</a></li><li><a href="{{SOURCE_BASE}}/paper/manuscript_zh.md" target="_blank" rel="noopener noreferrer">完整论文正文</a></li><li><a href="{{SOURCE_BASE}}/evidence/event-validation/final/README.md" target="_blank" rel="noopener noreferrer">主机制验证报告</a></li><li><a href="{{SOURCE_BASE}}/evidence/response-defer/README.md" target="_blank" rel="noopener noreferrer">同权限搜索负结果</a></li><li><a href="{{SOURCE_BASE}}/paper/research/closest-methods-20261102.md" target="_blank" rel="noopener noreferrer">近邻方法核查</a></li><li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/958e777c3a229bdabfe4e9448d6c2c01bc35b82a/paper/supervisor-briefing.html" target="_blank" rel="noopener noreferrer">改版前四屏版（GitHub源文件）</a></li></ul><p class="small">主图、原论文图和讲稿均已内嵌，本页可单文件离线使用。以上原文链接需要联网。论文与实验来源保持原版本，未新增研究。</p></div></dialog>
+<dialog id="figure-dialog" aria-labelledby="figure-title"><div class="dialog-head"><h2 id="figure-title">数据图</h2><div class="toolbar-group"><button id="figure-zoom" aria-pressed="false">原尺寸</button><button data-close aria-label="关闭大图">关闭</button></div></div><div class="figure-viewport" id="figure-viewport"><img id="large-figure" alt=""></div><p id="figure-caption"></p></dialog>
+<noscript><p>切屏需要启用JavaScript。浏览器打印样式可显示全部五屏。</p></noscript>
 <script>
 'use strict';
 const figures = {{FIGURE_DATA}};
@@ -95,8 +198,9 @@ const figureDialog = document.getElementById('figure-dialog');
 const viewport = document.getElementById('figure-viewport');
 let active = 0;
 function readScreen() {
-  const match = location.hash.match(/^#screen-([1-4])$/);
-  return match ? Number(match[1]) - 1 : 0;
+  const match = location.hash.match(/^#screen-(\d+)$/);
+  const index = match ? Number(match[1]) - 1 : 0;
+  return index >= 0 && index < slides.length ? index : 0;
 }
 function renderScreen(index, focus) {
   active = Math.max(0, Math.min(slides.length - 1, index));
@@ -140,6 +244,21 @@ document.querySelectorAll('[data-figure]').forEach(button => button.addEventList
   document.getElementById('figure-zoom').textContent = '原尺寸';
   figureDialog.showModal(); viewport.scrollTo(0, 0);
 }));
+document.querySelectorAll('[data-native]').forEach(button => button.addEventListener('click', () => {
+  const chart = button.querySelector('svg');
+  const copy = chart.cloneNode(true);
+  const [, , width, height] = chart.getAttribute('viewBox').split(' ').map(Number);
+  copy.setAttribute('width', width * 2); copy.setAttribute('height', height * 2);
+  const image = document.getElementById('large-figure');
+  image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(copy));
+  image.alt = chart.querySelector('title').textContent;
+  document.getElementById('figure-title').textContent = image.alt;
+  document.getElementById('figure-caption').textContent = chart.querySelector('desc').textContent;
+  viewport.classList.remove('is-zoomed');
+  document.getElementById('figure-zoom').setAttribute('aria-pressed', 'false');
+  document.getElementById('figure-zoom').textContent = '原尺寸';
+  figureDialog.showModal(); viewport.scrollTo(0, 0);
+}));
 document.getElementById('figure-zoom').addEventListener('click', () => {
   const zoomed = viewport.classList.toggle('is-zoomed');
   document.getElementById('figure-zoom').setAttribute('aria-pressed', String(zoomed));
@@ -163,7 +282,7 @@ document.addEventListener('keydown', event => {
   else if (['ArrowLeft','PageUp'].includes(event.key)) { event.preventDefault(); go(active - 1); }
   else if (event.key === 'Home') { event.preventDefault(); go(0); }
   else if (event.key === 'End') { event.preventDefault(); go(slides.length - 1); }
-  else if (/^[1-4]$/.test(event.key)) go(Number(event.key) - 1);
+  else if (/^[1-9]$/.test(event.key) && Number(event.key) <= slides.length) go(Number(event.key) - 1);
   else if (event.key.toLowerCase() === 'n') notes.showModal();
   else if (event.key.toLowerCase() === 'q') materials.showModal();
 });

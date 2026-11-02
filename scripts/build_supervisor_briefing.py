@@ -1,4 +1,4 @@
-"""Build the four-screen offline briefing from frozen evidence and paper figures.
+"""Build the five-screen offline briefing from frozen evidence and paper figures.
 
 This stdlib-only authoring command never imports or runs the research simulator.
 """
@@ -11,6 +11,8 @@ import html
 import json
 from pathlib import Path
 import re
+
+from briefing_diagrams import build_diagrams
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / 'paper'
@@ -34,6 +36,8 @@ def paragraphs(text: str) -> str:
 
 def main() -> None:
     read_bytes('scripts/build_supervisor_briefing.py')
+    read_bytes('scripts/briefing_diagrams.py')
+    read_bytes('scripts/check_supervisor_briefing.cjs')
     metrics = read_json('paper/generated/metrics.json')
     summary = read_json('evidence/event-validation/final/summary.json')
     rows = read_json('evidence/event-validation/final/rows.json')
@@ -48,6 +52,10 @@ def main() -> None:
     assert paper_scope['route'] == 'mechanism_discussion'
     assert paper_scope['primary_questions'] == ['RQ1', 'RQ2']
     assert not paper_scope['feedback_in_core_claims']
+    baseline = read_json('paper/briefing-history/958e777c/baseline.json')
+    for identity in baseline['files'].values():
+        if 'sha256' in identity:
+            assert hashlib.sha256(read_bytes(identity['archived_as'])).hexdigest() == identity['sha256']
 
     primary = [p for p in pairs if p['group'] == 'coupled']
     assert len(primary) == summary['primary_paired_processes'] == 12
@@ -78,7 +86,9 @@ def main() -> None:
         assert abs(sum(p['fifo_minus_tour'][pair_key] for p in primary) / len(primary)
                    - comparison[source_key]) < 1e-9
 
-    unique_rules = {p['rule_sha256']: p for p in proposals}
+    unique_rules = {}
+    for proposal in proposals:
+        unique_rules.setdefault(proposal['rule_sha256'], proposal)
     assert len(unique_rules) == metrics['response_search']['unique_rules'] == 9
     assert len(proposals) == search['candidate_opportunities'] == 12
     assert sum(not r['cached'] for p in proposals for r in p['records']) == search['environment_attempts'] == 108
@@ -98,6 +108,7 @@ def main() -> None:
         data = read_bytes(f'runs/event-validation-amended-20261102/{filename}')
         assert hashlib.sha256(data).hexdigest() == index[filename]['sha256']
         raw[method] = json.loads(gzip.decompress(data))
+    assert raw['tour']['process_sha256'] == raw['fifo']['process_sha256']
     assert timeline['case'] == 'p02-coupled' and timeline['agent'] == 1
     time_values = {}
     for task in ['17', '21']:
@@ -116,6 +127,67 @@ def main() -> None:
     assert t17['dispatches'][0]['time_s'] == 665
     assert t17['public_events'][0]['visible_s'] == 685
 
+    # Data for the new explanatory diagrams comes only from these saved records.
+    config = raw['tour']['process']['configuration']
+    tasks = {}
+    for task in ['17', '21']:
+        interval = timeline['tasks'][task]['tour']['interval']
+        tasks[task] = {'anomaly_s': [interval['onset_s'], interval['end_s']]}
+        for method in ['tour', 'fifo']:
+            part = timeline['tasks'][task][method]
+            measurement = part['measurements'][0]
+            tasks[task][method] = {'finish_s': measurement['time_s'], 'alarm': measurement['alarm']}
+            if method == 'fifo':
+                tasks[task][method].update({
+                    'dispatch_s': part['dispatches'][0]['time_s'],
+                    'visible_s': part['public_events'][0]['visible_s'],
+                    'extra_event_visit': measurement['extra_event_visit'],
+                })
+                actual = next(d for d in raw['fifo']['dispatches']
+                              if d['task'] == int(task) and d['agent'] == 1
+                              and d['time_s'] == tasks[task][method]['dispatch_s'])
+                assert actual['extra_event_visit'] == measurement['extra_event_visit']
+    visits = sorted((m for m in raw['tour']['inspection_events'] if m['task'] == 17),
+                    key=lambda m: m['time_s'])
+    onset, end = tasks['17']['anomaly_s']
+    previous = max((m for m in visits if m['time_s'] <= onset), key=lambda m: m['time_s'])
+    following = min((m for m in visits if m['time_s'] >= end), key=lambda m: m['time_s'])
+    assert not previous['alarm'] and not following['alarm']
+    assert visits.index(following) == visits.index(previous) + 1
+    gap = following['time_s'] - previous['time_s']
+    limit = re.search(r'热重访上限(\d+)秒', manuscript.decode('utf-8'))
+    assert limit, 'Missing thermal revisit contract in manuscript'
+    revisit_limit = float(limit[1])
+    assert end - onset < gap <= revisit_limit
+    facts = {
+        'racks': config['racks'], 'racks_per_pod': config['racks_per_pod'],
+        'pods': config['racks'] // config['racks_per_pod'], 'inspectors': raw['tour']['team']['count'],
+        'processes': len(primary), 'segments': main_results['fifo'][1],
+        'confirmations': {method: result[0] for method, result in main_results.items()},
+        'paired': [{'case': p['case'], **{k: p['fifo_minus_tour'][k] for k in ['gained', 'lost', 'net']}}
+                   for p in primary],
+        'tasks': tasks,
+        'missed_gap': {'previous_s': previous['time_s'], 'next_s': following['time_s'],
+                       'onset_s': onset, 'end_s': end, 'duration_s': end - onset,
+                       'gap_s': gap, 'revisit_limit_s': revisit_limit,
+                       'revisit_limit_source': 'paper/manuscript_zh.md section 3.1'},
+        'registered_rules': [{'chain': p['chain'], 'proposal': p['proposal'], 'rule_sha256': p['rule_sha256'],
+                              'confirmed': main_results['fifo'][0] + p['aggregate']['net']}
+                             for p in unique_rules.values()],
+        'scope': 'Only saved simulation records. Diagrams redraw observations and execution logic, not new evaluations.',
+    }
+    assert (facts['racks'], facts['inspectors'], facts['missed_gap']['gap_s']) == (128, 18, 240)
+    diagrams = build_diagrams(facts)
+    diagram_folder = PAPER / 'figures/briefing-v2'
+    diagram_folder.mkdir(parents=True, exist_ok=True)
+    diagram_hashes = {}
+    for name, diagram in diagrams.items():
+        path = diagram_folder / (name + '.svg')
+        path.write_text(diagram, encoding='utf-8', newline='\n')
+        diagram_hashes[path.relative_to(ROOT).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
+    chart_data = PAPER / 'generated/briefing-chart-data.json'
+    chart_data.write_text(json.dumps(facts, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+
     figures = {}
     for key, name, title, caption in [
         ('framework', 'fig01_execution_framework.png', '图1 受约束事件确认机制',
@@ -132,14 +204,16 @@ def main() -> None:
 
     talk = read_bytes('paper/supervisor-talk.md').decode('utf-8')
     notes = []
-    for number in range(1, 5):
+    talk_sections = []
+    for number in range(1, 6):
         match = re.search(rf'^## {number} ([^\n]+)\n(.*?)(?=^## |\Z)', talk, flags=re.M | re.S)
         assert match, f'Missing talk section {number}'
+        talk_sections.append(match[2])
         notes.append(f'<section class="notes-section" data-note="{number}"><h3>'
                      + html.escape(match[1]) + '</h3>' + paragraphs(match[2]) + '</section>')
     faq_section = talk.split('## 追问准备\n', 1)[1].split('\n## 会后阅读', 1)[0]
     faqs = re.findall(r'^### ([^\n]+)\n(.*?)(?=^### |\Z)', faq_section, flags=re.M | re.S)
-    assert len(faqs) == 7
+    assert len(faqs) == 8
     faq_html = '\n'.join('<details><summary>' + html.escape(title) + '</summary>'
                          + paragraphs(body) + '</details>' for title, body in faqs)
     ci = comparison['net_confirmations']
@@ -154,7 +228,11 @@ def main() -> None:
         'RULES': str(len(unique_rules)), 'RULE_MIN': str(min(confirmations)),
         'RULE_MAX': str(max(confirmations)), 'SEARCH_EVALUATIONS': str(search['environment_attempts']),
         'NOTES': '\n'.join(notes), 'FAQ': faq_html,
-        'FIGURE_FRAMEWORK': figures['framework']['src'], 'FIGURE_TIMELINE': figures['timeline']['src'],
+        'SCENE_SVG': diagrams['facility'], 'GAP_SVG': diagrams['missed-gap'],
+        'ARCHITECTURE_SVG': diagrams['execution'], 'RESULTS_SVG': diagrams['confirmations'],
+        'PAIRS_SVG': diagrams['paired-net'], 'TIMELINE17_SVG': diagrams['task-17'],
+        'TIMELINE21_SVG': diagrams['task-21'], 'COMPLETED_SVG': diagrams['completed-work'],
+        'RULES_SVG': diagrams['registered-rules'],
         'FIGURE_DATA': json.dumps(figures, ensure_ascii=False).replace('</', '<\\/'),
         'SOURCE_BASE': 'https://github.com/DonsonHH/Zhinengti-RSI/blob/d011e3229d65c03da1ebd0765e1c1c6fe829fff3',
         **time_values,
@@ -164,18 +242,22 @@ def main() -> None:
         values[method.upper() + '_PCT'] = f'{result[2]:.1f}'
     template = read_bytes('paper/briefing-template.html').decode('utf-8')
     output = re.sub(r'\{\{([A-Z0-9_]+)\}\}', lambda match: values[match[1]], template)
-    assert '{{' not in output and output.count('class="slide') == 4
+    assert '{{' not in output and output.count('class="slide') == 5
     destination = PAPER / 'supervisor-briefing.html'
     destination.write_text(output, encoding='utf-8', newline='\n')
     manifest = {
-        'purpose': 'Four-screen supervisor briefing, derived from existing frozen evidence.',
-        'screens': 4, 'planned_seconds': [60, 90, 60, 90],
+        'purpose': 'Comprehension-first five-screen supervisor briefing, derived from existing frozen evidence.',
+        'version': 2, 'previous_version': baseline['commit'],
+        'screens': 5, 'planned_seconds': [45, 60, 65, 75, 55],
         'main_processes': len(primary), 'main_segments': main_results['fifo'][1],
         'main_confirmations': {method: result[0] for method, result in main_results.items()},
         'gained': gained, 'lost': lost, 'net': net, 'successful_run_safety_totals': safety,
         'search_unique_rules': len(unique_rules), 'search_confirmation_range': [min(confirmations), max(confirmations)],
         'search_actual_development_evaluations': search['environment_attempts'],
-        'timeline_raw_records_checked': 2, 'embedded_figures': 3, 'faq_items': len(faqs),
+        'timeline_raw_records_checked': 2, 'embedded_original_paper_figures': 3,
+        'main_svg_diagrams': diagram_hashes, 'faq_items': len(faqs),
+        'chart_data_sha256': hashlib.sha256(chart_data.read_bytes()).hexdigest(),
+        'spoken_script_han_characters': len(re.findall(r'[\u4e00-\u9fff]', ''.join(talk_sections))),
         'new_environment_evaluations': 0, 'new_research_model_calls': 0, 'new_training': 0,
         'html_sha256': hashlib.sha256(destination.read_bytes()).hexdigest(),
         'source_sha256': SOURCES,
@@ -183,7 +265,7 @@ def main() -> None:
     }
     (PAPER / 'generated/briefing-manifest.json').write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
-    print(f'Built {destination.relative_to(ROOT)}: 4 screens, 3 embedded figures, 7 FAQs; no new research runs.')
+    print(f'Built {destination.relative_to(ROOT)}: 5 screens, {len(diagrams)} SVG diagrams, 3 original figures, 8 FAQs; no new research runs.')
 
 
 if __name__ == '__main__':

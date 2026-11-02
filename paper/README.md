@@ -4,14 +4,18 @@
 
 ## 建议阅读顺序
 
-1. 汇报时打开[四屏离线汇报页](supervisor-briefing.html)，按“问题和方法、整体成果、具体案例、当前进度”讲约5分钟。[讲稿与追问准备](supervisor-talk.md)可用于预演，页面内也能按N查看当前讲稿、按Q查看追问。
+1. 汇报时打开[五屏离线汇报页](supervisor-briefing.html)，先建立模拟机房情境，再依次展示执行架构、数据结果、同一负责人案例和当前成果。[口语讲稿与追问准备](supervisor-talk.md)可用于约5分钟的预演，页面内也能按N查看当前讲稿、按Q查看追问。
 2. [一页导师讨论摘要](supervisor-brief.md)：主要结果、负结果与需要讨论的贡献定位，适合会后阅读。
 3. [研究问题与贡献表](research-map.md)：主文RQ1—RQ2与证据边界。
 4. [正文](manuscript_zh.md)或[公式图表预览](manuscript_zh.html)：已收束的8章机制稿。
 
-四屏汇报页使用现有论文原图、封存结果和同一负责人的时间线，图表与讲稿均内嵌。下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。方向键、数字1—4及底部按钮均可切屏，点击图像可放大；原文链接需要联网。[来源校验清单](generated/briefing-manifest.json)记录数字与原件身份。
+五屏汇报页使用9张可编辑SVG主图，包括机房结构、实际漏检时间轴、新旧执行架构、总确认量柱状图、12过程净增图、两张案例时间轴、成果图和登记规则比较图。3张论文原图另放在点击放大的区域，图表与讲稿均内嵌。下载`supervisor-briefing.html`后用Edge或Chrome打开即可离线展示，无需服务器。方向键、数字1—5及底部按钮均可切屏；原文链接需要联网。
+
+[来源校验清单](generated/briefing-manifest.json)、[作图数据](generated/briefing-chart-data.json)、[SVG源图](figures/briefing-v2/)、[改版与验证记录](briefing-review.md)和[浏览器检查结果](generated/briefing-browser-verification.json)可复核当前交付。[原四屏成品](briefing-history/958e777c/supervisor-briefing.html)与[原讲稿](briefing-history/958e777c/supervisor-talk.md)按`958e777c`逐字节保留，供前后对比。
 
 成品已包含在仓库中。重新生成时运行`python scripts/build_supervisor_briefing.py`，只需Python标准库；该命令还会逐项核对时间线原件，因此需将[主验证Release](https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1)中的`p02-coupled-tour.json.gz`与`p02-coupled-fifo.json.gz`放入`runs/event-validation-amended-20261102`。生成过程不新增研究执行。
+
+本地浏览器复核命令为`node scripts/check_supervisor_briefing.cjs`，使用Node内置WebSocket与已安装的Chrome，验证单文件断网、1366×768与1920×1080的全部五屏及控制功能，输出对应截图和检查JSON。可用环境变量`BRIEFING_CHROME`指定浏览器程序路径。
 
 ## 章节与材料
 
