@@ -57,6 +57,13 @@ def status():
             "read": "evidence/feedback-study/README.md",
         }
         result["唯一下一任务"] = "本轮协议已结束；依据失败和新确认结果另行定义问题，见docs/NEXT.md"
+    response_study = ROOT / "evidence/risk-response/summary.json"
+    if response_study.exists():
+        response = strict_json(response_study.read_text(encoding="utf-8"))
+        result["研究问题"] = "新公开风险出现后，受约束执行器能否及时完成有效专业确认？"
+        result["事件确认首轮"] = {"evaluations": response["evaluations"], "selected": response["selected"],
+                                  "read": "evidence/risk-response/README.md"}
+        result["唯一下一任务"] = "定位事件排队与返回约束造成的残余漏检；再预登记优先级对照，见docs/NEXT.md"
     return result
 
 
@@ -266,9 +273,15 @@ def main(argv=None):
     p.add_argument("--output", required=True)
     p.add_argument("--ssh-host", required=True)
     p.add_argument("--mailbox", required=True, help="已启动的有限Slurm推理任务的共享目录")
+    p = sub.add_parser("respond", help="运行新风险确认机制的有限试验；不调用模型")
+    p.add_argument("--protocol")
+    p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "study":
+        if args.command == "respond":
+            from .risk_response import run_response_study
+            result = run_response_study(args)
+        elif args.command == "study":
             from .feedback_study import run_study
             result = run_study(args)
         elif args.command == "explain":

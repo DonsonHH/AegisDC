@@ -17,7 +17,7 @@ flowchart TD
     C --> A
 ```
 
-上面的内循环已可运行。外循环目前通过`proposal`读取给定JSON并评价、保留或回退；真实模型读取反馈后再次提案，是[NEXT](NEXT.md)要检验的任务。
+上面的内循环已可运行。真实模型反馈试点已执行并收束，未证明独立增益；当前[NEXT](NEXT.md)推进公开新风险的有效确认。
 
 | 层 | 主要代码 | 主要职责与边界 |
 |---|---|---|
@@ -28,6 +28,7 @@ flowchart TD
 | 约束检查 | `coverage_plan.py`、`local_reorder.py`、`inspection_contracts.py` | 路程、服务、任务账本和重访义务；只覆盖声明的静态、确定时间条件 |
 | 评价与入口 | `inspection_metrics.py`、`case_report.py`、`cli.py` | 漏检、等待、移动、服务、完成量和可读回看；少完成工作造成的省路程不能单报效率收益 |
 | 有限研究外循环 | `feedback_study.py`、`model_proposals.py` | 冻结方案、计数与缓存、隔离反馈、有限离线提案、先封存后确认；不修改原执行核 |
+| 事件确认执行 | `risk_response.py` | 风险事件账本、单项完成后重规划、新候选返回证书及有限机制试验 |
 
 主要实现入口位于 `src/patrol_rsi/`：`facility.py`处理物理过程，`facility_observation.py`处理观测和专业任务，`coverage_plan.py`处理返回计划，`baseline_correction.py`定义受限局部修正。运行统一从 `python -m patrol_rsi` 进入，不再从历史阶段脚本选择入口。
 

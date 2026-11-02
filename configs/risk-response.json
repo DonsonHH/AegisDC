@@ -1,0 +1,181 @@
+{
+  "question": "新公开风险出现后，受约束执行器能否及时完成有效专业确认？",
+  "source_analysis_sha256": "ad2b3751174da41a04c06d74544a715fdbb108ce361c575ff240ec2d1cd041e1",
+  "development": [
+    {
+      "id": "development-0",
+      "spec": {
+        "seed": 41000,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-1",
+      "spec": {
+        "seed": 41000,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-2",
+      "spec": {
+        "seed": 41000,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-3",
+      "spec": {
+        "seed": 41001,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 335,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-4",
+      "spec": {
+        "seed": 41001,
+        "scenario": "coldplate_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "development-5",
+      "spec": {
+        "seed": 41001,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 335,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "id": "confirmation-0",
+      "spec": {
+        "seed": 93002,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 150,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-1",
+      "spec": {
+        "seed": 93002,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60,
+        "fault_start_s": 520,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-2",
+      "spec": {
+        "seed": 93002,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 705,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-3",
+      "spec": {
+        "seed": 93011,
+        "scenario": "healthy",
+        "duration_s": 900,
+        "fault_start_s": 520,
+        "noise_c": 1.0,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-4",
+      "spec": {
+        "seed": 93011,
+        "scenario": "coldplate_fouling",
+        "duration_s": 60,
+        "fault_start_s": 705,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    },
+    {
+      "id": "confirmation-5",
+      "spec": {
+        "seed": 93011,
+        "scenario": "aux_feeder_loss+cdu_fouling",
+        "duration_s": 180,
+        "fault_start_s": 150,
+        "noise_c": 0.2,
+        "estimator": "nominal",
+        "control": "feedback",
+        "resources": "provisioned"
+      }
+    }
+  ],
+  "variants": [
+    "T",
+    "B",
+    "E120",
+    "E60"
+  ],
+  "selection": "E120/E60: first minimize mean missed, then mean censored wait on anomalous conditions, then travel; tie keeps E120",
+  "limits": {
+    "main_environment_evaluations": 42,
+    "preflight_evaluations": 3,
+    "total_cap": 48,
+    "model_calls": 0,
+    "training": 0
+  },
+  "event_definition": "Public risk crosses from <=0 to >0; each task at most one pending episode; qualified measurement after visibility closes it, even if normal. Persistent signal does not reopen until falling to0. TTL60/120 seconds is public response expiry, not hidden fault duration.",
+  "constraints": "Fixed owners/qualifications/time/service/revisit limits. Replan after one completion. No interruption in transit/service. Extra event visit does not discharge a later routine head. Revalidate candidate and complete return cycle.",
+  "claim": "Small mechanism pilot, no LLM or RSI claim; old confirmation seeds80521/80539 are now seen and not used as new confirmation."
+}

@@ -53,6 +53,8 @@ python -m patrol_rsi proposal --candidate configs/candidate-example.json --outpu
 
 ## 阅读顺序
 
+新风险确认机制已启动：`python -m patrol_rsi respond --output runs/risk-response`。参见[首轮机制试验](evidence/risk-response/README.md)：新增确认与退化案例一并报告，默认Tour不因此自动替换。
+
 1. [研究目标与边界](docs/RESEARCH.md)：为什么做、要证明什么。
 2. [架构说明](docs/ARCHITECTURE.md)：输入怎样变成巡检动作和结果。
 3. [当前证据](docs/EVIDENCE.md)：已经证明什么、没有证明什么。
