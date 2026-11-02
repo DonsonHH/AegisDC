@@ -233,7 +233,7 @@ def verify(args):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="巡检项目唯一入口：status / demo / proposal / verify")
+    parser = argparse.ArgumentParser(description="巡检项目统一入口：status / demo / explain / proposal / verify")
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("status", help="只读显示主线、状态、实际工具与下一任务")
     for command in ("demo", "proposal"):
@@ -244,11 +244,18 @@ def main(argv=None):
         p.add_argument("--cvae-sha256")
         if command == "proposal":
             p.add_argument("--candidate", required=True, help="原始候选JSON；示例为人工fixture")
+    p = sub.add_parser("explain", help="回看一个供电—液冷耦合案例，输出独立HTML；不调用模型")
+    p.add_argument("--config", help="默认configs/coupled-example.json；仅支持辅助馈线异常案例")
+    p.add_argument("--output", required=True, help="必须是新目录")
     p = sub.add_parser("verify", help="工程检查＋历史证据复算，科研效果单独列出")
     p.add_argument("--output", required=True)
     args = parser.parse_args(argv)
     try:
-        result = status() if args.command == "status" else verify(args) if args.command == "verify" else run_example(args, args.command == "proposal")
+        if args.command == "explain":
+            from .case_report import run_explanation
+            result = run_explanation(args)
+        else:
+            result = status() if args.command == "status" else verify(args) if args.command == "verify" else run_example(args, args.command == "proposal")
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
         return 0 if result.get("overall", "PASS") == "PASS" else 1
     except Exception as exc:

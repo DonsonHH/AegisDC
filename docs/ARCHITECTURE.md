@@ -26,7 +26,7 @@ flowchart TD
 | 状态估计 | `estimation.py`、可选`estimation_model.py` | 名义估计或冻结CVAE；缺少权重不能冒充已运行CVAE |
 | 巡检策略 | `reorder_execution.py`、`baseline_correction.py`、`correction_execution.py` | Tour和受限局部规则；不能改物理过程、人员权限或评价标准 |
 | 约束检查 | `coverage_plan.py`、`local_reorder.py`、`inspection_contracts.py` | 路程、服务、任务账本和重访义务；只覆盖声明的静态、确定时间条件 |
-| 评价与入口 | `inspection_metrics.py`、`cli.py` | 漏检、等待、移动、服务、完成量和可读输出；少完成工作造成的省路程不能单报效率收益 |
+| 评价与入口 | `inspection_metrics.py`、`case_report.py`、`cli.py` | 漏检、等待、移动、服务、完成量和可读回看；少完成工作造成的省路程不能单报效率收益 |
 
 主要实现入口位于 `src/patrol_rsi/`：`facility.py`处理物理过程，`facility_observation.py`处理观测和专业任务，`coverage_plan.py`处理返回计划，`baseline_correction.py`定义受限局部修正。运行统一从 `python -m patrol_rsi` 进入，不再从历史阶段脚本选择入口。
 
@@ -47,6 +47,8 @@ flowchart TD
 | 岭价值模型 | 保留有限证据，不接入默认调度 | 四折预实验可复核，可靠性尚未通过 |
 
 学习工具的源码存在、发生推理、改变动作、改善任务，分别记录，不用一个“已接入”概括。
+
+`explain`把一个固定工程案例变成独立HTML。它在原选择器的真值禁用边界内复制当前公开信息，仍由原选择器决定动作；执行结束后才附加实际温度与流量用于回看。两方案使用同一物理过程、人员、任务和观测权限。截图和图表是解释工具，不增加在线权限，也不构成新的科研确认。
 
 ## 4. 输入、输出与来源
 

@@ -8,7 +8,7 @@
 
 | 项目 | 当前状态 |
 |---|---|
-| 可维护的执行入口 | `status`、`demo`、`proposal`、`verify` 四个命令 |
+| 可维护的执行入口 | `status`、`demo`、`explain`、`proposal`、`verify` 五个命令 |
 | 默认巡检 | 名义状态估计＋固定巡回 Tour；可评价人工给定的受限局部规则 |
 | 学习工具 | CVAE需要外部冻结权重；PPO源码保留，但不参与默认局部调度 |
 | 已有科研证据 | 有真实仿真、模型修改和负结果；没有稳定任务增益或递归增益结论 |
@@ -26,6 +26,16 @@ python -m patrol_rsi verify --output runs/verification
 ```
 
 `demo`运行一次1800秒的合成巡检：128机柜、18名执行者，冷板故障在第335秒注入、持续180秒。`episode_horizon_s`是整次巡检时长，`fault_duration_s`是故障持续时间；两者不能混用。输出中的`timeline.csv`可查看谁在何时、何处完成了什么检查和测量。
+
+首次理解项目，先运行一个供电—液冷耦合案例：
+
+```bash
+python -m patrol_rsi explain --output runs/coupled-case
+```
+
+打开 `runs/coupled-case/index.html`，可以拖动时间查看公开风险图、事后实际温度、各专业检查和一次真实排序决定，再对比固定路线与人工风险规则的整回合结果。页面独立运行，不依赖网络。原始数据保存在同目录 `case.json` 和两个方案的 `timeline.csv` 中。
+
+这个案例固定为辅助馈线异常，不会调用VAE、PPO或大模型。遥测报警与专业人员现场确认分别呈现；更短路程、更早确认和更多完成量可能互有取舍，页面不会把换了顺序直接称为AI或RSI成功。
 
 `verify`分别报告工程检查、历史证据复算和科研执行状态。**测试通过不等于科研增益成立。** 每次使用新输出目录；重复运行可改为`runs/demo-2`、`runs/verification-2`等，已有结果不会覆盖。
 

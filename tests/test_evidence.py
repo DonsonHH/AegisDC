@@ -27,9 +27,9 @@ class EvidenceIntegrityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             (root / "evidence").mkdir()
-            manifest = json.loads((ROOT / "evidence/provenance.json").read_text())
+            manifest = json.loads((ROOT / "evidence/provenance.json").read_text(encoding="utf-8"))
             manifest["files"][0]["path"] = "../outside.json"
-            (root / "evidence/provenance.json").write_text(json.dumps(manifest))
+            (root / "evidence/provenance.json").write_text(json.dumps(manifest), encoding="utf-8")
             with self.assertRaisesRegex(EVIDENCE.EvidenceError, "Unsafe evidence path"):
                 EVIDENCE.verify(root)
 
