@@ -10,6 +10,8 @@
 2. [论文正文工作稿](manuscript_zh.md)：8章结构；第3、4、6、7章已有实质正文，第5章明确保留为研究设计。
 3. [可阅读预览](manuscript_zh.html)：由正文生成，公式转为MathML，不依赖在线公式服务。
 
+本轮优化的逐项完成情况见[审阅落实记录](revision-review.md)。主稿、模型附录和补充材料分别有独立HTML预览。
+
 ## 章节安排
 
 |章节|要回答的问题|本版完成程度|继续写作的触发条件|
@@ -26,6 +28,8 @@
 ## 可复核材料
 
 - [文献比较与核验级别](related-work.md)、[引用文件](references.bib)。
+- [合成模型附录](model-appendix.md)及[公式预览](model-appendix.html)：核心状态、方程、单位、参数及来源边界；[补充材料](supplement.md)保存预算修订和同一负责人轨迹来源。
+- [最近邻全文核查](research/closest-methods-20261102.md)、[物理形式依据](research/model-basis-20261102.md)、[写作辅助披露记录](authoring-disclosure.md)。
 - [写作证据映射](evidence-map.json)、[图表及派生数值](generated/metrics.json)、[生成校验收据](generated/validation.json)。
 - 图表源数据来自已结束的[有限验证包](../evidence/event-validation/final/README.md)，完整原件仍由原Release提供。
 - `python scripts/build_paper_assets.py`生成论文图表、表格、指标快照与HTML；只读取已有记录，不运行巡检、训练或模型调用。
@@ -34,4 +38,4 @@
 
 ## 写作收束条件
 
-这版主稿已能用于导师讨论。提交前还需要：完成或明确收束RQ3，核对最接近文献及最终比较对象，由导师确认问题与贡献定位，确定作者和目标刊会，再按其模板排版。这里的“工作稿完成”与“已达到录用标准”分别判断。
+这版主稿已能用于导师讨论。[RQ3补强包设计](../docs/RQ3_SPEC.md)将接口、同权限规则搜索、模型反馈比较和小范围时长／线索变化收拢为一个有限任务；当前仍未冻结和执行。提交前还需要完成或明确收束RQ3，补齐R9全文约束核验和最终比较，由导师确认问题与贡献定位，确定作者和目标刊会，再按其模板排版。这里的“工作稿完成”与“已达到录用标准”分别判断。

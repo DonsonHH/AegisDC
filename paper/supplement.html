@@ -1,0 +1,99 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>补充材料</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f3f5f7;color:#18252f;font:17px/1.85 "Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+header{max-width:1040px;margin:32px auto 0;padding:24px 48px;background:#203a4c;color:#fff;border-radius:8px 8px 0 0}header p{margin:0;font-size:14px;color:#d5e1ea}
+article{max-width:1040px;margin:0 auto 60px;background:white;padding:36px 56px 60px;box-shadow:0 6px 32px #1b304010}h1{font-size:29px;line-height:1.5;margin-top:0}h2{font-size:23px;border-top:1px solid #dce4eb;padding-top:24px;margin-top:40px}h3{font-size:19px;margin-top:26px}
+p{margin:16px 0}a{color:#1b5e92;text-decoration-thickness:1px;text-underline-offset:3px}nav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px}nav a{color:#eef5fa;font-size:13px}table{border-collapse:collapse;width:100%;font-size:13px;line-height:1.6;display:block;overflow-x:auto;margin:22px 0}th,td{padding:9px 10px;text-align:left;border-bottom:1px solid #dce4eb;min-width:65px}th{background:#edf3f8;color:#203b50;white-space:nowrap}tbody tr:nth-child(even){background:#f9fbfd}img{display:block;width:100%;height:auto;margin:24px auto}code{font:13px/1.6 Consolas,monospace;background:#f0f3f6;padding:1px 4px;border-radius:3px}pre{background:#f1f4f7;padding:18px;overflow-x:auto;line-height:1.6}pre code{padding:0;background:none;white-space:pre-wrap}.equation{position:relative;padding:16px 38px 16px 10px;overflow-x:auto;margin:22px 0;background:#fafbfd}.equation-number{position:absolute;right:10px;top:20px;font-size:14px;color:#536675}math{font-family:"Cambria Math",serif}math[display="inline"]{font-size:1.05em}footer{font-size:13px;color:#627180;border-top:1px solid #dce4eb;margin-top:32px;padding-top:16px}
+@media(max-width:700px){header,article{margin:0;padding:22px}h1{font-size:25px}body{font-size:16px}th,td{padding:7px;font-size:12px}}@media print{body{background:white}header{color:#18252f;background:white;margin:0}header p{color:#536675}nav{display:none}article{box-shadow:none;padding:16px;max-width:none;margin:0}a{color:inherit}h2,h3{break-after:avoid}img,table,.equation{break-inside:avoid}}
+</style></head><body><header><p>论文附录 · 方程形式、数值设定与证据身份</p><nav><a href="#section-1">S1 执行身份与预算修订</a><a href="#section-2">S2 同一负责人时间线及初稿归因修正</a><a href="#section-3">S3 统计与复核单位</a></nav></header><article><h1>补充材料</h1>
+<p>本文件保留执行身份、版本修订和回溯案例的完整来源；主文集中于问题、方法、比较及其适用范围。</p>
+<h2 id="section-1">S1 执行身份与预算修订</h2>
+<p>有限事件验证原上限108次尝试。前9次成功后，第10次 <code>p01-healthy_spurious / tour</code>因人工虚假提示未进入风险解释分解而停止，错误为 <code>Risk provenance components do not match executed risk</code>。修复增加显式的人工提示分量，保留原完整性检查；回归检验带提示的Tour与不带提示时动作及专业测量一致。</p>
+<p>用户随后明确确认109次修订上限及探索性决策门槛。续跑复用9份成功原件，保留1次失败，执行其余99次成功评价。最终108份成功记录对应36个条件和三种方法；原条件、种子、规则、阈值及比较单位保持。原9份记录使用原源码封存，其余记录使用修订源码，不能把继承写成重新执行。</p>
+<table>
+<thead>
+<tr>
+<th>材料</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../evidence/event-validation/README.md">原停止记录</a></td>
+<td>失败原因、9份成功和尝试账本</td>
+</tr>
+<tr>
+<td><a href="../configs/event-validation-amended.json">用户确认修订</a></td>
+<td>109次上限、原件索引身份、运行前源码身份</td>
+</tr>
+<tr>
+<td><a href="../evidence/event-validation/final/attempts.json">最终尝试账本</a></td>
+<td>108次成功与1次失败的实际记录</td>
+</tr>
+<tr>
+<td><a href="../evidence/event-validation/final/inheritance.json">继承关系</a></td>
+<td>9份旧成功与99份新成功的来源</td>
+</tr>
+<tr>
+<td><a href="../evidence/event-validation/final/local-artifacts.json">原件索引</a></td>
+<td>所有运行文件的字节数和SHA</td>
+</tr>
+<tr>
+<td><a href="../evidence/event-validation/final/audit.json">只读审计</a></td>
+<td>108条执行、153,879次测量的时序、资格、成本和完整重访复核</td>
+</tr>
+<tr>
+<td><a href="https://github.com/DonsonHH/Zhinengti-RSI/releases/tag/event-validation-20261102-v1">公开Release</a></td>
+<td>完整轨迹、两版源码与配置</td>
+</tr>
+</tbody>
+</table>
+<p>环境评价在开发选择与确认条件上有明确用途。早期后果反馈试点使用另一种局部换序接口，包含模型调用失败与候选回退；它的负结果不等于已经证明所有失败都由动作窗口造成，也不回答当前响应／暂缓接口的RQ3。</p>
+<h2 id="section-2">S2 同一负责人时间线及初稿归因修正</h2>
+<p>来源为Release中的 <code>p02-coupled-tour.json.gz</code>与 <code>p02-coupled-fifo.json.gz</code>，物理过程和异常区间身份在两组一致。原件SHA及抽取字段见<a href="generated/timeline.json">生成时间线</a>。下表全部属于agent 1，时刻为专业测量完成时刻。</p>
+<table>
+<thead>
+<tr>
+<th>任务或选择</th>
+<th>Tour</th>
+<th>FIFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>共同已完成任务11</td>
+<td>605秒</td>
+<td>605秒</td>
+</tr>
+<tr>
+<td>605秒之后的派单</td>
+<td>例行任务9</td>
+<td>任务23额外插入，例行头9保留</td>
+</tr>
+<tr>
+<td>任务23的这次插入</td>
+<td>无</td>
+<td>635秒完成</td>
+</tr>
+<tr>
+<td>后续任务9</td>
+<td>620秒完成</td>
+<td>665秒完成</td>
+</tr>
+<tr>
+<td>任务17（异常680—705秒）</td>
+<td>645秒正常</td>
+<td>690秒异常，例行头访问</td>
+</tr>
+<tr>
+<td>任务21（异常650—710秒）</td>
+<td>695秒异常</td>
+<td>725秒正常；随后755秒再次例行检查</td>
+</tr>
+</tbody>
+</table>
+<p>对该执行者的全部已完成任务前缀，检查其在605秒之前一致，并验证共同末项为任务11。该前缀及位置一致不证明全局观测、其余执行者状态完全相同。表中后果来自两条完整策略轨迹，不是“仅删除605秒一次插入”的反事实实验。</p>
+<p>初稿并列展示任务20与21：任务20的685秒派单、705秒确认由agent 0执行；任务21的705秒派单、725秒正常测量由agent 1执行。它们是同一过程的并列收益和损失，不能串成同一负责人直接延误的因果链。修订后的图3改用同一agent 1的任务17与21，并保留任务17的新增确认来自例行访问这一机制细节。</p>
+<h2 id="section-3">S3 统计与复核单位</h2>
+<p>主分析为12个预定过程，89段评价异常共享这些过程。过程内的新增／丢失集合及严重度加权截尾等待先计算，再按过程比较。108份执行包含方法和条件重复，不等于108次改进器试验。过程级bootstrap使用已封存的10000次抽样设置；本次写作修订仅重算派生表和图，不追加研究执行。</p>
+<p>未来RQ3有两个不同重复层级：改进器以独立提案链为单位，候选规则的任务效果以独立环境过程为单位。链内多个候选及同一过程内多个异常都不能替代对应层级的重复。</p>
+<footer>可编辑Markdown与封存证据的静态预览。公式为MathML；未新增科研回合。</footer></article></body></html>

@@ -1,34 +1,40 @@
 {
   "case": "p02-coupled",
-  "selection": "Retrospectively selected first primary process with a recorded loss; illustrative paired tasks, not a new independent sample.",
+  "agent": 1,
+  "selection": "Retrospective same-owner trajectory comparison: task17 gained on a routine visit, task21 lost. Not a single-insertion counterfactual.",
+  "common_anchor": {
+    "task": 11,
+    "completion_s": 605,
+    "scope": "Identical completed own-task prefix and own route position; global observations need not be identical."
+  },
   "tasks": {
-    "20": {
+    "17": {
       "tour": {
         "interval": {
-          "task": 20,
-          "task_id": "thermal:20",
+          "task": 17,
+          "task_id": "thermal:17",
           "kind": "thermal",
-          "onset_s": 670.0,
-          "end_s": 710.0,
-          "samples": 8,
-          "weight": 1.588838149640719,
+          "onset_s": 680.0,
+          "end_s": 705.0,
+          "samples": 5,
+          "weight": 1.5651210833248586,
           "first_confirmation_s": null,
           "detected": false,
-          "delay_or_censor_s": 40.0
+          "delay_or_censor_s": 25.0
         },
         "measurements": [
           {
-            "time_s": 650.0,
-            "agent": 0,
-            "task": 20,
-            "task_id": "thermal:20",
+            "time_s": 645.0,
+            "agent": 1,
+            "task": 17,
+            "task_id": "thermal:17",
             "kind": "thermal",
-            "index": 20,
+            "index": 17,
             "role": "thermal",
             "service_s": 10.0,
             "measurement": {
-              "rack_index": 20,
-              "temperature_c": 62.638311537959964
+              "rack_index": 17,
+              "temperature_c": 61.120783273504166
             },
             "calibrated": true,
             "access": "external_sensing",
@@ -37,197 +43,73 @@
           }
         ],
         "public_events": [],
-        "dispatches": []
+        "dispatches": [
+          {
+            "time_s": 620.0,
+            "task": 17,
+            "agent": 1,
+            "routine_head": null,
+            "extra_event_visit": false,
+            "finish_s": 645.0
+          }
+        ]
       },
       "fifo": {
         "interval": {
-          "task": 20,
-          "task_id": "thermal:20",
+          "task": 17,
+          "task_id": "thermal:17",
           "kind": "thermal",
-          "onset_s": 670.0,
-          "end_s": 710.0,
-          "samples": 8,
-          "weight": 1.588838149640719,
-          "first_confirmation_s": 705.0,
+          "onset_s": 680.0,
+          "end_s": 705.0,
+          "samples": 5,
+          "weight": 1.5651210833248586,
+          "first_confirmation_s": 690.0,
           "detected": true,
-          "delay_or_censor_s": 35.0
+          "delay_or_censor_s": 10.0
         },
         "measurements": [
           {
-            "time_s": 650.0,
-            "agent": 0,
-            "task": 20,
-            "task_id": "thermal:20",
+            "time_s": 690.0,
+            "agent": 1,
+            "task": 17,
+            "task_id": "thermal:17",
             "kind": "thermal",
-            "index": 20,
+            "index": 17,
             "role": "thermal",
             "service_s": 10.0,
             "measurement": {
-              "rack_index": 20,
-              "temperature_c": 62.638311537959964
-            },
-            "calibrated": true,
-            "access": "external_sensing",
-            "alarm": false,
-            "extra_event_visit": false,
-            "response_event_id": null
-          },
-          {
-            "time_s": 705.0,
-            "agent": 0,
-            "task": 20,
-            "task_id": "thermal:20",
-            "kind": "thermal",
-            "index": 20,
-            "role": "thermal",
-            "service_s": 10.0,
-            "measurement": {
-              "rack_index": 20,
-              "temperature_c": 66.27678145581679
+              "rack_index": 17,
+              "temperature_c": 65.67479588229645
             },
             "calibrated": true,
             "access": "external_sensing",
             "alarm": true,
-            "extra_event_visit": true,
-            "response_event_id": 7
+            "extra_event_visit": false,
+            "response_event_id": null
           }
         ],
         "public_events": [
           {
-            "event_id": 7,
-            "task": 20,
-            "visible_s": 675.0,
-            "initial_public_risk": 0.017015252355668763,
-            "expires_s": 795.0,
+            "event_id": 8,
+            "task": 17,
+            "visible_s": 685.0,
+            "initial_public_risk": 0.015355876600859375,
+            "expires_s": 805.0,
             "status": "measured",
-            "measurement_s": 705.0,
+            "measurement_s": 690.0,
             "measured_alarm": true,
-            "signal_source_task": 20,
-            "agent": 0
+            "signal_source_task": 17,
+            "agent": 1
           }
         ],
         "dispatches": [
           {
-            "time_s": 630.0,
-            "agent": 0,
-            "task": 20,
-            "routine_head": 20,
+            "time_s": 665.0,
+            "task": 17,
+            "agent": 1,
+            "routine_head": 17,
             "extra_event_visit": false,
-            "event_id": null,
-            "certificate": {
-              "ok": true,
-              "candidate": 20,
-              "clock_s": 630.0,
-              "cursor_before": 10,
-              "cursor_after": 11,
-              "candidate_finish_s": 650.0,
-              "candidate_due_s": 720.0,
-              "fallback_order": [
-                22,
-                0,
-                2,
-                4,
-                6,
-                12,
-                14,
-                8,
-                10,
-                16,
-                18,
-                20
-              ],
-              "fallback_completion_s": [
-                665.0,
-                705.0,
-                720.0,
-                740.0,
-                755.0,
-                775.0,
-                790.0,
-                810.0,
-                825.0,
-                845.0,
-                860.0,
-                880.0
-              ],
-              "fallback_due_s": [
-                735.0,
-                775.0,
-                790.0,
-                810.0,
-                825.0,
-                845.0,
-                860.0,
-                880.0,
-                895.0,
-                915.0,
-                930.0,
-                950.0
-              ],
-              "repeating_cycle_s": 230.0,
-              "minimum_projected_slack_s": 70.0
-            }
-          },
-          {
-            "time_s": 685.0,
-            "agent": 0,
-            "task": 20,
-            "routine_head": 22,
-            "extra_event_visit": true,
-            "event_id": 7,
-            "certificate": {
-              "ok": true,
-              "candidate": 20,
-              "clock_s": 685.0,
-              "cursor_before": 11,
-              "cursor_after": 11,
-              "candidate_finish_s": 705.0,
-              "candidate_due_s": 950.0,
-              "fallback_order": [
-                22,
-                0,
-                2,
-                4,
-                6,
-                12,
-                14,
-                8,
-                10,
-                16,
-                18,
-                20
-              ],
-              "fallback_completion_s": [
-                720.0,
-                760.0,
-                775.0,
-                795.0,
-                810.0,
-                830.0,
-                845.0,
-                865.0,
-                880.0,
-                900.0,
-                915.0,
-                935.0
-              ],
-              "fallback_due_s": [
-                735.0,
-                775.0,
-                790.0,
-                810.0,
-                825.0,
-                845.0,
-                860.0,
-                880.0,
-                895.0,
-                985.0,
-                970.0,
-                1005.0
-              ],
-              "repeating_cycle_s": 230.0,
-              "minimum_projected_slack_s": 15.0
-            }
+            "finish_s": 690.0
           }
         ]
       }
@@ -267,7 +149,16 @@
           }
         ],
         "public_events": [],
-        "dispatches": []
+        "dispatches": [
+          {
+            "time_s": 680.0,
+            "task": 21,
+            "agent": 1,
+            "routine_head": null,
+            "extra_event_visit": false,
+            "finish_s": 695.0
+          }
+        ]
       },
       "fifo": {
         "interval": {
@@ -339,128 +230,468 @@
         "dispatches": [
           {
             "time_s": 705.0,
-            "agent": 1,
             "task": 21,
+            "agent": 1,
             "routine_head": 23,
             "extra_event_visit": true,
-            "event_id": 6,
-            "certificate": {
-              "ok": true,
-              "candidate": 21,
-              "clock_s": 705.0,
-              "cursor_before": 10,
-              "cursor_after": 10,
-              "candidate_finish_s": 725.0,
-              "candidate_due_s": 755.0,
-              "fallback_order": [
-                23,
-                21,
-                1,
-                3,
-                7,
-                5,
-                13,
-                15,
-                11,
-                9,
-                17,
-                19
-              ],
-              "fallback_completion_s": [
-                740.0,
-                755.0,
-                795.0,
-                810.0,
-                830.0,
-                845.0,
-                870.0,
-                885.0,
-                905.0,
-                920.0,
-                945.0,
-                960.0
-              ],
-              "fallback_due_s": [
-                935.0,
-                1025.0,
-                795.0,
-                810.0,
-                830.0,
-                845.0,
-                870.0,
-                885.0,
-                905.0,
-                965.0,
-                990.0,
-                1005.0
-              ],
-              "repeating_cycle_s": 240.0,
-              "minimum_projected_slack_s": 0.0
-            }
+            "finish_s": 725.0
           },
           {
             "time_s": 740.0,
-            "agent": 1,
             "task": 21,
+            "agent": 1,
             "routine_head": 21,
             "extra_event_visit": false,
-            "event_id": null,
-            "certificate": {
-              "ok": true,
-              "candidate": 21,
-              "clock_s": 740.0,
-              "cursor_before": 11,
-              "cursor_after": 0,
-              "candidate_finish_s": 755.0,
-              "candidate_due_s": 1025.0,
-              "fallback_order": [
-                1,
-                3,
-                7,
-                5,
-                13,
-                15,
-                11,
-                9,
-                17,
-                19,
-                23,
-                21
-              ],
-              "fallback_completion_s": [
-                795.0,
-                810.0,
-                830.0,
-                845.0,
-                870.0,
-                885.0,
-                905.0,
-                920.0,
-                945.0,
-                960.0,
-                980.0,
-                995.0
-              ],
-              "fallback_due_s": [
-                795.0,
-                810.0,
-                830.0,
-                845.0,
-                870.0,
-                885.0,
-                905.0,
-                965.0,
-                990.0,
-                1005.0,
-                1040.0,
-                1055.0
-              ],
-              "repeating_cycle_s": 240.0,
-              "minimum_projected_slack_s": 0.0
-            }
+            "finish_s": 755.0
           }
         ]
       }
     }
-  }
+  },
+  "agent_chains": {
+    "tour": [
+      {
+        "time_s": 605.0,
+        "agent": 1,
+        "task": 11,
+        "task_id": "thermal:11",
+        "kind": "thermal",
+        "index": 11,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 11,
+          "temperature_c": 52.59796777120198
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 620.0,
+        "agent": 1,
+        "task": 9,
+        "task_id": "thermal:9",
+        "kind": "thermal",
+        "index": 9,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 9,
+          "temperature_c": 52.16684752154489
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 645.0,
+        "agent": 1,
+        "task": 17,
+        "task_id": "thermal:17",
+        "kind": "thermal",
+        "index": 17,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 17,
+          "temperature_c": 61.120783273504166
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 660.0,
+        "agent": 1,
+        "task": 19,
+        "task_id": "thermal:19",
+        "kind": "thermal",
+        "index": 19,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 19,
+          "temperature_c": 62.54352096277668
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 680.0,
+        "agent": 1,
+        "task": 23,
+        "task_id": "thermal:23",
+        "kind": "thermal",
+        "index": 23,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 23,
+          "temperature_c": 70.1593257902917
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": true,
+        "measurement_transition": "new_measured_alert"
+      },
+      {
+        "time_s": 695.0,
+        "agent": 1,
+        "task": 21,
+        "task_id": "thermal:21",
+        "kind": "thermal",
+        "index": 21,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 21,
+          "temperature_c": 67.88421711807902
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": true,
+        "measurement_transition": "new_measured_alert"
+      },
+      {
+        "time_s": 735.0,
+        "agent": 1,
+        "task": 1,
+        "task_id": "thermal:1",
+        "kind": "thermal",
+        "index": 1,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 1,
+          "temperature_c": 47.32331093863052
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 750.0,
+        "agent": 1,
+        "task": 3,
+        "task_id": "thermal:3",
+        "kind": "thermal",
+        "index": 3,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 3,
+          "temperature_c": 49.467158093296675
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      },
+      {
+        "time_s": 770.0,
+        "agent": 1,
+        "task": 7,
+        "task_id": "thermal:7",
+        "kind": "thermal",
+        "index": 7,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 7,
+          "temperature_c": 50.7972000974276
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "measurement_transition": "normal_check"
+      }
+    ],
+    "fifo": [
+      {
+        "time_s": 605.0,
+        "agent": 1,
+        "task": 11,
+        "task_id": "thermal:11",
+        "kind": "thermal",
+        "index": 11,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 11,
+          "temperature_c": 52.59796777120198
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": false,
+        "response_event_id": null
+      },
+      {
+        "time_s": 635.0,
+        "agent": 1,
+        "task": 23,
+        "task_id": "thermal:23",
+        "kind": "thermal",
+        "index": 23,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 23,
+          "temperature_c": 67.5463935988926
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": true,
+        "extra_event_visit": true,
+        "response_event_id": 1
+      },
+      {
+        "time_s": 665.0,
+        "agent": 1,
+        "task": 9,
+        "task_id": "thermal:9",
+        "kind": "thermal",
+        "index": 9,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 9,
+          "temperature_c": 51.765803507697775
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": false,
+        "response_event_id": null
+      },
+      {
+        "time_s": 690.0,
+        "agent": 1,
+        "task": 17,
+        "task_id": "thermal:17",
+        "kind": "thermal",
+        "index": 17,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 17,
+          "temperature_c": 65.67479588229645
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": true,
+        "extra_event_visit": false,
+        "response_event_id": null
+      },
+      {
+        "time_s": 705.0,
+        "agent": 1,
+        "task": 19,
+        "task_id": "thermal:19",
+        "kind": "thermal",
+        "index": 19,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 19,
+          "temperature_c": 64.64866317631166
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": false,
+        "response_event_id": 9
+      },
+      {
+        "time_s": 725.0,
+        "agent": 1,
+        "task": 21,
+        "task_id": "thermal:21",
+        "kind": "thermal",
+        "index": 21,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 21,
+          "temperature_c": 63.13349314286346
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": true,
+        "response_event_id": 6
+      },
+      {
+        "time_s": 740.0,
+        "agent": 1,
+        "task": 23,
+        "task_id": "thermal:23",
+        "kind": "thermal",
+        "index": 23,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 23,
+          "temperature_c": 62.25558567589258
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": false,
+        "response_event_id": null
+      },
+      {
+        "time_s": 755.0,
+        "agent": 1,
+        "task": 21,
+        "task_id": "thermal:21",
+        "kind": "thermal",
+        "index": 21,
+        "role": "thermal",
+        "service_s": 10.0,
+        "measurement": {
+          "rack_index": 21,
+          "temperature_c": 58.35403856349613
+        },
+        "calibrated": true,
+        "access": "external_sensing",
+        "alarm": false,
+        "extra_event_visit": false,
+        "response_event_id": null
+      }
+    ]
+  },
+  "verified_own_prefix": [
+    [
+      15.0,
+      1
+    ],
+    [
+      30.0,
+      3
+    ],
+    [
+      50.0,
+      7
+    ],
+    [
+      65.0,
+      5
+    ],
+    [
+      90.0,
+      13
+    ],
+    [
+      105.0,
+      15
+    ],
+    [
+      125.0,
+      11
+    ],
+    [
+      140.0,
+      9
+    ],
+    [
+      165.0,
+      17
+    ],
+    [
+      180.0,
+      19
+    ],
+    [
+      200.0,
+      23
+    ],
+    [
+      215.0,
+      21
+    ],
+    [
+      255.0,
+      1
+    ],
+    [
+      270.0,
+      3
+    ],
+    [
+      290.0,
+      7
+    ],
+    [
+      305.0,
+      5
+    ],
+    [
+      330.0,
+      13
+    ],
+    [
+      345.0,
+      15
+    ],
+    [
+      365.0,
+      11
+    ],
+    [
+      380.0,
+      9
+    ],
+    [
+      405.0,
+      17
+    ],
+    [
+      420.0,
+      19
+    ],
+    [
+      440.0,
+      23
+    ],
+    [
+      455.0,
+      21
+    ],
+    [
+      495.0,
+      1
+    ],
+    [
+      510.0,
+      3
+    ],
+    [
+      530.0,
+      7
+    ],
+    [
+      545.0,
+      5
+    ],
+    [
+      570.0,
+      13
+    ],
+    [
+      585.0,
+      15
+    ],
+    [
+      605.0,
+      11
+    ]
+  ]
 }

@@ -28,7 +28,7 @@
 
 当前属于思想继承与领域适配，不能称完整复现或超越原论文。具体历史对照见[原论文与当前贡献对照](https://github.com/DonsonHH/Zhinengti-RSI/blob/f2c20b3a642ff1df9426e523614d3da9a5cf1129/research/2026-10-30-m12c1b4b2-alignment/原论文与当前贡献对照.md)。
 
-原论文的VAE-UNet从部分观测估计区域重要度，合作调度采用多智能体Double DQN；当前保留的PPO不是该算法的复现。该信息已核对[大学机构库提供的论文摘要](https://idus.us.es/server/api/core/bitstreams/79e88506-ca7f-48f1-86b8-5504d9cb3e39/content)，尚未完成本轮逐节模型与指标核对。
+原论文的VAE-UNet从部分观测估计区域重要度，合作调度采用多智能体Double DQL／Dueling网络；当前保留的PPO不是该算法的复现。本轮已取得[大学机构库13页全文](https://idus.us.es/server/api/core/bitstreams/79e88506-ca7f-48f1-86b8-5504d9cb3e39/content)，完成§3与§4.1—4.7的观测、动作、目标、约束和模块核对，见[五维比较与原件SHA](../paper/research/closest-methods-20261102.md)。其`W_MAX`是idleness截断，safe-consensus处理避障／碰撞；本项目硬重访和循环返回证书的保证对象不同，尚无同任务算法优越性比较。
 
 重新开展研究时，先用一个跨系统案例解释“已有信息怎样改变检查决定”。连续遥测可能早已提示异常，本项目的有效现场确认时间不能直接称为首次发现故障；现有固定任务所属与局部换序也不等同于跨专业自由协作。共享信息、改变安排、确认更早和递归改进分别验证。
 
