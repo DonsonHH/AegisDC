@@ -28,7 +28,10 @@
 
 本次叙事、层级与版式整理见[修订要求](report-structure-spec-20261103.md)与[完整复核](report-structure-review-20261103.md)；前轮两点澄清与导出验证见[澄清与导出复核](report-refinement-review-20261103.md)。
 
+最新一轮先解释观测盲区与加查过程，再介绍公式和实验；正文、图内术语及章节衔接同步优化，见[易读表达要求](report-readability-spec-20261103.md)与[完整复核](report-readability-review-20261103.md)。
+
 - [叙事重排前的v8完整报告](briefing-history/eaac9994/supervisor-briefing.html)及模板、文本包和验证记录保留。
+- [通俗表达修订前的v9完整报告](briefing-history/17e1f7a3/supervisor-briefing.html)及11份核心源文、数据与验证文件按SHA保留。
 
 ## 历史沟通材料
 

@@ -478,11 +478,11 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 <div class="principle-box" id="principle-return"><p class="principle-title">完整返回核算</p><div class="formula-scroll"><p class="formula" role="math">t + τ(p,x) + τ(x,r) ≤ L<sub>r</sub> + D<sub>r</sub>；τ(a,b) = 5⌈[d(a,b)/v + s<sub>b</sub>]/5⌉</p><p class="formula" role="math">对完整循环：F<sub>j</sub> ≤ L′<sub>j</sub> + D<sub>j</sub>；最小余量≥0</p></div><p>此简式取额外加查x与原任务r不同。τ包括目的任务服务，v＝1 m/s；首次未检的L按0起算，L′随预计访问更新。程序核查候选自身、完整循环及重复周期；每次实际完成后重新选择。</p></div>
 <h3>3.2 共同合法候选集合下的策略族</h3>
 <h4>3.2.1 固定Tour与先入先出FIFO</h4>
-<p>Tour按原定路线循环检查。FIFO（First In, First Out，先入先出）在巡检员空闲时，从“原定下一项例行任务＋本人风险待办”中筛出当前允许执行的任务，优先处理最早出现的风险请求；没有可执行的风险请求时，继续原定下一项例行任务。所有响应方法共用资格、预约、返回、回合结束时的重访核查与访问额度检查。</p>
+<p>Tour按原定路线循环检查。FIFO（First In, First Out，先入先出）在巡检员空闲时，从“原定下一项例行任务＋本人风险待办”中筛出当前允许执行的任务，优先处理最早出现的风险请求；没有可执行的风险请求时，继续原定下一项例行任务。所有响应方法共用资格、预约、返回、回合结束前完成检查的限制与访问额度检查。</p>
 <h4>3.2.2 即时Greedy与响应／暂缓规则</h4>
 <p>Greedy优先处理风险高、预计完成时间短的任务，具体比较“当前公开风险／取整完成耗时”，平分时依次优先例行项、较早提示和较小任务编号。响应／暂缓线性规则则先由FIFO选定一个合法事件，再在该事件与原定下一项例行任务之间二选一；规则表达式与历史开发结果见<a href="#historical-benchmark">附录C</a>。</p>
 <h4>3.2.3 共享PPO策略</h4>
-<p>PPO尝试从训练中学会：当几项任务都允许执行时，先查哪一项。选择网络（actor）读取21维公开候选特征，使用32×32共享网络；训练时另用10维公开全局特征的评价网络（critic）。特征包括专业、风险、距上次检查的时间、预计到达时间、量测状态、等待时间、访问额度和返回余量，巡检员按固定编号依次决策。</p>
+<p>PPO尝试从训练中学会：当几项任务都允许执行时，先查哪一项。选择网络（actor）读取21维公开候选特征，使用32×32共享网络；训练时另用10维公开全局特征的评价网络（critic）。特征包括专业、风险、距上次检查的时间、预计完成检查的耗时、量测状态、等待时间、访问额度和返回余量，巡检员按固定编号依次决策。</p>
 <figure id="figure-supplement-crossed-design"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 650" role="img" aria-labelledby="supplement-crossed-design-title supplement-crossed-design-description" data-chart="supplement-crossed-design">
 <title id="supplement-crossed-design-title">同信息同约束的估计器和调度器交叉设计</title>
 <desc id="supplement-crossed-design-description">两种估计器共享候选生成，FIFO、Greedy及共享PPO在同一合法候选集合内决策；物理真值只离线评分。</desc>
