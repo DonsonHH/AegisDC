@@ -39,6 +39,29 @@ def table(headers,rows,kind):
     return '<div class="table-wrap"><table data-table="'+kind+'"><thead><tr>'+''.join(cell('th',v) for v in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join(cell('td',v) for v in row)+'</tr>' for row in rows)+'</tbody></table></div>'
 
 
+def comparison_table(comparison):
+    headings='<thead><tr><th rowspan="2">方法</th><th colspan="3">状态估计</th><th rowspan="2">适配idleness<br>加权年龄↓</th><th colspan="3">异常任务</th><th colspan="3">成本与效率</th><th rowspan="2">本任务状态</th></tr><tr><th>RMSE<br>°C↓</th><th>加权RMSE<br>°C↓</th><th>R²↑</th><th>确认段数<br>（比例）↑</th><th>截尾等待<br>秒↓</th><th>硬重访<br>违规</th><th>移动变化<br>%</th><th>完成量变化<br>%</th><th>单步推理<br>ms</th></tr></thead>'
+    labels={'tour':'固定巡回Tour','shuffled':'名义估计＋风险位置置乱','S1-age':'线性暂缓①：等待15秒','S2-risk_time':'线性暂缓②：多特征','fifo':'名义估计＋返回保护FIFO'}
+    rows=[]
+    for method in comparison['method_order']:
+        if method in comparison['aggregates']:
+            item=comparison['aggregates'][method]
+            change=sum((c['methods'][method]['completed_inspections']/c['methods']['tour']['completed_inspections']-1)*100 for c in comparison['cases'])/len(comparison['cases'])
+            values=[labels[method],'未留帧','未留帧','未留帧',f"{item['mean_weighted_normalized_age']:.6f}",
+                    f"{item['confirmed_segments']}/{item['anomaly_segments']}（{100*item['confirmation_ratio']:.1f}%）",
+                    f"{item['mean_consequence_weighted_censored_delay_s']:.2f}",item['revisit_violating_task_episode_pairs'],
+                    f"{item['mean_travel_change_vs_tour_pct']:+.2f}",f'{change:+.2f}','未计时',
+                    '已运行·开发并列60' if method.startswith('S') else '已运行·主比较']
+            state='development' if method.startswith('S') else 'primary'
+        else:
+            item=comparison['unrun_methods'][method]
+            values=[item['label'],*['待运行']*10,'待同任务适配／运行'];state='not_run'
+            assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported']
+        cells=''.join('<td>'+html.escape(str(value))+'</td>' for value in values)
+        rows.append(f'<tr data-comparison-method="{method}" data-result-state="{state}">'+cells+'</tr>')
+    return '<div class="table-wrap"><table class="comparison-table" data-table="method-comparison">'+headings+'<tbody>'+''.join(rows)+'</tbody></table></div>'
+
+
 def main():
     for source in ['scripts/build_supervisor_report.py','scripts/report_diagrams.py','scripts/briefing_diagrams.py']:
         read(source)
@@ -55,6 +78,14 @@ def main():
     kinds=load('paper/source-data/primary-anomaly-kinds.json')
     method_evidence=load('paper/source-data/report-method-evidence.json')
     rule_diagnosis=load('paper/source-data/report-rule-diagnosis.json')
+    comparison=load('paper/source-data/report-comparison-metrics.json')
+    engineering_alignment=load('paper/source-data/report-engineering-alignment.json')
+    visual_sample=load('paper/source-data/pid-visual-sample.json')
+    images={key:read(identity['path']) for key,identity in visual_sample['assets'].items()}
+    for key,raw in images.items():assert hashlib.sha256(raw).hexdigest()==visual_sample['assets'][key]['sha256']
+    for source in ['report-engineering-alignment-20261103.md','report-pid-interface-20261103.md','report-comparison-metrics-20261103.md']:
+        read('paper/research/'+source)
+    read('paper/report-focus-spec-20261103.md')
     read('paper/research/report-method-formulas-20261103.md')
     read('paper/research/report-rule-diagnosis-20261103.md')
     assert kinds['counts']=={'thermal':77,'cooling':12}
@@ -64,7 +95,7 @@ def main():
     original=read('paper/research/original-paper-metrics-20261103.md').decode('utf-8')
     read('paper/model-appendix.md')
     read('paper/mentor-requests.md')
-    for source in ['src/patrol_rsi/risk_response.py','src/patrol_rsi/active_inspection.py','src/patrol_rsi/facility.py','src/patrol_rsi/facility_observation.py','src/patrol_rsi/aisles.py','src/patrol_rsi/coverage_plan.py','src/patrol_rsi/response_rule.py','src/patrol_rsi/inspection_metrics.py']:
+    for source in ['src/patrol_rsi/risk_response.py','src/patrol_rsi/active_inspection.py','src/patrol_rsi/facility.py','src/patrol_rsi/facility_observation.py','src/patrol_rsi/aisles.py','src/patrol_rsi/coverage_plan.py','src/patrol_rsi/response_rule.py','src/patrol_rsi/inspection_metrics.py','src/patrol_rsi/inspection_contracts.py']:
         read(source)
     primary=[p for p in pairs if p['group']=='coupled']
     assert len(primary)==summary['primary_paired_processes']==12
@@ -120,6 +151,8 @@ def main():
           'fault_cases':method_evidence['primary_processes']['cases'],
           'method_basis':method_evidence['method_basis'],
           'rule_diagnosis_example':rule_diagnosis['trace_examples']['p00_first_difference_and_loss'],
+          'comparison':comparison['aggregates'],'comparison_definition':comparison['definitions'],
+          'comparison_unrun_methods':comparison['unrun_methods'],'engineering_alignment':engineering_alignment,'visual_sample':visual_sample,
           'primary_anomaly_kinds':kinds['counts'],
           'paper_scores':paper,'paper_metric_scope':'Original water-task score; not directly comparable to professional anomaly confirmation.',
           'new_environment_evaluations':0,'new_research_model_calls':0,'new_training':0}
@@ -133,7 +166,7 @@ def main():
     net_root=ET.fromstring(inherited['paired-net'])
     encoded_net={e.attrib['data-case']:int(e.attrib['data-net']) for e in net_root.iter() if 'data-net' in e.attrib}
     assert encoded_net=={p['case']:p['fifo_minus_tour']['net'] for p in primary}
-    drawings=build_report_diagrams(data,inherited)
+    drawings=build_report_diagrams(data,inherited,images)
     folder=PAPER/'figures/supervisor-report';folder.mkdir(parents=True,exist_ok=True)
     figure_hashes={}
     for name,drawing in drawings.items():
@@ -143,7 +176,10 @@ def main():
     figure_notes={
         'model':'本项目集中参数模型的供电、双回路液冷与局部控制计算关系。',
         'public-risk':'已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。',
+        'estimated-temperature':'已有工程回看500秒的公开温度估计；与右图同一色标，红框叠加原热风险提示。',
         'offline-temperature':'同一工程过程500秒的事后设备代表温度。',
+        'pid-visual-sample':'PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。',
+        'visual-interface':'已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。',
         'fifo-cycle':'每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。',
         'inspection-architecture':'根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。',
         'fifo-actions':'主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。',
@@ -174,7 +210,7 @@ def main():
          f"{row['fault_start_s']:g}→{row['fault_end_s_exclusive']:g}",
          f"{row['anomaly_segments_by_role']['thermal']}／{row['anomaly_segments_by_role']['cooling']}"]
         for index,row in enumerate(method_evidence['primary_processes']['cases'])],'fault-cases')
-    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'TASK_TABLE':task_table,'FAULT_TABLE':fault_table,
+    substitutions={'QUEUE_TABLE':queue_table,'RETURN_TABLE':return_table,'HOTSPOT_TABLE':hotspot_table,'TASK_TABLE':task_table,'FAULT_TABLE':fault_table,'COMPARISON_TABLE':comparison_table(comparison),
         'VISIT_BUDGET':str(protocol['extra_visit_budget']),
         'GAINED':str(gained),'LOST':str(lost),'NET':str(gained-lost),'MEAN_NET':f"{comp['net_confirmations']['mean']:.2f}",
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
@@ -183,15 +219,14 @@ def main():
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
     parts=re.split(r'<!-- section:([a-z-]+) -->',source)
     title=md.render(parts[0]);sections=[];navigation=[]
-    labels={'overview':'报告主线','model':'耦合模型','hotspots':'风险怎么算','fifo':'巡检机制','results':'实验与诊断','comparison':'原文评价','roadmap':'下一步路线图','sources':'来源'}
+    labels={'overview':'课题主线','model':'模型与视觉','hotspots':'全局态势','fifo':'闭环基准','comparison':'横向比较','roadmap':'后续安排','appendix':'技术附录','sources':'来源'}
     for index in range(1,len(parts),2):
         identity,body=parts[index:index+2]
         body=re.sub(r'\{\{FIGURE:([a-z0-9-]+)\}\}',lambda m:'\n\n'+figure(m[1])+'\n\n',body)
         body=re.sub(r'\{\{PAIR:([a-z0-9-]+),([a-z0-9-]+)\}\}',lambda m:'\n\n<div class="figure-pair">'+figure(m[1])+figure(m[2])+'</div>\n\n',body)
         rendered=md.render(body)
         def optional_case(match):
-            detail=re.sub(r'<h3>.*?</h3>','',match[1],count=1,flags=re.S)
-            return '<details class="case-appendix"><summary>补充案例：同一巡检员为什么有得也有失（可展开）</summary><div class="appendix-body">'+detail+'</div></details>'
+            return '<details class="case-appendix"><summary>展开技术细节：计算、执行记录、规则诊断与文献图</summary><div class="appendix-body">'+match[1]+'</div></details>'
         rendered=re.sub(r'<!-- optional-case:start -->(.*?)<!-- optional-case:end -->',optional_case,rendered,flags=re.S)
         assert '{{' not in rendered
         sections.append('<section id="'+identity+'" data-report-section="'+identity+'">'+rendered+'</section>')
@@ -212,7 +247,12 @@ def main():
     destination=PAPER/'supervisor-briefing.html';destination.write_text(output,encoding='utf-8',newline='\n')
     data_path=PAPER/'generated/supervisor-report-data.json';write_json(data_path,data)
     write_json(PAPER/'generated/briefing-chart-data.json',data)
-    manifest={'version':5,'mode':'self_reading_report','previous_version':'65f025fda0920ecb14614bcac4913f98cc575766','animations':False,'presenter_controls':False,
+    core=re.sub(r'<details\b.*?</details>','',content,flags=re.S)
+    main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
+    all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
+    assert len(all_figures)==len(set(all_figures))==len(drawings)
+    manifest={'version':6,'mode':'self_reading_report','previous_version':'e7fd9e2631fa801b9ec2a6975b15efe100eec7e3','animations':False,'presenter_controls':False,
+        'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
         'sections':list(labels),'primary_processes':12,'primary_anomaly_segments':89,'main_results':main_results,
         'engineering_frame_scope':engineering['kind'],'fifo_example_case':fifo['case'],'new_environment_evaluations':0,
         'new_research_model_calls':0,'new_training':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),

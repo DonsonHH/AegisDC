@@ -77,29 +77,35 @@ async function inspect(selector,width,height,label){
   report.checks.noScriptsOrPresenterControls=await evaluate(`document.querySelectorAll('script,.stage-controls,.toolbar,.slide,dialog,[data-stage-from]').length===0`);
   report.checks.appendixOptional=await evaluate(`!document.querySelector('.case-appendix').open`);
   report.checks.allCoreContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none'&&getComputedStyle(e).opacity==='1')`);
-  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===12&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
+  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===8&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
   report.checks.contentsResolve=await evaluate(`[...document.querySelectorAll('.contents a')].every(a=>document.querySelector(a.getAttribute('href')))`);
   report.checks.noAnimations=await evaluate(`document.getAnimations().length===0&&[...document.querySelectorAll('*')].every(e=>getComputedStyle(e).animationName==='none'&&getComputedStyle(e).transitionDuration==='0s')`);
   report.checks.actualFifoQueue=await evaluate(`(()=>{const t=document.querySelector('[data-table="fifo-queue"]').textContent;return t.includes('450秒')&&t.includes('455秒')&&t.includes('0.0081')&&t.includes('0.0656')&&t.indexOf('机柜10')<t.indexOf('机柜8')})()`);
   report.checks.returnBudget=await evaluate(`(()=>{const t=document.querySelector('[data-table="return-budget"]').textContent;return ['525秒','540秒','545秒','20秒','5秒'].every(v=>t.includes(v))})()`);
-  report.checks.twoCompleteHeatmaps=await evaluate(`document.querySelectorAll('[data-kind="risk"][data-rack]').length===128&&document.querySelectorAll('[data-kind="temperature"][data-rack]').length===128`);
+  report.checks.completeHeatmaps=await evaluate(`['risk','temperature','estimated-temperature'].every(kind=>document.querySelectorAll('[data-kind="'+kind+'"][data-rack]').length===128)`);
+  report.checks.originalRiskOverlay=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-risk-positive]')].map(e=>Number(e.dataset.rack)))===JSON.stringify([64,67,70])`);
+  report.checks.embeddedPidImages=await evaluate(`(()=>{const images=[...document.querySelectorAll('#figure-pid-visual-sample image')];return images.length===3&&images.every(e=>e.getAttribute('href').startsWith('data:image/png;base64,')&&e.getBoundingClientRect().height>100)})()`);
   report.checks.primaryOutcomeValues=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-method]')].map(e=>[e.dataset.method,Number(e.dataset.count)]))===JSON.stringify([['tour',28],['fifo',70],['shuffled',25]])`);
   report.checks.allRegisteredRulesShown=await evaluate(`JSON.stringify([...document.querySelectorAll('[data-rule-sha]')].map(e=>Number(e.dataset.confirmed)))===JSON.stringify([28,33,59,43,30,60,47,60,49])`);
   report.checks.costThresholdsShown=await evaluate(`(()=>{const rows=[...document.querySelectorAll('[data-cost-key]')];return rows.length===3&&rows.every(e=>Number(e.dataset.value)>0&&Number(e.dataset.threshold)>0)&&document.querySelector('#figure-outcome-costs').textContent.includes('研究决策')})()`);
   report.checks.completeInspectionArchitecture=await evaluate(`(()=>{const t=document.querySelector('#figure-inspection-architecture').textContent;return ['公开观测','名义估计','两本任务账','执行边界与FIFO','执行检查与更新','离线评分'].every(v=>t.includes(v))})()`);
-  report.checks.mentorRequestsAddressed=await evaluate(`(()=>{const t=document.body.textContent;return ['10 kV','380 V','CDU','E/G','风险热点','RMSE','R²','48023-2026','48097-2026','2027-02-01','2027-03-01'].every(s=>t.includes(s))})()`);
-  report.checks.summaryPrecedesFirstTable=await evaluate(`(()=>{const summary=document.querySelector('.project-summary'),table=document.querySelector('table');return !!summary&&(summary.compareDocumentPosition(table)&Node.DOCUMENT_POSITION_FOLLOWING)!==0&&summary.textContent.includes('31.5%')&&summary.textContent.includes('78.7%')})()`);
-  report.checks.threeReadablePrinciples=await evaluate(`document.querySelectorAll('.principle-box').length===3&&[...document.querySelectorAll('.formula-scroll')].every(e=>e.getBoundingClientRect().height>40)&&document.querySelector('#principle-estimation').textContent.includes('800 kJ/K')&&document.querySelector('#principle-risk').textContent.includes('0.25')&&document.querySelector('#principle-return').textContent.includes('完整')`);
-  report.checks.allFaultCasesShown=await evaluate(`document.querySelector('[data-table="fault-cases"]').tBodies[0].rows.length===12&&document.querySelector('#results').textContent.includes('0.05')&&document.querySelector('#results').textContent.includes('0.20')`);
-  report.checks.ruleMechanismAndDiagnosis=await evaluate(`(()=>{const t=document.querySelector('#results').textContent;return document.querySelectorAll('[data-rule-expression]').length===9&&['229次','0.7604','规则06','300秒派出','365秒','模型调用和训练均为0'].every(v=>t.includes(v))})()`);
-  report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['第1周','第2周','第3周','条款原文','VAE-UNet','Greedy','DRL','128／256／512','训练预算','FLOP/s'].every(v=>t.includes(v))})()`);
-  report.checks.scopeNotesCollected=await evaluate(`(()=>{const t=document.body.textContent;return document.querySelectorAll('.scope-note').length>=5&&t.includes('实际额外访问分别为89、81次')&&t.includes('官方元数据')&&t.includes('日志保留了当时总分')})()`);
-  const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],
-    ['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],
-    ['#figure-public-risk','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],['#principle-return','return-formula'],
-    ['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
-    ['#results','results'],['[data-table="fault-cases"]','fault-cases'],['#figure-outcome-costs','outcome-costs'],['#figure-registered-rules','registered-rules'],['#figure-rule-diagnosis','rule-diagnosis'],
-    ['#comparison','paper-metrics'],['#figure-original-paper-scores','paper-comparison'],['#roadmap','roadmap']];
+  report.checks.mentorRequestsAddressed=await evaluate(`(()=>{const t=document.body.textContent;return ['10 kV','380 V','CDU','E/G','RGB','RMSE','R²','48023-2026','48097-2026','2027-02-01','2027-03-01'].every(s=>t.includes(s))})()`);
+  report.checks.summaryPrecedesFirstTable=await evaluate(`(()=>{const summary=document.querySelector('.project-summary'),table=document.querySelector('table');return !!summary&&(summary.compareDocumentPosition(table)&Node.DOCUMENT_POSITION_FOLLOWING)!==0&&summary.textContent.includes('28/89')&&summary.textContent.includes('70/89')})()`);
+  report.checks.engineeringForeground=await evaluate(`(()=>{const t=document.querySelector('#model').textContent;return ['0.035','20秒','95°C','161／145','1.809','2.82110','29.68462','23.15—24.14','128柜／16组'].every(v=>t.includes(v))&&document.querySelectorAll('#model .principle-box').length===1})()`);
+  report.checks.actualComparisonTable=await evaluate(`(()=>{const table=document.querySelector('[data-table="method-comparison"]');return table.tBodies[0].rows.length===7&&table.querySelectorAll('[data-result-state="primary"]').length===3&&table.querySelectorAll('[data-result-state="development"]').length===2&&table.querySelectorAll('[data-result-state="not_run"]').length===2&&['0.310901','0.313052','60.23','58.14','未留帧','未计时'].every(v=>table.textContent.includes(v))})()`);
+  report.checks.technicalDetailsInAppendix=await evaluate(`['registered-rules','rule-diagnosis','fifo-cycle','fifo-actions','original-paper-scores'].every(name=>!!document.querySelector('#figure-'+name).closest('details'))`);
+  report.checks.noUnsupportedTrainingStatus=await evaluate(`![...document.querySelectorAll('[data-result-state="not_run"]')].some(e=>e.textContent.includes('正在训练')||e.textContent.includes('已完成'))`);
+  report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['正式条款','RGB/IR','VAE-UNet','Greedy','DRL','128柜','独立验证','RSI'].every(v=>t.includes(v))})()`);
+  report.checks.scopeNotesCollected=await evaluate(`document.querySelectorAll('.scope-note').length>=5&&document.body.textContent.includes('显示外观')&&document.body.textContent.includes('元数据')`);
+  const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],['#figure-pid-visual-sample','pid-sample'],
+    ['#figure-visual-interface','visual-interface'],['#principle-control','control'],['#standards','standards'],['#scale','scale'],
+    ['#figure-estimated-temperature','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],
+    ['#figure-confirmations','results'],['#figure-outcome-costs','outcome-costs'],['#comparison','comparison'],
+    ['[data-table="method-comparison"]','method-comparison'],['#roadmap','roadmap']];
+  const appendixRegions=[['#appendix','appendix'],['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],['#figure-public-risk','alarm-map'],
+    ['#principle-return','return-formula'],['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
+    ['[data-table="fault-cases"]','fault-cases'],['#figure-paired-net','paired-net'],['#figure-registered-rules','registered-rules'],
+    ['#figure-rule-diagnosis','rule-diagnosis'],['#figure-execution-chain','appendix-case'],['#figure-task-17','task-timelines'],['#figure-original-paper-scores','paper-comparison']];
   for(const [width,height] of [[1366,768],[1920,1080]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate('window.scrollTo(0,0)');await delay(100);
@@ -108,14 +114,18 @@ async function inspect(selector,width,height,label){
     report.screenshot_sha256[path.relative(root,heroFile).replaceAll('\\','/')]=digest(heroFile);
     for(const [selector,label] of regions)await inspect(selector,width,height,label);
     await evaluate(`document.querySelector('.case-appendix').open=true`);
-    await inspect('#figure-execution-chain',width,height,'appendix-case');
+    report.checks.appendixCalculationsReadable=await evaluate(`document.querySelectorAll('.principle-box').length===4&&[...document.querySelectorAll('.formula-scroll')].every(e=>e.getBoundingClientRect().height>30)&&document.querySelector('#principle-estimation').textContent.includes('800 kJ/K')&&document.querySelector('#principle-return').textContent.includes('完整')`);
+    report.checks.allFaultCasesShown=await evaluate(`document.querySelector('[data-table="fault-cases"]').tBodies[0].rows.length===12`);
+    for(const [selector,label] of appendixRegions)await inspect(selector,width,height,label);
     await evaluate(`document.querySelector('.case-appendix').open=false`);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  for(const [selector,label] of [['.project-summary','summary'],['#overview','overview'],['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],['#hotspots','hotspots'],['#fifo','fifo'],['#principle-return','return-formula'],['#comparison','comparison'],['#roadmap','roadmap']])await inspect(selector,390,844,label);
+  for(const [selector,label] of [['.project-summary','summary'],['#overview','overview'],['#model','model'],['#figure-visual-interface','visual-interface'],['#hotspots','hotspots'],['#fifo','fifo'],['#comparison','comparison'],['#roadmap','roadmap']])await inspect(selector,390,844,label);
+  await send('Emulation.setDeviceMetricsOverride',{width:710,height:1020,deviceScaleFactor:1,mobile:false});
   await send('Emulation.setEmulatedMedia',{media:'print'});
   report.checks.printAppendixVisible=await evaluate(`document.querySelector('#figure-execution-chain').getBoundingClientRect().height>0`);
   report.checks.printContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none')&&getComputedStyle(document.querySelector('.contents')).display==='none'`);
+  report.checks.printFormulaFits=await evaluate(`[...document.querySelectorAll('.formula-scroll')].every(e=>e.scrollWidth<=e.clientWidth+1)`);
   const pdf=await send('Page.printToPDF',{landscape:false,printBackground:true,preferCSSPageSize:true});
   const pdfFile=path.join(work,'report-print.pdf');fs.writeFileSync(pdfFile,Buffer.from(pdf.data,'base64'));report.print_pdf_sha256=digest(pdfFile);
   assert(Object.values(report.checks).every(Boolean),'Content check failed: '+JSON.stringify(report.checks));

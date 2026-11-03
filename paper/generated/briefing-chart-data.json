@@ -2227,6 +2227,344 @@
     },
     "counterfactual_boundary": "The event4 certified finish335s is a stored candidate projection, not an observed positive measurement under that unchosen action. Actual FIFO320s was positive; actual rule365s was normal."
   },
+  "comparison": {
+    "tour": {
+      "label": "固定巡回 Tour",
+      "paired_processes": 12,
+      "anomaly_segments": 89,
+      "confirmed_segments": 28,
+      "confirmation_ratio": 0.3146067415730337,
+      "mean_weighted_normalized_age": 0.31090135739331703,
+      "mean_equal_task_normalized_age": 0.31015993265993286,
+      "mean_consequence_weighted_censored_delay_s": 78.15550405615171,
+      "revisit_violating_task_episode_pairs": 0,
+      "maximum_exact_gap_ratio": 0.8,
+      "mean_travel_m": 11793.399999999992,
+      "mean_travel_change_vs_tour_pct": 0.0,
+      "mean_completed_inspections": 1426,
+      "extra_event_visits_total": 0,
+      "invalid_assignments": 0,
+      "duplicate_reservations": 0,
+      "temperature_rmse_c": null,
+      "temperature_weighted_rmse_c": null,
+      "temperature_r2": null,
+      "single_step_inference_ms": null,
+      "status": "retained_primary_result"
+    },
+    "shuffled": {
+      "label": "名义估计＋位置置乱 Shuffled",
+      "paired_processes": 12,
+      "anomaly_segments": 89,
+      "confirmed_segments": 25,
+      "confirmation_ratio": 0.2808988764044944,
+      "mean_weighted_normalized_age": 0.3131376801764462,
+      "mean_equal_task_normalized_age": 0.31239960367564557,
+      "mean_consequence_weighted_censored_delay_s": 81.05780909876135,
+      "revisit_violating_task_episode_pairs": 0,
+      "maximum_exact_gap_ratio": 1.0,
+      "mean_travel_m": 11867.474999999991,
+      "mean_travel_change_vs_tour_pct": 0.6281055505621747,
+      "mean_completed_inspections": 1421.1666666666667,
+      "extra_event_visits_total": 81,
+      "invalid_assignments": 0,
+      "duplicate_reservations": 0,
+      "temperature_rmse_c": null,
+      "temperature_weighted_rmse_c": null,
+      "temperature_r2": null,
+      "single_step_inference_ms": null,
+      "status": "retained_primary_result"
+    },
+    "S1-age": {
+      "label": "Best of 9 并列：S1-age",
+      "paired_processes": 12,
+      "anomaly_segments": 89,
+      "confirmed_segments": 60,
+      "confirmation_ratio": 0.6741573033707865,
+      "mean_weighted_normalized_age": 0.3129943839254992,
+      "mean_equal_task_normalized_age": 0.31221710376332795,
+      "mean_consequence_weighted_censored_delay_s": 60.233150426435344,
+      "revisit_violating_task_episode_pairs": 0,
+      "maximum_exact_gap_ratio": 1.0,
+      "mean_travel_m": 11858.533333333326,
+      "mean_travel_change_vs_tour_pct": 0.5522863070304806,
+      "mean_completed_inspections": 1421.6666666666667,
+      "extra_event_visits_total": 78,
+      "invalid_assignments": 0,
+      "duplicate_reservations": 0,
+      "temperature_rmse_c": null,
+      "temperature_weighted_rmse_c": null,
+      "temperature_r2": null,
+      "single_step_inference_ms": null,
+      "status": "retained_development_result"
+    },
+    "S2-risk_time": {
+      "label": "Best of 9 并列：S2-risk_time",
+      "paired_processes": 12,
+      "anomaly_segments": 89,
+      "confirmed_segments": 60,
+      "confirmation_ratio": 0.6741573033707865,
+      "mean_weighted_normalized_age": 0.31288837163952027,
+      "mean_equal_task_normalized_age": 0.31211370431748064,
+      "mean_consequence_weighted_censored_delay_s": 58.14180437082718,
+      "revisit_violating_task_episode_pairs": 0,
+      "maximum_exact_gap_ratio": 1.0,
+      "mean_travel_m": 11850.941666666658,
+      "mean_travel_change_vs_tour_pct": 0.4879141440692773,
+      "mean_completed_inspections": 1422,
+      "extra_event_visits_total": 79,
+      "invalid_assignments": 0,
+      "duplicate_reservations": 0,
+      "temperature_rmse_c": null,
+      "temperature_weighted_rmse_c": null,
+      "temperature_r2": null,
+      "single_step_inference_ms": null,
+      "status": "retained_development_result"
+    },
+    "fifo": {
+      "label": "名义估计＋返回保护 FIFO",
+      "paired_processes": 12,
+      "anomaly_segments": 89,
+      "confirmed_segments": 70,
+      "confirmation_ratio": 0.7865168539325843,
+      "mean_weighted_normalized_age": 0.31305190288006796,
+      "mean_equal_task_normalized_age": 0.3122873154285917,
+      "mean_consequence_weighted_censored_delay_s": 49.68985133952608,
+      "revisit_violating_task_episode_pairs": 0,
+      "maximum_exact_gap_ratio": 1.0,
+      "mean_travel_m": 11852.316666666658,
+      "mean_travel_change_vs_tour_pct": 0.4995732076133001,
+      "mean_completed_inspections": 1421.3333333333333,
+      "extra_event_visits_total": 89,
+      "invalid_assignments": 0,
+      "duplicate_reservations": 0,
+      "temperature_rmse_c": null,
+      "temperature_weighted_rmse_c": null,
+      "temperature_r2": null,
+      "single_step_inference_ms": null,
+      "status": "retained_primary_result"
+    }
+  },
+  "comparison_definition": {
+    "weighted_normalized_age": {
+      "label": "本任务资产重要度加权归一巡检年龄",
+      "direction": "lower",
+      "unit": "dimensionless",
+      "formula": "I_c=(1/(H*sum_j a_cj))*integral_0^H sum_j a_cj*min((t-L_cjm(t))/D_j,1)dt; aggregate=mean_c(I_c), c=12 paired primary processes",
+      "time_horizon_s": 1800.0,
+      "age_origin": "L=0 before first professional completion: virtual age origin, not a claimed initial measurement",
+      "reset": "right-continuous reset at qualified professional measurement completion; arrival/remote telemetry/dispatch do not reset",
+      "terminal": "H=1800 is integration boundary, not fictitious completion",
+      "gap_area_formula": "F_D(g)=g^2/(2D) if 0<=g<=D, else g-D/2; each task area=sum_k F_D(g_k)",
+      "weight_source": "Per-case Tour /local_decisions/*/public_tasks/* fixed weight, indexed by task. Saved weight=asset_weights/2; a=2*saved weight. Global scaling cancels in normalized score. Thermal criticality is saved task asset importance; each other profession uses mean criticality of its eight-rack pod. No observation/risk/temperature trajectory is borrowed. Complete task rows are constant within case; all methods share spec/process_sha256 and frozen task construction source.",
+      "registration_status": "retrospective saved-data descriptive calculation, not preregistered acceptance outcome",
+      "difference_from_original_paper": "Professional service completion / seconds / 300-600s task deadlines / static asset importance / time average differ from original neighborhood sampling / decision-step tau increments / information importance / terminal node-sum objective. Not original scale.",
+      "scalar_trace_difference": "Not a mean of saved public_risk_age or mean_age_ratio, which use other risk weights/caps and sampled endpoints."
+    },
+    "equal_task_normalized_age": {
+      "formula": "U_c=(1/(176*H))*sum_j integral_0^H min((t-L_j(t))/D_j,1)dt; aggregate=mean_c(U_c)",
+      "unit": "dimensionless",
+      "meaning": "auxiliary equal-task-weight score, not importance weighted"
+    },
+    "censored_confirmation_wait": {
+      "formula": "W_c=sum_i q_ci*d_ci/sum_i q_ci; d_ci=(first_confirmation_s if detected else end_s)-onset_s; table=mean_c(W_c) over 12 processes",
+      "weight_source": "Saved anomaly_intervals[].weight = task_asset_weight*(1+mean threshold-normalized excess during segment), per frozen evaluator. Consequence weight differs from static age weight.",
+      "unit": "s",
+      "censoring": "Misses censored at their anomaly end; not detected-only mean. Original preceding-bin sampled endpoint labels retained. For each retained contiguous segment, endpoint confirmation requires onset_s<completion_s<=end_s; an alarm exactly at onset belongs to preceding bin and is not automatically confirmation."
+    },
+    "confirmation_ratio": {
+      "formula": "sum_c confirmed_c / sum_c anomaly_segments_c = confirmed_total/89",
+      "independent_unit": "12 paired process seeds; 89 segments are not independent replications"
+    },
+    "revisit_violations": {
+      "formula": "sum_(c,j) 1[max(initial gap, inter-completion gaps, terminal gap)>D_j+1e-9]",
+      "unit": "task-episode pairs; each total covers 12*176=2112 protected task episodes"
+    },
+    "travel_change": {
+      "formula": "mean_c[100*(travel_method_c-travel_tour_c)/travel_tour_c]",
+      "unit": "percent",
+      "baseline": "Tour in same paired process"
+    },
+    "temperature_rmse_c": {
+      "formula_if_inputs_retained": "sqrt(mean((estimate-truth)^2)) on common aligned temperature target mask/time grid",
+      "status": "missing primary aligned inputs; null, not zero"
+    },
+    "temperature_weighted_rmse_c": {
+      "formula_if_inputs_retained": "sqrt(sum(a*(estimate-truth)^2)/sum(a)) on aligned full rack-temperature target",
+      "status": "weights recovered; aligned estimate/truth missing; null, not zero"
+    },
+    "temperature_r2": {
+      "formula_if_inputs_retained": "1-sum((estimate-truth)^2)/sum((truth-mean(truth))^2), with explicit flattening/averaging convention",
+      "status": "missing primary aligned inputs; null, not zero"
+    },
+    "single_step_inference_ms": {
+      "status": "not_measured",
+      "meaning": "nominal update/scheduler lack per-call timers; no history-model call does not mean 0ms"
+    }
+  },
+  "comparison_unrun_methods": {
+    "vae_unet_greedy": {
+      "label": "VAE-UNet + Greedy",
+      "status": "not_run_in_same_primary_task",
+      "trained_or_training_claim_supported": false,
+      "completed_128_rack_and_mask_adaptation_claim_supported": false,
+      "all_metric_values": null
+    },
+    "vae_unet_drl": {
+      "label": "VAE-UNet + DRL",
+      "status": "not_run_in_same_primary_task",
+      "trained_or_training_claim_supported": false,
+      "completed_128_rack_and_mask_adaptation_claim_supported": false,
+      "all_metric_values": null
+    },
+    "source_note": "Current optional TemperatureCVAE is MLP conditional VAE; TaskPolicy is PPO. Their existence and older local checkpoints do not establish current-task VAE-UNet + Greedy/Double-DQL runs. Sealed event/search summaries record 0 calls/0 training, scoped to cited packages rather than all historical work."
+  },
+  "engineering_alignment": {
+    "verified_on": "2026-11-03",
+    "reference": {
+      "system": "El Capitan",
+      "ranking_period": "2026-06",
+      "rmax_eflops": 1.809,
+      "rpeak_eflops": 2.8211,
+      "reported_power_mw": 29.68462,
+      "power_measurement_level": 2,
+      "source_url": "https://www.top500.org/system/180307/",
+      "source_scope": "Official system record, read with period and measurement level. Not a facility-wide energy balance."
+    },
+    "model": {
+      "racks": 128,
+      "pods": 16,
+      "tasks": 176,
+      "inspectors": 18,
+      "it_nameplate_mw": 32,
+      "thermal_states": 161,
+      "command_lag_states": 145,
+      "same_task_scale_verified_racks": [
+        128
+      ]
+    },
+    "primary_records": [
+      {
+        "case": "p00-coupled",
+        "record": "runs/event-validation-amended-20261102/p00-coupled-tour.json.gz",
+        "sha256": "4c3ae5cb961a68cd39856c43118d3e3f23eeb7097a575cd1fb8d47b8dd9ac6c7",
+        "peak_source_input_mw": 23.44247383056959
+      },
+      {
+        "case": "p01-coupled",
+        "record": "runs/event-validation-amended-20261102/p01-coupled-tour.json.gz",
+        "sha256": "c7029d27c313941dd2e7f08cc9e878853e47a4a7ef641a0b687f7b7acdccec71",
+        "peak_source_input_mw": 23.147708253533875
+      },
+      {
+        "case": "p02-coupled",
+        "record": "runs/event-validation-amended-20261102/p02-coupled-tour.json.gz",
+        "sha256": "2b783ba50fa638bc26848896f4b07d4a1c8e2cc9b8dfee787015ba7fcd1071b6",
+        "peak_source_input_mw": 23.21451425186682
+      },
+      {
+        "case": "p03-coupled",
+        "record": "runs/event-validation-amended-20261102/p03-coupled-tour.json.gz",
+        "sha256": "6841d3328bb7091b5822743c665577e46469feb6a5bb0c3e4e20e69106a82a45",
+        "peak_source_input_mw": 23.206936376517913
+      },
+      {
+        "case": "p04-coupled",
+        "record": "runs/event-validation-amended-20261102/p04-coupled-tour.json.gz",
+        "sha256": "855ef41ffc4b43e8869a01ea30525452838abfd2c67387c932c2b6c3ede74e91",
+        "peak_source_input_mw": 23.496888120375715
+      },
+      {
+        "case": "p05-coupled",
+        "record": "runs/event-validation-amended-20261102/p05-coupled-tour.json.gz",
+        "sha256": "9c9bb965399557bcd0fc32fb9d95762cf9d2510b80ce4944f483f91069a29dde",
+        "peak_source_input_mw": 23.983671712999218
+      },
+      {
+        "case": "p06-coupled",
+        "record": "runs/event-validation-amended-20261102/p06-coupled-tour.json.gz",
+        "sha256": "e77bf328dbfb11ec0268fe7bdbc07819d681ec35bbe4e7daadc47631098a4470",
+        "peak_source_input_mw": 23.444578379308865
+      },
+      {
+        "case": "p07-coupled",
+        "record": "runs/event-validation-amended-20261102/p07-coupled-tour.json.gz",
+        "sha256": "413383cb6facb3965d42aff2b0ac9e30b75ef3ffd1c8873aca8f3baf2c5828dd",
+        "peak_source_input_mw": 23.338006014110594
+      },
+      {
+        "case": "p08-coupled",
+        "record": "runs/event-validation-amended-20261102/p08-coupled-tour.json.gz",
+        "sha256": "b6fc82adc96aacac3af5b98a4106023b952097a854b9a2aa22b08e32d5f87a71",
+        "peak_source_input_mw": 24.144139741855724
+      },
+      {
+        "case": "p09-coupled",
+        "record": "runs/event-validation-amended-20261102/p09-coupled-tour.json.gz",
+        "sha256": "4e135e1f1fa4904bdb0e4c9c1d282c4c026c319f0ff9852455d005429c970dfd",
+        "peak_source_input_mw": 23.458914712638986
+      },
+      {
+        "case": "p10-coupled",
+        "record": "runs/event-validation-amended-20261102/p10-coupled-tour.json.gz",
+        "sha256": "05ecb857afd5b0798acf517b10f6a3c2a465954c27d75b12d3d5248225094395",
+        "peak_source_input_mw": 23.351156432603236
+      },
+      {
+        "case": "p11-coupled",
+        "record": "runs/event-validation-amended-20261102/p11-coupled-tour.json.gz",
+        "sha256": "2422921c583cd2c2911feabaa4ba2153c0e562e27db2cb538d7ea2aa72ade0ae",
+        "peak_source_input_mw": 23.71966249738465
+      }
+    ],
+    "peak_source_input_range_mw": [
+      23.147708253533875,
+      24.144139741855724
+    ],
+    "standards": [
+      {
+        "id": "GB/T 48023-2026",
+        "published": "2026-07-30",
+        "effective": "2027-02-01",
+        "formal_clauses_read": false,
+        "metadata_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=581F4B90BB7B80E8E06397BE0A0AF9E7"
+      },
+      {
+        "id": "GB/T 48097-2026",
+        "published": "2026-08-28",
+        "effective": "2027-03-01",
+        "formal_clauses_read": false,
+        "metadata_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=5A13050B0299303FE06397BE0A0ADA7D"
+      }
+    ]
+  },
+  "visual_sample": {
+    "kind": "existing_outdoor_electrical_display_reconstruction",
+    "source_project": "PID/B-PID",
+    "scope": "Same-image refinement example of outdoor insulator, tower and conductors. Pixel display appearance; not a rack inspection experiment or radiometric temperature measurement.",
+    "assets": {
+      "rgb": {
+        "path": "paper/figures/supervisor-report/pid-electrical-rgb.png",
+        "source_path": "C:/Users/Donson/Documents/PID/data/user_validation_20260725/prepared/electrical/visible/electrical_scene_001.png",
+        "sha256": "b00d7a1fc32c80060495b97b3fd061d5c4b8529695cc3c930b0250c2f07bff33",
+        "bytes": 269865
+      },
+      "generated": {
+        "path": "paper/figures/supervisor-report/pid-electrical-generated.png",
+        "source_path": "C:/Users/Donson/Documents/PID/reports/specific_scene_pid_bpid_comparison_20260730/final/electrical_bpid_refined_selected.png",
+        "sha256": "4368d1de25e2d3c98e5e838a98a483c87c5531471046ae52a9c958367a8da02a",
+        "bytes": 340610
+      },
+      "display-target": {
+        "path": "paper/figures/supervisor-report/pid-electrical-display-target.png",
+        "source_path": "C:/Users/Donson/Documents/PID/data/user_validation_20260725/prepared/electrical/lwir/electrical_scene_001.png",
+        "sha256": "0c47931b43e9bee87a83460edede64e7afb27396accef77ab5b73702f5be7907",
+        "bytes": 333851
+      }
+    },
+    "new_model_calls": 0,
+    "new_training": 0,
+    "source_provenance": "C:/Users/Donson/Documents/PID/reports/specific_scene_pid_bpid_comparison_20260730/final/specific_scene_pid_vs_bpid_provenance.json"
+  },
   "primary_anomaly_kinds": {
     "thermal": 77,
     "cooling": 12

@@ -2,6 +2,7 @@
 from __future__ import annotations
 from collections import Counter, defaultdict
 import ast
+import base64
 import gzip
 import hashlib
 import json
@@ -19,6 +20,57 @@ def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def load_gzip(path):
     with gzip.open(path,'rt',encoding='utf-8') as stream:return json.load(stream)
+
+
+def verify_comparison(data):
+    comparison=load(ROOT/'paper/source-data/report-comparison-metrics.json')
+    assert data['comparison']==comparison['aggregates'] and data['comparison_definition']==comparison['definitions']
+    for identity in comparison['sources']:assert digest(ROOT/identity['path'])==identity['sha256'],identity['path']
+    deadlines=comparison['common_tasks']['deadlines_s'];assert len(deadlines)==176
+    recomputed=defaultdict(list);completed_events=0
+    for case in comparison['cases']:
+        tour=load_gzip(ROOT/case['weights_source']);weights={};limits={}
+        for decision in tour['local_decisions']:
+            for row in decision.get('public_tasks',[]):
+                task=row['task'];weight=2*row['weight'];limit=row['deadline_s']
+                if task in weights:assert weights[task]==weight and limits[task]==limit
+                weights[task]=weight;limits[task]=limit
+        assert sorted(weights)==list(range(176))
+        assert [weights[j] for j in range(176)]==case['asset_weights'] and [limits[j] for j in range(176)]==deadlines
+        for method,saved in case['methods'].items():
+            record=tour if method=='tour' else load_gzip(ROOT/saved['record_path'])
+            assert record['process_sha256']==case['process_sha256']
+            area=0.;gaps=record['exact_task_gaps'];assert len(gaps)==176
+            measurements=defaultdict(list)
+            for event in record['inspection_events']:measurements[event['task']].append(event['time_s'])
+            for item in gaps:
+                task=item['task'];times=item['completion_times_s'];assert sorted(measurements[task])==times
+                endpoints=[0.,*times,1800.];limit=deadlines[task]
+                for before,after in zip(endpoints,endpoints[1:]):
+                    gap=after-before;assert gap>=0
+                    # Integral of min(age / deadline, 1), including initial/terminal gaps.
+                    capped=min(gap,limit)
+                    area+=weights[task]*(capped*capped/(2*limit)+max(0.,gap-limit))
+            denominator=1800*sum(weights.values());score=area/denominator
+            assert math.isclose(area,saved['weighted_age_time_integral_s'],rel_tol=1e-12)
+            assert denominator==saved['weighted_age_denominator_s'] and math.isclose(score,saved['weighted_normalized_age'],rel_tol=1e-12)
+            confirmed=sum(a['detected'] for a in record['anomaly_intervals'])
+            assert confirmed==saved['confirmed_segments']==record['metrics']['confirmed_segments']
+            for item in record['anomaly_intervals']:
+                when=item['first_confirmation_s']
+                assert item['detected']==(when is not None)
+                if when is not None:
+                    assert item['onset_s']<when<=item['end_s']
+                    assert any(e['time_s']==when and e['task_id']==item['task_id'] and e['alarm'] for e in record['inspection_events'])
+            for key in ['temperature_rmse_c','temperature_weighted_rmse_c','temperature_r2','single_step_inference_ms']:assert saved[key] is None
+            recomputed[method].append(score);completed_events+=len(record['inspection_events'])
+    assert len(comparison['cases'])==12 and set(recomputed)==set(comparison['aggregates'])
+    for method,scores in recomputed.items():assert math.isclose(mean(scores),comparison['aggregates'][method]['mean_weighted_normalized_age'],rel_tol=1e-12)
+    for key in ['vae_unet_greedy','vae_unet_drl']:
+        item=comparison['unrun_methods'][key]
+        assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported'] and not item['completed_128_rack_and_mask_adaptation_claim_supported']
+    return {'comparison_methods_recomputed':len(recomputed),'comparison_task_gap_sets_checked':12*5*176,
+            'comparison_measurements_checked':completed_events,'comparison_input_hashes_checked':len(comparison['sources'])}
 
 
 def main():
@@ -89,9 +141,26 @@ def main():
     data_path=ROOT/'paper/generated/supervisor-report-data.json';data=load(data_path)
     assert digest(data_path)==manifest['data_sha256']
     for name,kind,values in [('public-risk','risk',engineering['public_thermal_risk']),
+                             ('estimated-temperature','estimated-temperature',engineering['public_estimated_temperature_c']),
                              ('offline-temperature','temperature',engineering['offline_temperature_c'])]:
         encoded={int(e.attrib['data-rack']):float(e.attrib['data-value']) for e in drawings[name].iter() if e.attrib.get('data-kind')==kind}
         assert encoded==dict(enumerate(values)),name
+    risk_overlay=[int(e.attrib['data-rack']) for e in drawings['estimated-temperature'].iter() if 'data-risk-positive' in e.attrib]
+    assert risk_overlay==[i for i,value in enumerate(engineering['public_thermal_risk']) if value>0]==[64,67,70]
+    visual=load(ROOT/'paper/source-data/pid-visual-sample.json')
+    image_elements=[e for e in drawings['pid-visual-sample'].iter() if e.tag.endswith('image')];assert len(image_elements)==3
+    for image_element,key in zip(image_elements,['rgb','generated','display-target']):
+        encoded=image_element.attrib['href'];assert encoded.startswith('data:image/png;base64,')
+        raw=base64.b64decode(encoded.split(',',1)[1],validate=True);identity=visual['assets'][key]
+        assert hashlib.sha256(raw).hexdigest()==identity['sha256'] and raw==(ROOT/identity['path']).read_bytes()
+    alignment=load(ROOT/'paper/source-data/report-engineering-alignment.json')
+    assert alignment==data['engineering_alignment']
+    for row in alignment['primary_records']:
+        path=ROOT/row['record'];assert digest(path)==row['sha256']
+        record=load_gzip(path);assert record['process_metadata']['peak_source_input_MW']==row['peak_source_input_mw']
+        assert record['process_metadata']['configuration']['racks']==128
+    assert all(not row['formal_clauses_read'] for row in alignment['standards'])
+    comparison_checks=verify_comparison(data)
     rows=load(ROOT/'evidence/event-validation/final/rows.json')
     for method in ['tour','fifo','shuffled']:
         selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
@@ -162,12 +231,13 @@ def main():
             'checker_sha256':digest(Path(__file__)),'unchanged_frozen_files':frozen_count,
             'engineering_frame_arrays_checked':4,'actual_fifo_queue_checked':True,'both_return_certificates_checked':True,
             'actual_visits_checked':3,'primary_anomaly_kinds':dict(counts),
-            'embedded_svg_files_checked':len(drawings),'embedded_hotspot_values_checked':256,
+            'embedded_svg_files_checked':len(drawings),'embedded_hotspot_values_checked':384,'existing_pid_images_checked':3,
             'registered_rules_checked':len(rules),'main_costs_recomputed_from_rows':True,'new_environment_evaluations':0,
             'fault_processes_checked':12,'diagnosis_input_hashes_checked':len(diagnosis['source_files']),
             's0_risk_deferred_binary_decisions':deferred,'s0_risk_maximum_observed_score_input':maximum_risk,
             's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
             'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
+            **comparison_checks,
             'scope':'Read existing full records and public report extracts only; no simulation, training or research-model inference.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')

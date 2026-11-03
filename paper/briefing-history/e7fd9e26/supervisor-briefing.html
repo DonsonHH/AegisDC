@@ -1,0 +1,1921 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="大型算力机房持续巡检研究报告：耦合模型、温度估计与风险公式、返回时间保护、故障实验、规则诊断及下一步路线图。">
+<title>耦合设施与风险巡检 · 导师自阅报告</title>
+<style>
+:root{color-scheme:light;--ink:#172d3b;--muted:#526675;--blue:#2369a5;--teal:#147469;--gold:#b27420;--line:#dce4e9;--wash:#f5f8fa;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:auto;scroll-padding-top:76px}body{margin:0;background:white;color:var(--ink);font-size:18px;line-height:1.85}
+article{max-width:1248px;padding:44px 34px 65px;margin:auto}h1{font-size:clamp(30px,3vw,46px);line-height:1.4;letter-spacing:-.035em;margin:0 0 12px;font-weight:650}h1+p{font-size:18px;color:var(--muted);margin:0 0 28px}h2{font-size:clamp(26px,2.1vw,34px);line-height:1.5;margin:0 0 20px;letter-spacing:-.025em}h3{font-size:24px;line-height:1.6;margin:31px 0 14px}section{padding:34px 0 42px;border-bottom:1px solid var(--line)}section:last-child{border-bottom:0}p{margin:13px 0;max-width:1100px}strong{font-weight:650}ul{padding-left:25px;margin:16px 0}li{margin:8px 0}a{color:var(--blue);text-underline-offset:3px;overflow-wrap:anywhere}a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.contents{position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;gap:5px 23px;background:white;border-block:1px solid var(--line);padding:13px 0;font-size:16px}.contents a{text-decoration:none;white-space:nowrap}.contents a:hover{text-decoration:underline}
+figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}figure svg{display:block;width:100%;height:auto}.wide-hint{display:none}figcaption{font-size:14px;line-height:1.7;color:var(--muted);margin-top:8px}.figure-pair{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}.figure-pair figure{margin:22px 0}.figure-pair:has([data-chart="confirmations"]){grid-template-columns:1.7fr 1fr}
+.table-wrap{width:100%;margin:20px 0;overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:16px;line-height:1.75}th,td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:var(--wash);font-weight:600;border-top:2px solid var(--ink)}tbody tr:last-child td{border-bottom:1px solid #aebdc7}td:first-child{font-weight:500}table a{font-weight:500}.table-wrap[data-table]{max-width:100%}
+.project-summary{margin:22px 0 28px;padding:20px 24px;background:#edf5fa;border-left:4px solid var(--blue);font-size:19px;line-height:1.9}.project-summary strong{display:block;color:var(--blue);margin-bottom:5px}.project-summary p{margin:0}
+.principle-box{margin:23px 0;padding:20px 24px;background:#f3f8fb;border:1px solid #cfdee8;border-radius:4px}.principle-box h3{font-size:21px;margin:0 0 12px;color:var(--blue)}.principle-box p{margin:9px 0}.formula-scroll{max-width:100%;overflow-x:auto;padding:3px 0 8px}.formula{font-family:"Cambria Math","Microsoft YaHei",serif;font-size:23px;line-height:1.9;white-space:nowrap;max-width:none}.formula sub,.formula sup{font-size:.7em}.scope-note{margin:22px 0 4px;padding:13px 17px;background:#f4f5f6;border-left:3px solid #bcc7ce;color:#536471;font-size:14px;line-height:1.8}.scope-note p{margin:0}.scope-note strong{font-weight:600}.roadmap-lead{color:var(--teal);font-weight:600}
+#overview>ul{font-size:19px;line-height:1.85}#fifo h3{padding-top:6px}#fifo>p>strong:first-child{color:var(--blue)}#sources{font-size:16px;color:var(--muted)}#sources h2{color:var(--ink)}#sources li{margin-bottom:10px}math{font-family:"Cambria Math",serif;font-size:1.1em}
+@media(min-width:1600px){body{font-size:19px}article{max-width:1320px;padding-inline:40px}table{font-size:17px}}
+@media(max-width:850px){article{padding:25px 20px 45px}.contents{font-size:14px;gap:4px 16px;padding:9px 0}.figure-pair,.figure-pair:has([data-chart="confirmations"]){grid-template-columns:1fr;gap:0}h3{font-size:22px}table{font-size:15px}th,td{padding:11px 9px}section{padding-top:27px}body{font-size:17px}.wide-hint{display:block;font-size:12px;color:var(--muted)}.figure-frame svg{min-width:1000px}.figure-frame svg[data-chart="confirmations"]{min-width:700px}.figure-frame svg[data-chart="paired-net"]{min-width:380px}.figure-frame svg[data-chart="task-17"],.figure-frame svg[data-chart="task-21"]{min-width:600px}.figure-frame svg[data-chart="public-risk"],.figure-frame svg[data-chart="offline-heat"]{min-width:560px}}
+@media print{@page{size:A4 portrait;margin:13mm 11mm}body{font-size:10.5pt;line-height:1.7}article{max-width:none;padding:0}.contents,.wide-hint{display:none}h1{font-size:25pt}h2{font-size:19pt;margin-top:15pt}h3{font-size:14pt}section{padding:15pt 0 18pt;border-color:#ccc}figure{break-inside:avoid;margin:15pt 0}.figure-frame{overflow:visible}.figure-frame svg{min-width:0!important}figcaption{font-size:8pt}.figure-pair{gap:12pt}.table-wrap{overflow:visible}table{font-size:9pt}thead{display:table-header-group}tr{break-inside:avoid}th,td{padding:7pt 6pt}#overview>ul{font-size:11pt}#sources{font-size:9pt}a{color:inherit;text-decoration:none}}
+
+.case-appendix{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:30px 0 12px;padding:18px 0}
+.case-appendix summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:19px}.appendix-body{padding-top:16px}
+.case-appendix summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+@media(max-width:850px){.formula-scroll::before{content:"公式可左右滑动查看";display:block;font-size:12px;color:var(--muted);font-family:"Microsoft YaHei",sans-serif;margin-bottom:4px}}
+@media print{[data-table="fault-cases"],[data-table="task-contract"]{break-inside:avoid}.formula-scroll::before{display:none}}
+@media print{h2,h3{break-after:avoid}.case-appendix::details-content{display:block!important;content-visibility:visible!important}.case-appendix summary{font-size:11pt}.appendix-body{padding-top:8pt}.project-summary{font-size:11pt;padding:10pt 12pt}.principle-box{padding:11pt 12pt;break-inside:avoid}.principle-box h3{font-size:12pt}.formula-scroll{overflow:visible}.formula{font-size:11pt;white-space:normal}.scope-note{font-size:8.5pt;break-inside:avoid}}
+</style>
+</head><body><article><h1>从耦合设施模型到风险驱动巡检</h1>
+<p>导师自阅研究进展报告 · 2026-11-03修订</p>
+<aside class="project-summary" aria-label="核心进展摘要"><strong>项目主线摘要</strong><p>围绕部分测温条件下的短时异常确认，本项目建立配电、液冷与自控耦合模型，用返回时间核查保护例行巡检，再以先入先出（FIFO）安排加查。12个复合故障过程的有效确认由31.5%（28/89）提高至78.7%（70/89），硬重访违规为0，移动增加0.50%。</p></aside>
+<nav class="contents" aria-label="报告目录"><a href="#overview">报告主线</a><a href="#model">耦合模型</a><a href="#hotspots">风险怎么算</a><a href="#fifo">巡检机制</a><a href="#results">实验与诊断</a><a href="#comparison">原文评价</a><a href="#roadmap">下一步路线图</a><a href="#sources">来源</a></nav><section id="overview" data-report-section="overview"><h2>本次报告回答的六个问题</h2>
+<p>报告沿着“设施如何产生风险—怎样估计—谁去检查—实验说明什么—下一步如何验证”展开。图表来自本项目的封存结果，原论文的比较图另注明来源。</p>
+<table>
+<thead>
+<tr>
+<th>上次沟通的问题</th>
+<th>本报告给出的依据</th>
+<th>阅读位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配电怎样连到计算机柜</td>
+<td>10 kV、380 V交流、直流机柜及辅助供电的依赖图</td>
+<td><a href="#model">耦合模型</a></td>
+</tr>
+<tr>
+<td>冷却塔、循环泵、换热单元（CDU）和冷板怎样联动</td>
+<td>一次／二次回路与热平衡关系，参照El Capitan／Cray EX</td>
+<td><a href="#model">耦合模型</a></td>
+</tr>
+<tr>
+<td>如何体现自控和大型设施复杂度</td>
+<td>温度反馈、161个温度状态、176项专业检查；标准映射与规模试验列为具体工作包</td>
+<td><a href="#model">模型</a>、<a href="#roadmap">路线图</a></td>
+</tr>
+<tr>
+<td>风险热点怎样算出来</td>
+<td>32个固定测温点、热平衡估计、风险分公式与热点图</td>
+<td><a href="#hotspots">风险估计</a></td>
+</tr>
+<tr>
+<td>风险出现后怎样安排检查</td>
+<td>FIFO流程、返回时间不等式与实际执行图</td>
+<td><a href="#fifo">巡检机制</a></td>
+</tr>
+<tr>
+<td>原论文怎样证明先进性，下一步怎样比较</td>
+<td>估计／巡检／计算三类指标，以及共同任务下的对照方案</td>
+<td><a href="#comparison">指标</a>、<a href="#roadmap">路线图</a></td>
+</tr>
+</tbody>
+</table>
+</section><section id="model" data-report-section="model"><h2>1. 配电、液冷与自控如何耦合</h2>
+<p><strong>设备温度由发热和排热共同决定。</strong> 供电决定IT设备与冷却泵可获得的功率；泵送流量和换热能力影响排热；本地控制根据温度调整泵、塔风机和IT限功率。这样，一次供电扰动就能沿冷却链传到多个机柜。</p>
+<p><strong>CDU</strong>指冷却液分配与换热单元。一次回路连接设施冷源，二次回路连接机柜冷板，两侧通过CDU交换热量。El Capitan和Cray EX官方资料提供了这类架构参照。<a href="https://www.llnl.gov/article/54496/meet-machines-matter-how-el-capitan-keeps-its-cool">LLNL工程说明</a>、<a href="https://www.hpe.com/us/en/collaterals/collateral.a00094635enw.html">HPE设备资料</a>。</p>
+<figure id="figure-model"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 615" role="img" aria-labelledby="coupled-model-title coupled-model-description" data-chart="coupled-model">
+<title id="coupled-model-title">供电、一次／二次液冷和设备自控的耦合</title>
+<desc id="coupled-model-description">电气以容量和损耗代理连接10kV、380VAC、整流与54VDC机柜。冷却塔、一次泵、CDU、二次泵和冷板构成两套回路。温度反馈调节泵、风机和功率。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="30" font-size="28" fill="#2369a5" text-anchor="start" font-weight="650" >供电把能量送入机柜，也约束冷却设备的可用功率</text>
+<rect x="20" y="56" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="110" y="87" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >10 kV入口</text>
+<text x="110" y="116" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >电气拓扑标签</text>
+<line x1="205" y1="92" x2="240" y2="92" stroke="#2369a5" stroke-width="2" /><path d="M232,97 L240,92 L232,87" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="250" y="56" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="340" y="87" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >变压／380 V AC</text>
+<text x="340" y="116" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >容量、效率与损耗代理</text>
+<line x1="435" y1="92" x2="470" y2="92" stroke="#2369a5" stroke-width="2" /><path d="M462,97 L470,92 L462,87" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="480" y="56" width="200" height="72" fill="#f2f6f9" rx="3"/>
+<text x="580" y="87" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >UPS／整流</text>
+<text x="580" y="116" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >固定转换效率代理</text>
+<line x1="685" y1="92" x2="720" y2="92" stroke="#2369a5" stroke-width="2" /><path d="M712,97 L720,92 L712,87" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="730" y="56" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="820" y="87" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >54 V DC</text>
+<text x="820" y="116" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >机柜侧电压标签</text>
+<line x1="915" y1="92" x2="960" y2="92" stroke="#2369a5" stroke-width="2" /><path d="M952,97 L960,92 L952,87" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="970" y="56" width="270" height="72" fill="#f2f6f9" rx="3"/>
+<text x="1105" y="87" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >128个算力机柜</text>
+<text x="1105" y="116" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >IT功率转化为热</text>
+<text x="18" y="190" font-size="28" fill="#147469" text-anchor="start" font-weight="650" >液冷：一次与二次循环通过CDU交换热量</text>
+<text x="18" y="226" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >CDU是冷却液分配／换热单元；本模型每8柜为一组，共16组。</text>
+<rect x="20" y="255" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="110" y="286" font-size="25" fill="#147469" text-anchor="middle" font-weight="600" >冷却塔</text>
+<text x="110" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >设施排热端</text>
+<rect x="260" y="255" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="350" y="286" font-size="25" fill="#147469" text-anchor="middle" font-weight="600" >一次循环泵</text>
+<text x="350" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >共享一次回路</text>
+<rect x="510" y="239" width="270" height="107" fill="#eef6f4" rx="3"/>
+<text x="645" y="269" font-size="28" fill="#147469" text-anchor="middle" font-weight="650" >CDU</text>
+<line x1="645" y1="278" x2="645" y2="337" stroke="#147469" stroke-width="2" />
+<text x="576" y="306" font-size="23" fill="#147469" text-anchor="middle" font-weight="400" >一次侧</text>
+<text x="713" y="306" font-size="23" fill="#147469" text-anchor="middle" font-weight="400" >二次侧</text>
+<line x1="704" y1="328" x2="591" y2="328" stroke="#b27420" stroke-width="2" /><path d="M599,323 L591,328 L599,333" fill="none" stroke="#b27420" stroke-width="2"/>
+<text x="645" y="371" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >热量由二次侧传向一次侧</text>
+<rect x="835" y="255" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="925" y="286" font-size="25" fill="#147469" text-anchor="middle" font-weight="600" >二次循环泵</text>
+<text x="925" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >各组局部回路</text>
+<rect x="1060" y="255" width="180" height="72" fill="#f2f6f9" rx="3"/>
+<text x="1150" y="286" font-size="25" fill="#147469" text-anchor="middle" font-weight="600" >机柜冷板</text>
+<text x="1150" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >设备到液体的换热</text>
+<line x1="205" y1="290" x2="250" y2="290" stroke="#147469" stroke-width="2" /><path d="M242,295 L250,290 L242,285" fill="none" stroke="#147469" stroke-width="2"/>
+<line x1="445" y1="290" x2="500" y2="290" stroke="#147469" stroke-width="2" /><path d="M492,295 L500,290 L492,285" fill="none" stroke="#147469" stroke-width="2"/>
+<line x1="785" y1="290" x2="825" y2="290" stroke="#147469" stroke-width="2" /><path d="M817,295 L825,290 L817,285" fill="none" stroke="#147469" stroke-width="2"/>
+<line x1="1020" y1="290" x2="1050" y2="290" stroke="#147469" stroke-width="2" /><path d="M1042,295 L1050,290 L1042,285" fill="none" stroke="#147469" stroke-width="2"/>
+<path d="M575,346 V405 H110 V327" fill="none" stroke="#147469" stroke-width="2"/>
+<path d="M1150,327 V425 H714 V346" fill="none" stroke="#147469" stroke-width="2"/>
+<text x="285" y="398" font-size="20" fill="#147469" text-anchor="middle" font-weight="400" >一次回水</text>
+<text x="965" y="418" font-size="20" fill="#147469" text-anchor="middle" font-weight="400" >二次回水</text>
+<line x1="1100" y1="128" x2="1100" y2="246" stroke="#b27420" stroke-width="3" />
+<text x="1120" y="203" font-size="21" fill="#b27420" text-anchor="start" font-weight="400" >发热</text>
+<path d="M340,128 V155 H925 V250" fill="none" stroke="#2369a5" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="670" y="142" font-size="20" fill="#2369a5" text-anchor="middle" font-weight="400" >辅助供电可用性影响二次泵</text>
+<text x="18" y="483" font-size="27" fill="#147469" text-anchor="start" font-weight="650" >设备自控回路</text>
+<text x="18" y="518" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >温度等状态</text>
+<line x1="183" y1="510" x2="250" y2="510" stroke="#147469" stroke-width="2" /><path d="M242,515 L250,510 L242,505" fill="none" stroke="#147469" stroke-width="2"/>
+<rect x="265" y="478" width="465" height="72" fill="#f2f6f9" rx="3"/>
+<text x="497.5" y="509" font-size="25" fill="#147469" text-anchor="middle" font-weight="600" >局部温度反馈＋指令滞后</text>
+<text x="497.5" y="538" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >调节二次泵、塔风机与机柜限功率</text>
+<line x1="735" y1="510" x2="800" y2="510" stroke="#147469" stroke-width="2" /><path d="M792,515 L800,510 L792,505" fill="none" stroke="#147469" stroke-width="2"/>
+<text x="825" y="518" font-size="23" fill="#147469" text-anchor="start" font-weight="400" >改变流量、排热与发热，再影响温度</text>
+<text x="18" y="590" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >计算层次：电气容量与损耗、准稳态流量、集中热容，以及局部温度反馈。</text>
+</svg>
+</div><figcaption>本项目集中参数模型的供电、双回路液冷与局部控制计算关系。</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>计算环节</th>
+<th>当前模型采用的关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>机柜温度</td>
+<td>热容×温升速率＝送达IT功率−液冷换热−环境散热</td>
+</tr>
+<tr>
+<td>CDU换热</td>
+<td>换热有效度×较小热容流率×二次回液与一次供液温差</td>
+</tr>
+<tr>
+<td>辅助供电影响</td>
+<td>二次泵有效速度包含“控制指令×√辅助供电可用性”，再决定流量</td>
+</tr>
+<tr>
+<td>本地控制</td>
+<td>温度驱动的比例目标，经20秒一阶指令滞后调节泵、风机和限功率</td>
+</tr>
+</tbody>
+</table>
+<p>模型现有<strong>128个机柜、16个设备组、176项专业检查和18名虚拟巡检员</strong>。每组8柜，共有161个集中温度状态：128个设备、16个二次供液、16个电气接触点和1个共享一次供液温度。名义IT额定功率为128×250 kW＝32 MW。</p>
+<p>设备自控负责调节物理运行；巡检负责补充量测并确认异常。二者通过“物理状态—公开观测—检查结果”衔接。</p>
+<aside class="scope-note"><p><strong>模型说明：</strong>本研究采用合成集中参数模型：电气以容量、效率和损耗表示，流量按准稳态计算，控制使用比例目标与指令滞后。现场参数标定、标准条款和大型设施扩展的具体安排见第6节；功率、每秒浮点运算次数（FLOP/s）及模型规模分别记录。</p></aside>
+</section><section id="hotspots" data-report-section="hotspots"><h2>2. 从32个测温点得到风险热点</h2>
+<p><strong>名义估计</strong>是“按已知设备参数预测，再用新量测校正”的透明基线。系统为128个机柜各保留一个温度估计，每5秒推进一次；32个固定测温点提供持续校正，其余96柜在完成移动测量时校正。</p>
+<div class="principle-box" id="principle-estimation">
+<h3>原理框①：先做热平衡预测，再用量测校正</h3>
+<div class="formula-scroll"><p class="formula" role="math">T̂<sup>−</sup><sub>i,k+1</sub> = T̂<sub>i,k</sub> + (Δt/C)[P<sub>i</sub> − U<sub>i</sub>(T̂<sub>i,k</sub> − T<sub>s,p</sub>) − U<sub>a</sub>(T̂<sub>i,k</sub> − T<sub>a</sub>)]</p><p class="formula" role="math">U<sub>i</sub> = 12[max(q̂<sub>i</sub>,0)/6]<sup>0.8</sup>；收到机柜i的新测温y<sub>i</sub>时，T̂<sub>i</sub> ← y<sub>i</sub></p></div>
+<p>Δt＝5秒，C＝800 kJ/K；P为公开送达IT功率（kW），T<sub>s,p</sub>为所属组供液温度，T<sub>a</sub>＝28°C，U<sub>a</sub>＝0.12 kW/K。q̂为每柜估计流量（kg/s），U为冷板换热导纳（kW/K）。</p>
+<p>各柜从50°C初始化。组流量优先采用最近的固定遥测或巡检测量；尚无流量量测的组按泵指令与额定流量估计，再平均分到8柜。固定温度点每步校正，完成的专业热测量随后校正对应柜；未测柜继续递推。</p>
+</div>
+<p>因此，热点图结合了温度采样、公开功率、供液温度、泵指令和流量历史。热平衡提供未测位置随时间变化的预测，后续量测持续修正它。</p>
+<div class="principle-box" id="principle-risk">
+<h3>原理框②：热风险由温度越界和功率缺口组成</h3>
+<div class="formula-scroll"><p class="formula" role="math">r<sub>i</sub> = min{4, max(T̂<sub>i</sub> − 65, 0)/20 + 0.25[1 − P<sub>del,i</sub>/max(P<sub>req,i</sub>, ε)]}</p></div>
+<p>第一项表示估计温度超过65°C的程度；第二项表示送达功率相对请求功率的缺口。ε＝10<sup>−12</sup> kW用于分母保护，总分上限为4。分数越高，表示当前公开信息中的综合严重度越高。</p>
+<p>后文机柜10与8的0.0081、0.0656就是程序保存的热风险总分。日志保留了当时总分；下一版记录将同时保存温度项和功率缺口项，便于逐项追算。</p>
+</div>
+<h3>一个已有工程过程的空间分布</h3>
+<p>下面取辅助供电故障过程的500秒帧。左图显示当时巡检端形成的风险估计，右图显示同一时刻事后读取的设备温度，便于观察提示与真实热点的位置关系。</p>
+<div class="figure-pair"><figure id="figure-public-risk"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 665 500" role="img" aria-labelledby="public-risk-title public-risk-description" data-chart="public-risk">
+<title id="public-risk-title">巡检端的公开热风险分</title>
+<desc id="public-risk-description">按16组、每组8柜画离散分布。风险分来自公开观测、测量历史与名义热平衡估计。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="34" font-size="29" fill="#2369a5" text-anchor="start" font-weight="650" >巡检端的公开热风险分</text>
+<text x="18" y="67" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >已有工程例，仿真时钟500秒，128个机柜</text>
+<text x="20" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组01</text>
+<g>
+<title>机柜0：0.0000；公开热风险分</title>
+<rect x="20" y="118" width="29" height="21" fill="#f3f6f8" data-rack="0" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="122" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜1：0.0000；公开热风险分</title>
+<rect x="52" y="118" width="29" height="21" fill="#f3f6f8" data-rack="1" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜2：0.0000；公开热风险分</title>
+<rect x="84" y="118" width="29" height="21" fill="#f3f6f8" data-rack="2" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜3：0.0000；公开热风险分</title>
+<rect x="116" y="118" width="29" height="21" fill="#f3f6f8" data-rack="3" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜4：0.0000；公开热风险分</title>
+<rect x="20" y="142" width="29" height="21" fill="#f3f6f8" data-rack="4" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="146" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜5：0.0000；公开热风险分</title>
+<rect x="52" y="142" width="29" height="21" fill="#f3f6f8" data-rack="5" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜6：0.0000；公开热风险分</title>
+<rect x="84" y="142" width="29" height="21" fill="#f3f6f8" data-rack="6" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜7：0.0000；公开热风险分</title>
+<rect x="116" y="142" width="29" height="21" fill="#f3f6f8" data-rack="7" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="178" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组02</text>
+<g>
+<title>机柜8：0.0000；公开热风险分</title>
+<rect x="178" y="118" width="29" height="21" fill="#f3f6f8" data-rack="8" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="122" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜9：0.0000；公开热风险分</title>
+<rect x="210" y="118" width="29" height="21" fill="#f3f6f8" data-rack="9" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜10：0.0000；公开热风险分</title>
+<rect x="242" y="118" width="29" height="21" fill="#f3f6f8" data-rack="10" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜11：0.0000；公开热风险分</title>
+<rect x="274" y="118" width="29" height="21" fill="#f3f6f8" data-rack="11" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜12：0.0000；公开热风险分</title>
+<rect x="178" y="142" width="29" height="21" fill="#f3f6f8" data-rack="12" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="146" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜13：0.0000；公开热风险分</title>
+<rect x="210" y="142" width="29" height="21" fill="#f3f6f8" data-rack="13" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜14：0.0000；公开热风险分</title>
+<rect x="242" y="142" width="29" height="21" fill="#f3f6f8" data-rack="14" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜15：0.0000；公开热风险分</title>
+<rect x="274" y="142" width="29" height="21" fill="#f3f6f8" data-rack="15" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="336" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组03</text>
+<g>
+<title>机柜16：0.0000；公开热风险分</title>
+<rect x="336" y="118" width="29" height="21" fill="#f3f6f8" data-rack="16" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="122" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜17：0.0000；公开热风险分</title>
+<rect x="368" y="118" width="29" height="21" fill="#f3f6f8" data-rack="17" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜18：0.0000；公开热风险分</title>
+<rect x="400" y="118" width="29" height="21" fill="#f3f6f8" data-rack="18" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜19：0.0000；公开热风险分</title>
+<rect x="432" y="118" width="29" height="21" fill="#f3f6f8" data-rack="19" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜20：0.0000；公开热风险分</title>
+<rect x="336" y="142" width="29" height="21" fill="#f3f6f8" data-rack="20" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="146" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜21：0.0000；公开热风险分</title>
+<rect x="368" y="142" width="29" height="21" fill="#f3f6f8" data-rack="21" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜22：0.0000；公开热风险分</title>
+<rect x="400" y="142" width="29" height="21" fill="#f3f6f8" data-rack="22" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜23：0.0000；公开热风险分</title>
+<rect x="432" y="142" width="29" height="21" fill="#f3f6f8" data-rack="23" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="494" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组04</text>
+<g>
+<title>机柜24：0.0000；公开热风险分</title>
+<rect x="494" y="118" width="29" height="21" fill="#f3f6f8" data-rack="24" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="122" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜25：0.0000；公开热风险分</title>
+<rect x="526" y="118" width="29" height="21" fill="#f3f6f8" data-rack="25" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜26：0.0000；公开热风险分</title>
+<rect x="558" y="118" width="29" height="21" fill="#f3f6f8" data-rack="26" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜27：0.0000；公开热风险分</title>
+<rect x="590" y="118" width="29" height="21" fill="#f3f6f8" data-rack="27" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜28：0.0000；公开热风险分</title>
+<rect x="494" y="142" width="29" height="21" fill="#f3f6f8" data-rack="28" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="146" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜29：0.0000；公开热风险分</title>
+<rect x="526" y="142" width="29" height="21" fill="#f3f6f8" data-rack="29" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜30：0.0000；公开热风险分</title>
+<rect x="558" y="142" width="29" height="21" fill="#f3f6f8" data-rack="30" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜31：0.0000；公开热风险分</title>
+<rect x="590" y="142" width="29" height="21" fill="#f3f6f8" data-rack="31" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="20" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组05</text>
+<g>
+<title>机柜32：0.0000；公开热风险分</title>
+<rect x="20" y="198" width="29" height="21" fill="#f3f6f8" data-rack="32" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="202" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜33：0.0000；公开热风险分</title>
+<rect x="52" y="198" width="29" height="21" fill="#f3f6f8" data-rack="33" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜34：0.0000；公开热风险分</title>
+<rect x="84" y="198" width="29" height="21" fill="#f3f6f8" data-rack="34" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜35：0.0000；公开热风险分</title>
+<rect x="116" y="198" width="29" height="21" fill="#f3f6f8" data-rack="35" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜36：0.0000；公开热风险分</title>
+<rect x="20" y="222" width="29" height="21" fill="#f3f6f8" data-rack="36" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="226" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜37：0.0000；公开热风险分</title>
+<rect x="52" y="222" width="29" height="21" fill="#f3f6f8" data-rack="37" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜38：0.0000；公开热风险分</title>
+<rect x="84" y="222" width="29" height="21" fill="#f3f6f8" data-rack="38" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜39：0.0000；公开热风险分</title>
+<rect x="116" y="222" width="29" height="21" fill="#f3f6f8" data-rack="39" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="178" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组06</text>
+<g>
+<title>机柜40：0.0000；公开热风险分</title>
+<rect x="178" y="198" width="29" height="21" fill="#f3f6f8" data-rack="40" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="202" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜41：0.0000；公开热风险分</title>
+<rect x="210" y="198" width="29" height="21" fill="#f3f6f8" data-rack="41" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜42：0.0000；公开热风险分</title>
+<rect x="242" y="198" width="29" height="21" fill="#f3f6f8" data-rack="42" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜43：0.0000；公开热风险分</title>
+<rect x="274" y="198" width="29" height="21" fill="#f3f6f8" data-rack="43" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜44：0.0000；公开热风险分</title>
+<rect x="178" y="222" width="29" height="21" fill="#f3f6f8" data-rack="44" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="226" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜45：0.0000；公开热风险分</title>
+<rect x="210" y="222" width="29" height="21" fill="#f3f6f8" data-rack="45" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜46：0.0000；公开热风险分</title>
+<rect x="242" y="222" width="29" height="21" fill="#f3f6f8" data-rack="46" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜47：0.0000；公开热风险分</title>
+<rect x="274" y="222" width="29" height="21" fill="#f3f6f8" data-rack="47" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="336" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组07</text>
+<g>
+<title>机柜48：0.0000；公开热风险分</title>
+<rect x="336" y="198" width="29" height="21" fill="#f3f6f8" data-rack="48" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="202" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜49：0.0000；公开热风险分</title>
+<rect x="368" y="198" width="29" height="21" fill="#f3f6f8" data-rack="49" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜50：0.0000；公开热风险分</title>
+<rect x="400" y="198" width="29" height="21" fill="#f3f6f8" data-rack="50" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜51：0.0000；公开热风险分</title>
+<rect x="432" y="198" width="29" height="21" fill="#f3f6f8" data-rack="51" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜52：0.0000；公开热风险分</title>
+<rect x="336" y="222" width="29" height="21" fill="#f3f6f8" data-rack="52" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="226" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜53：0.0000；公开热风险分</title>
+<rect x="368" y="222" width="29" height="21" fill="#f3f6f8" data-rack="53" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜54：0.0000；公开热风险分</title>
+<rect x="400" y="222" width="29" height="21" fill="#f3f6f8" data-rack="54" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜55：0.0000；公开热风险分</title>
+<rect x="432" y="222" width="29" height="21" fill="#f3f6f8" data-rack="55" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="494" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组08</text>
+<g>
+<title>机柜56：0.0000；公开热风险分</title>
+<rect x="494" y="198" width="29" height="21" fill="#f3f6f8" data-rack="56" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="202" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜57：0.0000；公开热风险分</title>
+<rect x="526" y="198" width="29" height="21" fill="#f3f6f8" data-rack="57" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜58：0.0000；公开热风险分</title>
+<rect x="558" y="198" width="29" height="21" fill="#f3f6f8" data-rack="58" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜59：0.0000；公开热风险分</title>
+<rect x="590" y="198" width="29" height="21" fill="#f3f6f8" data-rack="59" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜60：0.0000；公开热风险分</title>
+<rect x="494" y="222" width="29" height="21" fill="#f3f6f8" data-rack="60" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="226" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜61：0.0000；公开热风险分</title>
+<rect x="526" y="222" width="29" height="21" fill="#f3f6f8" data-rack="61" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜62：0.0000；公开热风险分</title>
+<rect x="558" y="222" width="29" height="21" fill="#f3f6f8" data-rack="62" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜63：0.0000；公开热风险分</title>
+<rect x="590" y="222" width="29" height="21" fill="#f3f6f8" data-rack="63" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="20" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组09</text>
+<g>
+<title>机柜64：0.1296；公开热风险分</title>
+<rect x="20" y="278" width="29" height="21" fill="#99b9d4" data-rack="64" data-value="0.1296" data-kind="risk"/>
+<text x="34.5" y="295" font-size="16" fill="#172d3b" text-anchor="middle" font-weight="600" >64</text>
+<circle cx="24" cy="282" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜65：0.0000；公开热风险分</title>
+<rect x="52" y="278" width="29" height="21" fill="#f3f6f8" data-rack="65" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜66：0.0000；公开热风险分</title>
+<rect x="84" y="278" width="29" height="21" fill="#f3f6f8" data-rack="66" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜67：0.2623；公开热风险分</title>
+<rect x="116" y="278" width="29" height="21" fill="#3d7baf" data-rack="67" data-value="0.2623" data-kind="risk"/>
+<text x="130.5" y="295" font-size="16" fill="white" text-anchor="middle" font-weight="600" >67</text>
+</g>
+<g>
+<title>机柜68：0.0000；公开热风险分</title>
+<rect x="20" y="302" width="29" height="21" fill="#f3f6f8" data-rack="68" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="306" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜69：0.0000；公开热风险分</title>
+<rect x="52" y="302" width="29" height="21" fill="#f3f6f8" data-rack="69" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜70：0.1323；公开热风险分</title>
+<rect x="84" y="302" width="29" height="21" fill="#97b8d3" data-rack="70" data-value="0.1323" data-kind="risk"/>
+<text x="98.5" y="319" font-size="16" fill="#172d3b" text-anchor="middle" font-weight="600" >70</text>
+</g>
+<g>
+<title>机柜71：0.0000；公开热风险分</title>
+<rect x="116" y="302" width="29" height="21" fill="#f3f6f8" data-rack="71" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="178" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组10</text>
+<g>
+<title>机柜72：0.0000；公开热风险分</title>
+<rect x="178" y="278" width="29" height="21" fill="#f3f6f8" data-rack="72" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="282" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜73：0.0000；公开热风险分</title>
+<rect x="210" y="278" width="29" height="21" fill="#f3f6f8" data-rack="73" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜74：0.0000；公开热风险分</title>
+<rect x="242" y="278" width="29" height="21" fill="#f3f6f8" data-rack="74" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜75：0.0000；公开热风险分</title>
+<rect x="274" y="278" width="29" height="21" fill="#f3f6f8" data-rack="75" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜76：0.0000；公开热风险分</title>
+<rect x="178" y="302" width="29" height="21" fill="#f3f6f8" data-rack="76" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="306" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜77：0.0000；公开热风险分</title>
+<rect x="210" y="302" width="29" height="21" fill="#f3f6f8" data-rack="77" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜78：0.0000；公开热风险分</title>
+<rect x="242" y="302" width="29" height="21" fill="#f3f6f8" data-rack="78" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜79：0.0000；公开热风险分</title>
+<rect x="274" y="302" width="29" height="21" fill="#f3f6f8" data-rack="79" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="336" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组11</text>
+<g>
+<title>机柜80：0.0000；公开热风险分</title>
+<rect x="336" y="278" width="29" height="21" fill="#f3f6f8" data-rack="80" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="282" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜81：0.0000；公开热风险分</title>
+<rect x="368" y="278" width="29" height="21" fill="#f3f6f8" data-rack="81" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜82：0.0000；公开热风险分</title>
+<rect x="400" y="278" width="29" height="21" fill="#f3f6f8" data-rack="82" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜83：0.0000；公开热风险分</title>
+<rect x="432" y="278" width="29" height="21" fill="#f3f6f8" data-rack="83" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜84：0.0000；公开热风险分</title>
+<rect x="336" y="302" width="29" height="21" fill="#f3f6f8" data-rack="84" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="306" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜85：0.0000；公开热风险分</title>
+<rect x="368" y="302" width="29" height="21" fill="#f3f6f8" data-rack="85" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜86：0.0000；公开热风险分</title>
+<rect x="400" y="302" width="29" height="21" fill="#f3f6f8" data-rack="86" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜87：0.0000；公开热风险分</title>
+<rect x="432" y="302" width="29" height="21" fill="#f3f6f8" data-rack="87" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="494" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组12</text>
+<g>
+<title>机柜88：0.0000；公开热风险分</title>
+<rect x="494" y="278" width="29" height="21" fill="#f3f6f8" data-rack="88" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="282" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜89：0.0000；公开热风险分</title>
+<rect x="526" y="278" width="29" height="21" fill="#f3f6f8" data-rack="89" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜90：0.0000；公开热风险分</title>
+<rect x="558" y="278" width="29" height="21" fill="#f3f6f8" data-rack="90" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜91：0.0000；公开热风险分</title>
+<rect x="590" y="278" width="29" height="21" fill="#f3f6f8" data-rack="91" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜92：0.0000；公开热风险分</title>
+<rect x="494" y="302" width="29" height="21" fill="#f3f6f8" data-rack="92" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="306" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜93：0.0000；公开热风险分</title>
+<rect x="526" y="302" width="29" height="21" fill="#f3f6f8" data-rack="93" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜94：0.0000；公开热风险分</title>
+<rect x="558" y="302" width="29" height="21" fill="#f3f6f8" data-rack="94" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜95：0.0000；公开热风险分</title>
+<rect x="590" y="302" width="29" height="21" fill="#f3f6f8" data-rack="95" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="20" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组13</text>
+<g>
+<title>机柜96：0.0000；公开热风险分</title>
+<rect x="20" y="358" width="29" height="21" fill="#f3f6f8" data-rack="96" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="362" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜97：0.0000；公开热风险分</title>
+<rect x="52" y="358" width="29" height="21" fill="#f3f6f8" data-rack="97" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜98：0.0000；公开热风险分</title>
+<rect x="84" y="358" width="29" height="21" fill="#f3f6f8" data-rack="98" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜99：0.0000；公开热风险分</title>
+<rect x="116" y="358" width="29" height="21" fill="#f3f6f8" data-rack="99" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜100：0.0000；公开热风险分</title>
+<rect x="20" y="382" width="29" height="21" fill="#f3f6f8" data-rack="100" data-value="0.0" data-kind="risk"/>
+<circle cx="24" cy="386" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜101：0.0000；公开热风险分</title>
+<rect x="52" y="382" width="29" height="21" fill="#f3f6f8" data-rack="101" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜102：0.0000；公开热风险分</title>
+<rect x="84" y="382" width="29" height="21" fill="#f3f6f8" data-rack="102" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜103：0.0000；公开热风险分</title>
+<rect x="116" y="382" width="29" height="21" fill="#f3f6f8" data-rack="103" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="178" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组14</text>
+<g>
+<title>机柜104：0.0000；公开热风险分</title>
+<rect x="178" y="358" width="29" height="21" fill="#f3f6f8" data-rack="104" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="362" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜105：0.0000；公开热风险分</title>
+<rect x="210" y="358" width="29" height="21" fill="#f3f6f8" data-rack="105" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜106：0.0000；公开热风险分</title>
+<rect x="242" y="358" width="29" height="21" fill="#f3f6f8" data-rack="106" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜107：0.0000；公开热风险分</title>
+<rect x="274" y="358" width="29" height="21" fill="#f3f6f8" data-rack="107" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜108：0.0000；公开热风险分</title>
+<rect x="178" y="382" width="29" height="21" fill="#f3f6f8" data-rack="108" data-value="0.0" data-kind="risk"/>
+<circle cx="182" cy="386" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜109：0.0000；公开热风险分</title>
+<rect x="210" y="382" width="29" height="21" fill="#f3f6f8" data-rack="109" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜110：0.0000；公开热风险分</title>
+<rect x="242" y="382" width="29" height="21" fill="#f3f6f8" data-rack="110" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜111：0.0000；公开热风险分</title>
+<rect x="274" y="382" width="29" height="21" fill="#f3f6f8" data-rack="111" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="336" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组15</text>
+<g>
+<title>机柜112：0.0000；公开热风险分</title>
+<rect x="336" y="358" width="29" height="21" fill="#f3f6f8" data-rack="112" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="362" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜113：0.0000；公开热风险分</title>
+<rect x="368" y="358" width="29" height="21" fill="#f3f6f8" data-rack="113" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜114：0.0000；公开热风险分</title>
+<rect x="400" y="358" width="29" height="21" fill="#f3f6f8" data-rack="114" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜115：0.0000；公开热风险分</title>
+<rect x="432" y="358" width="29" height="21" fill="#f3f6f8" data-rack="115" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜116：0.0000；公开热风险分</title>
+<rect x="336" y="382" width="29" height="21" fill="#f3f6f8" data-rack="116" data-value="0.0" data-kind="risk"/>
+<circle cx="340" cy="386" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜117：0.0000；公开热风险分</title>
+<rect x="368" y="382" width="29" height="21" fill="#f3f6f8" data-rack="117" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜118：0.0000；公开热风险分</title>
+<rect x="400" y="382" width="29" height="21" fill="#f3f6f8" data-rack="118" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜119：0.0000；公开热风险分</title>
+<rect x="432" y="382" width="29" height="21" fill="#f3f6f8" data-rack="119" data-value="0.0" data-kind="risk"/>
+</g>
+<text x="494" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组16</text>
+<g>
+<title>机柜120：0.0000；公开热风险分</title>
+<rect x="494" y="358" width="29" height="21" fill="#f3f6f8" data-rack="120" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="362" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜121：0.0000；公开热风险分</title>
+<rect x="526" y="358" width="29" height="21" fill="#f3f6f8" data-rack="121" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜122：0.0000；公开热风险分</title>
+<rect x="558" y="358" width="29" height="21" fill="#f3f6f8" data-rack="122" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜123：0.0000；公开热风险分</title>
+<rect x="590" y="358" width="29" height="21" fill="#f3f6f8" data-rack="123" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜124：0.0000；公开热风险分</title>
+<rect x="494" y="382" width="29" height="21" fill="#f3f6f8" data-rack="124" data-value="0.0" data-kind="risk"/>
+<circle cx="498" cy="386" r="2" fill="#172d3b" />
+</g>
+<g>
+<title>机柜125：0.0000；公开热风险分</title>
+<rect x="526" y="382" width="29" height="21" fill="#f3f6f8" data-rack="125" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜126：0.0000；公开热风险分</title>
+<rect x="558" y="382" width="29" height="21" fill="#f3f6f8" data-rack="126" data-value="0.0" data-kind="risk"/>
+</g>
+<g>
+<title>机柜127：0.0000；公开热风险分</title>
+<rect x="590" y="382" width="29" height="21" fill="#f3f6f8" data-rack="127" data-value="0.0" data-kind="risk"/>
+</g>
+<rect x="24" y="432" width="32" height="16" fill="#f3f6f8" />
+<rect x="56" y="432" width="32" height="16" fill="#dce6ef" />
+<rect x="88" y="432" width="32" height="16" fill="#c5d7e6" />
+<rect x="120" y="432" width="32" height="16" fill="#aec7dc" />
+<rect x="152" y="432" width="32" height="16" fill="#97b7d3" />
+<rect x="184" y="432" width="32" height="16" fill="#7fa8ca" />
+<rect x="216" y="432" width="32" height="16" fill="#6898c1" />
+<rect x="248" y="432" width="32" height="16" fill="#5188b7" />
+<rect x="280" y="432" width="32" height="16" fill="#3a79ae" />
+<rect x="312" y="432" width="32" height="16" fill="#2369a5" />
+<text x="24" y="476" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >0</text>
+<text x="184" y="476" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.15</text>
+<text x="344" y="476" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >0.3</text>
+<text x="390" y="446" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >色标：无量纲代理</text>
+<text x="390" y="477" font-size="18" fill="#526675" text-anchor="start" font-weight="400" >黑点：32个固定温度遥测点</text>
+</svg>
+</div><figcaption>已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。</figcaption></figure><figure id="figure-offline-temperature"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 665 500" role="img" aria-labelledby="offline-heat-title offline-heat-description" data-chart="offline-heat">
+<title id="offline-heat-title">事后设备代表温度（°C）</title>
+<desc id="offline-heat-description">按16组、每组8柜画离散分布。此图用于事后评价。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="34" font-size="29" fill="#b63f50" text-anchor="start" font-weight="650" >事后设备代表温度（°C）</text>
+<text x="18" y="67" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >已有工程例，仿真时钟500秒，128个机柜</text>
+<text x="20" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组01</text>
+<g>
+<title>机柜0：51.7099°C；事后值</title>
+<rect x="20" y="118" width="29" height="21" fill="#e7b8bc" data-rack="0" data-value="51.7099" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜1：50.0982°C；事后值</title>
+<rect x="52" y="118" width="29" height="21" fill="#eac0c3" data-rack="1" data-value="50.0982" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜2：51.1367°C；事后值</title>
+<rect x="84" y="118" width="29" height="21" fill="#e8bbbe" data-rack="2" data-value="51.1367" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜3：48.5394°C；事后值</title>
+<rect x="116" y="118" width="29" height="21" fill="#edc9ca" data-rack="3" data-value="48.5394" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜4：51.4310°C；事后值</title>
+<rect x="20" y="142" width="29" height="21" fill="#e7babd" data-rack="4" data-value="51.431" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜5：48.1988°C；事后值</title>
+<rect x="52" y="142" width="29" height="21" fill="#eecacc" data-rack="5" data-value="48.1988" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜6：52.9351°C；事后值</title>
+<rect x="84" y="142" width="29" height="21" fill="#e4b2b6" data-rack="6" data-value="52.9351" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜7：51.6747°C；事后值</title>
+<rect x="116" y="142" width="29" height="21" fill="#e7b8bc" data-rack="7" data-value="51.6747" data-kind="temperature"/>
+</g>
+<text x="178" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组02</text>
+<g>
+<title>机柜8：51.7990°C；事后值</title>
+<rect x="178" y="118" width="29" height="21" fill="#e6b8bb" data-rack="8" data-value="51.799" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜9：52.0914°C；事后值</title>
+<rect x="210" y="118" width="29" height="21" fill="#e6b6ba" data-rack="9" data-value="52.0914" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜10：47.9193°C；事后值</title>
+<rect x="242" y="118" width="29" height="21" fill="#eecccd" data-rack="10" data-value="47.9193" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜11：49.3215°C；事后值</title>
+<rect x="274" y="118" width="29" height="21" fill="#ecc5c7" data-rack="11" data-value="49.3215" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜12：52.7329°C；事后值</title>
+<rect x="178" y="142" width="29" height="21" fill="#e4b3b7" data-rack="12" data-value="52.7329" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜13：47.4529°C；事后值</title>
+<rect x="210" y="142" width="29" height="21" fill="#efced0" data-rack="13" data-value="47.4529" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜14：54.7015°C；事后值</title>
+<rect x="242" y="142" width="29" height="21" fill="#e0a9ae" data-rack="14" data-value="54.7015" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜15：52.5069°C；事后值</title>
+<rect x="274" y="142" width="29" height="21" fill="#e5b4b8" data-rack="15" data-value="52.5069" data-kind="temperature"/>
+</g>
+<text x="336" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组03</text>
+<g>
+<title>机柜16：48.9224°C；事后值</title>
+<rect x="336" y="118" width="29" height="21" fill="#ecc7c9" data-rack="16" data-value="48.9224" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜17：48.8993°C；事后值</title>
+<rect x="368" y="118" width="29" height="21" fill="#ecc7c9" data-rack="17" data-value="48.8993" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜18：52.5943°C；事后值</title>
+<rect x="400" y="118" width="29" height="21" fill="#e5b4b8" data-rack="18" data-value="52.5943" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜19：48.2415°C；事后值</title>
+<rect x="432" y="118" width="29" height="21" fill="#eecacc" data-rack="19" data-value="48.2415" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜20：49.7089°C；事后值</title>
+<rect x="336" y="142" width="29" height="21" fill="#ebc3c5" data-rack="20" data-value="49.7089" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜21：53.6965°C；事后值</title>
+<rect x="368" y="142" width="29" height="21" fill="#e2aeb3" data-rack="21" data-value="53.6965" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜22：52.6563°C；事后值</title>
+<rect x="400" y="142" width="29" height="21" fill="#e5b3b7" data-rack="22" data-value="52.6563" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜23：54.4056°C；事后值</title>
+<rect x="432" y="142" width="29" height="21" fill="#e1aaaf" data-rack="23" data-value="54.4056" data-kind="temperature"/>
+</g>
+<text x="494" y="108" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组04</text>
+<g>
+<title>机柜24：51.6666°C；事后值</title>
+<rect x="494" y="118" width="29" height="21" fill="#e7b8bc" data-rack="24" data-value="51.6666" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜25：50.6527°C；事后值</title>
+<rect x="526" y="118" width="29" height="21" fill="#e9bec1" data-rack="25" data-value="50.6527" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜26：50.7070°C；事后值</title>
+<rect x="558" y="118" width="29" height="21" fill="#e9bdc0" data-rack="26" data-value="50.707" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜27：49.9786°C；事后值</title>
+<rect x="590" y="118" width="29" height="21" fill="#eac1c4" data-rack="27" data-value="49.9786" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜28：53.8938°C；事后值</title>
+<rect x="494" y="142" width="29" height="21" fill="#e2adb2" data-rack="28" data-value="53.8938" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜29：54.4664°C；事后值</title>
+<rect x="526" y="142" width="29" height="21" fill="#e1aaaf" data-rack="29" data-value="54.4664" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜30：52.7225°C；事后值</title>
+<rect x="558" y="142" width="29" height="21" fill="#e4b3b7" data-rack="30" data-value="52.7225" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜31：48.9947°C；事后值</title>
+<rect x="590" y="142" width="29" height="21" fill="#ecc6c8" data-rack="31" data-value="48.9947" data-kind="temperature"/>
+</g>
+<text x="20" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组05</text>
+<g>
+<title>机柜32：47.5437°C；事后值</title>
+<rect x="20" y="198" width="29" height="21" fill="#efcecf" data-rack="32" data-value="47.5437" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜33：48.8657°C；事后值</title>
+<rect x="52" y="198" width="29" height="21" fill="#edc7c9" data-rack="33" data-value="48.8657" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜34：54.8196°C；事后值</title>
+<rect x="84" y="198" width="29" height="21" fill="#e0a8ad" data-rack="34" data-value="54.8196" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜35：48.7801°C；事后值</title>
+<rect x="116" y="198" width="29" height="21" fill="#edc7c9" data-rack="35" data-value="48.7801" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜36：50.9436°C；事后值</title>
+<rect x="20" y="222" width="29" height="21" fill="#e8bcbf" data-rack="36" data-value="50.9436" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜37：50.9914°C；事后值</title>
+<rect x="52" y="222" width="29" height="21" fill="#e8bcbf" data-rack="37" data-value="50.9914" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜38：48.7904°C；事后值</title>
+<rect x="84" y="222" width="29" height="21" fill="#edc7c9" data-rack="38" data-value="48.7904" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜39：52.5078°C；事后值</title>
+<rect x="116" y="222" width="29" height="21" fill="#e5b4b8" data-rack="39" data-value="52.5078" data-kind="temperature"/>
+</g>
+<text x="178" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组06</text>
+<g>
+<title>机柜40：49.9503°C；事后值</title>
+<rect x="178" y="198" width="29" height="21" fill="#eac1c4" data-rack="40" data-value="49.9503" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜41：53.7606°C；事后值</title>
+<rect x="210" y="198" width="29" height="21" fill="#e2adb2" data-rack="41" data-value="53.7606" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜42：50.1147°C；事后值</title>
+<rect x="242" y="198" width="29" height="21" fill="#eac0c3" data-rack="42" data-value="50.1147" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜43：51.3240°C；事后值</title>
+<rect x="274" y="198" width="29" height="21" fill="#e7babe" data-rack="43" data-value="51.324" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜44：54.0768°C；事后值</title>
+<rect x="178" y="222" width="29" height="21" fill="#e2acb1" data-rack="44" data-value="54.0768" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜45：50.5114°C；事后值</title>
+<rect x="210" y="222" width="29" height="21" fill="#e9bec1" data-rack="45" data-value="50.5114" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜46：51.1992°C；事后值</title>
+<rect x="242" y="222" width="29" height="21" fill="#e8bbbe" data-rack="46" data-value="51.1992" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜47：52.1572°C；事后值</title>
+<rect x="274" y="222" width="29" height="21" fill="#e6b6ba" data-rack="47" data-value="52.1572" data-kind="temperature"/>
+</g>
+<text x="336" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组07</text>
+<g>
+<title>机柜48：51.9366°C；事后值</title>
+<rect x="336" y="198" width="29" height="21" fill="#e6b7bb" data-rack="48" data-value="51.9366" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜49：52.0096°C；事后值</title>
+<rect x="368" y="198" width="29" height="21" fill="#e6b7ba" data-rack="49" data-value="52.0096" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜50：50.1508°C；事后值</title>
+<rect x="400" y="198" width="29" height="21" fill="#eac0c3" data-rack="50" data-value="50.1508" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜51：53.0775°C；事后值</title>
+<rect x="432" y="198" width="29" height="21" fill="#e4b1b5" data-rack="51" data-value="53.0775" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜52：50.6010°C；事后值</title>
+<rect x="336" y="222" width="29" height="21" fill="#e9bec1" data-rack="52" data-value="50.601" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜53：51.1020°C；事后值</title>
+<rect x="368" y="222" width="29" height="21" fill="#e8bbbf" data-rack="53" data-value="51.102" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜54：52.5233°C；事后值</title>
+<rect x="400" y="222" width="29" height="21" fill="#e5b4b8" data-rack="54" data-value="52.5233" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜55：49.7312°C；事后值</title>
+<rect x="432" y="222" width="29" height="21" fill="#ebc2c5" data-rack="55" data-value="49.7312" data-kind="temperature"/>
+</g>
+<text x="494" y="188" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组08</text>
+<g>
+<title>机柜56：52.7848°C；事后值</title>
+<rect x="494" y="198" width="29" height="21" fill="#e4b3b7" data-rack="56" data-value="52.7848" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜57：51.7330°C；事后值</title>
+<rect x="526" y="198" width="29" height="21" fill="#e7b8bc" data-rack="57" data-value="51.733" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜58：51.7440°C；事后值</title>
+<rect x="558" y="198" width="29" height="21" fill="#e7b8bc" data-rack="58" data-value="51.744" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜59：49.7763°C；事后值</title>
+<rect x="590" y="198" width="29" height="21" fill="#ebc2c5" data-rack="59" data-value="49.7763" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜60：50.6301°C；事后值</title>
+<rect x="494" y="222" width="29" height="21" fill="#e9bec1" data-rack="60" data-value="50.6301" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜61：51.2069°C；事后值</title>
+<rect x="526" y="222" width="29" height="21" fill="#e8bbbe" data-rack="61" data-value="51.2069" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜62：47.5577°C；事后值</title>
+<rect x="558" y="222" width="29" height="21" fill="#efcecf" data-rack="62" data-value="47.5577" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜63：51.5302°C；事后值</title>
+<rect x="590" y="222" width="29" height="21" fill="#e7b9bd" data-rack="63" data-value="51.5302" data-kind="temperature"/>
+</g>
+<text x="20" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组09</text>
+<g>
+<title>机柜64：67.6286°C；事后值</title>
+<rect x="20" y="278" width="29" height="21" fill="#c56572" data-rack="64" data-value="67.6286" data-kind="temperature"/>
+<text x="34.5" y="295" font-size="16" fill="white" text-anchor="middle" font-weight="600" >64</text>
+</g>
+<g>
+<title>机柜65：59.9953°C；事后值</title>
+<rect x="52" y="278" width="29" height="21" fill="#d58d95" data-rack="65" data-value="59.9953" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜66：60.9770°C；事后值</title>
+<rect x="84" y="278" width="29" height="21" fill="#d38891" data-rack="66" data-value="60.977" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜67：69.5298°C；事后值</title>
+<rect x="116" y="278" width="29" height="21" fill="#c15b69" data-rack="67" data-value="69.5298" data-kind="temperature"/>
+<text x="130.5" y="295" font-size="16" fill="white" text-anchor="middle" font-weight="600" >67</text>
+</g>
+<g>
+<title>机柜68：59.9238°C；事后值</title>
+<rect x="20" y="302" width="29" height="21" fill="#d58d96" data-rack="68" data-value="59.9238" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜69：64.2326°C；事后值</title>
+<rect x="52" y="302" width="29" height="21" fill="#cc7782" data-rack="69" data-value="64.2326" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜70：67.3106°C；事后值</title>
+<rect x="84" y="302" width="29" height="21" fill="#c66774" data-rack="70" data-value="67.3106" data-kind="temperature"/>
+<text x="98.5" y="319" font-size="16" fill="white" text-anchor="middle" font-weight="600" >70</text>
+</g>
+<g>
+<title>机柜71：63.9293°C；事后值</title>
+<rect x="116" y="302" width="29" height="21" fill="#cd7983" data-rack="71" data-value="63.9293" data-kind="temperature"/>
+</g>
+<text x="178" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组10</text>
+<g>
+<title>机柜72：49.9638°C；事后值</title>
+<rect x="178" y="278" width="29" height="21" fill="#eac1c4" data-rack="72" data-value="49.9638" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜73：47.9038°C；事后值</title>
+<rect x="210" y="278" width="29" height="21" fill="#efcccd" data-rack="73" data-value="47.9038" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜74：54.2715°C；事后值</title>
+<rect x="242" y="278" width="29" height="21" fill="#e1abb0" data-rack="74" data-value="54.2715" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜75：49.7706°C；事后值</title>
+<rect x="274" y="278" width="29" height="21" fill="#ebc2c5" data-rack="75" data-value="49.7706" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜76：48.8291°C；事后值</title>
+<rect x="178" y="302" width="29" height="21" fill="#edc7c9" data-rack="76" data-value="48.8291" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜77：51.6965°C；事后值</title>
+<rect x="210" y="302" width="29" height="21" fill="#e7b8bc" data-rack="77" data-value="51.6965" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜78：52.4081°C；事后值</title>
+<rect x="242" y="302" width="29" height="21" fill="#e5b4b9" data-rack="78" data-value="52.4081" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜79：48.8423°C；事后值</title>
+<rect x="274" y="302" width="29" height="21" fill="#edc7c9" data-rack="79" data-value="48.8423" data-kind="temperature"/>
+</g>
+<text x="336" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组11</text>
+<g>
+<title>机柜80：50.0633°C；事后值</title>
+<rect x="336" y="278" width="29" height="21" fill="#eac1c3" data-rack="80" data-value="50.0633" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜81：49.5696°C；事后值</title>
+<rect x="368" y="278" width="29" height="21" fill="#ebc3c6" data-rack="81" data-value="49.5696" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜82：52.8499°C；事后值</title>
+<rect x="400" y="278" width="29" height="21" fill="#e4b2b7" data-rack="82" data-value="52.8499" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜83：49.7413°C；事后值</title>
+<rect x="432" y="278" width="29" height="21" fill="#ebc2c5" data-rack="83" data-value="49.7413" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜84：47.8433°C；事后值</title>
+<rect x="336" y="302" width="29" height="21" fill="#efccce" data-rack="84" data-value="47.8433" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜85：49.2459°C；事后值</title>
+<rect x="368" y="302" width="29" height="21" fill="#ecc5c7" data-rack="85" data-value="49.2459" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜86：50.1838°C；事后值</title>
+<rect x="400" y="302" width="29" height="21" fill="#eac0c3" data-rack="86" data-value="50.1838" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜87：52.1220°C；事后值</title>
+<rect x="432" y="302" width="29" height="21" fill="#e6b6ba" data-rack="87" data-value="52.122" data-kind="temperature"/>
+</g>
+<text x="494" y="268" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组12</text>
+<g>
+<title>机柜88：50.3191°C；事后值</title>
+<rect x="494" y="278" width="29" height="21" fill="#e9bfc2" data-rack="88" data-value="50.3191" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜89：50.2523°C；事后值</title>
+<rect x="526" y="278" width="29" height="21" fill="#eac0c3" data-rack="89" data-value="50.2523" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜90：49.3677°C；事后值</title>
+<rect x="558" y="278" width="29" height="21" fill="#ebc4c7" data-rack="90" data-value="49.3677" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜91：49.0380°C；事后值</title>
+<rect x="590" y="278" width="29" height="21" fill="#ecc6c8" data-rack="91" data-value="49.038" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜92：54.8740°C；事后值</title>
+<rect x="494" y="302" width="29" height="21" fill="#e0a8ad" data-rack="92" data-value="54.874" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜93：54.9626°C；事后值</title>
+<rect x="526" y="302" width="29" height="21" fill="#e0a7ad" data-rack="93" data-value="54.9626" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜94：48.4200°C；事后值</title>
+<rect x="558" y="302" width="29" height="21" fill="#edc9cb" data-rack="94" data-value="48.42" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜95：51.5843°C；事后值</title>
+<rect x="590" y="302" width="29" height="21" fill="#e7b9bc" data-rack="95" data-value="51.5843" data-kind="temperature"/>
+</g>
+<text x="20" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组13</text>
+<g>
+<title>机柜96：54.2068°C；事后值</title>
+<rect x="20" y="358" width="29" height="21" fill="#e1abb0" data-rack="96" data-value="54.2068" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜97：47.9127°C；事后值</title>
+<rect x="52" y="358" width="29" height="21" fill="#eecccd" data-rack="97" data-value="47.9127" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜98：55.5417°C；事后值</title>
+<rect x="84" y="358" width="29" height="21" fill="#dfa4aa" data-rack="98" data-value="55.5417" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜99：49.8203°C；事后值</title>
+<rect x="116" y="358" width="29" height="21" fill="#ebc2c5" data-rack="99" data-value="49.8203" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜100：49.0964°C；事后值</title>
+<rect x="20" y="382" width="29" height="21" fill="#ecc6c8" data-rack="100" data-value="49.0964" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜101：48.5945°C；事后值</title>
+<rect x="52" y="382" width="29" height="21" fill="#edc8ca" data-rack="101" data-value="48.5945" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜102：49.8937°C；事后值</title>
+<rect x="84" y="382" width="29" height="21" fill="#eac2c4" data-rack="102" data-value="49.8937" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜103：52.6662°C；事后值</title>
+<rect x="116" y="382" width="29" height="21" fill="#e5b3b7" data-rack="103" data-value="52.6662" data-kind="temperature"/>
+</g>
+<text x="178" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组14</text>
+<g>
+<title>机柜104：52.3588°C；事后值</title>
+<rect x="178" y="358" width="29" height="21" fill="#e5b5b9" data-rack="104" data-value="52.3588" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜105：50.0650°C；事后值</title>
+<rect x="210" y="358" width="29" height="21" fill="#eac1c3" data-rack="105" data-value="50.065" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜106：51.2586°C；事后值</title>
+<rect x="242" y="358" width="29" height="21" fill="#e8babe" data-rack="106" data-value="51.2586" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜107：52.4551°C；事后值</title>
+<rect x="274" y="358" width="29" height="21" fill="#e5b4b8" data-rack="107" data-value="52.4551" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜108：49.5117°C；事后值</title>
+<rect x="178" y="382" width="29" height="21" fill="#ebc4c6" data-rack="108" data-value="49.5117" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜109：50.6673°C；事后值</title>
+<rect x="210" y="382" width="29" height="21" fill="#e9bec1" data-rack="109" data-value="50.6673" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜110：50.6079°C；事后值</title>
+<rect x="242" y="382" width="29" height="21" fill="#e9bec1" data-rack="110" data-value="50.6079" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜111：51.4228°C；事后值</title>
+<rect x="274" y="382" width="29" height="21" fill="#e7babd" data-rack="111" data-value="51.4228" data-kind="temperature"/>
+</g>
+<text x="336" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组15</text>
+<g>
+<title>机柜112：51.1127°C；事后值</title>
+<rect x="336" y="358" width="29" height="21" fill="#e8bbbf" data-rack="112" data-value="51.1127" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜113：51.4729°C；事后值</title>
+<rect x="368" y="358" width="29" height="21" fill="#e7b9bd" data-rack="113" data-value="51.4729" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜114：53.5290°C；事后值</title>
+<rect x="400" y="358" width="29" height="21" fill="#e3afb3" data-rack="114" data-value="53.529" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜115：53.0434°C；事后值</title>
+<rect x="432" y="358" width="29" height="21" fill="#e4b1b6" data-rack="115" data-value="53.0434" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜116：49.0519°C；事后值</title>
+<rect x="336" y="382" width="29" height="21" fill="#ecc6c8" data-rack="116" data-value="49.0519" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜117：50.4837°C；事后值</title>
+<rect x="368" y="382" width="29" height="21" fill="#e9bec1" data-rack="117" data-value="50.4837" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜118：52.0354°C；事后值</title>
+<rect x="400" y="382" width="29" height="21" fill="#e6b6ba" data-rack="118" data-value="52.0354" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜119：49.9062°C；事后值</title>
+<rect x="432" y="382" width="29" height="21" fill="#eac1c4" data-rack="119" data-value="49.9062" data-kind="temperature"/>
+</g>
+<text x="494" y="348" font-size="20" fill="#526675" text-anchor="start" font-weight="600" >组16</text>
+<g>
+<title>机柜120：48.3617°C；事后值</title>
+<rect x="494" y="358" width="29" height="21" fill="#eecacb" data-rack="120" data-value="48.3617" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜121：52.2794°C；事后值</title>
+<rect x="526" y="358" width="29" height="21" fill="#e5b5b9" data-rack="121" data-value="52.2794" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜122：48.4339°C；事后值</title>
+<rect x="558" y="358" width="29" height="21" fill="#edc9cb" data-rack="122" data-value="48.4339" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜123：49.8662°C；事后值</title>
+<rect x="590" y="358" width="29" height="21" fill="#eac2c4" data-rack="123" data-value="49.8662" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜124：48.5587°C；事后值</title>
+<rect x="494" y="382" width="29" height="21" fill="#edc8ca" data-rack="124" data-value="48.5587" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜125：48.7864°C；事后值</title>
+<rect x="526" y="382" width="29" height="21" fill="#edc7c9" data-rack="125" data-value="48.7864" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜126：51.7581°C；事后值</title>
+<rect x="558" y="382" width="29" height="21" fill="#e6b8bc" data-rack="126" data-value="51.7581" data-kind="temperature"/>
+</g>
+<g>
+<title>机柜127：53.4786°C；事后值</title>
+<rect x="590" y="382" width="29" height="21" fill="#e3afb4" data-rack="127" data-value="53.4786" data-kind="temperature"/>
+</g>
+<rect x="24" y="432" width="32" height="16" fill="#fff5f2" />
+<rect x="56" y="432" width="32" height="16" fill="#f7e1e0" />
+<rect x="88" y="432" width="32" height="16" fill="#efcdce" />
+<rect x="120" y="432" width="32" height="16" fill="#e7b8bc" />
+<rect x="152" y="432" width="32" height="16" fill="#dfa4aa" />
+<rect x="184" y="432" width="32" height="16" fill="#d69098" />
+<rect x="216" y="432" width="32" height="16" fill="#ce7c86" />
+<rect x="248" y="432" width="32" height="16" fill="#c66774" />
+<rect x="280" y="432" width="32" height="16" fill="#be5362" />
+<rect x="312" y="432" width="32" height="16" fill="#b63f50" />
+<text x="24" y="476" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >40</text>
+<text x="184" y="476" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >57.5</text>
+<text x="344" y="476" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >75</text>
+<text x="390" y="446" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >色标：°C</text>
+<text x="390" y="477" font-size="18" fill="#526675" text-anchor="start" font-weight="400" >模型中的设备代表温度</text>
+</svg>
+</div><figcaption>同一工程过程500秒的事后设备代表温度。</figcaption></figure></div>
+<p>每格一台机柜，每8柜一组；黑点标出32个固定温度遥测位置。该帧主要热点位于第9组，64、67、70号机柜较突出。</p>
+<div class="table-wrap"><table data-table="hotspot-values"><thead><tr><th>机柜</th><th>当时公开风险分</th><th>名义估计温度／°C</th><th>事后代表温度／°C</th><th>固定温度遥测点</th></tr></thead><tbody><tr><td>64</td><td>0.1296</td><td>67.35</td><td>67.63</td><td>是</td></tr><tr><td>67</td><td>0.2623</td><td>69.58</td><td>69.53</td><td>否</td></tr><tr><td>70</td><td>0.1323</td><td>67.36</td><td>67.31</td><td>否</td></tr></tbody></table></div>
+<aside class="scope-note"><p><strong>读图口径：</strong>风险采用无量纲严重度分数，温度图采用仿真中的设备代表温度（°C）。该工程回看使用名义估计与固定巡回，和第4节12个主过程分开记账。右图用于事后评价；在线调度读取左侧公开估计。</p></aside>
+</section><section id="fifo" data-report-section="fifo"><h2>3. 保护例行巡检，再按FIFO安排加查</h2>
+<p><strong>FIFO（First In, First Out，先入先出）的核心操作是：在原巡检循环仍能按期完成的前提下，对本人负责的合规风险请求按出现时间先后处理。</strong> 每名执行者完成上一项检查后重新选择，正在移动和服务的任务持续执行。</p>
+<figure id="figure-inspection-architecture"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 515" role="img" aria-labelledby="inspection-architecture-title inspection-architecture-description" data-chart="inspection-architecture">
+<title id="inspection-architecture-title">本项目公开观测到巡检执行、反馈及离线审计的总体架构</title>
+<desc id="inspection-architecture-description">公开观测由名义估计更新风险，原例行和风险待办分账，经过资格、所属、预约、返回核算和预算检查，由固定FIFO派单。测量反馈在线观测；内部真值只与执行记录一起用于离线评分。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >本项目巡检系统：观测、派单、执行与评价怎样连接</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >上方为在线闭环；公开观测经名义估计形成风险，FIFO规则保持固定。</text>
+<rect x="18" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="153" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >公开观测与估计</text>
+<text x="153" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >遥测＋已完成的专业测量</text>
+<text x="153" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >名义估计 → 风险提示</text>
+<line x1="296" y1="150" x2="328" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M320,155 L328,150 L320,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="338" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="473" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >两本任务账</text>
+<text x="473" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >原循环下一项＋风险待办</text>
+<text x="473" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >分别保留，分别推进</text>
+<line x1="616" y1="150" x2="648" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M640,155 L648,150 L640,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="658" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="793" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行边界与FIFO</text>
+<text x="793" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >资格、所属、预约、期限、预算</text>
+<text x="793" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >合法请求中按首次提示排序</text>
+<line x1="936" y1="150" x2="968" y2="150" stroke="#2369a5" stroke-width="2" /><path d="M960,155 L968,150 L960,145" fill="none" stroke="#2369a5" stroke-width="2"/>
+<rect x="978" y="92" width="270" height="117" fill="#f2f6f9" rx="3"/>
+<text x="1113" y="125" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >执行检查与更新</text>
+<text x="1113" y="160" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >移动、服务、完成专业量测</text>
+<text x="1113" y="191" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >测量完成后更新观测与待办</text>
+<path d="M1113,209 V260 H153 V218" fill="none" stroke="#2369a5" stroke-width="2"/>
+<text x="620" y="252" font-size="22" fill="#2369a5" text-anchor="middle" font-weight="400" >新测量进入下一轮；设备自控仍由设施模型自己的回路运行</text>
+<text x="18" y="326" font-size="26" fill="#526675" text-anchor="start" font-weight="600" >离线评价：将真实异常区间与执行记录对齐</text>
+<rect x="18" y="355" width="395" height="83" fill="#f2f6f9" rx="3"/>
+<text x="215.5" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >内部状态与异常标签</text>
+<text x="215.5" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >供事后评分读取</text>
+<rect x="668" y="355" width="580" height="83" fill="#f2f6f9" rx="3"/>
+<text x="958" y="386" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >离线评分与约束审计</text>
+<text x="958" y="415" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >有效确认、等待、移动／服务成本与重访间隔</text>
+<line x1="423" y1="397" x2="658" y2="397" stroke="#7b8791" stroke-width="2" /><path d="M650,402 L658,397 L650,392" fill="none" stroke="#7b8791" stroke-width="2"/>
+<line x1="1200" y1="215" x2="1110" y2="344" stroke="#7b8791" stroke-width="2" /><path d="M1110.48,334.578 L1110,344 L1118.68,340.3" fill="none" stroke="#7b8791" stroke-width="2"/>
+<text x="1190" y="317" font-size="19" fill="#526675" text-anchor="start" font-weight="400" >执行记录</text>
+<text x="18" y="488" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >巡检完成专业测量，更新观测、风险待办与确认时机；离线评价汇总收益与代价。</text>
+</svg>
+</div><figcaption>根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。</figcaption></figure>
+<h3>两本账怎样配合</h3>
+<p>例行账保留原循环的下一项；风险账在某项公开风险从0变正时登记请求。程序先检查资格、所属、预约、时间与额外访问预算，再从合法请求中取最早的一项；没有合法风险请求时继续例行任务。相同入队时间才按风险分和任务编号打破并列。</p>
+<figure id="figure-fifo-cycle"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 355" role="img" aria-labelledby="fifo-cycle-title fifo-cycle-description" data-chart="fifo-cycle">
+<title id="fifo-cycle-title">FIFO在本巡检程序中的完整决策循环</title>
+<desc id="fifo-cycle-description">移动与测量持续执行。完成后在本人负责的合规请求中先到先处理；没有合法事件则继续例行。每次完成后重新筛选。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >每名巡检员完成上一项检查后，再决定下一项</text>
+<rect x="18" y="76" width="195" height="82" fill="#f2f6f9" rx="3"/>
+<text x="115.5" y="107" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >先看本人的任务</text>
+<text x="115.5" y="136" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >原定下一项＋风险请求</text>
+<line x1="217" y1="116" x2="250" y2="116" stroke="#526675" stroke-width="2" /><path d="M242,121 L250,116 L242,111" fill="none" stroke="#526675" stroke-width="2"/>
+<rect x="260" y="76" width="245" height="82" fill="#f2f6f9" rx="3"/>
+<text x="382.5" y="107" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >筛出当下能执行的</text>
+<text x="382.5" y="136" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >资格、所属、预约、期限、预算</text>
+<line x1="509" y1="116" x2="545" y2="116" stroke="#526675" stroke-width="2" /><path d="M537,121 L545,116 L537,111" fill="none" stroke="#526675" stroke-width="2"/>
+<rect x="555" y="76" width="290" height="82" fill="#f2f6f9" rx="3"/>
+<text x="700" y="107" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >有合法风险请求：FIFO</text>
+<text x="700" y="136" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >选择最早进入待办的一条</text>
+<line x1="849" y1="116" x2="885" y2="116" stroke="#526675" stroke-width="2" /><path d="M877,121 L885,116 L877,111" fill="none" stroke="#526675" stroke-width="2"/>
+<rect x="895" y="76" width="350" height="82" fill="#f2f6f9" rx="3"/>
+<text x="1070" y="107" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >移动＋服务，完成专业测量</text>
+<text x="1070" y="136" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >无论正常或告警，都更新记录</text>
+<line x1="383" y1="159" x2="383" y2="210" stroke="#526675" stroke-width="2" />
+<line x1="383" y1="210" x2="1070" y2="210" stroke="#526675" stroke-width="2" /><path d="M1062,215 L1070,210 L1062,205" fill="none" stroke="#526675" stroke-width="2"/>
+<line x1="1070" y1="210" x2="1070" y2="159" stroke="#526675" stroke-width="2" />
+<text x="710" y="201" font-size="23" fill="#526675" text-anchor="middle" font-weight="400" >没有合法风险请求：继续原定下一项</text>
+<path d="M1070,159 V284 H112 V159" fill="none" stroke="#2369a5" stroke-width="2"/>
+<text x="612" y="276" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="400" >完成后重新规划；可以继续加查，也可以回到原循环</text>
+<text x="18" y="333" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >额外加查时保留原任务；完成原定下一项后推进。一次测量可以同时履行风险和例行义务。</text>
+</svg>
+</div><figcaption>每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。</figcaption></figure>
+<div class="table-wrap"><table data-table="task-contract"><thead><tr><th>专业</th><th>完成检查后得到什么</th><th>人数</th><th>每次服务</th><th>最大重访间隔</th></tr></thead><tbody><tr><td>热检查</td><td>该机柜代表温度</td><td>12</td><td>10秒</td><td>300秒</td></tr><tr><td>电气检查</td><td>该组电气接触温度</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>制冷检查</td><td>该组冷却液流量</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>自控检查</td><td>传感读数误差（完成校验后）</td><td>2</td><td>15秒</td><td>600秒</td></tr></tbody></table></div>
+<p>一次合格测量可以同时履行例行检查和风险确认义务。额外加查完成后，例行指针仍指向原任务；完成原定下一项后，指针才推进。</p>
+<div class="principle-box" id="principle-return">
+<h3>原理框③：加查后，原循环的每一项仍赶得上截止时间</h3>
+<div class="formula-scroll"><p class="formula" role="math">t + τ(p,x) + τ(x,r) ≤ L<sub>r</sub> + D<sub>r</sub>；τ(a,b) = 5⌈[d(a,b)/v + s<sub>b</sub>]/5⌉</p><p class="formula" role="math">对完整返回循环逐项检查：F<sub>j</sub> ≤ L′<sub>j</sub> + D<sub>j</sub>；最小时间余量 = min<sub>j</sub>(L′<sub>j</sub> + D<sub>j</sub> − F<sub>j</sub>) ≥ 0</p></div>
+<p>t是当前时间，p是当前位置，x为额外加查对象，r为原定下一项（此式取x与r不同的情况）。τ包含行走和目的任务服务，并向上取整到5秒；v＝1 m/s。L是上次完成时刻，首次未检任务按L＝0起算；D是最大重访间隔，F是预计完成时刻，L′随预计访问更新。</p>
+<p>程序同时核查加查对象本身、返回后的完整所属循环及循环周期。这份逐项核算记录称为<strong>返回证书</strong>。每次实际完成后重算，因此可以连续批准多项加查。</p>
+</div>
+<h3>用一段实际执行看清排序与返回</h3>
+<p>同一名热巡检员空闲时，10号请求比8号更早出现，因此先查10号；8号的分数更高也不改变FIFO顺序。两项均通过执行检查。</p>
+<div class="table-wrap"><table data-table="fifo-queue"><thead><tr><th>本人的待确认请求</th><th>首次提示时间</th><th>470秒时风险分</th><th>当下检查</th><th>本次选择</th></tr></thead><tbody><tr><td>机柜10热检查</td><td>450秒</td><td>0.0081</td><td>资格、可行性和预算均通过</td><td>先查</td></tr><tr><td>机柜8热检查</td><td>455秒</td><td>0.0656</td><td>资格、可行性和预算均通过</td><td>继续等待</td></tr></tbody></table></div>
+<figure id="figure-fifo-actions"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 307" role="img" aria-labelledby="fifo-actions-title fifo-actions-description" data-chart="fifo-actions">
+<title id="fifo-actions-title">巡检员0从470秒起的实际派单与完成记录</title>
+<desc id="fifo-actions-description">10号450秒先提示，8号455秒后提示。470派10、500完成；500派8、515完成；515派原任务0、540完成，早于545截止。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="34" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >实际执行：先加查机柜10、8，再完成原定机柜0</text>
+<rect x="100" y="100" width="401.25" height="75" fill="#fff2dc" stroke="white" stroke-width="3"/>
+<text x="300.625" y="144" font-size="27" fill="#b27420" text-anchor="middle" font-weight="650" >额外查机柜10</text>
+<text x="501.25" y="86" font-size="22" fill="#b27420" text-anchor="end" font-weight="600" >500秒完成</text>
+<rect x="501.25" y="100" width="200.625" height="75" fill="#fff2dc" stroke="white" stroke-width="3"/>
+<text x="601.562" y="144" font-size="27" fill="#b27420" text-anchor="middle" font-weight="650" >额外查机柜8</text>
+<text x="701.875" y="86" font-size="22" fill="#b27420" text-anchor="end" font-weight="600" >515秒完成</text>
+<rect x="701.875" y="100" width="334.375" height="75" fill="#eaf2f8" stroke="white" stroke-width="3"/>
+<text x="869.062" y="144" font-size="27" fill="#2369a5" text-anchor="middle" font-weight="650" >原定机柜0</text>
+<text x="1036.25" y="86" font-size="22" fill="#2369a5" text-anchor="end" font-weight="600" >540秒完成</text>
+<line x1="1103.12" y1="59" x2="1103.12" y2="201" stroke="#b63f50" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="1103.12" y="52" font-size="22" fill="#b63f50" text-anchor="middle" font-weight="600" >545秒截止</text>
+<line x1="100" y1="209" x2="1170" y2="209" stroke="#7b8791" stroke-width="2" />
+<line x1="100" y1="209" x2="100" y2="215" stroke="#7b8791" stroke-width="2" />
+<text x="100" y="243" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >470</text>
+<line x1="501.25" y1="209" x2="501.25" y2="215" stroke="#7b8791" stroke-width="2" />
+<text x="501.25" y="243" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >500</text>
+<line x1="701.875" y1="209" x2="701.875" y2="215" stroke="#7b8791" stroke-width="2" />
+<text x="701.875" y="243" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >515</text>
+<line x1="1036.25" y1="209" x2="1036.25" y2="215" stroke="#7b8791" stroke-width="2" />
+<text x="1036.25" y="243" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >540</text>
+<line x1="1170" y1="209" x2="1170" y2="215" stroke="#7b8791" stroke-width="2" />
+<text x="1170" y="243" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >550</text>
+<text x="18" y="286" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >仿真秒数；每个色块含移动与服务。第二次加查也重新核算，原任务0最后在540秒完成。</text>
+</svg>
+</div><figcaption>主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。</figcaption></figure>
+<p>原任务0上次245秒完成，允许间隔300秒，下一截止为545秒；两次加查后540秒完成，间隔295秒。下表将简式不等式中的“预计返回”与程序完整核算对应起来。</p>
+<div class="table-wrap"><table data-table="return-budget"><thead><tr><th>重新决策时刻</th><th>批准的加查</th><th>预计完成加查</th><th>随后按原循环返回0号</th><th>0号截止</th><th>完整循环最小余量</th></tr></thead><tbody><tr><td>470秒</td><td>10</td><td>500秒</td><td>525秒</td><td>545秒</td><td>20秒</td></tr><tr><td>500秒</td><td>8</td><td>515秒</td><td>540秒</td><td>545秒</td><td>5秒</td></tr></tbody></table></div>
+<aside class="scope-note"><p><strong>执行约定：</strong>每回合全体额外访问上限12次，请求待派有效期120秒。合格量测完成后结单，正常结果也能结单；分数短时回落时保留该请求，到期后移除。当前返回保证使用固定所属循环、开放通道以及确定的行走和服务时间。</p></aside>
+</section><section id="results" data-report-section="results"><h2>4. 故障测试、确认收益与规则诊断</h2>
+<h3>12个过程具体注入了什么故障</h3>
+<p>主比较在12个不同种子中，都注入同一组<strong>辅助馈电故障＋CDU换热衰减</strong>。目标设备组的辅助供电可用性乘子降至0.05，CDU换热乘子降至0.20，持续180秒；不同种子、位置和开始时刻形成12个配对过程。</p>
+<div class="table-wrap"><table data-table="fault-cases"><thead><tr><th>过程</th><th>种子</th><th>目标柜号／设备组</th><th>故障开始→结束／秒</th><th>热／冷异常段</th></tr></thead><tbody><tr><td>01</td><td>101003</td><td>0号／第1组</td><td>150→330</td><td>8／1</td></tr><tr><td>02</td><td>101040</td><td>9号／第2组</td><td>335→515</td><td>6／1</td></tr><tr><td>03</td><td>101077</td><td>20号／第3组</td><td>520→700</td><td>6／1</td></tr><tr><td>04</td><td>101114</td><td>29号／第4组</td><td>705→885</td><td>7／1</td></tr><tr><td>05</td><td>101151</td><td>36号／第5组</td><td>150→330</td><td>7／1</td></tr><tr><td>06</td><td>101188</td><td>45号／第6组</td><td>335→515</td><td>7／1</td></tr><tr><td>07</td><td>101225</td><td>56号／第8组</td><td>520→700</td><td>6／1</td></tr><tr><td>08</td><td>101262</td><td>65号／第9组</td><td>705→885</td><td>6／1</td></tr><tr><td>09</td><td>101299</td><td>76号／第10组</td><td>150→330</td><td>7／1</td></tr><tr><td>10</td><td>101336</td><td>85号／第11组</td><td>335→515</td><td>7／1</td></tr><tr><td>11</td><td>101373</td><td>100号／第13组</td><td>520→700</td><td>4／1</td></tr><tr><td>12</td><td>101410</td><td>117号／第15组</td><td>705→885</td><td>6／1</td></tr></tbody></table></div>
+<p>故障沿“辅助供电减弱—二次泵流量下降—CDU排热减弱—设备升温”传递，产生77段热异常和12段制冷异常。每段要求连续至少3个5秒时间格达到相应评价条件。</p>
+<table>
+<thead>
+<tr>
+<th>专业</th>
+<th>异常段的触发条件</th>
+<th>本组段数及原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>热</td>
+<td>设备代表温度&gt;65°C</td>
+<td>77段；部分机柜因排热能力下降升温</td>
+</tr>
+<tr>
+<td>制冷</td>
+<td>所属组总流量&lt;33.6 kg/s</td>
+<td>12段；目标组泵送能力随辅助供电下降</td>
+</tr>
+<tr>
+<td>电气</td>
+<td>组电气接触温度&gt;60°C</td>
+<td>0段；本组未注入接触电阻热点，接触温度未达到阈值</td>
+</tr>
+<tr>
+<td>自控</td>
+<td>组平均传感误差的绝对值&gt;1°C</td>
+<td>0段；本组未注入传感偏差，校验误差保持在阈值内</td>
+</tr>
+</tbody>
+</table>
+<p>这里的电气巡检检查接触温度，辅助馈电故障影响的是供电可用性，两者对应不同物理量。18名执行者仍履行四专业例行检查，30分钟回合内全体额外访问上限12次。</p>
+<h3>风险确认机制带来了多少收益</h3>
+<p><strong>有效确认</strong>要求有资格的执行者完成检查、测量告警，并且测量时刻落在该对象的评价异常段内。硬重访与短时异常确认分别评价：按时重访保证检查间隔，及时确认进一步要求赶上异常窗口。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>本次比较中的操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>固定巡回Tour</td>
+<td>沿专业例行清单循环</td>
+</tr>
+<tr>
+<td>事件响应FIFO</td>
+<td>保留例行循环，插入通过返回核算的风险检查</td>
+</tr>
+<tr>
+<td>风险位置对照</td>
+<td>保持专业与负责人权限，在该范围内打乱风险指向</td>
+</tr>
+</tbody>
+</table>
+<div class="figure-pair"><figure id="figure-confirmations"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 765 400" role="img" aria-labelledby="confirmations-title confirmations-description" data-chart="confirmations">
+<title id="confirmations-title">固定巡回28、事件响应70、位置打乱25段确认</title>
+<desc id="confirmations-description">三种方法都在同12个预定合成主过程中比较，异常分母均为89段。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="25" y="34" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >确认了多少段异常？</text>
+<line x1="82" y1="310" x2="740" y2="310" stroke="#dce4e9" stroke-width="2" />
+<text x="65" y="317" font-size="19" fill="#526675" text-anchor="end" font-weight="400" >0</text>
+<line x1="82" y1="240.899" x2="740" y2="240.899" stroke="#dce4e9" stroke-width="2" />
+<text x="65" y="247.899" font-size="19" fill="#526675" text-anchor="end" font-weight="400" >30</text>
+<line x1="82" y1="171.798" x2="740" y2="171.798" stroke="#dce4e9" stroke-width="2" />
+<text x="65" y="178.798" font-size="19" fill="#526675" text-anchor="end" font-weight="400" >60</text>
+<line x1="82" y1="105" x2="740" y2="105" stroke="#dce4e9" stroke-width="2" />
+<text x="65" y="112" font-size="19" fill="#526675" text-anchor="end" font-weight="400" >89</text>
+<g><rect x="113" y="245.506" width="124" height="64.4944" fill="#7b8791" rx="2" data-method="tour" data-count="28" data-denominator="89"/><text x="175" y="227.506" font-size="43" fill="#7b8791" text-anchor="middle" font-weight="650" >28/89</text><text x="175" y="348" font-size="25" fill="#172d3b" text-anchor="middle" font-weight="600" >固定巡回</text><text x="175" y="379" font-size="21" fill="#526675" text-anchor="middle" font-weight="400" >Tour</text></g>
+<g><rect x="338" y="148.764" width="124" height="161.236" fill="#2369a5" rx="2" data-method="fifo" data-count="70" data-denominator="89"/><text x="400" y="130.764" font-size="43" fill="#2369a5" text-anchor="middle" font-weight="650" >70/89</text><text x="400" y="348" font-size="25" fill="#172d3b" text-anchor="middle" font-weight="600" >事件响应</text><text x="400" y="379" font-size="21" fill="#526675" text-anchor="middle" font-weight="400" >FIFO</text></g>
+<g><rect x="563" y="252.416" width="124" height="57.5843" fill="#b27420" rx="2" data-method="shuffled" data-count="25" data-denominator="89"/><text x="625" y="234.416" font-size="43" fill="#b27420" text-anchor="middle" font-weight="650" >25/89</text><text x="625" y="348" font-size="25" fill="#172d3b" text-anchor="middle" font-weight="600" >风险位置打乱</text><text x="625" y="379" font-size="21" fill="#526675" text-anchor="middle" font-weight="400" ></text></g>
+</svg>
+</div><figcaption>当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。</figcaption></figure><figure id="figure-paired-net"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 425 418" role="img" aria-labelledby="paired-net-title paired-net-description" data-chart="paired-net">
+<title id="paired-net-title">12个独立过程有11个净增、1个不变</title>
+<desc id="paired-net-description">纵向顺序为p00到p11，净增为FIFO确认数减Tour确认数。多条候选规则不增加独立过程数。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<g><text x="15" y="34" font-size="27" fill="#172d3b" text-anchor="start" font-weight="650" >每个独立过程的净增</text><text x="18" y="77" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程01</text><rect x="100" y="61" width="105" height="16" fill="#147469" rx="2" data-case="p00-coupled" data-net="3"/><text x="217" y="77" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+3</text><text x="18" y="102.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程02</text><rect x="100" y="86.5" width="245" height="16" fill="#147469" rx="2" data-case="p01-coupled" data-net="7"/><text x="357" y="102.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+7</text><text x="18" y="128" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程03</text><rect x="100" y="112" width="105" height="16" fill="#147469" rx="2" data-case="p02-coupled" data-net="3"/><text x="217" y="128" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+3</text><text x="18" y="153.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程04</text><rect x="100" y="137.5" width="175" height="16" fill="#147469" rx="2" data-case="p03-coupled" data-net="5"/><text x="287" y="153.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+5</text><text x="18" y="179" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程05</text><rect x="100" y="163" width="70" height="16" fill="#147469" rx="2" data-case="p04-coupled" data-net="2"/><text x="182" y="179" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+2</text><text x="18" y="204.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程06</text><rect x="100" y="188.5" width="175" height="16" fill="#147469" rx="2" data-case="p05-coupled" data-net="5"/><text x="287" y="204.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+5</text><text x="18" y="230" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程07</text><rect x="100" y="214" width="140" height="16" fill="#147469" rx="2" data-case="p06-coupled" data-net="4"/><text x="252" y="230" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+4</text><text x="18" y="255.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程08</text><rect x="100" y="239.5" width="175" height="16" fill="#147469" rx="2" data-case="p07-coupled" data-net="5"/><text x="287" y="255.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+5</text><text x="18" y="281" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程09</text><rect x="100" y="265" width="35" height="16" fill="#147469" rx="2" data-case="p08-coupled" data-net="1"/><text x="147" y="281" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+1</text><text x="18" y="306.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程10</text><rect x="100" y="290.5" width="140" height="16" fill="#147469" rx="2" data-case="p09-coupled" data-net="4"/><text x="252" y="306.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+4</text><text x="18" y="332" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程11</text><rect x="100" y="316" width="105" height="16" fill="#147469" rx="2" data-case="p10-coupled" data-net="3"/><text x="217" y="332" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >+3</text><text x="18" y="357.5" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >过程12</text><rect x="100" y="341.5" width="0" height="16" fill="#147469" rx="2" data-case="p11-coupled" data-net="0"/><text x="112" y="357.5" font-size="21" fill="#147469" text-anchor="start" font-weight="600" >0</text><circle cx="100" cy="349.5" r="3" fill="#7b8791" /><text x="15" y="397" font-size="23" fill="#147469" text-anchor="start" font-weight="600" >11个净增，1个不变</text></g>
+</svg>
+</div><figcaption>过程01—12为预登记的12个配对过程；11个净增、1个持平。</figcaption></figure></div>
+<p>相对固定巡回，FIFO新增45段确认、丢失3段，净增42段；平均每过程净增3.50段，探索性95%自举区间为[2.42, 4.50]。11个过程净增、1个持平。时序调整既能赶上新的异常，也会使个别原有测量错过窗口，附例保留了完整对照。</p>
+<figure id="figure-outcome-costs"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 445" role="img" aria-labelledby="outcome-costs-title outcome-costs-description" data-chart="outcome-costs">
+<title id="outcome-costs-title">FIFO相对固定巡回的净确认、移动代价和完成量代价</title>
+<desc id="outcome-costs-description">每过程净增3.50段，探索性95%自举区间2.42到4.50；移动增加约0.50%，完成量下降约0.33%；门槛依次为至少1段、不超过5%、不超过2%。违规为0。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >收益与代价：实际结果放回预先约定的探索性门槛</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >三个小图使用各自单位与刻度；蓝色为实际结果，金色虚线为研究决策门槛。</text>
+<text x="18" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >每过程净增确认</text>
+<text x="18" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >段／过程，越高越好</text>
+<line x1="38" y1="230" x2="373" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="98.9091" y1="178" x2="98.9091" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="98.9091" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >至少1段</text>
+<text x="18" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 3.50段／过程</text>
+<line x1="185.197" y1="207" x2="312.091" y2="207" stroke="#2369a5" stroke-width="3" />
+<line x1="185.197" y1="201" x2="185.197" y2="213" stroke="#2369a5" stroke-width="2" />
+<line x1="312.091" y1="201" x2="312.091" y2="213" stroke="#2369a5" stroke-width="2" />
+<circle cx="251.182" cy="207" r="7" fill="#2369a5" />
+<g data-cost-key="net_confirmations" data-value="3.5" data-threshold="1"></g>
+<line x1="38" y1="230" x2="38" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="38" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="98.9091" y1="230" x2="98.9091" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="98.9091" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="159.818" y1="230" x2="159.818" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="159.818" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<line x1="220.727" y1="230" x2="220.727" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="220.727" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >3</text>
+<line x1="281.636" y1="230" x2="281.636" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="281.636" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >4</text>
+<line x1="342.545" y1="230" x2="342.545" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="342.545" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >5</text>
+<text x="448" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >移动距离增加</text>
+<text x="448" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >%，越低越好</text>
+<line x1="468" y1="230" x2="803" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="772.545" y1="178" x2="772.545" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="772.545" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >不超过5%</text>
+<text x="448" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 0.50%</text>
+<rect x="468" y="191" width="30.4285" height="26" fill="#2369a5" />
+<g data-cost-key="travel_delta_pct" data-value="0.4995732076133001" data-threshold="5"></g>
+<line x1="468" y1="230" x2="468" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="468" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="528.909" y1="230" x2="528.909" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="528.909" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="589.818" y1="230" x2="589.818" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="589.818" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<line x1="650.727" y1="230" x2="650.727" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="650.727" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >3</text>
+<line x1="711.636" y1="230" x2="711.636" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="711.636" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >4</text>
+<line x1="772.545" y1="230" x2="772.545" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="772.545" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >5</text>
+<text x="878" y="115" font-size="26" fill="#172d3b" text-anchor="start" font-weight="600" >完成检查量下降</text>
+<text x="878" y="151" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >%，越低越好</text>
+<line x1="898" y1="230" x2="1233" y2="230" stroke="#dce4e9" stroke-width="2" />
+<line x1="1202.55" y1="178" x2="1202.55" y2="241" stroke="#b27420" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="1202.55" y="294" font-size="20" fill="#b27420" text-anchor="middle" font-weight="400" >不超过2%</text>
+<text x="878" y="339" font-size="25" fill="#2369a5" text-anchor="start" font-weight="650" >实际 0.33%</text>
+<rect x="898" y="191" width="49.8321" height="26" fill="#2369a5" />
+<g data-cost-key="completed_loss_pct" data-value="0.3272557269752239" data-threshold="2"></g>
+<line x1="898" y1="230" x2="898" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="898" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="974.136" y1="230" x2="974.136" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="974.136" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >0.5</text>
+<line x1="1050.27" y1="230" x2="1050.27" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1050.27" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1</text>
+<line x1="1126.41" y1="230" x2="1126.41" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1126.41" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >1.5</text>
+<line x1="1202.55" y1="230" x2="1202.55" y2="236" stroke="#7b8791" stroke-width="2" />
+<text x="1202.55" y="259" font-size="18" fill="#526675" text-anchor="middle" font-weight="400" >2</text>
+<text x="18" y="381" font-size="23" fill="#147469" text-anchor="start" font-weight="600" >有异常过程的加权截尾等待：78.16 → 49.69秒；资格、预约、完整重访违规均为0。</text>
+<text x="18" y="419" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >净增点的横线为探索性95%自举区间；代价按过程求均值。金色门槛用于本次研究决策。</text>
+</svg>
+</div><figcaption>本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。</figcaption></figure>
+<p>移动距离平均增加0.50%，完成检查量下降约0.33%，资格、预约和硬重访违规均为0。结果支持在当前任务中保留风险位置线索，并用受保护的临时加查捕捉短时异常。</p>
+<aside class="scope-note"><p><strong>统计口径：</strong>独立配对单位为12个物理过程，89是其中的连续异常段数。FIFO和位置对照实际额外访问分别为89、81次，采用相同权限与预算上限；实际成本随策略变化。该组收益对应名义估计、事件登记、FIFO与执行保护组成的整体机制，健康、轻微及虚假提示条件另表报告。</p></aside>
+<h3>九条规则改了什么，为什么没有超过FIFO</h3>
+<p>本轮比较的是预登记的<strong>响应／暂缓规则</strong>：先由FIFO选出最早的合法事件，再决定现在加查，还是先执行例行下一项。规则改变这一步二选一的门槛，事件队列继续保留。</p>
+<p>令R为风险总分÷4，A为请求等待秒数÷120，E为“加查与例行的预计完成时差”÷300，S为两者完整循环最小余量之差÷600。每条规则计算<strong>z＝b＋w<sub>R</sub>R＋w<sub>A</sub>A＋w<sub>E</sub>E＋w<sub>S</sub>S</strong>；z≥0响应，z&lt;0先执行例行任务。下图直接列出九个得分式及结果。</p>
+<figure id="figure-registered-rules"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 678" role="img" aria-labelledby="registered-rules-title registered-rules-description" data-chart="registered-rules">
+<title id="registered-rules-title">9条登记规则的确认量及FIFO70段基线</title>
+<desc id="registered-rules-description">九条得分式按正文定义的R、A、E、S计算，依次确认28,33,59,43,30,60,47,60,49段；FIFO确认70段。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >九条响应／暂缓规则：得分式与确认结果</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >z≥0加查，z&lt;0先做例行任务；各行展示同12个已见过程的开发结果。</text>
+<line x1="1009.21" y1="104" x2="1009.21" y2="555" stroke="#2369a5" stroke-width="3" stroke-dasharray="5 4"/>
+<text x="1009.21" y="99" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="650" >FIFO 70段</text>
+<text x="18" y="153" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >01  4R−1</text>
+<rect x="380" y="131" width="251.685" height="29" fill="#a6b5bf" data-rule-sha="b348be3023884fb27e70211369ac7207166fae5290ef2c58344571b93e724039" data-confirmed="28"/>
+<g data-rule-expression="4R−1" data-rule-id="01"></g>
+<text x="643.685" y="154" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >28段</text>
+<text x="18" y="200" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >02  A−0.75</text>
+<rect x="380" y="178" width="296.629" height="29" fill="#a6b5bf" data-rule-sha="9948125dc1a0fdda202383542101a87c41976b6459122c4b5df7584c75a2982f" data-confirmed="33"/>
+<g data-rule-expression="A−0.75" data-rule-id="02"></g>
+<text x="688.629" y="201" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >33段</text>
+<text x="18" y="247" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >03  R+A−4E+S−0.1</text>
+<rect x="380" y="225" width="530.337" height="29" fill="#a6b5bf" data-rule-sha="3b93830def94e5009e0c4ba3c6e80068b1ce10a36de0877e861d5c1ae050ed88" data-confirmed="59"/>
+<g data-rule-expression="R+A−4E+S−0.1" data-rule-id="03"></g>
+<text x="922.337" y="248" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >59段</text>
+<text x="18" y="294" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >04  4R+A−E+4S−0.25</text>
+<rect x="380" y="272" width="386.517" height="29" fill="#a6b5bf" data-rule-sha="6292572b67bf3657316e3f607f5f46a18e5aee28bdf2d53c8759f0e01207081f" data-confirmed="43"/>
+<g data-rule-expression="4R+A−E+4S−0.25" data-rule-id="04"></g>
+<text x="778.517" y="295" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >43段</text>
+<text x="18" y="341" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >05  4R−0.75</text>
+<rect x="380" y="319" width="269.663" height="29" fill="#a6b5bf" data-rule-sha="b08ae6c5c68e463125d825c0d38c6b55bb50c136c13336536a2369045c332c78" data-confirmed="30"/>
+<g data-rule-expression="4R−0.75" data-rule-id="05"></g>
+<text x="661.663" y="342" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >30段</text>
+<text x="18" y="388" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >06  A−0.125</text>
+<rect x="380" y="366" width="539.326" height="29" fill="#a6b5bf" data-rule-sha="c9b8f9cc37f031b275681f92500b9b51ff403b897278b4e313c3cfabfedfd949" data-confirmed="60"/>
+<g data-rule-expression="A−0.125" data-rule-id="06"></g>
+<text x="931.326" y="389" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >60段</text>
+<text x="18" y="435" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >07  4R−0.1</text>
+<rect x="380" y="413" width="422.472" height="29" fill="#a6b5bf" data-rule-sha="8236b1627de879fd9188f71f605f88983459ff06ab8316e2d64127029a0e2d1c" data-confirmed="47"/>
+<g data-rule-expression="4R−0.1" data-rule-id="07"></g>
+<text x="814.472" y="436" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >47段</text>
+<text x="18" y="482" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >08  4R+A−E+S−0.1</text>
+<rect x="380" y="460" width="539.326" height="29" fill="#a6b5bf" data-rule-sha="328cdedb02a768922c8f49db69cadf60dc6888139a9d9b6c0a52854c5d59fdb9" data-confirmed="60"/>
+<g data-rule-expression="4R+A−E+S−0.1" data-rule-id="08"></g>
+<text x="931.326" y="483" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >60段</text>
+<text x="18" y="529" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >09  2R+A−E+2S−0.25</text>
+<rect x="380" y="507" width="440.449" height="29" fill="#a6b5bf" data-rule-sha="24c5531ac7d5505d1ce8d58aff726099f1dd67dd567143462d1d5613d3ad3f77" data-confirmed="49"/>
+<g data-rule-expression="2R+A−E+2S−0.25" data-rule-id="09"></g>
+<text x="832.449" y="530" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >49段</text>
+<line x1="380" y1="567" x2="1180" y2="567" stroke="#dce4e9" stroke-width="2" />
+<line x1="380" y1="567" x2="380" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="380" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0</text>
+<line x1="559.775" y1="567" x2="559.775" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="559.775" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >20</text>
+<line x1="739.551" y1="567" x2="739.551" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="739.551" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >40</text>
+<line x1="919.326" y1="567" x2="919.326" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="919.326" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >60</text>
+<line x1="1009.21" y1="567" x2="1009.21" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="1009.21" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >70</text>
+<line x1="1180" y1="567" x2="1180" y2="574" stroke="#7b8791" stroke-width="2" />
+<text x="1180" y="603" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >89</text>
+<text x="18" y="651" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >最好候选为60段，FIFO为70段；继续保留FIFO，重点诊断风险门槛与检查时机。</text>
+</svg>
+</div><figcaption>本项目9个唯一规则的得分式；R、A、E、S分别对应正文中的归一风险、等待、额外耗时与余量差。</figcaption></figure>
+<p><strong>第一类原因已经能从记录中直接说明：风险门槛过高，压掉了有效加查。</strong> 规则01的得分为4R−1，也就是“原风险分−1”。其229次二选一状态中的最高风险分只有0.7604，因而全部暂缓，额外访问为0；12条执行轨迹与固定巡回逐项相同，确认量也同为28段。</p>
+<p><strong>第二类取舍是等待门槛改变了测量时机。</strong> 规则06要求等待至少15秒，确认60段。一个实际过程里，两条轨迹从260秒首次分叉；FIFO随后在300秒派出机柜4的例行检查、320秒完成告警测量，赶上310—335秒的异常段。等待规则315秒选择先查例行任务，340秒再派机柜4，365秒测量时已恢复正常。</p>
+<figure id="figure-rule-diagnosis"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 500" role="img" aria-labelledby="rule-diagnosis-title rule-diagnosis-description" data-chart="rule-diagnosis">
+<title id="rule-diagnosis-title">规则06与FIFO对机柜4的实际检查时序</title>
+<desc id="rule-diagnosis-description">FIFO300秒派出机柜4的例行检查、320秒确认；等待规则315秒先查例行12、340秒再查4、365秒测量正常。事后异常段310到335秒。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >15秒等待规则的一次时序得失：机柜4的确认窗口</text>
+<text x="18" y="66" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >同一过程、同一巡检员的两条实际轨迹；首次选单分歧发生在260秒。</text>
+<text x="18" y="127" font-size="23" fill="#172d3b" text-anchor="start" font-weight="400" >评价异常段</text>
+<rect x="345" y="102" width="312.5" height="33" fill="#f8dfb2" />
+<text x="501.25" y="94" font-size="22" fill="#b27420" text-anchor="middle" font-weight="600" >310—335秒</text>
+<text x="18" y="218" font-size="23" fill="#2369a5" text-anchor="start" font-weight="400" >FIFO实际轨迹</text>
+<text x="18" y="322" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >等待规则实际轨迹</text>
+<rect x="220" y="191" width="250" height="40" fill="#eaf2f8" />
+<text x="345" y="218" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >例行查4</text>
+<circle cx="470" cy="211" r="7" fill="#b63f50" />
+<text x="484" y="213" font-size="22" fill="#b63f50" text-anchor="start" font-weight="600" >320秒告警，确认</text>
+<rect x="407.5" y="290" width="312.5" height="40" fill="#eaf2f8" stroke="white" stroke-width="2"/>
+<text x="563.75" y="317" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >先做例行12</text>
+<rect x="720" y="290" width="312.5" height="40" fill="#fff2dc" stroke="white" stroke-width="2"/>
+<text x="876.25" y="317" font-size="23" fill="#b27420" text-anchor="middle" font-weight="600" >再加查4</text>
+<circle cx="1032.5" cy="310" r="7" fill="#7b8791" />
+<text x="1032.5" y="273" font-size="22" fill="#526675" text-anchor="middle" font-weight="600" >365秒正常</text>
+<text x="407.5" y="365" font-size="21" fill="#526675" text-anchor="middle" font-weight="400" >315秒选择暂缓</text>
+<line x1="220" y1="390" x2="1220" y2="390" stroke="#dce4e9" stroke-width="2" />
+<line x1="220" y1="390" x2="220" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="220" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >300秒</text>
+<line x1="470" y1="390" x2="470" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="470" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >320秒</text>
+<line x1="720" y1="390" x2="720" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="720" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >340秒</text>
+<line x1="970" y1="390" x2="970" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="970" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >360秒</text>
+<line x1="1220" y1="390" x2="1220" y2="397" stroke="#7b8791" stroke-width="2" />
+<text x="1220" y="426" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >380秒</text>
+<text x="18" y="473" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >实际结果：FIFO在异常段内完成测量；等待规则的测量落在异常结束之后。</text>
+<g data-diagnosis-case="p00-coupled" data-anomaly-start="310.0" data-anomaly-end="335.0" data-fifo-dispatch="300.0" data-fifo-measured="320.0" data-rule-measured="365.0"></g>
+</svg>
+</div><figcaption>主过程01的完整策略轨迹对照，机柜4；等待规则为图中06号，按记录重绘。</figcaption></figure>
+<p>相对FIFO，规则06新增2段、丢失12段；这12段内均没有完成对应检查，区间后的首次测量均为正常。它在另一个过程新增机柜76的确认，同时丢失机柜74，体现了具体时序的得失。弱风险提示仍可能对应短时异常，额外等待会重新分配检查机会；下一轮要检验能否结合完成时间和可用检查机会选择暂缓。</p>
+<p><strong>RSI（Recursive Self-Improvement，自改进）</strong>指让模型根据执行反馈修改规则，再通过独立评价保留有效修改。本轮九条规则用于诊断可改进空间，模型调用和训练均为0；后续先建立有区分力的同任务基线，再单独评价模型反馈的作用。</p>
+<aside class="scope-note"><p><strong>诊断范围：</strong>九条规则使用同12个已见过程，属于开发结果。图中是两条实际完整轨迹的时序对照；“等待门槛影响短窗口确认”将通过后续逐项消融检验。具体规则、动作和源文件身份记录随报告保留。</p></aside>
+</section><section id="comparison" data-report-section="comparison"><h2>5. 原VAE论文怎样评价先进性</h2>
+<p><strong>VAE（变分自编码器）</strong>负责从部分观测重建重要度图；<strong>DRL（深度强化学习）</strong>根据观测选择巡检动作。原论文分别检验估计质量、巡检收益和计算效率，再通过估计器与调度器交叉组合解释贡献。<a href="https://doi.org/10.1016/j.eswa.2025.126483">原论文</a>。</p>
+<table>
+<thead>
+<tr>
+<th>评价层</th>
+<th>指标与方向</th>
+<th>要回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>估计</td>
+<td>RMSE、重要度加权RMSE越低越好；R²越高越好</td>
+<td>重建图是否准确，重要区域是否准确</td>
+</tr>
+<tr>
+<td>巡检</td>
+<td>重要度加权idleness分数越低越好</td>
+<td>重要位置多久没有重新采样</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>同硬件、同规模下的模型计算秒数越低越好</td>
+<td>计算能否跟上决策频率</td>
+</tr>
+</tbody>
+</table>
+<p>idleness表示“距上次采样多久”。原文对它按决策步增加、采样后清零并归一；目标包含各节点的“闲置度×重要度”之和。论文以100个未参与训练的场景比较DRL、Greedy贪心策略及VRP循环，并用VAE和Myopic估计交叉消融。</p>
+<figure id="figure-original-paper-scores"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 418" role="img" aria-labelledby="paper-scores-title paper-scores-description" data-chart="paper-scores">
+<title id="paper-scores-title">原文表8与表9四方法的最终巡检分数</title>
+<desc id="paper-scores-description">DRL加VAE和Myopic构成估计器消融；Greedy作为调度器对照。两组场景共用0.38至0.51的原文分数尺度。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="32" font-size="29" fill="#172d3b" text-anchor="start" font-weight="650" >原论文内部对比：最终巡检分数越低越好</text>
+<text x="18" y="64" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >点为均值，横线为95%置信区间；两组水域场景共用原文分数刻度。</text>
+<text x="450" y="104" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >水质参数 WQP</text>
+<line x1="550.923" y1="150" x2="589.077" y2="150" stroke="#7b8791" stroke-width="3" />
+<line x1="550.923" y1="144" x2="550.923" y2="156" stroke="#7b8791" stroke-width="2" />
+<line x1="589.077" y1="144" x2="589.077" y2="156" stroke="#7b8791" stroke-width="2" />
+<circle cx="570" cy="150" r="6" fill="#7b8791" />
+<text x="570" y="137" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.484 ± 0.0062</text>
+<text x="18" y="158" font-size="23" fill="#172d3b" text-anchor="start" font-weight="400" >DRL＋Myopic</text>
+<line x1="483.231" y1="215" x2="521.385" y2="215" stroke="#2369a5" stroke-width="3" />
+<line x1="483.231" y1="209" x2="483.231" y2="221" stroke="#2369a5" stroke-width="2" />
+<line x1="521.385" y1="209" x2="521.385" y2="221" stroke="#2369a5" stroke-width="2" />
+<circle cx="502.308" cy="215" r="6" fill="#2369a5" />
+<text x="502.308" y="202" font-size="19" fill="#2369a5" text-anchor="middle" font-weight="400" >0.462 ± 0.0062</text>
+<text x="18" y="223" font-size="23" fill="#172d3b" text-anchor="start" font-weight="600" >DRL＋VAE</text>
+<line x1="518.308" y1="280" x2="566.308" y2="280" stroke="#7b8791" stroke-width="3" />
+<line x1="518.308" y1="274" x2="518.308" y2="286" stroke="#7b8791" stroke-width="2" />
+<line x1="566.308" y1="274" x2="566.308" y2="286" stroke="#7b8791" stroke-width="2" />
+<circle cx="542.308" cy="280" r="6" fill="#7b8791" />
+<text x="542.308" y="267" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.475 ± 0.0078</text>
+<text x="18" y="288" font-size="23" fill="#172d3b" text-anchor="start" font-weight="400" >Greedy＋VAE</text>
+<line x1="558.923" y1="345" x2="618" y2="345" stroke="#7b8791" stroke-width="3" />
+<line x1="558.923" y1="339" x2="558.923" y2="351" stroke="#7b8791" stroke-width="2" />
+<line x1="618" y1="339" x2="618" y2="351" stroke="#7b8791" stroke-width="2" />
+<circle cx="588.462" cy="345" r="6" fill="#7b8791" />
+<text x="588.462" y="332" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.490 ± 0.0096</text>
+<text x="18" y="353" font-size="23" fill="#172d3b" text-anchor="start" font-weight="400" >Greedy＋Myopic</text>
+<line x1="250" y1="365" x2="650" y2="365" stroke="#7b8791" stroke-width="2" />
+<line x1="250" y1="365" x2="250" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="250" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.38</text>
+<line x1="373.077" y1="365" x2="373.077" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="373.077" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.42</text>
+<line x1="496.154" y1="365" x2="496.154" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="496.154" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.46</text>
+<line x1="619.231" y1="365" x2="619.231" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="619.231" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.50</text>
+<text x="960" y="104" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >静态藻华</text>
+<line x1="884.308" y1="150" x2="906.462" y2="150" stroke="#7b8791" stroke-width="3" />
+<line x1="884.308" y1="144" x2="884.308" y2="156" stroke="#7b8791" stroke-width="2" />
+<line x1="906.462" y1="144" x2="906.462" y2="156" stroke="#7b8791" stroke-width="2" />
+<circle cx="895.385" cy="150" r="6" fill="#7b8791" />
+<text x="895.385" y="137" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.424 ± 0.0036</text>
+<line x1="815.385" y1="215" x2="833.846" y2="215" stroke="#2369a5" stroke-width="3" />
+<line x1="815.385" y1="209" x2="815.385" y2="221" stroke="#2369a5" stroke-width="2" />
+<line x1="833.846" y1="209" x2="833.846" y2="221" stroke="#2369a5" stroke-width="2" />
+<circle cx="824.615" cy="215" r="6" fill="#2369a5" />
+<text x="824.615" y="202" font-size="19" fill="#2369a5" text-anchor="middle" font-weight="400" >0.401 ± 0.0030</text>
+<line x1="888" y1="280" x2="933.538" y2="280" stroke="#7b8791" stroke-width="3" />
+<line x1="888" y1="274" x2="888" y2="286" stroke="#7b8791" stroke-width="2" />
+<line x1="933.538" y1="274" x2="933.538" y2="286" stroke="#7b8791" stroke-width="2" />
+<circle cx="910.769" cy="280" r="6" fill="#7b8791" />
+<text x="910.769" y="267" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.429 ± 0.0074</text>
+<line x1="888" y1="345" x2="933.538" y2="345" stroke="#7b8791" stroke-width="3" />
+<line x1="888" y1="339" x2="888" y2="351" stroke="#7b8791" stroke-width="2" />
+<line x1="933.538" y1="339" x2="933.538" y2="351" stroke="#7b8791" stroke-width="2" />
+<circle cx="910.769" cy="345" r="6" fill="#7b8791" />
+<text x="910.769" y="332" font-size="19" fill="#7b8791" text-anchor="middle" font-weight="400" >0.429 ± 0.0074</text>
+<line x1="760" y1="365" x2="1160" y2="365" stroke="#7b8791" stroke-width="2" />
+<line x1="760" y1="365" x2="760" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="760" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.38</text>
+<line x1="883.077" y1="365" x2="883.077" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="883.077" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.42</text>
+<line x1="1006.15" y1="365" x2="1006.15" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="1006.15" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.46</text>
+<line x1="1129.23" y1="365" x2="1129.23" y2="371" stroke="#7b8791" stroke-width="2" />
+<text x="1129.23" y="398" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >0.50</text>
+</svg>
+</div><figcaption>原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。</figcaption></figure>
+<p>图为原文表8／9的终值均值和95%区间。“约快30%”描述巡检分数更早下降。当前机房研究已回答“事件机制相对固定巡回的确认收益”，下一阶段沿用原文的分层比较方法，将估计器和调度器放进共同机房任务，报告确认、等待、年龄评分和计算代价。</p>
+<aside class="scope-note"><p><strong>比较口径：</strong>原文预测对象是水域重要度，本项目预测设备温度并评价专业确认；两类指标各自在本任务内解释。原文Average分数的归一分母仍需随复现对齐。当前历史PPO／CVAE材料按既有实现记录，VAE-UNet与原共享DDQL的同任务适配列入下一节。</p></aside>
+</section><section id="roadmap" data-report-section="roadmap"><h2>6. 下一步工作路线图</h2>
+<p class="roadmap-lead">拟用三个工作周，先补工程依据和测量记录，再完成同任务方法对齐，最后用新过程检验。以下是拟执行计划；本次修订完成报告和原件诊断。</p>
+<table>
+<thead>
+<tr>
+<th>阶段与预计时间</th>
+<th>具体操作</th>
+<th>交付物与判断条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1周前半：标准与控制映射</td>
+<td>核读GB/T 48023-2026正式全文中与温度、流量／压差监测、报警保护和测试有关的条款，并对照48097机柜要求；优先核对供回液温度、泄漏、防凝露与保护动作。按正式目录登记章节号与适用对象</td>
+<td>“条款原文／章节—模型变量—控制或报警动作—验证工况”矩阵；参数逐项标出标准、设备资料或研究设定来源</td>
+</tr>
+<tr>
+<td>第1周后半：故障覆盖与可追算日志</td>
+<td>增加温度预测项、功率缺口项、选单特征和返回核算分项记录；将接触电阻热点、传感偏差与现有热—冷故障分别登记；约定E/G的算力单位和代表设施口径</td>
+<td>可逐项重算的风险日志；四专业故障／量测／阈值表；机柜数、状态数和FLOP/s需求分别列示</td>
+</tr>
+<tr>
+<td>第2周：估计与调度对齐</td>
+<td>将VAE-UNet适配为128柜温度估计器，与名义估计使用相同公开输入；在FIFO、Greedy与DRL中保留同一资格、预约、返回证书、事件有效期和额外访问预算</td>
+<td>2种估计器×3种调度器的接口与开发对照；报告RMSE／加权RMSE、R²、模型耗时，以及有效确认段数和加权idleness</td>
+</tr>
+<tr>
+<td>第3周前半：独立验证与规模试验</td>
+<td>冻结方法、权重和阈值后，预登记新种子及四专业故障，旧12过程只用于开发；按128／256／512柜递增并保持每组8柜、人员资源比例及约束，记录决策时延与内存</td>
+<td>每过程配对的新增／丢失确认、等待、移动、服务、完成量及违规；规模—计算开销曲线；训练耗时由第2周吞吐实测安排</td>
+</tr>
+<tr>
+<td>第3周后半：决定是否进入模型自改进</td>
+<td>检查固定规则、Greedy和DRL是否具有可重复的动作及结果差别；再为模型反馈设同初始方法、同提案／执行预算、有反馈／无反馈对照，并预先留出新测试过程</td>
+<td>以新过程的净确认、成本和约束共同决定继续；反馈收益单独出表。没有稳定改进时保留FIFO，收束机制稿与规则诊断</td>
+</tr>
+</tbody>
+</table>
+<h3>标准映射将怎样改变现有控制公式</h3>
+<p>当前泵目标为<strong>u*＝clip[0.85＋0.035(T<sub>max</sub>−58), 0.75, 1.2]</strong>，实际指令按20秒滞后追随目标。标准映射先把温度、流量、压差和保护要求变成明确的测量量、约束和测试，再选择反馈结构。</p>
+<p>拟评估的温度／压差反馈结构为<strong>u*＝sat[u<sub>0</sub>＋K<sub>T</sub>(T−T<sub>set</sub>)＋K<sub>p</sub>(Δp<sub>set</sub>−Δp)]</strong>，配合正常、降额和停机模式。增加压差观测后测试稳定性与饱和行为；设定值、增益、露点裕量和联锁动作依据正式条款与设备资料确定。这是待评估的设计结构，现有仿真实现仍采用前式。</p>
+<p>两项标准已定位：<a href="https://std.samr.gov.cn/gb/search/gbDetailed?id=581F4B90BB7B80E8E06397BE0A0AF9E7">GB/T 48023-2026</a>于2026-07-30发布、2027-02-01实施；<a href="https://std.samr.gov.cn/gb/search/gbDetailed?id=5A13050B0299303FE06397BE0A0ADA7D">GB/T 48097-2026</a>于2026-08-28发布、2027-03-01实施。现有核查取得官方元数据，工作包将补齐正式条款到控制与测试的映射。</p>
+<h3>基线怎样做到同任务、同权限</h3>
+<p>先固定同一观测轨迹比较名义估计与VAE-UNet的温度误差，再将二者分别接入在线调度。调度统一使用“原定下一项＋本人的合法风险请求”动作空间；Greedy按公开风险与完成耗时选择，DRL在同一合法动作掩码内学习。不同方法的实际观察时机可以随动作变化，人员、专业、服务时间、行走模型与权限保持相同。</p>
+<p>确认量保留现有定义；拟增加的年龄评分为<strong>A<sub>j</sub>(t)＝min[(t−L<sub>j</sub>)/D<sub>j</sub>,1]</strong>，对固定任务重要度w<sub>j</sub>加权，再在同一回合内求时间平均。权重和归一方式在新评价前登记，形成“有效确认＋重要度加权idleness”双指标，同时报告成本和硬重访。</p>
+<p>新机制评价沿用探索性决策门槛：全部预登记主过程（含零异常过程）平均净增至少1段，95%自举区间下界大于0，且至少8个主过程出现评价异常；平均移动增加≤5%，完成量下降≤2%，资格、预约和硬重访违规为0。新故障与规模测试的参数、训练预算和样本数在执行前另行封存。</p>
+<details class="case-appendix"><summary>补充案例：同一巡检员为什么有得也有失（可展开）</summary><div class="appendix-body">
+
+<figure id="figure-execution-chain"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 163" role="img" aria-labelledby="execution-chain-title execution-chain-description" data-chart="execution-chain">
+<title id="execution-chain-title">任务11之后，两条执行顺序分叉</title>
+<desc id="execution-chain-description">同一agent1。605秒完成11。Tour关键完成9@620、17@645、21@695。FIFO加查23@635，再完成9@665、17@690，额外21@725。Tour中19@660、23@680及FIFO中19@705等访问被省略。这不是单次插入的反事实消融。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="18" y="23" font-size="22" fill="#172d3b" text-anchor="start" font-weight="600" >同一巡检员：任务 @ 完成秒（节选，其他访问省略）</text>
+<text x="1255" y="23" font-size="20" fill="#b27420" text-anchor="end" font-weight="400" >橙框为额外访问</text>
+<text x="25" y="70" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >共同任务</text>
+<rect x="18" y="81" width="156" height="43" fill="#f2f4f6" rx="4"/>
+<text x="96" y="110" font-size="26" fill="#172d3b" text-anchor="middle" font-weight="650" >11 @ 605</text>
+<text x="220" y="52" font-size="23" fill="#526675" text-anchor="start" font-weight="400" >Tour</text>
+<text x="220" y="154" font-size="23" fill="#2369a5" text-anchor="start" font-weight="400" >FIFO</text>
+<path d="M174,102 L205,64 H490 M174,102 L205,122 H270" fill="none" stroke="#7b8791" stroke-width="2"/>
+<g><rect x="500" y="44" width="162" height="40" fill="#f2f6f9" rx="3"/><text x="581" y="72" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >9 @ 620</text></g>
+<g><rect x="720" y="44" width="162" height="40" fill="#f2f6f9" rx="3"/><text x="801" y="72" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >17 @ 645</text></g>
+<g><rect x="1070" y="44" width="162" height="40" fill="#f2f6f9" rx="3"/><text x="1151" y="72" font-size="25" fill="#7b8791" text-anchor="middle" font-weight="600" >21 @ 695</text></g>
+<line x1="662" y1="64" x2="710" y2="64" stroke="#7b8791" stroke-width="2" />
+<line x1="882" y1="64" x2="932" y2="64" stroke="#7b8791" stroke-width="2" />
+<line x1="1005" y1="64" x2="1060" y2="64" stroke="#7b8791" stroke-width="2" />
+<text x="969" y="72" font-size="25" fill="#526675" text-anchor="middle" font-weight="400" >…</text>
+<g><rect x="280" y="102" width="162" height="40" fill="#fff2dc" rx="3"/><text x="361" y="130" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >23 @ 635</text></g>
+<g><rect x="500" y="102" width="162" height="40" fill="#f2f6f9" rx="3"/><text x="581" y="130" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >9 @ 665</text></g>
+<g><rect x="720" y="102" width="162" height="40" fill="#f2f6f9" rx="3"/><text x="801" y="130" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >17 @ 690</text></g>
+<g><rect x="1070" y="102" width="162" height="40" fill="#fff2dc" rx="3"/><text x="1151" y="130" font-size="25" fill="#2369a5" text-anchor="middle" font-weight="600" >21 @ 725</text></g>
+<line x1="442" y1="122" x2="490" y2="122" stroke="#2369a5" stroke-width="2" />
+<line x1="662" y1="122" x2="710" y2="122" stroke="#2369a5" stroke-width="2" />
+<line x1="882" y1="122" x2="932" y2="122" stroke="#2369a5" stroke-width="2" />
+<line x1="1005" y1="122" x2="1060" y2="122" stroke="#2369a5" stroke-width="2" />
+<text x="969" y="130" font-size="25" fill="#526675" text-anchor="middle" font-weight="400" >…</text>
+</svg>
+</div><figcaption>p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。</figcaption></figure>
+<div class="figure-pair"><figure id="figure-task-17"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="task-17-title task-17-description" data-chart="task-17">
+<title id="task-17-title">机柜17的两条策略时间线</title>
+<desc id="task-17-description">同一过程、同一巡检员。FIFO于665秒派出例行检查，685秒风险才出现，690秒完成确认。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<g><text x="18" y="29" font-size="27" fill="#147469" text-anchor="start" font-weight="650" >机柜17：新增确认（例行访问）</text><text x="18" y="59" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >事后异常窗口 680—705秒</text><rect x="325.217" y="76" width="107.609" height="166" fill="#e9edef" /><text x="6" y="107" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >Tour</text><text x="6" y="203" font-size="21" fill="#2369a5" text-anchor="start" font-weight="400" >FIFO</text><line x1="110" y1="120" x2="605" y2="120" stroke="#dce4e9" stroke-width="3" /><line x1="168.565" y1="114" x2="180.565" y2="126" stroke="#7b8791" stroke-width="3" /><line x1="168.565" y1="126" x2="180.565" y2="114" stroke="#7b8791" stroke-width="3" /><text x="174.565" y="96" font-size="22" fill="#7b8791" text-anchor="middle" font-weight="600" >645 测量正常</text><line x1="110" y1="210" x2="605" y2="210" stroke="#dce4e9" stroke-width="3" /><circle cx="368.261" cy="210" r="8" fill="#2369a5" /><text x="368.261" y="244" font-size="22" fill="#2369a5" text-anchor="start" font-weight="600" >690 确认异常</text><line x1="260.652" y1="210" x2="368.261" y2="210" stroke="#2369a5" stroke-width="5" /><rect x="256.652" y="206" width="8" height="8" fill="white" stroke="#2369a5" stroke-width="2"/><line x1="346.739" y1="164" x2="346.739" y2="200" stroke="#b27420" stroke-width="2" stroke-dasharray="4 4"/><path d="M346.739,150 l7,7 l-7,7 l-7,-7 z" fill="#b27420"/><text x="346.739" y="143" font-size="21" fill="#b27420" text-anchor="middle" font-weight="600" >685 风险提示</text><text x="260.652" y="244" font-size="21" fill="#2369a5" text-anchor="end" font-weight="400" >665 派出例行检查</text><line x1="110" y1="269" x2="605" y2="269" stroke="#dce4e9" stroke-width="2" /><line x1="153.043" y1="269" x2="153.043" y2="275" stroke="#7b8791" stroke-width="2" /><text x="153.043" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >640秒</text><line x1="325.217" y1="269" x2="325.217" y2="275" stroke="#7b8791" stroke-width="2" /><text x="325.217" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >680秒</text><line x1="497.391" y1="269" x2="497.391" y2="275" stroke="#7b8791" stroke-width="2" /><text x="497.391" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >720秒</text></g>
+</svg>
+</div><figcaption>17号665秒派出的是例行访问；其公开风险685秒才出现。</figcaption></figure><figure id="figure-task-21"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="task-21-title task-21-description" data-chart="task-21">
+<title id="task-21-title">机柜21的两条策略时间线</title>
+<desc id="task-21-description">同一过程、同一巡检员。风险650秒可见，705秒额外派单，725秒完成时710秒异常已结束。Tour695秒确认。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<g><text x="18" y="29" font-size="27" fill="#b63f50" text-anchor="start" font-weight="650" >机柜21：丢失确认（额外访问）</text><text x="18" y="59" font-size="20" fill="#526675" text-anchor="start" font-weight="400" >事后异常窗口 650—710秒</text><rect x="196.087" y="76" width="258.261" height="166" fill="#e9edef" /><text x="6" y="107" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >Tour</text><text x="6" y="203" font-size="21" fill="#2369a5" text-anchor="start" font-weight="400" >FIFO</text><line x1="110" y1="120" x2="605" y2="120" stroke="#dce4e9" stroke-width="3" /><circle cx="389.783" cy="120" r="8" fill="#7b8791" /><text x="389.783" y="96" font-size="22" fill="#7b8791" text-anchor="middle" font-weight="600" >695 确认异常</text><line x1="110" y1="210" x2="605" y2="210" stroke="#dce4e9" stroke-width="3" /><line x1="512.913" y1="204" x2="524.913" y2="216" stroke="#2369a5" stroke-width="3" /><line x1="512.913" y1="216" x2="524.913" y2="204" stroke="#2369a5" stroke-width="3" /><text x="518.913" y="244" font-size="22" fill="#2369a5" text-anchor="start" font-weight="600" >725 正常</text><line x1="432.826" y1="210" x2="518.913" y2="210" stroke="#2369a5" stroke-width="5" /><rect x="428.826" y="206" width="8" height="8" fill="white" stroke="#2369a5" stroke-width="2"/><line x1="196.087" y1="164" x2="196.087" y2="200" stroke="#b27420" stroke-width="2" stroke-dasharray="4 4"/><path d="M196.087,150 l7,7 l-7,7 l-7,-7 z" fill="#b27420"/><text x="196.087" y="143" font-size="21" fill="#b27420" text-anchor="middle" font-weight="600" >650 风险提示</text><text x="432.826" y="244" font-size="21" fill="#2369a5" text-anchor="end" font-weight="400" >705 额外派单</text><line x1="110" y1="269" x2="605" y2="269" stroke="#dce4e9" stroke-width="2" /><line x1="153.043" y1="269" x2="153.043" y2="275" stroke="#7b8791" stroke-width="2" /><text x="153.043" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >640秒</text><line x1="325.217" y1="269" x2="325.217" y2="275" stroke="#7b8791" stroke-width="2" /><text x="325.217" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >680秒</text><line x1="497.391" y1="269" x2="497.391" y2="275" stroke="#7b8791" stroke-width="2" /><text x="497.391" y="299" font-size="19" fill="#526675" text-anchor="middle" font-weight="400" >720秒</text></g>
+</svg>
+</div><figcaption>21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。</figcaption></figure></div>
+<p>这组附图比较固定巡回与FIFO：17号在665秒作为例行任务派出，风险685秒出现、690秒完成确认；21号650秒见风险，705秒额外派单，725秒完成时已越过710秒的异常结束。它展示整条策略轨迹的时序得失；九条响应／暂缓规则的诊断使用第4节独立列出的记录。</p>
+</div></details>
+</section><section id="sources" data-report-section="sources"><h2>来源与继续查阅</h2>
+<ul>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/2db2adf146357ec35306503ed15183c0c4100d20/paper/model-appendix.md">模型方程、单位与参数</a>：详细物理模型与合成参数。</li>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/2db2adf146357ec35306503ed15183c0c4100d20/evidence/event-validation/final/README.md">主机制验证与原件</a>：12个主过程及健康／轻微／误提示条件。</li>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/2db2adf146357ec35306503ed15183c0c4100d20/evidence/response-defer/README.md">规则搜索记录</a>：九条规则及停止条件。</li>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/research/report-method-formulas-20261103.md">本次公式与故障核查</a>、<a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/research/report-rule-diagnosis-20261103.md">规则诊断核查</a>：实现路径、分项记录范围和实际动作依据。</li>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/research/mentor-engineering-reference-20261103.md">工程参照与标准定位</a>、<a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/research/original-paper-metrics-20261103.md">原论文指标核查</a>。</li>
+<li><a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/2db2adf146357ec35306503ed15183c0c4100d20/paper/manuscript_zh.md">机制讨论稿</a>：问题定义、条件性证明与完整讨论。</li>
+</ul>
+<p>图表、公式和正文全部内嵌，可单文件离线阅读。研究结果沿用2026-11-02封存记录，本次修订增加解释、原件诊断和拟定工作计划。</p>
+</section></article></body>
+</html>

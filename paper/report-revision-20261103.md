@@ -1,6 +1,6 @@
 # 2026-11-03报告修订与完成核对
 
-当前[单文件报告](supervisor-briefing.html)由[源文](supervisor-report.md)生成，版本5。修改前HTML、源文、模板和manifest按[65f025fd](briefing-history/65f025fd/)逐字节保留。
+本文记录对应`e7fd9e26`的版本5。当前版本6的要求与完整review见[本轮要求](report-focus-spec-20261103.md)、[review](report-review-20261103.md)。版本5当时由源文生成；其修改前HTML、源文、模板和manifest按[65f025fd](briefing-history/65f025fd/)保留。
 
 ## 用户要求与落实
 

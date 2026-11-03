@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from html import escape
+import base64
 import math
 import re
 
@@ -60,11 +61,15 @@ def blend(a, b, t):
     return '#'+''.join(f'{round(x+(y-x)*t):02x}' for x,y in zip(av,bv))
 
 
-def heatmap(frame, truth=False):
-    values=frame['offline_temperature_c'] if truth else frame['public_thermal_risk']
-    lo,hi=(40,75) if truth else (0,.3)
+def heatmap(frame, mode='risk'):
+    truth=mode=='truth';estimated=mode=='estimate';temperature=truth or estimated
+    values=frame['offline_temperature_c'] if truth else frame['public_estimated_temperature_c'] if estimated else frame['public_thermal_risk']
+    lo,hi=(45,75) if temperature else (0,.3)
     root=RED if truth else BLUE
-    title='事后设备代表温度（°C）' if truth else '巡检端的公开热风险分'
+    title='事后设备代表温度（°C）' if truth else '公开估计的设备温度（°C）' if estimated else '巡检端的公开热风险分'
+    def colour(t):
+        if not temperature:return blend('#f3f6f8',BLUE,t)
+        return blend('#3679b2','#ffe1a0',t*2) if t<=.5 else blend('#ffe1a0','#bd3b40',(t-.5)*2)
     p=[text(18,34,title,29,root,weight=650),
        text(18,67,'已有工程例，仿真时钟500秒，128个机柜',21,MUTED)]
     for pod in range(16):
@@ -74,20 +79,51 @@ def heatmap(frame, truth=False):
             rack=pod*8+local;value=values[rack]
             cx,cy=x+(local%4)*32,y+28+(local//4)*24
             t=max(0,min(1,(value-lo)/(hi-lo)))
-            fill=blend('#f3f6f8' if not truth else '#fff5f2',root,t)
-            p += ['<g>',f'<title>机柜{rack}：{value:.4f}{"°C；事后值" if truth else "；公开热风险分"}</title>',
-                  rect(cx,cy,29,21,fill,**{'data-rack':rack,'data-value':value,'data-kind':'temperature' if truth else 'risk'})]
+            fill=colour(t);positive=estimated and frame['public_thermal_risk'][rack]>0
+            attributes={'data-rack':rack,'data-value':value,'data-kind':'temperature' if truth else 'estimated-temperature' if estimated else 'risk'}
+            if positive:attributes.update({'stroke':RED,'stroke-width':2.5,'data-risk-positive':'true'})
+            p += ['<g>',f'<title>机柜{rack}：{value:.4f}{"°C" if temperature else "；公开热风险分"}</title>',
+                  rect(cx,cy,29,21,fill,**attributes)]
             if rack in [64,67,70]:
-                p.append(text(cx+14.5,cy+17,rack,16,'white' if t>.6 else INK,'middle',600))
+                p.append(text(cx+14.5,cy+17,rack,16,INK if temperature else 'white' if t>.6 else INK,'middle',600))
             if not truth and frame['remote_temperature_c'][rack] is not None:p.append(dot(cx+4,cy+4,INK,2))
             p.append('</g>')
-    for n in range(10):p.append(rect(24+n*32,432,32,16,blend('#f3f6f8' if not truth else '#fff5f2',root,n/9)))
+    for n in range(10):p.append(rect(24+n*32,432,32,16,colour(n/9)))
     for x,label in [(24,f'{lo:g}'),(184,f'{(lo+hi)/2:g}'),(344,f'{hi:g}')]:p.append(text(x,476,label,20,MUTED,'middle' if x==184 else 'start'))
-    p += [text(390,446,'色标：°C' if truth else '色标：无量纲代理',20,MUTED),
-          text(390,477,'模型中的设备代表温度' if truth else '黑点：32个固定温度遥测点',18,MUTED)]
-    return svg('offline-heat' if truth else 'public-risk',665,500,title,
+    p += [text(390,446,'色标：°C' if temperature else '色标：无量纲代理',20,MUTED),
+          text(390,477,'模型中的设备代表温度' if truth else '红框：原热风险分>0' if estimated else '黑点：32个固定温度遥测点',18,MUTED)]
+    return svg('offline-heat' if truth else 'estimated-temperature' if estimated else 'public-risk',665,500,title,
                '按16组、每组8柜画离散分布。'
                +('此图用于事后评价。' if truth else '风险分来自公开观测、测量历史与名义热平衡估计。'),p)
+
+
+def pid_sample(images):
+    p=[text(18,32,'已有RGB→IR视觉工作：户外电气场景的外观重建',29,weight=650),
+       text(18,67,'同一图像的精修拟合示例；三幅图依次为RGB、生成显示外观与目标伪彩显示。',22,MUTED)]
+    for index,(key,label) in enumerate([('rgb','RGB输入'),('generated','B-PID生成外观'),('display-target','目标伪彩显示')]):
+        x=20+index*425
+        p.append(text(x+190,111,label,25,BLUE,'middle',600))
+        payload=base64.b64encode(images[key]).decode('ascii')
+        p.append(f'<image x="{x}" y="132" width="380" height="380" href="data:image/png;base64,{payload}"/>')
+    p.append(text(18,555,'材料来自已有PID项目；图像以显示像素为单位，用于说明外观转换及待接视觉支路。',22,MUTED))
+    return svg('pid-visual-sample',1280,582,'既有户外电气场景RGB、B-PID外观与伪彩目标三联图',
+               '已有同图精修样例，场景为绝缘子、铁塔和导线。三图不含辐射温度标定；Renly当前的数值接点测温通道另列。',p)
+
+
+def visual_interface():
+    p=[text(18,32,'电气视觉支路：已有成果、参考入口与数值测量的连接',29,weight=650),
+       text(18,67,'实线表示现有量测更新；虚线表示待接入的数据或任务桥接。',22,MUTED)]
+    for x,w,title,subtitle in [(18,290,'RGB→IR外观生成','已有独立PID项目材料'),(390,340,'外观参考元数据入口','Renly已有登记接口'),(830,410,'热点候选与任务关联','待连接到巡检调度')]:
+        p+=node(x,102,w,title,subtitle,height=88)
+    p += [line(314,145,376,145,GREY,2,**{'stroke-dasharray':'6 5'}),line(744,145,816,145,GREY,2,**{'stroke-dasharray':'6 5'}),
+          '<path d="M1035,194 V238 H180 V277" fill="none" stroke="#7d8d98" stroke-width="2" stroke-dasharray="6 5"/>',
+          text(580,227,'视觉选点与专业复核任务之间的桥接',21,MUTED,'middle')]
+    for x,w,title,subtitle in [(18,350,'合格电气接点量测','当前合成专业通道，单位°C'),(520,340,'接点温度观测更新','T̂contact ← 合格量测'),(950,290,'风险与专业确认','按现有任务判据评价')]:
+        p+=node(x,282,w,title,subtitle,height=88)
+    p += [arrow(380,326,505,326,BLUE),arrow(872,326,936,326,BLUE),
+          text(18,422,'图像提供外观线索；温度进入已有量测通道。真实仪器、生成推理与任务选点按接口逐步接入。',22,MUTED)]
+    return svg('visual-interface',1280,450,'电气图像参考与合格接点测量的分层接入图',
+               'Renly已经登记未校准图像参考元数据，并由合成合格接点量测更新温度。生成模型、像素解析、热点任务映射和真实仪器待连接。',p)
 
 
 def dispatch_cycle():
@@ -267,9 +303,10 @@ def clean_legacy(source):
     return re.sub(r'\sdata-stage-[\w-]+="[^"]*"','',source)
 
 
-def build_report_diagrams(data, inherited):
+def build_report_diagrams(data, inherited, images):
     drawings={'model':coupled_model(),'public-risk':heatmap(data['engineering']),
-              'offline-temperature':heatmap(data['engineering'],True),'inspection-architecture':inspection_architecture(),
+              'estimated-temperature':heatmap(data['engineering'],'estimate'),'offline-temperature':heatmap(data['engineering'],'truth'),
+              'pid-visual-sample':pid_sample(images),'visual-interface':visual_interface(),'inspection-architecture':inspection_architecture(),
               'fifo-cycle':dispatch_cycle(),'fifo-actions':fifo_actions(data['fifo']),
               'outcome-costs':outcome_costs(data),'registered-rules':registered_rules(data['registered_rules'],data['main']['fifo']['confirmed']),
               'rule-diagnosis':rule_diagnosis(data['rule_diagnosis_example']),

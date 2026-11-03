@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="大型算力机房持续巡检研究报告：耦合模型、温度估计与风险公式、返回时间保护、故障实验、规则诊断及下一步路线图。">
-<title>耦合设施与风险巡检 · 导师自阅报告</title>
+<meta name="description" content="大型液冷算力设施的多系统巡检报告：配电、双回路液冷和自控，RGB/IR视觉接口，全局温度态势及机房多方法比较。">
+<title>大型液冷算力设施的多系统巡检 · 导师自阅报告</title>
 <style>
 :root{color-scheme:light;--ink:#172d3b;--muted:#526675;--blue:#2369a5;--teal:#147469;--gold:#b27420;--line:#dce4e9;--wash:#f5f8fa;font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:auto;scroll-padding-top:76px}body{margin:0;background:white;color:var(--ink);font-size:18px;line-height:1.85}
@@ -11,6 +11,7 @@ article{max-width:1248px;padding:44px 34px 65px;margin:auto}h1{font-size:clamp(3
 .contents{position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;gap:5px 23px;background:white;border-block:1px solid var(--line);padding:13px 0;font-size:16px}.contents a{text-decoration:none;white-space:nowrap}.contents a:hover{text-decoration:underline}
 figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}figure svg{display:block;width:100%;height:auto}.wide-hint{display:none}figcaption{font-size:14px;line-height:1.7;color:var(--muted);margin-top:8px}.figure-pair{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}.figure-pair figure{margin:22px 0}.figure-pair:has([data-chart="confirmations"]){grid-template-columns:1.7fr 1fr}
 .table-wrap{width:100%;margin:20px 0;overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:16px;line-height:1.75}th,td{padding:13px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:var(--wash);font-weight:600;border-top:2px solid var(--ink)}tbody tr:last-child td{border-bottom:1px solid #aebdc7}td:first-child{font-weight:500}table a{font-weight:500}.table-wrap[data-table]{max-width:100%}
+.comparison-table{font-size:14px;min-width:1120px}.comparison-table th,.comparison-table td{padding:10px 8px}.comparison-table td:first-child{min-width:150px}.comparison-table thead tr+tr th{border-top:0}.comparison-table [data-result-state="not_run"]{color:var(--muted);background:#fafbfc}.figure-frame svg[data-chart="paired-net"]{max-width:500px}
 .project-summary{margin:22px 0 28px;padding:20px 24px;background:#edf5fa;border-left:4px solid var(--blue);font-size:19px;line-height:1.9}.project-summary strong{display:block;color:var(--blue);margin-bottom:5px}.project-summary p{margin:0}
 .principle-box{margin:23px 0;padding:20px 24px;background:#f3f8fb;border:1px solid #cfdee8;border-radius:4px}.principle-box h3{font-size:21px;margin:0 0 12px;color:var(--blue)}.principle-box p{margin:9px 0}.formula-scroll{max-width:100%;overflow-x:auto;padding:3px 0 8px}.formula{font-family:"Cambria Math","Microsoft YaHei",serif;font-size:23px;line-height:1.9;white-space:nowrap;max-width:none}.formula sub,.formula sup{font-size:.7em}.scope-note{margin:22px 0 4px;padding:13px 17px;background:#f4f5f6;border-left:3px solid #bcc7ce;color:#536471;font-size:14px;line-height:1.8}.scope-note p{margin:0}.scope-note strong{font-weight:600}.roadmap-lead{color:var(--teal);font-weight:600}
 #overview>ul{font-size:19px;line-height:1.85}#fifo h3{padding-top:6px}#fifo>p>strong:first-child{color:var(--blue)}#sources{font-size:16px;color:var(--muted)}#sources h2{color:var(--ink)}#sources li{margin-bottom:10px}math{font-family:"Cambria Math",serif;font-size:1.1em}
@@ -22,6 +23,8 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 .case-appendix summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:19px}.appendix-body{padding-top:16px}
 .case-appendix summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
 @media(max-width:850px){.formula-scroll::before{content:"公式可左右滑动查看";display:block;font-size:12px;color:var(--muted);font-family:"Microsoft YaHei",sans-serif;margin-bottom:4px}}
+@media(max-width:850px){.figure-frame svg[data-chart="estimated-temperature"]{min-width:560px}}
+@media print{.comparison-table{min-width:0;font-size:7pt;table-layout:fixed}.comparison-table th,.comparison-table td{padding:5pt 3pt;overflow-wrap:anywhere}.comparison-table td:first-child{min-width:0}.comparison-table th:first-child{width:14%}}
 @media print{[data-table="fault-cases"],[data-table="task-contract"]{break-inside:avoid}.formula-scroll::before{display:none}}
 @media print{h2,h3{break-after:avoid}.case-appendix::details-content{display:block!important;content-visibility:visible!important}.case-appendix summary{font-size:11pt}.appendix-body{padding-top:8pt}.project-summary{font-size:11pt;padding:10pt 12pt}.principle-box{padding:11pt 12pt;break-inside:avoid}.principle-box h3{font-size:12pt}.formula-scroll{overflow:visible}.formula{font-size:11pt;white-space:normal}.scope-note{font-size:8.5pt;break-inside:avoid}}
 </style>
