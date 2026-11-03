@@ -32,7 +32,7 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 </style>
 </head><body><article><h1>大型液冷算力设施的多系统巡检研究</h1>
 <p>导师自阅报告 · 三系统模型、学习估计与四专业独立基准 · 2026-11-03</p>
-<aside class="project-summary" aria-label="项目主线摘要"><strong>项目主线与现有成果</strong><p>本项目建立配电、双回路液冷与局部控制的耦合过程，以公开遥测、学习估计和专业巡检形成闭环。本次补充3个CVAE-U-Net、6个PPO的真实训练，在12个独立种子块、四故障和两检查条件上完成1080个最终测试回合。同一观测流中，非刚量测加权RMSE由0.443降至0.172°C；专业确认以名义FIFO的155/210段最高。此前事件包的28/89→70/89与九规则负结果作为历史基准保留。</p></aside>
+<aside class="project-summary" aria-label="项目主线摘要"><strong>项目主线与现有成果</strong><p>本项目建立配电、双回路液冷与局部控制的耦合过程，以公开遥测、学习估计和专业巡检形成闭环。本次补充3个CVAE-U-Net、6个PPO的真实训练，在12个独立种子块、四故障和两检查条件上完成1080个最终测试回合。同一观测流中，非刚量测加权RMSE由0.443降至0.172°C；专业确认以名义FIFO的155/210段最高。CVAE主要改善连续温度态势，异常确认还由局部越阈值、队列与合法访问时机共同决定。此前事件包的28/89→70/89与九规则负结果作为历史基准保留。</p></aside>
 <nav class="contents" aria-label="报告目录"><a href="#overview">课题主线</a><a href="#model">模型与视觉</a><a href="#hotspots">全局态势</a><a href="#fifo">闭环基准</a><a href="#comparison">横向比较</a><a href="#roadmap">后续安排</a><a href="#appendix">技术附录</a><a href="#sources">来源</a></nav><section id="overview" data-report-section="overview"><h2>报告主线与完成概览</h2>
 <table>
 <thead>
@@ -186,7 +186,8 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 <text x="18" y="555" font-size="22" fill="#526675" text-anchor="start" font-weight="400" >材料来自已有PID项目；图像以显示像素为单位，用于说明外观转换及待接视觉支路。</text>
 </svg>
 </div><figcaption>PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。</figcaption></figure>
-<p>本课题拟面向开关柜、母排及交直流接点，把图像参考关联到待核查部位，再以专业测量完成电气确认。<strong>当前Renly已有参考元数据入口，以及“合格接点测温→接触温度状态更新”通道</strong>；RGB采集、生成推理、热点选点与调度之间的桥接按下图列为待接步骤。</p>
+<p>户外绝缘子、铁塔与导线样例展示前期的电气显示图重建路径；机房中的对应应用对象为10 kV／380 V开关柜、母排及54 V机柜交直流接点。本课题拟复用跨模态图像参考接口，经机房图像适配与校准测温接入后，用于热点复核和观测更新。</p>
+<p><strong>当前Renly已有参考元数据入口，以及“合格接点测温→接触温度状态更新”通道</strong>；RGB采集、生成推理、热点选点与调度之间的桥接按下图列为待接步骤。</p>
 <figure id="figure-visual-interface"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 450" role="img" aria-labelledby="visual-interface-title visual-interface-description" data-chart="visual-interface">
 <title id="visual-interface-title">电气图像参考与合格接点测量的分层接入图</title>
 <desc id="visual-interface-description">Renly已经登记未校准图像参考元数据，并由合成合格接点量测更新温度。生成模型、像素解析、热点任务映射和真实仪器待连接。</desc>
@@ -5297,6 +5298,10 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 <p>48个主要条件共有210段唯一评价异常。各学习方法先平均三个模型种子，因此确认总数允许出现小数；这表示训练重复的平均效果。表中误差使用各自闭环形成的量测流，固定观测流的独立估计比较则使用上表。</p>
 <p>名义FIFO相对Tour新增61段有效确认，截尾等待从106.75缩短至94.24秒，移动增加0.34%、完成量下降0.15%；整体加权年龄从0.310122升至0.311298。各方法资格、预约、预算和初终点重访审计均为0违规。</p>
 <p>三个模型种子平均后，CVAE-FIFO、CVAE-Greedy和CVAE-PPO分别确认153、152和153.67段，均未超过名义FIFO的155段。方法差异集中在热检查与制冷；电气均为12/12，自控均为8/12；在当前观测与专业完成时机设置下，这两类结果在方法间一致。</p>
+<h3>为什么估计更准，确认数仍以名义FIFO为高？</h3>
+<p>CVAE-U-Net的已验证收益是<strong>全局温度态势重构精度</strong>；有效确认还取决于局部越阈值提示、FIFO队列和受保护访问的完成时机。连续误差降低，并不保证短异常窗口内的确认数同步增加。</p>
+<p>事后逐事件核对48条件×3个模型种子的144组配对，CVAE-FIFO相对名义FIFO新增2段、丢失8段，按训练种子平均后净少2段。一个具体例子是制冷故障案例04：CVAE将45号柜的提示从860秒提前到840秒，但同一队列中的41号柜更早在835秒入队，860秒时先被选中。于是CVAE在880秒确认了41号，45号却到900秒才完成，错过850—890秒评价段；名义FIFO则在875秒确认45号、895秒才检查41号。这里发生的是确认机会的交换。</p>
+<p>这些轨迹显示，局部估计偏差与队列先后会改变确认机会；现有日志不支持把全部差异统一归因于“名义温度普遍偏高”，也没有测得CVAE组更低的专业误确认率。逐段得失与时间核对见<a href="#gap-diagnosis">附录H</a>。</p>
 <h3>配对增量、训练差异与正常工况</h3>
 <figure id="figure-supplement-contrasts"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" width="987.59952pt" height="389.99952pt" viewBox="0 0 987.59952 389.99952" version="1.1" data-chart="supplement-contrasts" role="img" aria-label="预登记配对比较：先平均训练种子和四故障条件，再对12物理种子块自举95%区间">
  <title>预登记配对比较：先平均训练种子和四故障条件，再对12物理种子块自举95%区间</title>
@@ -7906,6 +7911,10 @@ figure{margin:24px 0;min-width:0}.figure-frame{max-width:100%;overflow-x:auto}fi
 <div class="table-wrap"><table data-table="supplement-policy-training" class="supplement-table"><thead><tr><th>策略</th><th>训练种子</th><th>回合</th><th>全局时间步</th><th>实际选择数</th><th>存在多个合法候选</th><th>有选择余地比例</th><th>执行＋更新分钟</th></tr></thead><tbody><tr><td>名义＋PPO</td><td>271</td><td>120</td><td>43080</td><td>170969</td><td>470</td><td>0.27%</td><td>2.57</td></tr><tr><td>CVAE＋PPO</td><td>271</td><td>120</td><td>43080</td><td>170956</td><td>437</td><td>0.26%</td><td>4.92</td></tr><tr><td>名义＋PPO</td><td>811</td><td>120</td><td>43080</td><td>170954</td><td>448</td><td>0.26%</td><td>2.39</td></tr><tr><td>CVAE＋PPO</td><td>811</td><td>120</td><td>43080</td><td>170961</td><td>460</td><td>0.27%</td><td>5.30</td></tr><tr><td>名义＋PPO</td><td>1931</td><td>120</td><td>43080</td><td>170957</td><td>466</td><td>0.27%</td><td>2.48</td></tr><tr><td>CVAE＋PPO</td><td>1931</td><td>120</td><td>43080</td><td>170950</td><td>453</td><td>0.26%</td><td>5.44</td></tr></tbody></table></div>
 <p>种子271／811／1931列为每主要条件平均确认段，SD是三个训练种子间的样本标准差；误差SD采用闭环加权RMSE。图中每个柱对应独立物理种子块的配对差，四故障条件等权。</p>
 <p>PPO的选择数按执行者实际可选集合计；只有一个合法候选时，策略没有排序自由。训练耗时为完整回合执行、评分、留存和四次更新的累计墙钟时间，加载与预热另计。这一比例帮助解释当前返回保护与任务设定给学习留下多大的决策空间。</p>
+<h3 id="gap-diagnosis">H. 估计误差与确认段数的事后轨迹核对</h3>
+<p>此处读取原留出日志，无新增环境、模型推理或训练。144组比较包含同一条件的三个模型重复，独立物理种子块仍为12。三个模型种子的“新增／丢失”分别为1／4、1／3、0／1，平均净差为−2段，与总表155→153一致。</p>
+<div class="table-wrap"><table data-table="estimation-confirmation-gap"><thead><tr><th>任务</th><th>原评价段</th><th>名义FIFO：提示→完成</th><th>CVAE-FIFO：提示→完成</th><th>确认变化</th></tr></thead><tbody><tr><td>41号热检查</td><td>855—885秒</td><td>865→895秒</td><td>835→880秒</td><td>CVAE新增</td></tr><tr><td>45号热检查</td><td>850—890秒</td><td>860→875秒</td><td>840→900秒</td><td>CVAE丢失</td></tr></tbody></table></div>
+<p>表取<code>test04-cooling</code>、模型种子271、同一执行者5。两条轨迹在860秒首次分叉：两项访问的资格、返回证书和预算都通过，CVAE-FIFO按835秒早于840秒的入队顺序选41号。41号的确认增加与45号的确认丢失在该回合相抵；其余净差来自案例02、06、07的局部提示与访问轨迹变化。此诊断解释本批记录，完整得失及首次分叉保存在<a href="https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/source-data/estimation-confirmation-gap.json">事后核对数据</a>。</p>
 </div></details>
 </section><section id="sources" data-report-section="sources"><h2>来源与继续查阅</h2>
 <ul>

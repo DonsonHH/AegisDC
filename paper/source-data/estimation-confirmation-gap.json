@@ -1,0 +1,1912 @@
+{
+  "scope": "Post-hoc explanation using retained records, not a new registered test or proof of a general estimator bias.",
+  "new_environment_runs": 0,
+  "new_model_calls": 0,
+  "new_training": 0,
+  "counts": {
+    "comparisons": 144,
+    "lost": 8,
+    "gained": 2,
+    "changed": 8
+  },
+  "per_model_seed": {
+    "271": {
+      "lost": 4,
+      "gained": 1
+    },
+    "811": {
+      "lost": 3,
+      "gained": 1
+    },
+    "1931": {
+      "lost": 1,
+      "gained": 0
+    }
+  },
+  "model_mean_net_confirmation_difference": -2.0,
+  "changes": [
+    {
+      "case": {
+        "id": "test02-compound",
+        "block": 2,
+        "family": "compound",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 271,
+      "nominal_id": "test02-compound-nominal-fifo",
+      "cvae_id": "test02-compound-cvae-fifo-271",
+      "lost": [
+        {
+          "key": [
+            90,
+            "thermal",
+            620.0,
+            715.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 90,
+              "task_id": "thermal:90",
+              "kind": "thermal",
+              "onset_s": 620.0,
+              "end_s": 715.0,
+              "samples": 19,
+              "weight": 1.1261419047061276,
+              "first_confirmation_s": 660.0,
+              "detected": true,
+              "delay_or_censor_s": 40.0
+            },
+            "cues": [
+              {
+                "event_id": 4,
+                "visible_s": 620.0,
+                "expires_s": 740.0,
+                "status": "measured",
+                "measurement_s": 660.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 500.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 660.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 800.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 90,
+              "task_id": "thermal:90",
+              "kind": "thermal",
+              "onset_s": 620.0,
+              "end_s": 715.0,
+              "samples": 19,
+              "weight": 1.1261419047061276,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 95.0
+            },
+            "cues": [
+              {
+                "event_id": 4,
+                "visible_s": 630.0,
+                "expires_s": 750.0,
+                "status": "expired",
+                "measurement_s": null,
+                "measured_alarm": null
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 500.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 795.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 610.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 8,
+            "routine_head": 118,
+            "selected": 94,
+            "candidates": [
+              {
+                "task": 118,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 635.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 50.215353011788196,
+                "physical_temperature_c": 50.20849708786831,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 94,
+                "public_risk": 0.0605918696661071,
+                "visible_s": 605.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 640.0,
+                "minimum_slack_s": 25.0,
+                "temperature_c": 66.21183739332214,
+                "physical_temperature_c": 65.21206023568179,
+                "temperature_component": 0.0605918696661071,
+                "other_risk_component": 0.0
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 8,
+            "routine_head": 118,
+            "selected": 118,
+            "candidates": [
+              {
+                "task": 118,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 635.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 50.211916692258185,
+                "physical_temperature_c": 50.20849708786831,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test02-compound",
+        "block": 2,
+        "family": "compound",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 811,
+      "nominal_id": "test02-compound-nominal-fifo",
+      "cvae_id": "test02-compound-cvae-fifo-811",
+      "lost": [
+        {
+          "key": [
+            90,
+            "thermal",
+            620.0,
+            715.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 90,
+              "task_id": "thermal:90",
+              "kind": "thermal",
+              "onset_s": 620.0,
+              "end_s": 715.0,
+              "samples": 19,
+              "weight": 1.1261419047061276,
+              "first_confirmation_s": 660.0,
+              "detected": true,
+              "delay_or_censor_s": 40.0
+            },
+            "cues": [
+              {
+                "event_id": 4,
+                "visible_s": 620.0,
+                "expires_s": 740.0,
+                "status": "measured",
+                "measurement_s": 660.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 500.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 660.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 800.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 90,
+              "task_id": "thermal:90",
+              "kind": "thermal",
+              "onset_s": 620.0,
+              "end_s": 715.0,
+              "samples": 19,
+              "weight": 1.1261419047061276,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 95.0
+            },
+            "cues": [
+              {
+                "event_id": 3,
+                "visible_s": 630.0,
+                "expires_s": 750.0,
+                "status": "expired",
+                "measurement_s": null,
+                "measured_alarm": null
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 500.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 795.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 610.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 8,
+            "routine_head": 118,
+            "selected": 94,
+            "candidates": [
+              {
+                "task": 118,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 635.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 50.215353011788196,
+                "physical_temperature_c": 50.20849708786831,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 94,
+                "public_risk": 0.0605918696661071,
+                "visible_s": 605.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 640.0,
+                "minimum_slack_s": 25.0,
+                "temperature_c": 66.21183739332214,
+                "physical_temperature_c": 65.21206023568179,
+                "temperature_component": 0.0605918696661071,
+                "other_risk_component": 0.0
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 8,
+            "routine_head": 118,
+            "selected": 118,
+            "candidates": [
+              {
+                "task": 118,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 635.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 50.2477453795088,
+                "physical_temperature_c": 50.20849708786831,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test04-cooling",
+        "block": 4,
+        "family": "cooling",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 271,
+      "nominal_id": "test04-cooling-nominal-fifo",
+      "cvae_id": "test04-cooling-cvae-fifo-271",
+      "lost": [
+        {
+          "key": [
+            45,
+            "thermal",
+            850.0,
+            890.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 45,
+              "task_id": "thermal:45",
+              "kind": "thermal",
+              "onset_s": 850.0,
+              "end_s": 890.0,
+              "samples": 8,
+              "weight": 1.061962963682517,
+              "first_confirmation_s": 875.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 860.0,
+                "expires_s": 980.0,
+                "status": "measured",
+                "measurement_s": 875.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 875.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 950.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 45,
+              "task_id": "thermal:45",
+              "kind": "thermal",
+              "onset_s": 850.0,
+              "end_s": 890.0,
+              "samples": 8,
+              "weight": 1.061962963682517,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 40.0
+            },
+            "cues": [
+              {
+                "event_id": 9,
+                "visible_s": 840.0,
+                "expires_s": 960.0,
+                "status": "measured",
+                "measurement_s": 900.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 900.0,
+                "alarm": false,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 950.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [
+        {
+          "key": [
+            41,
+            "thermal",
+            855.0,
+            885.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 41,
+              "task_id": "thermal:41",
+              "kind": "thermal",
+              "onset_s": 855.0,
+              "end_s": 885.0,
+              "samples": 6,
+              "weight": 1.5813592337824236,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 30.0
+            },
+            "cues": [
+              {
+                "event_id": 9,
+                "visible_s": 865.0,
+                "expires_s": 985.0,
+                "status": "measured",
+                "measurement_s": 895.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 740.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 895.0,
+                "alarm": false,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 1000.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 41,
+              "task_id": "thermal:41",
+              "kind": "thermal",
+              "onset_s": 855.0,
+              "end_s": 885.0,
+              "samples": 6,
+              "weight": 1.5813592337824236,
+              "first_confirmation_s": 880.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 835.0,
+                "expires_s": 955.0,
+                "status": "measured",
+                "measurement_s": 880.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 740.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 880.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 1000.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "first_action_divergence": {
+        "time_s": 860.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 5,
+            "routine_head": 37,
+            "selected": 45,
+            "candidates": [
+              {
+                "task": 37,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 885.0,
+                "minimum_slack_s": 80.0,
+                "temperature_c": 49.97491946305254,
+                "physical_temperature_c": 49.98378213185864,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 45,
+                "public_risk": 0.00045760712982406693,
+                "visible_s": 860.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 875.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 49.05126917698801,
+                "physical_temperature_c": 65.61694765212644,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.00045760712982406693
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 5,
+            "routine_head": 37,
+            "selected": 41,
+            "candidates": [
+              {
+                "task": 37,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 885.0,
+                "minimum_slack_s": 80.0,
+                "temperature_c": 50.01947989548662,
+                "physical_temperature_c": 49.98378213185864,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 41,
+                "public_risk": 0.04529577690290125,
+                "visible_s": 835.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 880.0,
+                "minimum_slack_s": 55.0,
+                "temperature_c": 65.90591553805803,
+                "physical_temperature_c": 65.11420338290216,
+                "temperature_component": 0.04529577690290125,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 45,
+                "public_risk": 0.027387039451819317,
+                "visible_s": 840.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 875.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 65.5385886464399,
+                "physical_temperature_c": 65.61694765212644,
+                "temperature_component": 0.02692943232199525,
+                "other_risk_component": 0.00045760712982406693
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test04-cooling",
+        "block": 4,
+        "family": "cooling",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 811,
+      "nominal_id": "test04-cooling-nominal-fifo",
+      "cvae_id": "test04-cooling-cvae-fifo-811",
+      "lost": [
+        {
+          "key": [
+            45,
+            "thermal",
+            850.0,
+            890.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 45,
+              "task_id": "thermal:45",
+              "kind": "thermal",
+              "onset_s": 850.0,
+              "end_s": 890.0,
+              "samples": 8,
+              "weight": 1.061962963682517,
+              "first_confirmation_s": 875.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 860.0,
+                "expires_s": 980.0,
+                "status": "measured",
+                "measurement_s": 875.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 875.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 950.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 45,
+              "task_id": "thermal:45",
+              "kind": "thermal",
+              "onset_s": 850.0,
+              "end_s": 890.0,
+              "samples": 8,
+              "weight": 1.061962963682517,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 40.0
+            },
+            "cues": [
+              {
+                "event_id": 9,
+                "visible_s": 840.0,
+                "expires_s": 960.0,
+                "status": "measured",
+                "measurement_s": 900.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 900.0,
+                "alarm": false,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 950.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [
+        {
+          "key": [
+            41,
+            "thermal",
+            855.0,
+            885.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 41,
+              "task_id": "thermal:41",
+              "kind": "thermal",
+              "onset_s": 855.0,
+              "end_s": 885.0,
+              "samples": 6,
+              "weight": 1.5813592337824236,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 30.0
+            },
+            "cues": [
+              {
+                "event_id": 9,
+                "visible_s": 865.0,
+                "expires_s": 985.0,
+                "status": "measured",
+                "measurement_s": 895.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 740.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 895.0,
+                "alarm": false,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 1000.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 41,
+              "task_id": "thermal:41",
+              "kind": "thermal",
+              "onset_s": 855.0,
+              "end_s": 885.0,
+              "samples": 6,
+              "weight": 1.5813592337824236,
+              "first_confirmation_s": 880.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 835.0,
+                "expires_s": 955.0,
+                "status": "measured",
+                "measurement_s": 880.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 740.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 880.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 1000.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "first_action_divergence": {
+        "time_s": 860.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 5,
+            "routine_head": 37,
+            "selected": 45,
+            "candidates": [
+              {
+                "task": 37,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 885.0,
+                "minimum_slack_s": 80.0,
+                "temperature_c": 49.97491946305254,
+                "physical_temperature_c": 49.98378213185864,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 45,
+                "public_risk": 0.00045760712982406693,
+                "visible_s": 860.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 875.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 49.05126917698801,
+                "physical_temperature_c": 65.61694765212644,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.00045760712982406693
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 5,
+            "routine_head": 37,
+            "selected": 41,
+            "candidates": [
+              {
+                "task": 37,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 885.0,
+                "minimum_slack_s": 80.0,
+                "temperature_c": 49.98889440531948,
+                "physical_temperature_c": 49.98378213185864,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 41,
+                "public_risk": 0.0865718742005697,
+                "visible_s": 835.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 880.0,
+                "minimum_slack_s": 55.0,
+                "temperature_c": 66.7314374840114,
+                "physical_temperature_c": 65.11420338290216,
+                "temperature_component": 0.0865718742005697,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 45,
+                "public_risk": 0.04758723238013353,
+                "visible_s": 840.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 875.0,
+                "minimum_slack_s": 65.0,
+                "temperature_c": 65.94259250500619,
+                "physical_temperature_c": 65.61694765212644,
+                "temperature_component": 0.04712962525030946,
+                "other_risk_component": 0.00045760712982406693
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test06-cooling",
+        "block": 6,
+        "family": "cooling",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 271,
+      "nominal_id": "test06-cooling-nominal-fifo",
+      "cvae_id": "test06-cooling-cvae-fifo-271",
+      "lost": [
+        {
+          "key": [
+            120,
+            "thermal",
+            275.0,
+            335.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": 300.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 7,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 300.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 300.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 60.0
+            },
+            "cues": [
+              {
+                "event_id": 10,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 390.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 280.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 8,
+            "routine_head": 90,
+            "selected": 120,
+            "candidates": [
+              {
+                "task": 90,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 310.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 47.59878405475974,
+                "physical_temperature_c": 47.59720648086161,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 120,
+                "public_risk": 0.0009968692241031363,
+                "visible_s": 280.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 300.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.01993738448206,
+                "physical_temperature_c": 65.24527124327456,
+                "temperature_component": 0.0009968692241031363,
+                "other_risk_component": 0.0
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 8,
+            "routine_head": 90,
+            "selected": 126,
+            "candidates": [
+              {
+                "task": 90,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 310.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 47.60860734725356,
+                "physical_temperature_c": 47.59720648086161,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 120,
+                "public_risk": 0.0009968692241031363,
+                "visible_s": 280.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 300.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.01993738448206,
+                "physical_temperature_c": 65.24527124327456,
+                "temperature_component": 0.0009968692241031363,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 122,
+                "public_risk": 0.01910864741665961,
+                "visible_s": 275.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 300.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.38217294833319,
+                "physical_temperature_c": 61.70986474749749,
+                "temperature_component": 0.01910864741665961,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 126,
+                "public_risk": 0.10843741147105349,
+                "visible_s": 265.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 295.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 67.16874822942107,
+                "physical_temperature_c": 63.85594218732896,
+                "temperature_component": 0.10843741147105349,
+                "other_risk_component": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test06-cooling",
+        "block": 6,
+        "family": "cooling",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 811,
+      "nominal_id": "test06-cooling-nominal-fifo",
+      "cvae_id": "test06-cooling-cvae-fifo-811",
+      "lost": [
+        {
+          "key": [
+            120,
+            "thermal",
+            275.0,
+            335.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": 300.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 7,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 300.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 300.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 60.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 390.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 280.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 8,
+            "routine_head": 90,
+            "selected": 120,
+            "candidates": [
+              {
+                "task": 90,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 310.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 47.59878405475974,
+                "physical_temperature_c": 47.59720648086161,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 120,
+                "public_risk": 0.0009968692241031363,
+                "visible_s": 280.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 300.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.01993738448206,
+                "physical_temperature_c": 65.24527124327456,
+                "temperature_component": 0.0009968692241031363,
+                "other_risk_component": 0.0
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 8,
+            "routine_head": 90,
+            "selected": 126,
+            "candidates": [
+              {
+                "task": 90,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 310.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 47.62622051978469,
+                "physical_temperature_c": 47.59720648086161,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 120,
+                "public_risk": 0.0009968692241031363,
+                "visible_s": 280.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 300.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.01993738448206,
+                "physical_temperature_c": 65.24527124327456,
+                "temperature_component": 0.0009968692241031363,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 126,
+                "public_risk": 0.011589162035628675,
+                "visible_s": 280.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 295.0,
+                "minimum_slack_s": 0.0,
+                "temperature_c": 65.23178324071257,
+                "physical_temperature_c": 63.85594218732896,
+                "temperature_component": 0.011589162035628675,
+                "other_risk_component": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test06-cooling",
+        "block": 6,
+        "family": "cooling",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 1931,
+      "nominal_id": "test06-cooling-nominal-fifo",
+      "cvae_id": "test06-cooling-cvae-fifo-1931",
+      "lost": [
+        {
+          "key": [
+            120,
+            "thermal",
+            275.0,
+            335.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": 300.0,
+              "detected": true,
+              "delay_or_censor_s": 25.0
+            },
+            "cues": [
+              {
+                "event_id": 7,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 300.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 300.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 120,
+              "task_id": "thermal:120",
+              "kind": "thermal",
+              "onset_s": 275.0,
+              "end_s": 335.0,
+              "samples": 12,
+              "weight": 1.6443381525757617,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 60.0
+            },
+            "cues": [
+              {
+                "event_id": 10,
+                "visible_s": 280.0,
+                "expires_s": 400.0,
+                "status": "measured",
+                "measurement_s": 390.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 390.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 245.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 9,
+            "routine_head": 91,
+            "selected": 125,
+            "candidates": [
+              {
+                "task": 91,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 260.0,
+                "minimum_slack_s": 70.0,
+                "temperature_c": 52.214533373781805,
+                "physical_temperature_c": 52.22107387604734,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 123,
+                "public_risk": 0.002649711568343288,
+                "visible_s": 240.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 275.0,
+                "minimum_slack_s": 30.0,
+                "temperature_c": 62.5070186959035,
+                "physical_temperature_c": 66.42929473441413,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.002649711568343288
+              },
+              {
+                "task": 125,
+                "public_risk": 0.041627073827653197,
+                "visible_s": 220.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 275.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 65.4534231742098,
+                "physical_temperature_c": 69.45659955533287,
+                "temperature_component": 0.022671158710490146,
+                "other_risk_component": 0.01895591511716305
+              },
+              {
+                "task": 127,
+                "public_risk": 0.010859040851473045,
+                "visible_s": 230.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 280.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 64.43489538815807,
+                "physical_temperature_c": 68.35642774383231,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.010859040851473045
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 9,
+            "routine_head": 91,
+            "selected": 127,
+            "candidates": [
+              {
+                "task": 91,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 260.0,
+                "minimum_slack_s": 70.0,
+                "temperature_c": 52.198269948431616,
+                "physical_temperature_c": 52.22107387604734,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 123,
+                "public_risk": 0.19908305956008185,
+                "visible_s": 225.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 275.0,
+                "minimum_slack_s": 30.0,
+                "temperature_c": 68.92866695983477,
+                "physical_temperature_c": 66.42929473441413,
+                "temperature_component": 0.19643334799173856,
+                "other_risk_component": 0.002649711568343288
+              },
+              {
+                "task": 125,
+                "public_risk": 0.2658714299830487,
+                "visible_s": 220.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 275.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 69.93831029731771,
+                "physical_temperature_c": 69.45659955533287,
+                "temperature_component": 0.24691551486588564,
+                "other_risk_component": 0.018955915117163047
+              },
+              {
+                "task": 127,
+                "public_risk": 0.2726375083413467,
+                "visible_s": 220.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 280.0,
+                "minimum_slack_s": 20.0,
+                "temperature_c": 70.23556934979747,
+                "physical_temperature_c": 68.35642774383231,
+                "temperature_component": 0.26177846748987366,
+                "other_risk_component": 0.010859040851473045
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case": {
+        "id": "test07-compound",
+        "block": 7,
+        "family": "compound",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      "model_seed": 271,
+      "nominal_id": "test07-compound-nominal-fifo",
+      "cvae_id": "test07-compound-cvae-fifo-271",
+      "lost": [
+        {
+          "key": [
+            34,
+            "thermal",
+            485.0,
+            525.0
+          ],
+          "nominal": {
+            "interval": {
+              "task": 34,
+              "task_id": "thermal:34",
+              "kind": "thermal",
+              "onset_s": 485.0,
+              "end_s": 525.0,
+              "samples": 8,
+              "weight": 1.5768530556579512,
+              "first_confirmation_s": 520.0,
+              "detected": true,
+              "delay_or_censor_s": 35.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 485.0,
+                "expires_s": 605.0,
+                "status": "measured",
+                "measurement_s": 520.0,
+                "measured_alarm": true
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 520.0,
+                "alarm": true,
+                "extra_event_visit": true
+              },
+              {
+                "time_s": 550.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 695.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          },
+          "cvae": {
+            "interval": {
+              "task": 34,
+              "task_id": "thermal:34",
+              "kind": "thermal",
+              "onset_s": 485.0,
+              "end_s": 525.0,
+              "samples": 8,
+              "weight": 1.5768530556579512,
+              "first_confirmation_s": null,
+              "detected": false,
+              "delay_or_censor_s": 40.0
+            },
+            "cues": [
+              {
+                "event_id": 8,
+                "visible_s": 490.0,
+                "expires_s": 610.0,
+                "status": "measured",
+                "measurement_s": 535.0,
+                "measured_alarm": false
+              }
+            ],
+            "nearby_measurements": [
+              {
+                "time_s": 535.0,
+                "alarm": false,
+                "extra_event_visit": false
+              },
+              {
+                "time_s": 680.0,
+                "alarm": false,
+                "extra_event_visit": false
+              }
+            ]
+          }
+        }
+      ],
+      "gained": [],
+      "first_action_divergence": {
+        "time_s": 470.0,
+        "decisions": [
+          {
+            "estimator": "nominal",
+            "agent": 4,
+            "routine_head": 32,
+            "selected": 38,
+            "candidates": [
+              {
+                "task": 32,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 495.0,
+                "minimum_slack_s": 110.0,
+                "temperature_c": 62.848425543030366,
+                "physical_temperature_c": 63.08345266136213,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              },
+              {
+                "task": 38,
+                "public_risk": 0.0031626954560728393,
+                "visible_s": 470.0,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 500.0,
+                "minimum_slack_s": 85.0,
+                "temperature_c": 65.06325390912146,
+                "physical_temperature_c": 64.85721152511556,
+                "temperature_component": 0.0031626954560728393,
+                "other_risk_component": 0.0
+              }
+            ]
+          },
+          {
+            "estimator": "cvae",
+            "agent": 4,
+            "routine_head": 32,
+            "selected": 32,
+            "candidates": [
+              {
+                "task": 32,
+                "public_risk": 0.0,
+                "visible_s": null,
+                "certificate_ok": true,
+                "budget_allowed": true,
+                "finish_s": 495.0,
+                "minimum_slack_s": 110.0,
+                "temperature_c": 62.848425543030366,
+                "physical_temperature_c": 63.08345266136213,
+                "temperature_component": 0.0,
+                "other_risk_component": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "source_hashes": {
+    "test/test00-compound-nominal-fifo/record.json.gz": "da9bb018fcf44866810dd0d99bd8138225761b711e92229fb6a5c6397542fde4",
+    "test/test00-compound-cvae-fifo-271/record.json.gz": "e28e53c1539a6fedc7dc0f2bb4f044c872d0968756695f3a92d3fcdac880f67a",
+    "test/test00-compound-cvae-fifo-811/record.json.gz": "e733c630e749bc9bf2e072351ba3974b8c1e2a7b62112349253078379f6ce06b",
+    "test/test00-compound-cvae-fifo-1931/record.json.gz": "c1f8318a2a07c12c00ef2e0387b05fe4cb7cc026c04517a33bf12193460b9c45",
+    "test/test00-electrical-nominal-fifo/record.json.gz": "7e5114d0c508b8721e8ccb20cc1173276cea79f9e18c66548adc03dc6fc4a880",
+    "test/test00-electrical-cvae-fifo-271/record.json.gz": "5025edd1673e91393d1043320956c2077317a35eb44348a200a01e436281fa41",
+    "test/test00-electrical-cvae-fifo-811/record.json.gz": "a19f8614e74735a52d57f3adcef6c2e5b7c22a6fff288d73270dccae64ad7256",
+    "test/test00-electrical-cvae-fifo-1931/record.json.gz": "99263890af925d69463e0c68c77f0b996e43d4076917262df6fa305919b528d7",
+    "test/test00-control-nominal-fifo/record.json.gz": "6713e4f186f29270094ec75b9baf981e7e4d77d4bfadfbb29bc6173dd80d77f4",
+    "test/test00-control-cvae-fifo-271/record.json.gz": "62612fe891b9536c0990a14a64f57f28124801b34f34679221c35f3383aa5f90",
+    "test/test00-control-cvae-fifo-811/record.json.gz": "ffbcae97a847d6d1425a9362a47bfcbf7e083a9630db0f4630fc294c3962d991",
+    "test/test00-control-cvae-fifo-1931/record.json.gz": "9c779a908db80e2647af897f1456200e75b2d095fd80c5208a6f9c61bf0bc007",
+    "test/test00-cooling-nominal-fifo/record.json.gz": "094c7aac4ec58e3a02da9f80f5704d88fad8a94cb38252b99e82c8362e6cc7f3",
+    "test/test00-cooling-cvae-fifo-271/record.json.gz": "f548a67e75e4f9fc7d2882b523e3193a8e4c7593fc22e5e1c883f1e783a5f110",
+    "test/test00-cooling-cvae-fifo-811/record.json.gz": "27e79f0b360d27cbc475be7d75773cc8b989ed64dc7c9966cc48527c18ea09ac",
+    "test/test00-cooling-cvae-fifo-1931/record.json.gz": "07477604f38cab2a1ba00c06a1e3757dc255df994bc21e05e9965b517ed73112",
+    "test/test01-compound-nominal-fifo/record.json.gz": "e2cad5b664bceac29ab8153c4f647698912ab2d5df9c2e9feccf65584d22c14a",
+    "test/test01-compound-cvae-fifo-271/record.json.gz": "d668fc03a067c4f42d663038239085081c1c3879e04d9cf60abdfd0e96de8327",
+    "test/test01-compound-cvae-fifo-811/record.json.gz": "09bc1d231ea0e8a9bfcb5b0985e775f24df689e4decba273c29d3c1141f5ee33",
+    "test/test01-compound-cvae-fifo-1931/record.json.gz": "3456d888f6bf68c44d36bea0ce1e09bb61dd492e30d7e9597e3bfead4f423703",
+    "test/test01-electrical-nominal-fifo/record.json.gz": "cac23d9d7888d96315f97ac8ff26da75b0221ab71b0e366c01d41798716684ad",
+    "test/test01-electrical-cvae-fifo-271/record.json.gz": "384da1b70de54374dba7d09766a0d5a962be4c85f6931eb19dfa1a46e51bc2aa",
+    "test/test01-electrical-cvae-fifo-811/record.json.gz": "f04b762767bcfe9c0a53cc0f4dc9d9faabbf11173915eecff137e4fa4a0b3c95",
+    "test/test01-electrical-cvae-fifo-1931/record.json.gz": "a013ee81ee57e316b0b4a2affe6c7937542f6e13e2fcc0ab6eb6e7a14475d477",
+    "test/test01-control-nominal-fifo/record.json.gz": "bff32ea6fd040b6954e641017dba01b62b3ee977d9d574cc01b84190a5fd6910",
+    "test/test01-control-cvae-fifo-271/record.json.gz": "a78d9c58164bc24bca539aba7c3837324647d751f1eb2b36652af19b9c419579",
+    "test/test01-control-cvae-fifo-811/record.json.gz": "bd9da3b0f69c8af4cc3c7dc04501f09c2c15235f7938384e7315550d247c4bc3",
+    "test/test01-control-cvae-fifo-1931/record.json.gz": "db75bd61b8b28e1cdd157b2227ff6e46a53b3bddec84d37f5d36ad3edca4248e",
+    "test/test01-cooling-nominal-fifo/record.json.gz": "42dfde727c55e1d74e06f32ba7753c325f923a4b6913f0c3d8705504eb3e039d",
+    "test/test01-cooling-cvae-fifo-271/record.json.gz": "7b5995255d4713cf0aec2408af8fa783b3365496a463e4e5e11359dd86ab590b",
+    "test/test01-cooling-cvae-fifo-811/record.json.gz": "f38b1c66e0ccdb22218aea564762f88fe97d82b492acdd1d342f36044b2ccf8d",
+    "test/test01-cooling-cvae-fifo-1931/record.json.gz": "35ad13e154c5d81f481cfaf6f1a707e8d2769646584563c0a04de8ebdfae035c",
+    "test/test02-compound-nominal-fifo/record.json.gz": "fb5b3b6e48ba8e8fe1e2bf182f70fb98a40dfdb6a22ba27cfc556853ac5c8310",
+    "test/test02-compound-cvae-fifo-271/record.json.gz": "f6e8eff0f28c32a9af727cb0d12c8cbabc4d3c6c7485fb5f68fd4d3c9a94c3b3",
+    "test/test02-compound-nominal-fifo/arrays.npz": "c3acc8c0a89372b1a47cdf6c35bab3d3b77201df5f4ca3cad02d196ebfe971f5",
+    "test/test02-compound-cvae-fifo-271/arrays.npz": "1cb4da94861dd71c6f7994a9b63a27af2ece1bcc155ca4df2b2cce09a18c0fb9",
+    "test/test02-compound-cvae-fifo-811/record.json.gz": "60d7fe9f8165786df8e369c94fac16a851d659339bf466ecf4de07daf5e7ba46",
+    "test/test02-compound-cvae-fifo-811/arrays.npz": "df9327a4be3b18525c89e8025e310becc6610f13644527ade155e5aaedcd22c2",
+    "test/test02-compound-cvae-fifo-1931/record.json.gz": "cbd452f44bdee41fa75ab4260a87eab3fb038e3e6bebcb8be92dcfa0c6e15080",
+    "test/test02-electrical-nominal-fifo/record.json.gz": "392a3fa51172d9c522c572bfa0ef870d79963a25ac5f8db0b29f552df93dc153",
+    "test/test02-electrical-cvae-fifo-271/record.json.gz": "91d3558a6dad19e88039b3c8dc8e2cbaab8a185d9757a8407d75a957f41cd264",
+    "test/test02-electrical-cvae-fifo-811/record.json.gz": "809e5009793803cf0a45566024f685439278c6e6e39b45213a62ba1a3590360d",
+    "test/test02-electrical-cvae-fifo-1931/record.json.gz": "81e9437352ecaccc689b2474641b92dbd6caebabc653e7e24e08aa493d67cf69",
+    "test/test02-control-nominal-fifo/record.json.gz": "e2a7969f59510cf7ae7bb9b265ad45f1f2edf31464b4a0b32bdc872f7ea7d05c",
+    "test/test02-control-cvae-fifo-271/record.json.gz": "caeee7f192e5a2e30357c218e92426a098d4d1b7cbca37feb07171cdefccb69c",
+    "test/test02-control-cvae-fifo-811/record.json.gz": "ca70625d8eff7fab9dfa7aa4e0f1dbb8141f316dfb17d2fd600b0fb504d5de37",
+    "test/test02-control-cvae-fifo-1931/record.json.gz": "32669cf4f0e80b31e5a822eaa6a7c8ed1ea270f89b16c07f8bfd54bb2bdba044",
+    "test/test02-cooling-nominal-fifo/record.json.gz": "9cbe77e9b25fb04c1fe6cca150945312a6bdbbeb3fb55371c49606df564782a6",
+    "test/test02-cooling-cvae-fifo-271/record.json.gz": "37e2dd7e0cf30569b25877201adf817ac5de0a0ce19b992abd1880be77ee4ef1",
+    "test/test02-cooling-cvae-fifo-811/record.json.gz": "e2c35794b450341961b37241d7aad396e7f5c8339866d5292adb46924d559762",
+    "test/test02-cooling-cvae-fifo-1931/record.json.gz": "ddb13694c589514a88bf7de0737d9d16b398dcb8a5845b7a803e070777ba0e19",
+    "test/test03-compound-nominal-fifo/record.json.gz": "6d87218328e2cf90a267dd393f121fe94ac134ed7b617026904ed0c0c3053c3f",
+    "test/test03-compound-cvae-fifo-271/record.json.gz": "62ea28d21a8f1525dfe71c869139bce32bc73316aae08ae65e3df81f0586edac",
+    "test/test03-compound-cvae-fifo-811/record.json.gz": "c10395b6a3e336f50c9fcd9fcd009a3387755971c43617438ff475d6ebbd3f57",
+    "test/test03-compound-cvae-fifo-1931/record.json.gz": "0bb9ca3c0f29e7f90dc48087f229d10b543a9ea71421175e7f300713eed8e89f",
+    "test/test03-electrical-nominal-fifo/record.json.gz": "86992a90dd53f94950c5fffa1e5b87fc1ddd25636b1ebbdf63f9f053ac4b2787",
+    "test/test03-electrical-cvae-fifo-271/record.json.gz": "918681fb74e9e9814d4554b6fcb54a649795d6c8bc00db58489d134fd518bbd2",
+    "test/test03-electrical-cvae-fifo-811/record.json.gz": "cf9e85699c19099d684609e284639a35b6f20cba12778c5c245969414a31616e",
+    "test/test03-electrical-cvae-fifo-1931/record.json.gz": "e0581955315aa0b9d7b26e8a0ca664ba5c3667d90bbda15aa7b83bd4b01cc50f",
+    "test/test03-control-nominal-fifo/record.json.gz": "90099ce0a2f91fabd8b7b707a38d0e771791dfd1db1630cb410d660d9701b786",
+    "test/test03-control-cvae-fifo-271/record.json.gz": "2b10243eb8af4c283b48289b7f3dd4eb4b51740f96768a019caa107a770bdea8",
+    "test/test03-control-cvae-fifo-811/record.json.gz": "128a7831d46c22a6761f5dbb131f2b2293e7d19abdd59822c9eb03789ea06a73",
+    "test/test03-control-cvae-fifo-1931/record.json.gz": "ec16aab044dc2f937d7d242862a2f23cdb42244e10c3f697fa4b1eb1b2de4344",
+    "test/test03-cooling-nominal-fifo/record.json.gz": "b20c7ab191a967d4e399e094a63245e32d8c1f623ca7b423428875a136a34418",
+    "test/test03-cooling-cvae-fifo-271/record.json.gz": "0b4c6b5b63bf47a684ae19376904710b14b4c78fb672b4befd2d87e7919037c5",
+    "test/test03-cooling-cvae-fifo-811/record.json.gz": "164d0cdc374de2e54bbdb2d4aa7dbbc009810d52206eab482431143ae190c921",
+    "test/test03-cooling-cvae-fifo-1931/record.json.gz": "375bbacfda02abf4732d3e3c1f8e99bab86d4b9d7ab22638500a561740053e14",
+    "test/test04-compound-nominal-fifo/record.json.gz": "a33de8a1c4dc95921e4a094f3c022d57bf3c231fce1983195446bd695e1ac690",
+    "test/test04-compound-cvae-fifo-271/record.json.gz": "2bb87c379ea2495325fc57921af14e96308cb0bf748dab8d8b00e33118b6ef52",
+    "test/test04-compound-cvae-fifo-811/record.json.gz": "6324371b86ffebd98d77580cc6b16ce43ef0388723d9e19dd15b5916528f78c3",
+    "test/test04-compound-cvae-fifo-1931/record.json.gz": "87d315eede6b32b8f0c53266a3c17aa66b4113a51d8b26c718c4b64ec8ebf40b",
+    "test/test04-electrical-nominal-fifo/record.json.gz": "bc44c5de0b7390413ada695e31c71c9b48652866e0e079c2c08aa9a20b251c63",
+    "test/test04-electrical-cvae-fifo-271/record.json.gz": "2a0a05913c4ece52c3c5f7290032a57f1ba40e35923ed061469db895406a72fb",
+    "test/test04-electrical-cvae-fifo-811/record.json.gz": "69cd87835472f92a76d179ab5695f0da84272c82f0c0717901079717b3dfc650",
+    "test/test04-electrical-cvae-fifo-1931/record.json.gz": "7ed5ca6fc82fd4cf32184599a056cf520bcd2048537aaa1634ff2a41a7ca5ba0",
+    "test/test04-control-nominal-fifo/record.json.gz": "ac14ae7f4a88569bf6b850be9de208b6f573a4e39831edcd3c6e105599f85a91",
+    "test/test04-control-cvae-fifo-271/record.json.gz": "fcfb90a59870d130298526565e516bf339416eda8474738fd1860e3b34e4f859",
+    "test/test04-control-cvae-fifo-811/record.json.gz": "92878f2fc4b4ea8fbb37c5fdc3b67a21f7f36aacd04a2d38c087337b173ad79b",
+    "test/test04-control-cvae-fifo-1931/record.json.gz": "d499396e3d1eb108551d52cf1992551e0ef429ffb510aab4fb0676f93d6de241",
+    "test/test04-cooling-nominal-fifo/record.json.gz": "aa136887eef53667261e403c74f541e3b5931af83cad44b9e84a0abeffe977dc",
+    "test/test04-cooling-cvae-fifo-271/record.json.gz": "e0451a46a8fee449aa09daf7eee02c0e29e2bd9f1d2acc4e5b86ec269fa1f2ef",
+    "test/test04-cooling-nominal-fifo/arrays.npz": "ccdb7598ece1742eb72e91b7c41aa2059626037b2bb4c340a698a479036db680",
+    "test/test04-cooling-cvae-fifo-271/arrays.npz": "f71f9ece950a4daa2d67dc2b4a7f2196387cba8e38087a08a5cdfd93f9eb9f7e",
+    "test/test04-cooling-cvae-fifo-811/record.json.gz": "6276f59757e8e01e2efb79075fd330e4129ec15aaeef5b2764cd168928b35a98",
+    "test/test04-cooling-cvae-fifo-811/arrays.npz": "e60ce44e9fa4b73c99303cba886352523a161919f762811fc946b3583bdb7e65",
+    "test/test04-cooling-cvae-fifo-1931/record.json.gz": "7318c34c5a7424d82bacd73c1f341fe2f8f69224e690c9dd4ab5024a63860da0",
+    "test/test05-compound-nominal-fifo/record.json.gz": "29f7f81721c0c21ef6b981454c4d32a2eaae49a363891a942fe10f8eb94991ee",
+    "test/test05-compound-cvae-fifo-271/record.json.gz": "cb89e8f767b46869c9f66125be13c840d0d17e7858f6cf6bd55e261d24e0a26a",
+    "test/test05-compound-cvae-fifo-811/record.json.gz": "6abbc10c8384be123970621d79d2e2689ee62bd80857043b2476948b3fa37357",
+    "test/test05-compound-cvae-fifo-1931/record.json.gz": "40c50d47e1b39508b0a910d29ed9395313db88ca87d2a6ba13d4d1bd4de8b653",
+    "test/test05-electrical-nominal-fifo/record.json.gz": "8537a1ef2c1424f79bef7b08388b39ac67106287aebbac93675f126b9077ea78",
+    "test/test05-electrical-cvae-fifo-271/record.json.gz": "884c136a8ffed6d7b13f2cd8cd8a0a8ff7bb286fb4ecca278b7a2a8cd54adc38",
+    "test/test05-electrical-cvae-fifo-811/record.json.gz": "c11738066072f9e2f2a07ddfae0f8511756570b6d52ae13cdf0a48bdcf5f9f15",
+    "test/test05-electrical-cvae-fifo-1931/record.json.gz": "cb9d23b10390d953d1f1d73e4ed0681d4cf1079119239193e45443405904d991",
+    "test/test05-control-nominal-fifo/record.json.gz": "392ee1eb23f0f087f2658507991583321ac372037973d97e9b66d19ddc48209d",
+    "test/test05-control-cvae-fifo-271/record.json.gz": "e8ad1aaec5ce237456195d1baa845c02a40070c31bf38a99d2044d3530a82b6b",
+    "test/test05-control-cvae-fifo-811/record.json.gz": "d03906a8b23117af39a6a0b95570754327656f186781bf5fb1555d197b61b0e1",
+    "test/test05-control-cvae-fifo-1931/record.json.gz": "763239aaecef7450b46c6ca456395a3d622037bc29403db7d0582d349b05ceb6",
+    "test/test05-cooling-nominal-fifo/record.json.gz": "5a9fab83db7192a6b001d40b5cd85b825e2119d2d3378ca6d52dd53e09313fc2",
+    "test/test05-cooling-cvae-fifo-271/record.json.gz": "75d73974de90fd70ba23c1e19ba7b41e18b0ca05dec7b485fed126e9e63ebfd6",
+    "test/test05-cooling-cvae-fifo-811/record.json.gz": "0bce38bd9a47748f92a75ee9d2fa08d3b0faa268315692fe82ac0bb547f598b2",
+    "test/test05-cooling-cvae-fifo-1931/record.json.gz": "e5362151176854fda88f22554422b05c9bd8aa558bfcfb8cc5fc889df211942b",
+    "test/test06-compound-nominal-fifo/record.json.gz": "b483088ddce87c160250136a6f73eb6b983fdb11426dbbcbaff3569764b3467c",
+    "test/test06-compound-cvae-fifo-271/record.json.gz": "44b054a007a1607723f596b49d3eb71d3415ea434db5aad9cf96a049cc3bf910",
+    "test/test06-compound-cvae-fifo-811/record.json.gz": "0a11fa363b7858824236114da35f3f363e266911d7925abf122a12c7a0666dd4",
+    "test/test06-compound-cvae-fifo-1931/record.json.gz": "70b3d68a47f08bccf0cd22454784b0ff4ccda27f03a19925b3f14464d4d4b432",
+    "test/test06-electrical-nominal-fifo/record.json.gz": "4b8a4155209d892e2ca069e2d425f5643809ba4c35a3dd386972dd1558290648",
+    "test/test06-electrical-cvae-fifo-271/record.json.gz": "9746e04018bfc56568bbaa8c8f14578a69a8eb5ca2839b0ae8b3be044072b5b5",
+    "test/test06-electrical-cvae-fifo-811/record.json.gz": "f43611aeb630704abdd078606e61ead9b313f1afe0e90e3bb5e0fb2739488dcf",
+    "test/test06-electrical-cvae-fifo-1931/record.json.gz": "83a2a848710f479408c64121d638f4a8fafdba9fdac1692e0b561916c6a5758b",
+    "test/test06-control-nominal-fifo/record.json.gz": "341983230ef38b3bdd0e9dfc8d753c37e7b42d105b69a020b064c184b672a7bc",
+    "test/test06-control-cvae-fifo-271/record.json.gz": "8be054f851d2fca7abeea8100e52cbcdeb43b7691d6d0bcf65d7504c4cbeefee",
+    "test/test06-control-cvae-fifo-811/record.json.gz": "2792ff7da73a5925d40d94c1e0aa307968d5a9650562d9cbd354e3135469aeb4",
+    "test/test06-control-cvae-fifo-1931/record.json.gz": "324767aaf35cae14b6244567f4fae7b8fc260ae4475eb2be72bb2ffdbce491c9",
+    "test/test06-cooling-nominal-fifo/record.json.gz": "52414c3a1fd35772f2f5ca92dcc416831564c8c6e4a4acbcf8340d271dd78fd8",
+    "test/test06-cooling-cvae-fifo-271/record.json.gz": "8423364cea58025d656a71a3a3251542294d75bd4323d42fc61b230154b13cd9",
+    "test/test06-cooling-nominal-fifo/arrays.npz": "bf72fbc0c4e8838d0d1b405ba39320a7e53f667fd14b606f7ced5c681ea5520b",
+    "test/test06-cooling-cvae-fifo-271/arrays.npz": "7262094cbb34cfc43b1151053f5827c2cfce6e3542c70f13a74df66b986d9788",
+    "test/test06-cooling-cvae-fifo-811/record.json.gz": "b4191f5cd7cee3c3b355a24f597a54102652ecace33738cb4b05ce908a59e3a9",
+    "test/test06-cooling-cvae-fifo-811/arrays.npz": "dc58a47ded1aafc90b45c5eb7b2f22bae06d6a99d84c6b8a0003c7aceee78a40",
+    "test/test06-cooling-cvae-fifo-1931/record.json.gz": "ff14bc879b30b9f54168d60c2f11d770c4ff621c31d6c7c07863f4dbd1c5e2f1",
+    "test/test06-cooling-cvae-fifo-1931/arrays.npz": "423dedd83405febcaebdb5d735437f8428987e6eeeaf182a40b508dc26a134b2",
+    "test/test07-compound-nominal-fifo/record.json.gz": "9f727c0c3c195fde0c8a5824ae7adb50546dc6ff7b7c8ab5639573ec1991c90c",
+    "test/test07-compound-cvae-fifo-271/record.json.gz": "b8125babdb9cc4d503a11ec7beffc5f609380e5d012e8e04b196b64647604a33",
+    "test/test07-compound-nominal-fifo/arrays.npz": "f331f6d16e2beb694106bb26bc0c68096175e729e4e80300e8439f6f84645a4a",
+    "test/test07-compound-cvae-fifo-271/arrays.npz": "fb79b3b6cc9b6f94f775a801bb40424fb84aafe93e1ca6374f66b8de140ef820",
+    "test/test07-compound-cvae-fifo-811/record.json.gz": "64648dc793d3982f89c03400e6fba042a924bfd027df343316a7a2b126af74f9",
+    "test/test07-compound-cvae-fifo-1931/record.json.gz": "17185cbc57f5e24d09ea02485f42e1a6365f0937fdc5d38a0b7bf5f0a99a84d1",
+    "test/test07-electrical-nominal-fifo/record.json.gz": "7626c18b9d6fc19a931a0543589e609facc723fcb6b2a0b6b69004f93ae5ccc5",
+    "test/test07-electrical-cvae-fifo-271/record.json.gz": "473f8505e1605e3f24bb00c75400aec18f3f69d0f7bd88d53f6082dabb10669a",
+    "test/test07-electrical-cvae-fifo-811/record.json.gz": "99db6cd7fd14cda696c4ff352f370a80746d3c6f4841f5dc09c44f86822d3c58",
+    "test/test07-electrical-cvae-fifo-1931/record.json.gz": "a4e73c75ccc59e889aed495a14ebcc61f0654b756325aa021496e214942bb60d",
+    "test/test07-control-nominal-fifo/record.json.gz": "e1ff0938988b05e914d57284874033d65e6b8b3016c40213768326e9664414cd",
+    "test/test07-control-cvae-fifo-271/record.json.gz": "83c7914497eb1ab502bee6c4607e393fe00be1cda8600a7da73800bf3121dedb",
+    "test/test07-control-cvae-fifo-811/record.json.gz": "15cbd9ed95a476007e88e7497485823d5aa94fe7fe1c73ff5de5e1a247473aeb",
+    "test/test07-control-cvae-fifo-1931/record.json.gz": "326d4366ad5b6e6a99fa7bb8e9250b48b319b8a378e5fc98926935818a68b8de",
+    "test/test07-cooling-nominal-fifo/record.json.gz": "301d212d3f1e62d492d9839af57e35dd76b7480c37ed983f2627dd5fc8cd2ed4",
+    "test/test07-cooling-cvae-fifo-271/record.json.gz": "71c8f906d24350d34691f0dc2baf7b0e6ce02e04f8184b8aeb25d853d3b6abf0",
+    "test/test07-cooling-cvae-fifo-811/record.json.gz": "c5db43d25415a90e972747dc791845bd520d237cb38f156d4c2d0dac529800b9",
+    "test/test07-cooling-cvae-fifo-1931/record.json.gz": "eeca8d3f05cfb9529b797dcbc47ba4b9194df7e8eb9d70306099964e666b1e77",
+    "test/test08-compound-nominal-fifo/record.json.gz": "0764910fd73ed24656bfaa3ace12520888af61c380440e0d8ad4a33bb48cd23c",
+    "test/test08-compound-cvae-fifo-271/record.json.gz": "450f394affff0a7e3a3ac5f56008efe0a3cae82402b5a899283e1f3528d4f079",
+    "test/test08-compound-cvae-fifo-811/record.json.gz": "a200a2452aa892691529627eb1dbb11957979883aa02678bf9b9ae4fbdd57ba0",
+    "test/test08-compound-cvae-fifo-1931/record.json.gz": "c18e2919efefbd2da220e1be6e6e6c1ca65076b94efd1f5d0cc094cd0598a520",
+    "test/test08-electrical-nominal-fifo/record.json.gz": "b602fb235d413c978f3e9f6f941dbec75e964a99b6df4816351f256bd93abb41",
+    "test/test08-electrical-cvae-fifo-271/record.json.gz": "1b3fe169bd1f508cce0ddc413e7a57aae03c68e9446266a99286b17218585f56",
+    "test/test08-electrical-cvae-fifo-811/record.json.gz": "7249ed57b25c0f44b167280b1400a8265d1f4a1162f9d4780ead66d283777cb4",
+    "test/test08-electrical-cvae-fifo-1931/record.json.gz": "a75df216b5b324e404ddc718654ae9b28d546eab35dabac3d390ec86e601de9b",
+    "test/test08-control-nominal-fifo/record.json.gz": "1faa1e9980e7ff922aa45bf72beef4802535eaff660ffc8e6a82d138d89b6caa",
+    "test/test08-control-cvae-fifo-271/record.json.gz": "c471d05e36fe758a9912f85900f9d4638e90c80ef14f212dbb9580f90a6635de",
+    "test/test08-control-cvae-fifo-811/record.json.gz": "f6f28868ab806af39f5b4553b371353b3dd070658fa78b1bd0ba6fe9a977283a",
+    "test/test08-control-cvae-fifo-1931/record.json.gz": "1abf2a203d40515dbf364bd21276651e28200cb4e8696118d440fa05e0eb2b79",
+    "test/test08-cooling-nominal-fifo/record.json.gz": "718cc2174e87b31fd6b6297a75b5b804708a985c9d017f3e205e1046caa8b7e3",
+    "test/test08-cooling-cvae-fifo-271/record.json.gz": "bf9d721d84cc0b4d6787f68f98f115c3d0a8faa08a18e9ff2882dcefab44da7a",
+    "test/test08-cooling-cvae-fifo-811/record.json.gz": "46748906d5ab3b71df8e898c4efbd7e9a5be5b724354cf98c3e4b946be58efa9",
+    "test/test08-cooling-cvae-fifo-1931/record.json.gz": "37b0af3698c6b67f4e33040751f002951fa65d0f96eb185b5f383fcdc9d1fed2",
+    "test/test09-compound-nominal-fifo/record.json.gz": "435d159baf01d121aa54ddea99065acfd5f4b8b3a21c8aa0d4eb293c75217727",
+    "test/test09-compound-cvae-fifo-271/record.json.gz": "eae714ca0608518e7609c988988e037f5197b29f251b61044c0ed45787a78c05",
+    "test/test09-compound-cvae-fifo-811/record.json.gz": "054aea3749e8923b43af6b4c78812c288dbb831cbacc2377a5c15493e9a66737",
+    "test/test09-compound-cvae-fifo-1931/record.json.gz": "64343e4d5e58501b0da14d23f90e7a29fdc5f791047ed515431d269c4b27da5c",
+    "test/test09-electrical-nominal-fifo/record.json.gz": "60c5f88dcf2ff8c2c5015db37968f08e30f0e014742050e03ec175579a64cf31",
+    "test/test09-electrical-cvae-fifo-271/record.json.gz": "38121c2c7eaf026ddf43fa7aac712a130674df3a38111709557887236ab3c79a",
+    "test/test09-electrical-cvae-fifo-811/record.json.gz": "cb3dc476ece0c7193c10916f6e3210be6d82d1a205f475da9ddf79debb031af2",
+    "test/test09-electrical-cvae-fifo-1931/record.json.gz": "7903ea2964723469a6079872b4b8f313db52aa84bc82781a6c44da85cc1c5cb9",
+    "test/test09-control-nominal-fifo/record.json.gz": "51ed0be85490676205319946629780f8c36ea5f3ba7ae9a6cd40a8a21e7c243e",
+    "test/test09-control-cvae-fifo-271/record.json.gz": "e1b75f2fadecccc3d5a3905cca0813f9508002f18d5f963ba5d5e3c04b8e7760",
+    "test/test09-control-cvae-fifo-811/record.json.gz": "fcc0dde1de70f9b70fee2e12332d1db756d435a0e9b195d4c1abaf56ab317510",
+    "test/test09-control-cvae-fifo-1931/record.json.gz": "a465b6a6b9afd63a72d8355098614b28a06ffbdae3efbbc3dc9a90a78866ee37",
+    "test/test09-cooling-nominal-fifo/record.json.gz": "ac0d6941a590019e5bf97fcbb82305faa14fab6867fcaa558ce4e5e43f86b3fe",
+    "test/test09-cooling-cvae-fifo-271/record.json.gz": "2cb66a988a161f4f1464012c497417e7d70e38822f50b34ec26b1711a3aea0cc",
+    "test/test09-cooling-cvae-fifo-811/record.json.gz": "d4a72105559e4ddc7577f9da85df4064259707eaf3bf570dae2b0483b43ff07f",
+    "test/test09-cooling-cvae-fifo-1931/record.json.gz": "32e5dec7ca1a099844741a265aea1345f8cf3f064340dd240798e5b46d0b866c",
+    "test/test10-compound-nominal-fifo/record.json.gz": "015583658781297829908b9a72ea422e20948d616af7ec1270ab89d83a46ae83",
+    "test/test10-compound-cvae-fifo-271/record.json.gz": "8b33863b7139dd9da50b8b5b63ba4da3b8518959a7c27af5c4c58a564677748f",
+    "test/test10-compound-cvae-fifo-811/record.json.gz": "ed125dbb4e3eb3e0d6addd468668fe34f1181c7789dc9a52b4a3d9e82e742604",
+    "test/test10-compound-cvae-fifo-1931/record.json.gz": "3a18bfdb28963687fdb2f9fbf0e7ff7c33d8548da54b7edfb63461639414fea6",
+    "test/test10-electrical-nominal-fifo/record.json.gz": "9e987970aeb2bcc4d4bbcd3d884db3d9757f204dea9c4b50d3d3e924f4b414bf",
+    "test/test10-electrical-cvae-fifo-271/record.json.gz": "246dd3afcfc30665add8cb7633c7c5ae7aff367374687adda57b342d4f18e847",
+    "test/test10-electrical-cvae-fifo-811/record.json.gz": "e9fc73afd6a70030349ef40c0db367fc3afc6463053ec19633734d180d3e6639",
+    "test/test10-electrical-cvae-fifo-1931/record.json.gz": "04012a578a32c22c682ea16983aa78b1c728b22622f6483b9afbafdb37aa5f24",
+    "test/test10-control-nominal-fifo/record.json.gz": "4ed6e0082a02b7e894827e9509b64c95ae74350a5fcb8aa0e9161d08ae5e5d83",
+    "test/test10-control-cvae-fifo-271/record.json.gz": "d337ef11262ac7855b2520560d66e90e94f8afaf90a96b07a7b9f4798bc2c611",
+    "test/test10-control-cvae-fifo-811/record.json.gz": "1c84d6712e4df6817a32e9d2718f29720cd790a5905b29def1e3ab660322690d",
+    "test/test10-control-cvae-fifo-1931/record.json.gz": "4fb63d36c960ad35a22c5ce68f173b36a87fda09f6226a3c198af78cc8b14eff",
+    "test/test10-cooling-nominal-fifo/record.json.gz": "fca74e657688d7bf5d267a51352d1506036fa4b2c19c0076ad61723032fef08f",
+    "test/test10-cooling-cvae-fifo-271/record.json.gz": "4939993effe626688b16a228d117e48c7c35b465ab6862ce2251cc2e49bc95ec",
+    "test/test10-cooling-cvae-fifo-811/record.json.gz": "8db578acc49df42f816176dda96f419d6db28667c7bf5e00af9df93b484d201f",
+    "test/test10-cooling-cvae-fifo-1931/record.json.gz": "9f96b104c67fcb8dca934bc5ec523386e12bf76c8ce5c2cf4dd30ae242f593f2",
+    "test/test11-compound-nominal-fifo/record.json.gz": "3a2b7b949af4099e5f7414a5915bb7ce3142d676a066e670e83c0dcdf5738a1f",
+    "test/test11-compound-cvae-fifo-271/record.json.gz": "a694c4a378eac5ba563846676f9433162b211f98c27bec20b140ac1b63df77d3",
+    "test/test11-compound-cvae-fifo-811/record.json.gz": "2b8e418e218e8ce385111704a9db2469d73666dbbe41f80e4aabe51ebd2e0334",
+    "test/test11-compound-cvae-fifo-1931/record.json.gz": "1deae5309474dcf318f3e627a0278b7e782c524f9dbb45579c58c5a64b73c0a4",
+    "test/test11-electrical-nominal-fifo/record.json.gz": "cf1d9128468b52dda52395833409319b916341cad094c723574e35af399a78e7",
+    "test/test11-electrical-cvae-fifo-271/record.json.gz": "06ee4e7a4dde5b1f70a6dcd135b7b4984653b028448e8e312ceebf93e28d88c9",
+    "test/test11-electrical-cvae-fifo-811/record.json.gz": "310d97ab17f15e6614552345a54ae5819527671a3f374418a9ea5832046a8082",
+    "test/test11-electrical-cvae-fifo-1931/record.json.gz": "ed4e63f75f44d978b8bfa53ed5d7c613b2f6707427aab1ff71597f82ddf270d7",
+    "test/test11-control-nominal-fifo/record.json.gz": "24d1c1832e2f3fc5a96f7f93af1fa6f0c56dc54d79b7f39b7c6c7d635c116506",
+    "test/test11-control-cvae-fifo-271/record.json.gz": "aab51c70593ad7766b00c48f991150994660bac730fe2a610981985c2b481aee",
+    "test/test11-control-cvae-fifo-811/record.json.gz": "1ed40d9d81ea8760e4a96d14f10a9909dee75e8c67b43e7683631fd51c459e5f",
+    "test/test11-control-cvae-fifo-1931/record.json.gz": "cc89d770e1d58140e2129eefadb6b6bbefa9f20a6b891c506d528c058208b312",
+    "test/test11-cooling-nominal-fifo/record.json.gz": "08d7f6f76badd8c2b6a7ad020aa43699197681627e96fd89f5b499a7c6a7c107",
+    "test/test11-cooling-cvae-fifo-271/record.json.gz": "4c242aa1db33123764cef9bd3a5bc6626c98663f8614f9f6748d22854a7ca64b",
+    "test/test11-cooling-cvae-fifo-811/record.json.gz": "f5c23f675b3ea5e55e5ae5005bbd9411e7fcc78354784e345797a43ea5bc70a0",
+    "test/test11-cooling-cvae-fifo-1931/record.json.gz": "865fc51f25f0074dc600a9cef7dcf7f19e868261679b6feb6cf538338e88bb53"
+  },
+  "script_sha256": "9a771443b6907171692469ea22bad88185b8b4b1a131cec1fd4a69c884420c0a"
+}

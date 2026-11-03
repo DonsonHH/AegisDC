@@ -30,7 +30,8 @@ def main():
            '800kJ/K','0.7604','229次','4R-1','0.05','0.20','RGB','B-PID','VAE-UNet',
            '1.809','2.82110','29.68462','0.310901','0.313052','0.312888','未留帧','未计时','旧包未运行',
            '1080','34,560','8,640','295,777','720','12个独立种子块','CVAE-U-Net','条件先验','四专业','10,000',
-           'RMSE','R²','0.484','0.462','0.424','0.401','FirstIn,FirstOut']
+           'RMSE','R²','0.484','0.462','0.424','0.401','FirstIn,FirstOut',
+           '确认机会的交换','865→895秒','835→880秒','860→875秒','840→900秒','机房图像适配']
     missing=[v for v in terms if v not in text];assert not missing,missing
     assert '从头讲' not in text and '下一步／上一步' not in text
     renderer=shutil.which('pdftoppm');assert renderer,'Poppler pdftoppm required'

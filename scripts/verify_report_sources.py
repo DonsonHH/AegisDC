@@ -7,10 +7,12 @@ import gzip
 import hashlib
 import json
 import math
+from html.parser import HTMLParser
 from pathlib import Path
 from statistics import mean
 import xml.etree.ElementTree as ET
 import zipfile
+import sys
 
 import numpy as np
 
@@ -163,6 +165,89 @@ def verify_supplement(data,manifest):
             'supplement_analysis_audit':supplement['audit'],'pre_study_report_files_unchanged':len(archive['files'])}
 
 
+class TextSemantics(HTMLParser):
+    """Compare report headings and every numeric table cell across exports."""
+    def __init__(self):
+        super().__init__();self.tables=[];self.headings=[];self.table=None;self.row=None;self.cell=None;self.heading=None
+    def handle_starttag(self,tag,attrs):
+        if tag=='table':self.table=[]
+        elif tag=='tr' and self.table is not None:self.row=[]
+        elif tag in ('th','td') and self.row is not None:self.cell=[]
+        elif tag=='h2':self.heading=[]
+        elif tag=='br' and self.cell is not None:self.cell.append(' ')
+    def handle_data(self,text):
+        if self.cell is not None:self.cell.append(text)
+        if self.heading is not None:self.heading.append(text)
+    def handle_endtag(self,tag):
+        if tag in ('th','td') and self.cell is not None:self.row.append(' '.join(''.join(self.cell).split()));self.cell=None
+        elif tag=='tr' and self.row is not None:self.table.append(self.row);self.row=None
+        elif tag=='table' and self.table is not None:self.tables.append(self.table);self.table=None
+        elif tag=='h2' and self.heading is not None:self.headings.append(' '.join(''.join(self.heading).split()));self.heading=None
+
+
+def verify_refinements(manifest,html):
+    diagnosis=load(ROOT/'paper/source-data/estimation-confirmation-gap.json')
+    assert diagnosis['script_sha256']==digest(ROOT/'scripts/analyze_estimation_confirmation_gap.py')
+    assert diagnosis['new_environment_runs']==diagnosis['new_model_calls']==diagnosis['new_training']==0
+    original=load(ROOT/'evidence/supplement-study/local-artifacts.json')
+    raw_root=ROOT/original['root']
+    for relative,identity in diagnosis['source_hashes'].items():
+        assert identity==original['files'][relative]['sha256']==digest(raw_root/relative)
+    protocol=load(ROOT/'evidence/supplement-study/protocol.json');counts=Counter();changes=[]
+    key=lambda row:(row['task'],row['kind'],row['onset_s'],row['end_s'])
+    for case in protocol['case_sets']['test']:
+        if case['family'] not in protocol['analysis']['primary_families']:continue
+        nominal=load_gzip(raw_root/'test'/(case['id']+'-nominal-fifo')/'record.json.gz')
+        before={key(row) for row in nominal['anomaly_intervals'] if row['detected']}
+        for seed in protocol['model_seeds']:
+            neural=load_gzip(raw_root/'test'/f"{case['id']}-cvae-fifo-{seed}"/'record.json.gz')
+            after={key(row) for row in neural['anomaly_intervals'] if row['detected']}
+            lost,gained=before-after,after-before
+            counts.update(comparisons=1,lost=len(lost),gained=len(gained),changed=int(bool(lost or gained)))
+            if lost or gained:
+                change=next(row for row in diagnosis['changes'] if row['case']['id']==case['id'] and row['model_seed']==seed)
+                assert {tuple(row['key']) for row in change['lost']}==lost
+                assert {tuple(row['key']) for row in change['gained']}==gained
+                changes.append(change)
+    assert dict(counts)==diagnosis['counts']=={'comparisons':144,'lost':8,'gained':2,'changed':8}
+    assert (counts['gained']-counts['lost'])/3==diagnosis['model_mean_net_confirmation_difference']==-2
+    example=next(row for row in changes if row['case']['id']=='test04-cooling' and row['model_seed']==271)
+    assert example['first_action_divergence']['time_s']==860
+    assert [(row['estimator'],row['agent'],row['selected']) for row in example['first_action_divergence']['decisions']]==[('nominal',5,45),('cvae',5,41)]
+    actual_neural=load_gzip(raw_root/'test'/'test04-cooling-cvae-fifo-271'/'record.json.gz')
+    decision=next(d for d in actual_neural['decisions'] if d['time_s']==860 and d['agent']==5)
+    for task in (41,45):
+        candidate=next(row for row in decision['candidates'] if row['task']==task)
+        assert candidate['certificate']['ok'] and candidate['budget_allowed']
+    for record_id,expected_cues,expected_completions in [('test04-cooling-nominal-fifo',{41:865,45:860},{41:895,45:875}),
+                                                      ('test04-cooling-cvae-fifo-271',{41:835,45:840},{41:880,45:900})]:
+        record=load_gzip(raw_root/'test'/record_id/'record.json.gz')
+        for task,time in expected_cues.items():assert any(e['task']==task and e['visible_s']==time for e in record['public_events'])
+        for task,time in expected_completions.items():assert any(e['task']==task and e['time_s']==time for e in record['inspection_events'])
+    exported=manifest['text_export'];assert exported['derived_from_html_sha256']==manifest['html_sha256']
+    full_path=ROOT/exported['full']['path'];full=full_path.read_text(encoding='utf-8')
+    assert digest(full_path)==exported['full']['sha256'] and full_path.stat().st_size==exported['full']['bytes']
+    assert not any(token in full for token in ('data:image','<svg','{{'))
+    assert len(exported['sections'])==8 and exported['section_bytes_max']<24000
+    for row in exported['sections']:
+        path=ROOT/'paper/text-review'/row['path'];assert digest(path)==row['sha256'] and path.stat().st_size==row['bytes']
+        assert not any(token in path.read_text(encoding='utf-8') for token in ('data:image','<svg','{{'))
+    sys.path.insert(0,str(ROOT/'.work/paper-writing-deps'))
+    from markdown_it import MarkdownIt
+    original_semantics=TextSemantics();original_semantics.feed(html)
+    text_semantics=TextSemantics();text_semantics.feed(MarkdownIt('commonmark',{'html':True}).enable('table').render(full))
+    assert original_semantics.tables==text_semantics.tables and original_semantics.headings==text_semantics.headings
+    archive=ROOT/exported['archive']['path'];assert digest(archive)==exported['archive']['sha256']
+    with zipfile.ZipFile(archive) as zipped:
+        assert zipped.read('report-full.md')==full_path.read_bytes()
+        for row in exported['sections']:assert hashlib.sha256(zipped.read(row['path'])).hexdigest()==row['sha256']
+    previous=load(ROOT/'paper/briefing-history/97dba207/baseline.json')
+    for row in previous['files'].values():assert digest(ROOT/row['archived_as'])==row['sha256']
+    return {'posthoc_pairs_recomputed':counts['comparisons'],'posthoc_lost':counts['lost'],'posthoc_gained':counts['gained'],
+            'binary_free_review_sections':8,'text_review_numeric_tables_matched':len(text_semantics.tables),
+            'text_review_h2_sections_matched':len(text_semantics.headings),'previous_v7_report_files_unchanged':len(previous['files'])}
+
+
 def main():
     frozen_count=0
     for index,folder in [('evidence/event-validation/final/local-artifacts.json','runs/event-validation-amended-20261102'),
@@ -252,6 +337,7 @@ def main():
     assert all(not row['formal_clauses_read'] for row in alignment['standards'])
     comparison_checks=verify_comparison(data)
     supplement_checks=verify_supplement(data,manifest)
+    refinement_checks=verify_refinements(manifest,html)
     rows=load(ROOT/'evidence/event-validation/final/rows.json')
     for method in ['tour','fifo','shuffled']:
         selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
@@ -328,7 +414,7 @@ def main():
             's0_risk_deferred_binary_decisions':deferred,'s0_risk_maximum_observed_score_input':maximum_risk,
             's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
             'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
-            **comparison_checks,**supplement_checks,
+            **comparison_checks,**supplement_checks,**refinement_checks,
             'scope':'This checker reads retained historical/new originals and extracts, hashes all supplementary artifacts and independently recomputes block aggregates/paired intervals. The separate completed analyzer reconstructs raw-label outcomes, errors, costs and model identities. No new simulation/training/inference in this check.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')

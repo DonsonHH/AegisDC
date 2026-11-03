@@ -1,7 +1,7 @@
 {
-  "version": 7,
+  "version": 8,
   "mode": "self_reading_report",
-  "previous_version": "f35b172ee4d557a099680a8411fe89d5b324e55e",
+  "previous_version": "97dba207a3228cd176113769a8a927881fc1ef6e",
   "animations": false,
   "presenter_controls": false,
   "main_figure_ids": [
@@ -2234,7 +2234,7 @@
   },
   "trained_checkpoints": 9,
   "external_language_model_calls": 0,
-  "html_sha256": "7a01c309432121e0a3886a07754200e69941bffdf391d9289c7a1c084364f956",
+  "html_sha256": "b5073b1e4c4de7c434f92c4c5c3b02f686f6a9c33907d6d1bafd62139e0545f5",
   "data_sha256": "943ac5084ddc6954a00e8ce377e2801867937c376ae3788c40449962224b51a2",
   "figure_sha256": {
     "paper/figures/supervisor-report/model.svg": "2919efd55fec863088ee678f8b5e5797514a2e5084627c93a4ccb7e1c03a4e3c",
@@ -2270,9 +2270,11 @@
     "paper/figures/supervisor-report/supplement-crossed-design.svg": "b9515130e5d54d5a1690f9b86b4bd53c4e4c22ed7152d9c2826363fdc5dba2de"
   },
   "source_sha256": {
-    "scripts/build_supervisor_report.py": "4785edce38ba28c435c72a991bae738a39a85784506aa231989417e0101cd2fa",
+    "scripts/build_supervisor_report.py": "82e603d30681fc0f2b2db68ea9457cfa19490f3899c2e2e33b9bfc518bc23089",
     "scripts/report_diagrams.py": "60f17b4f7b6043c2bd7de2bc9c0cbcc2e0e401ae3e143b4ca92fea9346373d93",
     "scripts/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
+    "scripts/report_text_export.py": "d566c8dc00968d662308a2c5c5b8e9b798bb3404acfc4fe9d0e22cc7122e793e",
+    "scripts/analyze_estimation_confirmation_gap.py": "9a771443b6907171692469ea22bad88185b8b4b1a131cec1fd4a69c884420c0a",
     "evidence/event-validation/final/summary.json": "51fae7731efdd304392dd5b219218a9b48452865af1681f1f2c9968553d2b9f3",
     "evidence/event-validation/final/protocol.json": "60950af1ca004a2f6f04018a6d073e545295dc7279788886bb3f26a3196d34a3",
     "evidence/event-validation/final/rows.json": "3926c8233cc22e6c273aff559c0df67a5501dd2d962704af607994aef2e433be",
@@ -2288,7 +2290,8 @@
     "paper/source-data/report-comparison-metrics.json": "fdc96ef31db0492842823a240422e158bdeaf4cb785a1e1875468c27508c40ce",
     "paper/source-data/supplement-study.json": "d1d08eeedb92e37551c2d6f359214ed9ce117a8971ed19e4716fe11ec945f6f9",
     "paper/source-data/supplement-example.json": "7e9b6622aa907e5ef03df6e83d37d4b4585338eec748576341c788a28de7bb8d",
-    "paper/source-data/supplement-narrative.json": "97f874ac980b404d9724d90fb1452c77b5134ed81bc58308e151e13e46e4bfee",
+    "paper/source-data/supplement-narrative.json": "518721b28a28fd98e2234249688feaddee37de45e04cfea6dc9399d19d5c067a",
+    "paper/source-data/estimation-confirmation-gap.json": "0423174b2b9ad6d3f393e45c7358757ddaf8f2b8be958afd4c177f5a6eeecc5c",
     "scripts/analyze_supplement_study.py": "352a98de0564ac6af9e63220b2da020bf54873125c8b27a0551854c6b5bd78c9",
     "scripts/supplement_figures.py": "5f31b94ea4aa25ed80977a234e0d6b1da963d05b02e5259da03f8365bf59c597",
     "scripts/supplement_diagrams.py": "29a668fd1809a905302600af7e2eeedb2841080047b9c3860df313ee671cbac5",
@@ -2346,8 +2349,88 @@
     "paper/figures/briefing-v3/execution-chain.svg": "b319dd87b51f4dcc44c9f0c747dd144076b01e0119614e8e5baa9c595bf29f95",
     "paper/figures/briefing-v3/task-17.svg": "5330f404d51be98aeb8814b0f868cb093b9494f1f393ddedfefb2a23183f5fe0",
     "paper/figures/briefing-v3/task-21.svg": "dbb09fac31179fafd1118aa8fcb50292f73af6f91254171b8eacbbfcbaf7fb9b",
-    "paper/supervisor-report.md": "e2a351dd304704bc49294bcce8eb11e4e4de29f29f746e1a792ed7d3ca641631",
+    "paper/supervisor-report.md": "333232353181fe9c42bed5461ed574319803bee4ad52916628aab79075ed147d",
     "paper/briefing-template.html": "ed25ea971847df2c5ba822114e3b1da89920d388c51fe7e8b3b62fc3367784c8"
+  },
+  "text_export": {
+    "derived_from_html_sha256": "b5073b1e4c4de7c434f92c4c5c3b02f686f6a9c33907d6d1bafd62139e0545f5",
+    "scope": "Resolved report prose, formulas and numeric tables; all31figures linked rather than embedded.",
+    "full": {
+      "path": "paper/supervisor-report-text.md",
+      "bytes": 63626,
+      "sha256": "4bfc490c97cc2689791d4a930b2f1e9acf6cb45f7252dffdf1f123379ef56c25"
+    },
+    "sections": [
+      {
+        "path": "01-overview.md",
+        "bytes": 1352,
+        "sha256": "6ca38953b60039577631d7b9860fe763a0097dacb82638797f782b76d8e86122",
+        "section": "overview",
+        "title": "课题主线"
+      },
+      {
+        "path": "02-model.md",
+        "bytes": 9865,
+        "sha256": "8e4f56e7bb726b6778ecb79315ec096266c81fd3f15e0d4e2a08c433e9f5924f",
+        "section": "model",
+        "title": "模型与视觉"
+      },
+      {
+        "path": "03-hotspots.md",
+        "bytes": 4239,
+        "sha256": "e819b15ae97804806c86c3fb05bd5d701bed7ad952054719033a79cc0c7a6e92",
+        "section": "hotspots",
+        "title": "全局态势"
+      },
+      {
+        "path": "04-fifo.md",
+        "bytes": 3484,
+        "sha256": "513d992a70dc0eda5bf5e88c887516cacbf26803e7037a083643bd560fa903c5",
+        "section": "fifo",
+        "title": "闭环基准"
+      },
+      {
+        "path": "05-comparison.md",
+        "bytes": 17834,
+        "sha256": "5c6256f26d00228d5d21109a68ff84d046167c88c45f34189077de2392093f55",
+        "section": "comparison",
+        "title": "横向比较"
+      },
+      {
+        "path": "06-roadmap.md",
+        "bytes": 2730,
+        "sha256": "8ea3a9f36606565d018e56a1675fd03e41b7b6c9f903c7401a2fc19b98dde504",
+        "section": "roadmap",
+        "title": "后续安排"
+      },
+      {
+        "path": "07-appendix.md",
+        "bytes": 21479,
+        "sha256": "d041e03838d47c0851455774388b863f261afdb635e8108c4a1d59bca0946468",
+        "section": "appendix",
+        "title": "技术附录"
+      },
+      {
+        "path": "08-sources.md",
+        "bytes": 2664,
+        "sha256": "4d4f4358dbcb1b1980e284b0b332caa4415676f2216b75968b9409780b11d2f4",
+        "section": "sources",
+        "title": "来源"
+      }
+    ],
+    "no_base64": true,
+    "section_bytes_max": 21479,
+    "archive": {
+      "path": "paper/generated/supervisor-text-review.zip",
+      "bytes": 50351,
+      "sha256": "e6bf8c295d51a838e93af3bd73d2d2c7802f91713d1dbb255905873c04f039b9"
+    }
+  },
+  "posthoc_estimation_confirmation_diagnosis": {
+    "comparisons": 144,
+    "lost": 8,
+    "gained": 2,
+    "changed": 8
   },
   "scope": "Report derivation and source identity. It does not replace independent visual/source verification."
 }

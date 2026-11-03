@@ -15,6 +15,7 @@ if DEPS.is_dir():sys.path.insert(0,str(DEPS))
 from markdown_it import MarkdownIt
 from report_diagrams import build_report_diagrams
 from supplement_report import substitutions as supplement_substitutions
+from report_text_export import export_review_text
 
 PAPER=ROOT/'paper'
 SOURCES={}
@@ -33,6 +34,15 @@ def load(relative):return json.loads(read(relative).decode('utf-8'))
 
 def write_json(path,value):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
+
+
+def resolve_source_link(target,*,current=False):
+    target=target.removeprefix('<').removesuffix('>')
+    if target.startswith(('#','https:','http:','data:')):return target
+    path=(PAPER/target).resolve().relative_to(ROOT).as_posix()
+    if path.endswith('.html'):path=path[:-5]+'.md'
+    latest=current or '/research/' in path or path in ('paper/supplement-study-methods.md','paper/source-data/estimation-confirmation-gap.json') or path.startswith('evidence/supplement-study/')
+    return REMOTE+(BRANCH if latest else BASE)+'/'+path
 
 
 def table(headers,rows,kind):
@@ -64,7 +74,7 @@ def comparison_table(comparison):
 
 
 def main():
-    for source in ['scripts/build_supervisor_report.py','scripts/report_diagrams.py','scripts/briefing_diagrams.py']:
+    for source in ['scripts/build_supervisor_report.py','scripts/report_diagrams.py','scripts/briefing_diagrams.py','scripts/report_text_export.py','scripts/analyze_estimation_confirmation_gap.py']:
         read(source)
     summary=load('evidence/event-validation/final/summary.json')
     protocol=load('evidence/event-validation/final/protocol.json')
@@ -84,6 +94,9 @@ def main():
     supplement_example=load('paper/source-data/supplement-example.json')
     assert supplement['example']['sha256']==SOURCES['paper/source-data/supplement-example.json']
     supplement_narrative=load('paper/source-data/supplement-narrative.json')
+    gap_diagnosis=load('paper/source-data/estimation-confirmation-gap.json')
+    assert gap_diagnosis['counts']=={'comparisons':144,'lost':8,'gained':2,'changed':8}
+    assert gap_diagnosis['model_mean_net_confirmation_difference']==-2
     assert supplement_narrative['analysis_sha256']==SOURCES['paper/source-data/supplement-study.json']
     assert supplement['test_episode_count']==1080 and supplement['audit']['all_passed']
     for source in ['scripts/analyze_supplement_study.py','scripts/supplement_figures.py','scripts/supplement_diagrams.py','scripts/supplement_report.py',
@@ -249,6 +262,17 @@ def main():
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
     substitutions.update(supplement_substitutions(supplement))
     substitutions.update(supplement_narrative['substitutions'])
+    example=next(row for row in gap_diagnosis['changes'] if row['case']['id']=='test04-cooling' and row['model_seed']==271)
+    timing_rows=[]
+    for direction in ('gained','lost'):
+        for row in example[direction]:
+            task,kind,start,end=row['key'];values=[]
+            for method in ('nominal','cvae'):
+                details=row[method];cue=details['cues'][0]['visible_s']
+                first=min(e['time_s'] for e in details['nearby_measurements'] if e['time_s']>start)
+                values.append(f'{cue:g}→{first:g}秒')
+            timing_rows.append([f'{task}号热检查',f'{start:g}—{end:g}秒',*values,'CVAE新增' if direction=='gained' else 'CVAE丢失'])
+    substitutions['GAP_TIMING_TABLE']=table(['任务','原评价段','名义FIFO：提示→完成','CVAE-FIFO：提示→完成','确认变化'],timing_rows,'estimation-confirmation-gap')
     source=read('paper/supervisor-report.md').decode('utf-8')
     for key,value in substitutions.items():source=source.replace('{{'+key+'}}',value)
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
@@ -268,25 +292,19 @@ def main():
         navigation.append('<a href="#'+identity+'">'+labels[identity]+'</a>')
     content=title+'<nav class="contents" aria-label="报告目录">'+''.join(navigation)+'</nav>'+''.join(sections)
     # Source links remain useful when only this one HTML file is shared.
-    def link(match):
-        target=match[1]
-        if target.startswith(('#','https:','http:','data:')):return match[0]
-        path=(PAPER/target).resolve().relative_to(ROOT).as_posix()
-        if path.endswith('.html'):path=path[:-5]+'.md'
-        reference=BRANCH if '/research/' in path or path=='paper/supplement-study-methods.md' or path.startswith('evidence/supplement-study/') else BASE
-        return 'href="'+REMOTE+reference+'/'+path+'"'
-    content=re.sub(r'href="([^"]+)"',link,content)
+    content=re.sub(r'href="([^"]+)"',lambda m:'href="'+resolve_source_link(m[1])+'"',content)
     template=read('paper/briefing-template.html').decode('utf-8')
     output=template.replace('{{REPORT_BODY}}',content)
     assert '{{' not in output and '<script' not in output.lower() and 'data-stage-' not in output
     destination=PAPER/'supervisor-briefing.html';destination.write_text(output,encoding='utf-8',newline='\n')
+    text_export=export_review_text(source,figure_notes,labels,PAPER,resolve_source_link,hashlib.sha256(destination.read_bytes()).hexdigest())
     data_path=PAPER/'generated/supervisor-report-data.json';write_json(data_path,data)
     write_json(PAPER/'generated/briefing-chart-data.json',data)
     core=re.sub(r'<details\b.*?</details>','',content,flags=re.S)
     main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
     all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
     assert len(all_figures)==len(set(all_figures))==len(drawings)
-    manifest={'version':7,'mode':'self_reading_report','previous_version':'f35b172ee4d557a099680a8411fe89d5b324e55e','animations':False,'presenter_controls':False,
+    manifest={'version':8,'mode':'self_reading_report','previous_version':'97dba207a3228cd176113769a8a927881fc1ef6e','animations':False,'presenter_controls':False,
         'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
         'sections':list(labels),'primary_processes':12,'primary_condition_count':48,
         'primary_anomaly_segments':supplement['primary_aggregates']['nominal_tour']['total_unique_anomaly_segments'],
@@ -297,6 +315,7 @@ def main():
         'neural_estimator_predictions':data['neural_estimator_predictions'],
         'trained_checkpoints':9,'external_language_model_calls':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),
         'data_sha256':hashlib.sha256(data_path.read_bytes()).hexdigest(),'figure_sha256':figure_hashes,'source_sha256':SOURCES,
+        'text_export':text_export,'posthoc_estimation_confirmation_diagnosis':gap_diagnosis['counts'],
         'scope':'Report derivation and source identity. It does not replace independent visual/source verification.'}
     write_json(PAPER/'generated/briefing-manifest.json',manifest)
     print(f'Built self-reading static report: {len(labels)} visible sections, {len(drawings)} source-backed diagrams, no animation or presenter controls.')

@@ -10,6 +10,8 @@
 
 网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
+供文本工具读取的版本为[完整正文Markdown](supervisor-report-text.md)与[8节审阅包](generated/supervisor-text-review.zip)。数值表与公式已展开，图版保留链接，文件没有Base64／SVG内嵌代码；完整文本约64KB，最大分节约21.5KB。它们由同一构建器生成，并逐表、逐章节核对与HTML一致。
+
 新版在原18幅图基础上增加13幅训练、架构、误差、专业结果、配对效应与规模图。正文展示七方法的独立留出结果；历史五方法表和当时未运行的VAE行保留在附录。原报警阈值、九规则负结果和PID三联样图保持原件身份。测试72个条件包含60条唯一物理轨迹，区间以12个独立种子块计算。
 
 ## 来源与复建
@@ -27,6 +29,7 @@
 ## 历史沟通材料
 
 - [补充数据前的完整自阅版](briefing-history/f35b172e/supervisor-briefing.html)及源文、验证文件按`f35b172e`逐字节保留。
+- [本次两点澄清前的v7版](briefing-history/97dba207/supervisor-briefing.html)与9份相关源文／验证文件逐字节保留；新修改包含估计—确认的逐事件解释及户外视觉到机房的拟适配过渡。
 
 - [工程主线重排前版本](briefing-history/e7fd9e26/supervisor-briefing.html)及源文按`e7fd9e26`逐字节保存。
 - [本次润色前的自阅版](briefing-history/65f025fd/supervisor-briefing.html)及源文按`65f025fd`逐字节保存。

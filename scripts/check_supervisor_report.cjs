@@ -103,6 +103,9 @@ async function inspect(selector,width,height,label){
   report.checks.completeSupplementMethods=await evaluate(`['supplement-errors','supplement-tasks'].every(id=>{const rows=[...document.querySelectorAll('[data-table="'+id+'"] [data-supplement-method]')];return JSON.stringify(rows.map(e=>e.dataset.supplementMethod))===${JSON.stringify(JSON.stringify(['nominal_tour','nominal_fifo','nominal_greedy','nominal_ppo','cvae_fifo','cvae_greedy','cvae_ppo']))}&&rows.every(e=>!e.textContent.includes('待运行'))})`);
   report.checks.supplementEvidenceScope=await evaluate(`['1080个','12个独立种子块','34,560','8,640','295,777','720','60条唯一物理轨迹'].every(v=>document.body.textContent.includes(v))`);
   report.checks.noDuplicateElementIds=await evaluate(`(()=>{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return ids.length===new Set(ids).size})()`);
+  report.checks.summaryExplainsEstimateTaskDifference=await evaluate(`(()=>{const t=document.querySelector('.project-summary').textContent;return ['连续温度态势','局部越阈值','合法访问时机'].every(s=>t.includes(s))})()`);
+  report.checks.visualDomainTransition=await evaluate(`(()=>{const t=document.querySelector('#figure-pid-visual-sample').nextElementSibling.textContent;return ['户外','10 kV','380 V','54 V','拟复用','机房图像适配','校准测温接入后'].every(s=>t.includes(s))})()`);
+  report.checks.estimationTaskTimingExample=await evaluate(`(()=>{const t=document.querySelector('[data-table="estimation-confirmation-gap"]');return t.tBodies[0].rows.length===2&&['865→895秒','835→880秒','860→875秒','840→900秒'].every(s=>t.textContent.includes(s))})()`);
   report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['正式条款','RGB/IR','CVAE-U-Net','Greedy','PPO','1080个留出测试回合','18次物理结果','RSI'].every(v=>t.includes(v))})()`);
   report.checks.scopeNotesCollected=await evaluate(`document.querySelectorAll('.scope-note').length>=5&&document.body.textContent.includes('显示外观')&&document.body.textContent.includes('元数据')`);
   const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],['#figure-pid-visual-sample','pid-sample'],
@@ -116,7 +119,7 @@ async function inspect(selector,width,height,label){
     ['#principle-return','return-formula'],['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
     ['[data-table="fault-cases"]','fault-cases'],['#figure-paired-net','paired-net'],['#figure-registered-rules','registered-rules'],
     ['#figure-rule-diagnosis','rule-diagnosis'],['#figure-execution-chain','appendix-case'],['#figure-task-17','task-timelines'],['#figure-original-paper-scores','paper-comparison']];
-  appendixRegions.push(['[data-table="method-comparison"]','method-comparison'],['#figure-supplement-seed-blocks','supplement-seed-blocks'],['[data-table="supplement-families"]','supplement-families'],['[data-table="supplement-seeds"]','supplement-seeds'],['[data-table="supplement-policy-training"]','supplement-policy-training']);
+  appendixRegions.push(['[data-table="method-comparison"]','method-comparison'],['#figure-supplement-seed-blocks','supplement-seed-blocks'],['[data-table="supplement-families"]','supplement-families'],['[data-table="supplement-seeds"]','supplement-seeds'],['[data-table="supplement-policy-training"]','supplement-policy-training'],['[data-table="estimation-confirmation-gap"]','estimation-confirmation-gap']);
   for(const [width,height] of [[1366,768],[1920,1080]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate('window.scrollTo(0,0)');await delay(100);

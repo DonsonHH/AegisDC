@@ -1,0 +1,2353 @@
+{
+  "version": 7,
+  "mode": "self_reading_report",
+  "previous_version": "f35b172ee4d557a099680a8411fe89d5b324e55e",
+  "animations": false,
+  "presenter_controls": false,
+  "main_figure_ids": [
+    "model",
+    "pid-visual-sample",
+    "visual-interface",
+    "supplement-scale",
+    "estimated-temperature",
+    "offline-temperature",
+    "supplement-unet",
+    "supplement-heatmaps",
+    "supplement-process",
+    "inspection-architecture",
+    "confirmations",
+    "outcome-costs",
+    "supplement-crossed-design",
+    "supplement-estimator-training",
+    "supplement-ppo-training",
+    "supplement-estimation",
+    "supplement-methods",
+    "supplement-professions",
+    "supplement-contrasts",
+    "supplement-latency"
+  ],
+  "appendix_figure_ids": [
+    "public-risk",
+    "fifo-cycle",
+    "fifo-actions",
+    "paired-net",
+    "registered-rules",
+    "rule-diagnosis",
+    "execution-chain",
+    "task-17",
+    "task-21",
+    "original-paper-scores",
+    "supplement-seed-blocks"
+  ],
+  "sections": [
+    "overview",
+    "model",
+    "hotspots",
+    "fifo",
+    "comparison",
+    "roadmap",
+    "appendix",
+    "sources"
+  ],
+  "primary_processes": 12,
+  "primary_condition_count": 48,
+  "primary_anomaly_segments": 210.0,
+  "historical_primary_anomaly_segments": 89,
+  "historical_main_results": {
+    "tour": {
+      "confirmed": 28,
+      "segments": 89
+    },
+    "fifo": {
+      "confirmed": 70,
+      "segments": 89
+    },
+    "shuffled": {
+      "confirmed": 25,
+      "segments": 89
+    }
+  },
+  "main_results": {
+    "nominal_tour": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 1.9583333333333333,
+        "percentile95": [
+          1.3125,
+          2.6458333333333335
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.6137814153439153,
+        "percentile95": [
+          0.5270126488095238,
+          0.700934193121693
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 106.7477860464208,
+        "percentile95": [
+          95.71932865136392,
+          116.46420562154347
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.31012219508625255,
+        "percentile95": [
+          0.30955071512204585,
+          0.31061708954548417
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11793.399999999992,
+        "percentile95": [
+          11793.399999999992,
+          11793.399999999992
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16670.0,
+        "percentile95": [
+          16670.0,
+          16670.0
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1426.0,
+        "percentile95": [
+          1426.0,
+          1426.0
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.5276420526751738,
+        "percentile95": [
+          0.4159565425749033,
+          0.6460447281321602
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.5345804183473962,
+        "percentile95": [
+          0.4189959066149052,
+          0.6587359146293249
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9123801277121434,
+        "percentile95": [
+          0.8801302729031454,
+          0.941323309107514
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.43983193052860664,
+        "percentile95": [
+          0.3059395457445395,
+          0.581797421818538
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.442848658011781,
+        "percentile95": [
+          0.30586617682039646,
+          0.5887519685150168
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.928214927661795,
+        "percentile95": [
+          0.8851954836778654,
+          0.9670023591131578
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 0.17947958307626388,
+        "percentile95": [
+          0.17119200859379244,
+          0.18811919993831233
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 0.1716322858555941,
+        "percentile95": [
+          0.16401726065851108,
+          0.18013129847531673
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 0.22868916506316359,
+        "percentile95": [
+          0.2103097498259861,
+          0.24582662161719782
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p50": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p95": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "policy_total_ms_mean": {
+        "mean": 0.48744369219798783,
+        "percentile95": [
+          0.46065090885416204,
+          0.5144167495518264
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 0.45071875380623777,
+        "percentile95": [
+          0.43127583821842563,
+          0.4718400554641751
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 0.9020114597660719,
+        "percentile95": [
+          0.843980158118332,
+          0.9621503028150373
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 1.056164246766966,
+        "percentile95": [
+          0.9962349264058125,
+          1.114524285674949
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 0.9900312531196201,
+        "percentile95": [
+          0.9448830741651667,
+          1.0380783445119353
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 1.5273306203501607,
+        "percentile95": [
+          1.4297728974330917,
+          1.6240446109713955
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 94.0,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.44761904761904764,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 60.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 14.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "nominal_fifo": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 3.2291666666666665,
+        "percentile95": [
+          2.8333333333333335,
+          3.6458333333333335
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7782986111111111,
+        "percentile95": [
+          0.7075305886243386,
+          0.847101314484127
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 94.24097548812252,
+        "percentile95": [
+          81.05801977002558,
+          105.66195487195617
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.31129773059577215,
+        "percentile95": [
+          0.3107342904059912,
+          0.3117956664595089
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11833.506249999993,
+        "percentile95": [
+          11827.55197916666,
+          11839.539791666657
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16638.333333333332,
+        "percentile95": [
+          16631.458333333332,
+          16645.729166666668
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1423.875,
+        "percentile95": [
+          1423.5,
+          1424.2916666666667
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 3.5,
+        "percentile95": [
+          3.1041666666666665,
+          3.8958333333333335
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 3.5833333333333335,
+        "percentile95": [
+          3.2083333333333335,
+          3.9583333333333335
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 3.5,
+        "percentile95": [
+          3.1041666666666665,
+          3.8958333333333335
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.5316743373682541,
+        "percentile95": [
+          0.4201044939836843,
+          0.6507928534591946
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.5352118075652198,
+        "percentile95": [
+          0.42226818441295827,
+          0.6546777899095542
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9112633824015175,
+        "percentile95": [
+          0.8787822122730503,
+          0.9397457774145426
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.444588098029111,
+        "percentile95": [
+          0.3108120988701139,
+          0.5875549758018955
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.4434419644742875,
+        "percentile95": [
+          0.3101614376585435,
+          0.5849565200328064
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.9264098618882484,
+        "percentile95": [
+          0.8828912937137529,
+          0.9649354703792837
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 0.17511054404032486,
+        "percentile95": [
+          0.16655863540580426,
+          0.18498198280743358
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 0.16822395870500864,
+        "percentile95": [
+          0.15922382550949502,
+          0.17891568001383956
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 0.22277853707540393,
+        "percentile95": [
+          0.20563000718993862,
+          0.23839047103138
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p50": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p95": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "policy_total_ms_mean": {
+        "mean": 0.48607007295263266,
+        "percentile95": [
+          0.4577038135571207,
+          0.5141038005597304
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 0.44096874868652475,
+        "percentile95": [
+          0.41908292171986733,
+          0.46623192408029956
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 0.8570181208294038,
+        "percentile95": [
+          0.804139953888807,
+          0.9152153888135214
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 1.0438582404135504,
+        "percentile95": [
+          0.9904357987860923,
+          1.1013421654726832
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 0.9676854121304738,
+        "percentile95": [
+          0.9187430182767761,
+          1.0245734392810846
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 1.4684985350565205,
+        "percentile95": [
+          1.3760287272331573,
+          1.5675266008171698
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.3400736852815967,
+        "percentile95": [
+          0.28958552382405955,
+          0.39123400941769465
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.1490182328190752,
+        "percentile95": [
+          -0.1753155680224406,
+          -0.11979897148200146
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 155.0,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.7380952380952381,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 112.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 23.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "nominal_greedy": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 3.2083333333333335,
+        "percentile95": [
+          2.8125,
+          3.6041666666666665
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7759837962962962,
+        "percentile95": [
+          0.7068274636243386,
+          0.8425099206349205
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 94.36299697556318,
+        "percentile95": [
+          81.17260109784634,
+          105.75285760889295
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.3112700038107031,
+        "percentile95": [
+          0.3107112187895759,
+          0.31176592223426325
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11833.058333333327,
+        "percentile95": [
+          11827.131093749991,
+          11839.056302083325
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16638.333333333332,
+        "percentile95": [
+          16631.458333333332,
+          16645.729166666668
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1423.875,
+        "percentile95": [
+          1423.5,
+          1424.2916666666667
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 3.3333333333333335,
+        "percentile95": [
+          2.9583333333333335,
+          3.6880208333333258
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 3.6875,
+        "percentile95": [
+          3.2708333333333335,
+          4.125
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 3.3333333333333335,
+        "percentile95": [
+          2.9583333333333335,
+          3.6880208333333258
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.5333683562554875,
+        "percentile95": [
+          0.4204254136762469,
+          0.6538495142899653
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.5373294144579784,
+        "percentile95": [
+          0.422970537301543,
+          0.6583878375802101
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9104871819933495,
+        "percentile95": [
+          0.8775225504555514,
+          0.9394687853098548
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.44657645288328235,
+        "percentile95": [
+          0.3114155725096298,
+          0.5904288389393375
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.44590197150980276,
+        "percentile95": [
+          0.3106353766202337,
+          0.5885458862918883
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.9253270140700071,
+        "percentile95": [
+          0.8809420049057012,
+          0.9644024488243451
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 0.17789368052102938,
+        "percentile95": [
+          0.16701848212438497,
+          0.1946016759206436
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 0.16526250086220293,
+        "percentile95": [
+          0.1588884389245019,
+          0.17290115019932273
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 0.2228983288659947,
+        "percentile95": [
+          0.20926903711976289,
+          0.23478669656924467
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p50": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p95": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "policy_total_ms_mean": {
+        "mean": 0.5061414520777062,
+        "percentile95": [
+          0.48007496944273903,
+          0.5331085066928754
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 0.43849999929079786,
+        "percentile95": [
+          0.4225035356284934,
+          0.45786895834680763
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 0.8662016683956605,
+        "percentile95": [
+          0.8282044139984158,
+          0.9057713243570711
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 1.0870306753986794,
+        "percentile95": [
+          1.0407143991094592,
+          1.1454941928219886
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 0.9556562436046079,
+        "percentile95": [
+          0.922310201470585,
+          0.9950010316060798
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 1.478730829330743,
+        "percentile95": [
+          1.4155474791520342,
+          1.5425603901227685
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.3362756570058934,
+        "percentile95": [
+          0.2860167021384822,
+          0.3871343470359096
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.1490182328190752,
+        "percentile95": [
+          -0.1753155680224406,
+          -0.11979897148200146
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 154.0,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.7333333333333333,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 111.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 23.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "nominal_ppo": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 2.6944444444444446,
+        "percentile95": [
+          2.2291666666666665,
+          3.1666666666666665
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7086199294532628,
+        "percentile95": [
+          0.6319416887125221,
+          0.7786323991402115
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 100.41658183896038,
+        "percentile95": [
+          88.20937034343085,
+          111.11852992250243
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.3108766068489574,
+        "percentile95": [
+          0.31031857968397497,
+          0.31136427838155184
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11818.824999999992,
+        "percentile95": [
+          11815.199131944437,
+          11822.564670138881
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16648.680555555555,
+        "percentile95": [
+          16644.47829861111,
+          16653.19444444444
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1424.5763888888887,
+        "percentile95": [
+          1424.361111111111,
+          1424.8333333333333
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 2.1874999999999996,
+        "percentile95": [
+          1.972222222222222,
+          2.4097222222222223
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 6.444444444444444,
+        "percentile95": [
+          6.041666666666667,
+          6.840277777777778
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 2.1874999999999996,
+        "percentile95": [
+          1.972222222222222,
+          2.4097222222222223
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.5314476777652856,
+        "percentile95": [
+          0.422423149570566,
+          0.6479037377924642
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.5367345838758114,
+        "percentile95": [
+          0.4239639158379655,
+          0.6550677781415216
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9112248679213516,
+        "percentile95": [
+          0.8813312141805515,
+          0.9390122344081946
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.44431857194759,
+        "percentile95": [
+          0.3140976710892345,
+          0.5834971848553535
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.4452434634091,
+        "percentile95": [
+          0.31371290769337307,
+          0.5850270308954765
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.9264635758200163,
+        "percentile95": [
+          0.8863400563652252,
+          0.9635163101977504
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 0.1918255131475931,
+        "percentile95": [
+          0.18397087959559108,
+          0.19906857716553839
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 0.18080972101112516,
+        "percentile95": [
+          0.1752638691161539,
+          0.18617617876467796
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 0.2366536096208923,
+        "percentile95": [
+          0.22135810077846446,
+          0.24902684149158935
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p50": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "neural_predict_ms_p95": {
+        "mean": null,
+        "percentile95": null,
+        "blocks": 0
+      },
+      "policy_total_ms_mean": {
+        "mean": 1.4065627651991885,
+        "percentile95": [
+          1.3649126643591922,
+          1.4448319200137272
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 1.2771243038716624,
+        "percentile95": [
+          1.2500182635348112,
+          1.305369857467061
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 2.946439792220996,
+        "percentile95": [
+          2.8559300546627724,
+          3.0291816616974945
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 2.000596023106446,
+        "percentile95": [
+          1.936514444499836,
+          2.0583404643328627
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 1.8480881937850626,
+        "percentile95": [
+          1.803988663858844,
+          1.8918300487206985
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 3.586697984226499,
+        "percentile95": [
+          3.468197402792913,
+          3.6912313473466263
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.2155866840775337,
+        "percentile95": [
+          0.18484179239612186,
+          0.24729653991968978
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.09983247623500091,
+        "percentile95": [
+          -0.11492909459248885,
+          -0.08181393174380597
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 129.33333333333334,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.6158730158730159,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 90.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 19.333333333333332
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "cvae_fifo": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 3.1875,
+        "percentile95": [
+          2.7777777777777772,
+          3.611111111111111
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7725115740740739,
+        "percentile95": [
+          0.699849537037037,
+          0.8430886243386242
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 94.54772229408132,
+        "percentile95": [
+          81.30819631033243,
+          106.03043657719438
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.31125616915943255,
+        "percentile95": [
+          0.31070237285996694,
+          0.31174548729141294
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11831.888194444437,
+        "percentile95": [
+          11825.527743055547,
+          11837.724305555545
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16639.340277777777,
+        "percentile95": [
+          16632.63888888889,
+          16646.770833333332
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1423.9375,
+        "percentile95": [
+          1423.5833333333333,
+          1424.3611111111113
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 3.347222222222222,
+        "percentile95": [
+          2.9861111111111107,
+          3.7152777777777772
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.006944444444444444,
+        "percentile95": [
+          0.0,
+          0.020833333333333332
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 3.4583333333333335,
+        "percentile95": [
+          3.1041666666666665,
+          3.8194444444444446
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 3.347222222222222,
+        "percentile95": [
+          2.9861111111111107,
+          3.7152777777777772
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.3226089989741557,
+        "percentile95": [
+          0.30166527255745684,
+          0.34722231783610974
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.3268480183616313,
+        "percentile95": [
+          0.3058117498227093,
+          0.34959788543436326
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9602528623676393,
+        "percentile95": [
+          0.9579141479817235,
+          0.9621532969198487
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.17085842946834048,
+        "percentile95": [
+          0.14315039887565315,
+          0.20316416914293842
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.17034539900800647,
+        "percentile95": [
+          0.14401711551410923,
+          0.20017250520537813
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.9924754357153827,
+        "percentile95": [
+          0.9891633870874947,
+          0.9951117191618524
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 3.929292121869995,
+        "percentile95": [
+          3.796121569966185,
+          4.058687218806303
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 3.6928826383599596,
+        "percentile95": [
+          3.5599408749779586,
+          3.8204539233548633
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 5.443044373734868,
+        "percentile95": [
+          5.263722420499511,
+          5.646430693085071
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": 3.6280104243455695,
+        "percentile95": [
+          3.5030273623129844,
+          3.747957566261947
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p50": {
+        "mean": 3.399127780843022,
+        "percentile95": [
+          3.275129889758925,
+          3.518638414203047
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p95": {
+        "mean": 5.106905869231722,
+        "percentile95": [
+          4.9365238720121045,
+          5.300584341564697
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_mean": {
+        "mean": 0.5053082983648721,
+        "percentile95": [
+          0.48485095309618664,
+          0.5258207938426133
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 0.47405208210370303,
+        "percentile95": [
+          0.4594550843749959,
+          0.4901585334361395
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 0.9258628464320076,
+        "percentile95": [
+          0.8814166469174879,
+          0.9659267448559044
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 4.871356265210862,
+        "percentile95": [
+          4.709890773609461,
+          5.029404423091762
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 4.594036104713774,
+        "percentile95": [
+          4.432683724452444,
+          4.749739751292105
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 6.5926684690768695,
+        "percentile95": [
+          6.353280478484115,
+          6.847081302128367
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.32635367616161776,
+        "percentile95": [
+          0.27242138022584955,
+          0.3758399236484411
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.1446353436185143,
+        "percentile95": [
+          -0.16947171575502584,
+          -0.11492909459248983
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 153.0,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.7285714285714285,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 110.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 23.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "cvae_greedy": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 3.1666666666666665,
+        "percentile95": [
+          2.7638888888888893,
+          3.5833333333333326
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7701967592592592,
+        "percentile95": [
+          0.6987929894179894,
+          0.8383356068121693
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 94.64463455859855,
+        "percentile95": [
+          81.3242032234211,
+          106.10125834271257
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.31121699292760163,
+        "percentile95": [
+          0.3106679284334638,
+          0.31170360103873784
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11831.108333333324,
+        "percentile95": [
+          11825.023593749991,
+          11836.648177083327
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16640.069444444445,
+        "percentile95": [
+          16633.4375,
+          16647.499999999996
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1424.0,
+        "percentile95": [
+          1423.6527777777776,
+          1424.4305555555554
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 3.1805555555555554,
+        "percentile95": [
+          2.8263888888888893,
+          3.5347222222222228
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.006944444444444444,
+        "percentile95": [
+          0.0,
+          0.020833333333333332
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 3.6180555555555554,
+        "percentile95": [
+          3.2430555555555554,
+          4.0
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 3.1805555555555554,
+        "percentile95": [
+          2.8263888888888893,
+          3.5347222222222228
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.32301117641945987,
+        "percentile95": [
+          0.30186805336234823,
+          0.34761799437434227
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.3271461206146828,
+        "percentile95": [
+          0.3059290515378325,
+          0.3499947321709427
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9602117687469547,
+        "percentile95": [
+          0.957886144463047,
+          0.9621239877259439
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.17136995721364542,
+        "percentile95": [
+          0.14335500470570195,
+          0.20367929513556313
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.17072564181992445,
+        "percentile95": [
+          0.14431097864869863,
+          0.20064561814372514
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.9924183281741104,
+        "percentile95": [
+          0.989110556575054,
+          0.995086310826438
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 3.697239967184515,
+        "percentile95": [
+          3.5984889373992663,
+          3.800513241688288
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 3.530293056125325,
+        "percentile95": [
+          3.4245158859903317,
+          3.6386890478145997
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 5.071311562096526,
+        "percentile95": [
+          4.860877181672046,
+          5.312943113511008
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": 3.3938138733845586,
+        "percentile95": [
+          3.3067611225516695,
+          3.4845481838437773
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p50": {
+        "mean": 3.237540277243372,
+        "percentile95": [
+          3.141352293520564,
+          3.336289296233493
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p95": {
+        "mean": 4.727401460069006,
+        "percentile95": [
+          4.526379536223937,
+          4.964161828433034
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_mean": {
+        "mean": 0.5122249845715633,
+        "percentile95": [
+          0.49143689767418014,
+          0.5340053535230171
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 0.4840166653189549,
+        "percentile95": [
+          0.4671740449036103,
+          0.5034577556721666
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 0.9481512491119141,
+        "percentile95": [
+          0.8978224984588851,
+          0.9977307958302437
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 4.633539146180284,
+        "percentile95": [
+          4.497579819886851,
+          4.774749208229469
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 4.425884020747616,
+        "percentile95": [
+          4.290810410263172,
+          4.564587694150961
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 6.269370073763029,
+        "percentile95": [
+          6.01036699669041,
+          6.53694163603581
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.3197409850707437,
+        "percentile95": [
+          0.26814653747010875,
+          0.36671508711086875
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.1402524544179534,
+        "percentile95": [
+          -0.16460183886551427,
+          -0.11005921770297804
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 152.0,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.7238095238095238,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 109.0
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 23.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    },
+    "cvae_ppo": {
+      "anomaly_segments": {
+        "mean": 4.375,
+        "percentile95": [
+          4.145833333333333,
+          4.583333333333333
+        ],
+        "blocks": 12
+      },
+      "confirmed_segments": {
+        "mean": 3.201388888888889,
+        "percentile95": [
+          2.7847222222222228,
+          3.625
+        ],
+        "blocks": 12
+      },
+      "confirmation_ratio": {
+        "mean": 0.7742476851851853,
+        "percentile95": [
+          0.7011034639550265,
+          0.8452384397045856
+        ],
+        "blocks": 12
+      },
+      "consequence_weighted_censored_delay_s": {
+        "mean": 94.6488195055809,
+        "percentile95": [
+          81.4553010256777,
+          106.04327279099229
+        ],
+        "blocks": 12
+      },
+      "weighted_normalized_age": {
+        "mean": 0.31126568094549073,
+        "percentile95": [
+          0.3107133311989983,
+          0.31175371205403024
+        ],
+        "blocks": 12
+      },
+      "travel_m": {
+        "mean": 11831.762499999992,
+        "percentile95": [
+          11825.317239583328,
+          11837.686163194434
+        ],
+        "blocks": 12
+      },
+      "service_s": {
+        "mean": 16639.409722222223,
+        "percentile95": [
+          16632.430555555555,
+          16647.187500000004
+        ],
+        "blocks": 12
+      },
+      "completed_inspections": {
+        "mean": 1423.951388888889,
+        "percentile95": [
+          1423.5763888888887,
+          1424.4097222222224
+        ],
+        "blocks": 12
+      },
+      "extra_event_visits": {
+        "mean": 3.3958333333333326,
+        "percentile95": [
+          3.0555555555555554,
+          3.75
+        ],
+        "blocks": 12
+      },
+      "false_measured_confirmations": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "choice_opportunities": {
+        "mean": 3.4375,
+        "percentile95": [
+          3.0763888888888893,
+          3.8125
+        ],
+        "blocks": 12
+      },
+      "invalid_assignments_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "duplicate_reservations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "revisit_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "budget_violations_audited": {
+        "mean": 0.0,
+        "percentile95": [
+          0.0,
+          0.0
+        ],
+        "blocks": 12
+      },
+      "extra_dispatches_audited": {
+        "mean": 3.3958333333333326,
+        "percentile95": [
+          3.0555555555555554,
+          3.75
+        ],
+        "blocks": 12
+      },
+      "all_rmse_c": {
+        "mean": 0.32269913896902264,
+        "percentile95": [
+          0.30177335117698306,
+          0.34732084076493214
+        ],
+        "blocks": 12
+      },
+      "all_weighted_rmse_c": {
+        "mean": 0.327012128507627,
+        "percentile95": [
+          0.3058587925001384,
+          0.35001689420457466
+        ],
+        "blocks": 12
+      },
+      "all_r2": {
+        "mean": 0.9602454354888335,
+        "percentile95": [
+          0.9579213237596996,
+          0.9621505575043339
+        ],
+        "blocks": 12
+      },
+      "not_fresh_rmse_c": {
+        "mean": 0.1709748554762727,
+        "percentile95": [
+          0.14328665467052223,
+          0.20315729345091318
+        ],
+        "blocks": 12
+      },
+      "not_fresh_weighted_rmse_c": {
+        "mean": 0.17055084589614902,
+        "percentile95": [
+          0.14406968316315627,
+          0.2006265320959916
+        ],
+        "blocks": 12
+      },
+      "not_fresh_r2": {
+        "mean": 0.992465841660454,
+        "percentile95": [
+          0.9891641276271405,
+          0.995094747248415
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_mean": {
+        "mean": 3.832523441472818,
+        "percentile95": [
+          3.702342530113673,
+          3.962937554202839
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p50": {
+        "mean": 3.628460764553488,
+        "percentile95": [
+          3.517163127020871,
+          3.7420420509584402
+        ],
+        "blocks": 12
+      },
+      "estimator_total_ms_p95": {
+        "mean": 5.34135989934536,
+        "percentile95": [
+          5.164634914674228,
+          5.52252398033185
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_mean": {
+        "mean": 3.5201317226151496,
+        "percentile95": [
+          3.3993798706064586,
+          3.641893366885361
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p50": {
+        "mean": 3.327609373930802,
+        "percentile95": [
+          3.223338441562696,
+          3.4337304081721713
+        ],
+        "blocks": 12
+      },
+      "neural_predict_ms_p95": {
+        "mean": 4.992465695350904,
+        "percentile95": [
+          4.832389036779308,
+          5.15774394347419
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_mean": {
+        "mean": 1.4039571632050796,
+        "percentile95": [
+          1.3582627747499603,
+          1.4534550884470072
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p50": {
+        "mean": 1.3110909716892314,
+        "percentile95": [
+          1.275426217974503,
+          1.3533829474706887
+        ],
+        "blocks": 12
+      },
+      "policy_total_ms_p95": {
+        "mean": 2.9960647187787486,
+        "percentile95": [
+          2.8906164478404297,
+          3.1050544948286376
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_mean": {
+        "mean": 5.664261625937853,
+        "percentile95": [
+          5.481928610859086,
+          5.8492264312501225
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p50": {
+        "mean": 5.3961187497609195,
+        "percentile95": [
+          5.235395637555484,
+          5.561774098461886
+        ],
+        "blocks": 12
+      },
+      "online_control_cycle_ms_p95": {
+        "mean": 8.098559650049234,
+        "percentile95": [
+          7.825109354389496,
+          8.376333772475844
+        ],
+        "blocks": 12
+      },
+      "travel_change_vs_tour_pct": {
+        "mean": 0.32528787287804845,
+        "percentile95": [
+          0.2706364541466673,
+          0.37551650240341383
+        ],
+        "blocks": 12
+      },
+      "completion_change_vs_tour_pct": {
+        "mean": -0.14366136824061163,
+        "percentile95": [
+          -0.16995870344397776,
+          -0.11152018076983101
+        ],
+        "blocks": 12
+      },
+      "total_confirmed_model_mean": 153.66666666666666,
+      "total_unique_anomaly_segments": 210.0,
+      "pooled_confirmation_ratio": 0.7317460317460317,
+      "defined_wait_conditions": 48,
+      "by_role": {
+        "thermal": {
+          "segments": 162.0,
+          "confirmed": 110.66666666666667
+        },
+        "electrical": {
+          "segments": 12.0,
+          "confirmed": 12.0
+        },
+        "cooling": {
+          "segments": 24.0,
+          "confirmed": 23.0
+        },
+        "control": {
+          "segments": 12.0,
+          "confirmed": 8.0
+        }
+      }
+    }
+  },
+  "engineering_frame_scope": "engineering_explanation_not_research_gain",
+  "fifo_example_case": "p01-coupled",
+  "new_environment_evaluations": 2204,
+  "new_physical_scale_runs": 18,
+  "test_episode_count": 1080,
+  "independent_test_seed_blocks": 12,
+  "unique_test_physical_processes": 60,
+  "neural_estimator_predictions": {
+    "closed_loop_episodes": 1026,
+    "endpoints_per_episode": 360,
+    "online_predictions_source_derived": 369360,
+    "fixed_stream_predictions": 77760,
+    "total_predictions_excluding_training_and_warmup": 447120,
+    "scope": "Prior-mean temperature predictions only; PPO actor/critic and training forwards are separate operations."
+  },
+  "trained_checkpoints": 9,
+  "external_language_model_calls": 0,
+  "html_sha256": "7a01c309432121e0a3886a07754200e69941bffdf391d9289c7a1c084364f956",
+  "data_sha256": "943ac5084ddc6954a00e8ce377e2801867937c376ae3788c40449962224b51a2",
+  "figure_sha256": {
+    "paper/figures/supervisor-report/model.svg": "2919efd55fec863088ee678f8b5e5797514a2e5084627c93a4ccb7e1c03a4e3c",
+    "paper/figures/supervisor-report/public-risk.svg": "f5cb0fe44075b6980b5b4da29afbd60c62c0ee20ce8a3351a72a2ad1140f562c",
+    "paper/figures/supervisor-report/estimated-temperature.svg": "ecd6782124d1de4ab133e1aabae64f453fdc9c5d8c28dd5a84df36970075092e",
+    "paper/figures/supervisor-report/offline-temperature.svg": "d55bccc632e352a59e3e41cdfd45e780333622781b94ba78dc368b364bce03d4",
+    "paper/figures/supervisor-report/pid-visual-sample.svg": "8d1ef0ebd6ef093480dfbaa3004048a3d392124d56bae3f3e4a1e778de69636a",
+    "paper/figures/supervisor-report/visual-interface.svg": "7fb80b8ea7609d0a3b31131e04570fa64eba81660f5dc42b0ae5af410537a0fd",
+    "paper/figures/supervisor-report/inspection-architecture.svg": "dee5cbcd7398d6d359cf0075e99171e47b00b1e9cc9f9efa98f881cc8d9e4613",
+    "paper/figures/supervisor-report/fifo-cycle.svg": "90a5953fd7992b2af96ae791a2b849b1eeb7603b3e5967e6f1ecd58d63ea8a38",
+    "paper/figures/supervisor-report/fifo-actions.svg": "3531b847ab669e29b27bfd40f35873c07feb8daa1c84b2be63f6a750d0ad4fea",
+    "paper/figures/supervisor-report/outcome-costs.svg": "df3de30be885fbffed269918d6a032cb738684d7ce3c8493167b5133e9f81b31",
+    "paper/figures/supervisor-report/registered-rules.svg": "237ad0399fe10de089193b0f9fe22c93975de34b355f61753934ff947ecc87cf",
+    "paper/figures/supervisor-report/rule-diagnosis.svg": "0ef37ec8eab64bb0fac4fe3679e974981102b0075b0fe6048f2893d76b9c2810",
+    "paper/figures/supervisor-report/original-paper-scores.svg": "36babc944c93d206d0c8f81c9179d2fa2ccccca476de89860512e8b0b60d540d",
+    "paper/figures/supervisor-report/confirmations.svg": "6e2e01020a762304c287b49336497287dbff097701bb5a228029ab5b43e5d7ee",
+    "paper/figures/supervisor-report/paired-net.svg": "895d0171cd8d4a927ff43bb121771b9f2595439767dcffed79c6cb37cc2c0792",
+    "paper/figures/supervisor-report/execution-chain.svg": "19b9364160a02990f79892f31b966ab085da8152e6b526b4b86ccc8c1488245c",
+    "paper/figures/supervisor-report/task-17.svg": "6a23a5178fcfaad6355080d951eddc47190f6cd9cd873c4a27e19a4221f7839e",
+    "paper/figures/supervisor-report/task-21.svg": "29b6b8c4238f108249ce6ae17930a02c378309ade90b2c8b724a892c8b271c9b",
+    "paper/figures/supervisor-report/supplement-methods.svg": "628da9ab9bfc3616b4b9d772959c6143604d9032c893efd58920ff0e96b51982",
+    "paper/figures/supervisor-report/supplement-professions.svg": "a8f21014ea9faeeff214fb57ec5476a96c43f71078fd879291194c84fa591d67",
+    "paper/figures/supervisor-report/supplement-estimation.svg": "834635a938bf8efaa36cc763e0238bebcab456c50298fc2d9bb1eba37aaec82a",
+    "paper/figures/supervisor-report/supplement-estimator-training.svg": "c12f94df5f3374ada6e4409d5d8e233d9c301b1e7310cc2f0b4e0bc8b5424e25",
+    "paper/figures/supervisor-report/supplement-ppo-training.svg": "879a32be8e170a9832acfa5cdcb7c6bb299c066c02aa05f2184793014073c7fe",
+    "paper/figures/supervisor-report/supplement-contrasts.svg": "28e2eb3cb7784f3b4bd6af29884e595480206c52ffe95f97802ff68f7cf62618",
+    "paper/figures/supervisor-report/supplement-seed-blocks.svg": "11336614eb5e9cb76ba40420ed929a957fddbee010c32220578d2d917d3c8990",
+    "paper/figures/supervisor-report/supplement-latency.svg": "0b9729ea0964cbfa5b0cf83ce4ec8394aec57b579be67e79cd7fcc4d93685f6f",
+    "paper/figures/supervisor-report/supplement-heatmaps.svg": "eb4a759d68cc66dc16b9d75ab976ffac9998d259d9ad5e6029d37f89dd7a1fd0",
+    "paper/figures/supervisor-report/supplement-process.svg": "effeff093b8f91afc40613c00ecd1fb5cfbf1f9dfbf66492ccfe7d7e15c61478",
+    "paper/figures/supervisor-report/supplement-scale.svg": "b9246528bbba246485ed8127e04834877baf65e4f8a20f6882bea2d99a8b0e9c",
+    "paper/figures/supervisor-report/supplement-unet.svg": "0849c1cacdbbea8d5b5b1ab3b2e1f225ca5d47c2cae397c3a2951b2f4b94de07",
+    "paper/figures/supervisor-report/supplement-crossed-design.svg": "b9515130e5d54d5a1690f9b86b4bd53c4e4c22ed7152d9c2826363fdc5dba2de"
+  },
+  "source_sha256": {
+    "scripts/build_supervisor_report.py": "4785edce38ba28c435c72a991bae738a39a85784506aa231989417e0101cd2fa",
+    "scripts/report_diagrams.py": "60f17b4f7b6043c2bd7de2bc9c0cbcc2e0e401ae3e143b4ca92fea9346373d93",
+    "scripts/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
+    "evidence/event-validation/final/summary.json": "51fae7731efdd304392dd5b219218a9b48452865af1681f1f2c9968553d2b9f3",
+    "evidence/event-validation/final/protocol.json": "60950af1ca004a2f6f04018a6d073e545295dc7279788886bb3f26a3196d34a3",
+    "evidence/event-validation/final/rows.json": "3926c8233cc22e6c273aff559c0df67a5501dd2d962704af607994aef2e433be",
+    "evidence/event-validation/final/pairs.json": "188261d209c4cfae955bfbf75a7e690dc9394cc6aca26b1c52a23b9dad00bbf7",
+    "paper/generated/metrics.json": "be5fefe24afbcfa7438727937861393fecb6d72d5be7039d0873a89d8d483d6e",
+    "evidence/response-defer/proposals.json": "4dfc6e89e8595b0c9e5931c9fffbd48fd3e8c874e62ed4c3203e5d591c6395b2",
+    "paper/briefing-history/2db2adf1/briefing-chart-data.json": "8c4c876e285b6b0ce9ca6b36554f226f31d298da1cd5bd00fda458fa3b4b4ad8",
+    "paper/source-data/engineering-snapshot-500.json": "aa86f5a4aaf50c16c0e0e4d2f4f67ba1b03b7624582040805f699fde723ef57d",
+    "paper/source-data/fifo-decision-p01-470.json": "a182028bcc975835d178f2c44f25088c7008713f3545d670bee8b6510760f8bb",
+    "paper/source-data/primary-anomaly-kinds.json": "43abc4b87893f61f5dc929465f45f79ede29b673055efb2ee82b125bd23cdbfb",
+    "paper/source-data/report-method-evidence.json": "b4d36cbffccb7a0dd49c559f0278da3e47ff5f8af022c5cf968053e5a38ed55f",
+    "paper/source-data/report-rule-diagnosis.json": "04781658b9db370c9d89f41e8cba9b654a2f6cba0603473430a64161c077a931",
+    "paper/source-data/report-comparison-metrics.json": "fdc96ef31db0492842823a240422e158bdeaf4cb785a1e1875468c27508c40ce",
+    "paper/source-data/supplement-study.json": "d1d08eeedb92e37551c2d6f359214ed9ce117a8971ed19e4716fe11ec945f6f9",
+    "paper/source-data/supplement-example.json": "7e9b6622aa907e5ef03df6e83d37d4b4585338eec748576341c788a28de7bb8d",
+    "paper/source-data/supplement-narrative.json": "97f874ac980b404d9724d90fb1452c77b5134ed81bc58308e151e13e46e4bfee",
+    "scripts/analyze_supplement_study.py": "352a98de0564ac6af9e63220b2da020bf54873125c8b27a0551854c6b5bd78c9",
+    "scripts/supplement_figures.py": "5f31b94ea4aa25ed80977a234e0d6b1da963d05b02e5259da03f8365bf59c597",
+    "scripts/supplement_diagrams.py": "29a668fd1809a905302600af7e2eeedb2841080047b9c3860df313ee671cbac5",
+    "scripts/supplement_report.py": "b6eff8a35df2e394b1d9ed3962295113ced5e2a0fd3dabb208aac9991918e5dd",
+    "paper/supplement-study-methods.md": "22a6bf21ec9fbe3aa2d84f625711397fb057094ee6f91aab1ccd412a18017217",
+    "evidence/supplement-study/analysis-receipt.json": "d4f9b4993e05952d0cc435192a2752a3db3f0a154c41f4afc9f85db23303d494",
+    "evidence/supplement-study/test-rows.json": "b058866ebcab351aee0fec7cce34ead4d10801f0a39985cce6dfef4c95927b45",
+    "evidence/supplement-study/protocol.json": "33d49d691023034b8df48538805b0721f60734d09b7da583c3c865554f774b39",
+    "evidence/supplement-study/seal.json": "b76df66d2c16d86df29daac4923e33a3fafb8709e288d43db80dc1de12d99a95",
+    "evidence/supplement-study/amendments.json": "caab43b95dd8bbeb02e7696f1dff75604da875903155a2784252e068e182d6b2",
+    "evidence/supplement-study/test-checkpoint-lock.json": "cf81bc5d700b0a6b72345000f3bd5936576ac97644d744d2efe8e47573896b83",
+    "evidence/supplement-study/checkpoints.zip": "dd5c6694fcb9ade63bf7514a7c8ba8f04a40da6a613668813116f57d627e4323",
+    "evidence/supplement-study/source-executed.json": "c8a29cd42fa042efa2ce5617bf84ee83a5558739ba3ecf2f31fc30c7c10745f8",
+    "evidence/supplement-study/source-executed.zip": "fc6d2422e1a0e3732fe912cd1bf4841c76e4ff80e0a8eb3525505bb046fb7366",
+    "paper/source-data/report-engineering-alignment.json": "1ebcced2c2e92ef8531130dbe99589f9d044bb4e05056c2b689ec0d1de66c0db",
+    "paper/source-data/pid-visual-sample.json": "09f89e474ab8a3f83f1ec15dc7a55f1dd208e43dc28966f5c45e091c9b55e6b8",
+    "paper/figures/supervisor-report/pid-electrical-rgb.png": "b00d7a1fc32c80060495b97b3fd061d5c4b8529695cc3c930b0250c2f07bff33",
+    "paper/figures/supervisor-report/pid-electrical-generated.png": "4368d1de25e2d3c98e5e838a98a483c87c5531471046ae52a9c958367a8da02a",
+    "paper/figures/supervisor-report/pid-electrical-display-target.png": "0c47931b43e9bee87a83460edede64e7afb27396accef77ab5b73702f5be7907",
+    "paper/research/report-engineering-alignment-20261103.md": "de509e2771ab66acbdebf697229768d7e88832c5c908f9c4b9254605b90581d3",
+    "paper/research/report-pid-interface-20261103.md": "dff54beb8e3bc56bf143541fc086959913010ffbd39850659341d4465c57ce75",
+    "paper/research/report-comparison-metrics-20261103.md": "2b20c7cee392ee2658cb41d01cdecc4d68cfcb90842c926079f2614ca84f9c75",
+    "paper/report-focus-spec-20261103.md": "f22ea809a7fd326778e7121a689d1365d61bf5d20ecc66c88efc5112f801e8a6",
+    "paper/research/report-method-formulas-20261103.md": "5db692cc5e12ff71ac8de9304ab8d95df1ce77d9d9bf77eea896ba12e9c26f13",
+    "paper/research/report-rule-diagnosis-20261103.md": "e20f3effad580593370883f748da7a4bc8ebaebdcc7922fb0540838fce66d084",
+    "paper/briefing-history/2db2adf1/baseline.json": "f3614e43fd05050f928ad5927d0becd7e3ed7afe0a470e8fd34490258f816a30",
+    "paper/briefing-history/2db2adf1/supervisor-briefing.html": "0c883d419fa8fc95e368317da925d4532305622ed8f62bddde3301712c62ba7c",
+    "paper/briefing-history/2db2adf1/supervisor-talk.md": "574440d901217d58d1fd2edb4d53ebd90651e29ed7c273a5a6545c82ce3b56cc",
+    "paper/briefing-history/2db2adf1/briefing-template.html": "5ce7222ea5540bd09bd002c8523ea1457ac1093622eab55abc0b68192acbf005",
+    "paper/briefing-history/2db2adf1/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
+    "paper/briefing-history/2db2adf1/build_supervisor_briefing.py": "d54e5e80c7809fbf981522ffa90ed511f650486edb6c75868de80fa11315be46",
+    "paper/briefing-history/2db2adf1/check_supervisor_briefing.cjs": "25d9ba1c192f995823cd7c9a3322743c822c0cbc4a2f0f41035aa4d3474beff9",
+    "paper/briefing-history/2db2adf1/check_briefing_print.py": "072ff187be8cdde8ab5441728d06365a8760cd2d2dce6e89cf39b548c7268aeb",
+    "paper/briefing-history/2db2adf1/briefing-manifest.json": "ceed56d64bf447463c94ac926d6f6eb2714b93f7923cafa209c8103e8b9d655a",
+    "paper/briefing-history/2db2adf1/briefing-browser-verification.json": "8f8d442d0ebe4815f94b1417261502143eeabec4f96d86ca4fbfeaa297a64704",
+    "paper/briefing-history/2db2adf1/briefing-print-verification.json": "8271b80de20606ace5d178fc902e2fdec9128fd14c9d60a759d5dd1aedfce31e",
+    "paper/briefing-history/2db2adf1/briefing-review.md": "336ba59aad487a1ae7f17666799b2b905813c763f2e98d170d38b8f7a8ef7434",
+    "paper/briefing-history/2db2adf1/briefing-comparison.md": "f81dbbfbda0fab94d41ac527b6cdb29da5f6da12202995300adae0bd9fa862fa",
+    "paper/briefing-history/2db2adf1/briefing-code-review.md": "52fa2c753d9daffaf8515188c592b6a5e52f0f2bd1aaf50a88719068c2dcb60f",
+    "paper/research/mentor-engineering-reference-20261103.md": "3af36af5d7c684263261c1e43eb2396ac1352b203a0aab782f20eedc9f6e8358",
+    "paper/research/original-paper-metrics-20261103.md": "15250f43e654e9021ecb70794530a0849e7a06e02b4f4c526182846126e74e01",
+    "paper/model-appendix.md": "13bc6a6f0717456c2102306f9a9a6a7725e35353ed72502a1f8428cdb469e888",
+    "paper/mentor-requests.md": "e2161572844411168bf8f16b38236d1ffb4c2ec3a8f2650a5a07d22f24eaaac8",
+    "src/patrol_rsi/risk_response.py": "c8f28d8bc70f30ce84811848fa95d9c4286cbb9fb983b7d6b0e7a3985090bc4e",
+    "src/patrol_rsi/active_inspection.py": "8985435aaecc8a099f6e61bc2faac9d940a87b75025938ad8f49b847e31322cc",
+    "src/patrol_rsi/facility.py": "18b4a5f72809d799073a8e443c6e8e5a80e4d04e89e4660b3853edafb191724d",
+    "src/patrol_rsi/facility_observation.py": "9637c0d2d1cdb83426035dd3fb2aaed0cb267783771d22ba024ccffda4f21a57",
+    "src/patrol_rsi/aisles.py": "8364706d4c46565ca3fa028f31b79ce8a276b78cbaa6dee496014e4f57316739",
+    "src/patrol_rsi/coverage_plan.py": "21390989b7828655404b10d45c9ad252a48722438ac669fd7cb4b597d64403a2",
+    "src/patrol_rsi/response_rule.py": "9ef3ed48f7698a41a2e8afac7611f8ec78bd8392211fd1dd6fa130c4850c2a74",
+    "src/patrol_rsi/inspection_metrics.py": "35d9a5831b8abccd80ed4a30d8ed7dbb8fe19fffb3913817e5ae932fe503379d",
+    "src/patrol_rsi/inspection_contracts.py": "803bef71270d6a66ce985ae4b881865b4b3fd741567c02c67641adfb187a08ef",
+    "paper/figures/briefing-v3/confirmations.svg": "844b79c71b389d1960a55205cc1580496245efd7f3f62ea310dab667508ad1b8",
+    "paper/figures/briefing-v3/paired-net.svg": "f88ddfb280121963cf67a00bfd62cc0eb21cb74647732d284162a3fc21edc410",
+    "paper/figures/briefing-v3/execution-chain.svg": "b319dd87b51f4dcc44c9f0c747dd144076b01e0119614e8e5baa9c595bf29f95",
+    "paper/figures/briefing-v3/task-17.svg": "5330f404d51be98aeb8814b0f868cb093b9494f1f393ddedfefb2a23183f5fe0",
+    "paper/figures/briefing-v3/task-21.svg": "dbb09fac31179fafd1118aa8fcb50292f73af6f91254171b8eacbbfcbaf7fb9b",
+    "paper/supervisor-report.md": "e2a351dd304704bc49294bcce8eb11e4e4de29f29f746e1a792ed7d3ca641631",
+    "paper/briefing-template.html": "ed25ea971847df2c5ba822114e3b1da89920d388c51fe7e8b3b62fc3367784c8"
+  },
+  "scope": "Report derivation and source identity. It does not replace independent visual/source verification."
+}
