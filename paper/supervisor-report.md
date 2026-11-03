@@ -15,6 +15,8 @@
 
 ### 0.2 导师关切点与章节映射
 
+{{TABLE_GUIDE:chapter-map}}
+
 |导师关心的内容|本报告对应材料|阅读位置|
 |---|---|---|
 |配电、液冷与设备自控|10 kV—380 V—54 V供电链、双回路CDU换热、三路反馈及国标对照状态|[第1章：设施物理层](#model)|
@@ -24,6 +26,12 @@
 |原论文指标与横向比较|同信息同约束七方法、误差、确认、年龄、代价及机制诊断|[第3章：派单方法](#fifo)、[第4章：实验结果](#comparison)|
 
 前3章依次定义设施、感知和决策方法；第4章统一展示新基准结果，第5章归纳结论与下一阶段工作。历史89段基准和500秒工程回看集中保留在[第6章附录](#appendix)，便于按需追溯。
+
+### 0.3 图表与符号的读法
+
+先读每幅图/表前的问题，按“怎么看”定位坐标、符号或关键列，再用“读到什么”连接到研究结论。正文与附录连续编号；同一符号的具体含义以该图说明为准。
+
+{{SYMBOL_GUIDE}}
 
 <!-- section:model -->
 ## 1. 设施物理层：三系统耦合建模
@@ -43,6 +51,8 @@
 {{FIGURE:model}}
 
 #### 1.1.3 跨系统动态关系
+
+{{TABLE_GUIDE:physical-relations}}
 
 |计算对象|当前关系及用途|
 |---|---|
@@ -65,6 +75,8 @@
 
 <h4 id="standards">1.2.2 系统／机柜两层标准映射</h4>
 
+{{TABLE_GUIDE:standards-mapping}}
+
 |2026液冷国家标准|官方发布／实施信息|当前对照状态|
 |---|---|---|
 |[GB/T 48023-2026《数据中心冷板式液冷系统技术规范》](https://std.samr.gov.cn/gb/search/gbDetailed?id=581F4B90BB7B80E8E06397BE0A0AF9E7)|2026-07-30发布；2027-02-01实施|正式入口与元数据已定位；目录、控制条款及阈值待取得可核读文本|
@@ -77,6 +89,8 @@
 #### 1.3.1 E级超算工程参照
 
 以El Capitan的负载数量级作为参照。TOP500的2026年6月记录给出Rmax＝1.809 EFLOP/s、理论Rpeak＝2.82110 EFLOP/s、报告功率29.68462 MW（测量等级2）；E级指每秒10<sup>18</sup>次浮点运算的性能数量级。[TOP500原始记录](https://www.top500.org/system/180307/)。
+
+{{TABLE_GUIDE:facility-scale}}
 
 |参照量／模型量|数值|用途或边界|
 |---|---:|---|
@@ -153,6 +167,8 @@ CVAE-U-Net利用已测位置的温度及设备运行信息，学习修正物理�
 
 b<sub>p</sub>初值为0，仅在专业校验时按组平均传感误差绝对值是否>1°C更新为1或0，保持至下次校验。组内最大h与平均g把柜级信息映射到设备组，最终分数上限均为4。
 
+{{TABLE_GUIDE:professional-risk}}
+
 |专业|现有公开风险组成|完成检查后更新|
 |---|---|---|
 |热检查|h<sub>i</sub>＋0.25g<sub>i</sub>|该柜温度|
@@ -173,6 +189,7 @@ b<sub>p</sub>初值为0，仅在专业校验时按组平均传感误差绝对值
 
 每个模拟回合持续1800秒，共18名巡检员。12名测机柜温度，电气、制冷和自控各2名，分别检查接点温度、组流量和传感偏差。“重访期限”是同一任务相邻两次检查允许的最长间隔，热检查为300秒，其他专业为600秒；具体分工与服务耗时如下。系统分别保存例行检查进度和风险待办，避免加查打乱原有责任。
 
+{{TABLE_GUIDE:task-contract}}
 {{TASK_TABLE}}
 {{FIGURE:inspection-architecture}}
 
@@ -217,6 +234,8 @@ PPO尝试从训练中学会：当几项任务都允许执行时，先查哪一�
 
 原论文以VAE重建重要度图、以DRL调度水域巡检。本研究借鉴其分层评价思路，将状态准确性、持续巡检质量、专业确认和计算代价用于同一机房任务。[原论文](https://doi.org/10.1016/j.eswa.2025.126483)。
 
+{{TABLE_GUIDE:evaluation-metrics}}
+
 |维度|本任务指标|方向|
 |---|---|---|
 |状态估计|温度RMSE、资产加权RMSE、盲区机柜加权RMSE、R²|误差低、R²高|
@@ -236,6 +255,8 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 #### 4.1.2 数据划分与训练过程
 
+{{TABLE_GUIDE:data-splits}}
+
 |阶段|独立物理种子块|条件与用途|执行与训练记录|
 |---|---:|---|---|
 |训练|24|四故障＋健康／虚假提示；Tour与FIFO各一条观测流|288条流、34,560个快照；每策略种子120个PPO回合|
@@ -246,6 +267,7 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 {{FIGURE:supplement-estimator-training}}
 {{FIGURE:supplement-ppo-training}}
+{{TABLE_GUIDE:supplement-training}}
 {{SUPPLEMENT_TRAINING_TABLE}}
 
 三个CVAE均训练30轮，各按开发加权MSE选择checkpoint；六个PPO共720个训练回合，固定第120回合参数。测试前锁定九个checkpoint SHA。奖励曲线记录实际训练过程，最终效果由留出回合评价。
@@ -257,6 +279,7 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 先让两种估计器读取同一份固定巡回观测记录，比较它们补全温度的能力。盲区指标排除当前新测量的位置，避免把直接填入的测量值算成预测成绩。
 
 {{FIGURE:supplement-estimation}}
+{{TABLE_GUIDE:supplement-fixed-stream}}
 {{SUPPLEMENT_FIXED_TABLE}}
 
 {{SUPPLEMENT_ESTIMATION_FINDING}}
@@ -278,7 +301,9 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 #### 4.3.2 新基准总表、四专业与配对效应
 
+{{TABLE_GUIDE:supplement-errors}}
 {{SUPPLEMENT_ERROR_TABLE}}
+{{TABLE_GUIDE:supplement-tasks}}
 {{SUPPLEMENT_TASK_TABLE}}
 {{FIGURE:supplement-methods}}
 {{FIGURE:supplement-professions}}
@@ -288,17 +313,20 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 {{SUPPLEMENT_TASK_FINDING}}
 
 {{FIGURE:supplement-contrasts}}
+{{TABLE_GUIDE:supplement-contrasts}}
 {{SUPPLEMENT_CONTRAST_TABLE}}
 
 名义FIFO−Tour每主要条件净增{{SUPPLEMENT_FIFO_GAIN}}段；CVAE-FIFO−名义FIFO为{{SUPPLEMENT_CVAE_GAIN}}段；CVAE-PPO−CVAE-FIFO为{{SUPPLEMENT_PPO_GAIN}}段。区间表达物理种子块变化，[附录G](#training-seeds)另列训练种子离散程度。
 
 #### 4.3.3 健康、虚假提示与计算耗时
 
+{{TABLE_GUIDE:supplement-healthy}}
 {{SUPPLEMENT_HEALTHY_TABLE}}
 
 健康与虚假提示各12条件。无评价异常时确认比例与异常等待为NA，额外访问及误确认按实测保留。{{SUPPLEMENT_HEALTHY_FINDING}}
 
 {{FIGURE:supplement-latency}}
+{{TABLE_GUIDE:supplement-latency}}
 {{SUPPLEMENT_LATENCY_TABLE}}
 
 硬件为{{SUPPLEMENT_RUNTIME}}，PyTorch 2.6.0＋CUDA 12.4、PyTorch CPU线程数2。上表是主要条件逐回合p50／p95的平均；神经估计包括转换、设备复制、前向、取回及CUDA同步，每次加载先做5次预热。完整周期包含选择、执行记账、下一观测估计和事件生命周期；物理轨迹预生成、记录、I/O与评分另计，估计阶段已包含于完整周期。
@@ -320,7 +348,9 @@ PPO只有在几项任务都允许执行时，才有机会体现先后排序的�
 <h3 id="scale-results">4.5 模块化物理规模与数值一致性</h3>
 
 {{FIGURE:supplement-scale}}
+{{TABLE_GUIDE:supplement-scale}}
 {{SUPPLEMENT_SCALE_TABLE}}
+{{TABLE_GUIDE:supplement-scale-cycles}}
 {{SUPPLEMENT_SCALE_CYCLES_TABLE}}
 
 每规模为三种子×健康／耦合两条件，360个5秒物理步。耗时含tracemalloc开销，内存范围为该物理段及温度序列留存；静态检查评价已构造的专业巡回。{{SUPPLEMENT_SCALE_FINDING}}
@@ -339,6 +369,8 @@ PPO只有在几项任务都允许执行时，才有机会体现先后排序的�
 CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO仅增加0.014段且区间跨零。当前可将名义FIFO保留为任务基准、CVAE保留为状态估计支路，再以未确认段与候选稀疏记录确定下一项研究假设。
 
 ### 5.2 后续四项工作包
+
+{{TABLE_GUIDE:future-work}}
 
 |工作包|下一项具体工作|交付与判断|
 |---|---|---|
@@ -365,6 +397,7 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 
 {{PAIR:estimated-temperature,offline-temperature}}
 {{FIGURE:public-risk}}
+{{TABLE_GUIDE:hotspot-values}}
 {{HOTSPOT_TABLE}}
 
 <h4 id="fifo-detail">附录 B. FIFO队列与完整返回核算实例</h4>
@@ -372,8 +405,10 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 任务契约和证书公式见[3.1节](#principle-return)。下列历史记录说明例行账与风险账如何共同执行。
 
 {{FIGURE:fifo-cycle}}
+{{TABLE_GUIDE:fifo-queue}}
 {{QUEUE_TABLE}}
 {{FIGURE:fifo-actions}}
+{{TABLE_GUIDE:return-budget}}
 {{RETURN_TABLE}}
 
 原0号245秒完成、截止545秒，实际540秒完成，间隔295秒。10号450秒早于8号455秒入队，因此即使风险较低也先处理。日志保留0.0081／0.0656总分；额外加查保留例行指针，请求在量测或到期前持续记账。
@@ -385,6 +420,7 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 {{FIGURE:confirmations}}
 {{FIGURE:outcome-costs}}
 
+{{TABLE_GUIDE:fault-cases}}
 {{FAULT_TABLE}}
 
 异常阈值与最短持续时间见4.1.1节。该12过程按热／电气／制冷／自控分别形成77／0／12／0段；确认按完成时刻之前的5秒采样格是否异常及测量是否告警核对。
@@ -414,6 +450,7 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 
 #### 附录 E. 历史封存包横向表
 
+{{TABLE_GUIDE:method-comparison}}
 {{COMPARISON_TABLE}}
 
 历史主比较采用同12个预登记过程；两条线性暂缓规则为九候选中并列60段的开发对照。原包没有保存统一预测—真值帧或逐步计时，因此“未留帧／未计时”继续保留。历史VAE两行表示当时包内未运行，新增适配与独立结果见第4节。
@@ -422,14 +459,17 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 
 #### 附录 F. 新基准逐故障族结果
 
+{{TABLE_GUIDE:supplement-families}}
 {{SUPPLEMENT_FAMILY_TABLE}}
 
 每故障族12个条件，学习方法先平均三个训练种子；表为逐条件均值。主要统计采用四故障族等权，无异常的健康与虚假提示条件另列于正文。
 
 <h4 id="training-seeds">附录 G. 训练种子与候选集合统计</h4>
 
+{{TABLE_GUIDE:supplement-seeds}}
 {{SUPPLEMENT_SEED_TABLE}}
 {{FIGURE:supplement-seed-blocks}}
+{{TABLE_GUIDE:supplement-policy-training}}
 {{SUPPLEMENT_POLICY_TRAINING_TABLE}}
 
 种子271／811／1931列为每主要条件平均确认段，SD是三个训练种子间的样本标准差；误差SD采用闭环加权RMSE。图中每个柱对应独立物理种子块的配对差，四故障条件等权。
@@ -440,6 +480,7 @@ PPO的选择数按执行者实际可选集合计；只有一个合法候选时�
 
 此处读取原留出日志，无新增环境、模型推理或训练。144组比较包含同一条件的三个模型重复，独立物理种子块仍为12。三个模型种子的“新增／丢失”分别为1／4、1／3、0／1，平均净差为−2段，与总表155→153一致。
 
+{{TABLE_GUIDE:estimation-confirmation-gap}}
 {{GAP_TIMING_TABLE}}
 
 表取`test04-cooling`、模型种子271、同一执行者5。两条轨迹在860秒首次分叉：两项访问的资格、返回证书和预算都通过，CVAE-FIFO按835秒早于840秒的入队顺序选41号。41号的确认增加与45号的确认丢失在该回合相抵；其余净差来自案例02、06、07的局部提示与访问轨迹变化。此诊断解释本批记录，完整得失及首次分叉保存在[事后核对数据](source-data/estimation-confirmation-gap.json)。

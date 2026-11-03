@@ -16,6 +16,7 @@ from markdown_it import MarkdownIt
 from report_diagrams import build_report_diagrams
 from supplement_report import substitutions as supplement_substitutions
 from report_text_export import export_review_text
+from report_reading_guides import intro, reading_notes, table_guide, symbol_guide
 
 PAPER=ROOT/'paper'
 SOURCES={}
@@ -208,6 +209,9 @@ def main():
         ET.fromstring(drawing)
         path=folder/(name+'.svg');path.write_text(drawing,encoding='utf-8',newline='\n')
         figure_hashes[path.relative_to(ROOT).as_posix()]=hashlib.sha256(path.read_bytes()).hexdigest()
+    reading_guides=load('paper/source-data/report-reading-guides.json')
+    read('scripts/report_reading_guides.py')
+    read('paper/report-figure-guide-spec-20261103.md')
     figure_notes={
         'model':'本项目集中参数模型的供电、双回路液冷与局部控制计算关系。',
         'public-risk':'已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。',
@@ -243,7 +247,8 @@ def main():
     }
     def figure(name):
         assert name in drawings
-        return '<figure id="figure-'+name+'"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame">'+drawings[name]+'</div><figcaption>'+html.escape(figure_notes[name])+'</figcaption></figure>'
+        guide=reading_guides['figures'][name]
+        return '<figure id="figure-'+name+'">'+intro('figure',name,figure_order.index(name)+1,guide)+'<span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame">'+drawings[name]+'</div><figcaption>'+reading_notes(guide)+'<p class="exhibit-source">'+html.escape(figure_notes[name])+'</p></figcaption></figure>'
     queue_table=table(['本人的待确认请求','首次提示时间','470秒时风险分','当下检查','本次选择'],[
         [f"机柜{r['task']}热检查",f"{r['visible_s']:g}秒",f"{r['risk_at_decision']:.4f}",'资格、可行性和预算均通过','先查' if r['task']==fifo['selected'] else '继续等待'] for r in fifo['queue']], 'fifo-queue')
     return_table=table(['重新决策时刻','批准的加查','预计完成加查','随后按原循环返回0号','0号截止','完整循环最小余量'],[
@@ -278,6 +283,12 @@ def main():
             timing_rows.append([f'{task}号热检查',f'{start:g}—{end:g}秒',*values,'CVAE新增' if direction=='gained' else 'CVAE丢失'])
     substitutions['GAP_TIMING_TABLE']=table(['任务','原评价段','名义FIFO：提示→完成','CVAE-FIFO：提示→完成','确认变化'],timing_rows,'estimation-confirmation-gap')
     source=read('paper/supervisor-report.md').decode('utf-8')
+    figure_order=[name for _,names in re.findall(r'\{\{(FIGURE|PAIR):([a-z0-9,-]+)\}\}',source) for name in names.split(',')]
+    table_order=re.findall(r'\{\{TABLE_GUIDE:([a-z0-9-]+)\}\}',source)
+    assert len(figure_order)==len(set(figure_order))==31 and set(figure_order)==set(reading_guides['figures'])
+    assert len(table_order)==len(set(table_order))==27 and set(table_order)==set(reading_guides['tables'])
+    source=source.replace('{{SYMBOL_GUIDE}}',symbol_guide(reading_guides['symbols']))
+    source=re.sub(r'\{\{TABLE_GUIDE:([a-z0-9-]+)\}\}',lambda m:table_guide(m[1],table_order.index(m[1])+1,reading_guides['tables'][m[1]]),source)
     for key,value in substitutions.items():source=source.replace('{{'+key+'}}',value)
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
     parts=re.split(r'<!-- section:([a-z-]+) -->',source)
@@ -301,14 +312,14 @@ def main():
     output=template.replace('{{REPORT_BODY}}',content)
     assert '{{' not in output and '<script' not in output.lower() and 'data-stage-' not in output
     destination=PAPER/'supervisor-briefing.html';destination.write_text(output,encoding='utf-8',newline='\n')
-    text_export=export_review_text(source,figure_notes,labels,PAPER,resolve_source_link,hashlib.sha256(destination.read_bytes()).hexdigest())
+    text_export=export_review_text(source,figure_notes,labels,PAPER,resolve_source_link,hashlib.sha256(destination.read_bytes()).hexdigest(),reading_guides,figure_order)
     data_path=PAPER/'generated/supervisor-report-data.json';write_json(data_path,data)
     write_json(PAPER/'generated/briefing-chart-data.json',data)
     core=re.sub(r'<details\b.*?</details>','',content,flags=re.S)
     main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
     all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
     assert len(all_figures)==len(set(all_figures))==len(drawings)
-    manifest={'version':10,'mode':'self_reading_report','previous_version':'17e1f7a3e1fdda5c739bd608050dbe26d3af966e','animations':False,'presenter_controls':False,
+    manifest={'version':11,'mode':'self_reading_report','previous_version':'29bb834f15a8fec56f011ccec64d426df4019c62','animations':False,'presenter_controls':False,
         'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
         'sections':list(labels),'primary_processes':12,'primary_condition_count':48,
         'primary_anomaly_segments':supplement['primary_aggregates']['nominal_tour']['total_unique_anomaly_segments'],
@@ -319,6 +330,7 @@ def main():
         'neural_estimator_predictions':data['neural_estimator_predictions'],
         'trained_checkpoints':9,'external_language_model_calls':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),
         'data_sha256':hashlib.sha256(data_path.read_bytes()).hexdigest(),'figure_sha256':figure_hashes,'source_sha256':SOURCES,
+        'reading_guides':{'figures':figure_order,'tables':table_order,'symbols':len(reading_guides['symbols'])},
         'text_export':text_export,'posthoc_estimation_confirmation_diagnosis':gap_diagnosis['counts'],
         'scope':'Report derivation and source identity. It does not replace independent visual/source verification.'}
     write_json(PAPER/'generated/briefing-manifest.json',manifest)

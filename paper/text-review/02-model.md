@@ -1,5 +1,7 @@
 > 正文审阅版：正文、公式和数值表与单文件HTML同源；图版保留SVG链接，便于文本工具读取。
 
+> 1. 设施模型 · 第1/1部分。
+
 <a id="model"></a>
 
 ## 1. 设施物理层：三系统耦合建模
@@ -20,11 +22,17 @@
 
 <a id="figure-model"></a>
 
-[图：本项目集中参数模型的供电、双回路液冷与局部控制计算关系。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/model.svg)
+<div class="exhibit-intro" data-guide-figure="model"><p class="exhibit-title"><span class="exhibit-number">图 1</span> <strong>供电、液冷与自控怎样联动</strong></p><p class="exhibit-purpose">先看研究对象：一处供电异常为什么可能同时影响水泵和机柜温度。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/model.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>①沿上方供电链从10 kV入口读到54 V机柜，IT功率成为热源；②沿两条液体回路看冷板→CDU→冷却塔的排热路径；③沿下方回转箭头看温度如何改变泵、风机和限功率指令。CDU是两回路之间的换热单元。</p><p><strong>◇ 读到什么：</strong>辅助供电下降会约束泵的有效速度，继而改变流量和散热；这是后续故障过程与温度估计所依托的耦合模型。</p></div><p class="exhibit-source">本项目集中参数模型的供电、双回路液冷与局部控制计算关系。</p>
 
 
 
 #### 1.1.3 跨系统动态关系
+
+<div class="table-guide" id="table-physical-relations"><div class="exhibit-intro" data-guide-table="physical-relations"><p class="exhibit-title"><span class="exhibit-number">表 2</span> <strong>设施模型实际计算哪些关系</strong></p><p class="exhibit-purpose">把架构图中的设备方框对应到具体计算。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>每行是一段计算链：送达功率→发热，泵速→流量/压差，CDU→两侧换热，接触损耗→接点温升。左列说明计算对象，右列说明它怎样影响后续状态。</p><p><strong>◇ 读到什么：</strong>这些关系共同生成可随故障变化的温度、流量和接点状态，是后续估计与巡检的环境。</p></div></div>
 
 |计算对象|当前关系及用途|
 |---|---|
@@ -47,6 +55,8 @@
 
 <h4 id="standards">1.2.2 系统／机柜两层标准映射</h4>
 
+<div class="table-guide" id="table-standards-mapping"><div class="exhibit-intro" data-guide-table="standards-mapping"><p class="exhibit-title"><span class="exhibit-number">表 3</span> <strong>两项液冷标准对应什么层级</strong></p><p class="exhibit-purpose">区分系统级参照、机柜级参照与当前已完成的核对范围。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>从标准名称看对象，再读发布/实施日期，最后读当前对照状态。“已定位元数据”和“正式条款待核读”分别表示资料入口与条文核查进度。</p><p><strong>◇ 读到什么：</strong>本表确定后续标准映射的对象；正文中的异常阈值仍按研究设置解释。</p></div></div>
+
 |2026液冷国家标准|官方发布／实施信息|当前对照状态|
 |---|---|---|
 |[GB/T 48023-2026《数据中心冷板式液冷系统技术规范》](https://std.samr.gov.cn/gb/search/gbDetailed?id=581F4B90BB7B80E8E06397BE0A0AF9E7)|2026-07-30发布；2027-02-01实施|正式入口与元数据已定位；目录、控制条款及阈值待取得可核读文本|
@@ -60,6 +70,8 @@
 
 以El Capitan的负载数量级作为参照。TOP500的2026年6月记录给出Rmax＝1.809 EFLOP/s、理论Rpeak＝2.82110 EFLOP/s、报告功率29.68462 MW（测量等级2）；E级指每秒10<sup>18</sup>次浮点运算的性能数量级。[TOP500原始记录](https://www.top500.org/system/180307/)。
 
+<div class="table-guide" id="table-facility-scale"><div class="exhibit-intro" data-guide-table="facility-scale"><p class="exhibit-title"><span class="exhibit-number">表 4</span> <strong>工程参照与本模型规模如何区分</strong></p><p class="exhibit-purpose">给128柜模型的负荷和复杂度一个可理解的数量级。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>MW表示功率，EFLOP/s表示计算性能；同一表中要按“量名＋单位”读数。128/16是机柜/设备组，161/145是热状态/指令状态，176/18是任务/巡检员数量。</p><p><strong>◇ 读到什么：</strong>模型名义IT负荷为32 MW；与El Capitan的功率记录并列是工程数量级参照，算力性能另行列示。</p></div></div>
+
 |参照量／模型量|数值|用途或边界|
 |---|---:|---|
 |El Capitan报告功率|29.68462 MW|绑定TOP500期次与测量等级的工程参照|
@@ -70,6 +82,6 @@
 
 #### 1.3.2 模块化扩展与验证口径
 
-底层按8柜组组织参数。128／512／1024柜对应32／128／256 MW名义IT负荷，可分别检查物理积分、状态留存及构造巡回。当前学习估计网格与端到端巡检基准固定为128柜／16组；[4.5节](05-comparison.md#scale-results)报告三规模的纯物理实测和静态人员巡回核查。
+底层按8柜组组织参数。128／512／1024柜对应32／128／256 MW名义IT负荷，可分别检查物理积分、状态留存及构造巡回。当前学习估计网格与端到端巡检基准固定为128柜／16组；[4.5节](05-comparison-part03.md#scale-results)报告三规模的纯物理实测和静态人员巡回核查。
 
 <aside class="scope-note"><p><strong>模型范围：</strong>当前采用集中参数与合成研究参数。额定IT功率、基准报告功率和算力性能分别列示；现场校准、E/G算力映射与更大规模学习调度构成后续工程验证对象。</p></aside>

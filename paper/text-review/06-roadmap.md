@@ -1,5 +1,7 @@
 > 正文审阅版：正文、公式和数值表与单文件HTML同源；图版保留SVG链接，便于文本工具读取。
 
+> 5. 结论规划 · 第1/1部分。
+
 <a id="roadmap"></a>
 
 ## 5. 阶段结论与下一阶段工作
@@ -13,6 +15,8 @@
 CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO仅增加0.014段且区间跨零。当前可将名义FIFO保留为任务基准、CVAE保留为状态估计支路，再以未确认段与候选稀疏记录确定下一项研究假设。
 
 ### 5.2 后续四项工作包
+
+<div class="table-guide" id="table-future-work"><div class="exhibit-intro" data-guide-table="future-work"><p class="exhibit-title"><span class="exhibit-number">表 18</span> <strong>下一步具体做什么、如何判断完成</strong></p><p class="exhibit-purpose">把结论对应到后续可检查的工作，而不是泛泛增加模型复杂度。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>每行按“工作包→具体动作→交付与判断”阅读；标准映射、视觉接入、调度机制和大规模学习分别列出产物。箭头在这里表示工作推进顺序。</p><p><strong>◇ 读到什么：</strong>这些是下一阶段安排；本轮已完成的依据仍是第4章的训练、测试和纯物理规模结果。</p></div></div>
 
 |工作包|下一项具体工作|交付与判断|
 |---|---|---|

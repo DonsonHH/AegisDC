@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import re
 from pypdf import PdfReader
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -22,7 +23,7 @@ def main():
     pdf=WORK/'report-print.pdf'
     assert browser['status']=='PASS' and browser['html_sha256']==digest(ROOT/'paper/supervisor-briefing.html')
     assert browser['print_pdf_sha256']==digest(pdf)
-    reader=PdfReader(pdf);text=normalize('\n'.join(p.extract_text() for p in reader.pages))
+    reader=PdfReader(pdf);printed_text='\n'.join(p.extract_text() for p in reader.pages);text=normalize(printed_text)
     terms=['128','161','176','32MW','48023-2026','48097-2026','2027-02-01','2027-03-01',
            '450秒','455秒','0.0081','0.0656','525秒','540秒','545秒','20秒','5秒',
            '28/89','70/89','25/89','77段热异常','12段制冷异常','0.50%','下降约0.33%',
@@ -33,6 +34,9 @@ def main():
            'RMSE','R²','0.484','0.462','0.424','0.401','FirstIn,FirstOut',
            '连续重构误差与离散确认机会','865→895秒','835→880秒','860→875秒','840→900秒','机房图像适配']
     missing=[v for v in terms if v not in text];assert not missing,missing
+    for label,count in [('图',31),('表',27)]:
+        assert all(re.search(label+r'\s*'+str(number)+r'(?!\d)',printed_text) for number in range(1,count+1)),label+' reading labels missing'
+    assert '怎么看' in text and '读到什么' in text
     assert '从头讲' not in text and '下一步／上一步' not in text
     renderer=shutil.which('pdftoppm');assert renderer,'Poppler pdftoppm required'
     subprocess.run([renderer,'-scale-to','1400','-png',str(pdf),str(WORK/'print')],check=True)
@@ -42,7 +46,7 @@ def main():
         pages.append({'page':number,'text_characters':len(page.extract_text()),'text_start':page.extract_text()[:100],
                       'render_sha256':digest(image)})
     report={'status':'PASS','html_sha256':browser['html_sha256'],'pdf_sha256':digest(pdf),
-            'checker_sha256':digest(Path(__file__)),'page_count':len(reader.pages),'verified_terms':terms,'pages':pages}
+            'checker_sha256':digest(Path(__file__)),'page_count':len(reader.pages),'figure_reading_labels':31,'table_reading_labels':27,'verified_terms':terms,'pages':pages}
     target=ROOT/'paper/generated/supervisor-report-print-verification.json'
     target.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     (ROOT/'paper/generated/briefing-print-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')

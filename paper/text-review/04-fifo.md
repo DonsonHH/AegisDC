@@ -1,5 +1,7 @@
 > 正文审阅版：正文、公式和数值表与单文件HTML同源；图版保留SVG链接，便于文本工具读取。
 
+> 3. 巡检决策 · 第1/1部分。
+
 <a id="fifo"></a>
 
 ## 3. 巡检决策层：受返回时间保护的多专业派单
@@ -12,12 +14,17 @@
 
 每个模拟回合持续1800秒，共18名巡检员。12名测机柜温度，电气、制冷和自控各2名，分别检查接点温度、组流量和传感偏差。“重访期限”是同一任务相邻两次检查允许的最长间隔，热检查为300秒，其他专业为600秒；具体分工与服务耗时如下。系统分别保存例行检查进度和风险待办，避免加查打乱原有责任。
 
+<div class="table-guide" id="table-task-contract"><div class="exhibit-intro" data-guide-table="task-contract"><p class="exhibit-title"><span class="exhibit-number">表 6</span> <strong>谁检查什么、一次多久、多久必须再查</strong></p><p class="exhibit-purpose">把18名巡检员的专业分工和时间规则放在一起。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>按一行读“专业→测到什么→人数→服务时间→最大检查间隔”。12＋2＋2＋2＝18人；10秒等服务时间是现场检查耗时，300/600秒是同一任务允许的最长重访间隔，移动时间另算。</p><p><strong>◇ 读到什么：</strong>派单先满足专业资格，再核算移动、服务和重访期限；一个人会路过某设备，并不等于具备完成该专业检查的资格。</p></div></div>
 <div class="table-wrap"><table data-table="task-contract"><thead><tr><th>专业</th><th>完成检查后得到什么</th><th>人数</th><th>每次服务</th><th>最大重访间隔</th></tr></thead><tbody><tr><td>热检查</td><td>该机柜代表温度</td><td>12</td><td>10秒</td><td>300秒</td></tr><tr><td>电气检查</td><td>该组电气接触温度</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>制冷检查</td><td>该组冷却液流量</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>自控检查</td><td>传感读数误差（完成校验后）</td><td>2</td><td>15秒</td><td>600秒</td></tr></tbody></table></div>
 
 
 <a id="figure-inspection-architecture"></a>
 
-[图：根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/inspection-architecture.svg)
+<div class="exhibit-intro" data-guide-figure="inspection-architecture"><p class="exhibit-title"><span class="exhibit-number">图 5</span> <strong>从观测到核查完成的一轮闭环</strong></p><p class="exhibit-purpose">把前两章的温度信息与本章的派单、执行和结果评价连接起来。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/inspection-architecture.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>上排顺着观测→风险待办→可行性与FIFO→移动/服务/测量阅读，回转线表示新量测进入下一轮。“两本任务账”分别记录例行进度和风险待办；下排读取真实异常与执行日志，计算确认、等待和约束结果。</p><p><strong>◇ 读到什么：</strong>风险提示决定去哪里核查，专业测量完成后才更新确认结果；设备自身的温控仍沿设施模型的控制回路运行。</p></div><p class="exhibit-source">根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。</p>
 
 
 
@@ -37,7 +44,7 @@ Tour按原定路线循环检查。FIFO（First In, First Out，先入先出）�
 
 #### 3.2.2 即时Greedy与响应／暂缓规则
 
-Greedy优先处理风险高、预计完成时间短的任务，具体比较“当前公开风险／取整完成耗时”，平分时依次优先例行项、较早提示和较小任务编号。响应／暂缓线性规则则先由FIFO选定一个合法事件，再在该事件与原定下一项例行任务之间二选一；规则表达式与历史开发结果见[附录C](07-appendix.md#historical-benchmark)。
+Greedy优先处理风险高、预计完成时间短的任务，具体比较“当前公开风险／取整完成耗时”，平分时依次优先例行项、较早提示和较小任务编号。响应／暂缓线性规则则先由FIFO选定一个合法事件，再在该事件与原定下一项例行任务之间二选一；规则表达式与历史开发结果见[附录C](07-appendix-part02.md#historical-benchmark)。
 
 #### 3.2.3 共享PPO策略
 
@@ -47,7 +54,11 @@ PPO尝试从训练中学会：当几项任务都允许执行时，先查哪一�
 
 <a id="figure-supplement-crossed-design"></a>
 
-[图：估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-crossed-design.svg)
+<div class="exhibit-intro" data-guide-figure="supplement-crossed-design"><p class="exhibit-title"><span class="exhibit-number">图 6</span> <strong>七种方案怎样进行同条件比较</strong></p><p class="exhibit-purpose">看清改变的是温度估计还是选任务的方法，以及各方案共同遵守什么规则。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-crossed-design.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>左端选择名义或CVAE估计，中部共用候选生成与资格/返回/预算筛选，之后由FIFO、Greedy或PPO选择。2种估计×3种派单，再加固定Tour，共7种方案；下方critic是训练用评价网络，在线选择使用上方actor。</p><p><strong>◇ 读到什么：</strong>选任务的方法变化时，执行资格和时间保护保持一致；专业确认仍由实际完成的量测核对，便于分别观察估计和派单的作用。</p></div><p class="exhibit-source">估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。</p>
 
 
 

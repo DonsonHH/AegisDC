@@ -230,7 +230,8 @@ def verify_refinements(manifest,html):
     full_path=ROOT/exported['full']['path'];full=full_path.read_text(encoding='utf-8')
     assert digest(full_path)==exported['full']['sha256'] and full_path.stat().st_size==exported['full']['bytes']
     assert not any(token in full for token in ('data:image','<svg','{{'))
-    assert len(exported['sections'])==len(manifest['sections'])==7 and exported['section_bytes_max']<24000
+    assert len(exported['chapters'])==len(manifest['sections'])==7 and len(exported['sections'])>=7 and exported['section_bytes_max']<24000
+    assert [c['section'] for c in exported['chapters']]==manifest['sections']
     assert {p.name for p in (ROOT/'paper/text-review').glob('*.md')}=={row['path'] for row in exported['sections']}
     for row in exported['sections']:
         path=ROOT/'paper/text-review'/row['path'];assert digest(path)==row['sha256'] and path.stat().st_size==row['bytes']
@@ -351,6 +352,8 @@ def main():
     refinement_checks=verify_refinements(manifest,html)
     from report_structure_check import verify_structure
     structure_checks=verify_structure(html)
+    from verify_reading_guides import verify as verify_reading_guides
+    reading_checks=verify_reading_guides(ROOT,html,manifest)
     rows=load(ROOT/'evidence/event-validation/final/rows.json')
     for method in ['tour','fifo','shuffled']:
         selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
@@ -427,7 +430,7 @@ def main():
             's0_risk_deferred_binary_decisions':deferred,'s0_risk_maximum_observed_score_input':maximum_risk,
             's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
             'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
-            **comparison_checks,**supplement_checks,**refinement_checks,
+            **comparison_checks,**supplement_checks,**refinement_checks,**reading_checks,
             'narrative_structure':structure_checks,'structure_checker_sha256':digest(ROOT/'scripts/report_structure_check.py'),
             'scope':'This checker reads retained historical/new originals and extracts, hashes all supplementary artifacts and independently recomputes block aggregates/paired intervals. The separate completed analyzer reconstructs raw-label outcomes, errors, costs and model identities. No new simulation/training/inference in this check.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')

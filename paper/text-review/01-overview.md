@@ -1,5 +1,7 @@
 > 正文审阅版：正文、公式和数值表与单文件HTML同源；图版保留SVG链接，便于文本工具读取。
 
+> 0. 导读概览 · 第1/1部分。
+
 <a id="overview"></a>
 
 ## 0. 报告导读
@@ -14,12 +16,20 @@
 
 ### 0.2 导师关切点与章节映射
 
+<div class="table-guide" id="table-chapter-map"><div class="exhibit-intro" data-guide-table="chapter-map"><p class="exhibit-title"><span class="exhibit-number">表 1</span> <strong>从导师关切定位到报告材料</strong></p><p class="exhibit-purpose">按自己想了解的问题选择阅读起点。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>每行按“关切→对应材料→阅读位置”横向阅读，最后一列可点击跳到章节。设施、视觉、规模、温度态势与横向比较分别对应不同证据。</p><p><strong>◇ 读到什么：</strong>这是一张导航表，帮助先建立全貌，再进入需要的模型或结果。</p></div></div>
+
 |导师关心的内容|本报告对应材料|阅读位置|
 |---|---|---|
 |配电、液冷与设备自控|10 kV—380 V—54 V供电链、双回路CDU换热、三路反馈及国标对照状态|[第1章：设施物理层](02-model.md#model)|
 |RGB转红外与专业测温|已有B-PID电气显示样例、机房拟适配对象及合格接点观测通道|[2.1：配电视觉支路](03-hotspots.md#visual-branch)|
-|大型设施复杂度|El Capitan工程参照、128柜状态与任务规模、512／1024柜扩展口径|[1.3：规模设置](02-model.md#scale)、[4.5：规模实测](05-comparison.md#scale-results)|
+|大型设施复杂度|El Capitan工程参照、128柜状态与任务规模、512／1024柜扩展口径|[1.3：规模设置](02-model.md#scale)、[4.5：规模实测](05-comparison-part03.md#scale-results)|
 |全局态势与风险|名义估计、残差CVAE-U-Net、四专业风险生成及新测试态势示例|[第2章：感知方法](03-hotspots.md#hotspots)、[4.2：估计结果](05-comparison.md#estimation-results)|
 |原论文指标与横向比较|同信息同约束七方法、误差、确认、年龄、代价及机制诊断|[第3章：派单方法](04-fifo.md#fifo)、[第4章：实验结果](05-comparison.md#comparison)|
 
 前3章依次定义设施、感知和决策方法；第4章统一展示新基准结果，第5章归纳结论与下一阶段工作。历史89段基准和500秒工程回看集中保留在[第6章附录](07-appendix.md#appendix)，便于按需追溯。
+
+### 0.3 图表与符号的读法
+
+先读每幅图/表前的问题，按“怎么看”定位坐标、符号或关键列，再用“读到什么”连接到研究结论。正文与附录连续编号；同一符号的具体含义以该图说明为准。
+
+<aside class="symbol-guide" id="reading-symbols" aria-label="图表常见符号"><dl><div><dt>↑ / ↓</dt><dd>评价方向：确认数↑表示越多越好；误差、等待和耗时↓表示越小越好。先看指标名称，再判断改善方向。</dd></div><div><dt>→ / ↺</dt><dd>架构图中沿箭头追踪信息、动作或热量；回转箭头表示下一轮更新。每条线具体传递什么，以图内文字为准。</dd></div><div><dt>T / T̂ / ΔT̂</dt><dd>T是模拟设备温度，T̂是系统估计温度；帽子表示估计。ΔT̂是学习模型给名义估计的修正量，最终估计＝名义估计＋修正量。</dd></div><div><dt>Δ＝A−B</dt><dd>比较项按左边方法减右边方法计算。Δ&gt;0只表示数值增加；确认数增加是收益，等待或年龄增加则是代价。</dd></div><div><dt>点 / 柱 / 区间线</dt><dd>点的位置或柱长表示估计值；横竖短线表示该图注明的区间。95%区间、最小—最大实测范围和训练种子SD具有不同含义。</dd></div><div><dt>a [l,u] / NA</dt><dd>a为均值，[l,u]为表中注明的区间。NA表示指标在该条件下不适用；未留帧、未计时表示没有相应测量记录，都不能按0理解。</dd></div></dl></aside>

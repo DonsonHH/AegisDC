@@ -51,13 +51,13 @@ async function inspect(selector,width,height,label){
     }
     return{selector:${JSON.stringify(selector)},width:innerWidth,height:innerHeight,documentWidth:document.documentElement.scrollWidth,
       top:e.getBoundingClientRect().top,visible:getComputedStyle(e).display!=='none',minimumSvgFontPx:Number.isFinite(minFont)?minFont:null,
-      svgTextOutside:outside,svgTextOverlaps:overlaps};
+      svgTextOutside:outside,svgTextOverlaps:overlaps,clippedReadingText:[...e.querySelectorAll('.reading-notes,.exhibit-intro,.table-guide,.symbol-guide')].filter(x=>x.getBoundingClientRect().width>0&&x.scrollWidth>x.clientWidth+1).map(x=>x.className)};
   })()`);
   report.views.push(view);
   const screenshot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
   const file=path.join(previews,`${width}x${height}-${label}.png`);fs.writeFileSync(file,Buffer.from(screenshot.data,'base64'));
   report.screenshot_sha256[path.relative(root,file).replaceAll('\\','/')]=digest(file);
-  assert(view.documentWidth<=width,'Page has horizontal overflow');assert(view.visible,'Section hidden');
+  assert(view.documentWidth<=width,'Page has horizontal overflow');assert(view.visible,'Section hidden');assert(!view.clippedReadingText.length,'Reading guide text clipped: '+JSON.stringify(view.clippedReadingText));
   assert(view.svgTextOutside.length===0,'Clipped SVG text: '+JSON.stringify(view.svgTextOutside));
   assert(view.svgTextOverlaps.length===0,'Overlapping SVG text: '+JSON.stringify(view.svgTextOverlaps));
   return view;
@@ -112,14 +112,15 @@ async function inspect(selector,width,height,label){
   report.checks.estimationTaskTimingExample=await evaluate(`(()=>{const t=document.querySelector('[data-table="estimation-confirmation-gap"]');return t.tBodies[0].rows.length===2&&['865→895秒','835→880秒','860→875秒','840→900秒'].every(s=>t.textContent.includes(s))})()`);
   report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['正式条款','机房图像','硬重访','RSI','512／1024柜'].every(v=>t.includes(v))})()`);
   report.checks.scopeNotesCollected=await evaluate(`document.querySelectorAll('.scope-note').length===2&&document.body.textContent.includes('显示外观')&&document.body.textContent.includes('元数据')`);
-  const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],['#figure-pid-visual-sample','pid-sample'],
+  report.checks.completeReadingGuides=await evaluate(`document.querySelectorAll('[data-guide-figure]').length===31&&document.querySelectorAll('[data-guide-table]').length===27&&document.querySelectorAll('#reading-symbols dl>div').length===6&&[...document.querySelectorAll('figure')].every(e=>e.querySelector('[data-guide-figure]')&&e.querySelectorAll('figcaption .reading-notes p').length===2)`);
+  const regions=[['#reading-symbols','symbol-guide'],['#table-professional-risk','risk-table-guide'],['#figure-supplement-estimation figcaption','estimation-reading'],['#figure-supplement-contrasts figcaption','contrast-reading'],['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],['#figure-pid-visual-sample','pid-sample'],
     ['#figure-visual-interface','visual-interface'],['#principle-control','control'],['#standards','standards'],['#scale','scale'],
     ['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],['#principle-return','return-formula'],
     ['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],['[data-table="task-contract"]','task-contract'],['#comparison','comparison'],
     ['#roadmap','roadmap']];
   for(const name of manifest.main_figure_ids.filter(name=>name.startsWith('supplement-')))regions.push(['#figure-'+name,name]);
   for(const name of ['errors','tasks','fixed-stream','contrasts','healthy','latency','scale','scale-cycles','training'])regions.push(['[data-table="supplement-'+name+'"]','supplement-table-'+name]);
-  const appendixRegions=[['#appendix','appendix'],['#figure-estimated-temperature','old-estimated-temperature'],['#figure-offline-temperature','old-offline-temperature'],
+  const appendixRegions=[['#figure-task-21 figcaption','timing-reading'],['#appendix','appendix'],['#figure-estimated-temperature','old-estimated-temperature'],['#figure-offline-temperature','old-offline-temperature'],
     ['#figure-confirmations','results'],['#figure-outcome-costs','outcome-costs'],['#figure-public-risk','alarm-map'],
     ['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
     ['[data-table="fault-cases"]','fault-cases'],['#figure-paired-net','paired-net'],['#figure-registered-rules','registered-rules'],
@@ -139,7 +140,7 @@ async function inspect(selector,width,height,label){
     await evaluate(`document.querySelector('.case-appendix').open=false`);
   }
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
-  for(const [selector,label] of [['.project-summary','summary'],['#overview','overview'],['#model','model'],['#figure-visual-interface','visual-interface'],['#hotspots','hotspots'],['#fifo','fifo'],['#comparison','comparison'],['#roadmap','roadmap']])await inspect(selector,390,844,label);
+  for(const [selector,label] of [['#reading-symbols','symbol-guide'],['#table-professional-risk','risk-table-guide'],['#figure-supplement-estimation figcaption','estimation-reading'],['.project-summary','summary'],['#overview','overview'],['#model','model'],['#figure-visual-interface','visual-interface'],['#hotspots','hotspots'],['#fifo','fifo'],['#comparison','comparison'],['#roadmap','roadmap']])await inspect(selector,390,844,label);
   await send('Emulation.setDeviceMetricsOverride',{width:710,height:1020,deviceScaleFactor:1,mobile:false});
   await send('Emulation.setEmulatedMedia',{media:'print'});
   report.checks.printAppendixVisible=await evaluate(`document.querySelector('#figure-execution-chain').getBoundingClientRect().height>0`);

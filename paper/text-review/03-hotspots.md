@@ -1,5 +1,7 @@
 > 正文审阅版：正文、公式和数值表与单文件HTML同源；图版保留SVG链接，便于文本工具读取。
 
+> 2. 感知估计 · 第1/1部分。
+
 <a id="hotspots"></a>
 
 ## 2. 态势感知层：视觉接口、温度估计与风险生成
@@ -16,7 +18,11 @@
 
 <a id="figure-pid-visual-sample"></a>
 
-[图：PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/pid-visual-sample.svg)
+<div class="exhibit-intro" data-guide-figure="pid-visual-sample"><p class="exhibit-title"><span class="exhibit-number">图 2</span> <strong>RGB输入、生成外观与目标显示怎样对照</strong></p><p class="exhibit-purpose">说明前期视觉工作的输入与输出，帮助理解图像支路能提供哪类信息。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/pid-visual-sample.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>从左向右比较同一位置：RGB可见光图→B-PID生成外观→目标伪彩显示。对照设备轮廓和亮暗/色块分布；三幅图是同一户外电气场景的精修显示样例，色彩按图像像素解释。</p><p><strong>◇ 读到什么：</strong>本组图展示外观重建路径；接点的℃数值来自下一图所示的合格测温通道，机房图像适配仍属于后续接入工作。</p></div><p class="exhibit-source">PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。</p>
 
 
 
@@ -30,7 +36,11 @@
 
 <a id="figure-visual-interface"></a>
 
-[图：已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/visual-interface.svg)
+<div class="exhibit-intro" data-guide-figure="visual-interface"><p class="exhibit-title"><span class="exhibit-number">图 3</span> <strong>图像线索怎样接到专业测温</strong></p><p class="exhibit-purpose">把“看图发现可疑位置”和“得到可用于确认的温度”放到同一流程中。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/visual-interface.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>上排沿RGB生成→参考登记→热点与任务关联阅读，虚线表示待连接的环节；下排实线表示已有合成测温→温度更新→风险与确认。T̂_contact←合格量测，意思是用检查得到的接点温度更新该组观测。</p><p><strong>◇ 读到什么：</strong>当前可运行的是合格接点量测的状态更新；图像推理、资产选点及真实仪器桥接按虚线接口继续接入。</p></div><p class="exhibit-source">已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。</p>
 
 
 
@@ -58,7 +68,11 @@ CVAE-U-Net利用已测位置的温度及设备运行信息，学习修正物理�
 
 <a id="figure-supplement-unet"></a>
 
-[图：本次真实训练的温度残差CVAE-U-Net。公开输入57通道，295,777个参数；训练后验只用于监督，在线取条件先验均值。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-unet.svg)
+<div class="exhibit-intro" data-guide-figure="supplement-unet"><p class="exhibit-title"><span class="exhibit-number">图 4</span> <strong>CVAE-U-Net怎样补出未新测机柜的温度</strong></p><p class="exhibit-purpose">说明学习模型如何在物理估计上做修正，而不是直接把整张温度图当作已知输入。</p></div>
+
+[查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-unet.svg)
+
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>从左到右看编码→瓶颈→解码，跨层连线把细节送回解码器；8×16×16表示网格高×宽×通道。x是公开历史，z是16维潜变量，μ是在线采用的条件先验均值；输出ΔT̂后计算T̂＝T̂_nominal＋ΔT̂，再用当前新测温度覆盖对应位置。</p><p><strong>◇ 读到什么：</strong>真实温度只进入训练监督和事后评价；在线预测由公开历史及先验分支完成，图中下方后验支路只在训练时使用。</p></div><p class="exhibit-source">本次真实训练的温度残差CVAE-U-Net。公开输入57通道，295,777个参数；训练后验只用于监督，在线取条件先验均值。</p>
 
 
 
@@ -79,6 +93,8 @@ CVAE-U-Net利用已测位置的温度及设备运行信息，学习修正物理�
 记h<sub>i</sub>＝max(T̂<sub>i</sub>−65,0)/20，g<sub>i</sub>为公开功率缺口。c<sub>p</sub>＝max(T̂<sub>contact,p</sub>−60,0)/30，接点温度由专业量测更新；f<sub>p</sub>＝max(1−q̂<sub>p</sub>/33.6,0)，q̂为最近已获组流量，可来自固定遥测或专业检查。
 
 b<sub>p</sub>初值为0，仅在专业校验时按组平均传感误差绝对值是否>1°C更新为1或0，保持至下次校验。组内最大h与平均g把柜级信息映射到设备组，最终分数上限均为4。
+
+<div class="table-guide" id="table-professional-risk"><div class="exhibit-intro" data-guide-table="professional-risk"><p class="exhibit-title"><span class="exhibit-number">表 5</span> <strong>同一机房信息怎样形成四类风险</strong></p><p class="exhibit-purpose">理解四个专业为什么不会只收到同一种温度报警。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>先看专业，再看风险组成和检查后更新的量。h为柜温超额，g为功率缺口，c为接点温度超额，f为流量缺口，b为最近专业校验的偏差标志；系数表示现有评分中的组合权重。</p><p><strong>◇ 读到什么：</strong>四类评分各有侧重，并在组内共享部分热/功率线索；风险上限为4，合格检查更新对应观测。</p></div></div>
 
 |专业|现有公开风险组成|完成检查后更新|
 |---|---|---|
