@@ -23,13 +23,28 @@ class StudyGateTests(unittest.TestCase):
             study = runner.Study()
             runner.append_log(study.ledger, {'phase': 'pilot', 'id': 'case', 'status': 'started', 'attempt_number': 1})
             runner.append_log(study.ledger, {'phase': 'pilot', 'id': 'case', 'status': 'failed', 'attempt_number': 1})
-            runner.write_json(Path(directory) / 'amendments.json', [{'resolved_attempt_ids': ['case'], 'additional_attempts': {'pilot': 1}}])
+            runner.write_json(Path(directory) / 'amendments.json', [{'resolved_attempts': [{'phase': 'pilot', 'id': 'case', 'attempt_number': 1}], 'additional_attempts': {'pilot': 1}}])
+            original = Path(directory) / 'pilot' / 'case' / 'partial.txt'
+            original.parent.mkdir(parents=True); original.write_text('original failed evidence')
             with patch.object(study, 'check_seal'):
                 with study.attempt('pilot', 'case'):
-                    pass
+                    original.write_text('completed replacement')
             rows = study.entries()
             self.assertEqual([row['status'] for row in rows], ['started', 'failed', 'started', 'completed'])
             self.assertEqual(rows[-1]['attempt_number'], 2)
+            retained = Path(directory) / 'retained-failed-attempts/pilot/case/attempt-1/episode/partial.txt'
+            self.assertEqual(retained.read_text(), 'original failed evidence')
+            with patch.object(study, 'check_seal'), self.assertRaisesRegex(RuntimeError, 'already exists'):
+                with study.attempt('pilot', 'case'):
+                    pass
+
+    def test_recovery_authorization_does_not_allow_another_failed_retry(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(runner, 'OUT', Path(directory)):
+            study = runner.Study()
+            for number in (1, 2):
+                for status in ('started', 'failed'):
+                    runner.append_log(study.ledger, {'phase': 'pilot', 'id': 'case', 'status': status, 'attempt_number': number})
+            runner.write_json(Path(directory) / 'amendments.json', [{'resolved_attempts': [{'phase': 'pilot', 'id': 'case', 'attempt_number': 1}], 'additional_attempts': {'pilot': 2}}])
             with patch.object(study, 'check_seal'), self.assertRaisesRegex(RuntimeError, 'already exists'):
                 with study.attempt('pilot', 'case'):
                     pass

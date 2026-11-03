@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import platform
 import random
+import shutil
 import subprocess
 import sys
 import time
@@ -154,7 +155,12 @@ class Study:
         resolved = {r['id'] for r in rows if r['phase'] == phase and r['status'] == 'completed'}
         # Failed attempts may only be retried after a separately recorded amendment.
         amendments = read_json(OUT / 'amendments.json') if (OUT / 'amendments.json').exists() else []
-        authorized = {item for a in amendments for item in a.get('resolved_attempt_ids', [])}
+        authorizations = {(item['phase'], item['id'], item['attempt_number'])
+                          for a in amendments for item in a.get('resolved_attempts', [])}
+        latest_number = max((r.get('attempt_number', 1) for r in earlier), default=0)
+        authorized = {identifier for current_phase, identifier, number in authorizations
+                      if current_phase == phase and number == max((r.get('attempt_number', 1) for r in rows
+                          if r['phase'] == phase and r['id'] == identifier), default=0)}
         if earlier and (any(r['status'] == 'completed' for r in earlier) or identifier not in authorized):
             raise RuntimeError('Attempt ID already exists without an unused recovery authorization: ' + identifier)
         if unresolved - resolved - authorized:
@@ -169,6 +175,18 @@ class Study:
             raise RuntimeError('Registered phase budget exhausted')
         start = time.perf_counter()
         ordinal = 1 + sum(r['status'] == 'started' for r in earlier)
+        if earlier:
+            archive = OUT / 'retained-failed-attempts' / phase / identifier / f'attempt-{latest_number}'
+            archive.mkdir(parents=True, exist_ok=False)
+            folder = OUT / phase / identifier
+            if folder.exists():
+                shutil.copytree(folder, archive / 'episode')
+            # Training records/checkpoints may live outside the episode folder.
+            for candidate in [OUT / 'training' / (identifier+'.json'), OUT / 'checkpoints' / (identifier+'.pt')]:
+                if candidate.exists():
+                    shutil.copyfile(candidate, archive / candidate.name)
+            write_json(archive / 'retention.json', {'phase': phase, 'id': identifier, 'attempt_number': latest_number,
+                       'ledger_events': earlier, 'files': {p.relative_to(archive).as_posix(): sha(p) for p in archive.rglob('*') if p.is_file()}})
         event = {'phase': phase, 'id': identifier, 'attempt_number': ordinal, 'environment': environment, 'at': now(), **metadata}
         append_log(self.ledger, dict(event, status='started'))
         try:
@@ -473,7 +491,7 @@ class Study:
 
     def fixed_stream(self):
         from patrol_rsi.supplement_metrics import temperature_metrics
-        from patrol_rsi.supplement_task import from_grid
+        self.freeze_checkpoints()
         rows = []
         for seed in self.protocol['model_seeds']:
             predictor = self.predictor(seed)
@@ -493,8 +511,11 @@ class Study:
                                  'nominal': temperature_metrics(a['predicted_temperature_c'], a['true_temperature_c'], a['rack_weights'], a['fresh_measurement_mask']),
                                  'cvae': temperature_metrics(outputs, a['true_temperature_c'], a['rack_weights'], a['fresh_measurement_mask']),
                                  'source_arrays_sha256': sha(OUT / 'test' / identifier / 'arrays.npz')})
+                    folder = OUT / 'fixed-stream-predictions'; folder.mkdir(exist_ok=True)
+                    np.savez_compressed(folder / f"{case['id']}-cvae-{seed}.npz", predicted_temperature_c=np.asarray(outputs))
         write_json(OUT / 'fixed-stream-estimation.json', {'environment_runs': 0, 'prediction_calls': len(rows)*360,
                     'warmup_calls_per_loaded_checkpoint': self.protocol['estimator']['warmup_calls'], 'rows': rows})
+        self.freeze_checkpoints()
 
     def scale(self):
         from patrol_rsi.active_inspection import graph_for
