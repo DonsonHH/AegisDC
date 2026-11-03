@@ -9,6 +9,7 @@ const work=path.join(root,'.work/self-reading-check');
 const previews=path.join(root,'paper/generated/report-previews');
 fs.mkdirSync(work,{recursive:true});fs.mkdirSync(previews,{recursive:true});
 const htmlPath=path.join(root,'paper/supervisor-briefing.html');
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'paper/generated/briefing-manifest.json'),'utf8'));
 const copy=path.join(work,'report.html');fs.copyFileSync(htmlPath,copy);
 const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const report={html_sha256:digest(htmlPath),manifest_sha256:digest(path.join(root,'paper/generated/briefing-manifest.json')),
@@ -35,7 +36,11 @@ async function inspect(selector,width,height,label){
     for(const svg of e.querySelectorAll('svg')){
       const v=svg.viewBox.baseVal,m=svg.getScreenCTM(),boxes=[];
       for(const t of svg.querySelectorAll('text')){
-        const b=t.getBBox();minFont=Math.min(minFont,parseFloat(getComputedStyle(t).fontSize)*Math.hypot(m.a,m.b));
+        const raw=t.getBBox(),relative=svg.getCTM().inverse().multiply(t.getCTM());
+        const corners=[[raw.x,raw.y],[raw.x+raw.width,raw.y],[raw.x,raw.y+raw.height],[raw.x+raw.width,raw.y+raw.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(relative));
+        const b={x:Math.min(...corners.map(p=>p.x)),y:Math.min(...corners.map(p=>p.y))};
+        b.width=Math.max(...corners.map(p=>p.x))-b.x;b.height=Math.max(...corners.map(p=>p.y))-b.y;
+        const tm=t.getScreenCTM();minFont=Math.min(minFont,parseFloat(getComputedStyle(t).fontSize)*Math.hypot(tm.a,tm.b));
         if(b.x<v.x-1||b.y<v.y-1||b.x+b.width>v.x+v.width+1||b.y+b.height>v.y+v.height+1)outside.push(t.textContent);
         boxes.push({text:t.textContent,x:b.x,y:b.y,w:b.width,h:b.height});
       }
@@ -77,7 +82,7 @@ async function inspect(selector,width,height,label){
   report.checks.noScriptsOrPresenterControls=await evaluate(`document.querySelectorAll('script,.stage-controls,.toolbar,.slide,dialog,[data-stage-from]').length===0`);
   report.checks.appendixOptional=await evaluate(`!document.querySelector('.case-appendix').open`);
   report.checks.allCoreContentVisible=await evaluate(`[...document.querySelectorAll('[data-report-section]')].every(e=>getComputedStyle(e).display!=='none'&&getComputedStyle(e).opacity==='1')`);
-  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===8&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
+  report.checks.allMainFiguresVisible=await evaluate(`[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).length===${manifest.main_figure_ids.length}&&[...document.querySelectorAll('figure')].filter(e=>!e.closest('details')).every(e=>e.getBoundingClientRect().height>0)`);
   report.checks.contentsResolve=await evaluate(`[...document.querySelectorAll('.contents a')].every(a=>document.querySelector(a.getAttribute('href')))`);
   report.checks.noAnimations=await evaluate(`document.getAnimations().length===0&&[...document.querySelectorAll('*')].every(e=>getComputedStyle(e).animationName==='none'&&getComputedStyle(e).transitionDuration==='0s')`);
   report.checks.actualFifoQueue=await evaluate(`(()=>{const t=document.querySelector('[data-table="fifo-queue"]').textContent;return t.includes('450秒')&&t.includes('455秒')&&t.includes('0.0081')&&t.includes('0.0656')&&t.indexOf('机柜10')<t.indexOf('机柜8')})()`);
@@ -95,17 +100,23 @@ async function inspect(selector,width,height,label){
   report.checks.actualComparisonTable=await evaluate(`(()=>{const table=document.querySelector('[data-table="method-comparison"]');return table.tBodies[0].rows.length===7&&table.querySelectorAll('[data-result-state="primary"]').length===3&&table.querySelectorAll('[data-result-state="development"]').length===2&&table.querySelectorAll('[data-result-state="not_run"]').length===2&&['0.310901','0.313052','60.23','58.14','未留帧','未计时'].every(v=>table.textContent.includes(v))})()`);
   report.checks.technicalDetailsInAppendix=await evaluate(`['registered-rules','rule-diagnosis','fifo-cycle','fifo-actions','original-paper-scores'].every(name=>!!document.querySelector('#figure-'+name).closest('details'))`);
   report.checks.noUnsupportedTrainingStatus=await evaluate(`![...document.querySelectorAll('[data-result-state="not_run"]')].some(e=>e.textContent.includes('正在训练')||e.textContent.includes('已完成'))`);
-  report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['正式条款','RGB/IR','VAE-UNet','Greedy','DRL','128柜','独立验证','RSI'].every(v=>t.includes(v))})()`);
+  report.checks.completeSupplementMethods=await evaluate(`['supplement-errors','supplement-tasks'].every(id=>{const rows=[...document.querySelectorAll('[data-table="'+id+'"] [data-supplement-method]')];return JSON.stringify(rows.map(e=>e.dataset.supplementMethod))===${JSON.stringify(JSON.stringify(['nominal_tour','nominal_fifo','nominal_greedy','nominal_ppo','cvae_fifo','cvae_greedy','cvae_ppo']))}&&rows.every(e=>!e.textContent.includes('待运行'))})`);
+  report.checks.supplementEvidenceScope=await evaluate(`['1080个','12个独立种子块','34,560','8,640','295,777','720','60条唯一物理轨迹'].every(v=>document.body.textContent.includes(v))`);
+  report.checks.noDuplicateElementIds=await evaluate(`(()=>{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return ids.length===new Set(ids).size})()`);
+  report.checks.concreteRoadmap=await evaluate(`(()=>{const t=document.querySelector('#roadmap').textContent;return ['正式条款','RGB/IR','CVAE-U-Net','Greedy','PPO','1080个留出测试回合','18次物理结果','RSI'].every(v=>t.includes(v))})()`);
   report.checks.scopeNotesCollected=await evaluate(`document.querySelectorAll('.scope-note').length>=5&&document.body.textContent.includes('显示外观')&&document.body.textContent.includes('元数据')`);
   const regions=[['.project-summary','summary'],['#overview','overview'],['#figure-model','model'],['#figure-pid-visual-sample','pid-sample'],
     ['#figure-visual-interface','visual-interface'],['#principle-control','control'],['#standards','standards'],['#scale','scale'],
     ['#figure-estimated-temperature','hotspots'],['#fifo','fifo-flow'],['#figure-inspection-architecture','inspection-architecture'],
     ['#figure-confirmations','results'],['#figure-outcome-costs','outcome-costs'],['#comparison','comparison'],
-    ['[data-table="method-comparison"]','method-comparison'],['#roadmap','roadmap']];
+    ['#roadmap','roadmap']];
+  for(const name of manifest.main_figure_ids.filter(name=>name.startsWith('supplement-')))regions.push(['#figure-'+name,name]);
+  for(const name of ['errors','tasks','fixed-stream','contrasts','healthy','latency','scale','scale-cycles','training'])regions.push(['[data-table="supplement-'+name+'"]','supplement-table-'+name]);
   const appendixRegions=[['#appendix','appendix'],['#principle-estimation','estimation-formula'],['#principle-risk','risk-formula'],['#figure-public-risk','alarm-map'],
     ['#principle-return','return-formula'],['[data-table="fifo-queue"]','fifo-queue'],['#figure-fifo-actions','fifo-actions'],
     ['[data-table="fault-cases"]','fault-cases'],['#figure-paired-net','paired-net'],['#figure-registered-rules','registered-rules'],
     ['#figure-rule-diagnosis','rule-diagnosis'],['#figure-execution-chain','appendix-case'],['#figure-task-17','task-timelines'],['#figure-original-paper-scores','paper-comparison']];
+  appendixRegions.push(['[data-table="method-comparison"]','method-comparison'],['#figure-supplement-seed-blocks','supplement-seed-blocks'],['[data-table="supplement-families"]','supplement-families'],['[data-table="supplement-seeds"]','supplement-seeds'],['[data-table="supplement-policy-training"]','supplement-policy-training']);
   for(const [width,height] of [[1366,768],[1920,1080]]){
     await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
     await evaluate('window.scrollTo(0,0)');await delay(100);

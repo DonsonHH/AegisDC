@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 650" role="img" aria-labelledby="supplement-crossed-design-title supplement-crossed-design-description" data-chart="supplement-crossed-design">
+<title id="supplement-crossed-design-title">同信息同约束的估计器和调度器交叉设计</title>
+<desc id="supplement-crossed-design-description">两种估计器共享候选生成，FIFO、Greedy及共享PPO在同一合法候选集合内决策；物理真值只离线评分。</desc>
+<style>svg text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}svg{background:white}</style>
+<text x="20" y="34" font-size="29" fill="#2369a5" text-anchor="start" font-weight="650" >估计器与调度器交叉比较，共用同一执行约束</text>
+<rect x="20" y="90" width="265" height="78" fill="#f2f6f9" rx="3"/>
+<text x="152.5" y="119" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >公开遥测与已完成测量</text>
+<text x="152.5" y="150" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >名义估计或CVAE估计</text>
+<rect x="365" y="90" width="260" height="78" fill="#f2f6f9" rx="3"/>
+<text x="495" y="119" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >共同候选生成</text>
+<text x="495" y="150" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >例行下一项＋本人待办</text>
+<rect x="705" y="90" width="250" height="78" fill="#f2f6f9" rx="3"/>
+<text x="830" y="119" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >共同可行性筛选</text>
+<text x="830" y="150" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >资格／预约／返回／预算</text>
+<line x1="290" y1="130" x2="355" y2="130" stroke="#526675" stroke-width="2" /><path d="M347,135 L355,130 L347,125" fill="none" stroke="#526675" stroke-width="2"/>
+<line x1="630" y1="130" x2="695" y2="130" stroke="#526675" stroke-width="2" /><path d="M687,135 L695,130 L687,125" fill="none" stroke="#526675" stroke-width="2"/>
+<rect x="70" y="255" width="260" height="78" fill="#f2f6f9" rx="3"/>
+<text x="200" y="284" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >FIFO / Greedy</text>
+<text x="200" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >同一公开队列与风险</text>
+<rect x="425" y="255" width="350" height="78" fill="#f2f6f9" rx="3"/>
+<text x="600" y="284" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >共享PPO：21维候选特征</text>
+<text x="600" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >32→32→1；合法集合内选择</text>
+<rect x="870" y="255" width="330" height="78" fill="#f2f6f9" rx="3"/>
+<text x="1035" y="284" font-size="23" fill="#2369a5" text-anchor="middle" font-weight="600" >批准选择并执行量测</text>
+<text x="1035" y="315" font-size="20" fill="#526675" text-anchor="middle" font-weight="400" >固定执行者顺序；逐条记账</text>
+<path d="M830,173 V218 H200 V245" fill="none" stroke="#526675" stroke-width="2"/>
+<path d="M830,218 H600 V245" fill="none" stroke="#526675" stroke-width="2"/>
+<path d="M330,295 H365 V365 H840 V295 H860" fill="none" stroke="#526675" stroke-width="2"/>
+<line x1="780" y1="295" x2="860" y2="295" stroke="#526675" stroke-width="2" /><path d="M852,300 L860,295 L852,290" fill="none" stroke="#526675" stroke-width="2"/>
+<path d="M1040,338 V395 H35 V190 H150" fill="none" stroke="#147469" stroke-width="2"/>
+<line x1="150" y1="190" x2="150" y2="173" stroke="#147469" stroke-width="2" /><path d="M155,181 L150,173 L145,181" fill="none" stroke="#147469" stroke-width="2"/>
+<text x="650" y="425" font-size="22" fill="#147469" text-anchor="middle" font-weight="400" >测量更新公开状态，再产生风险请求与下一轮候选</text>
+<rect x="20" y="470" width="1200" height="105" fill="#fbf6ec" rx="3"/>
+<text x="40" y="505" font-size="23" fill="#b27420" text-anchor="start" font-weight="600" >仅训练：10维公开全局特征→critic；每359步完整回合更新PPO</text>
+<text x="40" y="547" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >真实异常标签用于离线确认、等待和误差评价；策略奖励沿用公开观测函数。</text>
+<text x="20" y="620" font-size="21" fill="#526675" text-anchor="start" font-weight="400" >每种估计条件训练3个种子×120回合；测试前锁定六个策略。Tour只执行原定循环。</text>
+</svg>

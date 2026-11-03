@@ -23,7 +23,7 @@ def conditional_unet():
           arrow(635, 243, 875, 243, TEAL), text(752, 233, '跳接②', 20, TEAL, 'middle')]
     p += box(675, 435, 240, '条件先验 p(z|x)', '16维潜变量；在线取μ', TEAL)
     p += [arrow(755, 389, 755, 425, TEAL),
-          '<path d="M915,475 H960 V355 H845" fill="none" stroke="#147469" stroke-width="2"/>',
+          '<path d="M915,475 H960 V355" fill="none" stroke="#147469" stroke-width="2"/>',arrow(960,355,845,355,TEAL),
           text(970, 408, '潜变量融合', 20, TEAL)]
     p += box(1095, 305, 165, '1×1输出头', '温度残差 ΔT̂')
     p += [arrow(1178, 188, 1178, 295), arrow(1178, 388, 1178, 425)]
@@ -32,7 +32,7 @@ def conditional_unet():
           text(40, 414, '以物理温度作监督目标；重建损失＋条件KL', 21, MUTED),
           text(40, 452, '测试与在线推理只接收公开历史 x', 21, MUTED),
           text(40, 490, '开发集选各种子checkpoint，测试前锁定SHA', 21, MUTED),
-          arrow(580, 474, 665, 474, GOLD),
+          line(580,474,665,474,GOLD,2,**{'stroke-dasharray':'5 5'}),text(620,460,'KL对齐',19,GOLD,'middle'),
           text(20, 575, '输入、名义估计与新鲜量测属于公开观测；事后温度只用于训练监督和离线评价。', 21, MUTED)]
     return svg('supplement-unet', 1280, 605, '温度残差CVAE-U-Net实际结构与信息边界', '两个空间下采样及上采样层，条件先验与训练后验，名义温度残差及共同新鲜量测校正。', p)
 
@@ -50,7 +50,7 @@ def shared_decision():
           '<path d="M830,218 H600 V245" fill="none" stroke="#526675" stroke-width="2"/>',
           '<path d="M330,295 H365 V365 H840 V295 H860" fill="none" stroke="#526675" stroke-width="2"/>',
           arrow(780, 295, 860, 295),
-          '<path d="M1040,338 V395 H150 V173" fill="none" stroke="#147469" stroke-width="2"/>',
+          '<path d="M1040,338 V395 H35 V190 H150" fill="none" stroke="#147469" stroke-width="2"/>',arrow(150,190,150,173,TEAL),
           text(650, 425, '测量更新公开状态，再产生风险请求与下一轮候选', 22, TEAL, 'middle')]
     p += [rect(20, 470, 1200, 105, '#fbf6ec', rx=3),
           text(40, 505, '仅训练：10维公开全局特征→critic；每359步完整回合更新PPO', 23, GOLD, weight=600),

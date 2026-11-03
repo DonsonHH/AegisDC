@@ -14,6 +14,7 @@ DEPS=ROOT/'.work/paper-writing-deps'
 if DEPS.is_dir():sys.path.insert(0,str(DEPS))
 from markdown_it import MarkdownIt
 from report_diagrams import build_report_diagrams
+from supplement_report import substitutions as supplement_substitutions
 
 PAPER=ROOT/'paper'
 SOURCES={}
@@ -55,7 +56,7 @@ def comparison_table(comparison):
             state='development' if method.startswith('S') else 'primary'
         else:
             item=comparison['unrun_methods'][method]
-            values=[item['label'],*['待运行']*10,'待同任务适配／运行'];state='not_run'
+            values=[item['label'],*['旧包未运行']*10,'历史封存状态；新结果见补充基准'];state='not_run'
             assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported']
         cells=''.join('<td>'+html.escape(str(value))+'</td>' for value in values)
         rows.append(f'<tr data-comparison-method="{method}" data-result-state="{state}">'+cells+'</tr>')
@@ -79,6 +80,19 @@ def main():
     method_evidence=load('paper/source-data/report-method-evidence.json')
     rule_diagnosis=load('paper/source-data/report-rule-diagnosis.json')
     comparison=load('paper/source-data/report-comparison-metrics.json')
+    supplement=load('paper/source-data/supplement-study.json')
+    supplement_example=load('paper/source-data/supplement-example.json')
+    assert supplement['example']['sha256']==SOURCES['paper/source-data/supplement-example.json']
+    supplement_narrative=load('paper/source-data/supplement-narrative.json')
+    assert supplement_narrative['analysis_sha256']==SOURCES['paper/source-data/supplement-study.json']
+    assert supplement['test_episode_count']==1080 and supplement['audit']['all_passed']
+    for source in ['scripts/analyze_supplement_study.py','scripts/supplement_figures.py','scripts/supplement_diagrams.py','scripts/supplement_report.py',
+                   'paper/supplement-study-methods.md','evidence/supplement-study/analysis-receipt.json','evidence/supplement-study/test-rows.json',
+                   'evidence/supplement-study/protocol.json','evidence/supplement-study/seal.json','evidence/supplement-study/amendments.json',
+                   'evidence/supplement-study/test-checkpoint-lock.json','evidence/supplement-study/checkpoints.zip']:
+        read(source)
+    for source in ['evidence/supplement-study/source-executed.json','evidence/supplement-study/source-executed.zip']:
+        read(source)
     engineering_alignment=load('paper/source-data/report-engineering-alignment.json')
     visual_sample=load('paper/source-data/pid-visual-sample.json')
     images={key:read(identity['path']) for key,identity in visual_sample['assets'].items()}
@@ -155,7 +169,9 @@ def main():
           'comparison_unrun_methods':comparison['unrun_methods'],'engineering_alignment':engineering_alignment,'visual_sample':visual_sample,
           'primary_anomaly_kinds':kinds['counts'],
           'paper_scores':paper,'paper_metric_scope':'Original water-task score; not directly comparable to professional anomaly confirmation.',
-          'new_environment_evaluations':0,'new_research_model_calls':0,'new_training':0}
+          'supplement':supplement,'new_environment_evaluations':supplement['environment_attempts'],
+          'neural_estimator_predictions':supplement['neural_prediction_accounting'],
+          'trained_checkpoints':9,'external_language_model_calls':0}
     inherited={}
     for name in ['confirmations','paired-net','execution-chain','task-17','task-21']:
         inherited[name]=read('paper/figures/briefing-v3/'+name+'.svg').decode('utf-8')
@@ -167,6 +183,10 @@ def main():
     encoded_net={e.attrib['data-case']:int(e.attrib['data-net']) for e in net_root.iter() if 'data-net' in e.attrib}
     assert encoded_net=={p['case']:p['fifo_minus_tour']['net'] for p in primary}
     drawings=build_report_diagrams(data,inherited,images)
+    from supplement_figures import build as build_supplement_figures
+    from supplement_diagrams import build as build_supplement_diagrams
+    drawings.update(build_supplement_figures(supplement,supplement_example))
+    drawings.update(build_supplement_diagrams())
     folder=PAPER/'figures/supervisor-report';folder.mkdir(parents=True,exist_ok=True)
     figure_hashes={}
     for name,drawing in drawings.items():
@@ -192,6 +212,19 @@ def main():
         'execution-chain':'p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。',
         'task-17':'17号665秒派出的是例行访问；其公开风险685秒才出现。',
         'task-21':'21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。',
+        'supplement-unet':'本次真实训练的温度残差CVAE-U-Net。公开输入57通道，295,777个参数；训练后验只用于监督，在线取条件先验均值。',
+        'supplement-crossed-design':'估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。',
+        'supplement-methods':'48个主要条件，先平均三个模型种子、再等权四故障族；误差线为12个物理种子块的95%自举区间。等待对有异常的条件计算。',
+        'supplement-professions':'四专业异常段的描述性确认比例，数字为确认数／专业异常总数；小数来自三个模型种子的平均。',
+        'supplement-estimation':'所有估计器接收同一份已保存Tour公开观测流，使用相同刚量测校正；误差线为95%物理种子块区间。',
+        'supplement-estimator-training':'三个训练种子的真实30轮开发曲线，空心点为各自开发集最优checkpoint；测试集不参与选择。',
+        'supplement-ppo-training':'六个PPO的公开奖励训练曲线；细线表示训练种子，粗线为种子均值，采用10回合滑动窗口。',
+        'supplement-contrasts':'预登记的配对比较及95%物理种子块自举区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。',
+        'supplement-seed-blocks':'逐个种子块展示配对确认差；各块内四种故障等权，编号表示登记身份。',
+        'supplement-latency':'主要故障条件的逐回合p95均值，实测包含转换和CUDA同步。估计阶段已包含于完整控制周期，不能重复相加。',
+        'supplement-heatmaps':'按编号选取首个测试条件、训练种子271和注入后90秒；名义与CVAE使用相同Tour观测流，三图共用45—75°C色标。',
+        'supplement-process':'与温度图同一编号示例。阴影为故障注入窗口，点表示当前新温度量测；温度和流量阈值采用研究设定。',
+        'supplement-scale':'每规模三种子×健康／耦合两工况的纯物理过程实测；带tracemalloc开销，范围为六次实测最小—最大，未作大规模学习调度。',
     }
     def figure(name):
         assert name in drawings
@@ -214,6 +247,8 @@ def main():
         'VISIT_BUDGET':str(protocol['extra_visit_budget']),
         'GAINED':str(gained),'LOST':str(lost),'NET':str(gained-lost),'MEAN_NET':f"{comp['net_confirmations']['mean']:.2f}",
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
+    substitutions.update(supplement_substitutions(supplement))
+    substitutions.update(supplement_narrative['substitutions'])
     source=read('paper/supervisor-report.md').decode('utf-8')
     for key,value in substitutions.items():source=source.replace('{{'+key+'}}',value)
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
@@ -238,7 +273,7 @@ def main():
         if target.startswith(('#','https:','http:','data:')):return match[0]
         path=(PAPER/target).resolve().relative_to(ROOT).as_posix()
         if path.endswith('.html'):path=path[:-5]+'.md'
-        reference=BRANCH if '/research/' in path else BASE
+        reference=BRANCH if '/research/' in path or path=='paper/supplement-study-methods.md' or path.startswith('evidence/supplement-study/') else BASE
         return 'href="'+REMOTE+reference+'/'+path+'"'
     content=re.sub(r'href="([^"]+)"',link,content)
     template=read('paper/briefing-template.html').decode('utf-8')
@@ -251,11 +286,16 @@ def main():
     main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
     all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
     assert len(all_figures)==len(set(all_figures))==len(drawings)
-    manifest={'version':6,'mode':'self_reading_report','previous_version':'e7fd9e2631fa801b9ec2a6975b15efe100eec7e3','animations':False,'presenter_controls':False,
+    manifest={'version':7,'mode':'self_reading_report','previous_version':'f35b172ee4d557a099680a8411fe89d5b324e55e','animations':False,'presenter_controls':False,
         'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
-        'sections':list(labels),'primary_processes':12,'primary_anomaly_segments':89,'main_results':main_results,
-        'engineering_frame_scope':engineering['kind'],'fifo_example_case':fifo['case'],'new_environment_evaluations':0,
-        'new_research_model_calls':0,'new_training':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),
+        'sections':list(labels),'primary_processes':12,'primary_condition_count':48,
+        'primary_anomaly_segments':supplement['primary_aggregates']['nominal_tour']['total_unique_anomaly_segments'],
+        'historical_primary_anomaly_segments':89,'historical_main_results':main_results,'main_results':supplement['primary_aggregates'],
+        'engineering_frame_scope':engineering['kind'],'fifo_example_case':fifo['case'],
+        'new_environment_evaluations':supplement['environment_attempts'],'new_physical_scale_runs':supplement['physical_scale_attempts'],
+        'test_episode_count':1080,'independent_test_seed_blocks':12,'unique_test_physical_processes':60,
+        'neural_estimator_predictions':data['neural_estimator_predictions'],
+        'trained_checkpoints':9,'external_language_model_calls':0,'html_sha256':hashlib.sha256(destination.read_bytes()).hexdigest(),
         'data_sha256':hashlib.sha256(data_path.read_bytes()).hexdigest(),'figure_sha256':figure_hashes,'source_sha256':SOURCES,
         'scope':'Report derivation and source identity. It does not replace independent visual/source verification.'}
     write_json(PAPER/'generated/briefing-manifest.json',manifest)

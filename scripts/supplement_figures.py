@@ -19,13 +19,14 @@ FOLDER = ROOT / 'paper/figures/supplement-study'
 LABELS = {'nominal_tour': '名义 · Tour', 'nominal_fifo': '名义 · FIFO', 'nominal_greedy': '名义 · Greedy',
           'nominal_ppo': '名义 · PPO', 'cvae_fifo': 'CVAE · FIFO', 'cvae_greedy': 'CVAE · Greedy', 'cvae_ppo': 'CVAE · PPO'}
 COLORS = {'nominal_tour': '#7b8790', 'nominal_fifo': '#147469', 'nominal_greedy': '#b27420',
-          'nominal_ppo': '#b44e79', 'cvae_fifo': '#2369a5', 'cvae_greedy': '#758334', 'cvae_ppo': '#704b83'}
+          'nominal_ppo': '#b44e79', 'cvae_fifo': '#2369a5', 'cvae_greedy': '#805114', 'cvae_ppo': '#7b3153'}
 SEED_COLORS = ['#2369a5', '#b27420', '#b44e79']
-plt.rcParams.update({'font.family': 'Microsoft YaHei', 'font.size': 12, 'axes.labelsize': 12,
-                     'axes.titlesize': 14, 'axes.spines.top': False, 'axes.spines.right': False,
+plt.rcParams.update({'font.family': 'Microsoft YaHei', 'font.size': 14, 'axes.labelsize': 14,
+                     'axes.titlesize': 16, 'axes.spines.top': False, 'axes.spines.right': False,
                      'axes.edgecolor': '#768895', 'axes.labelcolor': '#172d3b', 'text.color': '#172d3b',
                      'xtick.color': '#526675', 'ytick.color': '#526675', 'grid.color': '#dce4e9',
-                     'svg.fonttype': 'none', 'savefig.facecolor': 'white', 'figure.dpi': 120})
+                     'svg.fonttype': 'none', 'svg.hashsalt': 'supplement-study-20261103',
+                     'savefig.facecolor': 'white', 'figure.dpi': 120})
 
 
 def save(figure, name, title):
@@ -38,6 +39,17 @@ def save(figure, name, title):
     root.set('data-chart', name)
     root.set('role', 'img')
     root.set('aria-label', title)
+    identities = {node.attrib['id']:name+'-'+node.attrib['id'] for node in root.iter() if 'id' in node.attrib}
+    for node in root.iter():
+        for key, value in list(node.attrib.items()):
+            if key == 'id':
+                node.set(key, identities[value])
+                continue
+            if value.startswith('#') and value[1:] in identities:
+                value = '#'+identities[value[1:]]
+            for old, new in identities.items():
+                value = value.replace('url(#'+old+')','url(#'+new+')')
+            node.set(key, value)
     ET.register_namespace('', 'http://www.w3.org/2000/svg')
     ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
     drawing = ET.tostring(root, encoding='unicode')
@@ -61,7 +73,9 @@ def interval_bar(ax, methods, aggregates, key, title, unit='', zero=True):
     ax.margins(x=.12)
 
 
-def build(data):
+def build(data,example=None):
+    if example is None:
+        example=json.loads((ROOT/'paper/source-data/supplement-example.json').read_text(encoding='utf-8'))
     drawings = {}
     methods, aggregates = data['method_order'], data['primary_aggregates']
     fig, axes = plt.subplots(1, 3, figsize=(15.5, 5.3), layout='constrained')
@@ -73,7 +87,7 @@ def build(data):
     fig, axes = plt.subplots(2, 2, figsize=(13.5, 9.5), layout='constrained')
     for ax, role, label in zip(axes.flat, ['thermal', 'electrical', 'cooling', 'control'], ['热检查', '电气检查', '制冷检查', '自控检查']):
         rows = [aggregates[m]['by_role'][role] for m in methods]
-        values = [r['confirmed']/r['segments'] if r['segments'] else 0 for r in rows]
+        values = [r['confirmed']/r['segments'] if r['segments'] else np.nan for r in rows]
         y = np.arange(7)
         ax.barh(y, values, color=[COLORS[m] for m in methods], height=.62)
         ax.set_yticks(y, [LABELS[m] for m in methods]); ax.invert_yaxis()
@@ -81,6 +95,8 @@ def build(data):
         ax.set_title(label, loc='left', pad=12); ax.set_xlabel('有效确认比例（描述性汇总）')
         for i, row in enumerate(rows):
             ax.text(1.03, i, f"{row['confirmed']:g}/{row['segments']:g}", va='center', fontsize=11)
+            if not row['segments']:
+                ax.text(.02, i, 'NA', va='center')
         ax.grid(axis='x', alpha=.6); ax.set_axisbelow(True)
     drawings['supplement-professions'] = save(fig, 'supplement-professions', '四专业有效确认：分母为48个主要条件中的唯一专业异常段，CVAE/PPO先平均三个训练种子')
 
@@ -137,7 +153,7 @@ def build(data):
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.5), layout='constrained')
     for first, second, color, label in [('nominal_fifo', 'nominal_tour', '#147469', '名义FIFO − Tour'),
-                                         ('cvae_ppo', 'nominal_ppo', '#704b83', 'CVAE·PPO − 名义·PPO')]:
+                                         ('cvae_ppo', 'nominal_ppo', '#7b3153', 'CVAE·PPO − 名义·PPO')]:
         values = np.asarray([a['confirmed_segments']-b['confirmed_segments'] for a, b in zip(data['block_values'][first], data['block_values'][second])])
         ax = axes[0 if first == 'nominal_fifo' else 1]
         ax.bar(np.arange(1, 13), values, color=color, width=.65)
@@ -157,44 +173,40 @@ def build(data):
             ax.annotate(f'{value:.2f}', (value, i), xytext=(5, 0), textcoords='offset points', va='center', fontsize=11)
     drawings['supplement-latency'] = save(fig, 'supplement-latency', '最终测试的实测分阶段耗时；含实际转换和同步，不含预生成物理过程、记录和I/O')
 
-    representative = data['protocol']['case_sets']['test'][0]
-    case_id = representative['id']; seed = data['protocol']['model_seeds'][0]
-    path = RUN / 'fixed-stream-predictions' / f'{case_id}-cvae-{seed}.npz'
-    with np.load(path) as source:
-        predicted = source['predicted_temperature_c']
-    with np.load(RUN / 'test' / (case_id+'-nominal-tour') / 'arrays.npz') as source:
-        nominal = source['predicted_temperature_c']; truth = source['true_temperature_c']; fresh = source['fresh_measurement_mask']
-        flow = source['offline_rack_flow_kg_s']
+    representative = example['case']
+    assert representative == data['protocol']['case_sets']['test'][0] and example['model_seed']==271
+    case_id = representative['id']
     sys.path.insert(0, str(ROOT / 'src'))
     from patrol_rsi.supplement_task import to_grid
-    frame_time = representative['spec']['fault_start_s']+90
-    index = int(frame_time/5)-1
+    frame_time = example['frame_time_s']
     fig, axes = plt.subplots(1, 3, figsize=(14, 4.4), layout='constrained')
     images = []
-    for ax, values, title in zip(axes, [nominal[index], predicted[index], truth[index]], ['名义热平衡', 'CVAE-U-Net（种子271）', '事后物理温度']):
+    for ax, values, title in zip(axes, [example['frame_temperature_c'][key] for key in ['nominal','cvae','truth']], ['名义热平衡', 'CVAE-U-Net（种子271）', '事后物理温度']):
         image = ax.imshow(to_grid(values), vmin=45, vmax=75, cmap='cividis', aspect='equal'); images.append(image)
         ax.set_title(title, pad=12); ax.set_xticks([]); ax.set_yticks([])
     fig.colorbar(images[-1], ax=axes, location='bottom', shrink=.8, label='设备代表温度 / °C（共同45—75°C色标）', extend='both')
-    drawings['supplement-heatmaps'] = save(fig, 'supplement-heatmaps', f'{case_id} {frame_time}秒，同一Tour观测流上的名义、CVAE估计及事后温度；预先指定首个测试条件和训练种子271')
+    drawings['supplement-heatmaps'] = save(fig, 'supplement-heatmaps', f'{case_id} {frame_time}秒，同一Tour观测流上的名义、CVAE估计及事后温度；按编号选首个条件和训练种子271')
 
-    rack = representative['spec']['fault_rack']; pod = rack//8
-    clocks = np.arange(5, 1801, 5)
+    # Deterministic illustration: local rack1 in the injected pod has no fixed
+    # temperature probe (fixed probes are local0/4), avoiding an all-fresh trace.
+    pod = example['pod_index'];rack=example['trace_rack_index']
+    clocks = np.asarray(example['clock_s']);trace=example['trace'];fresh=np.asarray(trace['fresh_mask'],dtype=bool)
     fig, axes = plt.subplots(2, 1, figsize=(12, 7), sharex=True, layout='constrained')
-    for values, color, style, label in [(truth[:, rack], '#172d3b', '-', '事后设备温度'),
-                                        (nominal[:, rack], '#7b8790', '--', '名义估计'),
-                                        (predicted[:, rack], '#2369a5', '-', 'CVAE估计')]:
+    for values, color, style, label in [(trace['truth_c'], '#172d3b', '-', '事后设备温度'),
+                                        (trace['nominal_c'], '#7b8790', '--', '名义估计'),
+                                        (trace['cvae_c'], '#2369a5', '-', 'CVAE估计')]:
         axes[0].plot(clocks, values, color=color, linestyle=style, linewidth=1.6, label=label)
-    axes[0].scatter(clocks[fresh[:, rack]], nominal[fresh[:, rack], rack], color='#b27420', s=17, label='刚完成热量测', zorder=4)
+    axes[0].scatter(clocks[fresh], np.asarray(trace['nominal_c'])[fresh], color='#b27420', s=17, label='刚量测（含固定遥测）', zorder=4)
     axes[0].axhline(65, color='#b44e79', linestyle=':', linewidth=1, label='研究热异常界值65°C')
     axes[0].set_ylabel(f'{rack}号柜温度 / °C'); axes[0].legend(frameon=False, ncols=3, fontsize=11)
-    axes[1].plot(clocks, flow.reshape(360, 16, 8).sum(2)[:, pod], color='#147469', linewidth=1.7)
+    axes[1].plot(clocks, trace['pod_flow_kg_s'], color='#147469', linewidth=1.7)
     axes[1].axhline(33.6, color='#b44e79', linestyle=':', linewidth=1, label='研究制冷异常界值33.6 kg/s')
     axes[1].set_ylabel(f'第{pod+1}组总流量 / kg/s'); axes[1].set_xlabel('物理时间 / 秒'); axes[1].legend(frameon=False)
     start = representative['spec']['fault_start_s']; end = start+representative['spec']['duration_s']
     for ax in axes:
         ax.axvspan(start, end, color='#b27420', alpha=.12); ax.grid(alpha=.6); ax.set_xlim(5, 1800)
     axes[1].set_xticks([5, 300, 600, 900, 1200, 1500, 1800])
-    drawings['supplement-process'] = save(fig, 'supplement-process', f'预指定测试条件{case_id}：温度估计、实际流量与故障注入窗口；公开观测流完全相同')
+    drawings['supplement-process'] = save(fig, 'supplement-process', f'编号示例{case_id}：温度估计、实际流量与故障注入窗口；公开观测流完全相同')
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.8), layout='constrained')
     racks = [128, 512, 1024]

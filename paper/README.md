@@ -1,6 +1,6 @@
 # 导师自阅报告与机制工作稿
 
-当前沟通材料按用户2026-11-03的新用途改为直接阅读的报告；研究主结果与机制工作稿保持原范围，未启动新实验。
+当前入口为直接阅读的研究报告。用户于2026-11-03进一步要求补齐数据和未完成计算，本次另立协议，完成3个CVAE-U-Net、6个PPO的真实训练、1080个留出测试回合和18次纯物理规模运行。原机制工作稿与旧封存研究保留原范围。
 
 ## 建议入口
 
@@ -10,19 +10,23 @@
 
 网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
-本版共18幅图：正文8幅、技术附录10幅；其中新增连续温度估计图、电气视觉接入图和既有PID三联样图。原报警评分保持不变。主表用保存时刻与静态权重补算五种方法的适配加权idleness，显示确认收益与整体年龄的取舍；两条并列60段候选分别展示，VAE两行按未运行状态列示。
+新版在原18幅图基础上增加13幅训练、架构、误差、专业结果、配对效应与规模图。正文展示七方法的独立留出结果；历史五方法表和当时未运行的VAE行保留在附录。原报警阈值、九规则负结果和PID三联样图保持原件身份。测试72个条件包含60条唯一物理轨迹，区间以12个独立种子块计算。
 
 ## 来源与复建
 
 - [报告Markdown源文](supervisor-report.md)、[绘图输入](generated/supervisor-report-data.json)、[完整SVG](figures/supervisor-report/)、[来源manifest](generated/briefing-manifest.json)。
 - [本轮要求与证据取舍](report-focus-spec-20261103.md)、[完整review](report-review-20261103.md)、[用途变化与旧版](briefing-comparison.md)、[验证记录](briefing-review.md)、[浏览器验证](generated/supervisor-report-verification.json)、[原件独立核对](generated/supervisor-report-source-verification.json)、[打印验证](generated/supervisor-report-print-verification.json)。
-- 已发布主结果仍见`evidence/event-validation/final`；工程热点图使用已保存的工程回看，未计作12主过程的新样本。原论文数值是原文内部对照，未冒充本项目实测。
+- 历史机制结果见`evidence/event-validation/final`；新训练、测试与权重见[补充基准](../evidence/supplement-study/README.md)及[方法](supplement-study-methods.md)。工程热点图、旧机制包、新留出基准和原论文水域数值分别记账。
 
-构建：`python scripts/build_supervisor_report.py`，使用已有写作环境中的markdown-it-py和Python标准库；[写作依赖](requirements-writing.txt)可放在隔离目录`.work/paper-writing-deps`。数值来自有原件SHA的紧凑快照及原有JSON/SVG，不需要重跑模拟。旧命令`python scripts/build_supervisor_briefing.py`已转到同一静态报告构建，避免恢复旧动画。
+构建：`python scripts/build_supervisor_report.py`，使用Matplotlib、markdown-it-py及Python标准库；[写作依赖](requirements-writing.txt)可放在隔离目录`.work/paper-writing-deps`。数值来自有原件SHA的紧凑JSON，编号示例的温度与流量也已提取保存，重建图表无需重跑模拟或神经推理。旧命令`python scripts/build_supervisor_briefing.py`继续转到同一静态报告构建。
 
 浏览器检查：`node scripts/check_supervisor_report.cjs`，需要支持内置WebSocket的Node及本机Chrome；可用`BRIEFING_CHROME`指定路径。实际打印核对：`python scripts/check_report_print.py`，使用pypdf和Poppler；临时文件位于`.work/self-reading-check`。完整原件独立核对：`python scripts/verify_report_sources.py`，需本机已有的完整工程与封存研究目录。所有命令均不启动新研究。
 
+完整补充复算使用`python scripts/analyze_supplement_study.py`，需要保留本地完整新原件和Torch环境；它从标签、量测、执行日志及预测数组重建报告指标。`source-executed.zip`保存实际执行版本，后续恢复逻辑维护另有修订记录。
+
 ## 历史沟通材料
+
+- [补充数据前的完整自阅版](briefing-history/f35b172e/supervisor-briefing.html)及源文、验证文件按`f35b172e`逐字节保留。
 
 - [工程主线重排前版本](briefing-history/e7fd9e26/supervisor-briefing.html)及源文按`e7fd9e26`逐字节保存。
 - [本次润色前的自阅版](briefing-history/65f025fd/supervisor-briefing.html)及源文按`65f025fd`逐字节保存。

@@ -1,12 +1,14 @@
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
 
-SPEC = importlib.util.spec_from_file_location('supplement_runner', Path(__file__).resolve().parents[1] / 'scripts/run_supplement_study.py')
+RUNNER_PATH=Path(os.environ.get('RENLY_SUPPLEMENT_RUNNER_PATH',Path(__file__).resolve().parents[1] / 'scripts/run_supplement_study.py'))
+SPEC = importlib.util.spec_from_file_location('supplement_runner',RUNNER_PATH)
 runner = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(runner)
 
@@ -57,6 +59,51 @@ class StudyGateTests(unittest.TestCase):
             with patch.object(study, 'require_preflight'), self.assertRaisesRegex(RuntimeError, 'epochs incomplete'):
                 study.freeze_checkpoints()
             self.assertFalse((Path(directory) / 'test-checkpoint-lock.json').exists())
+
+    def test_policy_retry_preserves_actual_history_and_both_checkpoints(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(runner,'OUT',Path(directory)):
+            study=runner.Study();identifier='nominal-271-001'
+            for status in ('started','failed'):
+                runner.append_log(study.ledger,{'phase':'ppo_train','id':identifier,'status':status,'attempt_number':1})
+            runner.write_json(Path(directory)/'amendments.json',[{'resolved_attempts':[{'phase':'ppo_train','id':identifier,'attempt_number':1}],'additional_attempts':{'ppo_train':1}}])
+            originals={'training/ppo-nominal-271.json':'failed-history','checkpoints/ppo-nominal-271.pt':'uncommitted-checkpoint',
+                       'checkpoint-recovery/ppo-nominal-271.pt':'last-committed-checkpoint'}
+            for relative,value in originals.items():
+                path=Path(directory)/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(value)
+            with patch.object(study,'check_seal'):
+                with study.attempt('ppo_train',identifier,estimator='nominal',model_seed=271):
+                    for relative in originals:(Path(directory)/relative).write_text('replacement')
+            archive=Path(directory)/'retained-failed-attempts/ppo_train'/identifier/'attempt-1/external'
+            for relative,value in originals.items():self.assertEqual((archive/relative).read_text(),value)
+
+    def test_atomic_policy_save_retains_previous_committed_state(self):
+        class CheckpointWriter:
+            @staticmethod
+            def save(value,path):Path(path).write_text(value)
+        with tempfile.TemporaryDirectory() as directory:
+            current=Path(directory)/'checkpoints/policy.pt';current.parent.mkdir()
+            previous=Path(directory)/'checkpoint-recovery/policy.pt'
+            current.write_text('episode4')
+            runner.atomic_checkpoint(CheckpointWriter,'episode5',current,previous)
+            self.assertEqual(current.read_text(),'episode5')
+            self.assertEqual(previous.read_text(),'episode4')
+
+    def test_two_crashes_after_save_keep_the_last_committed_policy(self):
+        class CheckpointWriter:
+            @staticmethod
+            def save(value,path):Path(path).write_text(json.dumps(value))
+        with tempfile.TemporaryDirectory() as directory:
+            current=Path(directory)/'checkpoints/policy.pt';current.parent.mkdir()
+            previous=Path(directory)/'checkpoint-recovery/policy.pt';previous.parent.mkdir()
+            current.write_text(json.dumps({'episodes':5,'weights':'first-uncommitted'}))
+            previous.write_text(json.dumps({'episodes':4,'weights':'committed'}))
+            for retry in range(2):
+                pack=runner.select_policy_resume_checkpoint(json.loads(current.read_text()),json.loads(previous.read_text()),4)
+                runner.restore_policy_checkpoint_for_retry(CheckpointWriter,current,pack,4)
+                runner.atomic_checkpoint(CheckpointWriter,{'episodes':5,'weights':f'uncommitted-retry{retry}'},current,previous)
+                # Crash here: episode5 never enters the completion ledger.
+            recovered=runner.select_policy_resume_checkpoint(json.loads(current.read_text()),json.loads(previous.read_text()),4)
+            self.assertEqual(recovered,{'episodes':4,'weights':'committed'})
 
 
 if __name__ == '__main__':

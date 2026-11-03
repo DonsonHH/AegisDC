@@ -10,6 +10,9 @@ import math
 from pathlib import Path
 from statistics import mean
 import xml.etree.ElementTree as ET
+import zipfile
+
+import numpy as np
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -71,6 +74,93 @@ def verify_comparison(data):
         assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported'] and not item['completed_128_rack_and_mask_adaptation_claim_supported']
     return {'comparison_methods_recomputed':len(recomputed),'comparison_task_gap_sets_checked':12*5*176,
             'comparison_measurements_checked':completed_events,'comparison_input_hashes_checked':len(comparison['sources'])}
+
+
+def verify_supplement(data,manifest):
+    supplement=load(ROOT/'paper/source-data/supplement-study.json')
+    assert data['supplement']==supplement
+    receipt=load(ROOT/'evidence/supplement-study/analysis-receipt.json')
+    assert receipt['paper_source_sha256']==digest(ROOT/'paper/source-data/supplement-study.json')
+    assert receipt['analyzer_sha256']==digest(ROOT/'scripts/analyze_supplement_study.py')
+    assert receipt['test_rows_sha256']==digest(ROOT/'evidence/supplement-study/test-rows.json')
+    assert receipt['checkpoint_archive_sha256']==digest(ROOT/'evidence/supplement-study/checkpoints.zip')
+    original=load(ROOT/'evidence/supplement-study/local-artifacts.json')
+    raw_root=ROOT/original['root']
+    for relative,identity in original['files'].items():
+        path=raw_root/relative
+        assert path.stat().st_size==identity['bytes'] and digest(path)==identity['sha256'],relative
+    checkpoints=supplement['checkpoint_lock']['checkpoints']
+    with zipfile.ZipFile(ROOT/'evidence/supplement-study/checkpoints.zip') as archive:
+        assert set(archive.namelist())==set(checkpoints)
+        for name,identity in checkpoints.items():assert hashlib.sha256(archive.read(name)).hexdigest()==identity
+    execution=supplement['executed_source']
+    assert digest(ROOT/'evidence/supplement-study/source-executed.zip')==execution['archive_sha256']
+    with zipfile.ZipFile(ROOT/'evidence/supplement-study/source-executed.zip') as archive:
+        assert set(archive.namelist())==set(execution['files'])
+        for name,identity in execution['files'].items():assert hashlib.sha256(archive.read(name)).hexdigest()==identity
+    rows=load(ROOT/'evidence/supplement-study/test-rows.json')
+    assert len(rows)==1080 and manifest['test_episode_count']==1080
+    primary=set(supplement['protocol']['analysis']['primary_families'])
+    selected=[r for r in rows if r['family'] in primary]
+    keys=['confirmed_segments','consequence_weighted_censored_delay_s','weighted_normalized_age','all_weighted_rmse_c']
+    # Separate implementation of the report's inference unit from the raw
+    # extraction: one conditional mean per model set, then four equal families.
+    blocks={}
+    for method in supplement['method_order']:
+        block_values=[]
+        for block in range(12):
+            values={}
+            for key in keys:
+                family_values=[]
+                for family in primary:
+                    found=[r['metrics'][key] for r in selected if r['method']==method and r['block']==block and r['family']==family and r['metrics'][key] is not None]
+                    if found:family_values.append(sum(found)/len(found))
+                values[key]=sum(family_values)/len(family_values) if family_values else None
+                saved=supplement['block_values'][method][block][key]
+                assert saved is None if values[key] is None else math.isclose(values[key],saved,rel_tol=1e-11,abs_tol=1e-12)
+            block_values.append(values)
+        blocks[method]=block_values
+        for key in keys:
+            values=[r[key] for r in block_values if r[key] is not None]
+            record=supplement['primary_aggregates'][method][key]
+            assert math.isclose(sum(values)/len(values),record['mean'],rel_tol=1e-11,abs_tol=1e-12)
+    contrasts_checked=0
+    for contrast in supplement['contrasts']:
+        for key in keys:
+            if key not in contrast['metrics']:continue
+            values=[a[key]-b[key] for a,b in zip(blocks[contrast['first']],blocks[contrast['second']]) if a[key] is not None and b[key] is not None]
+            rng=np.random.default_rng(20261103);array=np.asarray(values)
+            draws=rng.choice(array,size=(10000,len(array)),replace=True).mean(1)
+            interval=np.quantile(draws,[.025,.975])
+            saved=contrast['metrics'][key]
+            assert math.isclose(float(array.mean()),saved['mean'],rel_tol=1e-11,abs_tol=1e-12)
+            assert np.allclose(interval,saved['percentile95'],rtol=1e-11,atol=1e-12)
+            contrasts_checked+=1
+    narrative=load(ROOT/'paper/source-data/supplement-narrative.json')
+    assert narrative['analysis_sha256']==digest(ROOT/'paper/source-data/supplement-study.json')
+    example=load(ROOT/supplement['example']['path'])
+    assert digest(ROOT/supplement['example']['path'])==supplement['example']['sha256']
+    case=supplement['protocol']['case_sets']['test'][0];assert example['case']==case and example['model_seed']==271
+    reference=raw_root/'test'/(case['id']+'-nominal-tour')/'arrays.npz'
+    predicted=raw_root/'fixed-stream-predictions'/f"{case['id']}-cvae-271.npz"
+    assert digest(reference)==example['source_arrays_sha256'] and digest(predicted)==example['source_prediction_sha256']
+    frame=int(example['frame_time_s']/5)-1;rack=example['trace_rack_index'];pod=example['pod_index']
+    assert rack==case['spec']['fault_rack']//8*8+1 and example['frame_time_s']==case['spec']['fault_start_s']+90
+    with np.load(reference) as a,np.load(predicted) as b:
+        for key,value in [('nominal',a['predicted_temperature_c']),('cvae',b['predicted_temperature_c']),('truth',a['true_temperature_c'])]:
+            assert np.array_equal(example['frame_temperature_c'][key],value[frame])
+            assert np.array_equal(example['trace'][key+'_c'],value[:,rack])
+        assert np.array_equal(example['trace']['fresh_mask'],a['fresh_measurement_mask'][:,rack])
+        assert np.array_equal(example['trace']['pod_flow_kg_s'],a['offline_rack_flow_kg_s'].reshape(360,16,8).sum(2)[:,pod])
+    assert supplement['audit']['raw_label_professional_outcomes_recomputed']==1080
+    assert supplement['audit']['fixed_stream_error_cases_recomputed']==216
+    assert manifest['independent_test_seed_blocks']==12 and manifest['unique_test_physical_processes']==60
+    archive=load(ROOT/'paper/briefing-history/f35b172e/baseline.json')
+    for identity in archive['files'].values():assert digest(ROOT/identity['archived_as'])==identity['sha256']
+    return {'supplement_original_files_hashed':len(original['files']),'supplement_checkpoints_hashed':9,
+            'supplement_model_seed_family_block_aggregates_checked':7*12*len(keys),
+            'supplement_paired_intervals_recomputed':contrasts_checked,
+            'supplement_analysis_audit':supplement['audit'],'pre_study_report_files_unchanged':len(archive['files'])}
 
 
 def main():
@@ -161,6 +251,7 @@ def main():
         assert record['process_metadata']['configuration']['racks']==128
     assert all(not row['formal_clauses_read'] for row in alignment['standards'])
     comparison_checks=verify_comparison(data)
+    supplement_checks=verify_supplement(data,manifest)
     rows=load(ROOT/'evidence/event-validation/final/rows.json')
     for method in ['tour','fifo','shuffled']:
         selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
@@ -237,8 +328,8 @@ def main():
             's0_risk_deferred_binary_decisions':deferred,'s0_risk_maximum_observed_score_input':maximum_risk,
             's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
             'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
-            **comparison_checks,
-            'scope':'Read existing full records and public report extracts only; no simulation, training or research-model inference.'}
+            **comparison_checks,**supplement_checks,
+            'scope':'This checker reads retained historical/new originals and extracts, hashes all supplementary artifacts and independently recomputes block aggregates/paired intervals. The separate completed analyzer reconstructs raw-label outcomes, errors, costs and model identities. No new simulation/training/inference in this check.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')
 

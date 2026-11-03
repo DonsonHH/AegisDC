@@ -26,6 +26,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
+sys.path.insert(0, str(ROOT / 'scripts'))
+from supplement_recovery import completed_policy_prefix, select_policy_resume_checkpoint, policy_state_files
 os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG', ':4096:8')
 PROTOCOL = ROOT / 'configs/supplement-benchmark-20261103.json'
 OUT = ROOT / 'runs/supplement-benchmark-20261103'
@@ -69,14 +71,25 @@ def append_log(path, value):
         os.fsync(stream.fileno())
 
 
-def atomic_checkpoint(torch, value, path):
+def atomic_checkpoint(torch, value, path, previous=None):
     temporary = path.with_suffix('.pt.tmp')
     torch.save(value, temporary)
+    if previous is not None and path.exists():
+        previous.parent.mkdir(parents=True, exist_ok=True)
+        previous_temporary = previous.with_suffix('.pt.tmp')
+        shutil.copyfile(path, previous_temporary)
+        previous_temporary.replace(previous)
     temporary.replace(path)
 
 
+def restore_policy_checkpoint_for_retry(torch, checkpoint, committed_pack, completed):
+    if committed_pack['episodes'] != completed:
+        raise RuntimeError('Retry snapshot must match the completed ledger prefix')
+    atomic_checkpoint(torch, committed_pack, checkpoint)
+
+
 def source_hashes():
-    paths = [PROTOCOL, Path(__file__).resolve(), *sorted((ROOT / 'src/patrol_rsi').glob('*.py'))]
+    paths = [PROTOCOL, Path(__file__).resolve(), ROOT / 'scripts/supplement_recovery.py', *sorted((ROOT / 'src/patrol_rsi').glob('*.py'))]
     return {str(p.relative_to(ROOT)).replace('\\', '/'): sha(p) for p in paths}
 
 
@@ -181,10 +194,17 @@ class Study:
             folder = OUT / phase / identifier
             if folder.exists():
                 shutil.copytree(folder, archive / 'episode')
-            # Training records/checkpoints may live outside the episode folder.
-            for candidate in [OUT / 'training' / (identifier+'.json'), OUT / 'checkpoints' / (identifier+'.pt')]:
+            # Preserve actual policy histories and both saves under their
+            # relative paths; canonical and previous checkpoints share a name.
+            external = [OUT / 'training' / (identifier+'.json'), OUT / 'checkpoints' / (identifier+'.pt')]
+            if phase == 'ppo_train':
+                external = list(policy_state_files(OUT, metadata['estimator'], metadata['model_seed']).values())
+            external += [candidate.with_suffix(candidate.suffix+'.tmp') for candidate in external]
+            for candidate in dict.fromkeys(external):
                 if candidate.exists():
-                    shutil.copyfile(candidate, archive / candidate.name)
+                    destination = archive / 'external' / candidate.relative_to(OUT)
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(candidate, destination)
             write_json(archive / 'retention.json', {'phase': phase, 'id': identifier, 'attempt_number': latest_number,
                        'ledger_events': earlier, 'files': {p.relative_to(archive).as_posix(): sha(p) for p in archive.rglob('*') if p.is_file()}})
         event = {'phase': phase, 'id': identifier, 'attempt_number': ordinal, 'environment': environment, 'at': now(), **metadata}
@@ -392,15 +412,20 @@ class Study:
                 predictor = self.predictor(seed) if estimator == 'cvae' else None
                 # predictor loading/warmup resets RNG; restore paired policy sampling seed.
                 torch.manual_seed(seed)
-                checkpoint = OUT / 'checkpoints' / f'ppo-{estimator}-{seed}.pt'
-                history_path = OUT / 'training' / f'ppo-{estimator}-{seed}.json'
-                history = []
-                first = 0
-                if checkpoint.exists():
-                    pack = torch.load(checkpoint, map_location='cpu', weights_only=False)
+                paths = policy_state_files(OUT, estimator, seed)
+                checkpoint, history_path = paths['checkpoint'], paths['history']
+                first = completed_policy_prefix(self.entries(), estimator, seed, len(order))
+                current = torch.load(checkpoint, map_location='cpu', weights_only=False) if checkpoint.exists() else None
+                previous = torch.load(paths['previous'], map_location='cpu', weights_only=False) if paths['previous'].exists() else None
+                pack = select_policy_resume_checkpoint(current, previous, first)
+                history = read_json(history_path)['history'][:first] if history_path.exists() else []
+                if len(history) != first or [r['episode'] for r in history] != list(range(1, first+1)):
+                    raise RuntimeError('PPO history does not match completed ledger prefix')
+                if [r['case_id'] for r in history] != [self.protocol['case_sets']['train'][i]['id'] for i in order[:first]]:
+                    raise RuntimeError('PPO history differs from the registered paired case order')
+                if pack is not None:
                     model.load_state_dict(pack['state_dict']); optimizer.load_state_dict(pack['optimizer'])
-                    torch.set_rng_state(pack['torch_rng']); first = pack['episodes']
-                    history = read_json(history_path)['history'][:first]
+                    torch.set_rng_state(pack['torch_rng'])
                 initial = hashlib.sha256(b''.join(p.detach().numpy().tobytes() for p in model.parameters())).hexdigest()
                 for index in range(first, len(order)):
                     case = self.protocol['case_sets']['train'][order[index]]
@@ -409,6 +434,15 @@ class Study:
                     from patrol_rsi.supplement_task import run_episode
                     with self.attempt('ppo_train', identifier, case_id=case['id'], family=case['family'],
                                       physical_seed=case['spec']['seed'], model_seed=seed, estimator=estimator):
+                        # attempt() has archived the failed canonical save. Restore
+                        # the committed state before rotating another checkpoint,
+                        # preserving recovery across repeated crash-after-save.
+                        if index == first and current is not None and current['episodes'] > first:
+                            committed_pack = pack if pack is not None else {
+                                'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
+                                'episodes': first, 'torch_rng': torch.get_rng_state(), 'model_seed': seed,
+                                'estimator': estimator, 'study_id': self.protocol['study_id']}
+                            restore_policy_checkpoint_for_retry(torch, checkpoint, committed_pack, first)
                         record, arrays, rollout = run_episode(case['spec'], 'ppo', predictor, model, True, False)
                         record['supplement_metadata'] = {'phase': 'ppo_train', 'id': identifier, 'case': case,
                                                          'model_seed': seed, 'estimator': estimator, 'episode': index+1}
@@ -420,7 +454,7 @@ class Study:
                                                  'initial_weights_sha256': initial if first == 0 else read_json(history_path)['initial_weights_sha256']})
                         atomic_checkpoint(torch, {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
                                     'episodes': index+1, 'torch_rng': torch.get_rng_state(), 'model_seed': seed,
-                                    'estimator': estimator, 'study_id': self.protocol['study_id']}, checkpoint)
+                                    'estimator': estimator, 'study_id': self.protocol['study_id']}, checkpoint, paths['previous'])
                         print(json.dumps({'phase': 'ppo_train', 'id': identifier, 'case': case['id'], **update}), flush=True)
                 del model, optimizer, predictor
 

@@ -4,11 +4,11 @@
 
 项目以指定巡检论文的部分观测、状态估计和多执行者学习思想为基础。当前保留供电—液冷—自控合成模型、专业任务、受保护巡回和有限流程修改；历史实验通过归档快照访问。
 
-论文已按用户选择收束为[机制稿导师讨论版](paper/README.md)：[一页讨论摘要](paper/supervisor-brief.md)、[贡献表](paper/research-map.md)、[正文](paper/manuscript_zh.md)及[公式图表预览](paper/manuscript_zh.html)。主文中心为RQ1—RQ2，并保留同权限搜索负结果；反馈设计移至[独立备忘](paper/feedback-design.md)。
+历史论文材料保留为[机制稿导师讨论版](paper/README.md)：[一页讨论摘要](paper/supervisor-brief.md)、[贡献表](paper/research-map.md)、[正文](paper/manuscript_zh.md)及[公式图表预览](paper/manuscript_zh.html)。该稿以RQ1—RQ2及同权限搜索负结果为中心；反馈设计见[独立备忘](paper/feedback-design.md)。
 
-当前给导师的入口是[自阅研究进展报告](paper/supervisor-briefing.html)。正文集中在三系统模型、RGB/IR视觉接口、实际控制及大型设施参照、全局温度态势和本任务多方法比较；FIFO与九规则细节移入可选附录。现有记录补算了资产加权巡检年龄，预测误差和计时缺项按真实状态列示。图像、公式和表格内嵌，可单文件离线阅读。[用途调整与历史版本](paper/briefing-comparison.md)保留供回看。
+当前给导师的入口是[自阅研究进展报告](paper/supervisor-briefing.html)。本次按新授权补充真实模型训练、四专业数据与独立留出比较：3个温度残差CVAE-U-Net、6个共享PPO，1080个留出测试回合、12个独立种子块，以及18次128／512／1024柜纯物理规模运行。报告包含模型架构、训练曲线、同观测流误差、专业确认、年龄和资源代价，图像、公式和表格内嵌，可单文件离线阅读。
 
-最新[响应／暂缓开发搜索](evidence/response-defer/README.md)在9条不同规则、108次实际开发评价后按门槛停止：没有超过FIFO的候选，没有模型组或新确认执行。当前工作为导师讨论稿件，不安排新增实验，见[NEXT](docs/NEXT.md)。
+新结果和原件身份见[独立补充基准](evidence/supplement-study/README.md)、[完整方法](paper/supplement-study-methods.md)及[NEXT](docs/NEXT.md)。旧[响应／暂缓开发搜索](evidence/response-defer/README.md)的9条规则、108次开发评价与“均未超过FIFO”的负结果完整保留；本次模型训练和数据不并入旧协议预算。
 
 ## 现在做到哪里
 
@@ -16,9 +16,10 @@
 |---|---|
 | 可维护的执行入口 | `status`、`demo`、`explain`、`proposal`、`verify`；`study`显式启动冻结研究 |
 | 默认巡检 | 名义状态估计＋固定巡回 Tour；可评价人工给定的受限局部规则 |
-| 学习工具 | CVAE需要外部冻结权重；PPO源码保留，但不参与默认局部调度 |
-| 已有科研证据 | 事件响应在预定热—冷耦合条件中通过收益与成本门槛；复杂排序、模型反馈及递归增益尚未成立 |
-| 本轮研究 | 有限验证已结束：108次成功＋1次保留失败；主过程Tour/FIFO/置乱确认28/70/25段（共89段）。见[完整结果](evidence/event-validation/final/README.md)与[NEXT](docs/NEXT.md) |
+| 学习基准 | 3个295,777参数的残差CVAE-U-Net及6个共享PPO已真实训练；九个checkpoint与训练历史归档，默认CLI仍保留原机制流程 |
+| 已有科研证据 | 新留出基准中名义FIFO确认155/210、Tour94/210；CVAE改善温度误差，学习调度的确认量未超过名义FIFO；模型后果反馈与递归增益仍待独立验证 |
+| 历史机制研究 | 108次成功＋1次保留失败；原主过程Tour/FIFO/置乱确认28/70/25段（共89段）。见[原完整结果](evidence/event-validation/final/README.md) |
+| 本轮独立补充 | 2204次环境尝试、3次估计器训练和18次纯物理运行完成，零失败；主推断采用12个种子块、48个故障条件，健康／虚假提示另列 |
 
 ## 从这里运行
 
@@ -56,6 +57,8 @@ python -m patrol_rsi proposal --candidate configs/candidate-example.json --outpu
 正式反馈研究使用单独的 `study` 命令，方案与预算固定在 [configs/feedback-study.json](configs/feedback-study.json)。它需要一个已准备、通过权重校验的离线Slurm推理任务；`--ssh-host`使用本机已解锁的SSH认证，密钥不进入仓库。运行步骤、完整结果与原件索引统一放在 [反馈研究交付](evidence/feedback-study/README.md)。
 
 未安装包时，Bash先运行 `export PYTHONPATH="$PWD/src"`；PowerShell先运行 `$env:PYTHONPATH="$PWD\src"`，然后使用相同的 `python -m patrol_rsi ...` 命令。
+
+补充研究使用独立入口`python scripts/run_supplement_study.py status`，由`configs/supplement-benchmark-20261103.json`登记。`all`显式执行该研究，需要Torch运行环境及原兼容记录；重建报告使用`python scripts/build_supervisor_report.py`，读取仓库内保存的图表输入，不启动训练或新仿真。完整逐帧原件保留在本地`runs/supplement-benchmark-20261103`，仓库包含评价明细、真实权重、执行源码快照与SHA索引。
 
 ## 阅读顺序
 
