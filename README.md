@@ -8,7 +8,9 @@
 
 当前给导师的入口是[自阅研究进展报告](paper/supervisor-briefing.html)。本次按新授权补充真实模型训练、四专业数据与独立留出比较：3个温度残差CVAE-U-Net、6个共享PPO，1080个留出测试回合、12个独立种子块，以及18次128／512／1024柜纯物理规模运行。报告包含模型架构、训练曲线、同观测流误差、专业确认、年龄和资源代价，图像、公式和表格内嵌，可单文件离线阅读。
 
-文本工具审阅可使用[已展开的完整正文](paper/supervisor-report-text.md)或[8节正文审阅包](paper/generated/supervisor-text-review.zip)：不内嵌Base64或SVG代码，正文、公式及数值表与HTML同源，图版改为链接。
+新版按“设施→感知→决策→实验→规划”组织，导航与标题统一为0—6章及1.1／1.1.1层级。实测结果集中第4章，旧500秒工程帧和历史89段完整图表放入附录，原31幅图均保留。
+
+文本工具审阅可使用[已展开的完整正文](paper/supervisor-report-text.md)或[七章正文审阅包](paper/generated/supervisor-text-review.zip)：不内嵌Base64或SVG代码，正文、公式及数值表与HTML同源，图版改为链接。
 
 新结果和原件身份见[独立补充基准](evidence/supplement-study/README.md)、[完整方法](paper/supplement-study-methods.md)及[NEXT](docs/NEXT.md)。旧[响应／暂缓开发搜索](evidence/response-defer/README.md)的9条规则、108次开发评价与“均未超过FIFO”的负结果完整保留；本次模型训练和数据不并入旧协议预算。
 

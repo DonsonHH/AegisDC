@@ -230,7 +230,8 @@ def verify_refinements(manifest,html):
     full_path=ROOT/exported['full']['path'];full=full_path.read_text(encoding='utf-8')
     assert digest(full_path)==exported['full']['sha256'] and full_path.stat().st_size==exported['full']['bytes']
     assert not any(token in full for token in ('data:image','<svg','{{'))
-    assert len(exported['sections'])==8 and exported['section_bytes_max']<24000
+    assert len(exported['sections'])==len(manifest['sections'])==7 and exported['section_bytes_max']<24000
+    assert {p.name for p in (ROOT/'paper/text-review').glob('*.md')}=={row['path'] for row in exported['sections']}
     for row in exported['sections']:
         path=ROOT/'paper/text-review'/row['path'];assert digest(path)==row['sha256'] and path.stat().st_size==row['bytes']
         assert not any(token in path.read_text(encoding='utf-8') for token in ('data:image','<svg','{{'))
@@ -254,7 +255,7 @@ def verify_refinements(manifest,html):
     previous=load(ROOT/'paper/briefing-history/97dba207/baseline.json')
     for row in previous['files'].values():assert digest(ROOT/row['archived_as'])==row['sha256']
     return {'posthoc_pairs_recomputed':counts['comparisons'],'posthoc_lost':counts['lost'],'posthoc_gained':counts['gained'],
-            'binary_free_review_sections':8,'text_review_numeric_tables_matched':len(text_semantics.tables),
+            'binary_free_review_sections':len(exported['sections']),'text_review_numeric_tables_matched':len(text_semantics.tables),
             'text_review_h2_sections_matched':len(text_semantics.headings),'previous_v7_report_files_unchanged':len(previous['files'])}
 
 
@@ -348,6 +349,8 @@ def main():
     comparison_checks=verify_comparison(data)
     supplement_checks=verify_supplement(data,manifest)
     refinement_checks=verify_refinements(manifest,html)
+    from report_structure_check import verify_structure
+    structure_checks=verify_structure(html)
     rows=load(ROOT/'evidence/event-validation/final/rows.json')
     for method in ['tour','fifo','shuffled']:
         selected=[r for r in rows if r['group']=='coupled' and r['method']==method]
@@ -425,6 +428,7 @@ def main():
             's1_age_gained':gains,'s1_age_lost_intervals_without_in_window_measurements':losses,
             'risk_470_component_recalculation':methods['risk_470s']['component_recomputation_status'],
             **comparison_checks,**supplement_checks,**refinement_checks,
+            'narrative_structure':structure_checks,'structure_checker_sha256':digest(ROOT/'scripts/report_structure_check.py'),
             'scope':'This checker reads retained historical/new originals and extracts, hashes all supplementary artifacts and independently recomputes block aggregates/paired intervals. The separate completed analyzer reconstructs raw-label outcomes, errors, costs and model identities. No new simulation/training/inference in this check.'}
     (ROOT/'paper/generated/supervisor-report-source-verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('PASS:',frozen_count,'original files unchanged; engineering maps, actual FIFO queue, certificates and visits match source records.')

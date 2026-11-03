@@ -1,35 +1,35 @@
 {
-  "version": 8,
+  "version": 9,
   "mode": "self_reading_report",
-  "previous_version": "97dba207a3228cd176113769a8a927881fc1ef6e",
+  "previous_version": "eaac99947ff95f330e4822909b243d5764521fb7",
   "animations": false,
   "presenter_controls": false,
   "main_figure_ids": [
     "model",
     "pid-visual-sample",
     "visual-interface",
-    "supplement-scale",
-    "estimated-temperature",
-    "offline-temperature",
     "supplement-unet",
-    "supplement-heatmaps",
-    "supplement-process",
     "inspection-architecture",
-    "confirmations",
-    "outcome-costs",
     "supplement-crossed-design",
     "supplement-estimator-training",
     "supplement-ppo-training",
     "supplement-estimation",
+    "supplement-heatmaps",
+    "supplement-process",
     "supplement-methods",
     "supplement-professions",
     "supplement-contrasts",
-    "supplement-latency"
+    "supplement-latency",
+    "supplement-scale"
   ],
   "appendix_figure_ids": [
+    "estimated-temperature",
+    "offline-temperature",
     "public-risk",
     "fifo-cycle",
     "fifo-actions",
+    "confirmations",
+    "outcome-costs",
     "paired-net",
     "registered-rules",
     "rule-diagnosis",
@@ -46,8 +46,7 @@
     "fifo",
     "comparison",
     "roadmap",
-    "appendix",
-    "sources"
+    "appendix"
   ],
   "primary_processes": 12,
   "primary_condition_count": 48,
@@ -2234,7 +2233,7 @@
   },
   "trained_checkpoints": 9,
   "external_language_model_calls": 0,
-  "html_sha256": "b5073b1e4c4de7c434f92c4c5c3b02f686f6a9c33907d6d1bafd62139e0545f5",
+  "html_sha256": "22d3d845f0237cd429fca4d48afe2d37547669480ad69098f39dd34720bd02b1",
   "data_sha256": "943ac5084ddc6954a00e8ce377e2801867937c376ae3788c40449962224b51a2",
   "figure_sha256": {
     "paper/figures/supervisor-report/model.svg": "2919efd55fec863088ee678f8b5e5797514a2e5084627c93a4ccb7e1c03a4e3c",
@@ -2270,7 +2269,7 @@
     "paper/figures/supervisor-report/supplement-crossed-design.svg": "b9515130e5d54d5a1690f9b86b4bd53c4e4c22ed7152d9c2826363fdc5dba2de"
   },
   "source_sha256": {
-    "scripts/build_supervisor_report.py": "82e603d30681fc0f2b2db68ea9457cfa19490f3899c2e2e33b9bfc518bc23089",
+    "scripts/build_supervisor_report.py": "00d110ec82c8a5faf5fb60f57135b0e036e11f490afb47f90958847c14604cc3",
     "scripts/report_diagrams.py": "60f17b4f7b6043c2bd7de2bc9c0cbcc2e0e401ae3e143b4ca92fea9346373d93",
     "scripts/briefing_diagrams.py": "b0bcbadbbcb1138720a23b51ce73207037e30689c38b369dee36471dbb892925",
     "scripts/report_text_export.py": "01e013a85630612399f8b89990d5fce7653fc847746df216fbbac2b2650c4494",
@@ -2290,7 +2289,7 @@
     "paper/source-data/report-comparison-metrics.json": "fdc96ef31db0492842823a240422e158bdeaf4cb785a1e1875468c27508c40ce",
     "paper/source-data/supplement-study.json": "d1d08eeedb92e37551c2d6f359214ed9ce117a8971ed19e4716fe11ec945f6f9",
     "paper/source-data/supplement-example.json": "7e9b6622aa907e5ef03df6e83d37d4b4585338eec748576341c788a28de7bb8d",
-    "paper/source-data/supplement-narrative.json": "518721b28a28fd98e2234249688feaddee37de45e04cfea6dc9399d19d5c067a",
+    "paper/source-data/supplement-narrative.json": "b50a96c3de705d77cba10039d6301c9d574953885ccca3d7a20b39be32128d28",
     "paper/source-data/estimation-confirmation-gap.json": "0423174b2b9ad6d3f393e45c7358757ddaf8f2b8be958afd4c177f5a6eeecc5c",
     "scripts/analyze_supplement_study.py": "352a98de0564ac6af9e63220b2da020bf54873125c8b27a0551854c6b5bd78c9",
     "scripts/supplement_figures.py": "5f31b94ea4aa25ed80977a234e0d6b1da963d05b02e5259da03f8365bf59c597",
@@ -2315,6 +2314,7 @@
     "paper/research/report-pid-interface-20261103.md": "dff54beb8e3bc56bf143541fc086959913010ffbd39850659341d4465c57ce75",
     "paper/research/report-comparison-metrics-20261103.md": "2b20c7cee392ee2658cb41d01cdecc4d68cfcb90842c926079f2614ca84f9c75",
     "paper/report-focus-spec-20261103.md": "f22ea809a7fd326778e7121a689d1365d61bf5d20ecc66c88efc5112f801e8a6",
+    "paper/report-structure-spec-20261103.md": "46ef21d467150a026ac52528d3abee44b29c009973a43b2f27ee8ddeaddb7ea8",
     "paper/research/report-method-formulas-20261103.md": "5db692cc5e12ff71ac8de9304ab8d95df1ce77d9d9bf77eea896ba12e9c26f13",
     "paper/research/report-rule-diagnosis-20261103.md": "e20f3effad580593370883f748da7a4bc8ebaebdcc7922fb0540838fce66d084",
     "paper/briefing-history/2db2adf1/baseline.json": "f3614e43fd05050f928ad5927d0becd7e3ed7afe0a470e8fd34490258f816a30",
@@ -2349,73 +2349,66 @@
     "paper/figures/briefing-v3/execution-chain.svg": "b319dd87b51f4dcc44c9f0c747dd144076b01e0119614e8e5baa9c595bf29f95",
     "paper/figures/briefing-v3/task-17.svg": "5330f404d51be98aeb8814b0f868cb093b9494f1f393ddedfefb2a23183f5fe0",
     "paper/figures/briefing-v3/task-21.svg": "dbb09fac31179fafd1118aa8fcb50292f73af6f91254171b8eacbbfcbaf7fb9b",
-    "paper/supervisor-report.md": "333232353181fe9c42bed5461ed574319803bee4ad52916628aab79075ed147d",
-    "paper/briefing-template.html": "ed25ea971847df2c5ba822114e3b1da89920d388c51fe7e8b3b62fc3367784c8"
+    "paper/supervisor-report.md": "07c52030c3db2488f240083020cad319068d08885d136eb4a786b53720610563",
+    "paper/briefing-template.html": "a0e3b252b2327c9ab1c2340dacd26f4eabcc5aab8ceb0fd40f3c0c76e41a38d5"
   },
   "text_export": {
-    "derived_from_html_sha256": "b5073b1e4c4de7c434f92c4c5c3b02f686f6a9c33907d6d1bafd62139e0545f5",
+    "derived_from_html_sha256": "22d3d845f0237cd429fca4d48afe2d37547669480ad69098f39dd34720bd02b1",
     "scope": "Resolved report prose, formulas and numeric tables; all31figures linked rather than embedded.",
     "full": {
       "path": "paper/supervisor-report-text.md",
-      "bytes": 64824,
-      "sha256": "bbcff5eeeda9e5c2665052f3e2c23675c72eb76f03443a71d404405015f96513"
+      "bytes": 65185,
+      "sha256": "04f36c093aff7474329550bacd2ffc6b1cf74618f0ea724238fab4f5e17d85fb"
     },
     "sections": [
       {
         "path": "01-overview.md",
-        "bytes": 1429,
-        "sha256": "f93c8d4ae43c38202001984f147bfcf6cc094f9f753a08c4b66e594107fbf4eb",
+        "bytes": 2146,
+        "sha256": "5e23a9768efc5bc8f335d2706f7bccbe9f9a14cc390527391d83b313aa2514b2",
         "section": "overview",
-        "title": "课题主线"
+        "title": "0. 导读概览"
       },
       {
         "path": "02-model.md",
-        "bytes": 10007,
-        "sha256": "d2e0688e51cf0278fc80dd86dbb45fb9711a03591f6b20216643d9f8e2a8b53b",
+        "bytes": 5557,
+        "sha256": "6b40d65e1ee99e9945167f41e21be58dd35f6b74d434a998a15b93c5c97a0362",
         "section": "model",
-        "title": "模型与视觉"
+        "title": "1. 设施模型"
       },
       {
         "path": "03-hotspots.md",
-        "bytes": 4441,
-        "sha256": "7619e60509986df4b1fb5a1d5ebbb3771c5c64343562af4aa9935e4716af4b5c",
+        "bytes": 6475,
+        "sha256": "d668944003e35cef2e2226e47ff7e7ffa184ada0625d1057478a0ad282dc7965",
         "section": "hotspots",
-        "title": "全局态势"
+        "title": "2. 感知估计"
       },
       {
         "path": "04-fifo.md",
-        "bytes": 3599,
-        "sha256": "45b89faed73160b0f67916b1dd85a7fc8526df263cb604860af574cd07766ac6",
+        "bytes": 4869,
+        "sha256": "7d6c0b0ee6d207d38eea4cf60eb3f351b2ba0ebca7ea4b57420e0342595d79e7",
         "section": "fifo",
-        "title": "闭环基准"
+        "title": "3. 巡检决策"
       },
       {
         "path": "05-comparison.md",
-        "bytes": 18200,
-        "sha256": "225cad85242e2946817513b5dcc397c5fc2585c6b1f86f8f9d5b986d311c31d9",
+        "bytes": 21188,
+        "sha256": "f4881ce8da1819db0cc332cde95595a678b67e120a46f0ff58db9641e116cf35",
         "section": "comparison",
-        "title": "横向比较"
+        "title": "4. 实验结果"
       },
       {
         "path": "06-roadmap.md",
-        "bytes": 2730,
-        "sha256": "8ea3a9f36606565d018e56a1675fd03e41b7b6c9f903c7401a2fc19b98dde504",
+        "bytes": 1960,
+        "sha256": "3f9682b9f98df03b5e66e281bf449787c2d2ab8a1a60513d8f6447b43005b8a8",
         "section": "roadmap",
-        "title": "后续安排"
+        "title": "5. 结论规划"
       },
       {
         "path": "07-appendix.md",
-        "bytes": 21866,
-        "sha256": "a5389f345dd2014394b334d8ec7b3d1025cfd21a6bcdbbcc4b5ca395d32bf4be",
+        "bytes": 23872,
+        "sha256": "bbdf0fedac4214aaef278eba589c4494527ea8c470e18c9ad275ccf882069a0b",
         "section": "appendix",
-        "title": "技术附录"
-      },
-      {
-        "path": "08-sources.md",
-        "bytes": 2664,
-        "sha256": "4d4f4358dbcb1b1980e284b0b332caa4415676f2216b75968b9409780b11d2f4",
-        "section": "sources",
-        "title": "来源"
+        "title": "6. 技术附录"
       }
     ],
     "archive_full_path": "report-full.md",
@@ -2423,39 +2416,46 @@
       "overview": "01-overview.md",
       "model": "02-model.md",
       "figure-model": "02-model.md",
-      "figure-pid-visual-sample": "02-model.md",
-      "figure-visual-interface": "02-model.md",
-      "standards": "02-model.md",
       "principle-control": "02-model.md",
+      "standards": "02-model.md",
       "scale": "02-model.md",
-      "figure-supplement-scale": "02-model.md",
       "hotspots": "03-hotspots.md",
-      "figure-estimated-temperature": "03-hotspots.md",
-      "figure-offline-temperature": "03-hotspots.md",
+      "visual-branch": "03-hotspots.md",
+      "figure-pid-visual-sample": "03-hotspots.md",
+      "figure-visual-interface": "03-hotspots.md",
+      "principle-estimation": "03-hotspots.md",
       "figure-supplement-unet": "03-hotspots.md",
-      "figure-supplement-heatmaps": "03-hotspots.md",
-      "figure-supplement-process": "03-hotspots.md",
+      "principle-risk": "03-hotspots.md",
       "fifo": "04-fifo.md",
       "figure-inspection-architecture": "04-fifo.md",
-      "figure-confirmations": "04-fifo.md",
-      "figure-outcome-costs": "04-fifo.md",
+      "principle-return": "04-fifo.md",
+      "figure-supplement-crossed-design": "04-fifo.md",
       "comparison": "05-comparison.md",
-      "figure-supplement-crossed-design": "05-comparison.md",
       "figure-supplement-estimator-training": "05-comparison.md",
       "figure-supplement-ppo-training": "05-comparison.md",
+      "estimation-results": "05-comparison.md",
       "figure-supplement-estimation": "05-comparison.md",
+      "estimation-example": "05-comparison.md",
+      "figure-supplement-heatmaps": "05-comparison.md",
+      "figure-supplement-process": "05-comparison.md",
       "figure-supplement-methods": "05-comparison.md",
       "figure-supplement-professions": "05-comparison.md",
       "figure-supplement-contrasts": "05-comparison.md",
       "figure-supplement-latency": "05-comparison.md",
+      "scale-results": "05-comparison.md",
+      "figure-supplement-scale": "05-comparison.md",
       "roadmap": "06-roadmap.md",
       "appendix": "07-appendix.md",
-      "principle-estimation": "07-appendix.md",
-      "principle-risk": "07-appendix.md",
+      "engineering-history": "07-appendix.md",
+      "figure-estimated-temperature": "07-appendix.md",
+      "figure-offline-temperature": "07-appendix.md",
       "figure-public-risk": "07-appendix.md",
+      "fifo-detail": "07-appendix.md",
       "figure-fifo-cycle": "07-appendix.md",
-      "principle-return": "07-appendix.md",
       "figure-fifo-actions": "07-appendix.md",
+      "historical-benchmark": "07-appendix.md",
+      "figure-confirmations": "07-appendix.md",
+      "figure-outcome-costs": "07-appendix.md",
       "figure-paired-net": "07-appendix.md",
       "figure-registered-rules": "07-appendix.md",
       "figure-rule-diagnosis": "07-appendix.md",
@@ -2463,16 +2463,17 @@
       "figure-task-17": "07-appendix.md",
       "figure-task-21": "07-appendix.md",
       "figure-original-paper-scores": "07-appendix.md",
+      "training-seeds": "07-appendix.md",
       "figure-supplement-seed-blocks": "07-appendix.md",
       "gap-diagnosis": "07-appendix.md",
-      "sources": "08-sources.md"
+      "sources": "07-appendix.md"
     },
     "no_base64": true,
-    "section_bytes_max": 21866,
+    "section_bytes_max": 23872,
     "archive": {
       "path": "paper/generated/supervisor-text-review.zip",
-      "bytes": 51243,
-      "sha256": "669ae0c5957dfc3f7c105605e0d4d029269e115699d4b2e6ec09eed48d3b1aee"
+      "bytes": 51197,
+      "sha256": "d68dd7cf42b0b7d98e31b7daf985aab2442b07fa6c7e40661d4b06115da4684c"
     }
   },
   "posthoc_estimation_confirmation_diagnosis": {

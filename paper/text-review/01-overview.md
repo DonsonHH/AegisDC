@@ -2,14 +2,20 @@
 
 <a id="overview"></a>
 
-## 报告主线与完成概览
+## 0. 报告导读
 
-|导师关心的内容|本报告的主要材料|位置|
+### 0.1 核心进展摘要
+
+<aside class="project-summary" aria-label="项目主线摘要"><strong>研究主线与阶段成果</strong><p>本研究建立供电、双回路液冷与局部控制的耦合模型，将公开遥测、温度估计和专业巡检连接为观测—派单—量测闭环。已完成3个CVAE-U-Net和6个PPO的真实训练，并在12个独立种子块上执行1080个留出测试回合。同一观测流中，非刚量测加权RMSE由0.443降至0.172°C；专业确认以名义FIFO的155/210段最高。CVAE主要改善连续温度态势，异常确认还由局部越阈值、队列与合法访问时机共同决定。</p></aside>
+
+### 0.2 导师关切点与章节映射
+
+|导师关心的内容|本报告对应材料|阅读位置|
 |---|---|---|
-|配电及RGB转红外视觉工作|10 kV—380 V交流—直流机柜依赖链；已有视觉样例、参考入口和电气量测更新|[三系统与视觉](02-model.md#model)|
-|冷却塔、泵、CDU、冷板及自控|双回路架构、实际三路反馈方程、2026双国标的对照状态|[模型与控制](02-model.md#model)|
-|大型设施复杂度|El Capitan性能／功率参照；当前热状态、指令状态、任务规模及扩展条件|[规模参照](02-model.md#scale)|
-|全局风险态势|名义／CVAE与事后温度同流对照、耦合故障时序、原风险提示|[全局态势](03-hotspots.md#hotspots)|
-|原论文指标与横向比较|估计器×调度器七方法、四专业确认、误差、成本、训练与区间|[独立比较](05-comparison.md#comparison)|
+|配电、液冷与设备自控|10 kV—380 V—54 V供电链、双回路CDU换热、三路反馈及国标对照状态|[第1章：设施物理层](02-model.md#model)|
+|RGB转红外与专业测温|已有B-PID电气显示样例、机房拟适配对象及合格接点观测通道|[2.1：配电视觉支路](03-hotspots.md#visual-branch)|
+|大型设施复杂度|El Capitan工程参照、128柜状态与任务规模、512／1024柜扩展口径|[1.3：规模设置](02-model.md#scale)、[4.5：规模实测](05-comparison.md#scale-results)|
+|全局态势与风险|名义估计、残差CVAE-U-Net、四专业风险生成及新测试态势示例|[第2章：感知方法](03-hotspots.md#hotspots)、[4.2：估计结果](05-comparison.md#estimation-results)|
+|原论文指标与横向比较|同信息同约束七方法、误差、确认、年龄、代价及机制诊断|[第3章：派单方法](04-fifo.md#fifo)、[第4章：实验结果](05-comparison.md#comparison)|
 
-本次主比较采用名义与CVAE两种估计，交叉FIFO、Greedy与PPO，并保留固定Tour基准。RGB生成研究作为独立视觉成果展示。完整方法见[补充基准说明](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/supplement-study-methods.md)；历史FIFO日志、九规则和逐条件数据放在[技术附录](07-appendix.md#appendix)。
+前3章依次定义设施、感知和决策方法；第4章统一展示新基准结果，第5章归纳结论与下一阶段工作。历史89段基准和500秒工程回看集中保留在[第6章附录](07-appendix.md#appendix)，便于按需追溯。

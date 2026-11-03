@@ -2,37 +2,57 @@
 
 <a id="hotspots"></a>
 
-## 2. 状态估计与全机房风险态势
+## 2. 态势感知层：视觉接口、温度估计与风险生成
 
-系统为128个机柜各保留一个温度估计：以公开功率、供液温度和流量估计推进热平衡，每5秒更新；32个固定温度点持续校正，热巡检完成后校正对应机柜。它形成覆盖全机房的连续<strong>温度态势</strong>，再按统一公式产生风险提示。
+<p class="chapter-lead">感知层把固定遥测和已完成检查转为全机房温度估计与专业风险请求，形成第3章调度方法可使用的公开输入。</p>
 
+<h3 id="visual-branch">2.1 配电巡检视觉支路</h3>
 
+#### 2.1.1 既有RGB→伪彩IR显示样例
 
-<a id="figure-estimated-temperature"></a>
-
-[图：已有工程回看500秒的公开温度估计；与右图同一色标，红框叠加原热风险提示。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/estimated-temperature.svg)
-
-
-
-<a id="figure-offline-temperature"></a>
-
-[图：同一工程过程500秒的事后设备代表温度。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/offline-temperature.svg)
+<strong>PID</strong>指Physics-Informed Diffusion图像生成工作，B-PID为本地视觉项目分支；RGB为可见光图像，IR为红外。已有材料包括以下户外电气样例，用于展示前期的显示图重建路径。[原PID方法](https://github.com/fangyuanmao/PID)。
 
 
 
-两图采用同一45—75°C色标，每格一柜，蓝—黄—红呈现连续温度梯度。左侧红框标出该帧原热风险分>0的64、67、70号柜；黑点是32个固定温度遥测点。第9组的热点在估计与事后温度中均可见。
+<a id="figure-pid-visual-sample"></a>
 
-这是一段已有辅助馈电故障工程过程的500秒帧，按16组设备布置展示。连续色阶用于读出温度分布，调度仍使用原有热风险式：
+[图：PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/pid-visual-sample.svg)
 
-<div class="formula-scroll"><p class="formula" role="math">r<sub>i</sub> = min{4, max(T̂<sub>i</sub> − 65, 0)/20 + 0.25[1 − P<sub>del,i</sub>/max(P<sub>req,i</sub>, ε)]}</p></div>
 
-温度越界和功率缺口共同产生严重度提示。RGB→IR外观参考与这一数值温度估计承担不同任务：前者面向视觉线索，后者形成巡检端可计算的状态和风险。原风险分布、热平衡细式及500秒数值表放在附录A，便于逐项核对。
 
-<aside class="scope-note"><p><strong>图的量与来源：</strong>色阶为设备代表温度（°C），红框为原风险提示，65°C风险起算点保持原设定。该工程回看、第3节历史12过程和第4节补充测试分别记账。右图用于事后核查，在线派单使用公开观测及估计。</p></aside>
+户外绝缘子、铁塔与导线样例与机房配电具有电气设备外观感知这一共同接口。机房中的拟适配对象为10 kV／380 V开关柜、母排和54 V机柜交直流接点，后续经机房图像适配与校准测温接入后，开展热点复核和观测更新。
 
-### 学习估计器：在名义热平衡上估计温度残差
+#### 2.1.2 图像参考与合格测温接口
 
-新估计器将最近四个连续5秒端点的14维公开特征与当前名义温度拼成57通道输入，以8×16设备网格计算空间残差。两个下采样层、空间跳接和16维条件潜变量组成295,777参数的CVAE-U-Net。训练用物理温度监督，运行时使用条件先验均值；两种估计器都以当时刚完成的温度量测覆盖对应位置。
+Renly已有参考元数据入口，以及“合格接点测温→接触温度状态更新”通道。图像支路提供外观线索，℃数值由校准测温通道提供；RGB采集、生成推理、热点选点及真实仪器接入按下图逐步串接。
+
+
+
+<a id="figure-visual-interface"></a>
+
+[图：已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/visual-interface.svg)
+
+
+
+当前更新为<strong>T̂<sub>contact,p</sub>←合格接点量测</strong>。接触电阻属于物理过程设定参数，反向辨识还需电流、热响应和换热条件。
+
+<aside class="scope-note"><p><strong>视觉证据范围：</strong>三联图为同一户外电气图像的精修显示样例；PID主训练材料1,367对属于野火域。机房主比较采用合成专业测量通道，视觉推理、机房图像适配与真实仪器桥接分别按接口状态记录。</p></aside>
+
+### 2.2 连续温度估计器
+
+#### 2.2.1 名义热平衡递推与量测校正
+
+系统为128柜各保留一个温度估计，依据公开送达功率、供液温度与流量估计每5秒推进热平衡。32个固定温度点持续校正，热检查完成后校正对应柜号；每次更新都使用当前已到达的观测。
+
+<div class="principle-box" id="principle-estimation">
+<p class="principle-title">温度预测与量测校正</p>
+<div class="formula-scroll"><p class="formula" role="math">T̂<sup>−</sup><sub>i,k+1</sub> = T̂<sub>i,k</sub> + (Δt/C)[P<sub>i</sub> − U<sub>i</sub>(T̂<sub>i,k</sub> − T<sub>s,p</sub>) − U<sub>a</sub>(T̂<sub>i,k</sub> − T<sub>a</sub>)]</p><p class="formula" role="math">U<sub>i</sub> = 12[max(q̂<sub>i</sub>,0)/6]<sup>0.8</sup>；收到新热测量y<sub>i</sub>时，T̂<sub>i</sub> ← y<sub>i</sub></p></div>
+<p>Δt＝5秒，C＝800 kJ/K；P为公开送达IT功率，T<sub>s,p</sub>为组供液温度，T<sub>a</sub>＝28°C，U<sub>a</sub>＝0.12 kW/K。每柜q̂以kg/s计，U以kW/K计。各柜从50°C初始化；流量取最近量测，尚无量测的组按泵指令和额定流量估计，平均分给8柜。</p>
+</div>
+
+#### 2.2.2 温度残差CVAE-U-Net
+
+学习估计器将最近四个连续5秒端点的14维公开特征与当前名义温度拼成57通道输入，在8×16设备网格上估计温度残差。两个下采样层、空间跳接和16维条件潜变量组成295,777参数的CVAE-U-Net；运行时取条件先验均值，两类估计器均以当前端点的新温度量测覆盖对应位置。
 
 
 
@@ -42,23 +62,25 @@
 
 
 
-这是一项温度任务适配：输出为设备温度残差，输入为遥测和专业量测历史。条件先验／后验、空间编码与解码的依据分别见[条件生成模型](https://proceedings.neurips.cc/paper_files/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf)和[U-Net](https://arxiv.org/abs/1505.04597)；实际结构与训练设置在方法说明中逐项列出。
+条件先验／后验与空间编码—解码分别参考[条件生成模型](https://proceedings.neurips.cc/paper_files/paper/2015/file/8d55a249e6baa5c06772297520da2051-Paper.pdf)和[U-Net](https://arxiv.org/abs/1505.04597)。监督目标为离线物理温度，输入为公开遥测和专业量测历史；训练记录与误差见[4.1—4.2节](05-comparison.md#estimation-results)。
 
-### 新测试过程的全机房态势与时序
+### 2.3 多专业风险映射
 
+#### 2.3.1 连续态势与事件入口
 
+温度场保留连续状态梯度；派单根据公开风险分建立待确认请求。热风险由温度越界项和功率缺口项组成：
 
-<a id="figure-supplement-heatmaps"></a>
+<div class="principle-box" id="principle-risk"><p class="principle-title">原热风险评分保持不变</p><div class="formula-scroll"><p class="formula" role="math">r<sub>i</sub> = min{4, max(T̂<sub>i</sub> − 65,0)/20 + 0.25[1 − P<sub>del,i</sub>/max(P<sub>req,i</sub>,10<sup>−12</sup>)]}</p></div><p>第一项为估计温度越界，第二项为功率需求缺口。风险分用于建立待确认请求，温度色阶用于连续态势呈现。</p></div>
 
-[图：按编号选取首个测试条件、训练种子271和注入后90秒；名义与CVAE使用相同Tour观测流，三图共用45—75°C色标。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-heatmaps.svg)
+#### 2.3.2 四专业风险通道
 
+记h<sub>i</sub>＝max(T̂<sub>i</sub>−65,0)/20，g<sub>i</sub>为公开功率缺口，c<sub>p</sub>为最近接点温度超额／30，f<sub>p</sub>为最近组流量相对33.6 kg/s的缺口，b<sub>p</sub>为专业校验后的传感偏差标志。组内最大h与平均g把柜级信息映射到设备组，最终分数上限均为4。
 
+|专业|现有公开风险组成|完成检查后更新|
+|---|---|---|
+|热检查|h<sub>i</sub>＋0.25g<sub>i</sub>|该柜温度|
+|电气检查|c<sub>p</sub>＋组平均g＋0.1×组最大h|该组接点温度|
+|制冷检查|f<sub>p</sub>＋0.25×组最大h|该组冷却液流量|
+|自控检查|b<sub>p</sub>＋0.25×组最大h|该组传感偏差校验状态|
 
-
-<a id="figure-supplement-process"></a>
-
-[图：与温度图同一编号示例。阴影为故障注入窗口，点表示当前新温度量测；温度和流量阈值采用研究设定。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-process.svg)
-
-
-
-两图固定使用测试案例00的耦合条件与训练种子271；快照取故障注入后90秒，时序取故障组内无固定温度点的局部1号柜。名义和CVAE读取同一份Tour观测流，刚量测标志包含固定遥测与专业热检查。误差总体结论使用全部48个主要条件，见第4节。
+风险分是待核查严重度代理；有效异常确认以专业量测及离线评价标签核对。新留出过程的态势三联图与局部时序在[4.2.2节](05-comparison.md#estimation-example)统一展示，旧500秒工程帧在[附录A](07-appendix.md#engineering-history)保留。

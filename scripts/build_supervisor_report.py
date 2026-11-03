@@ -113,6 +113,7 @@ def main():
     for source in ['report-engineering-alignment-20261103.md','report-pid-interface-20261103.md','report-comparison-metrics-20261103.md']:
         read('paper/research/'+source)
     read('paper/report-focus-spec-20261103.md')
+    read('paper/report-structure-spec-20261103.md')
     read('paper/research/report-method-formulas-20261103.md')
     read('paper/research/report-rule-diagnosis-20261103.md')
     assert kinds['counts']=={'thermal':77,'cooling':12}
@@ -216,11 +217,11 @@ def main():
         'fifo-cycle':'每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。',
         'inspection-architecture':'根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。',
         'fifo-actions':'主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。',
-        'outcome-costs':'本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。',
+        'outcome-costs':'历史耦合工况A的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。',
         'registered-rules':'本项目9个唯一规则的得分式；R、A、E、S分别对应正文中的归一风险、等待、额外耗时与余量差。',
         'rule-diagnosis':'主过程01的完整策略轨迹对照，机柜4；等待规则为图中06号，按记录重绘。',
         'original-paper-scores':'原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。',
-        'confirmations':'当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。',
+        'confirmations':'历史耦合工况A：12个过程，共89段异常；三列为各策略的有效确认量。',
         'paired-net':'过程01—12为预登记的12个配对过程；11个净增、1个持平。',
         'execution-chain':'p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。',
         'task-17':'17号665秒派出的是例行访问；其公开风险685秒才出现。',
@@ -262,6 +263,8 @@ def main():
         'CI_LOW':f"{comp['net_confirmations']['percentile95'][0]:.2f}",'CI_HIGH':f"{comp['net_confirmations']['percentile95'][1]:.2f}"}
     substitutions.update(supplement_substitutions(supplement))
     substitutions.update(supplement_narrative['substitutions'])
+    multi_choice=[100*row['choice_sets_with_alternatives']/row['task_choices'] for row in supplement['policy_training_costs']]
+    substitutions['PPO_MULTI_CHOICE_RANGE']=f'{min(multi_choice):.2f}%—{max(multi_choice):.2f}%'
     example=next(row for row in gap_diagnosis['changes'] if row['case']['id']=='test04-cooling' and row['model_seed']==271)
     timing_rows=[]
     for direction in ('gained','lost'):
@@ -278,7 +281,7 @@ def main():
     md=MarkdownIt('commonmark',{'html':True}).enable('table')
     parts=re.split(r'<!-- section:([a-z-]+) -->',source)
     title=md.render(parts[0]);sections=[];navigation=[]
-    labels={'overview':'课题主线','model':'模型与视觉','hotspots':'全局态势','fifo':'闭环基准','comparison':'横向比较','roadmap':'后续安排','appendix':'技术附录','sources':'来源'}
+    labels={'overview':'0. 导读概览','model':'1. 设施模型','hotspots':'2. 感知估计','fifo':'3. 巡检决策','comparison':'4. 实验结果','roadmap':'5. 结论规划','appendix':'6. 技术附录'}
     for index in range(1,len(parts),2):
         identity,body=parts[index:index+2]
         body=re.sub(r'\{\{FIGURE:([a-z0-9-]+)\}\}',lambda m:'\n\n'+figure(m[1])+'\n\n',body)
@@ -304,7 +307,7 @@ def main():
     main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
     all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
     assert len(all_figures)==len(set(all_figures))==len(drawings)
-    manifest={'version':8,'mode':'self_reading_report','previous_version':'97dba207a3228cd176113769a8a927881fc1ef6e','animations':False,'presenter_controls':False,
+    manifest={'version':9,'mode':'self_reading_report','previous_version':'eaac99947ff95f330e4822909b243d5764521fb7','animations':False,'presenter_controls':False,
         'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
         'sections':list(labels),'primary_processes':12,'primary_condition_count':48,
         'primary_anomaly_segments':supplement['primary_aggregates']['nominal_tour']['total_unique_anomaly_segments'],
