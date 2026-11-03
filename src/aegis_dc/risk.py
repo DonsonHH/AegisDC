@@ -5,7 +5,9 @@ EVIDENCE_SOURCES={'historical_record','manual_report','fixed_sensor','portable_m
 QUESTION_FIELDS={'id','asset_id','horizon_hours','currency','parameter_basis','parameter_source','defect_probability',
  'loss_event_probability_given_defect','loss_given_event','mitigation_cost','mitigation_residual_fraction',
  'mitigation_available','inspection_sensitivity','inspection_specificity','inspection_cost','inspection_minutes'}
-EVIDENCE_FIELDS={'question_id','source','finding','observed_hour','available_hour','sensitivity','specificity','parameter_basis','parameter_source'}
+EVIDENCE_FIELDS={'question_id','source','finding','observed_hour','available_hour','sensitivity','specificity','parameter_basis','parameter_source','observation_model'}
+OBSERVATION_MODEL={'defect_state':'fixed_binary_from_prior_through_prospective_inspection',
+                   'inspection_channel':'conditionally_independent_given_defect'}
 
 
 def number(value,name,probability=False):
@@ -42,6 +44,8 @@ def assess(question,evidence=(),as_of_hour=0):
     if len(evidence)>1:raise ValueError('One observation per question in this prototype; correlated/joint evidence needs a likelihood model')
     q=float(question['defect_probability']);used=[];ignored=[]
     for record in evidence:
+        if record.get('observation_model')!=OBSERVATION_MODEL:
+            raise ValueError('Unsupported or missing observation model; declare fixed binary state and conditional independence or supply a different joint model outside v0.1')
         if set(record)!=EVIDENCE_FIELDS or record['source'] not in EVIDENCE_SOURCES:
             raise ValueError('Evidence must be a declared historical/manual/fixed/portable observation')
         if record['question_id']!=question['id']:raise ValueError('Evidence refers to another question')
@@ -81,11 +85,16 @@ def assess(question,evidence=(),as_of_hour=0):
             'best_cost_without_inspection':cost_without,'expected_total_cost_with_inspection':cost_after,
             'net_inspection_value':cost_without-cost_after,'inspection_minutes':question['inspection_minutes'],
             'evidence_used':used,'evidence_ignored':ignored,'branches':branches,
+            'model_assumptions':{'defect_state':OBSERVATION_MODEL['defect_state'],
+                                 'existing_and_prospective_observations':OBSERVATION_MODEL['inspection_channel'] if used else 'no_usable_existing_observation',
+                                 'joint_model_basis':'DECLARED_ASSUMPTION_NOT_EMPIRICALLY_VERIFIED',
+                                 'state_evolution_and_action_delays_modeled':False},
             'scope':'binary one-path decision model; does not aggregate overlapping facility losses or execute actions'}
 
 
 def recommend(questions,evidence=(),as_of_hour=0,time_budget_minutes=120):
-    number(time_budget_minutes,'time budget')
+    number(time_budget_minutes,'time budget');number(as_of_hour,'available time')
+    questions=list(questions);evidence=list(evidence)
     ids=[question['id'] for question in questions]
     if len(ids)!=len(set(ids)):raise ValueError('Duplicate risk question')
     if any(record.get('question_id') not in ids for record in evidence):raise ValueError('Unknown evidence target')
@@ -94,6 +103,7 @@ def recommend(questions,evidence=(),as_of_hour=0,time_budget_minutes=120):
     eligible=[row for row in rows if row['net_inspection_value']>0 and row['inspection_minutes']<=time_budget_minutes]
     selected=max(eligible,key=lambda row:(row['net_inspection_value'],-row['inspection_minutes'],row['id'])) if eligible else None
     return {'status':'METHOD_PROTOTYPE_NOT_FIELD_VALIDATED','assessments':rows,
+            'time_budget_minutes':time_budget_minutes,
             'next_inspection':None if selected is None else selected['id'],
             'reason':'positive_net_value_within_budget' if selected else ('no_open_questions' if not rows else 'no_positive_feasible_inspection'),
             'direct_action_candidates':[row['id'] for row in rows if row['best_action_without_inspection']=='mitigate'],

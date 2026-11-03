@@ -1,6 +1,7 @@
 import argparse
 import json
 from pathlib import Path
+from patrol_rsi.contracts import strict_json
 from .facility import load_model,describe,candidate_service_exposure
 from .risk import recommend
 
@@ -16,13 +17,13 @@ def main():
     args=parser.parse_args()
     try:
         if args.command=='status':
-            result=json.loads((ROOT/'docs/current-research.json').read_text(encoding='utf-8'))
+            result=strict_json((ROOT/'docs/current-research.json').read_text(encoding='utf-8'))
             result.update(implementation='structural validation and synthetic decision-value prototype',field_calibration='PENDING',postmeeting_model_calls=0,postmeeting_training=0)
         elif args.command=='foundation':
             model=load_model(args.model);result=describe(model);result['screened_asset']=args.asset
             result['candidate_exposed_services']=candidate_service_exposure(model,args.asset)
         else:
-            case=json.loads(args.case.read_text(encoding='utf-8'))
+            case=strict_json(args.case.read_text(encoding='utf-8'))
             if set(case)!={'schema','basis','facility_model','as_of_hour','questions','evidence'} or case['schema']!='aegisdc-risk-demo-v1' or case['basis']!='synthetic_assumption':
                 raise ValueError('Use an explicitly synthetic example and the closed evidence contract')
             model=load_model(ROOT/case['facility_model'])

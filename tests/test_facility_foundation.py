@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 from aegis_dc.facility import load_model,candidate_service_exposure
-from aegis_dc.risk import assess,recommend
+from aegis_dc.risk import assess,recommend,OBSERVATION_MODEL
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -21,6 +21,7 @@ class FacilityFoundationTests(unittest.TestCase):
     def observation(self,**changes):
         return {'question_id':self.question['id'],'source':'fixed_sensor','finding':'positive',
                 'observed_hour':0,'available_hour':0,'sensitivity':.9,'specificity':.95,
+                'observation_model':dict(OBSERVATION_MODEL),
                 'parameter_basis':'synthetic_assumption','parameter_source':'controlled test observation',**changes}
 
     def test_model_covers_facility_support_and_keeps_walking_separate(self):
@@ -52,6 +53,34 @@ class FacilityFoundationTests(unittest.TestCase):
         result=assess(self.question,[self.observation()])
         self.assertAlmostEqual(result['posterior_defect_probability'],.6666666666666666)
         self.assertEqual(result['evidence_used'],['fixed_sensor'])
+        self.assertEqual(result['model_assumptions']['existing_and_prospective_observations'],'conditionally_independent_given_defect')
+        self.assertEqual(result['model_assumptions']['joint_model_basis'],'DECLARED_ASSUMPTION_NOT_EMPIRICALLY_VERIFIED')
+
+    def test_question_and_evidence_iterators_preserve_the_same_decision(self):
+        questions=self.case['questions'];evidence=[self.observation()]
+        expected=recommend(questions,evidence)
+        for iterator_questions,iterator_evidence in ((iter(questions),evidence),(questions,iter(evidence))):
+            with self.subTest(question_iterator=not isinstance(iterator_questions,list)):
+                actual=recommend(iterator_questions,iterator_evidence)
+                self.assertEqual(actual,expected)
+                self.assertEqual(actual['assessments'][0]['evidence_used'],['fixed_sensor'])
+
+    def test_duplicate_asset_field_is_rejected_before_structural_validation(self):
+        raw=json.dumps(self.model)
+        raw=raw.replace('"source_refs":','"source_refs": [], "source_refs":',1)
+        with tempfile.TemporaryDirectory() as folder:
+            file=Path(folder)/'duplicate.json';file.write_text(raw,encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'Duplicate JSON object key'):load_model(file)
+
+    def test_public_demo_rejects_duplicate_probability_before_assessment(self):
+        raw=json.dumps(self.case).replace('"defect_probability": 0.1','"defect_probability": 0, "defect_probability": 0.1',1)
+        with tempfile.TemporaryDirectory() as folder:
+            file=Path(folder)/'duplicate.json';file.write_text(raw,encoding='utf-8')
+            output=Path(folder)/'result'
+            process=subprocess.run([sys.executable,'-m','aegis_dc','risk-demo','--case',str(file),'--output',str(output)],cwd=ROOT,capture_output=True,text=True)
+            self.assertNotEqual(process.returncode,0)
+            self.assertIn('Duplicate JSON object key',process.stderr)
+            self.assertFalse(output.exists())
 
     def test_future_evidence_is_not_available_to_the_decision(self):
         result=assess(self.question,[self.observation(observed_hour=1,available_hour=2)],as_of_hour=0)
@@ -82,6 +111,7 @@ class FacilityFoundationTests(unittest.TestCase):
     def test_budget_and_units_are_not_silently_ignored(self):
         result=recommend([self.question],time_budget_minutes=1)
         self.assertIsNone(result['next_inspection'])
+        self.assertEqual(result['time_budget_minutes'],1)
         other=deepcopy(self.question);other.update(id='other',currency='USD')
         with self.assertRaisesRegex(ValueError,'one currency and horizon'):recommend([self.question,other])
 
@@ -93,6 +123,12 @@ class FacilityFoundationTests(unittest.TestCase):
 
     def test_duplicate_or_joint_observations_need_an_explicit_likelihood_model(self):
         with self.assertRaisesRegex(ValueError,'correlated/joint'):assess(self.question,[self.observation(),self.observation()])
+
+    def test_observation_requires_the_supported_joint_model_declaration(self):
+        record=self.observation();record.pop('observation_model',None)
+        with self.assertRaisesRegex(ValueError,'observation model'):assess(self.question,[record])
+        record['observation_model']={'defect_state':'evolving','inspection_channel':'correlated'}
+        with self.assertRaisesRegex(ValueError,'observation model'):assess(self.question,[record])
 
     def test_public_demo_is_synthetic_and_has_no_automatic_actions(self):
         process=subprocess.run([sys.executable,'-m','aegis_dc','risk-demo'],cwd=ROOT,capture_output=True,text=True,check=True)

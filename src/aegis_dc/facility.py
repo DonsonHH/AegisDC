@@ -1,13 +1,13 @@
 """Separate facility service relationships from personnel access relationships."""
-import json
 import math
 from pathlib import Path
+from patrol_rsi.contracts import strict_json
 
 DEPENDENCY_KINDS={'power','cooling','control','data','service'}
 
 
 def load_model(path):
-    model=json.loads(Path(path).read_text(encoding='utf-8'))
+    model=strict_json(Path(path).read_text(encoding='utf-8'))
     if model.get('schema')!='aegisdc-facility-structure-v1':raise ValueError('Unknown facility schema')
     if model.get('basis')!='illustrative_composite_not_as_built':raise ValueError('Declare the structural model basis')
     zones={row['id'] for row in model['zones']};assets={row['id']:row for row in model['assets']}
