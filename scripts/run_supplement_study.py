@@ -68,6 +68,12 @@ def append_log(path, value):
         os.fsync(stream.fileno())
 
 
+def atomic_checkpoint(torch, value, path):
+    temporary = path.with_suffix('.pt.tmp')
+    torch.save(value, temporary)
+    temporary.replace(path)
+
+
 def source_hashes():
     paths = [PROTOCOL, Path(__file__).resolve(), *sorted((ROOT / 'src/patrol_rsi').glob('*.py'))]
     return {str(p.relative_to(ROOT)).replace('\\', '/'): sha(p) for p in paths}
@@ -115,7 +121,14 @@ class Study:
 
     def check_seal(self):
         seal = read_json(OUT / 'seal.json')
-        if seal['source_hashes'] != source_hashes():
+        expected = seal['source_hashes']
+        amendments = read_json(OUT / 'amendments.json') if (OUT / 'amendments.json').exists() else []
+        for amendment in amendments:
+            identity = hashlib.sha256(json.dumps(expected, sort_keys=True).encode()).hexdigest()
+            if amendment['previous_source_hashes_sha256'] != identity:
+                raise RuntimeError('Broken engineering-amendment source chain')
+            expected = amendment['source_hashes']
+        if expected != source_hashes():
             raise RuntimeError('Study sources changed after sealing; record an explicit engineering amendment first')
         if seal['protocol_sha256'] != sha(OUT / 'protocol.json'):
             raise RuntimeError('Sealed protocol changed')
@@ -137,13 +150,13 @@ class Study:
         self.check_seal()
         rows = self.entries()
         earlier = [r for r in rows if r['phase'] == phase and r['id'] == identifier]
-        if earlier:
-            raise RuntimeError('Attempt ID already exists: ' + identifier)
         unresolved = {r['id'] for r in rows if r['phase'] == phase and r['status'] in ('failed', 'started')}
         resolved = {r['id'] for r in rows if r['phase'] == phase and r['status'] == 'completed'}
         # Failed attempts may only be retried after a separately recorded amendment.
         amendments = read_json(OUT / 'amendments.json') if (OUT / 'amendments.json').exists() else []
         authorized = {item for a in amendments for item in a.get('resolved_attempt_ids', [])}
+        if earlier and (any(r['status'] == 'completed' for r in earlier) or identifier not in authorized):
+            raise RuntimeError('Attempt ID already exists without an unused recovery authorization: ' + identifier)
         if unresolved - resolved - authorized:
             raise RuntimeError('Phase has an unresolved failure/interruption: ' + str(unresolved - resolved - authorized))
         limit_key = {'compatibility': 'compatibility_environment_attempts', 'pilot': 'pilot_environment_attempts',
@@ -155,7 +168,8 @@ class Study:
         if environment and limit_key and used >= self.protocol['limits'][limit_key] + extra:
             raise RuntimeError('Registered phase budget exhausted')
         start = time.perf_counter()
-        event = {'phase': phase, 'id': identifier, 'environment': environment, 'at': now(), **metadata}
+        ordinal = 1 + sum(r['status'] == 'started' for r in earlier)
+        event = {'phase': phase, 'id': identifier, 'attempt_number': ordinal, 'environment': environment, 'at': now(), **metadata}
         append_log(self.ledger, dict(event, status='started'))
         try:
             yield
@@ -223,15 +237,29 @@ class Study:
         primary = [r['id'] for r in self.protocol['families'] if r['primary']]
         if any(result[k]['anomaly_segments'] == 0 for k in primary):
             raise RuntimeError('Development pilot lacks a primary-family anomaly; inspect before collection/training')
+        write_json(OUT / 'preflight-passed.json', {'at': now(), 'pilot_summary_sha256': sha(OUT / 'pilot-summary.json'),
+                   'compatibility_ids': [r['method'] for r in self.protocol['compatibility']],
+                   'pilot_ids': self.protocol['pilot_case_ids']})
         print(json.dumps({'event': 'preflight_passed', 'segments': {k: r['anomaly_segments'] for k, r in result.items()}}), flush=True)
 
     def collect(self):
-        if not (OUT / 'pilot-summary.json').exists():
-            raise RuntimeError('Complete preflight first')
+        self.require_preflight()
         for split in ('train', 'development'):
             for case in self.protocol['case_sets'][split]:
                 for method in ('tour', 'fifo'):
                     self.episode('collect_' + split, case['id'] + '-' + method, case, method, collect=True)
+
+    def require_preflight(self):
+        path = OUT / 'preflight-passed.json'
+        if not path.exists():
+            raise RuntimeError('Complete successful preflight first')
+        passed = read_json(path)
+        if passed['pilot_summary_sha256'] != sha(OUT / 'pilot-summary.json'):
+            raise RuntimeError('Preflight summary identity changed')
+        required = [('compatibility', r['method']) for r in self.protocol['compatibility']]
+        required += [('pilot', identifier) for identifier in self.protocol['pilot_case_ids']]
+        if not all(self.done(phase, identifier) for phase, identifier in required):
+            raise RuntimeError('Preflight ledger incomplete')
 
     def dataset(self, split):
         from patrol_rsi.supplement_task import to_grid
@@ -304,7 +332,7 @@ class Study:
                                 'model_seed': seed, 'epoch': epoch, 'development_weighted_mse': dev_mse,
                                 'study_id': self.protocol['study_id'], 'source_seal_sha256': sha(OUT / 'seal.json')}
                         (OUT / 'checkpoints').mkdir(exist_ok=True)
-                        torch.save(pack, OUT / 'checkpoints' / (identifier + '.pt'))
+                        atomic_checkpoint(torch, pack, OUT / 'checkpoints' / (identifier + '.pt'))
                     write_json(OUT / 'training' / (identifier + '.json'), {'model_seed': seed, 'history': history,
                                'training_snapshots': len(train[0]), 'development_snapshots': len(development[0]),
                                'parameter_count': sum(p.numel() for p in model.parameters()), 'wall_s': time.perf_counter()-training_started,
@@ -326,6 +354,8 @@ class Study:
     def train_policy(self):
         from patrol_rsi.supplement_models import BenchmarkPolicy, update_policy
         settings = self.protocol['ppo']
+        if not all(self.done('estimator_train', f'cvae-{seed}') for seed in self.protocol['model_seeds']):
+            raise RuntimeError('Complete all registered estimator training before policy training')
         for seed in self.protocol['model_seeds']:
             generator = np.random.default_rng(seed)
             # Each shuffled cycle contains all six families exactly once per block.
@@ -352,7 +382,7 @@ class Study:
                     pack = torch.load(checkpoint, map_location='cpu', weights_only=False)
                     model.load_state_dict(pack['state_dict']); optimizer.load_state_dict(pack['optimizer'])
                     torch.set_rng_state(pack['torch_rng']); first = pack['episodes']
-                    history = read_json(history_path)['history']
+                    history = read_json(history_path)['history'][:first]
                 initial = hashlib.sha256(b''.join(p.detach().numpy().tobytes() for p in model.parameters())).hexdigest()
                 for index in range(first, len(order)):
                     case = self.protocol['case_sets']['train'][order[index]]
@@ -370,7 +400,7 @@ class Study:
                                         'confirmed': summary['confirmed_segments'], 'segments': summary['anomaly_segments']})
                         write_json(history_path, {'model_seed': seed, 'estimator': estimator, 'history': history,
                                                  'initial_weights_sha256': initial if first == 0 else read_json(history_path)['initial_weights_sha256']})
-                        torch.save({'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
+                        atomic_checkpoint(torch, {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(),
                                     'episodes': index+1, 'torch_rng': torch.get_rng_state(), 'model_seed': seed,
                                     'estimator': estimator, 'study_id': self.protocol['study_id']}, checkpoint)
                         print(json.dumps({'phase': 'ppo_train', 'id': identifier, 'case': case['id'], **update}), flush=True)
@@ -397,6 +427,20 @@ class Study:
                                  model_seed=seed, estimator=estimator)
 
     def freeze_checkpoints(self):
+        self.require_preflight()
+        required = [('estimator_train', f'cvae-{seed}') for seed in self.protocol['model_seeds']]
+        for seed in self.protocol['model_seeds']:
+            history = read_json(OUT / 'training' / f'cvae-{seed}.json')['history']
+            if len(history) != self.protocol['estimator']['epochs']:
+                raise RuntimeError('Registered estimator epochs incomplete')
+            for estimator in ('nominal', 'cvae'):
+                required += [('ppo_train', f'{estimator}-{seed}-{index:03}')
+                             for index in range(1, self.protocol['ppo']['episodes_per_estimator_and_model_seed']+1)]
+                required += [('ppo_development', f'{case}-{estimator}-{seed}')
+                             for case in self.protocol['ppo']['development_case_ids']]
+        completed = {(r['phase'], r['id']) for r in self.entries() if r['status'] == 'completed'}
+        if any(item not in completed for item in required):
+            raise RuntimeError('Registered training/development prerequisites incomplete')
         paths = sorted((OUT / 'checkpoints').glob('*.pt'))
         if len(paths) != 9:
             raise RuntimeError('Expected three estimators and six final policies')

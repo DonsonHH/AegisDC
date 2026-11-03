@@ -256,7 +256,9 @@ def run_episode(spec,method='fifo',predictor=None,policy=None,stochastic=False,c
         if policy is not None and stochastic:rollout.append({'public_value':public,'value':value,'reward':reward,'samples':samples,'logprob':logprob,'entropy':entropy})
         timing[-1]['policy_total_ms']=policy_ms
         timing[-1]['instrumented_execution_step_ms']=step_ms
-        timing[-1]['online_control_cycle_ms']=policy_ms+step_ms
+        # The retained Tour stream builds grids only for later offline matched-
+        # observation evaluation. Exclude that logger-only work from its cycle.
+        timing[-1]['online_control_cycle_ms']=policy_ms+step_ms-(env.latest_timing.get('logger_context_ms') or 0.)
         capture()
     metrics,roles,intervals=evaluate_episode(env)
     audit,gaps=safety_audit(env)
