@@ -48,7 +48,7 @@
 
 [查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/public-risk.svg)
 
-<div class="reading-notes"><p><strong>↳ 怎么看：</strong>仍按同一组/机柜位置读图；色标数值是无量纲风险分r，黑点标出32个固定测温位置。r&gt;0触发待确认请求，具体分数结合温度越界与功率缺口计算；本帧色标范围只用于显示这一帧。</p><p><strong>◇ 读到什么：</strong>风险分提供核查线索，既不是℃数值，也不是故障概率；是否有效确认，最终要看专业量测和完成时机。</p></div><p class="exhibit-source">已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。</p>
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>仍按同一组/机柜位置读图；色标数值是无量纲风险分r，黑点标出32个固定测温位置。r由非正转正且没有现有待办时才新建请求，持续正值不会重复建单；具体分数结合温度越界与功率缺口计算，本帧色标用于显示这一帧。</p><p><strong>◇ 读到什么：</strong>风险分提供核查线索，既不是℃数值，也不是故障概率；是否有效确认，最终要看专业量测和完成时机。</p></div><p class="exhibit-source">已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。</p>
 
 
 <div class="table-guide" id="table-hotspot-values"><div class="exhibit-intro" data-guide-table="hotspot-values"><p class="exhibit-title"><span class="exhibit-number">表 19</span> <strong>历史热风险位置的估计值与事后值</strong></p><p class="exhibit-purpose">给红框机柜的温度图补上准确数值，便于检查估计差异。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>按柜号定位64、67、70号，再并排比较T̂名义估计与T事后代表温度，单位均为°C；风险分r另用无量纲数值。最后一列说明该柜是否具有固定温度遥测。</p><p><strong>◇ 读到什么：</strong>同一风险框可同时查看温度估计、事后值和观测条件；风险分的大小还结合了功率缺口。</p></div></div>

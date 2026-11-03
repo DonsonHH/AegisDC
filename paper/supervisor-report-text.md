@@ -33,7 +33,7 @@
 
 先读每幅图/表前的问题，按“怎么看”定位坐标、符号或关键列，再用“读到什么”连接到研究结论。正文与附录连续编号；同一符号的具体含义以该图说明为准。
 
-<aside class="symbol-guide" id="reading-symbols" aria-label="图表常见符号"><dl><div><dt>↑ / ↓</dt><dd>评价方向：确认数↑表示越多越好；误差、等待和耗时↓表示越小越好。先看指标名称，再判断改善方向。</dd></div><div><dt>→ / ↺</dt><dd>架构图中沿箭头追踪信息、动作或热量；回转箭头表示下一轮更新。每条线具体传递什么，以图内文字为准。</dd></div><div><dt>T / T̂ / ΔT̂</dt><dd>T是模拟设备温度，T̂是系统估计温度；帽子表示估计。ΔT̂是学习模型给名义估计的修正量，最终估计＝名义估计＋修正量。</dd></div><div><dt>Δ＝A−B</dt><dd>比较项按左边方法减右边方法计算。Δ&gt;0只表示数值增加；确认数增加是收益，等待或年龄增加则是代价。</dd></div><div><dt>点 / 柱 / 区间线</dt><dd>点的位置或柱长表示估计值；横竖短线表示该图注明的区间。95%区间、最小—最大实测范围和训练种子SD具有不同含义。</dd></div><div><dt>a [l,u] / NA</dt><dd>a为均值，[l,u]为表中注明的区间。NA表示指标在该条件下不适用；未留帧、未计时表示没有相应测量记录，都不能按0理解。</dd></div></dl></aside>
+<aside class="symbol-guide" id="reading-symbols" aria-label="图表常见符号"><dl><div><dt>↑ / ↓</dt><dd>评价方向：确认数↑表示越多越好；误差、等待和耗时↓表示越小越好。先看指标名称，再判断改善方向。</dd></div><div><dt>→ / ↺</dt><dd>架构图中沿箭头追踪信息、动作或热量；巡检流程中的回转箭头表示下一轮更新。每条线具体传递什么，以图内文字为准。</dd></div><div><dt>T / T̂ / ΔT̂</dt><dd>T是模拟设备温度，T̂是系统估计温度；帽子表示估计。ΔT̂是学习模型给名义估计的修正量，最终估计＝名义估计＋修正量。</dd></div><div><dt>Δ＝A−B</dt><dd>比较项按左边方法减右边方法计算。Δ&gt;0只表示数值增加；确认数增加是收益，等待或年龄增加则是代价。</dd></div><div><dt>点 / 柱 / 区间线</dt><dd>点的位置或柱长表示估计值；横竖短线表示该图注明的区间。95%区间、最小—最大实测范围和训练种子SD具有不同含义。</dd></div><div><dt>a [l,u] / NA</dt><dd>a为均值，[l,u]为表中注明的区间。NA表示指标在该条件下不适用；未留帧、未计时表示没有相应测量记录，都不能按0理解。</dd></div></dl></aside>
 
 <a id="model"></a>
 ## 1. 设施物理层：三系统耦合建模
@@ -317,7 +317,7 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 #### 4.1.2 数据划分与训练过程
 
-<div class="table-guide" id="table-data-splits"><div class="exhibit-intro" data-guide-table="data-splits"><p class="exhibit-title"><span class="exhibit-number">表 8</span> <strong>训练、开发和测试分别使用哪些数据</strong></p><p class="exhibit-purpose">说明模型怎样学习、怎样选参数，以及最后成绩在哪批过程上计算。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>先读24/6/12组独立物理种子，再看条件和运行量。快照是同一轨迹上的连续观测；含训练模型的方案在3种模型种子上重复，确定性规则运行1次，因此72条件合计1080个测试回合。</p><p><strong>◇ 读到什么：</strong>最终主要比较使用48个故障条件，统计区间以12组独立测试集为单位；快照数和模型重复数各自记录。</p></div></div>
+<div class="table-guide" id="table-data-splits"><div class="exhibit-intro" data-guide-table="data-splits"><p class="exhibit-title"><span class="exhibit-number">表 8</span> <strong>训练、开发和测试分别使用哪些数据</strong></p><p class="exhibit-purpose">说明模型怎样学习、怎样选参数，以及最后成绩在哪批过程上计算。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>先读24/6/12组独立物理种子，再看快照与回合。每个测试条件下，名义Tour/FIFO/Greedy各1次，其余4个含训练模型组合各3次，合计3＋4×3＝15；72×15＝1080。快照为同一轨迹上的连续观测。</p><p><strong>◇ 读到什么：</strong>最终主要比较使用48个故障条件，统计区间以12组独立测试集为单位；快照数和模型重复数各自记录。</p></div></div>
 
 |阶段|独立物理种子块|条件与用途|执行与训练记录|
 |---|---:|---|---|
@@ -509,12 +509,12 @@ PPO只有在几项任务都允许执行时，才有机会体现先后排序的�
 
 [查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-scale.svg)
 
-<div class="reading-notes"><p><strong>↳ 怎么看：</strong>横轴是机柜数。左图纵轴为360个物理步的运行秒数，点为中位数，范围线为六次实测最小—最大值；右图为Python追踪峰值MiB，取该规模六次运行中的最大值。范围线不是95%置信区间。</p><p><strong>◇ 读到什么：</strong>这批物理运行耗时未呈单调上升，追踪内存随规模增加；它验证物理过程与静态巡回的扩展，端到端学习调度仍对应128柜。</p></div><p class="exhibit-source">每规模三种子×健康／耦合两工况的纯物理过程实测；带tracemalloc开销，范围为六次实测最小—最大，未作大规模学习调度。</p>
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>横轴是机柜数。左图纵轴为360个物理步的运行秒数，柱高为中位数，范围线为六次实测最小—最大值；右图为Python追踪峰值MiB，取该规模六次运行中的最大值。范围线不是95%置信区间。</p><p><strong>◇ 读到什么：</strong>这批物理运行耗时未呈单调上升，追踪内存随规模增加；它验证物理过程与静态巡回的扩展，端到端学习调度仍对应128柜。</p></div><p class="exhibit-source">每规模三种子×健康／耦合两工况的纯物理过程实测；带tracemalloc开销，范围为六次实测最小—最大，未作大规模学习调度。</p>
 
 
 <div class="table-guide" id="table-supplement-scale"><div class="exhibit-intro" data-guide-table="supplement-scale"><p class="exhibit-title"><span class="exhibit-number">表 16</span> <strong>三种机柜规模的模型量与资源开销</strong></p><p class="exhibit-purpose">同时查看问题规模变大多少，以及物理计算用了多少时间和内存。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>各行按128→512→1024柜比较；斜杠两侧是表头指定的两种数量，例如热状态/指令状态。耗时是每规模六次纯物理运行的中位数，峰值内存以MiB计；静态检查列核对构造的循环路线。</p><p><strong>◇ 读到什么：</strong>状态、人员与任务数随规模扩展，追踪内存上升；本表资源数值对应物理过程，学习调度成绩仍来自128柜基准。</p></div></div>
 <div class="table-wrap"><table data-table="supplement-scale" class="supplement-table"><thead><tr><th>机柜数</th><th>热状态／指令状态</th><th>执行者／专业任务</th><th>物理耗时中位数 / 秒</th><th>Python峰值 / MiB</th><th>静态检查</th></tr></thead><tbody><tr><td>128</td><td>161／145</td><td>18／176</td><td>0.517</td><td>0.50</td><td>构造闭合巡回满足</td></tr><tr><td>512</td><td>641／577</td><td>72／704</td><td>0.483</td><td>1.70</td><td>构造闭合巡回满足</td></tr><tr><td>1024</td><td>1281／1153</td><td>144／1408</td><td>0.500</td><td>3.32</td><td>构造闭合巡回满足</td></tr></tbody></table></div>
-<div class="table-guide" id="table-supplement-scale-cycles"><div class="exhibit-intro" data-guide-table="supplement-scale-cycles"><p class="exhibit-title"><span class="exhibit-number">表 17</span> <strong>规模扩展后的例行路线能否按时走完</strong></p><p class="exhibit-purpose">核对增加机柜后，各专业是否配有满足重访期限的构造巡回。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>每格“人数；周期/期限”先看人员配置，再比较两个秒数。例如240/300秒表示一轮240秒、允许间隔300秒；周期≤期限表示该构造路线通过静态时间核查。</p><p><strong>◇ 读到什么：</strong>三种规模的已构造路线均满足对应专业期限；这给出了可行的例行底座。</p></div></div>
+<div class="table-guide" id="table-supplement-scale-cycles"><div class="exhibit-intro" data-guide-table="supplement-scale-cycles"><p class="exhibit-title"><span class="exhibit-number">表 17</span> <strong>规模扩展后的例行路线能否按时走完</strong></p><p class="exhibit-purpose">核对增加机柜后，各专业是否配有满足重访期限的构造巡回。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>每格“人数；周期/期限”先看人员配置，再读该专业所有已构造人员路线中的最长闭合巡回周期。例如240/300秒表示最长一轮240秒、允许间隔300秒；最长周期≤期限表示该专业的构造路线通过静态时间核查。</p><p><strong>◇ 读到什么：</strong>三种规模的已构造路线均满足对应专业期限；这给出了可行的例行底座。</p></div></div>
 <div class="table-wrap"><table data-table="supplement-scale-cycles" class="supplement-table"><thead><tr><th>机柜数</th><th>热检查：人数；周期／期限</th><th>电气：人数；周期／期限</th><th>制冷：人数；周期／期限</th><th>自控：人数；周期／期限</th></tr></thead><tbody><tr><td>128</td><td>12人；240/300秒</td><td>2人；310/600秒</td><td>2人；310/600秒</td><td>2人；270/600秒</td></tr><tr><td>512</td><td>48人；240/300秒</td><td>8人；385/600秒</td><td>8人；385/600秒</td><td>8人；345/600秒</td></tr><tr><td>1024</td><td>96人；240/300秒</td><td>16人；465/600秒</td><td>16人；465/600秒</td><td>16人；425/600秒</td></tr></tbody></table></div>
 
 每规模为三种子×健康／耦合两条件，360个5秒物理步。耗时含tracemalloc开销，内存范围为该物理段及温度序列留存；静态检查评价已构造的专业巡回。三规模的构造闭合巡回均满足各专业期限。360步物理耗时中位数约0.48—0.52秒，未随柜数呈单调上升；Python追踪峰值由0.50增至3.32 MiB，范围为该物理段及温度序列的留存。
@@ -588,7 +588,7 @@ CVAE-PPO较名义PPO每主要条件平均增加0.507段，相对同估计器FIFO
 
 [查看图版](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/public-risk.svg)
 
-<div class="reading-notes"><p><strong>↳ 怎么看：</strong>仍按同一组/机柜位置读图；色标数值是无量纲风险分r，黑点标出32个固定测温位置。r&gt;0触发待确认请求，具体分数结合温度越界与功率缺口计算；本帧色标范围只用于显示这一帧。</p><p><strong>◇ 读到什么：</strong>风险分提供核查线索，既不是℃数值，也不是故障概率；是否有效确认，最终要看专业量测和完成时机。</p></div><p class="exhibit-source">已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。</p>
+<div class="reading-notes"><p><strong>↳ 怎么看：</strong>仍按同一组/机柜位置读图；色标数值是无量纲风险分r，黑点标出32个固定测温位置。r由非正转正且没有现有待办时才新建请求，持续正值不会重复建单；具体分数结合温度越界与功率缺口计算，本帧色标用于显示这一帧。</p><p><strong>◇ 读到什么：</strong>风险分提供核查线索，既不是℃数值，也不是故障概率；是否有效确认，最终要看专业量测和完成时机。</p></div><p class="exhibit-source">已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。</p>
 
 
 <div class="table-guide" id="table-hotspot-values"><div class="exhibit-intro" data-guide-table="hotspot-values"><p class="exhibit-title"><span class="exhibit-number">表 19</span> <strong>历史热风险位置的估计值与事后值</strong></p><p class="exhibit-purpose">给红框机柜的温度图补上准确数值，便于检查估计差异。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>按柜号定位64、67、70号，再并排比较T̂名义估计与T事后代表温度，单位均为°C；风险分r另用无量纲数值。最后一列说明该柜是否具有固定温度遥测。</p><p><strong>◇ 读到什么：</strong>同一风险框可同时查看温度估计、事后值和观测条件；风险分的大小还结合了功率缺口。</p></div></div>

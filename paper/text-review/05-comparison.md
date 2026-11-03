@@ -37,7 +37,7 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 #### 4.1.2 数据划分与训练过程
 
-<div class="table-guide" id="table-data-splits"><div class="exhibit-intro" data-guide-table="data-splits"><p class="exhibit-title"><span class="exhibit-number">表 8</span> <strong>训练、开发和测试分别使用哪些数据</strong></p><p class="exhibit-purpose">说明模型怎样学习、怎样选参数，以及最后成绩在哪批过程上计算。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>先读24/6/12组独立物理种子，再看条件和运行量。快照是同一轨迹上的连续观测；含训练模型的方案在3种模型种子上重复，确定性规则运行1次，因此72条件合计1080个测试回合。</p><p><strong>◇ 读到什么：</strong>最终主要比较使用48个故障条件，统计区间以12组独立测试集为单位；快照数和模型重复数各自记录。</p></div></div>
+<div class="table-guide" id="table-data-splits"><div class="exhibit-intro" data-guide-table="data-splits"><p class="exhibit-title"><span class="exhibit-number">表 8</span> <strong>训练、开发和测试分别使用哪些数据</strong></p><p class="exhibit-purpose">说明模型怎样学习、怎样选参数，以及最后成绩在哪批过程上计算。</p></div><div class="reading-notes"><p><strong>↳ 怎么看：</strong>先读24/6/12组独立物理种子，再看快照与回合。每个测试条件下，名义Tour/FIFO/Greedy各1次，其余4个含训练模型组合各3次，合计3＋4×3＝15；72×15＝1080。快照为同一轨迹上的连续观测。</p><p><strong>◇ 读到什么：</strong>最终主要比较使用48个故障条件，统计区间以12组独立测试集为单位；快照数和模型重复数各自记录。</p></div></div>
 
 |阶段|独立物理种子块|条件与用途|执行与训练记录|
 |---|---:|---|---|
