@@ -1,3 +1,5 @@
+> 会前研究材料（保留用于复现）。当前主线见[会后研究定义](RESEARCH_RESET.md)与[会议决策](meetings/2026-11-03-research-reset.md)。
+
 # 当前证据：完成了什么，哪些结论仍未成立
 
 本页按阶段汇总会前成果。完整早期历史固定在提交 `f2c20b3a642ff1df9426e523614d3da9a5cf1129`；可复算材料与来源见 [evidence/README.md](../evidence/README.md) 和 [provenance.json](../evidence/provenance.json)。
