@@ -389,7 +389,8 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 <p>温度场保留连续状态梯度；派单根据公开风险分建立待确认请求。热风险由温度越界项和功率缺口项组成：</p>
 <div class="principle-box" id="principle-risk"><p class="principle-title">原热风险评分保持不变</p><div class="formula-scroll"><p class="formula" role="math">r<sub>i</sub> = min{4, max(T̂<sub>i</sub> − 65,0)/20 + 0.25[1 − P<sub>del,i</sub>/max(P<sub>req,i</sub>,10<sup>−12</sup>)]}</p></div><p>第一项为估计温度越界，第二项为功率需求缺口。风险分用于建立待确认请求，温度色阶用于连续态势呈现。</p></div>
 <h4>2.3.2 四专业风险通道</h4>
-<p>记h<sub>i</sub>＝max(T̂<sub>i</sub>−65,0)/20，g<sub>i</sub>为公开功率缺口，c<sub>p</sub>为最近接点温度超额／30，f<sub>p</sub>为最近组流量相对33.6 kg/s的缺口，b<sub>p</sub>为专业校验后的传感偏差标志。组内最大h与平均g把柜级信息映射到设备组，最终分数上限均为4。</p>
+<p>记h<sub>i</sub>＝max(T̂<sub>i</sub>−65,0)/20，g<sub>i</sub>为公开功率缺口。c<sub>p</sub>＝max(T̂<sub>contact,p</sub>−60,0)/30，接点温度由专业量测更新；f<sub>p</sub>＝max(1−q̂<sub>p</sub>/33.6,0)，q̂为最近已获组流量，可来自固定遥测或专业检查。</p>
+<p>b<sub>p</sub>初值为0，仅在专业校验时按组平均传感误差绝对值是否&gt;1°C更新为1或0，保持至下次校验。组内最大h与平均g把柜级信息映射到设备组，最终分数上限均为4。</p>
 <table>
 <thead>
 <tr>
@@ -556,7 +557,7 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 </tr>
 </tbody>
 </table>
-<p>温度误差以物理柜温为目标；“非刚量测”排除当前端点直接回填的温度点。R²按逐回合SSE／SST计算后汇总，常量目标记NA。有效异常段要求至少3个连续5秒正标签，确认需在正标签端点完成合格且告警的专业量测；未确认段按结束时刻截尾。</p>
+<p>温度误差以物理柜温为目标，“非刚量测”排除当前端点的温度回填；R²按逐回合SSE／SST计算后汇总，常量目标记NA。本研究四专业正标签阈值为：柜温&gt;65°C、接点温度&gt;60°C、组流量&lt;33.6 kg/s、组平均传感误差绝对值&gt;1°C；连续至少3个5秒正标签形成异常段。确认需在正标签端点完成合格告警量测，未确认段按结束时刻截尾。</p>
 <p>加权年龄对各方法实际完成时刻解析积分，包含初始和1800秒终点间隔：</p>
 <div class="formula-scroll"><p class="formula" role="math">A<sub>j</sub>(t) = min[(t − L<sub>j</sub>)/D<sub>j</sub>,1]</p><p class="formula" role="math">J<sub>age</sub> = [1/(1800Σ<sub>j</sub>w<sub>j</sub>)] ∫<sub>0</sub><sup>1800</sup>Σ<sub>j</sub>w<sub>j</sub>A<sub>j</sub>(t)dt</p></div>
 <p>w为共同静态资产权重，D为专业重访期限，L为最近完成时刻。每条件先归一，再按登记权重汇总。主要统计先在条件内平均学习方法的三个模型种子，再在各物理种子块内等权四故障族；95%探索性区间采用12块、10,000次自举，随机种子20261103，训练种子变化另列，未做多重比较校正。</p>
@@ -591,7 +592,7 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 </tr>
 </tbody>
 </table>
-<p>四故障族为辅助馈电＋CDU衰减、接触热点、传感偏差和二次泵故障。健康与虚假提示共享物理过程，单列检查额外工作。四故障族在训练中已出现，留出对象为新的物理种子及登记的位置／相位组合；连续快照和模型重复各自计数。</p>
+<p>四故障族涵盖辅助馈电＋CDU衰减、接触热点、传感偏差和二次泵故障；故障族在训练中已见，留出新种子及登记的位置／相位组合。健康与虚假提示共享物理过程并单列，连续快照与模型重复分别计数。</p>
 <figure id="figure-supplement-estimator-training"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" width="771.59952pt" height="361.19952pt" viewBox="0 0 771.59952 361.19952" version="1.1" data-chart="supplement-estimator-training" role="img" aria-label="三个真实CVAE-U-Net训练过程，空心点为各自开发集最优checkpoint；最终测试不参与选择">
  <title>三个真实CVAE-U-Net训练过程，空心点为各自开发集最优checkpoint；最终测试不参与选择</title>
  <metadata>
@@ -4812,7 +4813,7 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 <h3>4.4 估计精度、队列时序与学习空间诊断</h3>
 <h4>4.4.1 连续重构误差与离散确认机会</h4>
 <p>CVAE-U-Net改善全局温度态势精度，及时确认还取决于局部提示、FIFO队列和合法访问的完成时机。原日志144组配对中，CVAE-FIFO新增2段、丢失8段，模型平均后净少2段，与155→153一致。</p>
-<p>在<code>test04-cooling</code>、模型271中，CVAE将45号提示从860秒提前至840秒，但41号更早在835秒入队。860秒两候选均合法，CFIFO先查41号并在880秒确认，再于900秒检查45号，错过850—890秒评价段；名义FIFO在875秒确认45号、895秒才检查41号。这里出现一增一失的机会交换，完整时序见<a href="#gap-diagnosis">附录H</a>。</p>
+<p>在<code>test04-cooling</code>、模型271中，CVAE将45号提示从860秒提前至840秒，但41号更早在835秒入队。860秒两候选均合法，CVAE-FIFO先查41号并在880秒确认，再于900秒检查45号，错过850—890秒评价段；名义FIFO在875秒确认45号、895秒才检查41号。这里出现一增一失的机会交换，完整时序见<a href="#gap-diagnosis">附录H</a>。</p>
 <h4>4.4.2 合法候选稀疏与PPO排序自由度</h4>
 <p>训练记录中，约0.26%—0.27%的执行者实际选择集合包含多个合法候选。只有一项合法时，策略没有排序自由；这描述了当前责任区、返回约束与待办生成共同形成的决策空间。该比例的分母是执行者选择集合，完整计数与耗时在<a href="#training-seeds">附录G</a>。</p>
 <p>在每策略120回合预算下，CVAE-PPO相对CVAE-FIFO的确认增量区间跨零；相对名义PPO的改善同时包含估计器与各自训练策略的变化。候选空间、奖励和训练预算的单独贡献可在下一轮独立比较中检验。</p>
@@ -7115,7 +7116,7 @@ h3#sources{font-size:24px;color:var(--ink)}#appendix h3#sources~ul{font-size:16p
 </svg>
 </div><figcaption>历史耦合工况A的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。</figcaption></figure>
 <div class="table-wrap"><table data-table="fault-cases"><thead><tr><th>过程</th><th>种子</th><th>目标柜号／设备组</th><th>故障开始→结束／秒</th><th>热／冷异常段</th></tr></thead><tbody><tr><td>01</td><td>101003</td><td>0号／第1组</td><td>150→330</td><td>8／1</td></tr><tr><td>02</td><td>101040</td><td>9号／第2组</td><td>335→515</td><td>6／1</td></tr><tr><td>03</td><td>101077</td><td>20号／第3组</td><td>520→700</td><td>6／1</td></tr><tr><td>04</td><td>101114</td><td>29号／第4组</td><td>705→885</td><td>7／1</td></tr><tr><td>05</td><td>101151</td><td>36号／第5组</td><td>150→330</td><td>7／1</td></tr><tr><td>06</td><td>101188</td><td>45号／第6组</td><td>335→515</td><td>7／1</td></tr><tr><td>07</td><td>101225</td><td>56号／第8组</td><td>520→700</td><td>6／1</td></tr><tr><td>08</td><td>101262</td><td>65号／第9组</td><td>705→885</td><td>6／1</td></tr><tr><td>09</td><td>101299</td><td>76号／第10组</td><td>150→330</td><td>7／1</td></tr><tr><td>10</td><td>101336</td><td>85号／第11组</td><td>335→515</td><td>7／1</td></tr><tr><td>11</td><td>101373</td><td>100号／第13组</td><td>520→700</td><td>4／1</td></tr><tr><td>12</td><td>101410</td><td>117号／第15组</td><td>705→885</td><td>6／1</td></tr></tbody></table></div>
-<p>异常段要求连续至少3个5秒格达到对应阈值：温度&gt;65°C、接点温度&gt;60°C、组流量&lt;33.6 kg/s、组平均传感误差绝对值&gt;1°C。该12过程分别形成77／0／12／0段。有效确认依照前一5秒采样格的正标签及告警测量核对，保留原结果的端点语义。</p>
+<p>异常阈值与最短持续时间见4.1.1节。该12过程按热／电气／制冷／自控分别形成77／0／12／0段。有效确认依照前一5秒采样格的正标签及告警测量核对，保留原结果的端点语义。</p>
 <figure id="figure-paired-net"><span class="wide-hint">宽图可左右滑动查看</span><div class="figure-frame"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 425 418" role="img" aria-labelledby="paired-net-title paired-net-description" data-chart="paired-net">
 <title id="paired-net-title">12个独立过程有11个净增、1个不变</title>
 <desc id="paired-net-description">纵向顺序为p00到p11，净增为FIFO确认数减Tour确认数。多条候选规则不增加独立过程数。</desc>

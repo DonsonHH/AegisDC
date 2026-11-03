@@ -26,7 +26,7 @@
 
 完整补充复算使用`python scripts/analyze_supplement_study.py`，需要保留本地完整新原件和Torch环境；它从标签、量测、执行日志及预测数组重建报告指标。`source-executed.zip`保存实际执行版本，后续恢复逻辑维护另有修订记录。
 
-本次两点澄清与导出验证见[本次澄清与导出复核](report-refinement-review-20261103.md)。
+本次叙事、层级与版式整理见[修订要求](report-structure-spec-20261103.md)与[完整复核](report-structure-review-20261103.md)；前轮两点澄清与导出验证见[澄清与导出复核](report-refinement-review-20261103.md)。
 
 - [叙事重排前的v8完整报告](briefing-history/eaac9994/supervisor-briefing.html)及模板、文本包和验证记录保留。
 
