@@ -15,6 +15,8 @@
 
 依据：[会后决策与纪要差异](docs/meetings/2026-11-03-research-reset.md)、[研究定义与方法](docs/RESEARCH_RESET.md)、[领域术语](GLOSSARY.md)、[当前下一步](docs/NEXT.md)。用户口述与后续澄清优先于自动纪要。
 
+本轮会前整合、更名、会议决策和新原型的[交付复核](docs/reviews/postmeeting-20261104.md)附逐项完成审计、测试范围和远端发布收据。
+
 ## 工程与方法来源
 
 |参考|已取得什么|仍待核实什么|
