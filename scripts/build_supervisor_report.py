@@ -74,6 +74,7 @@ def comparison_table(comparison):
 
 
 def main():
+    read('paper/report-readability-spec-20261103.md')
     for source in ['scripts/build_supervisor_report.py','scripts/report_diagrams.py','scripts/briefing_diagrams.py','scripts/report_text_export.py','scripts/analyze_estimation_confirmation_gap.py']:
         read(source)
     summary=load('evidence/event-validation/final/summary.json')
@@ -228,13 +229,13 @@ def main():
         'task-21':'21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。',
         'supplement-unet':'本次真实训练的温度残差CVAE-U-Net。公开输入57通道，295,777个参数；训练后验只用于监督，在线取条件先验均值。',
         'supplement-crossed-design':'估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。',
-        'supplement-methods':'48个主要条件，先平均三个模型种子、再等权四故障族；误差线为12个物理种子块的95%自举区间。等待对有异常的条件计算。',
+        'supplement-methods':'48个故障条件，先平均三个模型种子、再等权四故障族；误差线按12组独立测试集计算95%区间。等待对有异常的条件计算。',
         'supplement-professions':'四专业异常段的描述性确认比例，数字为确认数／专业异常总数；小数来自三个模型种子的平均。',
-        'supplement-estimation':'所有估计器接收同一份已保存Tour公开观测流，使用相同刚量测校正；误差线为95%物理种子块区间。',
+        'supplement-estimation':'两种估计器读取同一份Tour观测记录，并用相同的新测温度校正；盲区误差排除当前新测位置，误差线为12组独立测试集的95%区间。',
         'supplement-estimator-training':'三个训练种子的真实30轮开发曲线，空心点为各自开发集最优checkpoint；测试集不参与选择。',
         'supplement-ppo-training':'六个PPO的公开奖励训练曲线；细线表示训练种子，粗线为种子均值，采用10回合滑动窗口。',
-        'supplement-contrasts':'预登记的配对比较及95%物理种子块自举区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。',
-        'supplement-seed-blocks':'逐个种子块展示配对确认差；各块内四种故障等权，编号表示登记身份。',
+        'supplement-contrasts':'预登记的配对比较，按独立测试集自举计算95%区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。',
+        'supplement-seed-blocks':'逐组展示独立测试集内的确认差，四种故障等权；编号是登记身份。',
         'supplement-latency':'主要故障条件的逐回合p95均值，实测包含转换和CUDA同步。估计阶段已包含于完整控制周期，不能重复相加。',
         'supplement-heatmaps':'按编号选取首个测试条件、训练种子271和注入后90秒；名义与CVAE使用相同Tour观测流，三图共用45—75°C色标。',
         'supplement-process':'与温度图同一编号示例。阴影为故障注入窗口，点表示当前新温度量测；温度和流量阈值采用研究设定。',
@@ -307,7 +308,7 @@ def main():
     main_figures=re.findall(r'<figure id="figure-([^"]+)"',core)
     all_figures=re.findall(r'<figure id="figure-([^"]+)"',content)
     assert len(all_figures)==len(set(all_figures))==len(drawings)
-    manifest={'version':9,'mode':'self_reading_report','previous_version':'eaac99947ff95f330e4822909b243d5764521fb7','animations':False,'presenter_controls':False,
+    manifest={'version':10,'mode':'self_reading_report','previous_version':'17e1f7a3e1fdda5c739bd608050dbe26d3af966e','animations':False,'presenter_controls':False,
         'main_figure_ids':main_figures,'appendix_figure_ids':[name for name in all_figures if name not in main_figures],
         'sections':list(labels),'primary_processes':12,'primary_condition_count':48,
         'primary_anomaly_segments':supplement['primary_aggregates']['nominal_tour']['total_unique_anomaly_segments'],

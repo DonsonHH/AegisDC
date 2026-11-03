@@ -107,13 +107,13 @@ def pid_sample(images):
         p.append(f'<image x="{x}" y="132" width="380" height="380" href="data:image/png;base64,{payload}"/>')
     p.append(text(18,555,'材料来自已有PID项目；图像以显示像素为单位，用于说明外观转换及待接视觉支路。',22,MUTED))
     return svg('pid-visual-sample',1280,582,'既有户外电气场景RGB、B-PID外观与伪彩目标三联图',
-               '已有同图精修样例，场景为绝缘子、铁塔和导线。三图不含辐射温度标定；Renly当前的数值接点测温通道另列。',p)
+               '已有同图精修样例，场景为绝缘子、铁塔和导线。三图不含辐射温度标定；本仿真系统当前的数值接点测温通道另列。',p)
 
 
 def visual_interface():
     p=[text(18,32,'电气视觉支路：已有成果、参考入口与数值测量的连接',29,weight=650),
        text(18,67,'实线表示现有量测更新；虚线表示待接入的数据或任务桥接。',22,MUTED)]
-    for x,w,title,subtitle in [(18,290,'RGB→IR外观生成','已有独立PID项目材料'),(390,340,'外观参考元数据入口','Renly已有登记接口'),(830,410,'热点候选与任务关联','待连接到巡检调度')]:
+    for x,w,title,subtitle in [(18,290,'RGB→IR外观生成','已有独立PID项目材料'),(390,340,'外观参考元数据入口','本仿真系统已有接口'),(830,410,'热点候选与任务关联','待连接到巡检调度')]:
         p+=node(x,102,w,title,subtitle,height=88)
     p += [line(314,145,376,145,GREY,2,**{'stroke-dasharray':'6 5'}),line(744,145,816,145,GREY,2,**{'stroke-dasharray':'6 5'}),
           '<path d="M1035,194 V238 H180 V277" fill="none" stroke="#7d8d98" stroke-width="2" stroke-dasharray="6 5"/>',
@@ -123,7 +123,7 @@ def visual_interface():
     p += [arrow(380,326,505,326,BLUE),arrow(872,326,936,326,BLUE),
           text(18,422,'图像提供外观线索；温度进入已有量测通道。真实仪器、生成推理与任务选点按接口逐步接入。',22,MUTED)]
     return svg('visual-interface',1280,450,'电气图像参考与合格接点测量的分层接入图',
-               'Renly已经登记未校准图像参考元数据，并由合成合格接点量测更新温度。生成模型、像素解析、热点任务映射和真实仪器待连接。',p)
+               '本仿真系统已经登记未校准图像参考元数据，并由合成合格接点量测更新温度。生成模型、像素解析、热点任务映射和真实仪器待连接。',p)
 
 
 def dispatch_cycle():

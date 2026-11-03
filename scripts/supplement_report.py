@@ -98,9 +98,9 @@ def substitutions(data):
     cvae = next(c for c in data['contrasts'] if (c['first'],c['second'])==('cvae_fifo','nominal_fifo'))
     ppo = next(c for c in data['contrasts'] if (c['first'],c['second'])==('cvae_ppo','cvae_fifo'))
     return {
-        'SUPPLEMENT_ERROR_TABLE':table(['方法','RMSE / °C↓','加权RMSE / °C↓','R²↑','非刚量测加权RMSE / °C↓','模型／规则重复'],estimators,'supplement-errors',methods),
+        'SUPPLEMENT_ERROR_TABLE':table(['方法','RMSE / °C↓','加权RMSE / °C↓','R²↑','盲区机柜加权RMSE / °C↓','模型／规则重复'],estimators,'supplement-errors',methods),
         'SUPPLEMENT_TASK_TABLE':table(['方法','确认／唯一异常段','确认比例','每条件确认 [95%CI]','截尾等待 / 秒↓','加权年龄↓','移动相对Tour','完成量相对Tour','约束违规'],tasks,'supplement-tasks',methods),
-        'SUPPLEMENT_FIXED_TABLE':table(['估计器','RMSE / °C','加权RMSE / °C','R²','非刚量测加权RMSE / °C'],fixed_rows,'supplement-fixed-stream'),
+        'SUPPLEMENT_FIXED_TABLE':table(['估计器','RMSE / °C','加权RMSE / °C','R²','盲区机柜加权RMSE / °C'],fixed_rows,'supplement-fixed-stream'),
         'SUPPLEMENT_CONTRAST_TABLE':table(['预登记比较','每条件确认差↑','截尾等待差 / 秒↓','归一年龄差↓','闭环加权RMSE差 / °C↓'],contrasts,'supplement-contrasts'),
         'SUPPLEMENT_HEALTHY_TABLE':table(['方法','健康额外访问','虚假提示额外访问','健康误确认','虚假提示误确认','虚假提示完成量相对Tour','两组确认比例／等待'],healthy,'supplement-healthy'),
         'SUPPLEMENT_FAMILY_TABLE':table(['故障条件','方法','平均确认段','平均异常段','平均截尾等待 / 秒','加权RMSE / °C','平均额外访问'],families,'supplement-families'),

@@ -103,7 +103,7 @@ def build(data,example=None):
     fixed = data['fixed_stream']['aggregates']
     fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.7), layout='constrained')
     for ax, subset, metric, title in zip(axes, ['all', 'all', 'not_fresh'], ['rmse_c', 'weighted_rmse_c', 'weighted_rmse_c'],
-                                       ['全部端点 · RMSE', '全部端点 · 加权RMSE', '非刚量测端点 · 加权RMSE']):
+                                       ['全部端点 · RMSE', '全部端点 · 加权RMSE', '盲区机柜 · 加权RMSE']):
         names = ['nominal', 'cvae']
         values = [fixed[f'{m}_{subset}_{metric}']['mean'] for m in names]
         bounds = np.asarray([fixed[f'{m}_{subset}_{metric}']['percentile95'] for m in names])

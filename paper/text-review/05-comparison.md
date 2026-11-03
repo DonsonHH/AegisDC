@@ -4,7 +4,7 @@
 
 ## 4. 实验验证层：多算法结果与机制诊断
 
-<p class="chapter-lead">本章先给出评价和数据隔离方案，再报告状态估计、专业确认、计算代价与规模结果，最后解释估计精度与任务效果之间的差异。</p>
+<p class="chapter-lead">将温度估计与派单方法组合为7种方案，在1080个测试回合中比较：温度估计是否更准、异常能否及时查到，以及多走多少路、例行检查是否超时。随后用具体案例解释温度估计更准为何没有直接带来更多确认。</p>
 
 ### 4.1 评价体系与独立实验设计
 
@@ -14,12 +14,14 @@
 
 |维度|本任务指标|方向|
 |---|---|---|
-|状态估计|温度RMSE、资产加权RMSE、非刚量测加权RMSE、R²|误差低、R²高|
+|状态估计|温度RMSE、资产加权RMSE、盲区机柜加权RMSE、R²|误差低、R²高|
 |持续巡检|静态资产重要度加权归一年龄J<sub>age</sub>（适配idleness）|低|
 |异常确认|有效确认段数／比例、后果加权截尾等待、硬重访违规|确认多、等待短、约束零违规|
 |资源与计算|移动变化、完成量变化、阶段p50／p95和训练耗时|联合判断收益与代价|
 
-温度误差以物理柜温为目标，“非刚量测”排除当前端点的温度回填；R²按逐回合SSE／SST计算后汇总，常量目标记NA。本研究四专业正标签阈值为：柜温>65°C、接点温度>60°C、组流量<33.6 kg/s、组平均传感误差绝对值>1°C；连续至少3个5秒正标签形成异常段。确认需在正标签端点完成合格告警量测，未确认段按结束时刻截尾。
+温度误差比较估计值与模拟机房的真实柜温。“盲区机柜加权RMSE”对应原指标“非刚量测加权RMSE”：排除当前时刻有新温度量测的位置，包括固定测温点和刚完成热检查的机柜，集中评价需要推算的温度。R²按每回合的误差平方和SSE与总离差平方和SST计算后汇总，温度目标恒定时记NA。
+
+四专业的异常阈值为：柜温>65°C、接点温度>60°C、组流量<33.6 kg/s、组平均传感误差绝对值>1°C；连续至少3个5秒采样满足阈值才计为一段异常。巡检员需在仍处于异常的采样时刻完成合格测量，且测量值达到相应报警阈值，才记为有效确认；一直未确认的异常，等待时间计到该段结束。
 
 加权年龄对各方法实际完成时刻解析积分，包含初始和1800秒终点间隔：
 
@@ -57,20 +59,22 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 <h3 id="estimation-results">4.2 固定公开观测流下的状态估计结果</h3>
 
-#### 4.2.1 全局与非刚量测端点误差
+#### 4.2.1 全机房与盲区机柜的温度误差
+
+先让两种估计器读取同一份固定巡回观测记录，比较它们补全温度的能力。盲区指标排除当前新测量的位置，避免把直接填入的测量值算成预测成绩。
 
 
 
 <a id="figure-supplement-estimation"></a>
 
-[图：所有估计器接收同一份已保存Tour公开观测流，使用相同刚量测校正；误差线为95%物理种子块区间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimation.svg)
+[图：两种估计器读取同一份Tour观测记录，并用相同的新测温度校正；盲区误差排除当前新测位置，误差线为12组独立测试集的95%区间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimation.svg)
 
 
-<div class="table-wrap"><table data-table="supplement-fixed-stream" class="supplement-table"><thead><tr><th>估计器</th><th>RMSE / °C</th><th>加权RMSE / °C</th><th>R²</th><th>非刚量测加权RMSE / °C</th></tr></thead><tbody><tr><td>名义热平衡</td><td>0.528 [0.416, 0.646]</td><td>0.535 [0.419, 0.659]</td><td>0.9124 [0.8801, 0.9413]</td><td>0.443 [0.306, 0.589]</td></tr><tr><td>残差CVAE-U-Net</td><td>0.324 [0.303, 0.347]</td><td>0.328 [0.307, 0.350]</td><td>0.9602 [0.9580, 0.9621]</td><td>0.172 [0.145, 0.201]</td></tr></tbody></table></div>
+<div class="table-wrap"><table data-table="supplement-fixed-stream" class="supplement-table"><thead><tr><th>估计器</th><th>RMSE / °C</th><th>加权RMSE / °C</th><th>R²</th><th>盲区机柜加权RMSE / °C</th></tr></thead><tbody><tr><td>名义热平衡</td><td>0.528 [0.416, 0.646]</td><td>0.535 [0.419, 0.659]</td><td>0.9124 [0.8801, 0.9413]</td><td>0.443 [0.306, 0.589]</td></tr><tr><td>残差CVAE-U-Net</td><td>0.324 [0.303, 0.347]</td><td>0.328 [0.307, 0.350]</td><td>0.9602 [0.9580, 0.9621]</td><td>0.172 [0.145, 0.201]</td></tr></tbody></table></div>
 
-残差CVAE-U-Net在相同公开输入上降低了温度误差：全部端点加权RMSE由0.535降至0.328°C，逐回合R²均值由0.9124提高到0.9602。非刚量测加权RMSE均值降低61.2%。这支持学习估计器改善状态表示；专业确认仍需通过后面的任务结果判断。
+相同观测下，残差CVAE-U-Net对全机房的加权RMSE由0.535降至0.328°C，每回合R²的均值由0.9124提高到0.9602。盲区机柜加权RMSE均值降低61.2%，说明它能更准确地补全未新测位置的温度；能否及时查到异常，接着看派单后的实际完成结果。
 
-表中为48个主要条件的逐回合误差均值及95%物理种子块区间。预登记主要比较为同一Tour观测流上的非刚量测加权RMSE，CVAE−名义差为-0.271 [-0.398, -0.157]°C。
+表中为48个故障条件的逐回合误差均值，95%区间按12组独立测试集计算。预登记主要比较为同一Tour观测流上的盲区机柜加权RMSE，CVAE−名义差为-0.271 [-0.398, -0.157]°C。
 
 <h4 id="estimation-example">4.2.2 同流态势图与局部温度时序</h4>
 
@@ -99,13 +103,13 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 #### 4.3.2 新基准总表、四专业与配对效应
 
-<div class="table-wrap"><table data-table="supplement-errors" class="supplement-table"><thead><tr><th>方法</th><th>RMSE / °C↓</th><th>加权RMSE / °C↓</th><th>R²↑</th><th>非刚量测加权RMSE / °C↓</th><th>模型／规则重复</th></tr></thead><tbody><tr data-supplement-method="nominal_tour"><td>名义＋Tour</td><td>0.528</td><td>0.535</td><td>0.9124</td><td>0.443</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_fifo"><td>名义＋FIFO</td><td>0.532</td><td>0.535</td><td>0.9113</td><td>0.443</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_greedy"><td>名义＋Greedy</td><td>0.533</td><td>0.537</td><td>0.9105</td><td>0.446</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_ppo"><td>名义＋PPO</td><td>0.531</td><td>0.537</td><td>0.9112</td><td>0.445</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_fifo"><td>CVAE＋FIFO</td><td>0.323</td><td>0.327</td><td>0.9603</td><td>0.170</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_greedy"><td>CVAE＋Greedy</td><td>0.323</td><td>0.327</td><td>0.9602</td><td>0.171</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_ppo"><td>CVAE＋PPO</td><td>0.323</td><td>0.327</td><td>0.9602</td><td>0.171</td><td>3个独立训练种子</td></tr></tbody></table></div>
+<div class="table-wrap"><table data-table="supplement-errors" class="supplement-table"><thead><tr><th>方法</th><th>RMSE / °C↓</th><th>加权RMSE / °C↓</th><th>R²↑</th><th>盲区机柜加权RMSE / °C↓</th><th>模型／规则重复</th></tr></thead><tbody><tr data-supplement-method="nominal_tour"><td>名义＋Tour</td><td>0.528</td><td>0.535</td><td>0.9124</td><td>0.443</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_fifo"><td>名义＋FIFO</td><td>0.532</td><td>0.535</td><td>0.9113</td><td>0.443</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_greedy"><td>名义＋Greedy</td><td>0.533</td><td>0.537</td><td>0.9105</td><td>0.446</td><td>1个确定性规则</td></tr><tr data-supplement-method="nominal_ppo"><td>名义＋PPO</td><td>0.531</td><td>0.537</td><td>0.9112</td><td>0.445</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_fifo"><td>CVAE＋FIFO</td><td>0.323</td><td>0.327</td><td>0.9603</td><td>0.170</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_greedy"><td>CVAE＋Greedy</td><td>0.323</td><td>0.327</td><td>0.9602</td><td>0.171</td><td>3个独立训练种子</td></tr><tr data-supplement-method="cvae_ppo"><td>CVAE＋PPO</td><td>0.323</td><td>0.327</td><td>0.9602</td><td>0.171</td><td>3个独立训练种子</td></tr></tbody></table></div>
 <div class="table-wrap"><table data-table="supplement-tasks" class="supplement-table"><thead><tr><th>方法</th><th>确认／唯一异常段</th><th>确认比例</th><th>每条件确认 [95%CI]</th><th>截尾等待 / 秒↓</th><th>加权年龄↓</th><th>移动相对Tour</th><th>完成量相对Tour</th><th>约束违规</th></tr></thead><tbody><tr data-supplement-method="nominal_tour"><td>名义＋Tour</td><td>94/210</td><td>44.8%</td><td>1.96 [1.31, 2.65]</td><td>106.75</td><td>0.310122</td><td>+0.00%</td><td>+0.00%</td><td>0</td></tr><tr data-supplement-method="nominal_fifo"><td>名义＋FIFO</td><td>155/210</td><td>73.8%</td><td>3.23 [2.83, 3.65]</td><td>94.24</td><td>0.311298</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_greedy"><td>名义＋Greedy</td><td>154/210</td><td>73.3%</td><td>3.21 [2.81, 3.60]</td><td>94.36</td><td>0.311270</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_ppo"><td>名义＋PPO</td><td>129.33/210</td><td>61.6%</td><td>2.69 [2.23, 3.17]</td><td>100.42</td><td>0.310877</td><td>+0.22%</td><td>-0.10%</td><td>0</td></tr><tr data-supplement-method="cvae_fifo"><td>CVAE＋FIFO</td><td>153/210</td><td>72.9%</td><td>3.19 [2.78, 3.61]</td><td>94.55</td><td>0.311256</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_greedy"><td>CVAE＋Greedy</td><td>152/210</td><td>72.4%</td><td>3.17 [2.76, 3.58]</td><td>94.64</td><td>0.311217</td><td>+0.32%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_ppo"><td>CVAE＋PPO</td><td>153.67/210</td><td>73.2%</td><td>3.20 [2.78, 3.62]</td><td>94.65</td><td>0.311266</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr></tbody></table></div>
 
 
 <a id="figure-supplement-methods"></a>
 
-[图：48个主要条件，先平均三个模型种子、再等权四故障族；误差线为12个物理种子块的95%自举区间。等待对有异常的条件计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-methods.svg)
+[图：48个故障条件，先平均三个模型种子、再等权四故障族；误差线按12组独立测试集计算95%区间。等待对有异常的条件计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-methods.svg)
 
 
 
@@ -126,7 +130,7 @@ w为共同静态资产权重，D为专业重访期限，L为最近完成时刻�
 
 <a id="figure-supplement-contrasts"></a>
 
-[图：预登记的配对比较及95%物理种子块自举区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-contrasts.svg)
+[图：预登记的配对比较，按独立测试集自举计算95%区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-contrasts.svg)
 
 
 <div class="table-wrap"><table data-table="supplement-contrasts" class="supplement-table"><thead><tr><th>预登记比较</th><th>每条件确认差↑</th><th>截尾等待差 / 秒↓</th><th>归一年龄差↓</th><th>闭环加权RMSE差 / °C↓</th></tr></thead><tbody><tr><td>名义＋FIFO − 名义＋Tour</td><td>+1.27 [+0.62, +1.88]</td><td>-12.51 [-16.31, -8.75]</td><td>+0.001176 [+0.001052, +0.001292]</td><td>+0.001 [-0.053, +0.052]</td></tr><tr><td>CVAE＋FIFO − 名义＋FIFO</td><td>-0.04 [-0.09, +0.00]</td><td>+0.31 [+0.02, +0.70]</td><td>-0.000042 [-0.000072, -0.000015]</td><td>-0.208 [-0.311, -0.111]</td></tr><tr><td>CVAE＋Greedy − 名义＋Greedy</td><td>-0.04 [-0.09, +0.00]</td><td>+0.28 [+0.00, +0.67]</td><td>-0.000053 [-0.000093, -0.000021]</td><td>-0.210 [-0.314, -0.112]</td></tr><tr><td>名义＋PPO − 名义＋FIFO</td><td>-0.53 [-0.79, -0.26]</td><td>+6.18 [+4.23, +8.19]</td><td>-0.000421 [-0.000475, -0.000362]</td><td>+0.002 [-0.015, +0.018]</td></tr><tr><td>CVAE＋PPO − CVAE＋FIFO</td><td>+0.01 [-0.01, +0.04]</td><td>+0.10 [-0.15, +0.39]</td><td>+0.000010 [-0.000005, +0.000028]</td><td>+0.000 [-0.000, +0.000]</td></tr><tr><td>CVAE＋PPO − 名义＋PPO</td><td>+0.51 [+0.22, +0.78]</td><td>-5.77 [-7.59, -4.01]</td><td>+0.000389 [+0.000320, +0.000454]</td><td>-0.210 [-0.310, -0.115]</td></tr></tbody></table></div>
@@ -160,7 +164,7 @@ CVAE-U-Net改善全局温度态势精度，及时确认还取决于局部提示�
 
 #### 4.4.2 合法候选稀疏与PPO排序自由度
 
-训练记录中，约0.26%—0.27%的执行者实际选择集合包含多个合法候选。只有一项合法时，策略没有排序自由；这描述了当前责任区、返回约束与待办生成共同形成的决策空间。该比例的分母是执行者选择集合，完整计数与耗时在[附录G](07-appendix.md#training-seeds)。
+PPO只有在几项任务都允许执行时，才有机会体现先后排序的差别。训练记录中，约0.26%—0.27%的巡检员实际选择集合包含多个合法候选；只有一项可选时，策略没有排序空间。这个比例按每名执行者实际收到的选择集合计算，反映本轮责任区、返回保护和待办生成共同形成的机会，完整计数见[附录G](07-appendix.md#training-seeds)。
 
 在每策略120回合预算下，CVAE-PPO相对CVAE-FIFO的确认增量区间跨零；相对名义PPO的改善同时包含估计器与各自训练策略的变化。候选空间、奖励和训练预算的单独贡献可在下一轮独立比较中检验。
 
