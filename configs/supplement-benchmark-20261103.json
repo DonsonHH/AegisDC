@@ -1,0 +1,4718 @@
+{
+  "study_id": "supplement-benchmark-20261103-v1",
+  "status": "registered_before_first_environment_attempt",
+  "authorization": "User explicitly requested substantive missing calculations/data, supplementation and a final complete review on 2026-11-03. Earlier packages remain sealed.",
+  "question": "Under common observation/qualification/return/budget rights, how do temperature-adapted conditional VAE-U-Net estimation and shared PPO scheduling change estimation accuracy, professional confirmation, age, costs and compute?",
+  "families": [
+    {
+      "id": "compound",
+      "scenario": "aux_feeder_loss+cdu_fouling",
+      "duration_s": 180,
+      "primary": true
+    },
+    {
+      "id": "electrical",
+      "scenario": "dc_contact_hotspot",
+      "duration_s": 180,
+      "primary": true
+    },
+    {
+      "id": "control",
+      "scenario": "sensor_bias",
+      "duration_s": 180,
+      "primary": true
+    },
+    {
+      "id": "cooling",
+      "scenario": "secondary_pump_trip",
+      "duration_s": 180,
+      "primary": true
+    },
+    {
+      "id": "healthy",
+      "scenario": "healthy",
+      "duration_s": 180,
+      "primary": false
+    },
+    {
+      "id": "spurious",
+      "scenario": "healthy",
+      "duration_s": 180,
+      "primary": false
+    }
+  ],
+  "splits": {
+    "train_seeds": [
+      310000,
+      310001,
+      310002,
+      310003,
+      310004,
+      310005,
+      310006,
+      310007,
+      310008,
+      310009,
+      310010,
+      310011,
+      310012,
+      310013,
+      310014,
+      310015,
+      310016,
+      310017,
+      310018,
+      310019,
+      310020,
+      310021,
+      310022,
+      310023
+    ],
+    "development_seeds": [
+      320000,
+      320001,
+      320002,
+      320003,
+      320004,
+      320005
+    ],
+    "test_seeds": [
+      330001,
+      330002,
+      330003,
+      330004,
+      330005,
+      330006,
+      330007,
+      330008,
+      330009,
+      330010,
+      330011,
+      330012
+    ],
+    "scale_seeds": [
+      340001,
+      340002,
+      340003
+    ]
+  },
+  "placement": {
+    "pod_formula": "(5*index+1)%16",
+    "local_rack_formula": "index%8",
+    "fault_starts_s": [
+      150,
+      335,
+      520,
+      705
+    ],
+    "test_scope": "12 master seed blocks x6 conditions =72 conditions, including healthy/spurious same-physics pairs; not72 independent processes",
+    "phase_assignment": "fully enumerated case_sets; seeded balanced permutation of the four phase values per split"
+  },
+  "task": {
+    "racks": 128,
+    "horizon_s": 1800,
+    "dt_s": 5,
+    "noise_c": 0.2,
+    "control": "feedback",
+    "resources": "provisioned",
+    "extra_visit_budget": 12,
+    "ttl_s": 120,
+    "agent_order": "fixed ascending agent id for every method",
+    "candidate_space": "original routine head plus owned pending events, subject to certificate/reservation/horizon/global remaining budget",
+    "refresh_s": 5,
+    "history_frames": 4,
+    "observation_features_per_rack": 14,
+    "physical_prior_input": "current nominal-model temperature; no hidden truth/fault descriptors in inputs",
+    "candidate_feature_schema": [
+      "age_ratio",
+      "eta_ratio",
+      "public_severity",
+      "never_inspected",
+      "measurement_age_ratio",
+      "model_disagreement",
+      "asset_weight",
+      "service_ratio",
+      "travel_ratio",
+      "thermal",
+      "electrical",
+      "cooling",
+      "control",
+      "clock_fraction",
+      "local_fraction",
+      "team_unverified_fraction",
+      "event_wait_ratio",
+      "routine_head",
+      "pending_event",
+      "remaining_extra_fraction",
+      "return_min_slack_ratio"
+    ],
+    "critic_features": "retained8 public value features plus remaining-extra fraction and pending-event fraction",
+    "greedy": "all legal routine+event candidates maximize current public risk / quantized time-to-completion; ties routine first, then earliest visible request, then task index"
+  },
+  "methods": [
+    "nominal_tour",
+    "nominal_fifo",
+    "nominal_greedy",
+    "nominal_ppo",
+    "cvae_fifo",
+    "cvae_greedy",
+    "cvae_ppo"
+  ],
+  "model_seeds": [
+    271,
+    811,
+    1931
+  ],
+  "estimator": {
+    "name": "temperature-adapted physics-residual conditional VAE-U-Net",
+    "grid": [
+      8,
+      16
+    ],
+    "channels": [
+      16,
+      32,
+      64
+    ],
+    "latent": 16,
+    "epochs": 30,
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "kl_beta": 0.001,
+    "kl_ramp_epochs": 5,
+    "checkpoint_selection": "lowest development weighted temperature MSE, within each of three model seeds; no selection by test",
+    "dataset_methods": [
+      "nominal_tour",
+      "nominal_fifo"
+    ],
+    "snapshot_stride_steps": 3,
+    "inference": "deterministic conditional prior mean; fresh measured temperatures replaced by same observation contract",
+    "warmup_calls": 5
+  },
+  "ppo": {
+    "architecture": "shared MLP32x32 actor21 public candidate features / critic10 public global features; same architecture and initial seeds for nominal and CVAE",
+    "episodes_per_estimator_and_model_seed": 120,
+    "epochs_per_rollout": 4,
+    "learning_rate": 0.0003,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip": 0.2,
+    "reward": "existing observable ActiveInspection.step reward; no evaluator truth label or future anomaly end",
+    "rollout": "one complete359-step episode per update, zero terminal bootstrap; never concatenate episodes",
+    "checkpoint_selection": "fixed final120-episode checkpoint; no test-driven selection",
+    "training_case_order": "fixed seed-shuffled balanced train case cycles; paired order and initial policy weights between nominal/cvae",
+    "development_case_ids": [
+      "development00-compound",
+      "development01-electrical",
+      "development02-control",
+      "development03-cooling",
+      "development04-healthy",
+      "development05-spurious"
+    ]
+  },
+  "statistics": {
+    "independent_unit": "master physical seed block,12 in final test; first average model seeds within each method and condition",
+    "primary_groups": [
+      "compound",
+      "electrical",
+      "control",
+      "cooling"
+    ],
+    "healthy_groups": [
+      "healthy",
+      "spurious"
+    ],
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261103,
+    "metrics": [
+      "temperature_rmse",
+      "asset_weighted_temperature_rmse",
+      "temperature_r2",
+      "not_freshly_observed_rmse",
+      "fixed_Tour_stream_estimator_errors",
+      "effective_confirmations_and_ratio",
+      "consequence_weighted_censored_wait",
+      "asset_weighted_normalized_age",
+      "travel_service_completions_extra_visits",
+      "qualified_ownership_reservation_budget_and_exact_revisit_audit",
+      "estimator_and_policy_latency_p50_p95",
+      "event_lifecycle_and_choice_opportunities"
+    ],
+    "zero_anomaly": "confirmation_ratio and anomaly-conditioned wait are NA; report alarm/cue/normal closure separately",
+    "estimation_labels": "physical rack_temperature, never biased public_sensor_temperature; recorded offline at matching360 endpoints",
+    "comparison": "FIFO/Greedy isolate estimator change; PPO estimator difference is joint trained-system change"
+  },
+  "limits": {
+    "compatibility_environment_attempts": 2,
+    "pilot_environment_attempts": 6,
+    "training_observation_collection": 288,
+    "development_observation_collection": 72,
+    "ppo_training_environment_attempts": 720,
+    "ppo_development_diagnostics": 36,
+    "test_environment_attempts": 1080,
+    "maximum_environment_attempts": 2204,
+    "physics_only_scale_runs": 18,
+    "llm_calls": 0,
+    "retries": "A failure halts its phase and is retained; an engineering correction requires a recorded amendment, not replacement test seeds or unreported automatic retries."
+  },
+  "scale": {
+    "racks": [
+      128,
+      512,
+      1024
+    ],
+    "families": [
+      "healthy",
+      "compound"
+    ],
+    "scope": "physical-process only measured runtime/memory plus static protected-tour feasibility, not an unexecuted large-rack learned-policy claim"
+  },
+  "frozen_source_parent": "f35b172ee4d557a099680a8411fe89d5b324e55e",
+  "timing": {
+    "estimator_total_ms": "public packet+nominal observer update+(neural grid prep+prior-mean prediction+fresh correction when neural); logger-only nominal grids excluded and separately recorded",
+    "neural_predict_ms": "real data conversion+device copy+prior-mean forward+return copy with CUDA synchronization",
+    "policy_total_ms": "public value/candidate preparation and selection; critic value evaluated only in stochastic training, not test",
+    "online_control_cycle_ms": "walltime from public choice preparation through one env.step, including measurement/execution bookkeeping, next-observation estimator and event lifecycle; excludes precomputed physical-trace generation, recorder copies, I/O and evaluator",
+    "not_additive": "estimator stage is contained in env.step; do not add it a second time to cycle",
+    "reported_latency_phase": "final test only;5 synthetic public-input warmup forwards per loaded neural checkpoint, excluded and counted separately"
+  },
+  "analysis": {
+    "primary_families": [
+      "compound",
+      "electrical",
+      "control",
+      "cooling"
+    ],
+    "primary_condition_weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "unit": "within each seed block first average model seeds per condition, then average four primary conditions; bootstrap12 blocks. Healthy/spurious separate.",
+    "estimation_primary": "not-freshly-observed weighted RMSE difference on the same retained Nominal-Tour public observation stream; identical fresh-correction contract for all three neural models",
+    "task_primary_contrasts": [
+      [
+        "nominal_fifo",
+        "nominal_tour"
+      ],
+      [
+        "cvae_fifo",
+        "nominal_fifo"
+      ],
+      [
+        "cvae_greedy",
+        "nominal_greedy"
+      ],
+      [
+        "nominal_ppo",
+        "nominal_fifo"
+      ],
+      [
+        "cvae_ppo",
+        "cvae_fifo"
+      ]
+    ],
+    "joint_contrast": [
+      "cvae_ppo",
+      "nominal_ppo"
+    ],
+    "na_rules": "case confirmation ratio/wait NA if no evaluation intervals; no missing value replaced by0; mean conditional wait over defined cases with denominator reported; R2 NA when physical-target SST<=1e-12",
+    "training_uncertainty": "show three model-seed results and SD/range; bootstrap interval is physical-seed-block variation after model averaging, not a claim of complete training uncertainty",
+    "test_selection": "no test-driven selection, additions, reruns or hyperparameter changes"
+  },
+  "case_sets": {
+    "train": [
+      {
+        "id": "train00-compound",
+        "block": 0,
+        "family": "compound",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train00-electrical",
+        "block": 0,
+        "family": "electrical",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train00-control",
+        "block": 0,
+        "family": "control",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train00-cooling",
+        "block": 0,
+        "family": "cooling",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train00-healthy",
+        "block": 0,
+        "family": "healthy",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train00-spurious",
+        "block": 0,
+        "family": "spurious",
+        "spec": {
+          "seed": 310000,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 8,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train01-compound",
+        "block": 1,
+        "family": "compound",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train01-electrical",
+        "block": 1,
+        "family": "electrical",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train01-control",
+        "block": 1,
+        "family": "control",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train01-cooling",
+        "block": 1,
+        "family": "cooling",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train01-healthy",
+        "block": 1,
+        "family": "healthy",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train01-spurious",
+        "block": 1,
+        "family": "spurious",
+        "spec": {
+          "seed": 310001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 49,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train02-compound",
+        "block": 2,
+        "family": "compound",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train02-electrical",
+        "block": 2,
+        "family": "electrical",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train02-control",
+        "block": 2,
+        "family": "control",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train02-cooling",
+        "block": 2,
+        "family": "cooling",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train02-healthy",
+        "block": 2,
+        "family": "healthy",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train02-spurious",
+        "block": 2,
+        "family": "spurious",
+        "spec": {
+          "seed": 310002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 90,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train03-compound",
+        "block": 3,
+        "family": "compound",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train03-electrical",
+        "block": 3,
+        "family": "electrical",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train03-control",
+        "block": 3,
+        "family": "control",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train03-cooling",
+        "block": 3,
+        "family": "cooling",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train03-healthy",
+        "block": 3,
+        "family": "healthy",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train03-spurious",
+        "block": 3,
+        "family": "spurious",
+        "spec": {
+          "seed": 310003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 3,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train04-compound",
+        "block": 4,
+        "family": "compound",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train04-electrical",
+        "block": 4,
+        "family": "electrical",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train04-control",
+        "block": 4,
+        "family": "control",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train04-cooling",
+        "block": 4,
+        "family": "cooling",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train04-healthy",
+        "block": 4,
+        "family": "healthy",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train04-spurious",
+        "block": 4,
+        "family": "spurious",
+        "spec": {
+          "seed": 310004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 44,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train05-compound",
+        "block": 5,
+        "family": "compound",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train05-electrical",
+        "block": 5,
+        "family": "electrical",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train05-control",
+        "block": 5,
+        "family": "control",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train05-cooling",
+        "block": 5,
+        "family": "cooling",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train05-healthy",
+        "block": 5,
+        "family": "healthy",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train05-spurious",
+        "block": 5,
+        "family": "spurious",
+        "spec": {
+          "seed": 310005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 85,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train06-compound",
+        "block": 6,
+        "family": "compound",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train06-electrical",
+        "block": 6,
+        "family": "electrical",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train06-control",
+        "block": 6,
+        "family": "control",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train06-cooling",
+        "block": 6,
+        "family": "cooling",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train06-healthy",
+        "block": 6,
+        "family": "healthy",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train06-spurious",
+        "block": 6,
+        "family": "spurious",
+        "spec": {
+          "seed": 310006,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 126,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train07-compound",
+        "block": 7,
+        "family": "compound",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train07-electrical",
+        "block": 7,
+        "family": "electrical",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train07-control",
+        "block": 7,
+        "family": "control",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train07-cooling",
+        "block": 7,
+        "family": "cooling",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train07-healthy",
+        "block": 7,
+        "family": "healthy",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train07-spurious",
+        "block": 7,
+        "family": "spurious",
+        "spec": {
+          "seed": 310007,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 39,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train08-compound",
+        "block": 8,
+        "family": "compound",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train08-electrical",
+        "block": 8,
+        "family": "electrical",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train08-control",
+        "block": 8,
+        "family": "control",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train08-cooling",
+        "block": 8,
+        "family": "cooling",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train08-healthy",
+        "block": 8,
+        "family": "healthy",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train08-spurious",
+        "block": 8,
+        "family": "spurious",
+        "spec": {
+          "seed": 310008,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 72,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train09-compound",
+        "block": 9,
+        "family": "compound",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train09-electrical",
+        "block": 9,
+        "family": "electrical",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train09-control",
+        "block": 9,
+        "family": "control",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train09-cooling",
+        "block": 9,
+        "family": "cooling",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train09-healthy",
+        "block": 9,
+        "family": "healthy",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train09-spurious",
+        "block": 9,
+        "family": "spurious",
+        "spec": {
+          "seed": 310009,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 113,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train10-compound",
+        "block": 10,
+        "family": "compound",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train10-electrical",
+        "block": 10,
+        "family": "electrical",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train10-control",
+        "block": 10,
+        "family": "control",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train10-cooling",
+        "block": 10,
+        "family": "cooling",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train10-healthy",
+        "block": 10,
+        "family": "healthy",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train10-spurious",
+        "block": 10,
+        "family": "spurious",
+        "spec": {
+          "seed": 310010,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 26,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train11-compound",
+        "block": 11,
+        "family": "compound",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train11-electrical",
+        "block": 11,
+        "family": "electrical",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train11-control",
+        "block": 11,
+        "family": "control",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train11-cooling",
+        "block": 11,
+        "family": "cooling",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train11-healthy",
+        "block": 11,
+        "family": "healthy",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train11-spurious",
+        "block": 11,
+        "family": "spurious",
+        "spec": {
+          "seed": 310011,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 67,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train12-compound",
+        "block": 12,
+        "family": "compound",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train12-electrical",
+        "block": 12,
+        "family": "electrical",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train12-control",
+        "block": 12,
+        "family": "control",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train12-cooling",
+        "block": 12,
+        "family": "cooling",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train12-healthy",
+        "block": 12,
+        "family": "healthy",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train12-spurious",
+        "block": 12,
+        "family": "spurious",
+        "spec": {
+          "seed": 310012,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 108,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 108,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train13-compound",
+        "block": 13,
+        "family": "compound",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train13-electrical",
+        "block": 13,
+        "family": "electrical",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train13-control",
+        "block": 13,
+        "family": "control",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train13-cooling",
+        "block": 13,
+        "family": "cooling",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train13-healthy",
+        "block": 13,
+        "family": "healthy",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train13-spurious",
+        "block": 13,
+        "family": "spurious",
+        "spec": {
+          "seed": 310013,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 21,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 21,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train14-compound",
+        "block": 14,
+        "family": "compound",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train14-electrical",
+        "block": 14,
+        "family": "electrical",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train14-control",
+        "block": 14,
+        "family": "control",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train14-cooling",
+        "block": 14,
+        "family": "cooling",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train14-healthy",
+        "block": 14,
+        "family": "healthy",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train14-spurious",
+        "block": 14,
+        "family": "spurious",
+        "spec": {
+          "seed": 310014,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 62,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 62,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train15-compound",
+        "block": 15,
+        "family": "compound",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train15-electrical",
+        "block": 15,
+        "family": "electrical",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train15-control",
+        "block": 15,
+        "family": "control",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train15-cooling",
+        "block": 15,
+        "family": "cooling",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train15-healthy",
+        "block": 15,
+        "family": "healthy",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train15-spurious",
+        "block": 15,
+        "family": "spurious",
+        "spec": {
+          "seed": 310015,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 103,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 103,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train16-compound",
+        "block": 16,
+        "family": "compound",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train16-electrical",
+        "block": 16,
+        "family": "electrical",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train16-control",
+        "block": 16,
+        "family": "control",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train16-cooling",
+        "block": 16,
+        "family": "cooling",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train16-healthy",
+        "block": 16,
+        "family": "healthy",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train16-spurious",
+        "block": 16,
+        "family": "spurious",
+        "spec": {
+          "seed": 310016,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 8,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train17-compound",
+        "block": 17,
+        "family": "compound",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train17-electrical",
+        "block": 17,
+        "family": "electrical",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train17-control",
+        "block": 17,
+        "family": "control",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train17-cooling",
+        "block": 17,
+        "family": "cooling",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train17-healthy",
+        "block": 17,
+        "family": "healthy",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train17-spurious",
+        "block": 17,
+        "family": "spurious",
+        "spec": {
+          "seed": 310017,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 49,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train18-compound",
+        "block": 18,
+        "family": "compound",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train18-electrical",
+        "block": 18,
+        "family": "electrical",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train18-control",
+        "block": 18,
+        "family": "control",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train18-cooling",
+        "block": 18,
+        "family": "cooling",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train18-healthy",
+        "block": 18,
+        "family": "healthy",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train18-spurious",
+        "block": 18,
+        "family": "spurious",
+        "spec": {
+          "seed": 310018,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 90,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train19-compound",
+        "block": 19,
+        "family": "compound",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train19-electrical",
+        "block": 19,
+        "family": "electrical",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train19-control",
+        "block": 19,
+        "family": "control",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train19-cooling",
+        "block": 19,
+        "family": "cooling",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train19-healthy",
+        "block": 19,
+        "family": "healthy",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train19-spurious",
+        "block": 19,
+        "family": "spurious",
+        "spec": {
+          "seed": 310019,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 3,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train20-compound",
+        "block": 20,
+        "family": "compound",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train20-electrical",
+        "block": 20,
+        "family": "electrical",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train20-control",
+        "block": 20,
+        "family": "control",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train20-cooling",
+        "block": 20,
+        "family": "cooling",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train20-healthy",
+        "block": 20,
+        "family": "healthy",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train20-spurious",
+        "block": 20,
+        "family": "spurious",
+        "spec": {
+          "seed": 310020,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 44,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train21-compound",
+        "block": 21,
+        "family": "compound",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train21-electrical",
+        "block": 21,
+        "family": "electrical",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train21-control",
+        "block": 21,
+        "family": "control",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train21-cooling",
+        "block": 21,
+        "family": "cooling",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train21-healthy",
+        "block": 21,
+        "family": "healthy",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train21-spurious",
+        "block": 21,
+        "family": "spurious",
+        "spec": {
+          "seed": 310021,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 85,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train22-compound",
+        "block": 22,
+        "family": "compound",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train22-electrical",
+        "block": 22,
+        "family": "electrical",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train22-control",
+        "block": 22,
+        "family": "control",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train22-cooling",
+        "block": 22,
+        "family": "cooling",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train22-healthy",
+        "block": 22,
+        "family": "healthy",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train22-spurious",
+        "block": 22,
+        "family": "spurious",
+        "spec": {
+          "seed": 310022,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 126,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "train23-compound",
+        "block": 23,
+        "family": "compound",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train23-electrical",
+        "block": 23,
+        "family": "electrical",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train23-control",
+        "block": 23,
+        "family": "control",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train23-cooling",
+        "block": 23,
+        "family": "cooling",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train23-healthy",
+        "block": 23,
+        "family": "healthy",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "train23-spurious",
+        "block": 23,
+        "family": "spurious",
+        "spec": {
+          "seed": 310023,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 39,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      }
+    ],
+    "development": [
+      {
+        "id": "development00-compound",
+        "block": 0,
+        "family": "compound",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development00-electrical",
+        "block": 0,
+        "family": "electrical",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development00-control",
+        "block": 0,
+        "family": "control",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development00-cooling",
+        "block": 0,
+        "family": "cooling",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development00-healthy",
+        "block": 0,
+        "family": "healthy",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development00-spurious",
+        "block": 0,
+        "family": "spurious",
+        "spec": {
+          "seed": 320000,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 8,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "development01-compound",
+        "block": 1,
+        "family": "compound",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development01-electrical",
+        "block": 1,
+        "family": "electrical",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development01-control",
+        "block": 1,
+        "family": "control",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development01-cooling",
+        "block": 1,
+        "family": "cooling",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development01-healthy",
+        "block": 1,
+        "family": "healthy",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development01-spurious",
+        "block": 1,
+        "family": "spurious",
+        "spec": {
+          "seed": 320001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 49,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "development02-compound",
+        "block": 2,
+        "family": "compound",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development02-electrical",
+        "block": 2,
+        "family": "electrical",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development02-control",
+        "block": 2,
+        "family": "control",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development02-cooling",
+        "block": 2,
+        "family": "cooling",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development02-healthy",
+        "block": 2,
+        "family": "healthy",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development02-spurious",
+        "block": 2,
+        "family": "spurious",
+        "spec": {
+          "seed": 320002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 90,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "development03-compound",
+        "block": 3,
+        "family": "compound",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development03-electrical",
+        "block": 3,
+        "family": "electrical",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development03-control",
+        "block": 3,
+        "family": "control",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development03-cooling",
+        "block": 3,
+        "family": "cooling",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development03-healthy",
+        "block": 3,
+        "family": "healthy",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development03-spurious",
+        "block": 3,
+        "family": "spurious",
+        "spec": {
+          "seed": 320003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 3,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "development04-compound",
+        "block": 4,
+        "family": "compound",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development04-electrical",
+        "block": 4,
+        "family": "electrical",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development04-control",
+        "block": 4,
+        "family": "control",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development04-cooling",
+        "block": 4,
+        "family": "cooling",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development04-healthy",
+        "block": 4,
+        "family": "healthy",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development04-spurious",
+        "block": 4,
+        "family": "spurious",
+        "spec": {
+          "seed": 320004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 44,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "development05-compound",
+        "block": 5,
+        "family": "compound",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development05-electrical",
+        "block": 5,
+        "family": "electrical",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development05-control",
+        "block": 5,
+        "family": "control",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development05-cooling",
+        "block": 5,
+        "family": "cooling",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development05-healthy",
+        "block": 5,
+        "family": "healthy",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "development05-spurious",
+        "block": 5,
+        "family": "spurious",
+        "spec": {
+          "seed": 320005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 85,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      }
+    ],
+    "test": [
+      {
+        "id": "test00-compound",
+        "block": 0,
+        "family": "compound",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test00-electrical",
+        "block": 0,
+        "family": "electrical",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test00-control",
+        "block": 0,
+        "family": "control",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test00-cooling",
+        "block": 0,
+        "family": "cooling",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test00-healthy",
+        "block": 0,
+        "family": "healthy",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test00-spurious",
+        "block": 0,
+        "family": "spurious",
+        "spec": {
+          "seed": 330001,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 8,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 8,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test01-compound",
+        "block": 1,
+        "family": "compound",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test01-electrical",
+        "block": 1,
+        "family": "electrical",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test01-control",
+        "block": 1,
+        "family": "control",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test01-cooling",
+        "block": 1,
+        "family": "cooling",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test01-healthy",
+        "block": 1,
+        "family": "healthy",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test01-spurious",
+        "block": 1,
+        "family": "spurious",
+        "spec": {
+          "seed": 330002,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 49,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 49,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test02-compound",
+        "block": 2,
+        "family": "compound",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test02-electrical",
+        "block": 2,
+        "family": "electrical",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test02-control",
+        "block": 2,
+        "family": "control",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test02-cooling",
+        "block": 2,
+        "family": "cooling",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test02-healthy",
+        "block": 2,
+        "family": "healthy",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test02-spurious",
+        "block": 2,
+        "family": "spurious",
+        "spec": {
+          "seed": 330003,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 90,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 90,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test03-compound",
+        "block": 3,
+        "family": "compound",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test03-electrical",
+        "block": 3,
+        "family": "electrical",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test03-control",
+        "block": 3,
+        "family": "control",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test03-cooling",
+        "block": 3,
+        "family": "cooling",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test03-healthy",
+        "block": 3,
+        "family": "healthy",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test03-spurious",
+        "block": 3,
+        "family": "spurious",
+        "spec": {
+          "seed": 330004,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 3,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 3,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test04-compound",
+        "block": 4,
+        "family": "compound",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test04-electrical",
+        "block": 4,
+        "family": "electrical",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test04-control",
+        "block": 4,
+        "family": "control",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test04-cooling",
+        "block": 4,
+        "family": "cooling",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test04-healthy",
+        "block": 4,
+        "family": "healthy",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test04-spurious",
+        "block": 4,
+        "family": "spurious",
+        "spec": {
+          "seed": 330005,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 44,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 44,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test05-compound",
+        "block": 5,
+        "family": "compound",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test05-electrical",
+        "block": 5,
+        "family": "electrical",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test05-control",
+        "block": 5,
+        "family": "control",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test05-cooling",
+        "block": 5,
+        "family": "cooling",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test05-healthy",
+        "block": 5,
+        "family": "healthy",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test05-spurious",
+        "block": 5,
+        "family": "spurious",
+        "spec": {
+          "seed": 330006,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 85,
+          "fault_start_s": 520,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 85,
+              "start_s": 520,
+              "end_s": 550,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test06-compound",
+        "block": 6,
+        "family": "compound",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test06-electrical",
+        "block": 6,
+        "family": "electrical",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test06-control",
+        "block": 6,
+        "family": "control",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test06-cooling",
+        "block": 6,
+        "family": "cooling",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test06-healthy",
+        "block": 6,
+        "family": "healthy",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test06-spurious",
+        "block": 6,
+        "family": "spurious",
+        "spec": {
+          "seed": 330007,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 126,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 126,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test07-compound",
+        "block": 7,
+        "family": "compound",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test07-electrical",
+        "block": 7,
+        "family": "electrical",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test07-control",
+        "block": 7,
+        "family": "control",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test07-cooling",
+        "block": 7,
+        "family": "cooling",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test07-healthy",
+        "block": 7,
+        "family": "healthy",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test07-spurious",
+        "block": 7,
+        "family": "spurious",
+        "spec": {
+          "seed": 330008,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 39,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 39,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test08-compound",
+        "block": 8,
+        "family": "compound",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test08-electrical",
+        "block": 8,
+        "family": "electrical",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test08-control",
+        "block": 8,
+        "family": "control",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test08-cooling",
+        "block": 8,
+        "family": "cooling",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test08-healthy",
+        "block": 8,
+        "family": "healthy",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test08-spurious",
+        "block": 8,
+        "family": "spurious",
+        "spec": {
+          "seed": 330009,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 72,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 72,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test09-compound",
+        "block": 9,
+        "family": "compound",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test09-electrical",
+        "block": 9,
+        "family": "electrical",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test09-control",
+        "block": 9,
+        "family": "control",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test09-cooling",
+        "block": 9,
+        "family": "cooling",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test09-healthy",
+        "block": 9,
+        "family": "healthy",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test09-spurious",
+        "block": 9,
+        "family": "spurious",
+        "spec": {
+          "seed": 330010,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 113,
+          "fault_start_s": 150,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 113,
+              "start_s": 150,
+              "end_s": 180,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test10-compound",
+        "block": 10,
+        "family": "compound",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test10-electrical",
+        "block": 10,
+        "family": "electrical",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test10-control",
+        "block": 10,
+        "family": "control",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test10-cooling",
+        "block": 10,
+        "family": "cooling",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test10-healthy",
+        "block": 10,
+        "family": "healthy",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test10-spurious",
+        "block": 10,
+        "family": "spurious",
+        "spec": {
+          "seed": 330011,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 26,
+          "fault_start_s": 705,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 26,
+              "start_s": 705,
+              "end_s": 735,
+              "risk": 0.5
+            }
+          ]
+        }
+      },
+      {
+        "id": "test11-compound",
+        "block": 11,
+        "family": "compound",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "aux_feeder_loss+cdu_fouling",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test11-electrical",
+        "block": 11,
+        "family": "electrical",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "dc_contact_hotspot",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test11-control",
+        "block": 11,
+        "family": "control",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "sensor_bias",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test11-cooling",
+        "block": 11,
+        "family": "cooling",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "secondary_pump_trip",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test11-healthy",
+        "block": 11,
+        "family": "healthy",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal"
+        }
+      },
+      {
+        "id": "test11-spurious",
+        "block": 11,
+        "family": "spurious",
+        "spec": {
+          "seed": 330012,
+          "noise_c": 0.2,
+          "scenario": "healthy",
+          "control": "feedback",
+          "resources": "provisioned",
+          "fault_rack": 67,
+          "fault_start_s": 335,
+          "duration_s": 180,
+          "estimator": "nominal",
+          "public_risk_pulses": [
+            {
+              "task": 67,
+              "start_s": 335,
+              "end_s": 365,
+              "risk": 0.5
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "compatibility": [
+    {
+      "source": "runs/event-validation-amended-20261102/p00-coupled-tour.json.gz",
+      "method": "tour"
+    },
+    {
+      "source": "runs/event-validation-amended-20261102/p00-coupled-fifo.json.gz",
+      "method": "fifo"
+    }
+  ],
+  "pilot_case_ids": [
+    "development00-compound",
+    "development00-electrical",
+    "development00-control",
+    "development00-cooling",
+    "development00-healthy",
+    "development00-spurious"
+  ]
+}
