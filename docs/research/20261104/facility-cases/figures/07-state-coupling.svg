@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 690" role="img" aria-labelledby="title-07-state-coupling desc-07-state-coupling">
+<title id="title-07-state-coupling">从设施拓扑到状态方程</title>
+<desc id="desc-07-state-coupling">按电、水、热、服务逐层读，再沿下排找每一层的输入和未知量。这样能看清一个缺值究竟挡住哪一步。</desc>
+<defs>
+<marker id="arrow-07-state-coupling-power" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#355ab0"/></marker>
+<marker id="arrow-07-state-coupling-heat" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#bd4c37"/></marker>
+<marker id="arrow-07-state-coupling-fluid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#20788b"/></marker>
+<marker id="arrow-07-state-coupling-signal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8b662e"/></marker>
+<marker id="arrow-07-state-coupling-control" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#865698"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif} .edge-label{font-size:12px;font-weight:600;paint-order:stroke;stroke:#fff;stroke-width:5;stroke-linejoin:round}</style>
+<text x="32" y="37" font-size="23" font-weight="700" fill="#142938">从设施拓扑到状态方程</text>
+<text x="32" y="65" font-size="15" fill="#536471">整图为本研究提出的建模组织；设备系数、模式阈值和输入时序逐站闭合。</text>
+<path data-edge="0" data-status="assumption" data-from="power" data-to="flow" d="M278,181.0 L342,181.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-power)"><title>泵/执行器供电 · 研究提议 · </title></path>
+<path data-edge="1" data-status="assumption" data-from="flow" data-to="heat" d="M588,181.0 L652,181.0" fill="none" stroke="#20788b" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-fluid)"><title>流量影响换热 · 研究提议 · </title></path>
+<path data-edge="2" data-status="assumption" data-from="heat" data-to="service" d="M898,181.0 L962,181.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-signal)"><title>局部保护边界 · 研究提议 · </title></path>
+<path data-edge="3" data-status="assumption" data-from="environment" data-to="power" d="M155.0,390 L155.0,232" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-signal)"><title>边界输入 · 研究提议 · </title></path>
+<path data-edge="4" data-status="assumption" data-from="faults" data-to="flow" d="M465.0,390 L465.0,232" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-signal)"><title>K变化 · 研究提议 · </title></path>
+<path data-edge="5" data-status="assumption" data-from="balance" data-to="heat" d="M775.0,390 L775.0,232" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-07-state-coupling-signal)"><title>守恒审计 · 研究提议 · </title></path>
+<g data-node="power" data-status="assumption"><title>电气边界 / P、V、损耗 / 可供电量 / 功率守恒 / 母线储能 · 研究提议 · </title>
+<rect x="32" y="130" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="47" y="151" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="46" y="175" font-size="17.00" font-weight="650" fill="#243644">电气边界</text>
+<text x="46" y="198" font-size="14.70" font-weight="400" fill="#243644">P、V、损耗 / 可供电量</text>
+<text x="46" y="221" font-size="14.70" font-weight="400" fill="#243644">功率守恒 / 母线储能</text>
+</g>
+<g data-node="flow" data-status="assumption"><title>水力网络 / q、Δp、泵速、阀位 / 质量守恒 / 泵阀曲线 · 研究提议 · </title>
+<rect x="342" y="130" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="357" y="151" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="356" y="175" font-size="17.00" font-weight="650" fill="#243644">水力网络</text>
+<text x="356" y="198" font-size="14.70" font-weight="400" fill="#243644">q、Δp、泵速、阀位</text>
+<text x="356" y="221" font-size="14.70" font-weight="400" fill="#243644">质量守恒 / 泵阀曲线</text>
+</g>
+<g data-node="heat" data-status="assumption"><title>热与相变状态 / T、U、M、液位、p / 能量 / 相平衡 / 库存 · 研究提议 · </title>
+<rect x="652" y="130" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="667" y="151" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="666" y="175" font-size="17.00" font-weight="650" fill="#243644">热与相变状态</text>
+<text x="666" y="198" font-size="14.70" font-weight="400" fill="#243644">T、U、M、液位、p</text>
+<text x="666" y="221" font-size="14.70" font-weight="400" fill="#243644">能量 / 相平衡 / 库存</text>
+</g>
+<g data-node="service" data-status="assumption"><title>IT服务与局部保护 / 正常 / 降载 / 停止 / 阈值与恢复规则待补 · 研究提议 · </title>
+<rect x="962" y="130" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="977" y="151" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="976" y="175" font-size="17.00" font-weight="650" fill="#243644">IT服务与局部保护</text>
+<text x="976" y="198" font-size="14.70" font-weight="400" fill="#243644">正常 / 降载 / 停止</text>
+<text x="976" y="221" font-size="14.70" font-weight="400" fill="#243644">阈值与恢复规则待补</text>
+</g>
+<g data-node="environment" data-status="assumption"><title>外部输入与初值 / 负荷、湿球/湖水、供电 / 带时标，不拿峰值替代 · 研究提议 · </title>
+<rect x="32" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="47" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="46" y="435" font-size="17.00" font-weight="650" fill="#243644">外部输入与初值</text>
+<text x="46" y="458" font-size="14.70" font-weight="400" fill="#243644">负荷、湿球/湖水、供电</text>
+<text x="46" y="481" font-size="14.70" font-weight="400" fill="#243644">带时标，不拿峰值替代</text>
+</g>
+<g data-node="faults" data-status="assumption"><title>劣化/维护参数 / 过滤K、换热UA、泄漏 / 过程与故障率待标定 · 研究提议 · </title>
+<rect x="342" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="357" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="356" y="435" font-size="17.00" font-weight="650" fill="#243644">劣化/维护参数</text>
+<text x="356" y="458" font-size="14.70" font-weight="400" fill="#243644">过滤K、换热UA、泄漏</text>
+<text x="356" y="481" font-size="14.70" font-weight="400" fill="#243644">过程与故障率待标定</text>
+</g>
+<g data-node="balance" data-status="assumption"><title>边界能量审计 / 设备输入 − 环境排热 / = 储能变化 + 边界损失 · 研究提议 · </title>
+<rect x="652" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="667" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="666" y="435" font-size="17.00" font-weight="650" fill="#243644">边界能量审计</text>
+<text x="666" y="458" font-size="14.70" font-weight="400" fill="#243644">设备输入 − 环境排热</text>
+<text x="666" y="481" font-size="14.70" font-weight="400" fill="#243644">= 储能变化 + 边界损失</text>
+</g>
+<g data-node="missing" data-status="missing"><title>未闭合项优先补齐 / 拓扑 → 物性 → 时序 / 再求解与独立验证 · 待补数据 · </title>
+<rect x="962" y="390" width="246" height="102" rx="10" fill="#f5f6f7" stroke="#737b85" stroke-width="1.7" stroke-dasharray="2 5"/>
+<text x="977" y="411" font-size="11.5" font-weight="700" fill="#737b85">待补数据</text>
+<text x="976" y="435" font-size="17.00" font-weight="650" fill="#243644">未闭合项优先补齐</text>
+<text x="976" y="458" font-size="14.70" font-weight="400" fill="#243644">拓扑 → 物性 → 时序</text>
+<text x="976" y="481" font-size="14.70" font-weight="400" fill="#243644">再求解与独立验证</text>
+</g>
+<text class="edge-label" x="310.0" y="154.0" text-anchor="middle" fill="#355ab0">泵/执行</text>
+<text class="edge-label" x="310.0" y="169.0" text-anchor="middle" fill="#355ab0">器供电</text>
+<text class="edge-label" x="620.0" y="154.0" text-anchor="middle" fill="#20788b">流量影响</text>
+<text class="edge-label" x="620.0" y="169.0" text-anchor="middle" fill="#20788b">换热</text>
+<text class="edge-label" x="930.0" y="154.0" text-anchor="middle" fill="#8b662e">局部保护</text>
+<text class="edge-label" x="930.0" y="169.0" text-anchor="middle" fill="#8b662e">边界</text>
+<text class="edge-label" x="165.0" y="311.0" text-anchor="start" fill="#8b662e">边界输入</text>
+<text class="edge-label" x="475.0" y="311.0" text-anchor="start" fill="#8b662e">K变化</text>
+<text class="edge-label" x="785.0" y="311.0" text-anchor="start" fill="#8b662e">守恒审计</text>
+<path d="M32,589h25" stroke="#196572" stroke-width="2.5" stroke-dasharray=""/><text x="64" y="594" font-size="13.3" fill="#475966">公开资料</text>
+<path d="M230,589h25" stroke="#376b32" stroke-width="2.5" stroke-dasharray=""/><text x="262" y="594" font-size="13.3" fill="#475966">设计资料</text>
+<path d="M428,589h25" stroke="#536494" stroke-width="2.5" stroke-dasharray="5 3"/><text x="460" y="594" font-size="13.3" fill="#475966">发表模型</text>
+<path d="M626,589h25" stroke="#74508f" stroke-width="2.5" stroke-dasharray=""/><text x="658" y="594" font-size="13.3" fill="#475966">厂家声明</text>
+<path d="M824,589h25" stroke="#a36324" stroke-width="2.5" stroke-dasharray="7 5"/><text x="856" y="594" font-size="13.3" fill="#475966">研究提议</text>
+<path d="M1022,589h25" stroke="#737b85" stroke-width="2.5" stroke-dasharray="2 5"/><text x="1054" y="594" font-size="13.3" fill="#475966">待补数据</text>
+<text x="32" y="625" font-size="14" fill="#526471">物理状态、控制器状态、服务模式分别记录；快速保护不由巡检行走替代。</text>
+<text x="32" y="648" font-size="14" fill="#526471">缺少参数时方程保持未闭合，未知量不填0。</text>
+</svg>

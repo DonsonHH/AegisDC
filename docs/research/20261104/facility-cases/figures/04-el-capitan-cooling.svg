@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 690" role="img" aria-labelledby="title-04-el-capitan-cooling desc-04-el-capitan-cooling">
+<title id="title-04-el-capitan-cooling">El Capitan：两类介质与共享排热</title>
+<desc id="desc-04-el-capitan-cooling">先读顶部的功能排热链，再看两类介质如何映射到a/b侧这一待补问题。没有带端口的P&amp;ID，就先保留功能侧命名。</desc>
+<defs>
+<marker id="arrow-04-el-capitan-cooling-power" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#355ab0"/></marker>
+<marker id="arrow-04-el-capitan-cooling-heat" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#bd4c37"/></marker>
+<marker id="arrow-04-el-capitan-cooling-fluid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#20788b"/></marker>
+<marker id="arrow-04-el-capitan-cooling-signal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8b662e"/></marker>
+<marker id="arrow-04-el-capitan-cooling-control" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#865698"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif} .edge-label{font-size:12px;font-weight:600;paint-order:stroke;stroke:#fff;stroke-width:5;stroke-linejoin:round}</style>
+<text x="32" y="37" font-size="23" font-weight="700" fill="#142938">El Capitan：两类介质与共享排热</text>
+<text x="32" y="65" font-size="15" fill="#536471">实线是已发表的功能散热链；具体A/B介质映射和冷机支路用待证线型。</text>
+<path data-edge="0" data-status="assumption" data-from="it" data-to="near" d="M278,191.0 L342,191.0" fill="none" stroke="#bd4c37" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-04-el-capitan-cooling-heat)"><title>等效捕热 · 研究提议 · EC4</title></path>
+<path data-edge="1" data-status="assumption" data-from="near" data-to="cdu" d="M588,191.0 L652,191.0" fill="none" stroke="#bd4c37" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-04-el-capitan-cooling-heat)"><title>端口映射待补 · 研究提议 · EC4 / EC5</title></path>
+<path data-edge="2" data-status="published" data-from="cdu" data-to="plant" d="M898,191.0 L962,191.0" fill="none" stroke="#bd4c37" stroke-width="2.5" stroke-dasharray="" marker-end="url(#arrow-04-el-capitan-cooling-heat)"><title>功能排热链 · 公开资料 · EC3 / EC4 / EC5</title></path>
+<path data-edge="3" data-status="assumption" data-from="media" data-to="near" d="M465.0,390 L465.0,242" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-04-el-capitan-cooling-signal)"><title>身份需映射 · 研究提议 · </title></path>
+<path data-edge="4" data-status="design" data-from="water" data-to="cdu" d="M775.0,390 L775.0,242" fill="none" stroke="#20788b" stroke-width="2.5" stroke-dasharray="" marker-end="url(#arrow-04-el-capitan-cooling-fluid)"><title>设施水接口 · 设计资料 · EC5</title></path>
+<path data-edge="5" data-status="missing" data-from="chiller" data-to="plant" d="M1085.0,390 L1085.0,242" fill="none" stroke="#bd4c37" stroke-width="2.5" stroke-dasharray="2 5" marker-end="url(#arrow-04-el-capitan-cooling-heat)"><title>实际支路未知 · 待补数据 · </title></path>
+<g data-node="it" data-status="published"><title>计算机器 / 发热 / 局部传热与捕热比例 / 参数待标定 · 公开资料 · EC4 / EC6</title>
+<rect x="32" y="140" width="246" height="102" rx="10" fill="#edf7f6" stroke="#196572" stroke-width="1.7" stroke-dasharray=""/>
+<text x="47" y="161" font-size="11.5" font-weight="700" fill="#196572">公开资料</text>
+<text x="46" y="185" font-size="17.00" font-weight="650" fill="#243644">计算机器 / 发热</text>
+<text x="46" y="208" font-size="14.70" font-weight="400" fill="#243644">局部传热与捕热比例</text>
+<text x="46" y="231" font-size="14.70" font-weight="400" fill="#243644">参数待标定</text>
+</g>
+<g data-node="near" data-status="assumption"><title>机器邻近功能侧 a / 水/二醇具体映射待补 / C_a、UA_IT,a待补 · 研究提议 · EC4</title>
+<rect x="342" y="140" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="357" y="161" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="356" y="185" font-size="17.00" font-weight="650" fill="#243644">机器邻近功能侧 a</text>
+<text x="356" y="208" font-size="14.70" font-weight="400" fill="#243644">水/二醇具体映射待补</text>
+<text x="356" y="231" font-size="14.70" font-weight="400" fill="#243644">C_a、UA_IT,a待补</text>
+</g>
+<g data-node="cdu" data-status="published"><title>CDU / 换热接口 / 设施水经CDU服务机器 / 端口图、数量待补 · 公开资料 · EC3 / EC5</title>
+<rect x="652" y="140" width="246" height="102" rx="10" fill="#edf7f6" stroke="#196572" stroke-width="1.7" stroke-dasharray=""/>
+<text x="667" y="161" font-size="11.5" font-weight="700" fill="#196572">公开资料</text>
+<text x="666" y="185" font-size="17.00" font-weight="650" fill="#243644">CDU / 换热接口</text>
+<text x="666" y="208" font-size="14.70" font-weight="400" fill="#243644">设施水经CDU服务机器</text>
+<text x="666" y="231" font-size="14.70" font-weight="400" fill="#243644">端口图、数量待补</text>
+</g>
+<g data-node="plant" data-status="published"><title>ECFM / OS455 → 大气 / 蒸发塔与过程水供回 / 30 in设施管段 · EC2–4 · 公开资料 · EC2 / EC3 / EC4</title>
+<rect x="962" y="140" width="246" height="102" rx="10" fill="#edf7f6" stroke="#196572" stroke-width="1.7" stroke-dasharray=""/>
+<text x="977" y="161" font-size="11.5" font-weight="700" fill="#196572">公开资料</text>
+<text x="976" y="185" font-size="17.00" font-weight="650" fill="#243644">ECFM / OS455 → 大气</text>
+<text x="976" y="208" font-size="14.70" font-weight="400" fill="#243644">蒸发塔与过程水供回</text>
+<text x="976" y="231" font-size="14.70" font-weight="400" fill="#243644">30 in设施管段 · EC2–4</text>
+</g>
+<g data-node="media" data-status="published"><title>已发表的两类介质 / 处理水 / 二醇基液体 / 二醇种类、配比未给 · 公开资料 · EC4</title>
+<rect x="342" y="390" width="246" height="102" rx="10" fill="#edf7f6" stroke="#196572" stroke-width="1.7" stroke-dasharray=""/>
+<text x="357" y="411" font-size="11.5" font-weight="700" fill="#196572">公开资料</text>
+<text x="356" y="435" font-size="17.00" font-weight="650" fill="#243644">已发表的两类介质</text>
+<text x="356" y="458" font-size="14.70" font-weight="400" fill="#243644">处理水 / 二醇基液体</text>
+<text x="356" y="481" font-size="14.70" font-weight="400" fill="#243644">二醇种类、配比未给</text>
+</g>
+<g data-node="water" data-status="design"><title>2022设施水设计范围 / 24–29°C，水经CDU / 不是2026控制设定值 · 设计资料 · EC5</title>
+<rect x="652" y="390" width="246" height="102" rx="10" fill="#f1f8ed" stroke="#376b32" stroke-width="1.7" stroke-dasharray=""/>
+<text x="667" y="411" font-size="11.5" font-weight="700" fill="#376b32">设计资料</text>
+<text x="666" y="435" font-size="17.00" font-weight="650" fill="#243644">2022设施水设计范围</text>
+<text x="666" y="458" font-size="14.70" font-weight="400" fill="#243644">24–29°C，水经CDU</text>
+<text x="666" y="481" font-size="14.70" font-weight="400" fill="#243644">不是2026控制设定值</text>
+</g>
+<g data-node="chiller" data-status="published"><title>冷水机组 / 辅助空调 / 全系统报道有组件 / 主回路接口未公布 · 公开资料 · EC4</title>
+<rect x="962" y="390" width="246" height="102" rx="10" fill="#edf7f6" stroke="#196572" stroke-width="1.7" stroke-dasharray=""/>
+<text x="977" y="411" font-size="11.5" font-weight="700" fill="#196572">公开资料</text>
+<text x="976" y="435" font-size="17.00" font-weight="650" fill="#243644">冷水机组 / 辅助空调</text>
+<text x="976" y="458" font-size="14.70" font-weight="400" fill="#243644">全系统报道有组件</text>
+<text x="976" y="481" font-size="14.70" font-weight="400" fill="#243644">主回路接口未公布</text>
+</g>
+<g data-node="other" data-status="assumption"><title>共享热负荷Q_other / 其他设备/辅机的边界 / 独立记录，不并入单机 · 研究提议 · </title>
+<rect x="32" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="47" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="46" y="435" font-size="17.00" font-weight="650" fill="#243644">共享热负荷Q_other</text>
+<text x="46" y="458" font-size="14.70" font-weight="400" fill="#243644">其他设备/辅机的边界</text>
+<text x="46" y="481" font-size="14.70" font-weight="400" fill="#243644">独立记录，不并入单机</text>
+</g>
+<text class="edge-label" x="310.0" y="179.0" text-anchor="middle" fill="#bd4c37">等效捕热</text>
+<text class="edge-label" x="620.0" y="164.0" text-anchor="middle" fill="#bd4c37">端口映射</text>
+<text class="edge-label" x="620.0" y="179.0" text-anchor="middle" fill="#bd4c37">待补</text>
+<text class="edge-label" x="930.0" y="164.0" text-anchor="middle" fill="#bd4c37">功能排热</text>
+<text class="edge-label" x="930.0" y="179.0" text-anchor="middle" fill="#bd4c37">链</text>
+<text class="edge-label" x="475.0" y="316.0" text-anchor="start" fill="#8b662e">身份需映射</text>
+<text class="edge-label" x="785.0" y="316.0" text-anchor="start" fill="#20788b">设施水接口</text>
+<text class="edge-label" x="1095.0" y="316.0" text-anchor="start" fill="#bd4c37">实际支路未知</text>
+<path d="M32,589h25" stroke="#196572" stroke-width="2.5" stroke-dasharray=""/><text x="64" y="594" font-size="13.3" fill="#475966">公开资料</text>
+<path d="M230,589h25" stroke="#376b32" stroke-width="2.5" stroke-dasharray=""/><text x="262" y="594" font-size="13.3" fill="#475966">设计资料</text>
+<path d="M428,589h25" stroke="#536494" stroke-width="2.5" stroke-dasharray="5 3"/><text x="460" y="594" font-size="13.3" fill="#475966">发表模型</text>
+<path d="M626,589h25" stroke="#74508f" stroke-width="2.5" stroke-dasharray=""/><text x="658" y="594" font-size="13.3" fill="#475966">厂家声明</text>
+<path d="M824,589h25" stroke="#a36324" stroke-width="2.5" stroke-dasharray="7 5"/><text x="856" y="594" font-size="13.3" fill="#475966">研究提议</text>
+<path d="M1022,589h25" stroke="#737b85" stroke-width="2.5" stroke-dasharray="2 5"/><text x="1054" y="594" font-size="13.3" fill="#475966">待补数据</text>
+<text x="32" y="625" font-size="14" fill="#526471">2022设计可无冷机运行，与2026全系统包含冷机按服务边界分别登记。</text>
+<text x="32" y="648" font-size="14" fill="#526471">源作者外观图未给介质/端口标签，不能用它确定二醇所在侧。</text>
+</svg>

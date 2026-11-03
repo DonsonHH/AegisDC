@@ -1,0 +1,33 @@
+﻿id,name,reported_text,unit,availability,basis,evidence,model_use_or_gap,calibration_use
+zz_p01,最大夏季取水量,约12000 m³/h,m³/h,conflicting,design_or_capability,设计；Z3物理40、49,总量参照；与分支总量冲突，暂不作一致的容量约束,not_selected_as_calibrated_input
+zz_p02,C8000支路用水量,8513 m³/h,m³/h,documented,design_or_capability,设计；Z3物理40,支路标签本身不证明主机型号,not_selected_as_calibrated_input
+zz_p03,C7000支路用水量,4574 m³/h,m³/h（原文m³h）,documented,design_or_capability,设计；Z3物理41；原单位印作m³h,待原设计确认单位与同时工况,not_selected_as_calibrated_input
+zz_p04,取水泵组系统数,2套,套,documented,design_or_capability,设计；Z3物理40,不能据此推导独立失效域,not_selected_as_calibrated_input
+zz_p05,C8000取水泵,5台，4用1备；单泵2200 m³/h,台；m³/h,documented,design_or_capability,设计；Z3物理40,不含扬程、功率、效率或泵曲线,not_selected_as_calibrated_input
+zz_p06,C7000取水泵,5台，4用1备；单泵1150 m³/h,台；m³/h,documented,design_or_capability,设计；Z3物理41,与上项相同；不把N+1直接当可用率,not_selected_as_calibrated_input
+zz_p07,取水管,3根，D1020×10,根；D1020×10（原标记）,documented,design_or_capability,设计；Z3物理40,按原标记保留；水力内径／长度／粗糙度待核实,not_selected_as_calibrated_input
+zz_p08,旋流分离井,3座，单座设计1.1 m³/s，内径3.6 m,座；m³/s；m,documented,design_or_capability,设计；Z3物理40,只能作设计装置规模，非流量实测,not_selected_as_calibrated_input
+zz_p09,排水管,约500 m，D2020×16,m；D2020×16（原标记）,documented,design_or_capability,设计；Z3物理41,模型需另取标高、粗糙度、局部阻力,not_selected_as_calibrated_input
+zz_p10,排水泵站,2座，单站设计1.65 m³/s,座；m³/s,documented,design_or_capability,设计；Z3物理41,总设计规模与单泵名义和不同，不替代性能曲线,not_selected_as_calibrated_input
+zz_p11,每排水站泵数,3台，2用1备,台,documented,design_or_capability,设计；Z3物理41,未给共同供电／检修影响,not_selected_as_calibrated_input
+zz_p12,排水单泵额定量,0.85 m³/s、8 m扬程、110 kW,m³/s；m；kW,documented,design_or_capability,设计；Z3物理41,名义工点，不能把110kW全作为传入水的水力功,not_selected_as_calibrated_input
+zz_p13,HVDC电压级,400／800 V,V,documented,vendor_claim,厂家架构声明；Z2先行实践,馈线对应、实际母线电压／容差未知,not_selected_as_calibrated_input
+zz_p14,主机机柜布局,80多组，12道环形阵列,组；环,documented,published_site,央视简介；Z6第1集,近似描述；不是电气或水力分组数量,not_selected_as_calibrated_input
+zz_p15,主机空间,2000余m²,m²,documented,published_site,央视／平台描述；Z6、Z5,不是园区面积或巡检平面图,not_selected_as_calibrated_input
+zz_p16,单柜功率密度,MW级能力,MW/柜（能力级别）,documented,vendor_claim,厂家能力声明；Z4,不能当每柜运行负荷，更不能乘机柜数当站点总功耗,not_selected_as_calibrated_input
+zz_p17,PUE,厂家称低至1.04；2025设计文档称不高于1.2,无量纲,documented,mixed_source_scopes,Z2：2026厂家低值声明；Z3物理48：2025设计目标；两值兼容、口径未统一,1.04与不高于1.2数值兼容，年代/统计边界不同；不据此推运行改善或设校准点,not_selected_as_calibrated_input
+zz_p18,北龙湖边界水温T_lake(t),missing，°C,°C,missing,missing,无已核实运行曲线,阻止季节排热裕度估计；需取水口温度／气象／水位记录,not_selected_as_calibrated_input
+zz_p19,湖水泵曲线、η_p,missing，Pa–m³/s，无量纲,Pa–m³/s；无量纲,missing,missing,取水扬程／功率未给；排水仅名义点,阻止功耗和失流工况计算；需铭牌、泵曲线、现场压差流量,not_selected_as_calibrated_input
+zz_p20,过滤阻力K_f(t),missing，Pa·s²/m⁶,Pa·s²/m⁶,missing,missing,未给清洁／堵塞压降,阻止堵塞到流量衰减映射；需过滤器规格与压差记录,not_selected_as_calibrated_input
+zz_p21,板换UA／ε,missing，W/K／无量纲,W/K；无量纲,missing,missing,已知类型、未知规模与工况,阻止供水温度与污垢后果计算；需选型书、流量、四端温度,not_selected_as_calibrated_input
+zz_p22,内循环热容C_h、C_c,missing，J/K,J/K,missing,missing,未给存水量／管壁／流量,阻止失冷升温时间估计；需水量与材质台账或阶跃数据,not_selected_as_calibrated_input
+zz_p23,冷媒身份与u、ρ、h_fg、p_sat,missing，J/kg、kg/m³、J/kg、Pa,J/kg；kg/m³；Pa,missing,missing,厂家只称国产冷媒,阻止相变能量／压力闭合；需流体物性与安全资料,not_selected_as_calibrated_input
+zz_p24,冷媒M_l、M_v、槽体V与允许液位,missing，kg、m³、m,kg；m³；m,missing,missing,无库存与几何资料,阻止干涸、泄漏和汽相压力计算；需设备图与液位标定,not_selected_as_calibrated_input
+zz_p25,等效冷凝UA与回液路径,missing，W/K、kg/s,W/K；kg/s,missing,missing,内部结构未公开,阻止相变槽向内循环排热闭合；需冷凝器／回液P&ID,not_selected_as_calibrated_input
+zz_p26,IT负荷P_IT(t)、液冷捕热比例χ,missing，W、无量纲,W；无量纲,missing,missing,未取得带时间戳电能及分热数据,阻止温升／失冷后果；需负荷日历、功率／热量计量边界,not_selected_as_calibrated_input
+zz_p27,整流效率η_rect、母线C_dc／损耗,missing，无量纲、F、W,无量纲；F；W,missing,missing,电压架构不含动态参数,阻止负载突变与电压跌落仿真；需电气设计和受控测试,not_selected_as_calibrated_input
+zz_p28,UPS储能E_max／功率／覆盖,missing，J或kWh、W,J或kWh；W,missing,missing,仅有设计模块,阻止后备时间及冷却共因计算；需资产表、单线图、放电试验,not_selected_as_calibrated_input
+zz_p29,柴油功率、启动／接管t_start,missing，W、s,W；s,missing,missing,仅有设计模块,阻止断电持续时间／转供评价；需启动测试、ATS逻辑及燃料台账,not_selected_as_calibrated_input
+zz_p30,备用冷却塔容量与切换时间,missing，W、s,W；s,missing,missing,仅有Z1备用冷源模块,阻止湖水失效场景的续冷估计；需P&ID与切换试验,not_selected_as_calibrated_input
+zz_p31,检查性能与耗时,missing，Se/Sp、min,无量纲；min,missing,missing,无现场检查规程／盲检记录,阻止检查价值实测校准；需检查点表、独立真值和工时,not_selected_as_calibrated_input
+zz_p32,缺陷、维修与共同根因,missing，每设备小时、h、条件概率,每设备小时；h；条件概率,missing,missing,无故障分母和维修工单,阻止可靠性及风险数值化；需设备小时、工单、共因记录,not_selected_as_calibrated_input

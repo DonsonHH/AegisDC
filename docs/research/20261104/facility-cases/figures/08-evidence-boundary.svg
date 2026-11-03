@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 690" role="img" aria-labelledby="title-08-evidence-boundary desc-08-evidence-boundary">
+<title id="title-08-evidence-boundary">物理状态、局部自动控制与巡检证据</title>
+<desc id="desc-08-evidence-boundary">上排画现场的物理与保护，下排画巡检工作。两者通过可追溯证据连接，不把仿真真值直接交给任务选择器。</desc>
+<defs>
+<marker id="arrow-08-evidence-boundary-power" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#355ab0"/></marker>
+<marker id="arrow-08-evidence-boundary-heat" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#bd4c37"/></marker>
+<marker id="arrow-08-evidence-boundary-fluid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#20788b"/></marker>
+<marker id="arrow-08-evidence-boundary-signal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8b662e"/></marker>
+<marker id="arrow-08-evidence-boundary-control" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#865698"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif} .edge-label{font-size:12px;font-weight:600;paint-order:stroke;stroke:#fff;stroke-width:5;stroke-linejoin:round}</style>
+<text x="32" y="37" font-size="23" font-weight="700" fill="#142938">物理状态、局部自动控制与巡检证据</text>
+<text x="32" y="65" font-size="15" fill="#536471">本研究的接口提议；允许稀疏固定测点，巡检者只使用决策时已取得的证据。</text>
+<path data-edge="0" data-status="assumption" data-from="physical" data-to="local" d="M278,176.0 L342,176.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>局部反馈 · 研究提议 · </title></path>
+<path data-edge="1" data-status="assumption" data-from="local" data-to="physical" d="M465.0,227 L465,250 L310,250 L310,335 L155,335 L155.0,227" fill="none" stroke="#865698" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-control)"><title>本地动作 · 研究提议 · </title></path>
+<path data-edge="2" data-status="assumption" data-from="physical" data-to="fixed" d="M155.0,125 L155,100 L775,100 L775.0,125" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>有限可测输出 · 研究提议 · </title></path>
+<path data-edge="3" data-status="assumption" data-from="fixed" data-to="knowledge" d="M898,176.0 L962,176.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>t可用≤t决策 · 研究提议 · </title></path>
+<path data-edge="4" data-status="assumption" data-from="offline" data-to="knowledge" d="M155.0,492 L155,565 L1224,565 L1224,176 L1208,176.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>已取得的记录 · 研究提议 · </title></path>
+<path data-edge="5" data-status="assumption" data-from="portable" data-to="knowledge" d="M465.0,390 L465,280 L1085,280 L1085.0,227" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>新增现场证据 · 研究提议 · </title></path>
+<path data-edge="6" data-status="assumption" data-from="knowledge" data-to="task" d="M1085.0,227 L1085,325 L775,325 L775.0,390" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>按证据生成问题 · 研究提议 · </title></path>
+<path data-edge="7" data-status="assumption" data-from="task" data-to="closure" d="M898,441.0 L962,441.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-08-evidence-boundary-signal)"><title>执行并记录 · 研究提议 · </title></path>
+<g data-node="physical" data-status="assumption"><title>设施物理状态 x / 温度 / 库存 / 电压等 / 模型内部，不直接通知巡检 · 研究提议 · </title>
+<rect x="32" y="125" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="47" y="146" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="46" y="170" font-size="17.00" font-weight="650" fill="#243644">设施物理状态 x</text>
+<text x="46" y="193" font-size="14.70" font-weight="400" fill="#243644">温度 / 库存 / 电压等</text>
+<text x="46" y="216" font-size="14.70" font-weight="400" fill="#243644">模型内部，不直接通知巡检</text>
+</g>
+<g data-node="local" data-status="assumption"><title>现场局部控制 / 保护 / 持续传感与执行器 / 现场规则另行核实 · 研究提议 · </title>
+<rect x="342" y="125" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="357" y="146" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="356" y="170" font-size="17.00" font-weight="650" fill="#243644">现场局部控制 / 保护</text>
+<text x="356" y="193" font-size="14.70" font-weight="400" fill="#243644">持续传感与执行器</text>
+<text x="356" y="216" font-size="14.70" font-weight="400" fill="#243644">现场规则另行核实</text>
+</g>
+<g data-node="fixed" data-status="assumption"><title>可选稀疏固定测点 / 覆盖掩码 / 误差 / 时间戳 / 无需每处安装 · 研究提议 · </title>
+<rect x="652" y="125" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="667" y="146" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="666" y="170" font-size="17.00" font-weight="650" fill="#243644">可选稀疏固定测点</text>
+<text x="666" y="193" font-size="14.70" font-weight="400" fill="#243644">覆盖掩码 / 误差 / 时间戳</text>
+<text x="666" y="216" font-size="14.70" font-weight="400" fill="#243644">无需每处安装</text>
+</g>
+<g data-node="knowledge" data-status="assumption"><title>可用证据账本 / 观测时间 / 可用时间 / 来源、可信度、未确认项 · 研究提议 · </title>
+<rect x="962" y="125" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="977" y="146" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="976" y="170" font-size="17.00" font-weight="650" fill="#243644">可用证据账本</text>
+<text x="976" y="193" font-size="14.70" font-weight="400" fill="#243644">观测时间 / 可用时间</text>
+<text x="976" y="216" font-size="14.70" font-weight="400" fill="#243644">来源、可信度、未确认项</text>
+</g>
+<g data-node="offline" data-status="assumption"><title>资产 / 历史 / 工单 / 历史资料与人工报障 / 来源与有效期 · 研究提议 · </title>
+<rect x="32" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="47" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="46" y="435" font-size="17.00" font-weight="650" fill="#243644">资产 / 历史 / 工单</text>
+<text x="46" y="458" font-size="14.70" font-weight="400" fill="#243644">历史资料与人工报障</text>
+<text x="46" y="481" font-size="14.70" font-weight="400" fill="#243644">来源与有效期</text>
+</g>
+<g data-node="portable" data-status="assumption"><title>到场后的便携检查 / 观察 / 测量 / 专业复核 / Se/Sp与工时待标定 · 研究提议 · </title>
+<rect x="342" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="357" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="356" y="435" font-size="17.00" font-weight="650" fill="#243644">到场后的便携检查</text>
+<text x="356" y="458" font-size="14.70" font-weight="400" fill="#243644">观察 / 测量 / 专业复核</text>
+<text x="356" y="481" font-size="14.70" font-weight="400" fill="#243644">Se/Sp与工时待标定</text>
+</g>
+<g data-node="task" data-status="assumption"><title>风险问题与核查任务 / 选择核查、处置或暂缓 / 不生成默认固定轮巡 · 研究提议 · </title>
+<rect x="652" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="667" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="666" y="435" font-size="17.00" font-weight="650" fill="#243644">风险问题与核查任务</text>
+<text x="666" y="458" font-size="14.70" font-weight="400" fill="#243644">选择核查、处置或暂缓</text>
+<text x="666" y="481" font-size="14.70" font-weight="400" fill="#243644">不生成默认固定轮巡</text>
+</g>
+<g data-node="closure" data-status="assumption"><title>确认 / 处置 / 复检 / 每一步分别记录 / 有信息不等于已修复 · 研究提议 · </title>
+<rect x="962" y="390" width="246" height="102" rx="10" fill="#fff5e8" stroke="#a36324" stroke-width="1.7" stroke-dasharray="7 5"/>
+<text x="977" y="411" font-size="11.5" font-weight="700" fill="#a36324">研究提议</text>
+<text x="976" y="435" font-size="17.00" font-weight="650" fill="#243644">确认 / 处置 / 复检</text>
+<text x="976" y="458" font-size="14.70" font-weight="400" fill="#243644">每一步分别记录</text>
+<text x="976" y="481" font-size="14.70" font-weight="400" fill="#243644">有信息不等于已修复</text>
+</g>
+<text class="edge-label" x="310.0" y="164.0" text-anchor="middle" fill="#8b662e">局部反馈</text>
+<text class="edge-label" x="387.5" y="238.0" text-anchor="middle" fill="#865698">本地动作</text>
+<text class="edge-label" x="465.0" y="88.0" text-anchor="middle" fill="#8b662e">有限可测输出</text>
+<text class="edge-label" x="930.0" y="149.0" text-anchor="middle" fill="#8b662e">t可用≤t</text>
+<text class="edge-label" x="930.0" y="164.0" text-anchor="middle" fill="#8b662e">决策</text>
+<text class="edge-label" x="689.5" y="553.0" text-anchor="middle" fill="#8b662e">已取得的记录</text>
+<text class="edge-label" x="775.0" y="268.0" text-anchor="middle" fill="#8b662e">新增现场证据</text>
+<text class="edge-label" x="930.0" y="313.0" text-anchor="middle" fill="#8b662e">按证据生成问题</text>
+<text class="edge-label" x="930.0" y="414.0" text-anchor="middle" fill="#8b662e">执行并记</text>
+<text class="edge-label" x="930.0" y="429.0" text-anchor="middle" fill="#8b662e">录</text>
+<path d="M32,589h25" stroke="#196572" stroke-width="2.5" stroke-dasharray=""/><text x="64" y="594" font-size="13.3" fill="#475966">公开资料</text>
+<path d="M230,589h25" stroke="#376b32" stroke-width="2.5" stroke-dasharray=""/><text x="262" y="594" font-size="13.3" fill="#475966">设计资料</text>
+<path d="M428,589h25" stroke="#536494" stroke-width="2.5" stroke-dasharray="5 3"/><text x="460" y="594" font-size="13.3" fill="#475966">发表模型</text>
+<path d="M626,589h25" stroke="#74508f" stroke-width="2.5" stroke-dasharray=""/><text x="658" y="594" font-size="13.3" fill="#475966">厂家声明</text>
+<path d="M824,589h25" stroke="#a36324" stroke-width="2.5" stroke-dasharray="7 5"/><text x="856" y="594" font-size="13.3" fill="#475966">研究提议</text>
+<path d="M1022,589h25" stroke="#737b85" stroke-width="2.5" stroke-dasharray="2 5"/><text x="1054" y="594" font-size="13.3" fill="#475966">待补数据</text>
+<text x="32" y="625" font-size="14" fill="#526471">仿真隐藏缺陷本身不能自动变成问题通知；观察需要真实可用通道。</text>
+<text x="32" y="648" font-size="14" fill="#526471">相关/陈旧观测需联合或时变模型；本轮不扩展智能体和RSI。</text>
+</svg>

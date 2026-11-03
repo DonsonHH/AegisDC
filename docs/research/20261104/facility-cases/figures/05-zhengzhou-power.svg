@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 690" role="img" aria-labelledby="title-05-zhengzhou-power desc-05-zhengzhou-power">
+<title id="title-05-zhengzhou-power">郑州：HVDC与后备系统的证据边界</title>
+<desc id="desc-05-zhengzhou-power">先读上方系统范围，再看下方后备连接矩阵。只有知道UPS和柴油分别保护哪些负载，才能计算断电后散热是否继续。</desc>
+<defs>
+<marker id="arrow-05-zhengzhou-power-power" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#355ab0"/></marker>
+<marker id="arrow-05-zhengzhou-power-heat" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#bd4c37"/></marker>
+<marker id="arrow-05-zhengzhou-power-fluid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#20788b"/></marker>
+<marker id="arrow-05-zhengzhou-power-signal" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8b662e"/></marker>
+<marker id="arrow-05-zhengzhou-power-control" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#865698"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif} .edge-label{font-size:12px;font-weight:600;paint-order:stroke;stroke:#fff;stroke-width:5;stroke-linejoin:round}</style>
+<text x="32" y="37" font-size="23" font-weight="700" fill="#142938">郑州：HVDC与后备系统的证据边界</text>
+<text x="32" y="65" font-size="15" fill="#536471">绿色框为设计范围，紫色框为厂家部署声明；具体馈线与保护范围仍待核实。</text>
+<path data-edge="0" data-status="vendor" data-from="mv" data-to="hvdc" d="M278,179.0 L342,179.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>架构功能级次 · 厂家声明 · Z2</title></path>
+<path data-edge="1" data-status="assumption" data-from="hvdc" data-to="it" d="M588,179.0 L652,179.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>负载映射待补 · 研究提议 · Z2</title></path>
+<path data-edge="2" data-status="vendor" data-from="it" data-to="control" d="M898,179.0 L962,179.0" fill="none" stroke="#8b662e" stroke-width="2.5" stroke-dasharray="" marker-end="url(#arrow-05-zhengzhou-power-signal)"><title>平台宣称覆盖 · 厂家声明 · Z2</title></path>
+<path data-edge="3" data-status="missing" data-from="ups" data-to="matrix" d="M278,441.0 L278,545 L630,545 L652,441.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="2 5" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>覆盖未知 · 待补数据 · </title></path>
+<path data-edge="4" data-status="missing" data-from="dg" data-to="matrix" d="M588,441.0 L652,441.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="2 5" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>覆盖未知 · 待补数据 · </title></path>
+<path data-edge="5" data-status="missing" data-from="matrix" data-to="aux" d="M898,441.0 L962,441.0" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="2 5" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>关键辅机? · 待补数据 · </title></path>
+<path data-edge="6" data-status="missing" data-from="matrix" data-to="it" d="M775.0,390 L775.0,230" fill="none" stroke="#355ab0" stroke-width="2.5" stroke-dasharray="2 5" marker-end="url(#arrow-05-zhengzhou-power-power)"><title>IT覆盖? · 待补数据 · </title></path>
+<g data-node="mv" data-status="design"><title>中压输入 / 变配电 / 机电采购安装范围 / Z1；架构声明Z2 · 设计资料 · Z1 / Z2</title>
+<rect x="32" y="128" width="246" height="102" rx="10" fill="#f1f8ed" stroke="#376b32" stroke-width="1.7" stroke-dasharray=""/>
+<text x="47" y="149" font-size="11.5" font-weight="700" fill="#376b32">设计资料</text>
+<text x="46" y="173" font-size="17.00" font-weight="650" fill="#243644">中压输入 / 变配电</text>
+<text x="46" y="196" font-size="14.70" font-weight="400" fill="#243644">机电采购安装范围</text>
+<text x="46" y="219" font-size="14.70" font-weight="400" fill="#243644">Z1；架构声明Z2</text>
+</g>
+<g data-node="hvdc" data-status="vendor"><title>HVDC 400 / 800 V / 中压直转架构声明 / 不是每条母线实测 · 厂家声明 · Z2</title>
+<rect x="342" y="128" width="246" height="102" rx="10" fill="#f7f1fa" stroke="#74508f" stroke-width="1.7" stroke-dasharray=""/>
+<text x="357" y="149" font-size="11.5" font-weight="700" fill="#74508f">厂家声明</text>
+<text x="356" y="173" font-size="17.00" font-weight="650" fill="#243644">HVDC 400 / 800 V</text>
+<text x="356" y="196" font-size="14.70" font-weight="400" fill="#243644">中压直转架构声明</text>
+<text x="356" y="219" font-size="14.70" font-weight="400" fill="#243644">不是每条母线实测</text>
+</g>
+<g data-node="it" data-status="vendor"><title>计算 / 网络 / 存储 / 浸没、互连、存储 / Z3设计 / Z4厂家 · 厂家声明 · Z3 / Z4</title>
+<rect x="652" y="128" width="246" height="102" rx="10" fill="#f7f1fa" stroke="#74508f" stroke-width="1.7" stroke-dasharray=""/>
+<text x="667" y="149" font-size="11.5" font-weight="700" fill="#74508f">厂家声明</text>
+<text x="666" y="173" font-size="17.00" font-weight="650" fill="#243644">计算 / 网络 / 存储</text>
+<text x="666" y="196" font-size="14.70" font-weight="400" fill="#243644">浸没、互连、存储</text>
+<text x="666" y="219" font-size="14.70" font-weight="400" fill="#243644">Z3设计 / Z4厂家</text>
+</g>
+<g data-node="control" data-status="vendor"><title>动环 / 运维平台 / Z1范围 / Z2声明 / 控制权限与点表待补 · 厂家声明 · Z1 / Z2</title>
+<rect x="962" y="128" width="246" height="102" rx="10" fill="#f7f1fa" stroke="#74508f" stroke-width="1.7" stroke-dasharray=""/>
+<text x="977" y="149" font-size="11.5" font-weight="700" fill="#74508f">厂家声明</text>
+<text x="976" y="173" font-size="17.00" font-weight="650" fill="#243644">动环 / 运维平台</text>
+<text x="976" y="196" font-size="14.70" font-weight="400" fill="#243644">Z1范围 / Z2声明</text>
+<text x="976" y="219" font-size="14.70" font-weight="400" fill="#243644">控制权限与点表待补</text>
+</g>
+<g data-node="ups" data-status="design"><title>UPS系统 / Z1设计范围 / 储能类型/容量未给 · 设计资料 · Z1</title>
+<rect x="32" y="390" width="246" height="102" rx="10" fill="#f1f8ed" stroke="#376b32" stroke-width="1.7" stroke-dasharray=""/>
+<text x="47" y="411" font-size="11.5" font-weight="700" fill="#376b32">设计资料</text>
+<text x="46" y="435" font-size="17.00" font-weight="650" fill="#243644">UPS系统</text>
+<text x="46" y="458" font-size="14.70" font-weight="400" fill="#243644">Z1设计范围</text>
+<text x="46" y="481" font-size="14.70" font-weight="400" fill="#243644">储能类型/容量未给</text>
+</g>
+<g data-node="dg" data-status="design"><title>柴油发电机组 / Z1设计范围 / 台数/接管时间未给 · 设计资料 · Z1</title>
+<rect x="342" y="390" width="246" height="102" rx="10" fill="#f1f8ed" stroke="#376b32" stroke-width="1.7" stroke-dasharray=""/>
+<text x="357" y="411" font-size="11.5" font-weight="700" fill="#376b32">设计资料</text>
+<text x="356" y="435" font-size="17.00" font-weight="650" fill="#243644">柴油发电机组</text>
+<text x="356" y="458" font-size="14.70" font-weight="400" fill="#243644">Z1设计范围</text>
+<text x="356" y="481" font-size="14.70" font-weight="400" fill="#243644">台数/接管时间未给</text>
+</g>
+<g data-node="matrix" data-status="missing"><title>保护与切换矩阵 / IT / 泵 / 控制各自范围 / 连接、容量、延时待补 · 待补数据 · </title>
+<rect x="652" y="390" width="246" height="102" rx="10" fill="#f5f6f7" stroke="#737b85" stroke-width="1.7" stroke-dasharray="2 5"/>
+<text x="667" y="411" font-size="11.5" font-weight="700" fill="#737b85">待补数据</text>
+<text x="666" y="435" font-size="17.00" font-weight="650" fill="#243644">保护与切换矩阵</text>
+<text x="666" y="458" font-size="14.70" font-weight="400" fill="#243644">IT / 泵 / 控制各自范围</text>
+<text x="666" y="481" font-size="14.70" font-weight="400" fill="#243644">连接、容量、延时待补</text>
+</g>
+<g data-node="aux" data-status="design"><title>取排水 / 换热 / 空调 / Z1 / Z3设计范围 / 馈线与备用归属待补 · 设计资料 · Z1 / Z3</title>
+<rect x="962" y="390" width="246" height="102" rx="10" fill="#f1f8ed" stroke="#376b32" stroke-width="1.7" stroke-dasharray=""/>
+<text x="977" y="411" font-size="11.5" font-weight="700" fill="#376b32">设计资料</text>
+<text x="976" y="435" font-size="17.00" font-weight="650" fill="#243644">取排水 / 换热 / 空调</text>
+<text x="976" y="458" font-size="14.70" font-weight="400" fill="#243644">Z1 / Z3设计范围</text>
+<text x="976" y="481" font-size="14.70" font-weight="400" fill="#243644">馈线与备用归属待补</text>
+</g>
+<text class="edge-label" x="310.0" y="152.0" text-anchor="middle" fill="#355ab0">架构功能</text>
+<text class="edge-label" x="310.0" y="167.0" text-anchor="middle" fill="#355ab0">级次</text>
+<text class="edge-label" x="620.0" y="152.0" text-anchor="middle" fill="#355ab0">负载映射</text>
+<text class="edge-label" x="620.0" y="167.0" text-anchor="middle" fill="#355ab0">待补</text>
+<text class="edge-label" x="930.0" y="152.0" text-anchor="middle" fill="#8b662e">平台宣称</text>
+<text class="edge-label" x="930.0" y="167.0" text-anchor="middle" fill="#8b662e">覆盖</text>
+<text class="edge-label" x="454.0" y="533.0" text-anchor="middle" fill="#355ab0">覆盖未知</text>
+<text class="edge-label" x="620.0" y="429.0" text-anchor="middle" fill="#355ab0">覆盖未知</text>
+<text class="edge-label" x="930.0" y="414.0" text-anchor="middle" fill="#355ab0">关键辅机</text>
+<text class="edge-label" x="930.0" y="429.0" text-anchor="middle" fill="#355ab0">?</text>
+<text class="edge-label" x="785.0" y="310.0" text-anchor="start" fill="#355ab0">IT覆盖?</text>
+<path d="M32,589h25" stroke="#196572" stroke-width="2.5" stroke-dasharray=""/><text x="64" y="594" font-size="13.3" fill="#475966">公开资料</text>
+<path d="M230,589h25" stroke="#376b32" stroke-width="2.5" stroke-dasharray=""/><text x="262" y="594" font-size="13.3" fill="#475966">设计资料</text>
+<path d="M428,589h25" stroke="#536494" stroke-width="2.5" stroke-dasharray="5 3"/><text x="460" y="594" font-size="13.3" fill="#475966">发表模型</text>
+<path d="M626,589h25" stroke="#74508f" stroke-width="2.5" stroke-dasharray=""/><text x="658" y="594" font-size="13.3" fill="#475966">厂家声明</text>
+<path d="M824,589h25" stroke="#a36324" stroke-width="2.5" stroke-dasharray="7 5"/><text x="856" y="594" font-size="13.3" fill="#475966">研究提议</text>
+<path d="M1022,589h25" stroke="#737b85" stroke-width="2.5" stroke-dasharray="2 5"/><text x="1054" y="594" font-size="13.3" fill="#475966">待补数据</text>
+<text x="32" y="625" font-size="14" fill="#526471">采购安装范围不是竣工馈线图；UPS不自动意味着某种电池化学体系。</text>
+<text x="32" y="648" font-size="14" fill="#526471">标准功能描述与厂家本机实践段分别取证，未据此补齐所有BMC/执行器。</text>
+</svg>

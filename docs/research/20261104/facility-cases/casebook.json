@@ -1,0 +1,3637 @@
+{
+  "schema": "aegisdc-facility-casebook-v1",
+  "prepared_date": "2026-11-04",
+  "baseline_commit": "c85ef5363a9cdc57a3ad889133c23f3621106c13",
+  "scope": "three independently sourced functional facility topologies, proposed equations and parameter gaps",
+  "status": "REFERENCE_MODELS_NOT_CALIBRATED",
+  "no_new_training": true,
+  "no_new_registered_experiments": true,
+  "cases": [
+    {
+      "id": "frontier",
+      "title": "Frontier · ORNL",
+      "source_note": "../source-review/frontier.md",
+      "source_note_sha256": "fc7e459bacb87c577c7857e6dd07b4aa5aefd51e3c2034d2f84c553f3eacc6a1",
+      "sources": {
+        "F01": {
+          "title": "OLCF，Powering Frontier，2020-09-23",
+          "url": "https://www.olcf.ornl.gov/2020/09/23/powering-frontier/",
+          "description": "[OLCF，Powering Frontier，2020-09-23](https://www.olcf.ornl.gov/2020/09/23/powering-frontier/)；[同题图文页](https://www.olcf.ornl.gov/powering-frontier/)",
+          "access": "官方搜索索引可读相关正文；直接访问403。供电线路及建设边界采用当年口径。",
+          "alternate_urls": [
+            "https://www.olcf.ornl.gov/powering-frontier/"
+          ]
+        },
+        "F02": {
+          "title": "OLCF，Stunning Specs，2021-09-29",
+          "url": "https://www.olcf.ornl.gov/2021/09/29/stunning-specs-whats-inside-the-nations-first-exascale-supercomputer-facility/",
+          "description": "[OLCF，Stunning Specs，2021-09-29](https://www.olcf.ornl.gov/2021/09/29/stunning-specs-whats-inside-the-nations-first-exascale-supercomputer-facility/)",
+          "access": "官方索引返回完整相关正文，直接访问403。",
+          "alternate_urls": []
+        },
+        "F03": {
+          "title": "Brewer等，ExaDigiT，arXiv v1，2024-10-07",
+          "url": "https://arxiv.org/html/2410.05133v1",
+          "description": "[Brewer等，ExaDigiT，arXiv v1，2024-10-07](https://arxiv.org/html/2410.05133v1)；[PDF](https://arxiv.org/pdf/2410.05133v1)",
+          "access": "HTML及PDF提取文本，重点§III-B、III-C，Table I，Figs.3、5。",
+          "alternate_urls": [
+            "https://arxiv.org/pdf/2410.05133v1"
+          ]
+        },
+        "F04": {
+          "title": "Kumar等，Thermo-Fluid Modeling Framework…Part 1",
+          "url": "https://ecp.ep.liu.se/index.php/modelica/article/view/1145",
+          "description": "[Kumar等，Thermo-Fluid Modeling Framework…Part 1](https://ecp.ep.liu.se/index.php/modelica/article/view/1145)；[原始9页PDF](https://ecp.ep.liu.se/index.php/modelica/article/download/1145/1052/1207)",
+          "access": "会议为2024-10；网页发表2025-01-16。全文提取文本；重点§2.1–2.3、§3.2，物理页2–8/印刷页200–206。",
+          "alternate_urls": [
+            "https://ecp.ep.liu.se/index.php/modelica/article/download/1145/1052/1207"
+          ]
+        },
+        "F05": {
+          "title": "Sun等，Scientific Data 11:1077，2024-10-03，作者全文PMC",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11450168/",
+          "description": "[Sun等，Scientific Data 11:1077，2024-10-03，作者全文PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC11450168/)",
+          "access": "全文已读取，重点Methods、Data Records、Table1、Technical Validation；Nature直连重定向失败，以作者论文的PMC存档核验。",
+          "alternate_urls": []
+        },
+        "F06": {
+          "title": "Frontier HPC & Facility Data，Figshare v4",
+          "url": "https://doi.org/10.6084/m9.figshare.24391240.v4",
+          "description": "[Frontier HPC & Facility Data，Figshare v4](https://doi.org/10.6084/m9.figshare.24391240.v4)；[版本API](https://api.figshare.com/v2/articles/24391240/versions/4)",
+          "access": "API及XLSX在内存读取；只检查Readme、18列表头和前19个数据时间戳，未做全年统计或参数拟合。",
+          "alternate_urls": [
+            "https://api.figshare.com/v2/articles/24391240/versions/4"
+          ]
+        },
+        "F07": {
+          "title": "Grant等，Providing Thermal Stability…，ORNL摘要，2026-01-25",
+          "url": "https://impact.ornl.gov/en/publications/providing-thermal-stability-for-an-exascale-supercomputer-a-case-/",
+          "description": "[Grant等，Providing Thermal Stability…，ORNL摘要，2026-01-25](https://impact.ornl.gov/en/publications/providing-thermal-stability-for-an-exascale-supercomputer-a-case-/)",
+          "access": "官方摘要和书目信息；ACM全文403，未以摘要代替完整控制规程。",
+          "alternate_urls": []
+        }
+      },
+      "parameters": [
+        {
+          "id": "f_p01",
+          "name": "新增馈线电压",
+          "value": "13.8",
+          "reported_text": "13.8",
+          "unit": "kV",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F01",
+          "source_refs": [
+            "F01"
+          ],
+          "model_use_or_gap": "带2020年代；不自动覆盖所有设施。",
+          "source_note_line": 56,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p02",
+          "name": "新增馈线长度",
+          "value": "约2.5",
+          "reported_text": "约2.5",
+          "unit": "mile",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F01",
+          "source_refs": [
+            "F01"
+          ],
+          "model_use_or_gap": "土建参照；不作为通行距离。",
+          "source_note_line": 57,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p03",
+          "name": "机房供电基础设施",
+          "value": ">40",
+          "reported_text": ">40",
+          "unit": "MW电功率",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "不是机器平均负荷。",
+          "source_note_line": 58,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p04",
+          "name": "机械厂电力基础设施",
+          "value": "8",
+          "reported_text": "8",
+          "unit": "MW电功率",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "与热移除能力分列。",
+          "source_note_line": 59,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p05",
+          "name": "楼内新增变压器",
+          "value": "9×4",
+          "reported_text": "9×4",
+          "unit": "台×MW",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "未取得馈线映射；9×4不用于“修正”>40MW能力。",
+          "source_note_line": 60,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p06",
+          "name": "机械厂支持计算热负荷",
+          "value": "40；可扩至70",
+          "reported_text": "40；可扩至70",
+          "unit": "MW热功率",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "扩容上限不等于现装容量。",
+          "source_note_line": 61,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p07",
+          "name": "建设报道系统水温",
+          "value": "90",
+          "reported_text": "90",
+          "unit": "°F",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "不是所有回路的统一设定温度；换算约32.2°C仅单位转换。",
+          "source_note_line": 62,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p08",
+          "name": "建设报道总水量",
+          "value": "约85000",
+          "reported_text": "约85000",
+          "unit": "US gallon",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "跨系统总量不能直接赋给某一热容节点。",
+          "source_note_line": 63,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p09",
+          "name": "建设报道泵能力",
+          "value": "4×350；每台最高10000",
+          "reported_text": "4×350；每台最高10000",
+          "unit": "台×hp；US gpm",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F02",
+          "source_refs": [
+            "F02"
+          ],
+          "model_use_or_gap": "额定能力与运行点分开。",
+          "source_note_line": 64,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p10",
+          "name": "机柜输入/变换电压",
+          "value": "480AC→380DC→48DC",
+          "reported_text": "480AC→380DC→48DC",
+          "unit": "V",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1，物理页2",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "转换效率曲线仍缺。",
+          "source_note_line": 65,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p11",
+          "name": "计算柜数量",
+          "value": "74",
+          "reported_text": "74",
+          "unit": "柜",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "不扩成75。",
+          "source_note_line": 66,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p12",
+          "name": "CDU安装/运行",
+          "value": "27/25",
+          "reported_text": "27/25",
+          "unit": "台",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "数量与逐台可用状态分开。",
+          "source_note_line": 67,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p13",
+          "name": "每CDU柜组",
+          "value": "最多3；部分2",
+          "reported_text": "最多3；部分2",
+          "unit": "柜/CDU",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "完整柜组映射仍`missing`。",
+          "source_note_line": 68,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p14",
+          "name": "CDU换热能力",
+          "value": "约1.6",
+          "reported_text": "约1.6",
+          "unit": "MW热功率/CDU",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "不等于每台实时负荷。",
+          "source_note_line": 69,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p15",
+          "name": "CTW塔/每塔单元",
+          "value": "5/4",
+          "reported_text": "5/4",
+          "unit": "台/单元",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "该文模型只4塔；F05不同原文口径另列。",
+          "source_note_line": 70,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p16",
+          "name": "HTWP/EHX数量",
+          "value": "4/5",
+          "reported_text": "4/5",
+          "unit": "台",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "模型只纳4EHX，扩展至8为设计能力。",
+          "source_note_line": 71,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p17",
+          "name": "CTWP数量",
+          "value": "4",
+          "reported_text": "4",
+          "unit": "台",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "运行投切日志缺；不假定4台同时运行。",
+          "source_note_line": 72,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p18",
+          "name": "CTW大致流量/压力",
+          "value": "6000–10000/约1.5",
+          "reported_text": "6000–10000/约1.5",
+          "unit": "US gpm/bar(g)",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1，物理页3",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "范围不用于推断各泵/各塔独立流量。",
+          "source_note_line": 73,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p19",
+          "name": "HTW大致流量/压力",
+          "value": "5000–6000/约6.2",
+          "reported_text": "5000–6000/约6.2",
+          "unit": "US gpm/bar(g)",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "流量是回路描述，包含旁路/其他负载。",
+          "source_note_line": 74,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p20",
+          "name": "CDU设备侧大致流量/压力",
+          "value": "250–300/约3.5",
+          "reported_text": "250–300/约3.5",
+          "unit": "US gpm/bar(g)",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "不是25台同时各取上限的已测总流量。",
+          "source_note_line": 75,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p21",
+          "name": "HTW过程冷却温度范围",
+          "value": "约12–32",
+          "reported_text": "约12–32",
+          "unit": "°C",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_or_capability`，F04 §2.1",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "范围不等于控制设定值和容许温升。",
+          "source_note_line": 76,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p22",
+          "name": "CDU泵控制",
+          "value": "双泵同速且总在运行",
+          "reported_text": "双泵同速且总在运行",
+          "unit": "逻辑",
+          "availability": "documented",
+          "basis": "published_model",
+          "evidence": "`published_model`，F04 §2.3",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "是近似，不是全工况规程。",
+          "source_note_line": 77,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p23",
+          "name": "模型启动延迟",
+          "value": "1.0",
+          "reported_text": "1.0",
+          "unit": "s",
+          "availability": "documented",
+          "basis": "published_model",
+          "evidence": "`published_model`，F04 §2.3",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "数值初始化延迟，不当作设备启动/保护延迟。",
+          "source_note_line": 78,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p24",
+          "name": "电转换效率",
+          "value": "0.96、0.98；合成约0.94",
+          "reported_text": "0.96、0.98；合成约0.94",
+          "unit": "无量纲",
+          "availability": "documented",
+          "basis": "published_model",
+          "evidence": "`published_model`，F03 §III-B1",
+          "source_refs": [
+            "F03"
+          ],
+          "model_use_or_gap": "文中简化，真实随负载变化。",
+          "source_note_line": 79,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p25",
+          "name": "热/电换算与CDU泵功率",
+          "value": "0.945；8.7",
+          "reported_text": "0.945；8.7",
+          "unit": "无量纲；kW/CDU",
+          "availability": "documented",
+          "basis": "published_model",
+          "evidence": "`published_model`，F03 §III-B2",
+          "source_refs": [
+            "F03"
+          ],
+          "model_use_or_gap": "数据拟合/固定近似，不直接套入新场景。",
+          "source_note_line": 80,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p26",
+          "name": "2023机器功率统计",
+          "value": "均值12.2、idle8.5、peak28.5",
+          "reported_text": "均值12.2、idle8.5、peak28.5",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F05 Technical Validation",
+          "source_refs": [
+            "F05"
+          ],
+          "model_use_or_gap": "论文统计口径；未独立复算全年分母。",
+          "source_note_line": 81,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p27",
+          "name": "2023导出表间隔",
+          "value": null,
+          "reported_text": "Readme称10；前19时间戳确为10",
+          "unit": "min",
+          "availability": "conflicting",
+          "basis": "source_sample_inspection",
+          "evidence": "F06有限原件核对；F05另称historian15min",
+          "source_refs": [
+            "F06",
+            "F05"
+          ],
+          "model_use_or_gap": "原始采样、聚合/插值过程仍需说明。",
+          "source_note_line": 82,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p28",
+          "name": "2023缺失时长",
+          "value": "约440",
+          "reported_text": "约440",
+          "unit": "h",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，F05 Data Records",
+          "source_refs": [
+            "F05"
+          ],
+          "model_use_or_gap": "原文值，未从工作簿全量重算。",
+          "source_note_line": 83,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p29",
+          "name": "用于余热计算的物性",
+          "value": "ρ1060；cp3.5；水/乙二醇50/50",
+          "reported_text": "ρ1060；cp3.5；水/乙二醇50/50",
+          "unit": "kg/m³；kJ/(kg·K)；比例",
+          "availability": "documented",
+          "basis": "published_model",
+          "evidence": "`published_model`/计算依据，F05 Data Records",
+          "source_refs": [
+            "F05"
+          ],
+          "model_use_or_gap": "与F04“加少量添加剂、近似水”不同，不推广至三回路。",
+          "source_note_line": 84,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p30",
+          "name": "各容积、金属热容、传热UA/ε曲线",
+          "value": null,
+          "reported_text": "缺值",
+          "unit": "m³、J/K、W/K",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "阻止可信瞬态温升和停冷缓冲时间预测。",
+          "source_note_line": 85,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p31",
+          "name": "泵曲线、阀Cv/阻力、管段长度与惯性",
+          "value": null,
+          "reported_text": "缺完整值",
+          "unit": "Pa、m³/s等",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`；F04称部分来自厂商/遥测，未逐项公开",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "阻止水力网络闭合与快瞬态复现。",
+          "source_note_line": 86,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p32",
+          "name": "PID、死区、延时、保护阈值、人工覆盖",
+          "value": null,
+          "reported_text": "缺完整值",
+          "unit": "s、K、Pa等",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`，F04 §2.3、§3.2",
+          "source_refs": [
+            "F04"
+          ],
+          "model_use_or_gap": "阻止控制/故障切换的现场重放。",
+          "source_note_line": 87,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p33",
+          "name": "环境湿球、房间露点的完整边界时序",
+          "value": null,
+          "reported_text": "缺本轮已校验输入",
+          "unit": "°C、时间戳",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "阻止塔性能和凝露裕量的定量验证。",
+          "source_note_line": 88,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p34",
+          "name": "UPS/电池/柴油覆盖、故障率、检查检出率",
+          "value": null,
+          "reported_text": "缺值",
+          "unit": "kWh、s、h、概率等",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "不能据PUE或设备计数反推可靠性/巡检收益。",
+          "source_note_line": 89,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "f_p35",
+          "name": "原文节点数差异",
+          "value": null,
+          "reported_text": "F04/F03：9472；F05：9402",
+          "unit": "节点",
+          "availability": "conflicting",
+          "basis": "published_site",
+          "evidence": "F04 §2.1 / F03 §III；F05 Methods；原文差异未对齐",
+          "source_refs": [
+            "F04",
+            "F03",
+            "F05"
+          ],
+          "model_use_or_gap": "不自动纠正来源或拼成同一时点配置；待原作者/资产版本核对",
+          "source_note_line": null,
+          "calibration_use": "not_selected_as_calibrated_input"
+        }
+      ],
+      "diagrams": [
+        {
+          "id": "01-frontier-power",
+          "title": "Frontier：电能怎样到达计算与辅机",
+          "subtitle": "蓝线为电能；橙色虚线表示我们提出但缺馈线证据的连接。",
+          "width": 1240,
+          "height": 690,
+          "nodes": [
+            {
+              "id": "grid",
+              "x": 32,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "园区供电 / 新馈线",
+                "13.8 kV；2020口径",
+                "F01"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F01"
+              ]
+            },
+            {
+              "id": "board",
+              "x": 342,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "楼内变压 / 开关板",
+                "具体馈线映射待补",
+                "F02 / F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F02",
+                "F04"
+              ]
+            },
+            {
+              "id": "convert",
+              "x": 652,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "机柜内转换",
+                "480 VAC → 380 VDC",
+                "再降至48 VDC · F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "it",
+              "x": 962,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "计算负载",
+                "74柜；9472节点口径",
+                "F04 §2.1"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "aux",
+              "x": 342,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "泵 / 塔 / 空气处理",
+                "设备存在有来源",
+                "供电支路未公布"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F02",
+                "F04"
+              ]
+            },
+            {
+              "id": "control",
+              "x": 652,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "局部测控 / 阀与泵",
+                "论文给出控制模型",
+                "完整现场联锁待补"
+              ],
+              "status": "model",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "backup",
+              "x": 32,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "UPS / 电池 / 柴油",
+                "配置与保护对象",
+                "本轮来源未确定"
+              ],
+              "status": "missing",
+              "source_refs": []
+            },
+            {
+              "id": "access",
+              "x": 962,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "人员访问关系",
+                "房间 / 门禁 / 工时",
+                "独立待补，不沿电缆走"
+              ],
+              "status": "missing",
+              "source_refs": []
+            }
+          ],
+          "edges": [
+            {
+              "from": "grid",
+              "to": "board",
+              "kind": "power",
+              "label": "设施层级",
+              "status": "published",
+              "source_refs": [
+                "F01",
+                "F02"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "board",
+              "to": "convert",
+              "kind": "power",
+              "label": "三相输入",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "convert",
+              "to": "it",
+              "kind": "power",
+              "label": "48 VDC",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "board",
+              "to": "aux",
+              "kind": "power",
+              "label": "馈线待核实",
+              "status": "assumption",
+              "source_refs": [],
+              "ports": "bt"
+            },
+            {
+              "from": "aux",
+              "to": "control",
+              "kind": "signal",
+              "label": "执行器/反馈",
+              "status": "model",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "backup",
+              "to": "board",
+              "kind": "power",
+              "label": "覆盖未知",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "tl",
+              "via": [
+                [
+                  300,
+                  330
+                ],
+                [
+                  300,
+                  180
+                ]
+              ]
+            }
+          ],
+          "notes": [
+            "变压/功率能力不是平均机器负荷；柜内电压链不能证明全站A/B路或2N。",
+            "本图表示供能和信息关系，人员通行需要另一套平面与访问资料。"
+          ],
+          "readout": "顺着上方蓝线读供电级次；再看下方辅机是否与IT共享电源。共享失效域需要单线图，不能只凭设备都在同一园区判定。"
+        },
+        {
+          "id": "02-frontier-cooling",
+          "title": "Frontier：三回路、两级换热与旁路",
+          "subtitle": "主横线箭头表示热量向环境传递；每个流体框中的循环独立，不穿壁混合。",
+          "width": 1240,
+          "height": 690,
+          "nodes": [
+            {
+              "id": "rack",
+              "x": 32,
+              "y": 135,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "IT固体 / 冷板",
+                "计算、整流与部件发热",
+                "74柜 · F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "cdu",
+              "x": 342,
+              "y": 135,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "设备回路 + CDU HX",
+                "250–300 gpm；约3.5 bar(g)",
+                "27安装 / 25运行 · F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "htw",
+              "x": 652,
+              "y": 135,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "中间HTW + EHX",
+                "5000–6000 gpm；约6.2 bar(g)",
+                "旁路 / Orion支路 · F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "ctw",
+              "x": 962,
+              "y": 135,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "冷却塔CTW → 大气",
+                "6000–10000 gpm；1.5 bar(g)",
+                "现场5塔，模型取4 · F04"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "flow1",
+              "x": 342,
+              "y": 385,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "设备流体闭环",
+                "CDU泵 → 冷板 → CDU",
+                "介质/库存按回路确认"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "flow2",
+              "x": 652,
+              "y": 385,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "HTW流体闭环",
+                "EHX → CDU → EHX",
+                "旁路与Orion另分支"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "flow3",
+              "x": 962,
+              "y": 385,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "CTW流体闭环",
+                "塔 → 泵 → EHX → 塔",
+                "补水 / 排污 / 水处理"
+              ],
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ]
+            },
+            {
+              "id": "gaps",
+              "x": 32,
+              "y": 385,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "瞬态闭合缺口",
+                "热容、UA、泵阀曲线",
+                "自动保护与初值"
+              ],
+              "status": "missing",
+              "source_refs": []
+            }
+          ],
+          "edges": [
+            {
+              "from": "rack",
+              "to": "cdu",
+              "kind": "heat",
+              "label": "冷板取热",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "cdu",
+              "to": "htw",
+              "kind": "heat",
+              "label": "CDU隔壁传热",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "htw",
+              "to": "ctw",
+              "kind": "heat",
+              "label": "EHX隔壁传热",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "flow1",
+              "to": "cdu",
+              "kind": "fluid",
+              "label": "独立循环",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "tb"
+            },
+            {
+              "from": "flow2",
+              "to": "htw",
+              "kind": "fluid",
+              "label": "独立循环",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "tb"
+            },
+            {
+              "from": "flow3",
+              "to": "ctw",
+              "kind": "fluid",
+              "label": "独立循环",
+              "status": "published",
+              "source_refs": [
+                "F04"
+              ],
+              "ports": "tb"
+            }
+          ],
+          "notes": [
+            "gpm沿原论文保留；压力是系统表压，不是泵进出口压差。",
+            "F05采用primary/secondary/tertiary称谓；此图用CTW/HTW/设备侧避免名称串线。"
+          ],
+          "readout": "先沿热箭头从机柜读到大气；再逐个看下方闭环。CDU与EHX各自把两种流体隔开，传递热量而不传递质量。"
+        }
+      ],
+      "topology_scope": "source-backed functional interfaces; not an as-built single-line drawing, P&ID or personnel route",
+      "transient_model_status": "UNRESOLVED_CLOSURE",
+      "can_run_calibrated_transient": false,
+      "summary": "先看三种隔离流体，再看共享电源与旁路。技术论文把已安装、运行和模型删减分别说明，适合据此建立分层模型。",
+      "facts": [
+        "74个计算柜；27台CDU已安装、25台运行；每台最多3柜，部分带2柜（F04 §2.1）。",
+        "F04描述现场5塔/5EHX，而其简化模型只纳4塔/4EHX。F05的4塔和节点数差异另保留来源。",
+        "已读取Figshare v4原件表头及前19个时间戳，导出层该样本为10分钟间隔；全年缺失与原始采集过程仍待核查。"
+      ],
+      "mechanism": "例如过滤阻力增加会改变流量，流量又影响换热能力，最后体现为设备与回路温度变化。此因果链是待校准的模型路径；实际影响范围还要靠CDU柜组表和隔离阀资料确定。",
+      "unresolved": [
+        "三回路介质与有效液量/金属热容",
+        "27台CDU与74柜逐台映射及维修状态",
+        "泵/阀/HX曲线与旁路、Orion支路同步数据",
+        "自动保护和控制规程、原始时序质量标志",
+        "UPS/备用能源覆盖、人员访问图和检查性能"
+      ]
+    },
+    {
+      "id": "el-capitan",
+      "title": "El Capitan · LLNL",
+      "source_note": "../source-review/el-capitan.md",
+      "source_note_sha256": "314a2f63ff457f76ff3f622791fd0214976dbfd396d3302b8be8c32c3160fe53",
+      "sources": {
+        "EC1": {
+          "title": "LLNL：Powering up",
+          "url": "https://www.llnl.gov/article/48101/powering-llnl-prepares-exascale-massive-energy-water-upgrade",
+          "description": "[LLNL：Powering up](https://www.llnl.gov/article/48101/powering-llnl-prepares-exascale-massive-energy-water-upgrade)，2021-10-18",
+          "access": "官方HTML正文。定位：85MW/两台exascale段、30–35MW段、115kV/两台40MW变压器段、六台3000ton塔段；这是部署前报道。",
+          "alternate_urls": []
+        },
+        "EC2": {
+          "title": "ECFM fact sheet",
+          "url": "https://asc.llnl.gov/sites/asc/files/2022-09/ECFM-fact-sheet-v6_0.pdf",
+          "description": "[ECFM fact sheet](https://asc.llnl.gov/sites/asc/files/2022-09/ECFM-fact-sheet-v6_0.pdf)，2022年版，LLNL-MI/MISC-834245",
+          "access": "两页PDF文字直接读取。物理页1列85MW/28000ton；物理页2列30in过程水管、13.8kV–480V、BMS连接。PDF图页请求成功但本工具返回未呈现可检查的图像，因此不据图猜接线。",
+          "alternate_urls": []
+        },
+        "EC3": {
+          "title": "Chris DePrater：Commissioning Infrastructure for El Capitan",
+          "url": "https://hpc.llnl.gov/sites/default/files/Comp-ERC-poster-deprater.pdf",
+          "description": "[Chris DePrater：Commissioning Infrastructure for El Capitan](https://hpc.llnl.gov/sites/default/files/Comp-ERC-poster-deprater.pdf)，LLNL-POST-2004490，原件未标发布日期，含2024-02节点",
+          "access": "单页PDF文字直接读取。定位：OS455/U450、underfloor infrastructure、5MW load banks及commissioning challenges；不是全负荷验收曲线。",
+          "alternate_urls": []
+        },
+        "EC4": {
+          "title": "LLNL：How El Capitan keeps its cool",
+          "url": "https://www.llnl.gov/article/54496/meet-machines-matter-how-el-capitan-keeps-its-cool",
+          "description": "[LLNL：How El Capitan keeps its cool](https://www.llnl.gov/article/54496/meet-machines-matter-how-el-capitan-keeps-its-cool)，2026-06-03",
+          "access": "官方HTML正文直接读取。定位：two loops段、400kW/rack段、controls段、85degrees段。正文有[Dan Herchek原图链接](https://contenthub.llnl.gov/sites/contenthub/files/styles/scaled_877w/public/2026-06/Ext_MTMCooling_1200x800.jpg?itok=z6DJDeBw)，本笔记未完成该图的视觉核验。",
+          "alternate_urls": []
+        },
+        "EC5": {
+          "title": "LLNL S&TR：Charging Up and Rolling Out",
+          "url": "https://str.llnl.gov/past-issues/julyaugust-2022/charging-rolling-out",
+          "description": "[LLNL S&TR：Charging Up and Rolling Out](https://str.llnl.gov/past-issues/julyaugust-2022/charging-rolling-out)，2022年7/8月",
+          "access": "官方域名检索返回完整相关正文；直接open两次超时。状态为`official_indexed_text`。定位Designing for the Future：24–29°C、CDU、不需冷机、双源负荷转移；须保留2022设计边界。",
+          "alternate_urls": []
+        },
+        "EC6": {
+          "title": "HPC @ LLNL：Hardware Overview",
+          "url": "https://hpc.llnl.gov/documentation/user-guides/using-el-capitan-systems/hardware-overview",
+          "description": "[HPC @ LLNL：Hardware Overview](https://hpc.llnl.gov/documentation/user-guides/using-el-capitan-systems/hardware-overview)，页面无独立发布日期，访问2026-11-04",
+          "access": "官方HTML直接读取ATS-4 comparison表及System Interconnect节。El Capitan列有90计算柜、11520节点、36.0MW peak。",
+          "alternate_urls": []
+        },
+        "EC7": {
+          "title": "LLNL ASC：Facilities",
+          "url": "https://asc.llnl.gov/facilities",
+          "description": "[LLNL ASC：Facilities](https://asc.llnl.gov/facilities)，页面无独立发布日期，访问2026-11-04",
+          "access": "官方HTML直接读取ECFM升级段、B453旧介绍段；同页保留45MW旧介绍与85MW升级段，不合成同一时点。",
+          "alternate_urls": []
+        },
+        "EC8": {
+          "title": "LLNL ASC：El Capitan",
+          "url": "https://asc.llnl.gov/exascale/el-capitan",
+          "description": "[LLNL ASC：El Capitan](https://asc.llnl.gov/exascale/el-capitan)，页面无独立发布日期，访问2026-11-04",
+          "access": "官方HTML直接读取Siting及details段。同页正文写约30MW，项目符号写约35MW；与EC6的36.0MW峰值并列保留，未获得统一计量边界。",
+          "alternate_urls": []
+        }
+      },
+      "parameters": [
+        {
+          "id": "ec_p01",
+          "name": "高压接入电压",
+          "value": "115",
+          "reported_text": "115",
+          "unit": "kV",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC1/EC2页2",
+          "source_refs": [
+            "EC1",
+            "EC2"
+          ],
+          "model_use_or_gap": "电压层级参照；保护和电网暂态未闭合。",
+          "source_note_line": 66,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p02",
+          "name": "二次馈线电压",
+          "value": "13.8",
+          "reported_text": "13.8",
+          "unit": "kV",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC2页2",
+          "source_refs": [
+            "EC2"
+          ],
+          "model_use_or_gap": "保持馈线层级。",
+          "source_note_line": 67,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p03",
+          "name": "B453低压配电",
+          "value": "480",
+          "reported_text": "480",
+          "unit": "V",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC2页2",
+          "source_refs": [
+            "EC2"
+          ],
+          "model_use_or_gap": "具体线电压/支路图仍需电气图确认。",
+          "source_note_line": 68,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p04",
+          "name": "新站变压器配置",
+          "value": "2×40",
+          "reported_text": "2×40",
+          "unit": "MW，沿用原文单位",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_capacity`，EC1变电站段",
+          "source_refs": [
+            "EC1"
+          ],
+          "model_use_or_gap": "不擅改为MVA，不据此推2N或楼宇总功率。",
+          "source_note_line": 69,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p05",
+          "name": "B453升级前/后电力能力",
+          "value": "45 / 85",
+          "reported_text": "45 / 85",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_capacity`，EC2页1–2",
+          "source_refs": [
+            "EC2"
+          ],
+          "model_use_or_gap": "共享设施能力，不作El Capitan负荷输入。",
+          "source_note_line": 70,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p06",
+          "name": "B453升级前/后液冷能力",
+          "value": "10000 / 28000",
+          "reported_text": "10000 / 28000",
+          "unit": "refrigeration ton",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_capacity`，EC2页1–2",
+          "source_refs": [
+            "EC2"
+          ],
+          "model_use_or_gap": "热移除额定值，未给环境额定条件；不是电耗。",
+          "source_note_line": 71,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p07",
+          "name": "新增冷却塔配置",
+          "value": "6×3000",
+          "reported_text": "6×3000",
+          "unit": "refrigeration ton",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_capacity`，EC1塔段",
+          "source_refs": [
+            "EC1"
+          ],
+          "model_use_or_gap": "总增18000与EC2相容；串并联及冗余工况未知。",
+          "source_note_line": 72,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p08",
+          "name": "设施到B453过程水管径",
+          "value": "30",
+          "reported_text": "30",
+          "unit": "in",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC2页2",
+          "source_refs": [
+            "EC2"
+          ],
+          "model_use_or_gap": "名义管段标识，不反推有效内径和总水量。",
+          "source_note_line": 73,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p09",
+          "name": "机房下部管径",
+          "value": "20",
+          "reported_text": "20",
+          "unit": "in",
+          "availability": "documented",
+          "basis": "commissioning",
+          "evidence": "`commissioning`，EC3页1",
+          "source_refs": [
+            "EC3"
+          ],
+          "model_use_or_gap": "与30in分别列项。",
+          "source_note_line": 74,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p10",
+          "name": "架空地板高度",
+          "value": "4",
+          "reported_text": "4",
+          "unit": "ft",
+          "availability": "documented",
+          "basis": "commissioning",
+          "evidence": "`commissioning`，EC3页1",
+          "source_refs": [
+            "EC3"
+          ],
+          "model_use_or_gap": "空间参照，不作为全楼层高。",
+          "source_note_line": 75,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p11",
+          "name": "机房下配水能力",
+          "value": "10000",
+          "reported_text": "10000",
+          "unit": "GPM，原文未在此明示加仑制",
+          "availability": "documented",
+          "basis": "commissioning",
+          "evidence": "`commissioning`，EC3页1",
+          "source_refs": [
+            "EC3"
+          ],
+          "model_use_or_gap": "用于35MW调试描述；不当所有工况恒定流量，SI换算须注明US gallon约定。",
+          "source_note_line": 76,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p12",
+          "name": "调试参照计算负荷",
+          "value": "35",
+          "reported_text": "35",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "commissioning",
+          "evidence": "`commissioning`，EC3页1",
+          "source_refs": [
+            "EC3"
+          ],
+          "model_use_or_gap": "工程参照，非此次运行曲线。",
+          "source_note_line": 77,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p13",
+          "name": "实际使用的局部负载箱",
+          "value": "5",
+          "reported_text": "5",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "commissioning",
+          "evidence": "`commissioning`，EC3页1",
+          "source_refs": [
+            "EC3"
+          ],
+          "model_use_or_gap": "局部热负荷外推，不声称全35MW实载验收。",
+          "source_note_line": 78,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p14",
+          "name": "El Capitan系统发布峰值",
+          "value": "36.0",
+          "reported_text": "36.0",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_hardware`，EC6 ATS-4表",
+          "source_refs": [
+            "EC6"
+          ],
+          "model_use_or_gap": "与历史预测/调试参照分别保存，未作为实测均值。",
+          "source_note_line": 79,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p15",
+          "name": "计算机柜数",
+          "value": "90",
+          "reported_text": "90",
+          "unit": "柜",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_hardware`，EC6 ATS-4表",
+          "source_refs": [
+            "EC6"
+          ],
+          "model_use_or_gap": "不包含所有楼宇设施对象；各CDU服务柜组未知。",
+          "source_note_line": 80,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p16",
+          "name": "计算节点数",
+          "value": "11520",
+          "reported_text": "11520",
+          "unit": "节点",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_hardware`，EC6 ATS-4表",
+          "source_refs": [
+            "EC6"
+          ],
+          "model_use_or_gap": "IT规模参照，不自动产生热参数。",
+          "source_note_line": 81,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p17",
+          "name": "机柜功率密度说明",
+          "value": "约400",
+          "reported_text": "约400",
+          "unit": "kW/柜",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC4 rack段",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "约数，与90×0.4＝36MW仅数量级相容，不是逐柜测量。",
+          "source_note_line": 82,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p18",
+          "name": "2021部署前单机峰值预测",
+          "value": "30–35",
+          "reported_text": "30–35",
+          "unit": "MW",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "`design_capacity`，EC1部署段",
+          "source_refs": [
+            "EC1"
+          ],
+          "model_use_or_gap": "保留历史预测，不替代EC6或实际电表曲线。",
+          "source_note_line": 83,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p19",
+          "name": "ASC概览峰值描述",
+          "value": null,
+          "reported_text": "约30（正文）/约35（清单）",
+          "unit": "MW",
+          "availability": "conflicting",
+          "basis": "published_site",
+          "evidence": "`published_site`，EC8 Siting/details",
+          "source_refs": [
+            "EC8"
+          ],
+          "model_use_or_gap": "同页口径差异未解，不统一成校准点。",
+          "source_note_line": 84,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p20",
+          "name": "通常设施供水温度",
+          "value": "24–29",
+          "reported_text": "24–29",
+          "unit": "°C",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "2022设计说明，EC5 Designing for the Future；`official_indexed_text`",
+          "source_refs": [
+            "EC5"
+          ],
+          "model_use_or_gap": "不是2026现场设定值；可作为历史设计范围参照。",
+          "source_note_line": 85,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p21",
+          "name": "W32/W40表述",
+          "value": "32/40分类端点",
+          "reported_text": "32/40分类端点",
+          "unit": "°C",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "2022设计分类说明，EC5",
+          "source_refs": [
+            "EC5"
+          ],
+          "model_use_or_gap": "不是机器停机阈值或连续正常控制带。",
+          "source_note_line": 86,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p22",
+          "name": "2026新闻水温原始值",
+          "value": null,
+          "reported_text": "约85；温标`null`",
+          "unit": "degrees（原文）",
+          "availability": "partial",
+          "basis": "published_site",
+          "evidence": "EC4蒸发排热段",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "保留原文，不默认°F，也不将85输入SI模型。",
+          "source_note_line": 87,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p23",
+          "name": "总管路长度描述",
+          "value": ">2000",
+          "reported_text": ">2000",
+          "unit": "ft",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "EC4组件段",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "集合长度，不是单程流长、回路容积或人员行程。",
+          "source_note_line": 88,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p24",
+          "name": "处理水/二醇基介质",
+          "value": null,
+          "reported_text": "两类；二醇种类/浓度`null`",
+          "unit": "类型、质量分数",
+          "availability": "partial",
+          "basis": "published_site",
+          "evidence": "EC4 two loops段",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "密度ρ、比热cp、黏度μ须按侧别/温度/配比另取。",
+          "source_note_line": 89,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p25",
+          "name": "CDU数量及柜组映射",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "台、关联表",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`，已核查EC3/EC4/EC5",
+          "source_refs": [
+            "EC3",
+            "EC4",
+            "EC5"
+          ],
+          "model_use_or_gap": "阻止确定共享故障域和并联支路。",
+          "source_note_line": 90,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p26",
+          "name": "回路有效存水/存液量",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "kg或m³",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`；EC4仅有定性水量",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "阻止热惯性/失冷时间估计。",
+          "source_note_line": 91,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p27",
+          "name": "IT/液体/换热器有效热容C",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "J/K",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "不由36MW或柜数反推C。",
+          "source_note_line": 92,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p28",
+          "name": "IT到液体、跨回路UA",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "W/K",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "阻止动态温升和换热闭合。",
+          "source_note_line": 93,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p29",
+          "name": "泵曲线、阀阻力、扬程/压差",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "Pa、kg/s或m³/s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "10000GPM不能替代泵曲线。",
+          "source_note_line": 94,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p30",
+          "name": "风机/泵/执行器时间常数",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "不将保护“快速”翻成某个秒数。",
+          "source_note_line": 95,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p31",
+          "name": "湿球温度/塔性能/结垢",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "°C、W、模型参数",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "阻止季节容量与失冷余量计算。",
+          "source_note_line": 96,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p32",
+          "name": "冷机实际服务边界/COP",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "关联表、无量纲",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`；有组件存在与无冷机设计两个年代说明",
+          "source_refs": [],
+          "model_use_or_gap": "不得默认为主回路常开冷机。",
+          "source_note_line": 97,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p33",
+          "name": "UPS/电池/发电机覆盖与容量",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "关联表、kWh、kW、s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "不生成未经证实的后备路径。",
+          "source_note_line": 98,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p34",
+          "name": "传感器误差、覆盖、采样和时延",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "°C、Pa、s等",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`；EC4仅确认测量类别",
+          "source_refs": [
+            "EC4"
+          ],
+          "model_use_or_gap": "阻止观测模型/误报漏报校准。",
+          "source_note_line": 99,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p35",
+          "name": "保护阈值、减载和重启逻辑",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "°C、Pa、s、状态机",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "采用可配置的离散模式，规则待证。",
+          "source_note_line": 100,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "ec_p36",
+          "name": "真实步行/门禁/检查耗时",
+          "value": null,
+          "reported_text": "`null`",
+          "unit": "m、min、权限",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "`missing`",
+          "source_refs": [],
+          "model_use_or_gap": "不从管路长度生成巡检路线。",
+          "source_note_line": 101,
+          "calibration_use": "not_selected_as_calibrated_input"
+        }
+      ],
+      "diagrams": [
+        {
+          "id": "03-el-capitan-power",
+          "title": "El Capitan：园区升级、B453与单机边界",
+          "subtitle": "蓝线表示已发表供电级次；具体支路、冗余和备用覆盖另外核实。",
+          "width": 1240,
+          "height": 820,
+          "nodes": [
+            {
+              "id": "grid",
+              "x": 32,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "外部电力接入",
+                "115 kV",
+                "EC1 / EC2"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC1",
+                "EC2"
+              ]
+            },
+            {
+              "id": "sub",
+              "x": 342,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "U450 / 新变电设施",
+                "2台40 MW变压器原文",
+                "13.8 kV馈线 · EC1–3"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC1",
+                "EC2",
+                "EC3"
+              ]
+            },
+            {
+              "id": "building",
+              "x": 652,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "B453共享设施",
+                "13.8 kV → 480 V",
+                "85 MW能力 · EC2"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC2"
+              ]
+            },
+            {
+              "id": "it",
+              "x": 962,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "El Capitan机器",
+                "90柜；36.0 MW peak",
+                "官方规格 · EC6"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC6"
+              ]
+            },
+            {
+              "id": "mech",
+              "x": 652,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "ECFM机械设施",
+                "OS455塔 / 泵 / CDU接口",
+                "实际馈线归属待补"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC3",
+                "EC4"
+              ]
+            },
+            {
+              "id": "bms",
+              "x": 342,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "ECFM控制系统",
+                "公开的管理系统接口",
+                "具体执行权限待补 · EC2"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC2"
+              ]
+            },
+            {
+              "id": "backup",
+              "x": 32,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "UPS / 电池 / 柴油",
+                "本站配置与容量",
+                "未取得直接证据"
+              ],
+              "status": "missing",
+              "source_refs": []
+            },
+            {
+              "id": "other",
+              "x": 962,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "共享设施其他负荷",
+                "计量边界与Q_other",
+                "关联矩阵待补"
+              ],
+              "status": "assumption",
+              "source_refs": []
+            },
+            {
+              "id": "bms_interface",
+              "x": 342,
+              "y": 540,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "B453 BMS接口",
+                "ECFM接入楼宇管理系统",
+                "配电控制权限未证实 · EC2"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC2"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "grid",
+              "to": "sub",
+              "kind": "power",
+              "label": "接入",
+              "status": "published",
+              "source_refs": [
+                "EC1",
+                "EC2"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "sub",
+              "to": "building",
+              "kind": "power",
+              "label": "13.8 kV",
+              "status": "published",
+              "source_refs": [
+                "EC2"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "building",
+              "to": "it",
+              "kind": "power",
+              "label": "功能服务链",
+              "status": "published",
+              "source_refs": [
+                "EC1",
+                "EC8"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "building",
+              "to": "mech",
+              "kind": "power",
+              "label": "具体馈线未知",
+              "status": "assumption",
+              "source_refs": [],
+              "ports": "bt"
+            },
+            {
+              "from": "bms",
+              "to": "bms_interface",
+              "kind": "signal",
+              "label": "BMS连接",
+              "status": "published",
+              "source_refs": [
+                "EC2"
+              ],
+              "ports": "bt"
+            },
+            {
+              "from": "building",
+              "to": "other",
+              "kind": "power",
+              "label": "负荷分配待补",
+              "status": "assumption",
+              "source_refs": [],
+              "ports": "br",
+              "via": [
+                [
+                  930,
+                  335
+                ],
+                [
+                  1225,
+                  335
+                ],
+                [
+                  1225,
+                  440
+                ]
+              ]
+            }
+          ],
+          "notes": [
+            "2×40 MW变压器、85 MW楼宇能力、36 MW单机峰值是不同口径。",
+            "2022资料描述双源自动转移；现有资料不提供2N证明或切换秒数。"
+          ],
+          "readout": "从115 kV读到B453再到单机。下方保留机械和其他负荷，提醒读者先划计量边界，再写总功率平衡。"
+        },
+        {
+          "id": "04-el-capitan-cooling",
+          "title": "El Capitan：两类介质与共享排热",
+          "subtitle": "实线是已发表的功能散热链；具体A/B介质映射和冷机支路用待证线型。",
+          "width": 1240,
+          "height": 690,
+          "nodes": [
+            {
+              "id": "it",
+              "x": 32,
+              "y": 140,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "计算机器 / 发热",
+                "局部传热与捕热比例",
+                "参数待标定"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC4",
+                "EC6"
+              ]
+            },
+            {
+              "id": "near",
+              "x": 342,
+              "y": 140,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "机器邻近功能侧 a",
+                "水/二醇具体映射待补",
+                "C_a、UA_IT,a待补"
+              ],
+              "status": "assumption",
+              "source_refs": [
+                "EC4"
+              ]
+            },
+            {
+              "id": "cdu",
+              "x": 652,
+              "y": 140,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "CDU / 换热接口",
+                "设施水经CDU服务机器",
+                "端口图、数量待补"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC3",
+                "EC5"
+              ]
+            },
+            {
+              "id": "plant",
+              "x": 962,
+              "y": 140,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "ECFM / OS455 → 大气",
+                "蒸发塔与过程水供回",
+                "30 in设施管段 · EC2–4"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC2",
+                "EC3",
+                "EC4"
+              ]
+            },
+            {
+              "id": "media",
+              "x": 342,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "已发表的两类介质",
+                "处理水 / 二醇基液体",
+                "二醇种类、配比未给"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC4"
+              ]
+            },
+            {
+              "id": "water",
+              "x": 652,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "2022设施水设计范围",
+                "24–29°C，水经CDU",
+                "不是2026控制设定值"
+              ],
+              "status": "design",
+              "source_refs": [
+                "EC5"
+              ]
+            },
+            {
+              "id": "chiller",
+              "x": 962,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "冷水机组 / 辅助空调",
+                "全系统报道有组件",
+                "主回路接口未公布"
+              ],
+              "status": "published",
+              "source_refs": [
+                "EC4"
+              ]
+            },
+            {
+              "id": "other",
+              "x": 32,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "共享热负荷Q_other",
+                "其他设备/辅机的边界",
+                "独立记录，不并入单机"
+              ],
+              "status": "assumption",
+              "source_refs": []
+            }
+          ],
+          "edges": [
+            {
+              "from": "it",
+              "to": "near",
+              "kind": "heat",
+              "label": "等效捕热",
+              "status": "assumption",
+              "source_refs": [
+                "EC4"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "near",
+              "to": "cdu",
+              "kind": "heat",
+              "label": "端口映射待补",
+              "status": "assumption",
+              "source_refs": [
+                "EC4",
+                "EC5"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "cdu",
+              "to": "plant",
+              "kind": "heat",
+              "label": "功能排热链",
+              "status": "published",
+              "source_refs": [
+                "EC3",
+                "EC4",
+                "EC5"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "media",
+              "to": "near",
+              "kind": "signal",
+              "label": "身份需映射",
+              "status": "assumption",
+              "source_refs": [],
+              "ports": "tb"
+            },
+            {
+              "from": "water",
+              "to": "cdu",
+              "kind": "fluid",
+              "label": "设施水接口",
+              "status": "design",
+              "source_refs": [
+                "EC5"
+              ],
+              "ports": "tb"
+            },
+            {
+              "from": "chiller",
+              "to": "plant",
+              "kind": "heat",
+              "label": "实际支路未知",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "tb"
+            }
+          ],
+          "notes": [
+            "2022设计可无冷机运行，与2026全系统包含冷机按服务边界分别登记。",
+            "源作者外观图未给介质/端口标签，不能用它确定二醇所在侧。"
+          ],
+          "readout": "先读顶部的功能排热链，再看两类介质如何映射到a/b侧这一待补问题。没有带端口的P&ID，就先保留功能侧命名。"
+        }
+      ],
+      "topology_scope": "source-backed functional interfaces; not an as-built single-line drawing, P&ID or personnel route",
+      "transient_model_status": "UNRESOLVED_CLOSURE",
+      "can_run_calibrated_transient": false,
+      "summary": "先把85 MW共享楼宇与单台El Capitan分开，再看设施水、CDU和二醇基介质的接口。公开资料能确定功能层级，端口与介质归属仍需P&ID。",
+      "facts": [
+        "ECFM服务B453共享设施：电力能力45→85 MW，液冷能力10000→28000 refrigeration ton（EC2）。",
+        "官方硬件指南列90计算柜、11520节点、36.0 MW峰值（EC6）；历史预测、调试参照与当前概览另分列。",
+        "2022设计说明给设施水24–29°C并经CDU供机器；2026报道确认处理水与二醇基液体两类回路。"
+      ],
+      "mechanism": "共享设施还可能服务其他机器。模型必须保留Q_other与独立计量边界，否则会把楼宇的全部冷却能力错分给El Capitan。",
+      "unresolved": [
+        "水/二醇介质逐端口映射、CDU数与柜组表",
+        "两侧库存、IT/换热器热容和UA",
+        "泵/阀/塔曲线，冷机实际服务边界",
+        "保护/降载、双源切换与备用覆盖",
+        "同步负荷及四端温度、流量、压差"
+      ]
+    },
+    {
+      "id": "zhengzhou",
+      "title": "郑州核心节点 / 曙光8000",
+      "source_note": "../source-review/zhengzhou-sugon8000.md",
+      "source_note_sha256": "07418fddd667b3719cb48c677fb2db682fc64c589b7e7f9c4c619a3c5c393fd4",
+      "sources": {
+        "Z1": {
+          "title": "中国建筑：核心节点配套工艺机电工程中标",
+          "url": "https://www.cscec.com.cn/xwzx_new/zqydt_new/202508/3897038.html",
+          "description": "[中国建筑：核心节点配套工艺机电工程中标](https://www.cscec.com.cn/xwzx_new/zqydt_new/202508/3897038.html)，2025-08-04，正文第2段",
+          "access": "官网正文已打开；属采购安装范围，记为`design_document`，不作为竣工清单。",
+          "alternate_urls": []
+        },
+        "Z2": {
+          "title": "中科曙光：三项高性能计算机行业标准发布",
+          "url": "https://www.sugon.com/cut?id=2980",
+          "description": "[中科曙光：三项高性能计算机行业标准发布](https://www.sugon.com/cut?id=2980)，2026-09-09，“曙光8000：切合新标准的先行实践”",
+          "access": "官网正文已打开；本机部署表述记为`vendor_published`。上部标准功能要求与下部本机声明分别处理。带`nav_id`的URL超时，去掉该参数后读取成功。",
+          "alternate_urls": []
+        },
+        "Z3": {
+          "title": "河南政府公开合并PDF",
+          "url": "https://xcoss.henan.gov.cn/typtfile/20250919/120aa0eb3bf64fc097452a6f4bc83099.pdf",
+          "description": "[河南政府公开合并PDF](https://xcoss.henan.gov.cn/typtfile/20250919/120aa0eb3bf64fc097452a6f4bc83099.pdf)，内含《郑州市郑东新区中原科技城龙湖取排水配套基础设施项目收益与融资自求平衡专项债财务评估报告》，2025年4月",
+          "access": "原PDF15,148,660字节、605页；读取物理35、40、41、48、49、50页。物理35为封面，40/41对应印刷3/4页，48/49对应11/12页。总报告另以Poppler渲染并视觉核对物理41和48页，包括五级过滤工艺及湖水/内循环板换边界；正文事实记为`design_document`。",
+          "alternate_urls": []
+        },
+        "Z4": {
+          "title": "中科曙光：曙光8000正式落成",
+          "url": "https://www.sugon.com/cut?id=2927&nav_id=48",
+          "description": "[中科曙光：曙光8000正式落成](https://www.sugon.com/cut?id=2927&nav_id=48)，2026-07-10，“原生超智融合，全链路自研”",
+          "access": "官网正文已打开；记为`vendor_published`，包括浸没相变、scaleFabric、ParaStor及单柜MW级能力表述。",
+          "alternate_urls": []
+        },
+        "Z5": {
+          "title": "超算互联网：核心节点与中国算力突围",
+          "url": "https://www.scnet.cn/home/news/213920.html",
+          "description": "[超算互联网：核心节点与中国算力突围](https://www.scnet.cn/home/news/213920.html)，2026-10-24，正文首两段",
+          "access": "平台正文已打开，直接将郑州核心节点与曙光8000对应；记为`operator_published`。",
+          "alternate_urls": []
+        },
+        "Z6": {
+          "title": "央视《破重关》",
+          "url": "https://tv.cctv.com/2026/09/25/VIDExntSmiV2kRh9yXsVYD0x260925.shtml",
+          "description": "[央视《破重关》](https://tv.cctv.com/2026/09/25/VIDExntSmiV2kRh9yXsVYD0x260925.shtml)，2026-09-25；[央视《探极境》](https://tv.cctv.com/2026/09/26/VIDEAtlzOWqrh6KG7P2z8G3t260926.shtml)，2026-09-26，分集简介",
+          "access": "官网文字简介已读，未观看全片或取得逐字稿。记为`official_program_description`，只用于主机规模与子系统范围。",
+          "alternate_urls": [
+            "https://tv.cctv.com/2026/09/26/VIDEAtlzOWqrh6KG7P2z8G3t260926.shtml"
+          ]
+        }
+      },
+      "parameters": [
+        {
+          "id": "zz_p01",
+          "name": "最大夏季取水量",
+          "value": null,
+          "reported_text": "约12000 m³/h",
+          "unit": "m³/h",
+          "availability": "conflicting",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40、49",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "总量参照；与分支总量冲突，暂不作一致的容量约束",
+          "source_note_line": 112,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p02",
+          "name": "C8000支路用水量",
+          "value": "8513 m³/h",
+          "reported_text": "8513 m³/h",
+          "unit": "m³/h",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "支路标签本身不证明主机型号",
+          "source_note_line": 113,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p03",
+          "name": "C7000支路用水量",
+          "value": "4574 m³/h",
+          "reported_text": "4574 m³/h",
+          "unit": "m³/h（原文m³h）",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41；原单位印作m³h",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "待原设计确认单位与同时工况",
+          "source_note_line": 114,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p04",
+          "name": "取水泵组系统数",
+          "value": "2套",
+          "reported_text": "2套",
+          "unit": "套",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "不能据此推导独立失效域",
+          "source_note_line": 115,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p05",
+          "name": "C8000取水泵",
+          "value": "5台，4用1备；单泵2200 m³/h",
+          "reported_text": "5台，4用1备；单泵2200 m³/h",
+          "unit": "台；m³/h",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "不含扬程、功率、效率或泵曲线",
+          "source_note_line": 116,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p06",
+          "name": "C7000取水泵",
+          "value": "5台，4用1备；单泵1150 m³/h",
+          "reported_text": "5台，4用1备；单泵1150 m³/h",
+          "unit": "台；m³/h",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "与上项相同；不把N+1直接当可用率",
+          "source_note_line": 117,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p07",
+          "name": "取水管",
+          "value": "3根，D1020×10",
+          "reported_text": "3根，D1020×10",
+          "unit": "根；D1020×10（原标记）",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "按原标记保留；水力内径／长度／粗糙度待核实",
+          "source_note_line": 118,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p08",
+          "name": "旋流分离井",
+          "value": "3座，单座设计1.1 m³/s，内径3.6 m",
+          "reported_text": "3座，单座设计1.1 m³/s，内径3.6 m",
+          "unit": "座；m³/s；m",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理40",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "只能作设计装置规模，非流量实测",
+          "source_note_line": 119,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p09",
+          "name": "排水管",
+          "value": "约500 m，D2020×16",
+          "reported_text": "约500 m，D2020×16",
+          "unit": "m；D2020×16（原标记）",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "模型需另取标高、粗糙度、局部阻力",
+          "source_note_line": 120,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p10",
+          "name": "排水泵站",
+          "value": "2座，单站设计1.65 m³/s",
+          "reported_text": "2座，单站设计1.65 m³/s",
+          "unit": "座；m³/s",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "总设计规模与单泵名义和不同，不替代性能曲线",
+          "source_note_line": 121,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p11",
+          "name": "每排水站泵数",
+          "value": "3台，2用1备",
+          "reported_text": "3台，2用1备",
+          "unit": "台",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "未给共同供电／检修影响",
+          "source_note_line": 122,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p12",
+          "name": "排水单泵额定量",
+          "value": "0.85 m³/s、8 m扬程、110 kW",
+          "reported_text": "0.85 m³/s、8 m扬程、110 kW",
+          "unit": "m³/s；m；kW",
+          "availability": "documented",
+          "basis": "design_or_capability",
+          "evidence": "设计；Z3物理41",
+          "source_refs": [
+            "Z3"
+          ],
+          "model_use_or_gap": "名义工点，不能把110kW全作为传入水的水力功",
+          "source_note_line": 123,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p13",
+          "name": "HVDC电压级",
+          "value": "400／800 V",
+          "reported_text": "400／800 V",
+          "unit": "V",
+          "availability": "documented",
+          "basis": "vendor_claim",
+          "evidence": "厂家架构声明；Z2先行实践",
+          "source_refs": [
+            "Z2"
+          ],
+          "model_use_or_gap": "馈线对应、实际母线电压／容差未知",
+          "source_note_line": 124,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p14",
+          "name": "主机机柜布局",
+          "value": "80多组，12道环形阵列",
+          "reported_text": "80多组，12道环形阵列",
+          "unit": "组；环",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "央视简介；Z6第1集",
+          "source_refs": [
+            "Z6"
+          ],
+          "model_use_or_gap": "近似描述；不是电气或水力分组数量",
+          "source_note_line": 125,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p15",
+          "name": "主机空间",
+          "value": "2000余m²",
+          "reported_text": "2000余m²",
+          "unit": "m²",
+          "availability": "documented",
+          "basis": "published_site",
+          "evidence": "央视／平台描述；Z6、Z5",
+          "source_refs": [
+            "Z6",
+            "Z5"
+          ],
+          "model_use_or_gap": "不是园区面积或巡检平面图",
+          "source_note_line": 126,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p16",
+          "name": "单柜功率密度",
+          "value": "MW级能力",
+          "reported_text": "MW级能力",
+          "unit": "MW/柜（能力级别）",
+          "availability": "documented",
+          "basis": "vendor_claim",
+          "evidence": "厂家能力声明；Z4",
+          "source_refs": [
+            "Z4"
+          ],
+          "model_use_or_gap": "不能当每柜运行负荷，更不能乘机柜数当站点总功耗",
+          "source_note_line": 127,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p17",
+          "name": "PUE",
+          "value": "厂家称低至1.04；2025设计文档称不高于1.2",
+          "reported_text": "厂家称低至1.04；2025设计文档称不高于1.2",
+          "unit": "无量纲",
+          "availability": "documented",
+          "basis": "mixed_source_scopes",
+          "evidence": "Z2：2026厂家低值声明；Z3物理48：2025设计目标；两值兼容、口径未统一",
+          "source_refs": [
+            "Z2",
+            "Z3"
+          ],
+          "model_use_or_gap": "1.04与不高于1.2数值兼容，年代/统计边界不同；不据此推运行改善或设校准点",
+          "source_note_line": 128,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p18",
+          "name": "北龙湖边界水温T_lake(t)",
+          "value": null,
+          "reported_text": "missing，°C",
+          "unit": "°C",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "无已核实运行曲线",
+          "source_refs": [],
+          "model_use_or_gap": "阻止季节排热裕度估计；需取水口温度／气象／水位记录",
+          "source_note_line": 129,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p19",
+          "name": "湖水泵曲线、η_p",
+          "value": null,
+          "reported_text": "missing，Pa–m³/s，无量纲",
+          "unit": "Pa–m³/s；无量纲",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "取水扬程／功率未给；排水仅名义点",
+          "source_refs": [],
+          "model_use_or_gap": "阻止功耗和失流工况计算；需铭牌、泵曲线、现场压差流量",
+          "source_note_line": 130,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p20",
+          "name": "过滤阻力K_f(t)",
+          "value": null,
+          "reported_text": "missing，Pa·s²/m⁶",
+          "unit": "Pa·s²/m⁶",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "未给清洁／堵塞压降",
+          "source_refs": [],
+          "model_use_or_gap": "阻止堵塞到流量衰减映射；需过滤器规格与压差记录",
+          "source_note_line": 131,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p21",
+          "name": "板换UA／ε",
+          "value": null,
+          "reported_text": "missing，W/K／无量纲",
+          "unit": "W/K；无量纲",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "已知类型、未知规模与工况",
+          "source_refs": [],
+          "model_use_or_gap": "阻止供水温度与污垢后果计算；需选型书、流量、四端温度",
+          "source_note_line": 132,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p22",
+          "name": "内循环热容C_h、C_c",
+          "value": null,
+          "reported_text": "missing，J/K",
+          "unit": "J/K",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "未给存水量／管壁／流量",
+          "source_refs": [],
+          "model_use_or_gap": "阻止失冷升温时间估计；需水量与材质台账或阶跃数据",
+          "source_note_line": 133,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p23",
+          "name": "冷媒身份与u、ρ、h_fg、p_sat",
+          "value": null,
+          "reported_text": "missing，J/kg、kg/m³、J/kg、Pa",
+          "unit": "J/kg；kg/m³；Pa",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "厂家只称国产冷媒",
+          "source_refs": [],
+          "model_use_or_gap": "阻止相变能量／压力闭合；需流体物性与安全资料",
+          "source_note_line": 134,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p24",
+          "name": "冷媒M_l、M_v、槽体V与允许液位",
+          "value": null,
+          "reported_text": "missing，kg、m³、m",
+          "unit": "kg；m³；m",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "无库存与几何资料",
+          "source_refs": [],
+          "model_use_or_gap": "阻止干涸、泄漏和汽相压力计算；需设备图与液位标定",
+          "source_note_line": 135,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p25",
+          "name": "等效冷凝UA与回液路径",
+          "value": null,
+          "reported_text": "missing，W/K、kg/s",
+          "unit": "W/K；kg/s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "内部结构未公开",
+          "source_refs": [],
+          "model_use_or_gap": "阻止相变槽向内循环排热闭合；需冷凝器／回液P&ID",
+          "source_note_line": 136,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p26",
+          "name": "IT负荷P_IT(t)、液冷捕热比例χ",
+          "value": null,
+          "reported_text": "missing，W、无量纲",
+          "unit": "W；无量纲",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "未取得带时间戳电能及分热数据",
+          "source_refs": [],
+          "model_use_or_gap": "阻止温升／失冷后果；需负荷日历、功率／热量计量边界",
+          "source_note_line": 137,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p27",
+          "name": "整流效率η_rect、母线C_dc／损耗",
+          "value": null,
+          "reported_text": "missing，无量纲、F、W",
+          "unit": "无量纲；F；W",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "电压架构不含动态参数",
+          "source_refs": [],
+          "model_use_or_gap": "阻止负载突变与电压跌落仿真；需电气设计和受控测试",
+          "source_note_line": 138,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p28",
+          "name": "UPS储能E_max／功率／覆盖",
+          "value": null,
+          "reported_text": "missing，J或kWh、W",
+          "unit": "J或kWh；W",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "仅有设计模块",
+          "source_refs": [],
+          "model_use_or_gap": "阻止后备时间及冷却共因计算；需资产表、单线图、放电试验",
+          "source_note_line": 139,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p29",
+          "name": "柴油功率、启动／接管t_start",
+          "value": null,
+          "reported_text": "missing，W、s",
+          "unit": "W；s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "仅有设计模块",
+          "source_refs": [],
+          "model_use_or_gap": "阻止断电持续时间／转供评价；需启动测试、ATS逻辑及燃料台账",
+          "source_note_line": 140,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p30",
+          "name": "备用冷却塔容量与切换时间",
+          "value": null,
+          "reported_text": "missing，W、s",
+          "unit": "W；s",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "仅有Z1备用冷源模块",
+          "source_refs": [
+            "Z1"
+          ],
+          "model_use_or_gap": "阻止湖水失效场景的续冷估计；需P&ID与切换试验",
+          "source_note_line": 141,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p31",
+          "name": "检查性能与耗时",
+          "value": null,
+          "reported_text": "missing，Se/Sp、min",
+          "unit": "无量纲；min",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "无现场检查规程／盲检记录",
+          "source_refs": [],
+          "model_use_or_gap": "阻止检查价值实测校准；需检查点表、独立真值和工时",
+          "source_note_line": 142,
+          "calibration_use": "not_selected_as_calibrated_input"
+        },
+        {
+          "id": "zz_p32",
+          "name": "缺陷、维修与共同根因",
+          "value": null,
+          "reported_text": "missing，每设备小时、h、条件概率",
+          "unit": "每设备小时；h；条件概率",
+          "availability": "missing",
+          "basis": "missing",
+          "evidence": "无故障分母和维修工单",
+          "source_refs": [],
+          "model_use_or_gap": "阻止可靠性及风险数值化；需设备小时、工单、共因记录",
+          "source_note_line": 143,
+          "calibration_use": "not_selected_as_calibrated_input"
+        }
+      ],
+      "diagrams": [
+        {
+          "id": "05-zhengzhou-power",
+          "title": "郑州：HVDC与后备系统的证据边界",
+          "subtitle": "绿色框为设计范围，紫色框为厂家部署声明；具体馈线与保护范围仍待核实。",
+          "width": 1240,
+          "height": 690,
+          "nodes": [
+            {
+              "id": "mv",
+              "x": 32,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "中压输入 / 变配电",
+                "机电采购安装范围",
+                "Z1；架构声明Z2"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z1",
+                "Z2"
+              ]
+            },
+            {
+              "id": "hvdc",
+              "x": 342,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "HVDC 400 / 800 V",
+                "中压直转架构声明",
+                "不是每条母线实测"
+              ],
+              "status": "vendor",
+              "source_refs": [
+                "Z2"
+              ]
+            },
+            {
+              "id": "it",
+              "x": 652,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "计算 / 网络 / 存储",
+                "浸没、互连、存储",
+                "Z3设计 / Z4厂家"
+              ],
+              "status": "vendor",
+              "source_refs": [
+                "Z3",
+                "Z4"
+              ]
+            },
+            {
+              "id": "control",
+              "x": 962,
+              "y": 128,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "动环 / 运维平台",
+                "Z1范围 / Z2声明",
+                "控制权限与点表待补"
+              ],
+              "status": "vendor",
+              "source_refs": [
+                "Z1",
+                "Z2"
+              ]
+            },
+            {
+              "id": "ups",
+              "x": 32,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "UPS系统",
+                "Z1设计范围",
+                "储能类型/容量未给"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z1"
+              ]
+            },
+            {
+              "id": "dg",
+              "x": 342,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "柴油发电机组",
+                "Z1设计范围",
+                "台数/接管时间未给"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z1"
+              ]
+            },
+            {
+              "id": "matrix",
+              "x": 652,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "保护与切换矩阵",
+                "IT / 泵 / 控制各自范围",
+                "连接、容量、延时待补"
+              ],
+              "status": "missing",
+              "source_refs": []
+            },
+            {
+              "id": "aux",
+              "x": 962,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "取排水 / 换热 / 空调",
+                "Z1 / Z3设计范围",
+                "馈线与备用归属待补"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z1",
+                "Z3"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "mv",
+              "to": "hvdc",
+              "kind": "power",
+              "label": "架构功能级次",
+              "status": "vendor",
+              "source_refs": [
+                "Z2"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "hvdc",
+              "to": "it",
+              "kind": "power",
+              "label": "负载映射待补",
+              "status": "assumption",
+              "source_refs": [
+                "Z2"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "it",
+              "to": "control",
+              "kind": "signal",
+              "label": "平台宣称覆盖",
+              "status": "vendor",
+              "source_refs": [
+                "Z2"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "ups",
+              "to": "matrix",
+              "kind": "power",
+              "label": "覆盖未知",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "rl",
+              "via": [
+                [
+                  278,
+                  545
+                ],
+                [
+                  630,
+                  545
+                ]
+              ]
+            },
+            {
+              "from": "dg",
+              "to": "matrix",
+              "kind": "power",
+              "label": "覆盖未知",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "rl"
+            },
+            {
+              "from": "matrix",
+              "to": "aux",
+              "kind": "power",
+              "label": "关键辅机?",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "rl"
+            },
+            {
+              "from": "matrix",
+              "to": "it",
+              "kind": "power",
+              "label": "IT覆盖?",
+              "status": "missing",
+              "source_refs": [],
+              "ports": "tb"
+            }
+          ],
+          "notes": [
+            "采购安装范围不是竣工馈线图；UPS不自动意味着某种电池化学体系。",
+            "标准功能描述与厂家本机实践段分别取证，未据此补齐所有BMC/执行器。"
+          ],
+          "readout": "先读上方系统范围，再看下方后备连接矩阵。只有知道UPS和柴油分别保护哪些负载，才能计算断电后散热是否继续。"
+        },
+        {
+          "id": "06-zhengzhou-cooling",
+          "title": "郑州：湖水隔离、机房内循环与相变",
+          "subtitle": "上方蓝线表示设计湖水处理链；下方红线表示设备热量传向湖水的路径。",
+          "width": 1240,
+          "height": 690,
+          "nodes": [
+            {
+              "id": "lake",
+              "x": 32,
+              "y": 120,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "北龙湖取水",
+                "温度 / 水位 / 水质",
+                "运行边界待补"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            },
+            {
+              "id": "filters",
+              "x": 342,
+              "y": 120,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "取水泵与五级处理",
+                "格栅 / 旋流 / 粗格栅",
+                "自清式 / Y型 · Z3"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            },
+            {
+              "id": "hx",
+              "x": 652,
+              "y": 120,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "机房板换",
+                "湖水 ↔ 内循环隔离",
+                "UA / 数量待补"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            },
+            {
+              "id": "out",
+              "x": 962,
+              "y": 120,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "退水系统 → 湖",
+                "管 / 泵站 / 排热路径",
+                "2025设计 · Z3"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            },
+            {
+              "id": "bath",
+              "x": 32,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "计算：浸没相变",
+                "液相 / 汽相 / 总内能",
+                "冷媒、库存、压力待补"
+              ],
+              "status": "vendor",
+              "source_refs": [
+                "Z4"
+              ]
+            },
+            {
+              "id": "cond",
+              "x": 342,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "等效冷凝与回液",
+                "保证相变能量闭合",
+                "实物结构 / 接口待补"
+              ],
+              "status": "assumption",
+              "source_refs": []
+            },
+            {
+              "id": "internal",
+              "x": 652,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "机房内循环水",
+                "冷热节点 / 供回界面",
+                "设计功能有依据"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            },
+            {
+              "id": "ns",
+              "x": 962,
+              "y": 390,
+              "w": 246,
+              "h": 102,
+              "label": [
+                "网络 / 存储 / 管理",
+                "冷板 + 风冷",
+                "支路分热比例待补"
+              ],
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "lake",
+              "to": "filters",
+              "kind": "fluid",
+              "label": "取水 / 加压",
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "filters",
+              "to": "hx",
+              "kind": "fluid",
+              "label": "过滤后湖水",
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "hx",
+              "to": "out",
+              "kind": "fluid",
+              "label": "升温退水",
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "bath",
+              "to": "cond",
+              "kind": "heat",
+              "label": "汽化/冷凝的等效路径",
+              "status": "assumption",
+              "source_refs": [
+                "Z3",
+                "Z4"
+              ],
+              "ports": "rl"
+            },
+            {
+              "from": "cond",
+              "to": "internal",
+              "kind": "heat",
+              "label": "冷凝水侧待证",
+              "status": "assumption",
+              "source_refs": [],
+              "ports": "rl"
+            },
+            {
+              "from": "ns",
+              "to": "internal",
+              "kind": "heat",
+              "label": "冷板分担 / 支路待补",
+              "status": "assumption",
+              "source_refs": [
+                "Z3"
+              ],
+              "ports": "lr"
+            },
+            {
+              "from": "internal",
+              "to": "hx",
+              "kind": "heat",
+              "label": "隔壁传热",
+              "status": "design",
+              "source_refs": [
+                "Z3"
+              ],
+              "ports": "tb"
+            }
+          ],
+          "notes": [
+            "湖水不接触芯片或冷媒；板换只传热，内循环/湖水的质量账分别守恒。",
+            "12000与13087 m³/h口径未解，C8000标签不直接等于曙光8000主机。"
+          ],
+          "readout": "先读湖水怎么处理和返回，再从相变槽逆向追热量如何到湖。虚线冷凝节点是为守恒提出的等效模块，实际结构仍待图纸确认。"
+        }
+      ],
+      "topology_scope": "source-backed functional interfaces; not an as-built single-line drawing, P&ID or personnel route",
+      "transient_model_status": "UNRESOLVED_CLOSURE",
+      "can_run_calibrated_transient": false,
+      "summary": "湖水与机房内循环由板换隔开；内循环再服务计算相变散热与网络/存储冷板。电源与备用系统有项目范围资料，具体保护负载仍缺单线图。",
+      "facts": [
+        "2025设计文件给湖水加压、过滤、板换、内循环和退水链，原图列五级过滤工艺（Z3物理40–41、48）。",
+        "400/800 V HVDC、浸没相变、scaleFabric和ParaStor来自2026厂家公开声明；UPS与柴油属于2025机电采购安装范围。",
+        "总取水量约12000 m³/h，C8000/C7000两支路为8513与4574 m³/h；合计13087的差异未解，标签与主机型号映射也未解。"
+      ],
+      "mechanism": "板换污垢、过滤阻力、湖水温度和相变冷凝能力处在同一排热链上。先补介质与冷凝结构，再讨论哪个环节的异常可由巡检确认。",
+      "unresolved": [
+        "C8000/C7000身份、总/支路同时工况与竣工P&ID",
+        "冷媒物性、库存、槽体/冷凝/回液与压力边界",
+        "湖水季节边界、过滤/泵/板换性能",
+        "UPS/柴油保护矩阵及备用冷源切换",
+        "实际负荷、检查性能、缺陷与维修分母"
+      ]
+    }
+  ],
+  "shared_diagrams": [
+    {
+      "id": "07-state-coupling",
+      "title": "从设施拓扑到状态方程",
+      "subtitle": "整图为本研究提出的建模组织；设备系数、模式阈值和输入时序逐站闭合。",
+      "width": 1240,
+      "height": 690,
+      "nodes": [
+        {
+          "id": "power",
+          "x": 32,
+          "y": 130,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "电气边界",
+            "P、V、损耗 / 可供电量",
+            "功率守恒 / 母线储能"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "flow",
+          "x": 342,
+          "y": 130,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "水力网络",
+            "q、Δp、泵速、阀位",
+            "质量守恒 / 泵阀曲线"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "heat",
+          "x": 652,
+          "y": 130,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "热与相变状态",
+            "T、U、M、液位、p",
+            "能量 / 相平衡 / 库存"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "service",
+          "x": 962,
+          "y": 130,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "IT服务与局部保护",
+            "正常 / 降载 / 停止",
+            "阈值与恢复规则待补"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "environment",
+          "x": 32,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "外部输入与初值",
+            "负荷、湿球/湖水、供电",
+            "带时标，不拿峰值替代"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "faults",
+          "x": 342,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "劣化/维护参数",
+            "过滤K、换热UA、泄漏",
+            "过程与故障率待标定"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "balance",
+          "x": 652,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "边界能量审计",
+            "设备输入 − 环境排热",
+            "= 储能变化 + 边界损失"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "missing",
+          "x": 962,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "未闭合项优先补齐",
+            "拓扑 → 物性 → 时序",
+            "再求解与独立验证"
+          ],
+          "status": "missing",
+          "source_refs": []
+        }
+      ],
+      "edges": [
+        {
+          "from": "power",
+          "to": "flow",
+          "kind": "power",
+          "label": "泵/执行器供电",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        },
+        {
+          "from": "flow",
+          "to": "heat",
+          "kind": "fluid",
+          "label": "流量影响换热",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        },
+        {
+          "from": "heat",
+          "to": "service",
+          "kind": "signal",
+          "label": "局部保护边界",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        },
+        {
+          "from": "environment",
+          "to": "power",
+          "kind": "signal",
+          "label": "边界输入",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "tb"
+        },
+        {
+          "from": "faults",
+          "to": "flow",
+          "kind": "signal",
+          "label": "K变化",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "tb"
+        },
+        {
+          "from": "balance",
+          "to": "heat",
+          "kind": "signal",
+          "label": "守恒审计",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "tb"
+        }
+      ],
+      "notes": [
+        "物理状态、控制器状态、服务模式分别记录；快速保护不由巡检行走替代。",
+        "缺少参数时方程保持未闭合，未知量不填0。"
+      ],
+      "readout": "按电、水、热、服务逐层读，再沿下排找每一层的输入和未知量。这样能看清一个缺值究竟挡住哪一步。"
+    },
+    {
+      "id": "08-evidence-boundary",
+      "title": "物理状态、局部自动控制与巡检证据",
+      "subtitle": "本研究的接口提议；允许稀疏固定测点，巡检者只使用决策时已取得的证据。",
+      "width": 1240,
+      "height": 690,
+      "nodes": [
+        {
+          "id": "physical",
+          "x": 32,
+          "y": 125,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "设施物理状态 x",
+            "温度 / 库存 / 电压等",
+            "模型内部，不直接通知巡检"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "local",
+          "x": 342,
+          "y": 125,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "现场局部控制 / 保护",
+            "持续传感与执行器",
+            "现场规则另行核实"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "fixed",
+          "x": 652,
+          "y": 125,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "可选稀疏固定测点",
+            "覆盖掩码 / 误差 / 时间戳",
+            "无需每处安装"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "knowledge",
+          "x": 962,
+          "y": 125,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "可用证据账本",
+            "观测时间 / 可用时间",
+            "来源、可信度、未确认项"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "offline",
+          "x": 32,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "资产 / 历史 / 工单",
+            "历史资料与人工报障",
+            "来源与有效期"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "portable",
+          "x": 342,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "到场后的便携检查",
+            "观察 / 测量 / 专业复核",
+            "Se/Sp与工时待标定"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "task",
+          "x": 652,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "风险问题与核查任务",
+            "选择核查、处置或暂缓",
+            "不生成默认固定轮巡"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        },
+        {
+          "id": "closure",
+          "x": 962,
+          "y": 390,
+          "w": 246,
+          "h": 102,
+          "label": [
+            "确认 / 处置 / 复检",
+            "每一步分别记录",
+            "有信息不等于已修复"
+          ],
+          "status": "assumption",
+          "source_refs": []
+        }
+      ],
+      "edges": [
+        {
+          "from": "physical",
+          "to": "local",
+          "kind": "signal",
+          "label": "局部反馈",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        },
+        {
+          "from": "local",
+          "to": "physical",
+          "kind": "control",
+          "label": "本地动作",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "bb",
+          "via": [
+            [
+              465,
+              250
+            ],
+            [
+              310,
+              250
+            ],
+            [
+              310,
+              335
+            ],
+            [
+              155,
+              335
+            ]
+          ]
+        },
+        {
+          "from": "physical",
+          "to": "fixed",
+          "kind": "signal",
+          "label": "有限可测输出",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "tt",
+          "via": [
+            [
+              155,
+              100
+            ],
+            [
+              775,
+              100
+            ]
+          ]
+        },
+        {
+          "from": "fixed",
+          "to": "knowledge",
+          "kind": "signal",
+          "label": "t可用≤t决策",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        },
+        {
+          "from": "offline",
+          "to": "knowledge",
+          "kind": "signal",
+          "label": "已取得的记录",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "br",
+          "via": [
+            [
+              155,
+              565
+            ],
+            [
+              1224,
+              565
+            ],
+            [
+              1224,
+              176
+            ]
+          ]
+        },
+        {
+          "from": "portable",
+          "to": "knowledge",
+          "kind": "signal",
+          "label": "新增现场证据",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "tb",
+          "via": [
+            [
+              465,
+              280
+            ],
+            [
+              1085,
+              280
+            ]
+          ]
+        },
+        {
+          "from": "knowledge",
+          "to": "task",
+          "kind": "signal",
+          "label": "按证据生成问题",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "bt",
+          "via": [
+            [
+              1085,
+              325
+            ],
+            [
+              775,
+              325
+            ]
+          ]
+        },
+        {
+          "from": "task",
+          "to": "closure",
+          "kind": "signal",
+          "label": "执行并记录",
+          "status": "assumption",
+          "source_refs": [],
+          "ports": "rl"
+        }
+      ],
+      "notes": [
+        "仿真隐藏缺陷本身不能自动变成问题通知；观察需要真实可用通道。",
+        "相关/陈旧观测需联合或时变模型；本轮不扩展智能体和RSI。"
+      ],
+      "readout": "上排画现场的物理与保护，下排画巡检工作。两者通过可追溯证据连接，不把仿真真值直接交给任务选择器。"
+    }
+  ],
+  "general_sources": {
+    "G01": {
+      "title": "Modelica Fluid: balance equations",
+      "url": "https://build.openmodelica.org/Documentation/Modelica.Fluid.UsersGuide.ComponentDefinition.BalanceEquations.html",
+      "access": "official component documentation; general conservation reference, not a site model"
+    },
+    "G02": {
+      "title": "LBNL Buildings v13: heat exchangers",
+      "url": "https://simulationresearch.lbl.gov/modelica/releases/v13.0.0/help/Buildings_Fluid_HeatExchangers.html",
+      "access": "official library documentation; effectiveness and evaporator/condenser modeling reference, library defaults not site parameters"
+    },
+    "G03": {
+      "title": "Modelica: PartialTwoPhaseMedium, one-substance scope",
+      "url": "https://doc.modelica.org/Modelica%204.0.0/Resources/helpDymola/Modelica_Media_Interfaces_PartialTwoPhaseMedium.html",
+      "access": "official interface documentation; pure/single-substance two-phase scope; not a claim about Sugon coolant composition"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "aegisdc-case-local-review-v1",
+  "casebook_verification": {
+    "status": "PASS",
+    "scope": "source identity, provenance boundaries and consistent exports; not dynamic/field validation",
+    "cases": 3,
+    "parameter_records": 103,
+    "missing_records": 32,
+    "conflicting_records": 4,
+    "diagrams": 8,
+    "mathml_formulas": 28,
+    "external_runtime_resources": 0
+  },
+  "repository_structure": {
+    "status": "PASS",
+    "source_modules": 32,
+    "historical_parallel_entry_points": 0,
+    "local_document_links": "checked",
+    "scope": "Structural integrity, not scientific effectiveness"
+  },
+  "equation_checks": {
+    "basis": "manual dimensional review plus exact algebra, not numerical/field validation",
+    "heat_storage_dimension": "(J/K)*(K/s)=W",
+    "enthalpy_flow_dimension": "(kg/s)*(J/kg)=W",
+    "pump_dimension": "Pa*(m3/s)=W",
+    "bus_dimension": "F*V*(V/s)=W",
+    "phase_internal_energy_dimension": "kg*(J/kg)=J",
+    "two_water_nodes": {
+      "basis": "synthetic algebra example",
+      "m_cp_W_per_K": 4000.0,
+      "T_hot_K": 310.0,
+      "T_HX_out_K": 300.0,
+      "T_cold_buffer_K": 295.0,
+      "load_W": 70000.0,
+      "Q_HX_W": 40000.0,
+      "hot_storage_rate_W": 10000.0,
+      "cold_storage_rate_W": 20000.0,
+      "total_storage_rate_W": 30000.0,
+      "identity": "storage=load-HX; cold buffer is not forced stationary",
+      "status": "PASS"
+    }
+  },
+  "source_review_findings": {
+    "unique": 5,
+    "closed": 5,
+    "remaining": 0,
+    "closure": "three bounded case-source reviews and specific fix rechecks"
+  },
+  "frozen_report_source_check": "PASS: 340 original files unchanged",
+  "browser_receipt_sha256": "880ff45ce1ec033467c951b5b5d9bbd90770d49e9d5852b2e6179baafc001ae7",
+  "scope": "Reference topologies, proposed equations, provenance and reading layout only",
+  "field_calibration": "PENDING",
+  "new_training": 0,
+  "new_registered_experiment_attempts": 0
+}

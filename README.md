@@ -19,6 +19,8 @@
 
 ## 工程与方法来源
 
+三站独立的[拓扑、状态方程与参数资料包](docs/research/20261104/facility-cases/README.md)已整理：8幅原创架构图、103条参数/缺值记录、单文件离线HTML、CSV与可编辑台账。图中区分公开描述、设计、发表模型、厂家声明、研究提议和待补关系；具体来源/年代、初值与闭合缺口逐站列明。
+
 |参考|已取得什么|仍待核实什么|
 |---|---|---|
 |[ORNL Frontier / LLNL El Capitan](docs/research/20261103/us-supercomputing-facilities.md)|供配电、机械冷却、换热/CDU、BMS与机柜耦合的官方资料|真实巡检、冗余/切换、参数和故障分布|
