@@ -1,0 +1,107 @@
+{
+  "status": "METHOD_PROTOTYPE_NOT_FIELD_VALIDATED",
+  "assessments": [
+    {
+      "id": "uncertain_power_path",
+      "asset_id": "ups",
+      "horizon_hours": 24,
+      "currency": "CNY",
+      "parameter_basis": "synthetic_assumption",
+      "posterior_defect_probability": 0.1,
+      "parameter_source": "docs/research/20261103/fema-risk-framework.md, section7; synthetic worked example",
+      "expected_loss_without_mitigation": 2000.0,
+      "best_action_without_inspection": "no_mitigation",
+      "best_cost_without_inspection": 2000.0,
+      "expected_total_cost_with_inspection": 805.0000000000002,
+      "net_inspection_value": 1194.9999999999998,
+      "inspection_minutes": 30,
+      "evidence_used": [],
+      "evidence_ignored": [],
+      "branches": [
+        {
+          "finding": "positive",
+          "probability": 0.13500000000000006,
+          "posterior_defect_probability": 0.6666666666666664,
+          "action": "mitigate",
+          "action_cost": 3000.0
+        },
+        {
+          "finding": "negative",
+          "probability": 0.865,
+          "posterior_defect_probability": 0.011560693641618495,
+          "action": "no_mitigation",
+          "action_cost": 231.2138728323699
+        }
+      ],
+      "model_assumptions": {
+        "defect_state": "fixed_binary_from_prior_through_prospective_inspection",
+        "existing_and_prospective_observations": "no_usable_existing_observation",
+        "joint_model_basis": "DECLARED_ASSUMPTION_NOT_EMPIRICALLY_VERIFIED",
+        "state_evolution_and_action_delays_modeled": false
+      },
+      "scope": "binary one-path decision model; does not aggregate overlapping facility losses or execute actions"
+    },
+    {
+      "id": "known_high_risk",
+      "asset_id": "cdu",
+      "horizon_hours": 24,
+      "currency": "CNY",
+      "parameter_basis": "synthetic_assumption",
+      "posterior_defect_probability": 0.8,
+      "parameter_source": "synthetic sensitivity variant of the documented worked example",
+      "expected_loss_without_mitigation": 16000.0,
+      "best_action_without_inspection": "mitigate",
+      "best_cost_without_inspection": 3000.0,
+      "expected_total_cost_with_inspection": 3200.0,
+      "net_inspection_value": -200.0,
+      "inspection_minutes": 30,
+      "evidence_used": [],
+      "evidence_ignored": [],
+      "branches": [
+        {
+          "finding": "positive",
+          "probability": 0.7300000000000001,
+          "posterior_defect_probability": 0.9863013698630136,
+          "action": "mitigate",
+          "action_cost": 3000.0
+        },
+        {
+          "finding": "negative",
+          "probability": 0.2699999999999999,
+          "posterior_defect_probability": 0.29629629629629634,
+          "action": "mitigate",
+          "action_cost": 3000.0
+        }
+      ],
+      "model_assumptions": {
+        "defect_state": "fixed_binary_from_prior_through_prospective_inspection",
+        "existing_and_prospective_observations": "no_usable_existing_observation",
+        "joint_model_basis": "DECLARED_ASSUMPTION_NOT_EMPIRICALLY_VERIFIED",
+        "state_evolution_and_action_delays_modeled": false
+      },
+      "scope": "binary one-path decision model; does not aggregate overlapping facility losses or execute actions"
+    }
+  ],
+  "time_budget_minutes": 120,
+  "next_inspection": "uncertain_power_path",
+  "reason": "positive_net_value_within_budget",
+  "direct_action_candidates": [
+    "known_high_risk"
+  ],
+  "default_tour_created": false,
+  "automatic_equipment_actions": false,
+  "requires_full_realtime_telemetry": false,
+  "selection_scope": "single next inspection by net value; not an optimal multi-task schedule",
+  "basis": "synthetic_assumption",
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "candidate_service_exposure": {
+    "uncertain_power_path": [
+      "compute_service",
+      "network_service",
+      "storage_service"
+    ],
+    "known_high_risk": [
+      "compute_service"
+    ]
+  }
+}

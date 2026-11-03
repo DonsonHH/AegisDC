@@ -62,6 +62,8 @@ python -m aegis_dc risk-demo --output runs/foundation-demo-new
 
 输出目录必须新建，已存在时停止。`status`读取当前研究契约；`foundation`检查结构并列出待标定参数；`risk-demo`只做合成算例的有限期望计算，不调用科研模型或生成真实设施收益。
 
+已执行的[2026-11-04合成算例快照](../evidence/foundation-v0.1-20261104/README.md)保存输出、源提交和SHA，并附本地142项测试及会前340份冻结原件核对的摘要。
+
 ## 5. 下一轮研究先补什么
 
 1. 为三个工程案例分别整理真实边界与候选依赖，不把共同模板视作各站实际拓扑。

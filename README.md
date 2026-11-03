@@ -40,6 +40,8 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 第一版[设施结构与风险方法原型](docs/FOUNDATION.md)已可运行：14个功能区、29个资产/服务对象与候选依赖，支持无固定测点的基线和可选稀疏证据。用合成算例区分有单位的风险与检查价值；真实参数、动态物理模型及策略收益尚待标定和独立验证。
 
+已执行的[合成算例与复核快照](evidence/foundation-v0.1-20261104/README.md)包含CLI输出、源码/输入SHA和本地验收摘要。
+
 ```bash
 python -m pip install -e .
 python -m aegis_dc status
