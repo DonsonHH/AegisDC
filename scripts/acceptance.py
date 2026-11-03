@@ -12,6 +12,30 @@ import sys
 import unittest
 
 
+OPTIONAL_TORCH_TESTS = {
+    'test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit',
+    'test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior',
+}
+OPTIONAL_TORCH_REASON = 'Optional isolated Torch runtime is required for neural model checks'
+
+
+def test_summary(tested, *, torch_installed):
+    """Keep required skips fatal while reporting the two optional Torch checks."""
+    optional, unexpected = [], []
+    for case, reason in tested.skipped:
+        entry = {'test': case.id(), 'reason': reason}
+        if not torch_installed and case.id() in OPTIONAL_TORCH_TESTS and reason == OPTIONAL_TORCH_REASON:
+            optional.append(entry)
+        else:
+            unexpected.append(entry)
+    executed = tested.testsRun - len(tested.skipped)
+    passed = tested.wasSuccessful() and executed > 0 and not unexpected
+    return {'run': tested.testsRun, 'executed': executed, 'failures': len(tested.failures),
+            'errors': len(tested.errors), 'skipped': len(tested.skipped),
+            'optional_neural_skips': optional, 'unexpected_skips': unexpected,
+            'gate': 'PASS' if passed else 'FAIL'}
+
+
 def check_structure(root: Path):
     required = ["README.md", "docs/RESEARCH.md", "docs/ARCHITECTURE.md", "docs/EVIDENCE.md", "docs/NEXT.md",
                 "configs/demo.json", "configs/parent-rule.json", "configs/candidate-example.json",
@@ -60,8 +84,7 @@ def verify(root: Path, output: Path):
         with redirect_stdout(stream), redirect_stderr(stream):
             tested = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
         (output / "tests.log").write_text(stream.getvalue(), encoding="utf-8")
-        result["tests"] = {"run": tested.testsRun, "failures": len(tested.failures),
-                           "errors": len(tested.errors), "skipped": len(tested.skipped)}
+        result["tests"] = test_summary(tested, torch_installed=importlib.util.find_spec('torch') is not None)
         numeric = []
         for line in stream.getvalue().splitlines():
             if "migration_numeric " not in line:
@@ -71,7 +94,7 @@ def verify(root: Path, output: Path):
             numeric.append({"case": detail["case"], "maximum_absolute_by_quantity":
                             {key: value["maximum_absolute"] for key, value in comparisons.items()}})
         result["numeric_regression"] = {"details": "tests.log", "observed_errors": numeric}
-        result["engineering"] = "PASS" if tested.wasSuccessful() and tested.testsRun > 0 and not tested.skipped else "FAIL"
+        result["engineering"] = result["tests"]["gate"]
         if result["engineering"] == "FAIL":
             result["test_details"] = stream.getvalue()
         spec = importlib.util.spec_from_file_location("saved_evidence_verifier", root / "scripts/verify_evidence.py")

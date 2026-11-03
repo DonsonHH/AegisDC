@@ -32,6 +32,8 @@
 
 PPO恢复按已完成账本前缀选择状态，保留实际history、canonical、previous和临时文件；在归档原失败文件后恢复已提交canonical，再进行下一次保存。临时文件测试覆盖连续两次“保存后、账本提交前中断”。本轮实际研究0失败；工程故障注入测试与真实执行记录分别标明。
 
+首次远端CI（提交`306766bb`、运行`41586682321`）中，114项测试无失败／错误，但旧入口把2项可选Torch跳过判为工程失败。验收器现只认可两个确切ID、确切原因且Torch未安装的显式例外；必需检查的跳过、错误和失败仍阻断。四项边界回归验证了这一分类。本地公开`verify`入口已整体通过；远端状态以对应Actions提交记录为准。
+
 实际执行版本的34个源文件保存在`evidence/supplement-study/source-executed.zip`。执行后的恢复维护以`engineering-003-postrun`记录，新增研究尝试为0。
 
 ## Spec
@@ -49,7 +51,7 @@ PPO恢复按已完成账本前缀选择状态，保留实际history、canonical�
 - `generated/briefing-manifest.json`：当前HTML、数据、31个内嵌SVG及来源文件身份。正文含20图，附录含11图。
 - `generated/supervisor-report-verification.json`：桌面1366／1920、手机390、打印模式；118视图、120截图，SVG文字边界／重叠、数据表、目录、离线依赖与重复元素ID检查通过。
 - `generated/supervisor-report-print-verification.json`：31页PDF已逐页渲染，关键术语及表格／公式保留；人工查看新增网络结构、规模、方法表、计时与训练成本等复杂页。
-- 默认完整回归114项：112通过、2项可选Torch检查跳过。隔离Torch环境的27项补充检查全部通过，覆盖这2项；GPU反向更新与真实训练／测试另有运行证据。
+- 修正后的默认验收入口发现118项测试，116项执行通过，2项可选Torch检查明确列为未运行。隔离Torch环境的27项补充检查全部通过，覆盖这2项；GPU反向更新与真实训练／测试另有运行证据。
 
 ## 研究边界与讨论重点
 
