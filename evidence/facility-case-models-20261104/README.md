@@ -2,6 +2,8 @@
 
 阅读入口为[三设施案例包](../../docs/research/20261104/facility-cases/README.md)；单文件HTML包含8幅原创SVG、103条参数记录、28组MathML公式、来源与缺值筛选，复制到空目录仍可离线阅读。
 
+可下载[完整离线资料包](facility-cases-study.zip)，含源码提交`83007944`的阅读稿、SVG、CSV、JSON、来源笔记、工具及验证截图；[bundle-manifest](bundle-manifest.json)记录49个成员和ZIP的SHA。[最终交付复核](../../docs/reviews/facility-cases-20261104.md)逐项对应本轮要求。
+
 |记录|证明范围|
 |---|---|
 |[reference-inspection.json](reference-inspection.json)|原PDF/作者图/XLSX身份；关键PDF图页的视觉读取；Frontier工作簿Readme、18列表头和前19时间戳的有限检查|
