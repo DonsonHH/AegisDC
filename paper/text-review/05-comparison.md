@@ -27,6 +27,8 @@
 
 
 
+<a id="figure-supplement-crossed-design"></a>
+
 [图：估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-crossed-design.svg)
 
 
@@ -37,10 +39,14 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 
 
 
+<a id="figure-supplement-estimator-training"></a>
+
 [图：三个训练种子的真实30轮开发曲线，空心点为各自开发集最优checkpoint；测试集不参与选择。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimator-training.svg)
 
 
 
+
+<a id="figure-supplement-ppo-training"></a>
 
 [图：六个PPO的公开奖励训练曲线；细线表示训练种子，粗线为种子均值，采用10回合滑动窗口。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-ppo-training.svg)
 
@@ -52,6 +58,8 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 ### 同一公开观测流上的估计误差
 
 
+
+<a id="figure-supplement-estimation"></a>
 
 [图：所有估计器接收同一份已保存Tour公开观测流，使用相同刚量测校正；误差线为95%物理种子块区间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimation.svg)
 
@@ -68,10 +76,14 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 <div class="table-wrap"><table data-table="supplement-tasks" class="supplement-table"><thead><tr><th>方法</th><th>确认／唯一异常段</th><th>确认比例</th><th>每条件确认 [95%CI]</th><th>截尾等待 / 秒↓</th><th>加权年龄↓</th><th>移动相对Tour</th><th>完成量相对Tour</th><th>约束违规</th></tr></thead><tbody><tr data-supplement-method="nominal_tour"><td>名义＋Tour</td><td>94/210</td><td>44.8%</td><td>1.96 [1.31, 2.65]</td><td>106.75</td><td>0.310122</td><td>+0.00%</td><td>+0.00%</td><td>0</td></tr><tr data-supplement-method="nominal_fifo"><td>名义＋FIFO</td><td>155/210</td><td>73.8%</td><td>3.23 [2.83, 3.65]</td><td>94.24</td><td>0.311298</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_greedy"><td>名义＋Greedy</td><td>154/210</td><td>73.3%</td><td>3.21 [2.81, 3.60]</td><td>94.36</td><td>0.311270</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_ppo"><td>名义＋PPO</td><td>129.33/210</td><td>61.6%</td><td>2.69 [2.23, 3.17]</td><td>100.42</td><td>0.310877</td><td>+0.22%</td><td>-0.10%</td><td>0</td></tr><tr data-supplement-method="cvae_fifo"><td>CVAE＋FIFO</td><td>153/210</td><td>72.9%</td><td>3.19 [2.78, 3.61]</td><td>94.55</td><td>0.311256</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_greedy"><td>CVAE＋Greedy</td><td>152/210</td><td>72.4%</td><td>3.17 [2.76, 3.58]</td><td>94.64</td><td>0.311217</td><td>+0.32%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_ppo"><td>CVAE＋PPO</td><td>153.67/210</td><td>73.2%</td><td>3.20 [2.78, 3.62]</td><td>94.65</td><td>0.311266</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr></tbody></table></div>
 
 
+<a id="figure-supplement-methods"></a>
+
 [图：48个主要条件，先平均三个模型种子、再等权四故障族；误差线为12个物理种子块的95%自举区间。等待对有异常的条件计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-methods.svg)
 
 
 
+
+<a id="figure-supplement-professions"></a>
 
 [图：四专业异常段的描述性确认比例，数字为确认数／专业异常总数；小数来自三个模型种子的平均。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-professions.svg)
 
@@ -89,11 +101,13 @@ CVAE-U-Net的已验证收益是**全局温度态势重构精度**；有效确认
 
 事后逐事件核对48条件×3个模型种子的144组配对，CVAE-FIFO相对名义FIFO新增2段、丢失8段，按训练种子平均后净少2段。一个具体例子是制冷故障案例04：CVAE将45号柜的提示从860秒提前到840秒，但同一队列中的41号柜更早在835秒入队，860秒时先被选中。于是CVAE在880秒确认了41号，45号却到900秒才完成，错过850—890秒评价段；名义FIFO则在875秒确认45号、895秒才检查41号。这里发生的是确认机会的交换。
 
-这些轨迹显示，局部估计偏差与队列先后会改变确认机会；现有日志不支持把全部差异统一归因于“名义温度普遍偏高”，也没有测得CVAE组更低的专业误确认率。逐段得失与时间核对见[附录H](#gap-diagnosis)。
+这些轨迹显示，局部估计偏差与队列先后会改变确认机会；现有日志不支持把全部差异统一归因于“名义温度普遍偏高”，也没有测得CVAE组更低的专业误确认率。逐段得失与时间核对见[附录H](07-appendix.md#gap-diagnosis)。
 
 ### 配对增量、训练差异与正常工况
 
 
+
+<a id="figure-supplement-contrasts"></a>
 
 [图：预登记的配对比较及95%物理种子块自举区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-contrasts.svg)
 
@@ -109,6 +123,8 @@ CVAE-U-Net的已验证收益是**全局温度态势重构精度**；有效确认
 ### 推理与派单计算成本
 
 
+
+<a id="figure-supplement-latency"></a>
 
 [图：主要故障条件的逐回合p95均值，实测包含转换和CUDA同步。估计阶段已包含于完整控制周期，不能重复相加。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-latency.svg)
 

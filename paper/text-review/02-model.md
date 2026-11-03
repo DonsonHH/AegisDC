@@ -12,6 +12,8 @@
 
 
 
+<a id="figure-model"></a>
+
 [图：本项目集中参数模型的供电、双回路液冷与局部控制计算关系。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/model.svg)
 
 
@@ -29,6 +31,8 @@
 
 
 
+<a id="figure-pid-visual-sample"></a>
+
 [图：PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/pid-visual-sample.svg)
 
 
@@ -38,6 +42,8 @@
 **当前Renly已有参考元数据入口，以及“合格接点测温→接触温度状态更新”通道**；RGB采集、生成推理、热点选点与调度之间的桥接按下图列为待接步骤。
 
 
+
+<a id="figure-visual-interface"></a>
 
 [图：已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/visual-interface.svg)
 
@@ -82,6 +88,8 @@
 ### 已补充的物理规模检查
 
 
+
+<a id="figure-supplement-scale"></a>
 
 [图：每规模三种子×健康／耦合两工况的纯物理过程实测；带tracemalloc开销，范围为六次实测最小—最大，未作大规模学习调度。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-scale.svg)
 

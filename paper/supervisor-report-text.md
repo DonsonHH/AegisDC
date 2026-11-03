@@ -30,6 +30,8 @@
 
 
 
+<a id="figure-model"></a>
+
 [图：本项目集中参数模型的供电、双回路液冷与局部控制计算关系。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/model.svg)
 
 
@@ -47,6 +49,8 @@
 
 
 
+<a id="figure-pid-visual-sample"></a>
+
 [图：PID项目既有户外电气样例，同图精修、显示域；三张原图逐字节保留，数值计量按独立测温通道处理。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/pid-visual-sample.svg)
 
 
@@ -56,6 +60,8 @@
 **当前Renly已有参考元数据入口，以及“合格接点测温→接触温度状态更新”通道**；RGB采集、生成推理、热点选点与调度之间的桥接按下图列为待接步骤。
 
 
+
+<a id="figure-visual-interface"></a>
 
 [图：已实现的参考元数据入口与合成接点测量分层表示；虚线标出RGB推理、选点及现场仪器桥接。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/visual-interface.svg)
 
@@ -101,6 +107,8 @@
 
 
 
+<a id="figure-supplement-scale"></a>
+
 [图：每规模三种子×健康／耦合两工况的纯物理过程实测；带tracemalloc开销，范围为六次实测最小—最大，未作大规模学习调度。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-scale.svg)
 
 
@@ -120,9 +128,13 @@
 
 
 
+<a id="figure-estimated-temperature"></a>
+
 [图：已有工程回看500秒的公开温度估计；与右图同一色标，红框叠加原热风险提示。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/estimated-temperature.svg)
 
 
+
+<a id="figure-offline-temperature"></a>
 
 [图：同一工程过程500秒的事后设备代表温度。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/offline-temperature.svg)
 
@@ -144,6 +156,8 @@
 
 
 
+<a id="figure-supplement-unet"></a>
+
 [图：本次真实训练的温度残差CVAE-U-Net。公开输入57通道，295,777个参数；训练后验只用于监督，在线取条件先验均值。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-unet.svg)
 
 
@@ -154,10 +168,14 @@
 
 
 
+<a id="figure-supplement-heatmaps"></a>
+
 [图：按编号选取首个测试条件、训练种子271和注入后90秒；名义与CVAE使用相同Tour观测流，三图共用45—75°C色标。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-heatmaps.svg)
 
 
 
+
+<a id="figure-supplement-process"></a>
 
 [图：与温度图同一编号示例。阴影为故障注入窗口，点表示当前新温度量测；温度和流量阈值采用研究设定。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-process.svg)
 
@@ -173,6 +191,8 @@
 每回合为1800秒、18名执行者，全体额外访问上限12次，请求待派有效期120秒。
 
 
+
+<a id="figure-inspection-architecture"></a>
 
 [图：根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/inspection-architecture.svg)
 
@@ -192,6 +212,8 @@
 
 
 
+<a id="figure-confirmations"></a>
+
 [图：当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/confirmations.svg)
 
 
@@ -199,6 +221,8 @@
 FIFO相对固定巡回新增45段、丢失3段，净增42段，平均每过程净增3.50段；探索性95%自举区间为[2.42,4.50]。硬重访、资格与预约违规均为0。此结果建立了<strong>耦合过程—部分观测—风险请求—受保护执行—专业确认</strong>的闭环基准。
 
 
+
+<a id="figure-outcome-costs"></a>
 
 [图：本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/outcome-costs.svg)
 
@@ -234,6 +258,8 @@ FIFO相对固定巡回新增45段、丢失3段，净增42段，平均每过程�
 
 
 
+<a id="figure-supplement-crossed-design"></a>
+
 [图：估计器与调度器的共同候选、约束和执行接口。PPO使用公开奖励训练，原始异常标签留给离线评价。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-crossed-design.svg)
 
 
@@ -244,10 +270,14 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 
 
 
+<a id="figure-supplement-estimator-training"></a>
+
 [图：三个训练种子的真实30轮开发曲线，空心点为各自开发集最优checkpoint；测试集不参与选择。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimator-training.svg)
 
 
 
+
+<a id="figure-supplement-ppo-training"></a>
 
 [图：六个PPO的公开奖励训练曲线；细线表示训练种子，粗线为种子均值，采用10回合滑动窗口。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-ppo-training.svg)
 
@@ -259,6 +289,8 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 ### 同一公开观测流上的估计误差
 
 
+
+<a id="figure-supplement-estimation"></a>
 
 [图：所有估计器接收同一份已保存Tour公开观测流，使用相同刚量测校正；误差线为95%物理种子块区间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-estimation.svg)
 
@@ -275,10 +307,14 @@ PPO在与FIFO、Greedy相同的合法候选集合中决策，使用21维公开�
 <div class="table-wrap"><table data-table="supplement-tasks" class="supplement-table"><thead><tr><th>方法</th><th>确认／唯一异常段</th><th>确认比例</th><th>每条件确认 [95%CI]</th><th>截尾等待 / 秒↓</th><th>加权年龄↓</th><th>移动相对Tour</th><th>完成量相对Tour</th><th>约束违规</th></tr></thead><tbody><tr data-supplement-method="nominal_tour"><td>名义＋Tour</td><td>94/210</td><td>44.8%</td><td>1.96 [1.31, 2.65]</td><td>106.75</td><td>0.310122</td><td>+0.00%</td><td>+0.00%</td><td>0</td></tr><tr data-supplement-method="nominal_fifo"><td>名义＋FIFO</td><td>155/210</td><td>73.8%</td><td>3.23 [2.83, 3.65]</td><td>94.24</td><td>0.311298</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_greedy"><td>名义＋Greedy</td><td>154/210</td><td>73.3%</td><td>3.21 [2.81, 3.60]</td><td>94.36</td><td>0.311270</td><td>+0.34%</td><td>-0.15%</td><td>0</td></tr><tr data-supplement-method="nominal_ppo"><td>名义＋PPO</td><td>129.33/210</td><td>61.6%</td><td>2.69 [2.23, 3.17]</td><td>100.42</td><td>0.310877</td><td>+0.22%</td><td>-0.10%</td><td>0</td></tr><tr data-supplement-method="cvae_fifo"><td>CVAE＋FIFO</td><td>153/210</td><td>72.9%</td><td>3.19 [2.78, 3.61]</td><td>94.55</td><td>0.311256</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_greedy"><td>CVAE＋Greedy</td><td>152/210</td><td>72.4%</td><td>3.17 [2.76, 3.58]</td><td>94.64</td><td>0.311217</td><td>+0.32%</td><td>-0.14%</td><td>0</td></tr><tr data-supplement-method="cvae_ppo"><td>CVAE＋PPO</td><td>153.67/210</td><td>73.2%</td><td>3.20 [2.78, 3.62]</td><td>94.65</td><td>0.311266</td><td>+0.33%</td><td>-0.14%</td><td>0</td></tr></tbody></table></div>
 
 
+<a id="figure-supplement-methods"></a>
+
 [图：48个主要条件，先平均三个模型种子、再等权四故障族；误差线为12个物理种子块的95%自举区间。等待对有异常的条件计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-methods.svg)
 
 
 
+
+<a id="figure-supplement-professions"></a>
 
 [图：四专业异常段的描述性确认比例，数字为确认数／专业异常总数；小数来自三个模型种子的平均。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-professions.svg)
 
@@ -302,6 +338,8 @@ CVAE-U-Net的已验证收益是**全局温度态势重构精度**；有效确认
 
 
 
+<a id="figure-supplement-contrasts"></a>
+
 [图：预登记的配对比较及95%物理种子块自举区间。确认、等待、年龄与误差分别解释；区间不包含完整训练不确定性。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-contrasts.svg)
 
 
@@ -316,6 +354,8 @@ CVAE-U-Net的已验证收益是**全局温度态势重构精度**；有效确认
 ### 推理与派单计算成本
 
 
+
+<a id="figure-supplement-latency"></a>
 
 [图：主要故障条件的逐回合p95均值，实测包含转换和CUDA同步。估计阶段已包含于完整控制周期，不能重复相加。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-latency.svg)
 
@@ -368,6 +408,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 
 
+<a id="figure-public-risk"></a>
+
 [图：已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/public-risk.svg)
 
 
@@ -378,6 +420,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 <div class="table-wrap"><table data-table="task-contract"><thead><tr><th>专业</th><th>完成检查后得到什么</th><th>人数</th><th>每次服务</th><th>最大重访间隔</th></tr></thead><tbody><tr><td>热检查</td><td>该机柜代表温度</td><td>12</td><td>10秒</td><td>300秒</td></tr><tr><td>电气检查</td><td>该组电气接触温度</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>制冷检查</td><td>该组冷却液流量</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>自控检查</td><td>传感读数误差（完成校验后）</td><td>2</td><td>15秒</td><td>600秒</td></tr></tbody></table></div>
 
 
+<a id="figure-fifo-cycle"></a>
+
 [图：每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/fifo-cycle.svg)
 
 
@@ -386,6 +430,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 <div class="table-wrap"><table data-table="fifo-queue"><thead><tr><th>本人的待确认请求</th><th>首次提示时间</th><th>470秒时风险分</th><th>当下检查</th><th>本次选择</th></tr></thead><tbody><tr><td>机柜10热检查</td><td>450秒</td><td>0.0081</td><td>资格、可行性和预算均通过</td><td>先查</td></tr><tr><td>机柜8热检查</td><td>455秒</td><td>0.0656</td><td>资格、可行性和预算均通过</td><td>继续等待</td></tr></tbody></table></div>
 
+
+<a id="figure-fifo-actions"></a>
 
 [图：主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/fifo-actions.svg)
 
@@ -402,6 +448,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 
 
+<a id="figure-paired-net"></a>
+
 [图：过程01—12为预登记的12个配对过程；11个净增、1个持平。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/paired-net.svg)
 
 
@@ -409,6 +457,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 九规则先由FIFO选定合法事件，再在事件与例行头之间决定响应／暂缓。R＝风险÷4，A＝等待秒数÷120，E＝两候选预计完成时差÷300，S＝两者完整循环最小余量差÷600；得分z≥0响应，否则执行例行头。
 
 
+
+<a id="figure-registered-rules"></a>
 
 [图：本项目9个唯一规则的得分式；R、A、E、S分别对应正文中的归一风险、等待、额外耗时与余量差。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/registered-rules.svg)
 
@@ -418,6 +468,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 
 
+<a id="figure-rule-diagnosis"></a>
+
 [图：主过程01的完整策略轨迹对照，机柜4；等待规则为图中06号，按记录重绘。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/rule-diagnosis.svg)
 
 
@@ -426,14 +478,20 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 
 
+<a id="figure-execution-chain"></a>
+
 [图：p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/execution-chain.svg)
 
 
 
 
+<a id="figure-task-17"></a>
+
 [图：17号665秒派出的是例行访问；其公开风险685秒才出现。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/task-17.svg)
 
 
+
+<a id="figure-task-21"></a>
 
 [图：21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/task-21.svg)
 
@@ -444,6 +502,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 ### D. 原论文内部比较
 
 
+
+<a id="figure-original-paper-scores"></a>
 
 [图：原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/original-paper-scores.svg)
 
@@ -469,6 +529,8 @@ w由共同静态资产记录取得，各自检查轨迹决定年龄；包含初�
 
 <div class="table-wrap"><table data-table="supplement-seeds" class="supplement-table"><thead><tr><th>方法</th><th>种子271</th><th>种子811</th><th>种子1931</th><th>确认训练种子SD</th><th>误差训练种子SD / °C</th></tr></thead><tbody><tr><td>名义＋PPO</td><td>2.90</td><td>3.23</td><td>1.96</td><td>0.659</td><td>0.0034</td></tr><tr><td>CVAE＋FIFO</td><td>3.17</td><td>3.19</td><td>3.21</td><td>0.021</td><td>0.0017</td></tr><tr><td>CVAE＋Greedy</td><td>3.15</td><td>3.17</td><td>3.19</td><td>0.021</td><td>0.0019</td></tr><tr><td>CVAE＋PPO</td><td>3.21</td><td>3.19</td><td>3.21</td><td>0.012</td><td>0.0021</td></tr></tbody></table></div>
 
+
+<a id="figure-supplement-seed-blocks"></a>
 
 [图：逐个种子块展示配对确认差；各块内四种故障等权，编号表示登记身份。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-seed-blocks.svg)
 

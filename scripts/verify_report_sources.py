@@ -7,12 +7,14 @@ import gzip
 import hashlib
 import json
 import math
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from statistics import mean
 import xml.etree.ElementTree as ET
 import zipfile
 import sys
+from urllib.parse import urlsplit
 
 import numpy as np
 
@@ -232,6 +234,14 @@ def verify_refinements(manifest,html):
     for row in exported['sections']:
         path=ROOT/'paper/text-review'/row['path'];assert digest(path)==row['sha256'] and path.stat().st_size==row['bytes']
         assert not any(token in path.read_text(encoding='utf-8') for token in ('data:image','<svg','{{'))
+        text=path.read_text(encoding='utf-8')
+        links=re.findall(r'\]\(([^)\n]+)\)',text)+re.findall(r'href="([^"]+)"',text)
+        for link in links:
+            url=urlsplit(link)
+            if url.scheme or url.netloc:continue
+            target=path.parent/url.path if url.path else path
+            assert target.is_file(),(path.name,link)
+            if url.fragment:assert url.fragment in re.findall(r'\bid="([^"]+)"',target.read_text(encoding='utf-8')),(path.name,link)
     sys.path.insert(0,str(ROOT/'.work/paper-writing-deps'))
     from markdown_it import MarkdownIt
     original_semantics=TextSemantics();original_semantics.feed(html)

@@ -10,6 +10,8 @@
 
 
 
+<a id="figure-inspection-architecture"></a>
+
 [图：根据本项目已实现接口重绘总体架构；上方在线决策只用公开信息，下方真值与日志用于事后评分。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/inspection-architecture.svg)
 
 
@@ -28,6 +30,8 @@
 
 
 
+<a id="figure-confirmations"></a>
+
 [图：当前机房任务：12个主过程，共89段异常；三列为各策略的有效确认量。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/confirmations.svg)
 
 
@@ -35,6 +39,8 @@
 FIFO相对固定巡回新增45段、丢失3段，净增42段，平均每过程净增3.50段；探索性95%自举区间为[2.42,4.50]。硬重访、资格与预约违规均为0。此结果建立了<strong>耦合过程—部分观测—风险请求—受保护执行—专业确认</strong>的闭环基准。
 
 
+
+<a id="figure-outcome-costs"></a>
 
 [图：本项目12个主过程的FIFO相对Tour比较；区间、代价与探索性门槛均来自封存记录。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/outcome-costs.svg)
 

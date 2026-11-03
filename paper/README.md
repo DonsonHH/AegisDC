@@ -10,7 +10,7 @@
 
 网页没有动画、分步按钮或讲稿依赖。沿目录或直接向下阅读即可；图表已内嵌，可把单独一份HTML交给导师离线查看。进一步的源码、官方资料和完整工作稿链接需要网络或相应文件。移动端宽图可在图内横向查看。
 
-供文本工具读取的版本为[完整正文Markdown](supervisor-report-text.md)与[8节审阅包](generated/supervisor-text-review.zip)。数值表与公式已展开，图版保留链接，文件没有Base64／SVG内嵌代码；完整文本约64KB，最大分节约21.5KB。它们由同一构建器生成，并逐表、逐章节核对与HTML一致。
+供文本工具读取的版本为[完整正文Markdown](supervisor-report-text.md)与[8节审阅包](generated/supervisor-text-review.zip)。数值表与公式已展开，图版保留链接，文件没有Base64／SVG内嵌代码；完整文本约65KB，最大分节约22KB。它们由同一构建器生成，并逐表、逐章节核对与HTML一致。
 
 新版在原18幅图基础上增加13幅训练、架构、误差、专业结果、配对效应与规模图。正文展示七方法的独立留出结果；历史五方法表和当时未运行的VAE行保留在附录。原报警阈值、九规则负结果和PID三联样图保持原件身份。测试72个条件包含60条唯一物理轨迹，区间以12个独立种子块计算。
 
@@ -25,6 +25,8 @@
 浏览器检查：`node scripts/check_supervisor_report.cjs`，需要支持内置WebSocket的Node及本机Chrome；可用`BRIEFING_CHROME`指定路径。实际打印核对：`python scripts/check_report_print.py`，使用pypdf和Poppler；临时文件位于`.work/self-reading-check`。完整原件独立核对：`python scripts/verify_report_sources.py`，需本机已有的完整工程与封存研究目录。所有命令均不启动新研究。
 
 完整补充复算使用`python scripts/analyze_supplement_study.py`，需要保留本地完整新原件和Torch环境；它从标签、量测、执行日志及预测数组重建报告指标。`source-executed.zip`保存实际执行版本，后续恢复逻辑维护另有修订记录。
+
+本次两点澄清与导出验证见[本次澄清与导出复核](report-refinement-review-20261103.md)。
 
 ## 历史沟通材料
 

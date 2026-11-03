@@ -19,6 +19,8 @@
 
 
 
+<a id="figure-public-risk"></a>
+
 [图：已有工程回看：固定巡回，500秒；风险分由公开观测和名义估计计算。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/public-risk.svg)
 
 
@@ -29,6 +31,8 @@
 <div class="table-wrap"><table data-table="task-contract"><thead><tr><th>专业</th><th>完成检查后得到什么</th><th>人数</th><th>每次服务</th><th>最大重访间隔</th></tr></thead><tbody><tr><td>热检查</td><td>该机柜代表温度</td><td>12</td><td>10秒</td><td>300秒</td></tr><tr><td>电气检查</td><td>该组电气接触温度</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>制冷检查</td><td>该组冷却液流量</td><td>2</td><td>20秒</td><td>600秒</td></tr><tr><td>自控检查</td><td>传感读数误差（完成校验后）</td><td>2</td><td>15秒</td><td>600秒</td></tr></tbody></table></div>
 
 
+<a id="figure-fifo-cycle"></a>
+
 [图：每名执行者空闲时从本人合法请求中选择；完成量测后进入下一轮。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/fifo-cycle.svg)
 
 
@@ -37,6 +41,8 @@
 
 <div class="table-wrap"><table data-table="fifo-queue"><thead><tr><th>本人的待确认请求</th><th>首次提示时间</th><th>470秒时风险分</th><th>当下检查</th><th>本次选择</th></tr></thead><tbody><tr><td>机柜10热检查</td><td>450秒</td><td>0.0081</td><td>资格、可行性和预算均通过</td><td>先查</td></tr><tr><td>机柜8热检查</td><td>455秒</td><td>0.0656</td><td>资格、可行性和预算均通过</td><td>继续等待</td></tr></tbody></table></div>
 
+
+<a id="figure-fifo-actions"></a>
 
 [图：主验证第2个过程，一名热巡检员的实际记录；色块宽度表示移动与服务时间。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/fifo-actions.svg)
 
@@ -53,6 +59,8 @@
 
 
 
+<a id="figure-paired-net"></a>
+
 [图：过程01—12为预登记的12个配对过程；11个净增、1个持平。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/paired-net.svg)
 
 
@@ -60,6 +68,8 @@
 九规则先由FIFO选定合法事件，再在事件与例行头之间决定响应／暂缓。R＝风险÷4，A＝等待秒数÷120，E＝两候选预计完成时差÷300，S＝两者完整循环最小余量差÷600；得分z≥0响应，否则执行例行头。
 
 
+
+<a id="figure-registered-rules"></a>
 
 [图：本项目9个唯一规则的得分式；R、A、E、S分别对应正文中的归一风险、等待、额外耗时与余量差。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/registered-rules.svg)
 
@@ -69,6 +79,8 @@
 
 
 
+<a id="figure-rule-diagnosis"></a>
+
 [图：主过程01的完整策略轨迹对照，机柜4；等待规则为图中06号，按记录重绘。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/rule-diagnosis.svg)
 
 
@@ -77,14 +89,20 @@
 
 
 
+<a id="figure-execution-chain"></a>
+
 [图：p02-coupled，同一巡检员1，关键任务完成链；中间部分访问省略。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/execution-chain.svg)
 
 
 
 
+<a id="figure-task-17"></a>
+
 [图：17号665秒派出的是例行访问；其公开风险685秒才出现。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/task-17.svg)
 
 
+
+<a id="figure-task-21"></a>
 
 [图：21号650秒见风险，705秒额外派单，725秒完成，异常在710秒已结束。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/task-21.svg)
 
@@ -95,6 +113,8 @@
 ### D. 原论文内部比较
 
 
+
+<a id="figure-original-paper-scores"></a>
 
 [图：原文表8／9均值±95%CI。两种Greedy的藻华终值相同，按原表保留。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/original-paper-scores.svg)
 
@@ -120,6 +140,8 @@
 
 <div class="table-wrap"><table data-table="supplement-seeds" class="supplement-table"><thead><tr><th>方法</th><th>种子271</th><th>种子811</th><th>种子1931</th><th>确认训练种子SD</th><th>误差训练种子SD / °C</th></tr></thead><tbody><tr><td>名义＋PPO</td><td>2.90</td><td>3.23</td><td>1.96</td><td>0.659</td><td>0.0034</td></tr><tr><td>CVAE＋FIFO</td><td>3.17</td><td>3.19</td><td>3.21</td><td>0.021</td><td>0.0017</td></tr><tr><td>CVAE＋Greedy</td><td>3.15</td><td>3.17</td><td>3.19</td><td>0.021</td><td>0.0019</td></tr><tr><td>CVAE＋PPO</td><td>3.21</td><td>3.19</td><td>3.21</td><td>0.012</td><td>0.0021</td></tr></tbody></table></div>
 
+
+<a id="figure-supplement-seed-blocks"></a>
 
 [图：逐个种子块展示配对确认差；各块内四种故障等权，编号表示登记身份。](https://github.com/DonsonHH/Zhinengti-RSI/blob/donson/restart-alignment/paper/figures/supervisor-report/supplement-seed-blocks.svg)
 
