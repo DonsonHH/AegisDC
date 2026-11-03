@@ -92,8 +92,15 @@ class EvaluationStore:
                            "strategy": strategy_identity(expression), "spec": case["spec"]})
         output = self.folder / "evaluations" / (identity + ".json.gz")
         if output.exists():
-            with gzip.open(output, "rt", encoding="utf-8") as stream:
-                record = json.load(stream)
+            events = [row for row in self.entries() if row["evaluation_id"] == identity]
+            completed = [row for row in events if row["status"] == "completed"]
+            lifecycle = [row["status"] for row in events if row["status"] != "cache_reference"]
+            if lifecycle != ["started", "completed"]:
+                raise RuntimeError("Cache requires one unambiguous completed receipt; inspect without retry")
+            encoded = output.read_bytes()
+            if hashlib.sha256(encoded).hexdigest() != completed[0].get("sha256"):
+                raise ValueError("Cache SHA mismatch; preserve the file and inspect its completed receipt")
+            record = strict_json(gzip.decompress(encoded).decode("utf-8"))
             if record["evaluation_id"] != identity or record["core_identity"] != self.core or record["runtime"] != self.runtime:
                 raise ValueError("Cache identity mismatch")
             append_json(self.ledger, {"status": "cache_reference", "evaluation_id": identity,

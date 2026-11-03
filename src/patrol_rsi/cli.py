@@ -93,6 +93,27 @@ def status():
             result["论文主线"] = {"questions":scope["primary_questions"],"status":"supervisor_discussion_draft",
                 "feedback_in_core_claims":False,"read":"paper/README.md"}
             result["唯一下一任务"] = "机制稿与负结果已按用户选择收束，供导师讨论；没有新实验计划，见docs/NEXT.md"
+    supplement = ROOT / "paper/source-data/supplement-study.json"
+    if supplement.exists():
+        completed = strict_json(supplement.read_text(encoding="utf-8"))
+        result["新研究实验"] = "COMPLETED_SUPPLEMENT_BENCHMARK"
+        result["独立补充基准"] = {
+            "study_id": completed["study_id"],
+            "environment_attempts": completed["environment_attempts"],
+            "estimator_trainings": completed["counts"]["estimator_train"],
+            "physical_scale_runs": completed["physical_scale_attempts"],
+            "failed_attempts": completed["failed_attempts"],
+            "test_episodes": completed["test_episode_count"],
+            "independent_seed_blocks": completed["independent_seed_blocks"],
+            "primary_conditions": completed["primary_conditions"],
+            "trained_checkpoints": len(completed["checkpoint_lock"]["checkpoints"]),
+            "read": "evidence/supplement-study/README.md",
+        }
+        result["可选工具"]["CVAE"] = "补充基准3个残差CVAE-U-Net已训练；本兼容演示仍默认名义估计"
+        result["可选工具"]["PPO"] = "补充基准6个共享PPO已训练；本兼容演示默认不启用"
+        result["已证明的范围"] = "会前合成基准的状态误差与专业确认对照；CVAE降低同流误差，名义FIFO确认155/210"
+        result["尚未证明"] = "学习调度稳定超越FIFO、模型反馈独立贡献、递归增益、真实设施有效性"
+        result["唯一下一任务"] = "补充基准已完成；按导师反馈另立设施建模与风险评估问题，见docs/NEXT.md；不自动追加实验"
     return result
 
 

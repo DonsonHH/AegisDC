@@ -10,7 +10,9 @@ from patrol_rsi.cli import compare_candidate, frozen_estimator, load_demo, run_e
 
 class EntryPointTests(unittest.TestCase):
     def test_status_keeps_engineering_and_research_separate(self):
-        self.assertEqual(status()["新研究实验"], "COMPLETED_BOUNDED_EVENT_VALIDATION")
+        self.assertEqual(status()["新研究实验"], "COMPLETED_SUPPLEMENT_BENCHMARK")
+        self.assertEqual(status()["独立补充基准"]["test_episodes"], 1080)
+        self.assertEqual(status()["独立补充基准"]["trained_checkpoints"], 9)
         self.assertEqual(status()["有限事件验证"]["attempts"], 109)
         self.assertEqual(status()["有限事件验证"]["evaluations"], 108)
         self.assertEqual(status()["默认策略"], "Tour")

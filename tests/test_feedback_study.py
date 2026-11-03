@@ -1,5 +1,6 @@
 """Public experiment contracts: counted execution, isolation, and frozen testing."""
 import json
+import gzip
 from pathlib import Path
 import tempfile
 from copy import deepcopy
@@ -13,6 +14,43 @@ from patrol_rsi.local_score import BASE_EXPRESSION
 
 
 class EvaluationBudgetTests(unittest.TestCase):
+    def test_changed_cached_metrics_are_rejected_and_preserved(self):
+        case = {"case_id": "cache-hash-fixture", "spec": {"seed": 0, "scenario": "healthy",
+                "duration_s": 900, "fault_start_s": 335, "noise_c": .2,
+                "estimator": "nominal", "control": "feedback", "resources": "provisioned"}}
+        with tempfile.TemporaryDirectory() as folder:
+            store = EvaluationStore(Path(folder), limit=1)
+            first = store.evaluate(case, BASE_EXPRESSION)
+            output = Path(folder) / "evaluations" / (first["evaluation_id"] + ".json.gz")
+            with gzip.open(output, "rt", encoding="utf-8") as stream:
+                changed = json.load(stream)
+            changed["metrics"]["missed_segments"] += 1
+            with gzip.open(output, "wt", encoding="utf-8") as stream:
+                json.dump(changed, stream)
+            altered = output.read_bytes()
+            with self.assertRaisesRegex(ValueError, "Cache SHA mismatch"):
+                store.evaluate(case, BASE_EXPRESSION)
+            self.assertEqual(output.read_bytes(), altered)
+            self.assertEqual(store.attempt_count, 1)
+            self.assertEqual([row["status"] for row in store.entries()], ["started", "completed"])
+
+    def test_orphaned_cache_requires_a_completed_receipt_without_rerun(self):
+        case = {"case_id": "cache-integrity-fixture", "spec": {"seed": 0, "scenario": "healthy",
+                "duration_s": 900, "fault_start_s": 335, "noise_c": .2,
+                "estimator": "nominal", "control": "feedback", "resources": "provisioned"}}
+        with tempfile.TemporaryDirectory() as folder:
+            store = EvaluationStore(Path(folder), limit=1)
+            first = store.evaluate(case, BASE_EXPRESSION)
+            output = Path(folder) / "evaluations" / (first["evaluation_id"] + ".json.gz")
+            original = output.read_bytes()
+            started = next(row for row in store.entries() if row["status"] == "started")
+            store.ledger.write_text(json.dumps(started) + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(RuntimeError, "completed receipt"):
+                store.evaluate(case, BASE_EXPRESSION)
+            self.assertEqual(output.read_bytes(), original)
+            self.assertEqual(store.attempt_count, 1)
+            self.assertEqual([row["status"] for row in store.entries()], ["started"])
+
     def test_numeric_scoring_failure_is_a_rejected_outcome_not_a_lost_campaign(self):
         case = {"case_id": "numeric-fixture", "spec": {"seed": 0, "scenario": "healthy",
                 "duration_s": 900, "fault_start_s": 335, "noise_c": .2,

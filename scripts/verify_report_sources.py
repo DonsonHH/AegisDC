@@ -32,7 +32,16 @@ def load_gzip(path):
 def verify_comparison(data):
     comparison=load(ROOT/'paper/source-data/report-comparison-metrics.json')
     assert data['comparison']==comparison['aggregates'] and data['comparison_definition']==comparison['definitions']
-    for identity in comparison['sources']:assert digest(ROOT/identity['path'])==identity['sha256'],identity['path']
+    maintained_sources=[]
+    for identity in comparison['sources']:
+        current=ROOT/identity['path']
+        if digest(current)==identity['sha256']:continue
+        assert identity['path']=='src/patrol_rsi/cli.py',identity['path']
+        from source_lineage import verify_status_maintenance
+        snapshot=ROOT/'paper/briefing-history/2edd0a69/cli.py'
+        verify_status_maintenance(current.read_bytes(),snapshot.read_bytes(),identity['sha256'])
+        maintained_sources.append({'path':identity['path'],'original_sha256':identity['sha256'],
+                                   'snapshot':snapshot.relative_to(ROOT).as_posix(),'scope':'status function only; all other AST unchanged'})
     deadlines=comparison['common_tasks']['deadlines_s'];assert len(deadlines)==176
     recomputed=defaultdict(list);completed_events=0
     for case in comparison['cases']:
@@ -77,7 +86,8 @@ def verify_comparison(data):
         item=comparison['unrun_methods'][key]
         assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported'] and not item['completed_128_rack_and_mask_adaptation_claim_supported']
     return {'comparison_methods_recomputed':len(recomputed),'comparison_task_gap_sets_checked':12*5*176,
-            'comparison_measurements_checked':completed_events,'comparison_input_hashes_checked':len(comparison['sources'])}
+            'comparison_measurements_checked':completed_events,'comparison_input_hashes_checked':len(comparison['sources']),
+            'comparison_status_source_lineage':maintained_sources}
 
 
 def verify_supplement(data,manifest):
