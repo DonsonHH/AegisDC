@@ -36,6 +36,19 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 旧Tour、实时观测及返回/重访假设属于会前问题定义。旧结果作为比较与复现材料保留，新问题的效果需另行验证。
 
+## 新研究原型入口
+
+第一版[设施结构与风险方法原型](docs/FOUNDATION.md)已可运行：14个功能区、29个资产/服务对象与候选依赖，支持无固定测点的基线和可选稀疏证据。用合成算例区分有单位的风险与检查价值；真实参数、动态物理模型及策略收益尚待标定和独立验证。
+
+```bash
+python -m pip install -e .
+python -m aegis_dc status
+python -m aegis_dc foundation
+python -m aegis_dc risk-demo --output runs/foundation-demo-new
+```
+
+这些入口不训练智能体、不调用模型，也不控制真实设备。算例参数和结果标为synthetic，不是FEMA官方设备分数或实测收益。
+
 ## 兼容执行与检查
 
 Python3.11+，先`python -m pip install -e .`。现有包名和历史CLI保留兼容：
@@ -47,4 +60,4 @@ python -m patrol_rsi verify --output runs/verification-new
 
 这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-当前先推进设施结构与风险原型，具体实现和参数校准进度以[NEXT](docs/NEXT.md)为准。原始会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。
+结构验证与风险算例已完成第一版，下一步为案例化拓扑、动态状态方程和数据标定，详见[NEXT](docs/NEXT.md)。原始会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。

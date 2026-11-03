@@ -25,4 +25,8 @@ jobs:
       - name: Verify core and historical evidence
         run: python -m patrol_rsi verify --output runs/ci
       - name: Read project status
-        run: python -m patrol_rsi status
+        run: python -m aegis_dc status
+      - name: Check facility structure and synthetic risk method
+        run: |
+          python -m aegis_dc foundation
+          python -m aegis_dc risk-demo

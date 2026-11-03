@@ -21,3 +21,12 @@ def verify_status_maintenance(current, snapshot, expected_sha256):
     if ast.dump(old,include_attributes=False)!=ast.dump(new,include_attributes=False):
         raise ValueError("Recorded scientific source changed outside status maintenance")
     return True
+
+
+def verify_archival_banner(current,snapshot,expected_sha256,prefix):
+    """A historical contract may receive a scope banner; its original body stays exact."""
+    if hashlib.sha256(snapshot).hexdigest()!=expected_sha256:
+        raise ValueError('Historical document snapshot SHA mismatch')
+    if current!=prefix.encode('utf-8')+snapshot:
+        raise ValueError('Historical contract body changed beyond the archival banner')
+    return True

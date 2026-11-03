@@ -36,6 +36,14 @@ def verify_comparison(data):
     for identity in comparison['sources']:
         current=ROOT/identity['path']
         if digest(current)==identity['sha256']:continue
+        if identity['path']=='docs/RESEARCH.md':
+            from source_lineage import verify_archival_banner
+            snapshot=ROOT/'paper/briefing-history/2edd0a69/RESEARCH.md'
+            prefix='> 会前研究材料（保留用于复现）。当前主线见[会后研究定义](RESEARCH_RESET.md)与[会议决策](meetings/2026-11-03-research-reset.md)。\n\n'
+            verify_archival_banner(current.read_bytes(),snapshot.read_bytes(),identity['sha256'],prefix)
+            maintained_sources.append({'path':identity['path'],'original_sha256':identity['sha256'],
+                                       'snapshot':snapshot.relative_to(ROOT).as_posix(),'scope':'archival banner only; original contract body exact'})
+            continue
         assert identity['path']=='src/patrol_rsi/cli.py',identity['path']
         from source_lineage import verify_status_maintenance
         snapshot=ROOT/'paper/briefing-history/2edd0a69/cli.py'
@@ -87,7 +95,7 @@ def verify_comparison(data):
         assert item['all_metric_values'] is None and not item['trained_or_training_claim_supported'] and not item['completed_128_rack_and_mask_adaptation_claim_supported']
     return {'comparison_methods_recomputed':len(recomputed),'comparison_task_gap_sets_checked':12*5*176,
             'comparison_measurements_checked':completed_events,'comparison_input_hashes_checked':len(comparison['sources']),
-            'comparison_status_source_lineage':maintained_sources}
+            'comparison_source_lineage':maintained_sources}
 
 
 def verify_supplement(data,manifest):

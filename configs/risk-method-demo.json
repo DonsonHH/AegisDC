@@ -1,0 +1,45 @@
+{
+  "schema": "aegisdc-risk-demo-v1",
+  "basis": "synthetic_assumption",
+  "facility_model": "configs/facility-structure-v0.1.json",
+  "as_of_hour": 0,
+  "questions": [
+    {
+      "id": "uncertain_power_path",
+      "asset_id": "ups",
+      "horizon_hours": 24,
+      "currency": "CNY",
+      "parameter_basis": "synthetic_assumption",
+      "parameter_source": "docs/research/20261103/fema-risk-framework.md, section7; synthetic worked example",
+      "defect_probability": 0.1,
+      "loss_event_probability_given_defect": 0.2,
+      "loss_given_event": 100000,
+      "mitigation_cost": 3000,
+      "mitigation_residual_fraction": 0,
+      "mitigation_available": true,
+      "inspection_sensitivity": 0.9,
+      "inspection_specificity": 0.95,
+      "inspection_cost": 200,
+      "inspection_minutes": 30
+    },
+    {
+      "id": "known_high_risk",
+      "asset_id": "cdu",
+      "horizon_hours": 24,
+      "currency": "CNY",
+      "parameter_basis": "synthetic_assumption",
+      "parameter_source": "synthetic sensitivity variant of the documented worked example",
+      "defect_probability": 0.8,
+      "loss_event_probability_given_defect": 0.2,
+      "loss_given_event": 100000,
+      "mitigation_cost": 3000,
+      "mitigation_residual_fraction": 0,
+      "mitigation_available": true,
+      "inspection_sensitivity": 0.9,
+      "inspection_specificity": 0.95,
+      "inspection_cost": 200,
+      "inspection_minutes": 30
+    }
+  ],
+  "evidence": []
+}

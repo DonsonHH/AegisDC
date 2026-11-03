@@ -27,3 +27,12 @@ class SourceLineageTests(unittest.TestCase):
         changed=b'@side_effect\n'+self.ORIGINAL
         with self.assertRaisesRegex(ValueError,'signature or import-time'):
             lineage.verify_status_maintenance(changed,self.ORIGINAL,hashlib.sha256(self.ORIGINAL).hexdigest())
+
+    def test_archival_banner_preserves_the_historical_contract_body(self):
+        original=b'# Recorded contract\nunchanged scope\n';prefix='> historical scope\n\n'
+        self.assertTrue(lineage.verify_archival_banner(prefix.encode()+original,original,hashlib.sha256(original).hexdigest(),prefix))
+
+    def test_archival_banner_cannot_hide_a_rewritten_contract(self):
+        original=b'# Recorded contract\nunchanged scope\n';prefix='> historical scope\n\n'
+        with self.assertRaisesRegex(ValueError,'body changed'):
+            lineage.verify_archival_banner(prefix.encode()+original.replace(b'unchanged',b'changed'),original,hashlib.sha256(original).hexdigest(),prefix)
