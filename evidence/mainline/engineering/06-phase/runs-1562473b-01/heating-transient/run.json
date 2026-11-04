@@ -1,0 +1,136 @@
+{
+  "schema": "aegisdc-engineering-facility-run-v1",
+  "status": "ENGINEERING_FIXTURE_COMPLETED",
+  "basis": "zhengzhou_inspired_synthetic",
+  "facility_id": "aegisdc-zhengzhou-inspired-full-facility-v2",
+  "engineering_fixture": true,
+  "state_visibility": "PRIVATE_PLANT_EVALUATOR_ONLY",
+  "dispatch_interface": "NOT_IMPLEMENTED",
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "scenario_sha256": "b9894fd8dfd01f17894bc4bd87fa9fd64711d8ccfb14a828840e17eb57f49eda",
+  "code_identity": {
+    "git_commit": "1562473b6afe6d49c8a60961cf275e7449c0a1bc",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "febd3c11212795cb61be911f0314a4175fa230320021b4ae112a2a83bcfc88a5",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "a455eab907f3dce6e7ce2f15e31e0a0d963055c6889edd527f51ff45f3d28568",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "db7e18956ac5b47d0dd67a05291ba31d91dd0da88a2a92b1b2386c70ed6114bf",
+      "src/aegis_dc/plant.py": "80a55e2bd6626adb2050f751fdf398c340f1c5c3a6dedc98045ee3d487e0104e",
+      "src/aegis_dc/power.py": "c4565651bb52bd0594d9012c55f3b5b2b8e6813ea189699ff6e769a22e1bce43",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/runtime_contract.py": "932d34d4a96f881d6640788082893981684733eb44ece1387b4126abdba678f9",
+      "src/aegis_dc/scenario.py": "18f8468324a1af7a3f4ffa7db4f8161a3afca4bd16d41e06f27a8ad56e3708b6",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "property_reference": {
+    "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+    "source": {
+      "library": "CoolProp",
+      "version": "8.0.0",
+      "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+      "backend": "HEOS",
+      "fluid": "R134a",
+      "reference_state_requested": "DEF",
+      "reference_anchor": {
+        "T_K": 273.15,
+        "p_Pa": 292803.1823394906,
+        "quality": 0,
+        "h_J_kg": 199999.98852614488,
+        "u_J_kg": 199773.8467444586,
+        "s_J_kg_K": 1000.0000369551423
+      },
+      "wheel_filename": "coolprop-8.0.0-cp312-abi3-win_amd64.whl",
+      "wheel_sha256": "f1f78a2ee9ce703c496a42a68cde9bd6f22b2b964375c2abba39d6dc879918d3",
+      "wheel_url": "https://files.pythonhosted.org/packages/3b/8b/e3741cc791868ade376a7c3b46965ce2b4b5cd1fa73550632be74f801e1d/coolprop-8.0.0-cp312-abi3-win_amd64.whl",
+      "official_docs": "https://coolprop.org/coolprop/HighLevelAPI.html",
+      "fluid_docs": "https://coolprop.org/fluid_properties/fluids/R134a.html",
+      "pypi_release": "https://pypi.org/project/CoolProp/8.0.0/",
+      "equation_of_state_doi": "10.1063/1.555958"
+    },
+    "validity": {
+      "pure_single_substance": true,
+      "noncondensable_gas_included": false,
+      "equilibrium_saturation_only": true,
+      "p_min_Pa": 100000.0,
+      "p_max_Pa": 3000000.0,
+      "no_extrapolation": true,
+      "point_count": 512,
+      "grid": "uniform in ln(p)",
+      "constants": {
+        "critical_pressure_Pa": 4059276.3737910665,
+        "critical_temperature_K": 374.2119665849513,
+        "triple_pressure_Pa": 389.56378856198955,
+        "triple_temperature_K": 169.85,
+        "molar_mass_kg_mol": 0.102032
+      },
+      "notes": "Subcritical table; no claims about dryout/superheated/subcooled states, pressure transients or real-site calibration."
+    }
+  },
+  "inputs": {
+    "duration_s": 10.0,
+    "maximum_step_s": 0.25,
+    "work_requests": [],
+    "boundary_events": []
+  },
+  "summary": {
+    "boundary_input_J": 23146698.085419737,
+    "boundary_output_J": 22496771.939671084,
+    "grid_energy_J": 23146698.085419737,
+    "lake_heat_J": 20756359.568537064,
+    "room_heat_J": 1740412.371134022,
+    "ups_output_energy_J": 0.0,
+    "ups_loss_energy_J": 0.0,
+    "generator_output_energy_J": 0.0,
+    "generator_waste_energy_J": 0.0,
+    "floor_water_inlet_mass_kg": 0.0,
+    "floor_water_drained_mass_kg": 0.0,
+    "floor_inlet_energy_J": 0.0,
+    "floor_drain_energy_J": 0.0,
+    "worker_travel_person_s": 0.0,
+    "worker_work_person_s": 0.0,
+    "tool_occupation_tool_s": 0.0,
+    "demand_service_unit_s": 10.0,
+    "delivered_service_unit_s": 10.0,
+    "service_deficit_time_s": 0.0,
+    "duration_s": 10.0,
+    "integration_steps": 40,
+    "initial_stored_energy_J": 29279644554.40682,
+    "final_stored_energy_J": 29280294480.552563,
+    "whole_run_energy_residual_J": -4.328787326812744e-06,
+    "max_energy_residual_J": 3.379303961992264e-06,
+    "max_mass_residual_kg": 2.2737367544323206e-13,
+    "minimum_capacity_slack_W": {
+      "grid": 7685330.191458026,
+      "switchboard": 7685330.191458026,
+      "rectifier": 2731958.762886598,
+      "generator": 4000000.0,
+      "ups": 100000.0
+    },
+    "work_rejections": {}
+  },
+  "events": [],
+  "work_records": [],
+  "artifacts": {
+    "scenario.json": {
+      "sha256": "51166590c70bfc4f8f0a0483985f38c862bee625fc1c2a3ca52e119284fb093d",
+      "records": 1
+    },
+    "private-state.jsonl": {
+      "sha256": "00252c1977b03d738fb168aa9ea2feb6735edfe02758a530c799c277fbfbce52",
+      "records": 41
+    },
+    "balances.jsonl": {
+      "sha256": "5f9d79ada1a6759604c97c1df3da4ea7ee1134dfa9faab4390caff159f94c475",
+      "records": 40
+    }
+  }
+}

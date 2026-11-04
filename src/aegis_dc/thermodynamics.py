@@ -88,6 +88,17 @@ class SaturationTable:
                 - dvl * (uv - ul) + (specific_volume - vl) * (duv - dul)
             c2 = dul * (dvv - dvl) - dvl * (duv - dul)
             candidates = []
+            # Independently check the closed segment endpoints. A polynomial
+            # root can round just beyond [0, 1] even for an exact endpoint
+            # inventory. Accept only an already admissible quality and an
+            # endpoint energy match within floating-point evaluation error;
+            # this neither clips quality nor moves an out-of-domain root.
+            for endpoint, row in ((0.0, a), (1.0, b)):
+                x = (specific_volume - row['v_l_m3_kg']) / (row['v_v_m3_kg'] - row['v_l_m3_kg'])
+                if 0 <= x <= 1:
+                    endpoint_energy = (1 - x) * row['u_l_J_kg'] + x * row['u_v_J_kg']
+                    if abs(endpoint_energy - target) <= 8 * max(math.ulp(endpoint_energy), math.ulp(target)):
+                        candidates.append(endpoint)
             if c2 == 0:
                 if c1 != 0:
                     candidates.append(-c0 / c1)
@@ -104,7 +115,8 @@ class SaturationTable:
             for fraction in candidates:
                 if not 0 <= fraction <= 1:
                     continue
-                p = math.exp(self.logs[i] + fraction * (self.logs[i + 1] - self.logs[i]))
+                p = (self.pressures[i] if fraction == 0 else self.pressures[i + 1]
+                     if fraction == 1 else math.exp(self.logs[i] + fraction * (self.logs[i + 1] - self.logs[i])))
                 # exp(log(endpoint)) can land one ulp beyond a table endpoint.
                 # Only roundoff in a coordinate already inside this segment is
                 # corrected. Quality and an out-of-domain physical root are
