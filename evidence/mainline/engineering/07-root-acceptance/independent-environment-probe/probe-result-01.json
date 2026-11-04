@@ -1,0 +1,1267 @@
+{
+  "schema": "aegisdc-ticket07-independent-spec-review-probe-v1",
+  "classification": "FINITE_ENGINEERING_SPEC_REVIEW_NOT_RESEARCH",
+  "candidate_source_commit": "5ca3c3a03d05802458cef1bdd10e66928d75bc1b",
+  "observed_head": "d68425915d5a5d9308add320a22c96764db11812",
+  "script_sha256": "711e703888c734f453255ecbdf4dd7b4cd9ec6ab5803ce8b268f42338c977a88",
+  "source_sha256": {
+    "src/aegis_dc/plant.py": "d7456eb2e958ab8beb40d721ddd1db0319d8f0495dd05b606bad6dd2300cf95c",
+    "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+    "configs/full-facility-mainline-environment-v4.json": "e49934fff2f3015f4fc021ecfa7b15686aaa5971d18770d9fe075cee4b30ad1b"
+  },
+  "access_threshold_cases": [
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 3.6999999999999997,
+      "observed_abort_s": 3.6999999999999993,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 3.6999999999999997,
+      "observed_abort_s": 3.6999999999999997,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 6.999999999999999,
+      "observed_abort_s": 7.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 6.999999999999999,
+      "observed_abort_s": 6.999999999999997,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.4492753623188406,
+      "observed_abort_s": 1.4492753623188406,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.4492753623188406,
+      "observed_abort_s": 1.4492753623188408,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 5.36231884057971,
+      "observed_abort_s": 5.36231884057971,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 5.36231884057971,
+      "observed_abort_s": 5.36231884057971,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 10.144927536231883,
+      "observed_abort_s": 10.144927536231885,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 10.144927536231883,
+      "observed_abort_s": 10.144927536231885,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 3.3333333333333335,
+      "observed_abort_s": 3.3333333333333335,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 3.3333333333333335,
+      "observed_abort_s": 3.3333333333333335,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 12.333333333333334,
+      "observed_abort_s": 12.33333333333333,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 12.333333333333334,
+      "observed_abort_s": 12.33333333333333,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 23.333333333333332,
+      "observed_abort_s": 23.333333333333318,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 23.333333333333332,
+      "observed_abort_s": 23.333333333333343,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5882352941176471,
+      "observed_abort_s": 0.5882352941176471,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5882352941176471,
+      "observed_abort_s": 0.5882352941176471,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.176470588235294,
+      "observed_abort_s": 2.176470588235294,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.176470588235294,
+      "observed_abort_s": 2.1764705882352944,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 4.117647058823529,
+      "observed_abort_s": 4.117647058823529,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 4.117647058823529,
+      "observed_abort_s": 4.117647058823528,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.7194244604316546,
+      "observed_abort_s": 0.7194244604316546,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.7194244604316546,
+      "observed_abort_s": 0.7194244604316548,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.661870503597122,
+      "observed_abort_s": 2.661870503597122,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.661870503597122,
+      "observed_abort_s": 2.661870503597122,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 5.035971223021582,
+      "observed_abort_s": 5.035971223021582,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 5.035971223021582,
+      "observed_abort_s": 5.0359712230215825,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0000000000000002,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 3.6999999999999997,
+      "observed_abort_s": 3.6999999999999993,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 3.6999999999999997,
+      "observed_abort_s": 3.7,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 6.999999999999999,
+      "observed_abort_s": 7.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.17,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 6.999999999999999,
+      "observed_abort_s": 6.999999999999998,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.43478260869565216,
+      "observed_abort_s": 0.43478260869565216,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.43478260869565216,
+      "observed_abort_s": 0.43478260869565216,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.6086956521739129,
+      "observed_abort_s": 1.608695652173913,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.6086956521739129,
+      "observed_abort_s": 1.6086956521739129,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 3.043478260869565,
+      "observed_abort_s": 3.043478260869565,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 3.043478260869565,
+      "observed_abort_s": 3.043478260869565,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5025125628140703,
+      "observed_abort_s": 0.5025125628140703,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5025125628140703,
+      "observed_abort_s": 0.5025125628140703,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.8592964824120601,
+      "observed_abort_s": 1.8592964824120601,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.8592964824120601,
+      "observed_abort_s": 1.8592964824120601,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 3.517587939698492,
+      "observed_abort_s": 3.517587939698492,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 3.517587939698492,
+      "observed_abort_s": 3.517587939698492,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.625,
+      "observed_abort_s": 0.625,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.625,
+      "observed_abort_s": 0.625,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.3125,
+      "observed_abort_s": 2.3125,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.3125,
+      "observed_abort_s": 2.3125,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 4.375,
+      "observed_abort_s": 4.375,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.23,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 4.375,
+      "observed_abort_s": 4.375,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.32258064516129037,
+      "observed_abort_s": 0.32258064516129037,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.32258064516129037,
+      "observed_abort_s": 0.32258064516129037,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.1935483870967742,
+      "observed_abort_s": 1.1935483870967742,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.1935483870967742,
+      "observed_abort_s": 1.1935483870967742,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.258064516129032,
+      "observed_abort_s": 2.258064516129032,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.258064516129032,
+      "observed_abort_s": 2.258064516129032,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.35842293906810035,
+      "observed_abort_s": 0.3584229390681004,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.35842293906810035,
+      "observed_abort_s": 0.3584229390681004,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.3261648745519712,
+      "observed_abort_s": 1.3261648745519712,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.3261648745519712,
+      "observed_abort_s": 1.3261648745519712,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.508960573476702,
+      "observed_abort_s": 2.508960573476702,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.508960573476702,
+      "observed_abort_s": 2.508960573476702,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.4166666666666667,
+      "observed_abort_s": 0.4166666666666667,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.4166666666666667,
+      "observed_abort_s": 0.41666666666666674,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.5416666666666667,
+      "observed_abort_s": 1.5416666666666667,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.5416666666666667,
+      "observed_abort_s": 1.5416666666666665,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 2.9166666666666665,
+      "observed_abort_s": 2.9166666666666665,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.31,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 2.9166666666666665,
+      "observed_abort_s": 2.9166666666666665,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.14285714285714288,
+      "observed_abort_s": 0.14285714285714288,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.14285714285714288,
+      "observed_abort_s": 0.14285714285714288,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5285714285714286,
+      "observed_abort_s": 0.5285714285714286,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5285714285714286,
+      "observed_abort_s": 0.5285714285714286,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.0,
+      "observed_abort_s": 1.0,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.1494768310911809,
+      "observed_abort_s": 0.1494768310911809,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.1494768310911809,
+      "observed_abort_s": 0.1494768310911809,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5530642750373692,
+      "observed_abort_s": 0.5530642750373692,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5530642750373692,
+      "observed_abort_s": 0.5530642750373692,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.046337817638266,
+      "observed_abort_s": 1.046337817638266,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.046337817638266,
+      "observed_abort_s": 1.046337817638266,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.15873015873015878,
+      "observed_abort_s": 0.15873015873015878,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.15873015873015878,
+      "observed_abort_s": 0.15873015873015878,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5873015873015874,
+      "observed_abort_s": 0.5873015873015874,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5873015873015874,
+      "observed_abort_s": 0.5873015873015873,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 1.1111111111111112,
+      "observed_abort_s": 1.1111111111111112,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 0.7,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 1.1111111111111112,
+      "observed_abort_s": 1.1111111111111112,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.07692307692307693,
+      "observed_abort_s": 0.07692307692307693,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.07692307692307693,
+      "observed_abort_s": 0.07692307692307693,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.2846153846153846,
+      "observed_abort_s": 0.2846153846153846,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.2846153846153846,
+      "observed_abort_s": 0.2846153846153846,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5384615384615384,
+      "observed_abort_s": 0.5384615384615384,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5384615384615384,
+      "observed_abort_s": 0.5384615384615384,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.07880220646178093,
+      "observed_abort_s": 0.07880220646178093,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.07880220646178093,
+      "observed_abort_s": 0.07880220646178093,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.2915681639085894,
+      "observed_abort_s": 0.2915681639085894,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.2915681639085894,
+      "observed_abort_s": 0.2915681639085894,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5516154452324664,
+      "observed_abort_s": 0.5516154452324664,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.031,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5516154452324664,
+      "observed_abort_s": 0.5516154452324665,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.0813008130081301,
+      "observed_abort_s": 0.0813008130081301,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.1
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.0813008130081301,
+      "observed_abort_s": 0.0813008130081301,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.3008130081300813,
+      "observed_abort_s": 0.3008130081300813,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.37
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.3008130081300813,
+      "observed_abort_s": 0.3008130081300813,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 1,
+      "expected_crossing_s": 0.5691056910569106,
+      "observed_abort_s": 0.5691056910569106,
+      "status": "aborted"
+    },
+    {
+      "overrides": {
+        "floor_water_inflow": 1.3,
+        "drainage_mass_flow": 0.07,
+        "access_block_mass": 0.7
+      },
+      "maximum_step_s": 0.37,
+      "expected_crossing_s": 0.5691056910569106,
+      "observed_abort_s": 0.5691056910569106,
+      "status": "aborted"
+    }
+  ],
+  "access_threshold_case_count": 108,
+  "mixed_water_case": {
+    "overrides": {
+      "internal_hot_mass": 1000,
+      "minimum_internal_hot_mass": 900,
+      "internal_hot_leak_mass_flow": 2,
+      "drainage_mass_flow": 1,
+      "floor_water_inflow": 2,
+      "initial_floor_water_mass": 10,
+      "water_specific_heat": 4000,
+      "room_ambient_temperature": 300,
+      "initial_hot_temperature": 320,
+      "initial_cold_temperature": 310,
+      "pump_pressure_rise": 0,
+      "internal_pump_pressure_rise": 0,
+      "compute_demand_power": 0,
+      "network_demand_power": 0,
+      "storage_demand_power": 0,
+      "controller_power": 0,
+      "room_aux_power": 0,
+      "solid_coolant_conductance": 0,
+      "solid_air_conductance": 0,
+      "room_conductance": 0,
+      "room_temperature": 300
+    },
+    "duration_s": 2,
+    "independent_basis": "Constant-temperature hot withdrawal plus the analytic well-mixed tank solution: M1=16, Tin=310, T1=310-10*(10/16)^(4/3). Decimal 70 digits, no AegisDC outputs used for expected values.",
+    "decimal_reference": {
+      "floor_temperature_K": "304.6563251666353219082715347733004371566623277795529533613035571642366",
+      "floor_energy_J": "19498004.81066466060212937822549122797802638897789138901512342765851114",
+      "drained_energy_J": "2421995.18933533939787062177450877202197361102210861098487657234148886"
+    },
+    "expected": {
+      "floor_mass_kg": 16,
+      "floor_temperature_K": 304.6563251666353,
+      "floor_energy_J": 19498004.81066466,
+      "drained_energy_J": 2421995.1893353392,
+      "hot_mass_kg": 996,
+      "hot_temperature_K": 320,
+      "external_nuisance_mass_kg": 4,
+      "hot_leaked_mass_kg": 4,
+      "hot_leak_energy_J": 5120000,
+      "external_nuisance_energy_J": 4800000
+    },
+    "observed": {
+      "floor_mass_kg": 16.0,
+      "floor_temperature_K": 304.6563251666353,
+      "floor_energy_J": 19498004.81066466,
+      "drained_energy_J": 2421995.1893353397,
+      "hot_mass_kg": 996.0,
+      "hot_temperature_K": 320.0,
+      "external_nuisance_mass_kg": 4.0,
+      "hot_leaked_mass_kg": 4.0,
+      "hot_leak_energy_J": 5120000.0,
+      "external_nuisance_energy_J": 4800000.0
+    },
+    "max_energy_residual_J": 8.142087608575821e-07,
+    "max_mass_residual_kg": 0.0
+  },
+  "fresh_reads": {
+    "saved_runs": 10,
+    "artifact_hashes_and_counts": 30,
+    "frozen_input_hashes": 6,
+    "status": "PASS"
+  }
+}

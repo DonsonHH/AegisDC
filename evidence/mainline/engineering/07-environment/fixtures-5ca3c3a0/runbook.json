@@ -1,0 +1,260 @@
+{
+  "classification": "ENGINEERING_ONLY_NO_RESEARCH_PROTOCOL",
+  "source_commit": "5ca3c3a03d05802458cef1bdd10e66928d75bc1b",
+  "source_sha256": {
+    "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+    "src/aegis_dc/__main__.py": "a455eab907f3dce6e7ce2f15e31e0a0d963055c6889edd527f51ff45f3d28568",
+    "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+    "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+    "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+    "src/aegis_dc/plant.py": "d7456eb2e958ab8beb40d721ddd1db0319d8f0495dd05b606bad6dd2300cf95c",
+    "src/aegis_dc/power.py": "f8269c5699c986263a6a858034587bda09d3cf5491dadab324066eb47b46c8d8",
+    "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+    "src/aegis_dc/runtime_contract.py": "f5e821c7a9f555508fcb791287f5afbb8b266306135e2b9a00955792eff8bee7",
+    "src/aegis_dc/scenario.py": "18f8468324a1af7a3f4ffa7db4f8161a3afca4bd16d41e06f27a8ad56e3708b6",
+    "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+    "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf"
+  },
+  "base_input": "configs/full-facility-mainline-environment-v4.json",
+  "base_input_sha256": "e49934fff2f3015f4fc021ecfa7b15686aaa5971d18770d9fe075cee4b30ad1b",
+  "cases": [
+    {
+      "id": "normal",
+      "duration_s": 600,
+      "parameters": {},
+      "events": [],
+      "jobs": [],
+      "locations": {}
+    },
+    {
+      "id": "isothermal-hot-leak",
+      "duration_s": 2,
+      "parameters": {
+        "internal_hot_mass": 1000,
+        "minimum_internal_hot_mass": 900,
+        "water_specific_heat": 4000,
+        "initial_hot_temperature": 320,
+        "initial_cold_temperature": 310,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "controller_power": 0,
+        "room_aux_power": 0,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_conductance": 0,
+        "room_temperature": 293.15,
+        "internal_hot_leak_mass_flow": 2,
+        "drainage_mass_flow": 0
+      },
+      "events": [],
+      "jobs": [],
+      "locations": {}
+    },
+    {
+      "id": "actual-leak-work",
+      "duration_s": 10,
+      "parameters": {
+        "internal_hot_leak_mass_flow": 2
+      },
+      "events": [],
+      "jobs": [
+        {
+          "id": "room-work",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Finite qualified engineering work only, without diagnosis/evidence/repair effect."
+        }
+      ],
+      "locations": {
+        "worker_cooling": "loc_it",
+        "tool_flow_meter": "loc_it"
+      }
+    },
+    {
+      "id": "ambient-nuisance-work",
+      "duration_s": 10,
+      "parameters": {
+        "floor_water_inflow": 2
+      },
+      "events": [],
+      "jobs": [
+        {
+          "id": "room-work",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Finite qualified engineering work only, without diagnosis/evidence/repair effect."
+        }
+      ],
+      "locations": {
+        "worker_cooling": "loc_it",
+        "tool_flow_meter": "loc_it"
+      }
+    },
+    {
+      "id": "mixed-pool",
+      "duration_s": 60,
+      "parameters": {
+        "internal_hot_mass": 1000,
+        "minimum_internal_hot_mass": 900,
+        "water_specific_heat": 4000,
+        "initial_hot_temperature": 320,
+        "initial_cold_temperature": 310,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "controller_power": 0,
+        "room_aux_power": 0,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_conductance": 0,
+        "room_temperature": 293.15,
+        "internal_hot_leak_mass_flow": 0.2,
+        "floor_water_inflow": 0.1,
+        "drainage_mass_flow": 0.15,
+        "initial_floor_water_mass": 20
+      },
+      "events": [],
+      "jobs": [],
+      "locations": {}
+    },
+    {
+      "id": "permission-during-work",
+      "duration_s": 126,
+      "parameters": {},
+      "events": [
+        {
+          "time_s": 125,
+          "parameter_id": "it_access_permit",
+          "value": 0,
+          "source_note": "Predeclared synthetic environmental engineering boundary, not a research policy intervention."
+        }
+      ],
+      "jobs": [
+        {
+          "id": "room-work",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Finite qualified engineering work only, without diagnosis/evidence/repair effect."
+        }
+      ],
+      "locations": {}
+    },
+    {
+      "id": "permission-before-entry",
+      "duration_s": 121,
+      "parameters": {},
+      "events": [
+        {
+          "time_s": 90,
+          "parameter_id": "it_access_permit",
+          "value": 0,
+          "source_note": "Predeclared synthetic environmental engineering boundary, not a research policy intervention."
+        }
+      ],
+      "jobs": [
+        {
+          "id": "room-work",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Finite qualified engineering work only, without diagnosis/evidence/repair effect."
+        }
+      ],
+      "locations": {}
+    },
+    {
+      "id": "room-sensible-heat",
+      "duration_s": 2,
+      "parameters": {
+        "internal_hot_mass": 1000,
+        "minimum_internal_hot_mass": 900,
+        "water_specific_heat": 4000,
+        "initial_hot_temperature": 320,
+        "initial_cold_temperature": 310,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "controller_power": 0,
+        "room_aux_power": 100000,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_conductance": 0,
+        "room_temperature": 300,
+        "room_thermal_capacity": 1000000,
+        "maximum_room_work_temperature": 300.15
+      },
+      "events": [],
+      "jobs": [
+        {
+          "id": "room-work",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Finite qualified engineering work only, without diagnosis/evidence/repair effect."
+        }
+      ],
+      "locations": {
+        "worker_cooling": "loc_it",
+        "tool_flow_meter": "loc_it"
+      }
+    },
+    {
+      "id": "RH-risk-only",
+      "duration_s": 1,
+      "parameters": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "room_humidity",
+          "value": 1,
+          "source_note": "Predeclared synthetic environmental engineering boundary, not a research policy intervention."
+        }
+      ],
+      "jobs": [],
+      "locations": {}
+    },
+    {
+      "id": "minimum-inventory-domain",
+      "duration_s": 1,
+      "parameters": {
+        "internal_hot_mass": 1000,
+        "minimum_internal_hot_mass": 999,
+        "water_specific_heat": 4000,
+        "initial_hot_temperature": 320,
+        "initial_cold_temperature": 310,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "controller_power": 0,
+        "room_aux_power": 0,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_conductance": 0,
+        "room_temperature": 293.15,
+        "internal_hot_leak_mass_flow": 2,
+        "drainage_mass_flow": 0
+      },
+      "events": [],
+      "jobs": [],
+      "locations": {},
+      "expected_error": "hydraulic validity minimum"
+    }
+  ]
+}
