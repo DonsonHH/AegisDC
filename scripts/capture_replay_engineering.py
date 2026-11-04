@@ -67,7 +67,7 @@ def capture(directory):
     input_paths = ['docs/mainline/13-reader-runbook-v2.json', book['prior_runbook'], book['profile'],
                    'configs/materials/reference-r134a-saturation.json', '.gitattributes',
                    'evidence/mainline/engineering/13-replay/.gitattributes']
-    retained = book['retained_failed_captures'] + book['retained_successful_captures'] + book['retained_reviews']
+    retained = book['retained_failed_captures'] + book['retained_successful_captures'] + book['retained_reviews'] + book.get('retained_preflight_records', [])
     prior_paths = [path.relative_to(ROOT).as_posix() for folder in retained
                    for path in sorted((ROOT / folder).rglob('*')) if path.is_file() and not is_runtime_cache(path)]
     prior_paths += book['retained_indexes']
@@ -226,6 +226,7 @@ def capture(directory):
                    retained_failed_captures=book['retained_failed_captures'],
                    retained_successful_captures=book['retained_successful_captures'],
                    retained_reviews=book['retained_reviews'],
+                   retained_preflight_records=book.get('retained_preflight_records', []),
                    artifacts={path.relative_to(directory).as_posix(): file_sha(path) for path in sorted(directory.rglob('*'))
                               if path.is_file() and not is_runtime_cache(path)})
     write(directory / 'receipt.json', receipt)

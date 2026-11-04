@@ -78,7 +78,7 @@ def verify(root, directory, *, delivery_commit):
             for name, expected in saved[group].items():
                 if git_blob_sha(root, saved['execution_commit'], name) != expected:
                     raise ValueError('Retained successful capture historical source identity differs')
-    for historical in receipt.get('retained_reviews', []):
+    for historical in receipt.get('retained_reviews', []) + receipt.get('retained_preflight_records', []):
         folder = safe_path(root, historical)
         preserved = json.loads((folder / 'preservation.json').read_text(encoding='utf-8'))
         if set(preserved['declared_original_files']) != set(preserved['artifacts']):
