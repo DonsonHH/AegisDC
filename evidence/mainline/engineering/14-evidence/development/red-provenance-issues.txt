@@ -1,0 +1,33 @@
+........F..E
+======================================================================
+ERROR: test_visible_copy_with_mismatched_origin_is_related_and_cycle_is_reported_only_when_visible (test_evidence_ledger.EvidenceLedgerTests.test_visible_copy_with_mismatched_origin_is_related_and_cycle_is_reported_only_when_visible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 286, in test_visible_copy_with_mismatched_origin_is_related_and_cycle_is_reported_only_when_visible
+    self.assertEqual(before['provenance_issues'], [])
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'provenance_issues'
+
+======================================================================
+FAIL: test_received_copies_keep_known_origin_before_original_arrives_or_exists (test_evidence_ledger.EvidenceLedgerTests.test_received_copies_keep_known_origin_before_original_arrives_or_exists)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 77, in test_received_copies_keep_known_origin_before_original_arrives_or_exists
+    self.assertEqual(snapshot['correlation_groups'], [
+AssertionError: Lists differ: [{'ki[103 chars]-2']}] != [{'ki[103 chars]-2']}, {'kind': 'reported_copy_reference', 'co[77 chars]2']}]
+
+Second list contains 1 additional elements.
+First extra element 1:
+{'kind': 'reported_copy_reference', 'copied_from_record_id': 'original', 'record_ids': ['work-order-1', 'work-order-2']}
+
+  [{'kind': 'reported_origin',
+    'origin_id': 'origin-temperature-1',
++   'record_ids': ['work-order-1', 'work-order-2']},
++  {'copied_from_record_id': 'original',
++   'kind': 'reported_copy_reference',
+    'record_ids': ['work-order-1', 'work-order-2']}]
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.171s
+
+FAILED (failures=1, errors=1)

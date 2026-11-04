@@ -7,6 +7,7 @@ from .risk import recommend
 from .scenario import load_scenario,describe_scenario
 from .plant import simulate_scenario,describe_run,save_run
 from .replay import record_files,replay_attempt
+from .evidence_ledger import load_ledger
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -35,6 +36,10 @@ def main():
     replay.add_argument('--attempt',type=Path,required=True)
     replay.add_argument('--output',type=Path,required=True)
     replay.add_argument('--commands',type=Path,help='Explicit engineering command list for a paired exogenous re-execution')
+    evidence=sub.add_parser('evidence',help='Snapshot only declared static knowledge and evidence available at an explicit SI second')
+    evidence.add_argument('--ledger',type=Path,required=True)
+    evidence.add_argument('--as-of',type=float,required=True)
+    evidence.add_argument('--output',type=Path,help='New directory for the public snapshot only')
     demo=sub.add_parser('risk-demo');demo.add_argument('--case',type=Path,default=ROOT/'configs/risk-method-demo.json');demo.add_argument('--output',type=Path)
     args=parser.parse_args()
     try:
@@ -67,6 +72,14 @@ def main():
                                 retry_of=args.retry_of,retry_reason=args.retry_reason)
         elif args.command=='replay':
             result=replay_attempt(args.attempt,args.output,action_commands=args.commands)
+        elif args.command=='evidence':
+            if args.output and args.output.exists():
+                raise ValueError('Output directory already exists; use a new evidence directory')
+            result=load_ledger(args.ledger).snapshot(args.as_of)
+            if args.output:
+                args.output.mkdir(parents=True,exist_ok=False)
+                with (args.output/'snapshot.json').open('x',encoding='utf-8',newline='\n') as stream:
+                    stream.write(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
         else:
             case=strict_json(args.case.read_text(encoding='utf-8'))
             if set(case)!={'schema','basis','facility_model','as_of_hour','questions','evidence'} or case['schema']!='aegisdc-risk-demo-v1' or case['basis']!='synthetic_assumption':

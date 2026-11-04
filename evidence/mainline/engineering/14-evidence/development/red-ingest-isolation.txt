@@ -1,0 +1,86 @@
+EEEEE..E.....
+======================================================================
+ERROR: test_closed_schema_refuses_invalid_units_types_times_and_private_payloads (test_evidence_ledger.EvidenceLedgerTests.test_closed_schema_refuses_invalid_units_types_times_and_private_payloads) (path='sources.0.kind', value='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 136, in test_closed_schema_refuses_invalid_units_types_times_and_private_payloads
+    EvidenceLedger(document)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 197, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 151, in validate_ledger
+    _require(row['kind'] in SOURCE_KINDS, 'Unknown evidence source kind')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_closed_schema_refuses_invalid_units_types_times_and_private_payloads (test_evidence_ledger.EvidenceLedgerTests.test_closed_schema_refuses_invalid_units_types_times_and_private_payloads) (path='sources.0.basis', value='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 136, in test_closed_schema_refuses_invalid_units_types_times_and_private_payloads
+    EvidenceLedger(document)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 197, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 152, in validate_ledger
+    _require(row['basis'] in SOURCE_CLASSES, 'Declare source basis separately from source kind')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_closed_schema_refuses_invalid_units_types_times_and_private_payloads (test_evidence_ledger.EvidenceLedgerTests.test_closed_schema_refuses_invalid_units_types_times_and_private_payloads) (path='observables.0.quantity', value='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 136, in test_closed_schema_refuses_invalid_units_types_times_and_private_payloads
+    EvidenceLedger(document)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 197, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 147, in validate_ledger
+    _require(row['quantity'] in units and row['unit'] == units[row['quantity']], 'Observable quantity requires its declared SI unit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_closed_schema_refuses_invalid_units_types_times_and_private_payloads (test_evidence_ledger.EvidenceLedgerTests.test_closed_schema_refuses_invalid_units_types_times_and_private_payloads) (path='observables.0.value_type', value='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 136, in test_closed_schema_refuses_invalid_units_types_times_and_private_payloads
+    EvidenceLedger(document)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 197, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 145, in validate_ledger
+    _require(value_type in {'number', 'boolean', 'text'}, 'Unsupported observable value type')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_closed_schema_refuses_invalid_units_types_times_and_private_payloads (test_evidence_ledger.EvidenceLedgerTests.test_closed_schema_refuses_invalid_units_types_times_and_private_payloads) (path='records.0.quality.status', value='[]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 136, in test_closed_schema_refuses_invalid_units_types_times_and_private_payloads
+    EvidenceLedger(document)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 197, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 163, in validate_ledger
+    _record(row, sources, observables)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 109, in _record
+    _require(status in {'unknown', 'bounded', 'reported'}, 'Unknown quality status')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_ingest_is_idempotent_conflicting_ID_is_atomic_and_snapshots_are_detached (test_evidence_ledger.EvidenceLedgerTests.test_ingest_is_idempotent_conflicting_ID_is_atomic_and_snapshots_are_detached)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_ledger.py", line 175, in test_ingest_is_idempotent_conflicting_ID_is_atomic_and_snapshots_are_detached
+    self.assertEqual(ledger.ingest(deepcopy(document['records'][0])), 'ALREADY_PRESENT')
+                     ^^^^^^^^^^^^^
+AttributeError: 'EvidenceLedger' object has no attribute 'ingest'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.025s
+
+FAILED (errors=6)

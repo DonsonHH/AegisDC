@@ -4,7 +4,7 @@
 
 **Blocked by:** 12, 13
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -20,4 +20,8 @@ Read `docs/mainline/information-boundary.md` before defining dispatch-facing rec
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `mainline_14_evidence`, branch `donson/mainline-14-evidence`, worktree
+`.work/worktrees/full-site-14`, base `04e976c7934b4b2d54aa73794fe520482524be64`.
+Implementation and root acceptance pending. The authorized public seams are the
+closed evidence loader/ledger, explicit as-of snapshot, and CLI. The existing
+hour-based foundation prototype and private V6 plant are preserved.
