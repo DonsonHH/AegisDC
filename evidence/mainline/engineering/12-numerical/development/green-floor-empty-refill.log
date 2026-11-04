@@ -1,0 +1,34 @@
+test_access_at_a_threshold_uses_the_final_same_epoch_drain_direction (test_mainline_numerics.FullFacilityNumericalTests.test_access_at_a_threshold_uses_the_final_same_epoch_drain_direction) ... ok
+test_coincident_conflicting_parameter_values_are_rejected (test_mainline_numerics.FullFacilityNumericalTests.test_coincident_conflicting_parameter_values_are_rejected) ... ok
+test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat (test_mainline_numerics.FullFacilityNumericalTests.test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat) ... 
+  test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat (test_mainline_numerics.FullFacilityNumericalTests.test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat) (step=0.1) ... ERROR
+test_dimensionally_incompatible_heat_mass_and_power_units_are_refused (test_mainline_numerics.FullFacilityNumericalTests.test_dimensionally_incompatible_heat_mass_and_power_units_are_refused) ... ok
+test_eight_ulp_coincidence_is_bounded_and_does_not_roll_across_an_event_chain (test_mainline_numerics.FullFacilityNumericalTests.test_eight_ulp_coincidence_is_bounded_and_does_not_roll_across_an_event_chain) ... ok
+test_five_original_encoded_vapor_endpoint_refusals_remain_strict (test_mainline_numerics.FullFacilityNumericalTests.test_five_original_encoded_vapor_endpoint_refusals_remain_strict) ... ok
+test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) ... ok
+test_isolated_room_agrees_with_independent_exponential_solution (test_mainline_numerics.FullFacilityNumericalTests.test_isolated_room_agrees_with_independent_exponential_solution) ... ok
+test_one_ulp_event_expression_does_not_change_the_sampled_protection_epoch (test_mainline_numerics.FullFacilityNumericalTests.test_one_ulp_event_expression_does_not_change_the_sampled_protection_epoch) ... ok
+test_rounded_floor_crossing_does_not_delay_access_by_an_entire_step (test_mainline_numerics.FullFacilityNumericalTests.test_rounded_floor_crossing_does_not_delay_access_by_an_entire_step) ... ok
+test_sample_clock_stays_anchored_during_arbitrary_step_subdivision (test_mainline_numerics.FullFacilityNumericalTests.test_sample_clock_stays_anchored_during_arbitrary_step_subdivision) ... ok
+
+======================================================================
+ERROR: test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat (test_mainline_numerics.FullFacilityNumericalTests.test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat) (step=0.1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_mainline_numerics.py", line 181, in test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat
+    result = simulate_scenario(scenario, duration_s=10, step_s=h,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\src\aegis_dc\plant.py", line 689, in simulate_scenario
+    balance = plant.integrate(time_s, end, point)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\src\aegis_dc\plant.py", line 416, in integrate
+    pool = floor_water_step(old_floor, old_floor_energy, p['water_specific_heat'],
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\src\aegis_dc\environment.py", line 60, in floor_water_step
+    raise ValueError('Split the floor-water interval at exact empty inventory')
+ValueError: Split the floor-water interval at exact empty inventory
+
+----------------------------------------------------------------------
+Ran 11 tests in 28.833s
+
+FAILED (errors=1)

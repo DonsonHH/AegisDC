@@ -169,6 +169,29 @@ class FullFacilityNumericalTests(unittest.TestCase):
         result = simulate_scenario(scenario, duration_s=.1)
         self.assertIn('loc_it', result['trace'][-1]['domains']['space_access']['blocked_location_ids'])
 
+    def test_compensated_floor_inventory_empties_and_refills_without_old_residue_or_heat(self):
+        for h in (1, .1, .025):
+            with self.subTest(step=h):
+                scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                for row in scenario['parameters']:
+                    if row['id'] == 'floor_water_inflow':
+                        row['value'] = .7
+                    if row['id'] == 'drainage_mass_flow':
+                        row['value'] = .2
+                result = simulate_scenario(scenario, duration_s=10, step_s=h,
+                    boundary_events=[dict(time_s=t, parameter_id='floor_water_inflow', value=v,
+                        source_note='Ambient water fill, complete drain, then refill; no internal leak.')
+                        for t, v in [(2, 0), (8, .6)]])
+                end = result['trace'][-1]['domains']['space_access']
+                self.assertAlmostEqual(end['floor_water_mass_kg'], .8, delta=1e-12)
+                self.assertAlmostEqual(end['floor_water_temperature_K'], 293.15, delta=1e-10)
+                self.assertAlmostEqual(end['floor_water_sensible_energy_J'], 980293.6, delta=1e-5)
+                self.assertTrue(any(row['domains']['space_access']['floor_water_mass_kg'] == 0
+                                    for row in result['trace'] if 7 - 1e-8 <= row['time_s'] < 8))
+                self.assertAlmostEqual(result['summary']['floor_water_inlet_mass_kg'], 2.6, delta=1e-12)
+                self.assertAlmostEqual(result['summary']['floor_water_drained_mass_kg'], 1.8, delta=1e-12)
+                self.assertLess(result['summary']['max_energy_residual_J'], .01)
+
 
 if __name__ == '__main__':
     unittest.main()
