@@ -9,7 +9,7 @@
 
 第一版结构/风险原型与合成验证见[FOUNDATION](FOUNDATION.md)。本轮已完成[三案例独立资料包](research/20261104/facility-cases/README.md)：8幅架构图、103条参数及缺值、各站状态/代数方程、输入/观测/初值和补数清单，另有单文件离线HTML与CSV。
 
-场景契约与首条八域运行基线已通过根验收：[模型/适用域](mainline/healthy-run-model.md)、[实际工程轨迹](../evidence/mainline/engineering/03-root-demonstration/README.md)。当前深化04–11的供电、水热、相变、环境/服务/控制与备用门槛。未知现场数据保留缺口，合成设定带单位、范围和一致性约束；不据此升级为现场风险或失冷预测。42个依赖任务按接受证据推进，完整独立研究结论前主目标保持active。
+场景契约与首条八域运行基线已通过根验收：[模型/适用域](mainline/healthy-run-model.md)、[实际工程轨迹](../evidence/mainline/engineering/03-root-demonstration/README.md)。供电、水力阀组、相变（[数据图与收据](../evidence/mainline/engineering/04-06-root-acceptance/README.md)）及[服务账](../evidence/mainline/engineering/08-root-acceptance/README.md)已分项接受，最新根验收225项全执行、零跳过。当前推进07、09–11的环境/访问、控制、备用与全场门槛。未知现场数据保留缺口，合成设定带单位、范围和一致性约束；不据此升级为现场风险或失冷预测。42个依赖任务按接受证据推进，完整独立研究结论前主目标保持active。
 
 当前不自动恢复会前训练、搜索或确认集。会前收益与限制保留在[证据索引](EVIDENCE.md)，具体新交付要求见[POSTMEETING_SPEC](POSTMEETING_SPEC.md)。
 

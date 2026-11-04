@@ -1,0 +1,5 @@
+# Preserve raw acceptance, probe and figure identities.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Matplotlib separates SVG path coordinates with end-of-line spaces.
+# Preserve the hashed exports; this exception applies only to generated SVGs.
+figures/*.svg -text whitespace=blank-at-eof,space-before-tab,-blank-at-eol

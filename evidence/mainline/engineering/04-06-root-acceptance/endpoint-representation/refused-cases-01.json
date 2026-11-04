@@ -1,0 +1,260 @@
+{
+  "schema": "aegisdc-review-endpoint-representation-probe-v1",
+  "classification": "FINITE_ENGINEERING_NUMERICAL_REPRESENTATION_DIAGNOSTIC",
+  "source": {
+    "worktree": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-06",
+    "git_commit": "2325a69261895de1b29b20f2ae585491d109dc64",
+    "property_table_sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+    "thermodynamics_source_sha256": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+    "author_program_sha256": "2f7e3af82edd23f515585ebce103ff6035c05b90bdea6cefe0e95b1c6a5c3825",
+    "interpreter": "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "python_version": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "probe": {
+    "row_indices": [
+      0,
+      1,
+      40,
+      100,
+      200,
+      300,
+      400,
+      510,
+      511
+    ],
+    "nominal_qualities": [
+      0,
+      1e-10,
+      1e-05,
+      0.1,
+      0.5,
+      0.99,
+      0.9999999999,
+      1
+    ],
+    "masses_kg": [
+      0.1,
+      1,
+      3,
+      10,
+      2000,
+      12345
+    ],
+    "case_count": 432,
+    "refused_or_wrong_count": 5
+  },
+  "interpretation": "The five nominal pure-vapor constructions reconstruct x=1.0000000000000002 after mass/volume roundoff. Refusal is consistent with the current strict [0,1] no-quality-clipping contract. This diagnostic quantifies input representation; it neither extends the physical domain nor establishes a required code change.",
+  "refused_or_wrong_cases": [
+    {
+      "table_row_index": 0,
+      "nominal_pressure_Pa": 100000.0,
+      "nominal_quality": 1,
+      "inputs": {
+        "mass_kg": 3,
+        "internal_energy_J": 1090030.3316402566,
+        "volume_m3": 0.577673417358775
+      },
+      "inputs_float_hex": {
+        "mass_kg": "0x1.8000000000000p+1",
+        "internal_energy_J": "0x1.0a1ee54e66038p+20",
+        "volume_m3": "0x1.27c4cf66a6248p-1"
+      },
+      "frozen_row_primitives": {
+        "p_Pa": 100000.0,
+        "v_l_m3_kg": 0.0007259314992640866,
+        "v_v_m3_kg": 0.1925578057862583,
+        "u_l_J_kg": 165369.28181500823,
+        "u_v_J_kg": 363343.4438800855
+      },
+      "construction_expected": {
+        "method": "Analytic equilibrium mixture of frozen row primitives, then scaled by nominal mass.",
+        "nominal_pressure_Pa": 100000.0,
+        "nominal_quality": 1,
+        "qualification": "Nominal construction expectation only. Floating-point encoded M/U/V may lie outside strict quality admissibility; this is not a requirement to clip it."
+      },
+      "representation_observation": {
+        "specific_volume_m3_kg": 0.19255780578625833,
+        "specific_energy_J_kg": 363343.44388008554,
+        "reconstructed_quality": 1.0000000000000002,
+        "reconstructed_quality_float_hex": "0x1.0000000000001p+0",
+        "specific_volume_minus_saturated_vapor_m3_kg": 2.7755575615628914e-17,
+        "specific_energy_minus_saturated_vapor_J_kg": 5.820766091346741e-11,
+        "quality_admissible_at_nominal_pressure": false
+      },
+      "outcome": {
+        "status": "REFUSED",
+        "exception_type": "ValueError",
+        "exception_message": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+      }
+    },
+    {
+      "table_row_index": 100,
+      "nominal_pressure_Pa": 194565.04767173913,
+      "nominal_quality": 1,
+      "inputs": {
+        "mass_kg": 0.1,
+        "internal_energy_J": 37224.94090267983,
+        "volume_m3": 0.010253398864647434
+      },
+      "inputs_float_hex": {
+        "mass_kg": "0x1.999999999999ap-4",
+        "internal_energy_J": "0x1.22d1e1bdfefd3p+15",
+        "volume_m3": "0x1.4ffbbe65f3da0p-7"
+      },
+      "frozen_row_primitives": {
+        "p_Pa": 194565.04767173913,
+        "v_l_m3_kg": 0.0007521234788832611,
+        "v_v_m3_kg": 0.10253398864647432,
+        "u_l_J_kg": 185534.23964580215,
+        "u_v_J_kg": 372249.40902679827
+      },
+      "construction_expected": {
+        "method": "Analytic equilibrium mixture of frozen row primitives, then scaled by nominal mass.",
+        "nominal_pressure_Pa": 194565.04767173913,
+        "nominal_quality": 1,
+        "qualification": "Nominal construction expectation only. Floating-point encoded M/U/V may lie outside strict quality admissibility; this is not a requirement to clip it."
+      },
+      "representation_observation": {
+        "specific_volume_m3_kg": 0.10253398864647434,
+        "specific_energy_J_kg": 372249.40902679827,
+        "reconstructed_quality": 1.0000000000000002,
+        "reconstructed_quality_float_hex": "0x1.0000000000001p+0",
+        "specific_volume_minus_saturated_vapor_m3_kg": 1.3877787807814457e-17,
+        "specific_energy_minus_saturated_vapor_J_kg": 0.0,
+        "quality_admissible_at_nominal_pressure": false
+      },
+      "outcome": {
+        "status": "REFUSED",
+        "exception_type": "ValueError",
+        "exception_message": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+      }
+    },
+    {
+      "table_row_index": 200,
+      "nominal_pressure_Pa": 378555.57775506185,
+      "nominal_quality": 1,
+      "inputs": {
+        "mass_kg": 3,
+        "internal_energy_J": 1147044.4310513278,
+        "volume_m3": 0.16210561303592358
+      },
+      "inputs_float_hex": {
+        "mass_kg": "0x1.8000000000000p+1",
+        "internal_energy_J": "0x1.180a46e59613cp+20",
+        "volume_m3": "0x1.4bfe0713e609ap-3"
+      },
+      "frozen_row_primitives": {
+        "p_Pa": 378555.57775506185,
+        "v_l_m3_kg": 0.0007872571560199176,
+        "v_v_m3_kg": 0.054035204345307855,
+        "u_l_J_kg": 209591.5825625262,
+        "u_v_J_kg": 382348.14368377597
+      },
+      "construction_expected": {
+        "method": "Analytic equilibrium mixture of frozen row primitives, then scaled by nominal mass.",
+        "nominal_pressure_Pa": 378555.57775506185,
+        "nominal_quality": 1,
+        "qualification": "Nominal construction expectation only. Floating-point encoded M/U/V may lie outside strict quality admissibility; this is not a requirement to clip it."
+      },
+      "representation_observation": {
+        "specific_volume_m3_kg": 0.05403520434530786,
+        "specific_energy_J_kg": 382348.14368377597,
+        "reconstructed_quality": 1.0000000000000002,
+        "reconstructed_quality_float_hex": "0x1.0000000000001p+0",
+        "specific_volume_minus_saturated_vapor_m3_kg": 6.938893903907228e-18,
+        "specific_energy_minus_saturated_vapor_J_kg": 0.0,
+        "quality_admissible_at_nominal_pressure": false
+      },
+      "outcome": {
+        "status": "REFUSED",
+        "exception_type": "ValueError",
+        "exception_message": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+      }
+    },
+    {
+      "table_row_index": 400,
+      "nominal_pressure_Pa": 1433043.2544946838,
+      "nominal_quality": 1,
+      "inputs": {
+        "mass_kg": 0.1,
+        "internal_energy_J": 40491.78599519147,
+        "volume_m3": 0.0013746326339682102
+      },
+      "inputs_float_hex": {
+        "mass_kg": "0x1.999999999999ap-4",
+        "internal_energy_J": "0x1.3c57926df6346p+15",
+        "volume_m3": "0x1.685a08d3dfa38p-10"
+      },
+      "frozen_row_primitives": {
+        "p_Pa": 1433043.2544946838,
+        "v_l_m3_kg": 0.0009205563584016232,
+        "v_v_m3_kg": 0.0137463263396821,
+        "u_l_J_kg": 275568.26123155776,
+        "u_v_J_kg": 404917.8599519147
+      },
+      "construction_expected": {
+        "method": "Analytic equilibrium mixture of frozen row primitives, then scaled by nominal mass.",
+        "nominal_pressure_Pa": 1433043.2544946838,
+        "nominal_quality": 1,
+        "qualification": "Nominal construction expectation only. Floating-point encoded M/U/V may lie outside strict quality admissibility; this is not a requirement to clip it."
+      },
+      "representation_observation": {
+        "specific_volume_m3_kg": 0.013746326339682102,
+        "specific_energy_J_kg": 404917.8599519147,
+        "reconstructed_quality": 1.0000000000000002,
+        "reconstructed_quality_float_hex": "0x1.0000000000001p+0",
+        "specific_volume_minus_saturated_vapor_m3_kg": 1.734723475976807e-18,
+        "specific_energy_minus_saturated_vapor_J_kg": 0.0,
+        "quality_admissible_at_nominal_pressure": false
+      },
+      "outcome": {
+        "status": "REFUSED",
+        "exception_type": "ValueError",
+        "exception_message": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+      }
+    },
+    {
+      "table_row_index": 510,
+      "nominal_pressure_Pa": 2980098.414891028,
+      "nominal_quality": 1,
+      "inputs": {
+        "mass_kg": 12345,
+        "internal_energy_J": 5080560953.833247,
+        "volume_m3": 65.90922392456523
+      },
+      "inputs_float_hex": {
+        "mass_kg": "0x1.81c8000000000p+13",
+        "internal_energy_J": "0x1.2ed33539d54fbp+32",
+        "volume_m3": "0x1.07a30b98b2fe6p+6"
+      },
+      "frozen_row_primitives": {
+        "p_Pa": 2980098.414891028,
+        "v_l_m3_kg": 0.0011374262979321722,
+        "v_v_m3_kg": 0.005338940779632663,
+        "u_l_J_kg": 330649.07717154437,
+        "u_v_J_kg": 411548.0724044753
+      },
+      "construction_expected": {
+        "method": "Analytic equilibrium mixture of frozen row primitives, then scaled by nominal mass.",
+        "nominal_pressure_Pa": 2980098.414891028,
+        "nominal_quality": 1,
+        "qualification": "Nominal construction expectation only. Floating-point encoded M/U/V may lie outside strict quality admissibility; this is not a requirement to clip it."
+      },
+      "representation_observation": {
+        "specific_volume_m3_kg": 0.0053389407796326635,
+        "specific_energy_J_kg": 411548.07240447524,
+        "reconstructed_quality": 1.0000000000000002,
+        "reconstructed_quality_float_hex": "0x1.0000000000001p+0",
+        "specific_volume_minus_saturated_vapor_m3_kg": 8.673617379884035e-19,
+        "specific_energy_minus_saturated_vapor_J_kg": -5.820766091346741e-11,
+        "quality_admissible_at_nominal_pressure": false
+      },
+      "outcome": {
+        "status": "REFUSED",
+        "exception_type": "ValueError",
+        "exception_message": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+      }
+    }
+  ],
+  "research_trials": 0
+}

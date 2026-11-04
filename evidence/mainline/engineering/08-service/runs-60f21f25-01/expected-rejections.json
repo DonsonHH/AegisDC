@@ -1,0 +1,86 @@
+[
+  {
+    "id": "negative-capacity",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "compute_service_capacity",
+        "value": -0.1,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      }
+    ],
+    "error": "Boundary event time/value outside declared range",
+    "successful_trajectory_returned": false
+  },
+  {
+    "id": "capacity-outside-range",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "network_service_capacity",
+        "value": 2.1,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      }
+    ],
+    "error": "Boundary event time/value outside declared range",
+    "successful_trajectory_returned": false
+  },
+  {
+    "id": "boolean-capacity",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "storage_service_capacity",
+        "value": true,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      }
+    ],
+    "error": "Boundary event value must be a finite number",
+    "successful_trajectory_returned": false
+  },
+  {
+    "id": "missing-source",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "network_service_capacity",
+        "value": 0.5,
+        "source_note": ""
+      }
+    ],
+    "error": "Boundary event requires source_note",
+    "successful_trajectory_returned": false
+  },
+  {
+    "id": "conflicting-capacity",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "storage_service_capacity",
+        "value": 0.5,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      },
+      {
+        "time_s": 0.25,
+        "parameter_id": "storage_service_capacity",
+        "value": 1,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      }
+    ],
+    "error": "Conflicting boundary event at the same time and parameter",
+    "successful_trajectory_returned": false
+  },
+  {
+    "id": "static-coefficient",
+    "events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "compute_nominal_power",
+        "value": 1000000,
+        "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+      }
+    ],
+    "error": "Boundary event parameter is not an exogenous input",
+    "successful_trajectory_returned": false
+  }
+]

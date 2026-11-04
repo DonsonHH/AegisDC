@@ -26,6 +26,7 @@ ENVIRONMENT_EXOGENOUS_PARAMETERS = {
 }
 EXOGENOUS_PARAMETERS = {
     'grid_capacity', 'compute_demand_power', 'network_demand_power', 'storage_demand_power',
+    'compute_service_capacity', 'network_service_capacity', 'storage_service_capacity',
     'service_demand', 'lake_temperature', 'filter_resistance_multiplier',
     'lake_valve_opening', 'internal_valve_opening', 'plate_hx_conductance',
     'pump_pressure_rise', 'internal_pump_pressure_rise',
