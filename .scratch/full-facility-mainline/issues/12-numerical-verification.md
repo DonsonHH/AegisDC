@@ -65,3 +65,7 @@ Quantify this floating-point representation boundary together with the physical
 domain; do not silently clip quality, assume every nominal construction is
 exactly admissible, or call the finite probe empirical validation. This note
 does not start ticket 12 ahead of blocker 11.
+
+## Root acceptance 2026-11-05
+
+Accepted at actual integrated source `bcacbf78e4f071acd0a130c8dec85f5c95e4cc73`:359/359 executed,0 failure/error/skip,20 old originals and156 Python-byte/HEAD guards. Final independent axes have no open/new findings. Root authority: `docs/mainline/evidence/12-root.json`; shared M2 packet: `evidence/mainline/engineering/M2-root-acceptance/README.md`. Author candidate indexes/pending receipts and every prior failure remain historical originals. Root metadata/delivery commits do not replace the tested source. Next primary14 is unassigned; M2 is not the overall research goal.

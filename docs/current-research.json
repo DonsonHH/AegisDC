@@ -1,7 +1,7 @@
 {
   "schema": "aegisdc-research-phase-v1",
   "date": "2026-11-05",
-  "phase": "complete_facility_numerical_and_replay_qualification",
+  "phase": "complete_facility_evidence_and_risk",
   "policy_structure": "problem_driven_demand_inspection",
   "mandatory_fixed_tour": false,
   "requires_full_realtime_telemetry": false,
@@ -23,7 +23,7 @@
   "mainline": "docs/MAINLINE.md",
   "progress": "docs/mainline/progress.json",
   "research_identity": "Zhengzhou-inspired synthetic complete facility; site calibration pending",
-  "implementation": "M1 eight-domain same-facility engineering baseline accepted;M2 numerical/domain qualification and exogenous/action-origin replay inprogress; evidence-driven decisions and independent effects remain later",
+  "implementation": "M1 and bounded M2 accepted at root; current M3 starts with unassigned ticket14 multi-source evidence ledger. Risk/inspection/intervention/independent effects and conditional AI/RSI remain later.",
   "runtime_model_document": "docs/mainline/healthy-run-model.md",
   "runtime_verification_documents": [
     "docs/mainline/power-verification.md",
@@ -33,8 +33,19 @@
     "docs/mainline/environment-verification.md",
     "docs/mainline/local-control-verification.md",
     "docs/mainline/10-reserve-implementation.md",
-    "docs/mainline/11-coupled-acceptance.md"
+    "docs/mainline/11-coupled-acceptance.md",
+    "docs/mainline/12-numerical-qualification.md",
+    "docs/mainline/13-replay-contract.md",
+    "evidence/mainline/engineering/M2-root-acceptance/README.md"
   ],
   "M1_acceptance": "docs/mainline/evidence/M1.json",
-  "current_canonical_configuration": "configs/full-facility-mainline-reserve-v6.json"
+  "current_canonical_configuration": "configs/full-facility-mainline-reserve-v6.json",
+  "M2_acceptance": "docs/mainline/evidence/M2.json",
+  "current_primary_ticket": "14",
+  "current_primary_ticket_assigned": false,
+  "numerical_entry": {
+    "model": "configs/full-facility-mainline-reserve-v6.json",
+    "explicit_maximum_step_s": 0.01,
+    "scope": "Declared finite witnesses and their distinct reference ladders; not a global parameter-box guarantee"
+  }
 }

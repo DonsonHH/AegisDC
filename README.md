@@ -46,9 +46,9 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 ## 新研究原型入口
 
-完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。更深的M1/M2验证、风险证据与策略闭环仍按固定主线推进。
+完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。当前分阶段资格以新的 M2 根记录为准，风险证据与策略闭环继续按固定主线推进。
 
-**M1同一完整设施的八域工程基线已接受**：[联合架构、响应与库存/工时数据图](evidence/mainline/engineering/M1-root-acceptance/README.md)记录600秒正常工况、240秒组合轨迹、17场景/129独立预期及306项零跳过根验收。分项供电、水热、相变、服务、环境、控制、备用和交付记录保留各自实际身份。当前进入M2数值资格与外生/行动来源重放；证据、调度、独立效果与条件式AI/RSI仍沿固定主线继续。
+**M1 与有限 M2 已由根接受**：[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)和[M2 数值图、正确架构及复核包](evidence/mainline/engineering/M2-root-acceptance/README.md)保留各自执行身份。M2 实际根源 bcac 的359项全执行零跳过、11组有限见证及重放契约已核对；事件侧指标、raw差异和各自参考阶梯分列。当前进入M3，主票14多源证据账待分配；完整研究目标仍active。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录，见复核包；兼容默认保持原样。
 
 ```bash
 python -m aegis_dc scenario
@@ -56,7 +56,7 @@ python -m aegis_dc simulate --output runs/full-site-engineering-new
 python -m aegis_dc status
 ```
 
-第一版[设施结构与风险方法原型](docs/FOUNDATION.md)已可运行：14个功能区、29个资产/服务对象与候选依赖，支持无固定测点的基线和可选稀疏证据。用合成算例区分有单位的风险与检查价值；真实参数、动态物理模型及策略收益尚待标定和独立验证。
+第一版[设施结构与风险方法原型](docs/FOUNDATION.md)保留14个功能区、29个资产／服务对象及其代数风险算例，支持无固定测点的对照基线。当前完整 V6 主场景存在稀疏固定测点，并允许历史、人工、工单和手持证据；其 M2 运行资格与早期原型分层记录，现场标定和策略收益仍需后续独立验证。
 
 已执行的[合成算例与复核快照](evidence/foundation-v0.1-20261104/README.md)包含CLI输出、源码/输入SHA和本地验收摘要。
 
@@ -80,4 +80,4 @@ python -m patrol_rsi verify --output runs/verification-new
 
 这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-结构与风险原型、M1八域工程基线均已交付；当前进行M2数值资格与重放验证，后续依次接入证据、检查处置和独立比较，详见[主线进度](docs/mainline/progress.json)。现场数据标定仍待补充。原始会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。
+结构／风险原型、M1八域基线与声明有限范围的M2数值／重放门槛已交付。当前M3从主票14多源证据账继续；检查处置、独立比较及条件式AI/RSI仍在后续。详见[主线进度](docs/mainline/progress.json)，现场标定pending。原会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。

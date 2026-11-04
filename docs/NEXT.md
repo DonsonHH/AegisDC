@@ -1,17 +1,14 @@
 # 当前执行：完整设施风险驱动检查与处置主线
 
-依据用户对完整设施方案及修正的认可，固定目标见[MAINLINE](MAINLINE.md)，实际状态见[progress](mainline/progress.json)，依赖任务见[任务图](../.scratch/full-facility-mainline/map.md)。当前沿同一全设施场景推进：
+固定目标见[MAINLINE](MAINLINE.md)，实际门槛见[progress](mainline/progress.json)，任务依赖见[任务图](../.scratch/full-facility-mainline/map.md)。
 
-1. 建立以郑州工程为参照、事实与设定分明的八域全设施配置及四类关系。
-2. 跑通电—水—热—IT/控制、环境/访问及人员作业的实际行为，验证守恒、容量、时序和边界。
-3. 接入多源证据、风险认识、异质检查/处置/恢复核验；后台真值与调度信息分开。
-4. 冻结新协议后做独立对照、消融和不确定性分析，再按资格评价智能体/RSI增量。
+M1 和声明有限范围的 M2 已由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 根权威](mainline/evidence/M2.json)、[数值数据图／正确架构／四轴评审](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 根源 bcac 记录359项全执行零跳过、20历史原件与156 Python字节守卫。旧作者全检、NO-GO、失败及原 pending receipts 仍保留其原身份。
 
-第一版结构/风险原型与合成验证见[FOUNDATION](FOUNDATION.md)。本轮已完成[三案例独立资料包](research/20261104/facility-cases/README.md)：8幅架构图、103条参数及缺值、各站状态/代数方程、输入/观测/初值和补数清单，另有单文件离线HTML与CSV。
+当前 M3 主票14为多源证据账，尚未分配，不自动启动。主场景有稀疏固定传感器，允许历史／人工／工单／手持数据；未覆盖位置不生成观测，后台真值不自动给调度。后续仍需风险认识、异质检查处置及恢复核验、独立效果对照和条件式AI/RSI资格。
 
-M1已通过根实质审计：[同一V6八域联合架构与数据图](../evidence/mainline/engineering/M1-root-acceptance/README.md)、[M1逐项门槛](mainline/evidence/M1.json)。600秒正常与240秒组合轨迹、17场景/129独立预期和306项零跳过根验收保留实际执行/交付身份；旧原件与纠正历史不改。当前依赖前沿为12数值/步长资格、13外生/行动来源重放，两者接受后进入14证据账。未知现场数据仍为缺口，合成设定带单位/范围/来源，不据此升级为现场风险或失冷预测。42个任务按接受证据继续，完整独立结论与条件式增量审计前主目标保持active。
+下一阶段数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和全新输出目录。11个见证仍按5/4/2各自冻结阶梯解释；五个旧案没有新增更细的.01参考，事件侧指标不是同钟raw或未保存真轨迹的保守界。详见M2包的只读复核路径。
 
-当前不自动恢复会前训练、搜索或确认集。会前收益与限制保留在[证据索引](EVIDENCE.md)，具体新交付要求见[POSTMEETING_SPEC](POSTMEETING_SPEC.md)。
+本次没有新注册研究、训练或LLM试验；不恢复会前确认集。现场标定pending，完整42任务研究目标保持active。
 
 ---
 

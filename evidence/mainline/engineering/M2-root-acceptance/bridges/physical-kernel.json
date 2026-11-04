@@ -1,0 +1,61 @@
+{
+  "scope": "Preliminary integration source audit only; not numerical qualification acceptance",
+  "numerical_kernel_source": "8e57abb9b6b01713c8173f80f5b854558058f529",
+  "replay_source": "cf9b33900d8f349b9a8145c042bbffe03503c858",
+  "old_plant_definitions": 7,
+  "unchanged_old_definitions": [
+    "_InventorySum",
+    "_Plant",
+    "_boundary_events",
+    "_code_identity",
+    "describe_run",
+    "save_run"
+  ],
+  "changed_old_definitions": [
+    "simulate_scenario"
+  ],
+  "added_definitions": [
+    "_action_commands"
+  ],
+  "private_plant_class_ast_unchanged": true,
+  "interpretation": "Whole runtime identity differs. The private plant class and all old definitions except public simulate_scenario are unchanged; origin input preprocessing, event metadata and returned input manifest need explicit interface-equivalence qualification.",
+  "preparation_note": "First root read-only probe traversed origin header snapshots as attempt directories and failed before receipt; this version enumerates top-level actual attempts only. No physics or full regression was run.",
+  "completed_replay_cases": [
+    {
+      "name": "causal-baseline",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 2,
+      "maximum_step_s": 0.5
+    },
+    {
+      "name": "causal-command",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 2,
+      "maximum_step_s": 0.5
+    },
+    {
+      "name": "combined-episode-CLI",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 240.0,
+      "maximum_step_s": 1.0
+    },
+    {
+      "name": "combined-episode-CLI-replay",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 240.0,
+      "maximum_step_s": 1.0
+    },
+    {
+      "name": "normal-600s",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 600.0,
+      "maximum_step_s": 1.0
+    },
+    {
+      "name": "normal-600s-replay",
+      "scenario_equal_combined_numeric": true,
+      "duration_s": 600.0,
+      "maximum_step_s": 1.0
+    }
+  ]
+}
