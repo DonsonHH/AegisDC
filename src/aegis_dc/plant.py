@@ -21,6 +21,7 @@ from .runtime_contract import ENVIRONMENT_MODELS, WATER_MODELS
 from .local_control import CONTROL_PROFILE, CONTROL_QUANTITIES, CONTROL_BINARY_PARAMETERS, sample_local_control
 from .scenario import validate_scenario
 from .thermodynamics import SaturationTable, finite_number
+from .time_coordinates import TIME_COORDINATE_CONVENTION, same_time, time_due
 from .workforce import Workforce
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -67,7 +68,8 @@ def _boundary_events(rows, parameters, duration, *, model, control_profile=None,
             raise ValueError('Boundary event time/value outside declared range')
         if not isinstance(row['source_note'], str) or not row['source_note'].strip():
             raise ValueError('Boundary event requires source_note')
-        if (time_s, name) in seen:
+        if any(name == previous_name and same_time(time_s, previous_time)
+               for previous_time, previous_name in seen):
             raise ValueError('Conflicting boundary event at the same time and parameter')
         seen.add((time_s, name))
         result.append(dict(row, time_s=time_s, value=value))
@@ -116,6 +118,7 @@ class _Plant:
                         'compute_permitted': True, 'pump_speed_command': 1.0,
                         'local_measurement': None}
         self.next_sample = 0.0
+        self.sample_index = 0
         self.generator_mode, self.generator_ready = 'off', None
         self.events = []
 
@@ -295,7 +298,7 @@ class _Plant:
                 }}
 
     def sample_control(self, time_s, point):
-        if time_s < self.next_sample:
+        if not time_due(time_s, self.next_sample):
             return
         p, c = self.p, self.control
         power = point['power']['actual_powers_W']['local_controller']
@@ -307,7 +310,8 @@ class _Plant:
                 'flow_valid': p['local_internal_flow_sensor_valid'] == 1,
                 'supervisory_connected': p['supervisory_link_available'] == 1}
             self.control = sample_local_control(c, p, measurement, controller_power_W=power)
-            self.next_sample = time_s + p['control_sample_time']
+            self.sample_index += 1
+            self.next_sample = self.sample_index * p['control_sample_time']
             return
         if power < p['controller_power'] or p['controller_power'] == 0:
             c.update(mode='unpowered_fail_safe', compute_permitted=False, pump_speed_command=1.0)
@@ -328,7 +332,8 @@ class _Plant:
             c['local_measurement'] = {'observed_at_s': time_s, 'temperature_K': temperature,
                                       'internal_volume_flow_m3_s': flow,
                                       'controller_power_W': power, 'visibility': 'LOCAL_PLANT_ONLY'}
-        self.next_sample = time_s + p['control_sample_time']
+        self.sample_index += 1
+        self.next_sample = self.sample_index * p['control_sample_time']
 
     def next_physical_event(self, time_s, point):
         times = [self.next_sample]
@@ -600,17 +605,17 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
-        while event_index < len(timed_inputs) and timed_inputs[event_index]['time_s'] <= time_s:
+        while event_index < len(timed_inputs) and time_due(time_s, timed_inputs[event_index]['time_s']):
             event = timed_inputs[event_index]
             plant.p[event['parameter_id']] = event['value']
-            plant.events.append(dict(event, kind='exogenous_boundary_input'))
+            plant.events.append(dict(event, kind='exogenous_boundary_input', applied_at_s=time_s))
             event_index += 1
         plant.discrete(time_s)
         point = plant.point()
         if plant.reserve_model:
             plant.update_reserves(time_s, point)
             point = plant.point()
-        sample_due = time_s >= plant.next_sample
+        sample_due = time_due(time_s, plant.next_sample)
         plant.sample_control(time_s, point)
         point = plant.point()
         if plant.reserve_model:
@@ -671,6 +676,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'research_trials': 0, 'model_calls': 0, 'training_calls': 0,
             'scenario_sha256': digest(scenario), 'source_config': scenario, 'code_identity': _code_identity(),
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
+            'time_coordinate_convention': deepcopy(TIME_COORDINATE_CONVENTION),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': workforce.requests, 'boundary_events': timed_inputs},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 
