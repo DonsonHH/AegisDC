@@ -13,7 +13,10 @@ import subprocess
 from patrol_rsi.contracts import digest
 from .environment import condensation_risk, floor_water_step
 from .heat_transfer import counterflow_exchange, pump_operating_point, valve_loop_operating_point
-from .power import allocate_power
+from .power import allocate_power, allocate_reserve_power
+from .reserve import (RESERVE_MODEL, RESERVE_PROFILE, RESERVE_QUANTITIES, RESERVE_BINARY_PARAMETERS,
+                      RESERVE_EXOGENOUS_PARAMETERS,
+                      ups_transition, generator_transition, cooling_transition, paid_backup_exchange)
 from .runtime_contract import ENVIRONMENT_MODELS, WATER_MODELS
 from .local_control import CONTROL_PROFILE, CONTROL_QUANTITIES, CONTROL_BINARY_PARAMETERS, sample_local_control
 from .scenario import validate_scenario
@@ -32,10 +35,10 @@ EXOGENOUS_PARAMETERS = {
     'lake_valve_opening', 'internal_valve_opening', 'plate_hx_conductance',
     'pump_pressure_rise', 'internal_pump_pressure_rise',
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
-} | ENVIRONMENT_EXOGENOUS_PARAMETERS | set(CONTROL_QUANTITIES)
+} | ENVIRONMENT_EXOGENOUS_PARAMETERS | set(CONTROL_QUANTITIES) | set(RESERVE_EXOGENOUS_PARAMETERS)
 
 
-def _boundary_events(rows, parameters, duration, *, model, control_profile=None):
+def _boundary_events(rows, parameters, duration, *, model, control_profile=None, reserve_profile=None):
     if not isinstance(rows, (list, tuple)):
         raise ValueError('Boundary events must be a declared list')
     result, seen = [], set()
@@ -50,9 +53,13 @@ def _boundary_events(rows, parameters, duration, *, model, control_profile=None)
             raise ValueError('Environmental boundary events require the explicit environment runtime model')
         if name in CONTROL_QUANTITIES and control_profile != CONTROL_PROFILE:
             raise ValueError('Local control events require the implemented explicit control profile')
+        if name in RESERVE_QUANTITIES and reserve_profile != RESERVE_PROFILE:
+            raise ValueError('Reserve boundary events require the implemented explicit profile')
         value = finite_number(row['value'], 'Boundary event value')
         if name in CONTROL_BINARY_PARAMETERS and value not in (0, 1):
             raise ValueError('Local control availability must be the declared binary 0/1 state')
+        if name in RESERVE_BINARY_PARAMETERS and value not in (0, 1):
+            raise ValueError('Reserve availability/request must be the declared binary 0/1 state')
         if name == 'it_access_permit' and value not in (0, 1):
             raise ValueError('IT access permission must be the declared binary 0/1 state')
         low, high = parameters[name]['valid_range']
@@ -86,6 +93,8 @@ class _Plant:
     def __init__(self, scenario, table):
         self.scenario, self.table = scenario, table
         self.environment_model = scenario['runtime']['model'] in ENVIRONMENT_MODELS
+        self.reserve_model = scenario['runtime']['model'] == RESERVE_MODEL
+        self.reserve_state = {'ups': None, 'generator': None, 'cooling': None}
         self.p = {row['id']: row['value'] for row in scenario['parameters']}
         p = self.p
         self.capacities = {'solid': p['it_thermal_capacity'], 'room': p['room_thermal_capacity'],
@@ -96,6 +105,8 @@ class _Plant:
                         ('hot', 'initial_hot_temperature'), ('cold', 'initial_cold_temperature')]}
         self.energy.update(coolant=p['coolant_initial_energy'], ups=p['ups_energy'],
                            fuel=p['diesel_initial_fuel_energy'])
+        if self.reserve_model:
+            self.energy['starter'] = p['generator_initial_start_energy']
         self.floor_mass = p['initial_floor_water_mass']
         self.hot_mass = p['internal_hot_mass']
         self.floor_energy = self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']
@@ -137,6 +148,8 @@ class _Plant:
                 and floor_inflow < p['drainage_mass_flow']:
             self.floor_access_blocked = False
             self.events.append({'time_s': time_s, 'kind': 'floor_access_opened', 'split_step': True})
+        if self.reserve_model:
+            return
         if p['grid_capacity'] == 0 and self.energy['fuel'] > 0:
             if self.generator_mode == 'off':
                 self.generator_mode = 'starting'
@@ -149,6 +162,35 @@ class _Plant:
             self.generator_mode, self.generator_ready = 'off', None
         elif self.energy['fuel'] == 0:
             self.generator_mode = 'fuel_exhausted'
+
+    def update_reserves(self, time_s, point, *, sampled=False):
+        if not self.reserve_model:
+            return
+        p, power, old = self.p, point['power'], self.reserve_state
+        states = {
+            'ups': ups_transition(old['ups'], time_s=time_s, needed=power['ups_transfer_needed'],
+                available=p['ups_in_service'], transfer_ok=p['ups_transfer_ok'], energy_J=self.energy['ups'],
+                control_power_W=power['ups_control_power_W'], nominal_control_power_W=p['ups_internal_control_power'],
+                delay_s=p['ups_transfer_delay']),
+            'generator': generator_transition(old['generator'], time_s=time_s, mains_present=power['mains_present'],
+                available=p['diesel_in_service'], start_ok=p['diesel_start_ok'], transfer_ok=p['diesel_transfer_ok'],
+                fuel_energy_J=self.energy['fuel'], starter_energy_J=self.energy['starter'],
+                control_power_W=power['generator_control_power_W'], nominal_control_power_W=p['generator_internal_control_power'],
+                start_delay_s=p['diesel_start_time'], transfer_delay_s=p['diesel_transfer_delay']),
+            'cooling': cooling_transition(old['cooling'], time_s=time_s, sampled=sampled,
+                requested=p['backup_cooling_requested'], available=p['backup_cooling_in_service'],
+                transfer_ok=p['backup_cooling_transfer_ok'], controller_power_W=power['actual_powers_W']['local_controller'],
+                nominal_controller_power_W=p['controller_power'], delay_s=p['backup_cooling_transfer_delay']),
+        }
+        for actor, state in states.items():
+            previous = old[actor] or {}
+            if any(previous.get(key) != state.get(key) for key in ('mode', 'ready_at_s', 'requested_at_s')):
+                self.events.append(dict(time_s=time_s, kind='reserve_transition', actor=actor,
+                                        mode=state['mode'], request_actor=state['request_actor'],
+                                        requested_at_s=state['requested_at_s'], ready_at_s=state['ready_at_s']))
+        self.reserve_state = states
+        self.generator_mode = states['generator']['mode']
+        self.generator_ready = states['generator']['ready_at_s']
 
     def update_room_work_access(self, point):
         """Use the actual post-control right-hand heat direction at equality."""
@@ -178,8 +220,17 @@ class _Plant:
             operating_point = valve_loop_operating_point
         requested = {'intake_pump': operating_point(*lake_args)['electric_power_W'],
                      'internal_pump': operating_point(*internal_args)['electric_power_W']}
-        power = allocate_power(p, requested, control['compute_permitted'], self.energy['ups'],
-                                self.generator_mode == 'running', self.energy['fuel'])
+        if self.reserve_model:
+            defaults = {'ups': 'bypass', 'generator': 'off', 'cooling': 'primary'}
+            modes = {name: self.reserve_state[name]['mode'] if self.reserve_state[name] else initial
+                     for name, initial in defaults.items()}
+            power = allocate_reserve_power(p, requested, control['compute_permitted'],
+                ups_energy_J=self.energy['ups'], fuel_energy_J=self.energy['fuel'],
+                starter_energy_J=self.energy['starter'], ups_mode=modes['ups'],
+                generator_mode=modes['generator'], cooling_mode=modes['cooling'])
+        else:
+            power = allocate_power(p, requested, control['compute_permitted'], self.energy['ups'],
+                                    self.generator_mode == 'running', self.energy['fuel'])
         actual = power['actual_powers_W']
         lake = operating_point(*lake_args, available_power_W=actual['intake_pump'])
         internal = operating_point(*internal_args, available_power_W=actual['internal_pump'])
@@ -197,6 +248,9 @@ class _Plant:
         lake_pump_heat = fraction * actual['intake_pump']
         lake_inlet = p['lake_temperature'] + lake_pump_heat / cl if cl else p['lake_temperature']
         hx = counterflow_exchange(p['plate_hx_conductance'], ci, cl, t['hot'], lake_inlet)
+        backup = (paid_backup_exchange(p, water_capacity_W_K=ci, water_inlet_K=t['hot'],
+                  external_inlet_K=p['room_ambient_temperature'], fan_power_W=actual['backup_fan'],
+                  connected=power['reserve_cooling_connected']) if self.reserve_model else {'heat_W': 0.0})
         condenser = -math.expm1(-p['condenser_conductance'] / ci) * ci \
             * (r['temperature_K'] - t['cold']) if ci else 0.0
         solid_coolant = p['solid_coolant_conductance'] * (t['solid'] - r['temperature_K'])
@@ -205,7 +259,8 @@ class _Plant:
         circulation = ci * (t['hot'] - t['cold'])
         room_input = (actual['network'] + actual['local_controller'] + actual['room']
                       + power['rectifier_loss_W'] + power['ups_loss_W'] + solid_air
-                      + (1 - fraction) * (actual['intake_pump'] + actual['internal_pump']))
+                      + (1 - fraction) * (actual['intake_pump'] + actual['internal_pump'])
+                      + power.get('reserve_room_heat_W', 0))
         capacities = {name: min(p[name + '_service_capacity'], actual[name] / p[name + '_nominal_power'])
                       for name in ('compute', 'network', 'storage')}
         delivery = min(p['service_demand'], *capacities.values())
@@ -218,6 +273,8 @@ class _Plant:
                 'condenser_heat_W': condenser, 'solid_coolant_heat_W': solid_coolant,
                 'solid_air_heat_W': solid_air, 'room_out_W': room_out,
                 'lake_out_W': hx['heat_W'] + lake_pump_heat,
+                'reserve_exchange': backup,
+                'reserve_outside_W': backup['heat_W'] + power.get('reserve_external_electric_heat_W', 0),
                 'drain_kg_s': drain, 'circulation_W': circulation,
                 'hot_leak_kg_s': leak, 'hot_leak_heat_W': leak_heat,
                 'floor_inflow_kg_s': floor_inflow,
@@ -229,8 +286,9 @@ class _Plant:
                     'room': room_input - room_out,
                     'coolant': solid_coolant - condenser,
                     'hot': condenser + actual['storage'] + fraction * actual['internal_pump'] - circulation - leak_heat,
-                    'cold': circulation - hx['heat_W'],
+                    'cold': circulation - hx['heat_W'] - backup['heat_W'],
                     'ups': -power['ups_depletion_W'], 'fuel': -power['fuel_depletion_W'],
+                    **({'starter': -power['starter_depletion_W']} if self.reserve_model else {}),
                 }}
 
     def sample_control(self, time_s, point):
@@ -273,8 +331,12 @@ class _Plant:
         times = [self.next_sample]
         if self.generator_mode == 'starting':
             times.append(self.generator_ready)
+        if self.reserve_model:
+            times.extend(state['ready_at_s'] for state in self.reserve_state.values()
+                         if state and state['ready_at_s'] is not None)
         for key, depletion in [('ups', point['power']['ups_depletion_W']),
-                               ('fuel', point['power']['fuel_depletion_W'])]:
+                               ('fuel', point['power']['fuel_depletion_W'])] + (
+                               [('starter', point['power']['starter_depletion_W'])] if self.reserve_model else []):
             if depletion > 0 and self.energy[key] > 0:
                 times.append(time_s + self.energy[key] / depletion)
         floor_rate = point['floor_inflow_kg_s'] - point['drain_kg_s']
@@ -317,7 +379,7 @@ class _Plant:
         for name, rate in point['rates_W'].items():
             if rate < 0 and before[name] > 0 and math.isclose(dt, before[name] / -rate,
                                                             rel_tol=1e-12, abs_tol=1e-12) \
-                    and name in {'ups', 'fuel'}:
+                    and name in {'ups', 'fuel', 'starter'}:
                 self.energy[name] = 0.0
                 self.events.append({'time_s': end, 'kind': name + '_depleted', 'split_step': True})
             else:
@@ -371,7 +433,8 @@ class _Plant:
             rates['floor_water'] = point['floor_inlet_energy_W'] - floor_out
             energy_residuals['floor_water'] = self.floor_energy - old_floor_energy - rates['floor_water'] * dt
         boundary_input = power['grid_draw_W'] + floor_in
-        boundary_output = point['lake_out_W'] + point['room_out_W'] + power['generator_waste_W'] + floor_out
+        boundary_output = (point['lake_out_W'] + point['room_out_W'] + power['generator_waste_W']
+                           + floor_out + point['reserve_outside_W'])
         energy_residuals['facility'] = self.stored_energy() - old_total - (boundary_input - boundary_output) * dt
         old_r = point['refrigerant']
         internal_flow = point['internal_pump']['volume_flow_m3_s'] * p['water_density']
@@ -397,7 +460,7 @@ class _Plant:
         mass_residuals = {name: math.fsum((row['before_kg'], row['in_kg'], -row['out_kg'], -row['after_kg']))
                           for name, row in mass_accounts.items()}
         electrical_residual = power['grid_draw_W'] + power['generator_output_W'] + power['ups_output_W'] \
-            - sum(power['actual_powers_W'].values()) - power['rectifier_loss_W']
+            + power.get('starter_output_W', 0) - sum(power['actual_powers_W'].values()) - power['rectifier_loss_W']
         tolerance = p['energy_absolute_tolerance'] + p['balance_relative_tolerance'] \
             * dt * (abs(boundary_input) + abs(boundary_output))
         if max(abs(value) for value in energy_residuals.values()) > tolerance \
@@ -423,6 +486,7 @@ class _Plant:
                                      'coolant_to_internal_water': point['condenser_heat_W'],
                                      'plate_hx_to_lake': point['hx']['heat_W'],
                                      'internal_hot_to_cold_advection': point['circulation_W'],
+                                     **({'backup_water_to_external_air': point['reserve_exchange']['heat_W']} if self.reserve_model else {}),
                                      **({'hot_water_leak_to_floor': point['hot_leak_heat_W']} if self.environment_model else {})},
                 'capacity_slack_W': power['capacity_slack_W'],
                 'boundary_input_J': boundary_input * dt, 'boundary_output_J': boundary_output * dt,
@@ -431,6 +495,11 @@ class _Plant:
                 'ups_loss_energy_J': power['ups_loss_W'] * dt,
                 'generator_output_energy_J': power['generator_output_W'] * dt,
                 'generator_waste_energy_J': power['generator_waste_W'] * dt,
+                **({'starter_output_energy_J': power['starter_output_W'] * dt,
+                    'backup_water_heat_J': point['reserve_exchange']['heat_W'] * dt,
+                    'reserve_external_electric_heat_J': power['reserve_external_electric_heat_W'] * dt,
+                    'reserve_room_control_heat_J': power['reserve_room_heat_W'] * dt,
+                    'backup_fan_energy_J': power['actual_powers_W']['backup_fan'] * dt} if self.reserve_model else {}),
                 'floor_water_inlet_mass_kg': p['floor_water_inflow'] * dt,
                 'floor_water_drained_mass_kg': point['drain_kg_s'] * dt,
                 'floor_inlet_energy_J': floor_in * dt, 'floor_drain_energy_J': floor_out * dt,
@@ -476,7 +545,8 @@ class _Plant:
             'power': point['power'],
             'backup': {'ups_energy_J': self.energy['ups'], 'fuel_energy_J': self.energy['fuel'],
                        'generator_mode': self.generator_mode, 'generator_ready_at_s': self.generator_ready,
-                       'backup_tower_mode': 'standby_uncommanded'},
+                       'backup_tower_mode': self.reserve_state['cooling']['mode'] if self.reserve_model else 'standby_uncommanded',
+                       **({'starter_energy_J': self.energy['starter'], 'reserve_states': deepcopy(self.reserve_state)} if self.reserve_model else {})},
             'facility_cooling': {'hot_temperature_K': t['hot'], 'cold_temperature_K': t['cold'],
                                  'hot_mass_kg': self.hot_mass, 'cold_mass_kg': p['internal_cold_mass'],
                                  'lake_pump': point['lake_pump'], 'internal_pump': point['internal_pump'],
@@ -487,6 +557,7 @@ class _Plant:
                                  'lake_hx_outlet_K': point['hx']['cold_outlet_K'],
                                  'plate_hx_heat_W': point['hx']['heat_W'],
                                  'condenser_heat_W': point['condenser_heat_W'],
+                                 **({'backup_exchange': point['reserve_exchange']} if self.reserve_model else {}),
                                  **({'valve_groups': valves} if valves else {})},
             'equipment_environment': {'solid_temperature_K': t['solid'], 'room_temperature_K': t['room'],
                                       'room_humidity': p['room_humidity'], 'refrigerant': point['refrigerant'],
@@ -516,7 +587,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         if not low <= value <= high:
             raise ValueError(name + ' outside declared runtime range')
     timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
-                                    control_profile=scenario['runtime'].get('local_control_profile'))
+                                    control_profile=scenario['runtime'].get('local_control_profile'),
+                                    reserve_profile=scenario['runtime'].get('reserve_profile'))
     event_index = 0
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])
@@ -532,8 +604,15 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             event_index += 1
         plant.discrete(time_s)
         point = plant.point()
+        if plant.reserve_model:
+            plant.update_reserves(time_s, point)
+            point = plant.point()
+        sample_due = time_s >= plant.next_sample
         plant.sample_control(time_s, point)
         point = plant.point()
+        if plant.reserve_model:
+            plant.update_reserves(time_s, point, sampled=sample_due)
+            point = plant.point()
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
         trace.append(plant.snapshot(time_s, point, workforce))
@@ -556,6 +635,10 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     if plant.environment_model:
         summary.update({key: math.fsum(row[key] for row in balances) for key in
                         ('internal_hot_leaked_mass_kg', 'internal_hot_leak_energy_J')})
+    if plant.reserve_model:
+        summary.update({key: math.fsum(row[key] for row in balances) for key in
+                        ('starter_output_energy_J', 'backup_water_heat_J', 'reserve_external_electric_heat_J',
+                         'reserve_room_control_heat_J', 'backup_fan_energy_J')})
     summary.update(duration_s=duration, integration_steps=len(balances), initial_stored_energy_J=initial_energy,
                    final_stored_energy_J=plant.stored_energy(),
                    whole_run_energy_residual_J=plant.stored_energy() - initial_energy

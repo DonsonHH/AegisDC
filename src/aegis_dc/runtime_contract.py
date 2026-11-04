@@ -1,17 +1,19 @@
 """The explicit supported low-order facility, not a generic graph simulator."""
 from patrol_rsi.contracts import digest
 from .local_control import validate_control_profile
+from .reserve import RESERVE_MODEL, validate_reserve_profile
 
 MODEL = 'aegisdc-low-order-facility-v1'
 TOPOLOGY_SHA256 = 'f6a5fed4e33ef6ef26dfb35f6daf5c9070e2125587ce7e3b84fc9c2383709254'
 WATER_MODEL = 'aegisdc-low-order-facility-water-v2'
 ENVIRONMENT_MODEL = 'aegisdc-low-order-facility-environment-v3'
-WATER_MODELS = {WATER_MODEL, ENVIRONMENT_MODEL}
-ENVIRONMENT_MODELS = {ENVIRONMENT_MODEL}
+WATER_MODELS = {WATER_MODEL, ENVIRONMENT_MODEL, RESERVE_MODEL}
+ENVIRONMENT_MODELS = {ENVIRONMENT_MODEL, RESERVE_MODEL}
 SUPPORTED_TOPOLOGIES = {
     MODEL: TOPOLOGY_SHA256,
     WATER_MODEL: '40852da7230c6db601d8ab7d5a360b45e61356df929826fe62a90016305aeea2',
     ENVIRONMENT_MODEL: '16a1b495731abf52140c921e2dfd185e19cde6493b9f57e504965c9b82c755e4',
+    RESERVE_MODEL: '139ddd130de1c2acde3dbd2fac561243742020d4bc2e0e755845af25e1584e93',
 }
 ENVIRONMENT_QUANTITIES = {'internal_hot_leak_mass_flow': 'mass_flow',
                           'minimum_internal_hot_mass': 'mass', 'it_access_permit': 'fraction',
@@ -71,6 +73,8 @@ def validate_runtime_contract(scenario, entities, parameters):
     expected = {'model', 'property_table', 'property_sha256', 'topology_sha256', 'closed_location_ids'}
     if isinstance(runtime, dict) and 'local_control_profile' in runtime:
         expected.add('local_control_profile')
+    if isinstance(runtime, dict) and 'reserve_profile' in runtime:
+        expected.add('reserve_profile')
     if not isinstance(runtime, dict) or set(runtime) != expected \
             or not isinstance(runtime['model'], str) or runtime['model'] not in SUPPORTED_TOPOLOGIES:
         raise ValueError('Declare the supported runtime model and its closed contract')
@@ -91,6 +95,7 @@ def validate_runtime_contract(scenario, entities, parameters):
         if name not in parameters or parameters[name]['quantity'] != quantity:
             raise ValueError('Runtime requires SI parameter ' + name + ' of quantity ' + quantity)
     validate_control_profile(runtime, parameters)
+    validate_reserve_profile(runtime, parameters)
     values = {name: record['value'] for name, record in parameters.items()}
     for name in ('pump_min_speed', 'pump_fluid_heat_fraction'):
         if not 0 <= values[name] <= 1:

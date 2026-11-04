@@ -18,6 +18,7 @@ SI_UNITS = {
     'hydraulic_resistance': 'Pa*s2/m6', 'fraction': '1',
     'temperature_difference': 'K', 'inventory_mass': 'kg',
     'temperature_offset': 'K', 'volume_flow_offset': 'm3/s',
+    'delay_time': 's', 'heat_capacity_rate': 'W/K',
 }
 PARAMETER_BASES = {'synthetic_assumption', 'published_reference', 'derived_reference'}
 STRICTLY_POSITIVE = {'temperature', 'mass', 'volume', 'time', 'thermal_capacity',

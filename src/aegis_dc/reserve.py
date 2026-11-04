@@ -9,6 +9,43 @@ import math
 from .heat_transfer import counterflow_exchange
 from .thermodynamics import finite_number
 
+RESERVE_MODEL = 'aegisdc-low-order-facility-reserve-v4'
+RESERVE_PROFILE = 'aegisdc-reserve-response-v1'
+RESERVE_QUANTITIES = {
+    'ups_internal_control_power': 'power', 'generator_internal_control_power': 'power',
+    'generator_start_power': 'power', 'generator_initial_start_energy': 'energy',
+    'diesel_idle_fuel_power': 'power', 'ups_transfer_delay': 'delay_time',
+    'diesel_transfer_delay': 'delay_time', 'backup_cooling_transfer_delay': 'delay_time',
+    'backup_fan_nominal_power': 'power', 'backup_air_capacity_rate': 'heat_capacity_rate',
+    'backup_conductance': 'thermal_conductance', 'backup_heat_capacity': 'power',
+}
+RESERVE_BINARY_PARAMETERS = frozenset({
+    'shared_distribution_available', 'ups_in_service', 'ups_transfer_ok',
+    'diesel_in_service', 'diesel_start_ok', 'diesel_transfer_ok',
+    'backup_cooling_in_service', 'backup_cooling_transfer_ok', 'backup_cooling_requested'})
+RESERVE_QUANTITIES.update({name: 'fraction' for name in RESERVE_BINARY_PARAMETERS})
+RESERVE_EXOGENOUS_PARAMETERS = RESERVE_BINARY_PARAMETERS | {'backup_heat_capacity', 'backup_conductance'}
+
+
+def validate_reserve_profile(runtime, parameters):
+    if runtime['model'] != RESERVE_MODEL:
+        if 'reserve_profile' in runtime:
+            raise ValueError('Unsupported reserve profile/model in the closed contract')
+        return
+    if runtime.get('reserve_profile') != RESERVE_PROFILE:
+        raise ValueError('Unsupported reserve profile/model in the closed contract')
+    for name, quantity in RESERVE_QUANTITIES.items():
+        if name not in parameters or parameters[name]['quantity'] != quantity:
+            raise ValueError('Reserve profile requires SI parameter ' + name + ' of quantity ' + quantity)
+        row = parameters[name]
+        if name in RESERVE_BINARY_PARAMETERS and (row['value'] not in (0, 1)
+                or any(limit not in (0, 1) for limit in row['valid_range'])):
+            raise ValueError('Reserve availability/requests must have binary 0/1 value and range: ' + name)
+    for name in ('ups_internal_control_power', 'generator_internal_control_power',
+                 'generator_start_power', 'backup_fan_nominal_power', 'backup_air_capacity_rate', 'controller_power'):
+        if parameters[name]['value'] <= 0:
+            raise ValueError('Reserve actor/performance parameter must be positive: ' + name)
+
 
 def _binary(value, label):
     value = finite_number(value, label)
