@@ -29,3 +29,7 @@ Code commits: `bb336cf672d124d4cbedd89f2e50a5d540aaecf7` and `d9b8de6898aa4811bc
 - `git diff --check` passed. A later integration review and full-suite acceptance are owned by the root agent.
 
 The accepted scope is **STRUCTURE_DEFINED_NOT_SIMULATED**. Domain behaviors are declarations, individual parameter ranges do not establish coupled initialization, field calibration is PENDING and research gain is NOT_ESTABLISHED. No plant simulation, training or registered research trial was run. This resolves ticket 02, not M1 or the overall research goal.
+
+## Integration acceptance
+
+Accepted by root: source0564471a; Standards0, Spec0; enabled-Torch complete engineering/evidence acceptance155/155, zero skips/failures/errors. Gate record: docs/mainline/evidence/02.json. This remains structural-only and does not complete M1 or the research goal.
