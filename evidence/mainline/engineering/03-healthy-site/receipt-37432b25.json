@@ -1,0 +1,59 @@
+{
+  "schema": "aegisdc-ticket03-fixture-verification-v1",
+  "status": "PASS",
+  "scope": "Fresh reads and independent saved-boundary/analytic checks; engineering only, no new run or gain test",
+  "source_commit": "37432b25a994c1c4e37d6747e9e9228a9ea3a44a",
+  "normal": {
+    "trace_records": 601,
+    "balance_records": 600,
+    "fresh_read_max_energy_residual_J": 6.05359673500061e-09,
+    "fresh_read_max_mass_residual_kg": 0.0,
+    "current_source_matches_recorded_snapshot": true
+  },
+  "work": {
+    "trace_records": 158,
+    "balance_records": 157,
+    "fresh_read_max_energy_residual_J": 6.05359673500061e-09,
+    "fresh_read_max_mass_residual_kg": 0.0,
+    "current_source_matches_recorded_snapshot": true
+  },
+  "tests": {
+    "run": 176,
+    "executed": 174,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "PASS"
+  },
+  "historical_original_files_verified": 20,
+  "research_trials": 0,
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "historical_identity_note": "Later source revisions may differ; these saved fixtures remain attributed to their recorded source snapshot.",
+  "files_sha256": {
+    "normal-37432b25/balances.jsonl": "ca8d5c8c5a0b97c9b8ecfaee892a05a2f69dee1c62f0f4e8b2db02b1e9ab7cf5",
+    "normal-37432b25/private-state.jsonl": "63bce49795c4b86c9cfcdfd5e629f1bba66cdd92fdba75ddcbaef319b215479e",
+    "normal-37432b25/run.json": "2475c63094adb28e6b58ab35c9d3a74268779fe3a3d083677f1b779bdc36d034",
+    "normal-37432b25/scenario.json": "6641e8014a9e1bf7a601f92b699fdfb79667d46b357240ec60110fa9cb6cd51a",
+    "work-37432b25/balances.jsonl": "c3a9a489af6345141fffa0903fd9e80d55739eda85cb8c2615a618f3a1da70d1",
+    "work-37432b25/private-state.jsonl": "9a47470f053b4a893501c7d1b0e313ca051e5904441b99e29027f881cc17f914",
+    "work-37432b25/run.json": "47d9d3b1c2a7abb1ec60a98d488345d9139f1e04cb38bbfb679f7c819c36f901",
+    "work-37432b25/scenario.json": "6641e8014a9e1bf7a601f92b699fdfb79667d46b357240ec60110fa9cb6cd51a",
+    "acceptance-37432b25/evidence.json": "b4d812cf009c9392c7891e5f7868570e560f68df55479b0b2faf1a548a22f26e",
+    "acceptance-37432b25/summary.json": "632ba8682e8e4cb9df6695e0600ef6968149159c92a16934a58209de3db43d96",
+    "acceptance-37432b25/tests.log": "b041e44597b3a3b9b96553f9f1250a4a3735abc43ea1d411b0b4ebddf2c894a5",
+    "work-inputs-v1.json": "498f518f245cc41fac9d1a43ba7e98e21ed1d63271fda069a1cae1ea1d6927a3",
+    "verify_fixtures.py": "ea501857a9fde99b9f1b2798dfbd419b0db163977558fb576e15bbd102bbe10c"
+  }
+}

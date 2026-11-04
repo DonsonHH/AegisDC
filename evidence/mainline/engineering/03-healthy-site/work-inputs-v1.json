@@ -1,0 +1,46 @@
+{
+  "schema": "aegisdc-engineering-inputs-v1",
+  "work_requests": [
+    {
+      "id": "qualified-cooling-job",
+      "time_s": 0.25,
+      "worker_id": "worker_cooling",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "intake_pump",
+      "source_note": "Finite engineering fixture: 120 s qualified travel and 30 s work; no diagnosis or repair."
+    },
+    {
+      "id": "shared-tool-conflict",
+      "time_s": 0.5,
+      "worker_id": "worker_control",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "plate_hx",
+      "source_note": "Engineering rejection fixture: a second qualified actor requests the occupied portable flow meter."
+    },
+    {
+      "id": "qualification-mismatch",
+      "time_s": 0.75,
+      "worker_id": "worker_it",
+      "work_interface_id": "inspect_power",
+      "target_id": "rectifier",
+      "source_note": "Engineering rejection fixture: IT qualification does not authorize electrical work."
+    },
+    {
+      "id": "worker-already-occupied",
+      "time_s": 1.0,
+      "worker_id": "worker_cooling",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "filter",
+      "source_note": "Engineering rejection fixture: the selected worker remains in transit."
+    },
+    {
+      "id": "access-qualification-missing",
+      "time_s": 1.25,
+      "worker_id": "worker_control",
+      "work_interface_id": "inspect_control_monitoring",
+      "target_id": "point_power",
+      "source_note": "Engineering rejection fixture: a control qualification cannot pass the electrical-room access gate."
+    }
+  ],
+  "boundary_events": []
+}
