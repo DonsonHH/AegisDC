@@ -59,7 +59,8 @@ different command-induced internal states and service losses remain visible.
 `aegisdc-execution-source-v1` records SHA-256 for every AegisDC runtime `.py`
 file and the shared strict-JSON/hash contract, their aggregate identity, Git
 execution revision and dirty-source indicator, plus exact Python implementation
-and version. Replay requires identical runtime bytes and interpreter. A changed
+and version and the interpreter executable's SHA-256. Replay requires identical
+runtime bytes and interpreter. A changed
 Git commit with identical runtime bytes is explicitly recorded as
 `DIFFERENT_COMMIT_SAME_RUNTIME_BYTES`; a changed runtime/interpreter produces a
 new FAILED attempt. Historical outputs are never rewritten or silently

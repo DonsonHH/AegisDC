@@ -52,7 +52,8 @@ def execution_source_identity():
         commit, dirty = None, None
     return dict(schema='aegisdc-execution-source-v1', git_commit=commit,
                 implementation_has_changes=dirty, files=files, source_tree_sha256=digest(files),
-                python=dict(implementation=platform.python_implementation(), version=sys.version))
+                python=dict(implementation=platform.python_implementation(), version=sys.version,
+                            executable_sha256=_file_sha(Path(sys.executable))))
 
 
 def _inputs(value):
