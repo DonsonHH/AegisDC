@@ -30,6 +30,13 @@ def validate_control_profile(runtime, parameters):
                 raise ValueError('Local control availability must have binary 0/1 value and range: ' + name)
 
 
+def _finite_report(value):
+    try:
+        return type(value) in (int, float) and math.isfinite(value)
+    except OverflowError:
+        return False
+
+
 def sample_local_control(previous, parameters, measurement, *, controller_power_W):
     """Take one powered local sample; the caller owns its explicit sample clock.
 
@@ -56,8 +63,8 @@ def sample_local_control(previous, parameters, measurement, *, controller_power_
         if type(measurement[flag]) is not bool:
             raise ValueError('Local measurement validity and connection flags must be boolean')
     temperature, flow = measurement['temperature_K'], measurement['internal_volume_flow_m3_s']
-    temperature_finite = type(temperature) in (int, float) and math.isfinite(temperature)
-    flow_finite = type(flow) in (int, float) and math.isfinite(flow)
+    temperature_finite = _finite_report(temperature)
+    flow_finite = _finite_report(flow)
     powered = p['controller_power'] > 0 and power >= p['controller_power']
     temperature_valid = measurement['temperature_valid'] and temperature_finite and temperature > 0
     flow_valid = measurement['flow_valid'] and flow_finite and flow >= 0

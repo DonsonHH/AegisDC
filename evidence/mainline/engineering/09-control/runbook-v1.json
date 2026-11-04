@@ -1,0 +1,246 @@
+{
+  "schema": "aegisdc-control-engineering-runbook-v1",
+  "classification": "FINITE_ENGINEERING_FIXTURES_NOT_EFFECT_RESEARCH",
+  "case_expectation_basis": "Independent interval sums, hand-timed sampling and declared synthetic settings; frozen before committed-source artifact capture.",
+  "cases": [
+    {
+      "id": "normal",
+      "duration_s": 600,
+      "parameters": {},
+      "events": [],
+      "expected_summary": {
+        "demand_service_unit_s": 600,
+        "delivered_service_unit_s": 600,
+        "service_deficit_time_s": 0
+      }
+    },
+    {
+      "id": "high-temperature-report",
+      "duration_s": 4,
+      "parameters": {
+        "local_temperature_bias": 40
+      },
+      "events": [],
+      "expected_summary": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 4
+      }
+    },
+    {
+      "id": "honest-temperature-trip",
+      "duration_s": 1,
+      "parameters": {
+        "protection_temperature": 304,
+        "protection_reset_temperature": 303.5
+      },
+      "events": [],
+      "expected_summary": {
+        "demand_service_unit_s": 1,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 1
+      }
+    },
+    {
+      "id": "negative-temperature-mask",
+      "duration_s": 1,
+      "parameters": {
+        "protection_temperature": 304,
+        "protection_reset_temperature": 303.5,
+        "local_temperature_bias": -5
+      },
+      "events": [],
+      "expected_summary": {
+        "demand_service_unit_s": 1,
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 0
+      }
+    },
+    {
+      "id": "honest-low-flow-trip",
+      "duration_s": 2,
+      "parameters": {},
+      "events": [
+        [
+          0.25,
+          "internal_valve_opening",
+          0
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 2,
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 1
+      }
+    },
+    {
+      "id": "flow-report-mask",
+      "duration_s": 2,
+      "parameters": {},
+      "events": [
+        [
+          0.25,
+          "internal_valve_opening",
+          0
+        ],
+        [
+          0.25,
+          "local_internal_flow_bias",
+          0.12
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 2,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 0
+      }
+    },
+    {
+      "id": "invalid-temperature-timing",
+      "duration_s": 3,
+      "parameters": {},
+      "events": [
+        [
+          0.25,
+          "local_temperature_sensor_valid",
+          0
+        ],
+        [
+          1.25,
+          "local_temperature_sensor_valid",
+          1
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 3,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 1
+      }
+    },
+    {
+      "id": "invalid-flow-CLI",
+      "duration_s": 3,
+      "parameters": {},
+      "events": [
+        [
+          0.25,
+          "local_internal_flow_sensor_valid",
+          0
+        ],
+        [
+          1.25,
+          "local_internal_flow_sensor_valid",
+          1
+        ]
+      ],
+      "via_cli": true,
+      "expected_summary": {
+        "demand_service_unit_s": 3,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 1
+      }
+    },
+    {
+      "id": "supervisory-autonomy",
+      "duration_s": 4,
+      "parameters": {},
+      "events": [
+        [
+          0.25,
+          "supervisory_link_available",
+          0
+        ],
+        [
+          0.25,
+          "local_temperature_bias",
+          40
+        ],
+        [
+          1.25,
+          "supervisory_link_available",
+          1
+        ],
+        [
+          2.25,
+          "local_temperature_bias",
+          0
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 2
+      }
+    },
+    {
+      "id": "power-cycle-latch",
+      "duration_s": 2,
+      "parameters": {
+        "protection_temperature": 304,
+        "protection_reset_temperature": 290,
+        "initial_solid_temperature": 300,
+        "ups_energy": 0,
+        "diesel_initial_fuel_energy": 0
+      },
+      "events": [
+        [
+          0.25,
+          "grid_capacity",
+          0
+        ],
+        [
+          1.25,
+          "grid_capacity",
+          10000000
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 2,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 2
+      }
+    },
+    {
+      "id": "invalid-negative-flow",
+      "duration_s": 1,
+      "parameters": {
+        "local_internal_flow_bias": -0.2
+      },
+      "events": [],
+      "expected_summary": {
+        "demand_service_unit_s": 1,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 1
+      }
+    },
+    {
+      "id": "leak-with-local-sensor-interruption",
+      "duration_s": 3,
+      "parameters": {
+        "internal_hot_leak_mass_flow": 0.2
+      },
+      "events": [
+        [
+          0.25,
+          "local_temperature_sensor_valid",
+          0
+        ],
+        [
+          1.25,
+          "local_temperature_sensor_valid",
+          1
+        ]
+      ],
+      "expected_summary": {
+        "demand_service_unit_s": 3,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 1,
+        "internal_hot_leaked_mass_kg": 0.6,
+        "floor_water_inlet_mass_kg": 0
+      }
+    }
+  ],
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

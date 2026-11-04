@@ -49,7 +49,20 @@ are not replaced by the old fixed-inventory equations. `ENVIRONMENT_MODELS` and
 `WATER_MODELS` keep their separate compatibility groups for later explicit
 runtime variants; the control profile is independent of a particular topology.
 
-The first three public slices and predecessor compatibility checks pass. Full
-behavior coverage, committed-source engineering artifacts, independent review
-and root enabled-Torch acceptance are still pending at this interface checkpoint.
+Sixteen focused tests now pass, including signed-offset loading, static/timed
+profile validation, exact sample-clock delay, biased reports masking real
+conditions, invalid-channel recovery, autonomous protection during supervisory
+loss, power-cycle latching, a literal hysteresis sequence, serialization of
+impossible reports and actual CLI/source parity. Legacy environment physics
+and interval accounts match the zero-error profile exactly in the comparator.
+An unrepresentable integer report exposed an OverflowError; the retained red/green
+corrects it to invalid-channel fail-safe without clipping the report.
+
+The frozen engineering runbook is
+`evidence/mainline/engineering/09-control/runbook-v1.json`: twelve predeclared
+full-facility examples, including one actual CLI and combined hot leakage/control
+interruption, with independent expected demand/delivery/deficit accounts. Source
+freeze precedes its artifact execution and the single full regression.
+Committed-source artifacts, independent review and root enabled-Torch acceptance
+remain pending at this source-freeze checkpoint.
 No registered research, training or agent call is started by these checks.
