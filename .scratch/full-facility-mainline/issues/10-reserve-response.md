@@ -19,3 +19,14 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+## Preparation (implementation not started)
+
+Assigned design owner/worktree: `donson/mainline-10-reserve`,
+`.work/worktrees/full-site-10`, created at actual integration `81416154`.
+See `docs/mainline/10-reserve-design.md` for the primary-source boundary,
+finite-energy/transfer proposal, paid effective cooling interface, 07/09
+compatibility and independent hand acceptance cases. This round changes no
+runtime/config and executes no tests, engineering simulation or effect study.
+Status remains ready-for-agent pending the root's implementation follow-up;
+the design is not acceptance evidence or M1 completion.
