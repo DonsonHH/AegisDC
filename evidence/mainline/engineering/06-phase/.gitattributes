@@ -1,0 +1,5 @@
+# Preserve hashed native Windows acceptance outputs and captured unittest logs.
+acceptance-1562473b-01/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+red-endpoints-01/*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# The expected-red endpoint test retains unittest's first-line subtest progress space.
+red-endpoints-01/tests.log -text whitespace=blank-at-eof,space-before-tab,cr-at-eol,-blank-at-eol
