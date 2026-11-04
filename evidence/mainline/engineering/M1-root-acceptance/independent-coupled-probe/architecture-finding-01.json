@@ -1,0 +1,95 @@
+{
+  "classification": "SPEC_VISUAL_RELATION_SEMANTICS_FINDING_NOT_RUNTIME",
+  "reviewed_source_commit": "b135ecffb5fe5c3fecaa44859afbf925b8549bb1",
+  "contract": "docs/MAINLINE.md:15: four relations share entity identities with separate semantics",
+  "plot_source_location": "scripts/plot_mainline_coupled.py:202",
+  "observed_drawing_rule": "FancyArrowPatch(..., arrowstyle='-|>', ...) for every selected relation",
+  "access_relations": [
+    {
+      "id": "a1",
+      "from": "loc_entry",
+      "to": "loc_control",
+      "kind": "walk",
+      "basis": "synthetic_assumption",
+      "source_refs": [
+        "R0"
+      ],
+      "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+      "duration_parameter": "walk_short",
+      "bidirectional": true,
+      "requires_qualification_ids": []
+    },
+    {
+      "id": "a2",
+      "from": "loc_control",
+      "to": "loc_hx",
+      "kind": "walk",
+      "basis": "synthetic_assumption",
+      "source_refs": [
+        "R0"
+      ],
+      "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+      "duration_parameter": "walk_short",
+      "bidirectional": true,
+      "requires_qualification_ids": []
+    },
+    {
+      "id": "a3",
+      "from": "loc_hx",
+      "to": "loc_lake",
+      "kind": "walk",
+      "basis": "synthetic_assumption",
+      "source_refs": [
+        "R0"
+      ],
+      "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+      "duration_parameter": "walk_long",
+      "bidirectional": true,
+      "requires_qualification_ids": []
+    },
+    {
+      "id": "a4",
+      "from": "loc_control",
+      "to": "loc_it",
+      "kind": "walk",
+      "basis": "synthetic_assumption",
+      "source_refs": [
+        "R0"
+      ],
+      "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+      "duration_parameter": "walk_short",
+      "bidirectional": true,
+      "requires_qualification_ids": []
+    },
+    {
+      "id": "a5",
+      "from": "loc_control",
+      "to": "loc_electrical",
+      "kind": "walk",
+      "basis": "synthetic_assumption",
+      "source_refs": [
+        "R0"
+      ],
+      "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+      "duration_parameter": "walk_short",
+      "bidirectional": true,
+      "requires_qualification_ids": [
+        "qualified_electrical_inspection"
+      ]
+    }
+  ],
+  "affected_selected_access_ids": [
+    "a1",
+    "a2",
+    "a3",
+    "a4",
+    "a5"
+  ],
+  "concrete_example": "a2 is bidirectional; the figure shows only loc_control -> loc_hx while the combined worker actually first walks loc_hx -> loc_control.",
+  "viewed_figure_sha256": "fa7cd752ab484b2926e476064e0b60b1653caad7c24dacf576dd445c58801036",
+  "viewed_figure_receipt_sha256": "84318a780f670deda983720fd5af012694b4ddb9f8bdb9d79c33e5573f171a4f",
+  "required_correction": "Render the declared bidirectional access semantics; preserve original b135 artifacts and render with a separately identified plot revision.",
+  "related_visual_cleanup": "a4 diagonal crosses behind loc_hx; curve it around the box in the same revision.",
+  "runtime_changes_required": false,
+  "physics_rerun_required": false
+}

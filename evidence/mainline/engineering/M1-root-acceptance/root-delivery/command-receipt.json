@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "root_head": "145cd8c179d3c47cb4d6b191d3fbeaeb45b56f76",
+  "root_clean": true,
+  "original_source_execution": "b135ecffb5fe5c3fecaa44859afbf925b8549bb1",
+  "original_data_delivery": "1625764dd4c79a408ff13c76e8189ab8a7994769",
+  "plot_author_revision": "2727adfce8128feb543efd2f489d37eb4a9bbd73",
+  "visual_delivery": "eb5df8e8bdd6448363b6bbcd29db86d439f22644",
+  "original_package": {
+    "cases": 17,
+    "independent_literals": 129,
+    "refusals": 3,
+    "artifacts": 125,
+    "state_points": 1272,
+    "intervals": 1255,
+    "historical_full_collected": 306,
+    "historical_full_executed": 304,
+    "historical_optional_skips": 2,
+    "root_full_not_repeated_by_readback": true
+  },
+  "architecture_v2": {
+    "declared_artifacts": 3,
+    "receipt_checked_separately": true,
+    "relations": 37,
+    "bidirectional_access_edges": 5
+  },
+  "runtime_caches_required": 0,
+  "verifier_current_Git_sha256": {
+    "scripts/verify_coupled_delivery.py": "12bbb7536bc4019d5076ce33f37dba12ae951e0f863e500b3e8d04b9f54bad25",
+    "scripts/verify_coupled_architecture_v2.py": "357329eaf8c3d6aec9f69fb0b065c7d0fb0030d2e03be075e892618d93225b78"
+  },
+  "historical_readbacks_preserved_sha256": {
+    "evidence/mainline/engineering/11-coupled/delivery-readback-1625764d-fresh-01.json": "cef46d27f9525b9b8f45a0c5c7443460e6204af92fc2c4efb20e961f6fe9fa2d",
+    "evidence/mainline/engineering/11-coupled/visual-delivery-readback-eb5df8e8-fresh-01.json": "b8782fe96a48902596d6ee343f6ec0f4fb699276d47f192028ed5c668369de11"
+  },
+  "commands": [
+    {
+      "label": "physical",
+      "command": [
+        "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "scripts/verify_coupled_delivery.py",
+        "--root",
+        "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
+        "--directory",
+        "evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01",
+        "--delivery-commit",
+        "1625764dd4c79a408ff13c76e8189ab8a7994769",
+        "--output",
+        "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\merge-11-delivery-145cd8c1-01\\physical-delivery.json"
+      ],
+      "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
+      "checked_head": "145cd8c179d3c47cb4d6b191d3fbeaeb45b56f76",
+      "started_utc": "2026-11-04T19:11:07.219009+00:00",
+      "elapsed_s": 25.20585160000337,
+      "exit_code": 0,
+      "stdout_sha256": "956fef0808e535d46dd68586c63e60a18fc18ce33a8498fcff679b6a205075f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "visual",
+      "command": [
+        "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "-B",
+        "-X",
+        "utf8",
+        "scripts/verify_coupled_architecture_v2.py",
+        "--root",
+        "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
+        "--directory",
+        "evidence/mainline/engineering/11-coupled/architecture-v2-01",
+        "--delivery-commit",
+        "eb5df8e8bdd6448363b6bbcd29db86d439f22644",
+        "--original-delivery-commit",
+        "1625764dd4c79a408ff13c76e8189ab8a7994769",
+        "--output",
+        "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\merge-11-delivery-145cd8c1-01\\visual-delivery.json"
+      ],
+      "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
+      "checked_head": "145cd8c179d3c47cb4d6b191d3fbeaeb45b56f76",
+      "started_utc": "2026-11-04T19:11:32.427962+00:00",
+      "elapsed_s": 2.3591723999998067,
+      "exit_code": 0,
+      "stdout_sha256": "5da2bbc5766bee8cb986aa614389e63d54fb525e090ade1196e549227ce5cbff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_17_targets_148_guard_result": "retained_at_b135_not_rerun",
+  "original_P2": "CLOSED",
+  "new_physics_runs": 0,
+  "new_full_suite_runs": 0
+}

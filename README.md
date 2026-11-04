@@ -48,7 +48,7 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。更深的M1/M2验证、风险证据与策略闭环仍按固定主线推进。
 
-供电、水力阀组与相变的[组合验收与新数据图](evidence/mainline/engineering/04-06-root-acceptance/README.md)、[服务账](evidence/mainline/engineering/08-root-acceptance/README.md)、[环境/访问](evidence/mainline/engineering/07-root-acceptance/README.md)、[本地控制](evidence/mainline/engineering/09-root-acceptance/README.md)及[有限备用保障](evidence/mainline/engineering/10-root-acceptance/README.md)已分项接受。最新289项根验收全执行、零跳过；实际执行、交付、失败和缓存分类可追溯。当前进入同一完整配置的M1八域联合验收，后续数值、证据、调度与独立研究仍按主线推进。
+**M1同一完整设施的八域工程基线已接受**：[联合架构、响应与库存/工时数据图](evidence/mainline/engineering/M1-root-acceptance/README.md)记录600秒正常工况、240秒组合轨迹、17场景/129独立预期及306项零跳过根验收。分项供电、水热、相变、服务、环境、控制、备用和交付记录保留各自实际身份。当前进入M2数值资格与外生/行动来源重放；证据、调度、独立效果与条件式AI/RSI仍沿固定主线继续。
 
 ```bash
 python -m aegis_dc scenario

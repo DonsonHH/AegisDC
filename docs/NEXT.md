@@ -9,7 +9,7 @@
 
 第一版结构/风险原型与合成验证见[FOUNDATION](FOUNDATION.md)。本轮已完成[三案例独立资料包](research/20261104/facility-cases/README.md)：8幅架构图、103条参数及缺值、各站状态/代数方程、输入/观测/初值和补数清单，另有单文件离线HTML与CSV。
 
-场景契约与首条八域运行基线已通过根验收：[模型/适用域](mainline/healthy-run-model.md)、[实际工程轨迹](../evidence/mainline/engineering/03-root-demonstration/README.md)。供电、水力阀组、相变（[数据图与收据](../evidence/mainline/engineering/04-06-root-acceptance/README.md)）、[服务账](../evidence/mainline/engineering/08-root-acceptance/README.md)、[环境/访问](../evidence/mainline/engineering/07-root-acceptance/README.md)、[本地控制](../evidence/mainline/engineering/09-root-acceptance/README.md)及[备用保障](../evidence/mainline/engineering/10-root-acceptance/README.md)已分项接受，最新根验收289项全执行、零跳过。当前推进11的同一完整配置八域联合验收，之后才接受M1并进入12数值/13重放。未知现场数据保留缺口，合成设定带单位、范围和一致性约束；不据此升级为现场风险或失冷预测。42个依赖任务按接受证据推进，完整独立研究结论前主目标保持active。
+M1已通过根实质审计：[同一V6八域联合架构与数据图](../evidence/mainline/engineering/M1-root-acceptance/README.md)、[M1逐项门槛](mainline/evidence/M1.json)。600秒正常与240秒组合轨迹、17场景/129独立预期和306项零跳过根验收保留实际执行/交付身份；旧原件与纠正历史不改。当前依赖前沿为12数值/步长资格、13外生/行动来源重放，两者接受后进入14证据账。未知现场数据仍为缺口，合成设定带单位/范围/来源，不据此升级为现场风险或失冷预测。42个任务按接受证据继续，完整独立结论与条件式增量审计前主目标保持active。
 
 当前不自动恢复会前训练、搜索或确认集。会前收益与限制保留在[证据索引](EVIDENCE.md)，具体新交付要求见[POSTMEETING_SPEC](POSTMEETING_SPEC.md)。
 
