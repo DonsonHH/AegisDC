@@ -10,6 +10,8 @@ ATTEMPTS = ['normal-600s', 'normal-600s-replay', 'combined-episode-CLI', 'combin
             'causal-baseline', 'causal-command', 'physical-failure', 'explicit-retry',
             'forbidden-demand-command', 'coincident-command-conflict', 'invalid-replay-origin',
             'research-before-protocol', 'malformed-CLI-input']
+LEGACY_ENGINEERING_CONTROLS = {'lake_valve_opening', 'internal_valve_opening', 'pump_pressure_rise',
+                               'internal_pump_pressure_rise', 'backup_cooling_requested'}
 
 
 def _require(condition, message):
@@ -35,7 +37,20 @@ def check_package(root, directory):
         _require(replayed['record']['replay_of']['attempt_sha256'] == original['record_sha256'], 'Replay origin hash mismatch')
         _require(original['inputs'] == replayed['inputs'], 'Replay changed frozen inputs')
         item = next(row for row in prior['cases'] if row['id'] == identifier)
-        independent[identifier] = check_case(item, original['run'], original['scenario'],
+        # The old M1 checker retains its immutable legacy contract. Adapt the
+        # declared case input, not the saved actual output or any literal result.
+        external = sorted([row for row in item['events'] if row['parameter_id'] not in LEGACY_ENGINEERING_CONTROLS],
+                          key=lambda row: (row['time_s'], row['parameter_id']))
+        controls = sorted([dict(row, id='declared-engineering-command-' + str(index))
+                           for index, row in enumerate(item['events'])
+                           if row['parameter_id'] in LEGACY_ENGINEERING_CONTROLS],
+                          key=lambda row: (row['time_s'], row['parameter_id']))
+        jobs = sorted(item['work_requests'], key=lambda row: (row['time_s'], row['id']))
+        expected_inputs = dict(schema='aegisdc-facility-replay-inputs-v1', seed=book['seed'],
+                               exogenous_events=external, action_commands=controls, work_requests=jobs)
+        _require(original['inputs'] == expected_inputs, 'Actual origin-separated inputs differ from the declared source case')
+        adapted_case = dict(item, events=external, work_requests=jobs)
+        independent[identifier] = check_case(adapted_case, original['run'], original['scenario'],
                                             original['run']['trace'], original['run']['balances'])
         pairs[identifier] = dict(status='EXACT_ALL_RUN_SEMANTICS',
                                  state_points=len(original['run']['trace']), intervals=len(original['run']['balances']),

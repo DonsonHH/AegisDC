@@ -33,14 +33,31 @@ def verify(root, directory, *, delivery_commit):
                 or git_blob_sha(root, delivery, relative + '/' + name) != expected:
             raise ValueError('Durable delivery artifact mismatch: ' + name)
     execution = receipt['execution_commit']
-    for group, key in (('pinned_tools', 'declared_tools'), ('execution_inputs', 'declared_execution_inputs')):
+    for group, key in (('pinned_tools', 'declared_tools'), ('execution_inputs', 'declared_execution_inputs'),
+                       ('prior_durable_files', 'declared_prior_files')):
         if set(receipt[group]) != set(declaration[key]):
             raise ValueError('Initial source/input declaration differs: ' + group)
-    for group in ('runtime_sources', 'pinned_tools', 'execution_inputs'):
+    for group in ('runtime_sources', 'pinned_tools', 'execution_inputs', 'prior_durable_files'):
         for name, expected in receipt[group].items():
             if is_runtime_cache(name) or file_sha(safe_path(root, name)) != expected \
                     or git_blob_sha(root, execution, name) != expected or git_blob_sha(root, delivery, name) != expected:
                 raise ValueError('Execution/delivery source or tool mismatch: ' + name)
+    for historical in receipt['retained_failed_captures']:
+        folder = safe_path(root, historical)
+        failed = json.loads((folder / 'receipt.json').read_text(encoding='utf-8'))
+        if failed['engineering_capture'] != 'FAIL' or (folder / 'full-check').exists():
+            raise ValueError('Retained pre-full capture failure was rewritten or misclassified')
+        actual_failed = {path.relative_to(folder).as_posix() for path in folder.rglob('*')
+                         if path.is_file() and not is_runtime_cache(path)}
+        if actual_failed != set(failed['artifacts']) | {'receipt.json'}:
+            raise ValueError('Retained failed capture durable set differs')
+        for name, expected in failed['artifacts'].items():
+            if file_sha(safe_path(folder, name)) != expected:
+                raise ValueError('Retained failed-capture artifact changed: ' + name)
+        for group in ('runtime_sources', 'pinned_tools', 'execution_inputs'):
+            for name, expected in failed[group].items():
+                if git_blob_sha(root, failed['execution_commit'], name) != expected:
+                    raise ValueError('Retained failed capture does not match its historical execution source')
     for name in ATTEMPTS:
         attempt = read_attempt(directory / name)
         source = attempt['record']['source_identity']
@@ -58,6 +75,8 @@ def verify(root, directory, *, delivery_commit):
                 durable_artifacts=len(declared), terminal_attempts=checks['terminal_attempts'],
                 exact_replay_pairs=len(checks['exact_replay_pairs']), completed_attempts=6, failed_attempts=7,
                 explicit_retries=1, source_and_tool_files=len(receipt['runtime_sources']) + len(receipt['pinned_tools']),
+                retained_failed_captures=len(receipt['retained_failed_captures']),
+                retained_prior_durable_files=len(receipt['prior_durable_files']),
                 full_tests=regression['tests'], verified_original_files=regression['verified_original_files'],
                 runtime_caches_required=0, initial_pending_receipt_preserved=True,
                 physics_rerun=False, full_suite_rerun=False, research_trials=0, model_calls=0, training_calls=0)

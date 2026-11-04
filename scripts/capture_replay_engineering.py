@@ -57,7 +57,9 @@ def capture(directory):
     tool_paths += [path.relative_to(ROOT).as_posix() for path in sorted((ROOT / 'src/patrol_rsi').glob('*.py'))]
     input_paths = ['docs/mainline/13-replay-runbook.json', book['prior_runbook'], book['profile'],
                    'configs/materials/reference-r134a-saturation.json']
-    for path in list(source['files']) + tool_paths + input_paths:
+    prior_paths = [path.relative_to(ROOT).as_posix() for folder in book['retained_failed_captures']
+                   for path in sorted((ROOT / folder).rglob('*')) if path.is_file() and not is_runtime_cache(path)]
+    for path in list(source['files']) + tool_paths + input_paths + prior_paths:
         if file_sha(ROOT / path) != git_blob_sha(ROOT, execution, path):
             raise ValueError('Uncommitted authoring/runtime/input bytes: ' + path)
     labels = ['normal-600s', 'normal-600s-replay', 'combined-episode-CLI', 'combined-episode-CLI-replay',
@@ -71,7 +73,8 @@ def capture(directory):
     directory.mkdir(parents=True, exist_ok=False)
     declaration = dict(schema='aegisdc-replay-delivery-declaration-v1', classification='ENGINEERING_NOT_RESEARCH',
                        declared_artifacts=sorted(declared), declared_tools=tool_paths,
-                       declared_execution_inputs=input_paths, runtime_caches='NOT_DELIVERABLE',
+                       declared_execution_inputs=input_paths, declared_prior_files=prior_paths,
+                       runtime_caches='NOT_DELIVERABLE',
                        terminal_receipt='receipt.json')
     write(directory / 'declaration.json', declaration)
     (directory / 'runbook-copy.json').write_bytes(book_path.read_bytes())
@@ -169,6 +172,8 @@ def capture(directory):
         receipt['failure'] = dict(type=type(error).__name__, message=str(error))
     receipt.update(runtime_sources=source['files'], pinned_tools={path: file_sha(ROOT / path) for path in tool_paths},
                    execution_inputs={path: file_sha(ROOT / path) for path in input_paths},
+                   prior_durable_files={path: file_sha(ROOT / path) for path in prior_paths},
+                   retained_failed_captures=book['retained_failed_captures'],
                    artifacts={path.relative_to(directory).as_posix(): file_sha(path) for path in sorted(directory.rglob('*'))
                               if path.is_file() and not is_runtime_cache(path)})
     write(directory / 'receipt.json', receipt)
