@@ -1,6 +1,7 @@
 """Independent exact-gap counterexamples at the public evidence ledger seam."""
 from copy import deepcopy
 import json
+import sys
 import unittest
 
 from aegis_dc.evidence_ledger import EvidenceLedger
@@ -78,6 +79,22 @@ class DeclaredBoundPrecisionTests(unittest.TestCase):
                 document['records'][0]['observed_at_s'] = observed
                 with self.assertRaises(ValueError):
                     EvidenceLedger(document).snapshot(2 ** 1023)
+
+    def test_equivalent_bound_encodings_have_the_same_finite_endpoint_admission(self):
+        # Exact upper endpoint is one below the binary64 overflow midpoint.
+        # Converting x to binary64 before adding the bound loses that one.
+        integer = example()
+        integer['observables'][0]['quantity'] = 'temperature_offset'
+        integer['records'][0]['value'] = int(sys.float_info.max) - 1
+        integer['records'][0]['quality']['error_bound'] = 2 ** 970
+        floating = deepcopy(integer)
+        floating['records'][0]['quality']['error_bound'] = float(2 ** 970)
+        self.assertEqual(integer, floating)
+        for document in (integer, floating):
+            with self.subTest(bound_type=type(document['records'][0]['quality']['error_bound']).__name__):
+                snapshot = EvidenceLedger(document).snapshot(2)
+                self.assertEqual(snapshot['current_record_ids'], ['r-temperature'])
+                self.assertEqual(snapshot['records'][0]['value'], int(sys.float_info.max) - 1)
 
 
 if __name__ == '__main__':

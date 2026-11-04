@@ -31,13 +31,12 @@ def _finite(value, label):
     _require(valid, label + ' must be a finite numeric value, not boolean or missing')
 
 
-def _age(as_of_s, observed_at_s):
-    difference = Fraction(as_of_s) - Fraction(observed_at_s)
+def _derived_number(exact, label):
     try:
-        result = difference.numerator if difference.denominator == 1 else float(difference)
+        result = exact.numerator if exact.denominator == 1 else float(exact)
     except OverflowError as error:
-        raise ValueError('Evidence age exceeds the finite numeric output domain') from error
-    _finite(result, 'Evidence age')
+        raise ValueError(label + ' exceeds the finite numeric output domain') from error
+    _finite(result, label)
     return result
 
 
@@ -128,8 +127,9 @@ def _record(record, sources, observables):
         error = quality['error_bound']
         _finite(error, 'Absolute error bound')
         _require(error >= 0, 'Absolute error bound must be nonnegative')
-        _finite(value - error, 'Lower declared bound')
-        _finite(value + error, 'Upper declared bound')
+        exact_value, exact_error = Fraction(value), Fraction(error)
+        _derived_number(exact_value - exact_error, 'Lower declared bound')
+        _derived_number(exact_value + exact_error, 'Upper declared bound')
     else:
         _require(quality['error_bound'] is None, 'Unbounded quality must not invent an error bound')
         _require(status != 'reported' or value_type != 'number', 'Numbers need bounded or explicitly unknown quality')
@@ -267,7 +267,7 @@ class EvidenceLedger:
             if record['arrived_at_s'] > as_of_s or record['observed_at_s'] > as_of_s:
                 continue
             row = deepcopy(record)
-            row['age_s'] = _age(as_of_s, record['observed_at_s'])
+            row['age_s'] = _derived_number(Fraction(as_of_s) - Fraction(record['observed_at_s']), 'Evidence age')
             row['availability'] = ('missing' if record['value'] is None else
                                    'expired' if record['valid_until_s'] is not None
                                    and as_of_s >= record['valid_until_s'] else 'current')

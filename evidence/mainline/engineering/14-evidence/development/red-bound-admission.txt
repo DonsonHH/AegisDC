@@ -1,0 +1,25 @@
+....E.
+======================================================================
+ERROR: test_equivalent_bound_encodings_have_the_same_finite_endpoint_admission (test_evidence_bound_precision.DeclaredBoundPrecisionTests.test_equivalent_bound_encodings_have_the_same_finite_endpoint_admission) (bound_type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_bound_precision.py", line 95, in test_equivalent_bound_encodings_have_the_same_finite_endpoint_admission
+    snapshot = EvidenceLedger(document).snapshot(2)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 250, in __init__
+    self._document = validate_ledger(document)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 181, in validate_ledger
+    _record(row, sources, observables)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 132, in _record
+    _finite(value + error, 'Upper declared bound')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 31, in _finite
+    _require(valid, label + ' must be a finite numeric value, not boolean or missing')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Upper declared bound must be a finite numeric value, not boolean or missing
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+FAILED (errors=1)

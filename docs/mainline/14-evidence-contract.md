@@ -70,6 +70,9 @@ are compared. Disjoint declared numeric intervals are
 on the already-decoded finite integer/binary64 numbers, so floating endpoint
 rounding cannot erase a positive declared gap. It does not reinterpret decimal
 input text as an exact decimal measurement or widen an error bound.
+Bound admissibility likewise computes decoded endpoints exactly before applying
+the same finite numeric output rule. Equivalent integer/float error encodings
+cannot be selectively accepted or refused through intermediate rounding.
 Different values with unbounded/reported quality are
 `different_reported_values`. Overlapping intervals and sequential observations
 are not flagged as contradictions. Expired discrepancies remain visible for

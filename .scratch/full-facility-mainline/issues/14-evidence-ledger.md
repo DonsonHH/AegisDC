@@ -8,9 +8,9 @@
 
 **Milestone:** M3
 
-- [ ] 未来、未到达和缺测记录不参与当前决策。
-- [ ] 告警复制工单保留根来源，不自动当两条独立证据。
-- [ ] 证据过期和来源冲突可见，未知质量不变成确定真值。
+- [x] 未来、未到达和缺测记录不参与当前决策。
+- [x] 告警复制工单保留根来源，不自动当两条独立证据。
+- [x] 证据过期和来源冲突可见，未知质量不变成确定真值。
 
 ## Context
 
@@ -22,6 +22,19 @@ Read `docs/mainline/information-boundary.md` before defining dispatch-facing rec
 
 Owner: `mainline_14_evidence`, branch `donson/mainline-14-evidence`, worktree
 `.work/worktrees/full-site-14`, base `04e976c7934b4b2d54aa73794fe520482524be64`.
-Implementation and root acceptance pending. The authorized public seams are the
+Implementation candidate is verified; root acceptance remains pending. The authorized public seams are the
 closed evidence loader/ledger, explicit as-of snapshot, and CLI. The existing
 hour-based foundation prototype and private V6 plant are preserved.
+
+- Candidate record: `docs/mainline/evidence/14.json` (`IMPLEMENTED_PENDING_ROOT_ACCEPTANCE`).
+- Prior precision/age runtime/tools execution: `28e8756d1014646952efb3661d323a68b68bd3ef`.
+- Prior precision/age delivery: `4328c613e150474cb0e44dc9a11416680ebdc096`, 13 declared
+  artifacts plus terminal receipt, independently checked in its fresh checkout.
+- Exact-bound, duplicate, time-scalar and finite-endpoint admission corrections:
+  independent red/green examples and 20 passing evidence tests; current full regression awaits root
+  integration. Original 371-test regression belongs only to execution `3c4e9640`.
+- Original capture/delivery/fresh proof, failures and v1 figures remain unchanged.
+- V2 figures use explicit off-scale arrows; root actual local raster inspection
+  closed the original visual issue. No browser visual verification is claimed.
+- No registered research trials, agent calls, training, posterior/risk mechanism,
+  physical-core change, or completed M3/overall-goal claim.
