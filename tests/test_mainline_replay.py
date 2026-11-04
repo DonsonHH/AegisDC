@@ -1,6 +1,10 @@
 """Versioned full-facility replay through recorded-run/read/replay and CLI seams."""
 from pathlib import Path
 import json
+import os
+import math
+import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -134,6 +138,110 @@ class FacilityReplayTests(unittest.TestCase):
             self.assertIn('ticket 30', record['failure']['message'])
             self.assertEqual(record['research_trials'], 0)
             self.assertIsNone(read_attempt(output)['run'])
+
+    def test_actual_CLI_records_replays_and_refuses_overwrite_without_touching_original(self):
+        from aegis_dc.replay import read_attempt
+        environment = dict(os.environ, PYTHONPATH=str(ROOT / 'src'))
+        with tempfile.TemporaryDirectory() as temporary:
+            folder = Path(temporary)
+            inputs = folder / 'inputs.json'
+            inputs.write_text(json.dumps(frozen_inputs()), encoding='utf-8')
+            original, replayed = folder / 'cli-original', folder / 'cli-replayed'
+            command = [sys.executable, '-Xutf8', '-m', 'aegis_dc', 'record', '--model', str(PROFILE),
+                       '--inputs', str(inputs), '--output', str(original), '--duration', '1', '--step', '.25']
+            completed = subprocess.run(command, cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            record = json.loads(completed.stdout)
+            self.assertEqual(record['status'], 'COMPLETED')
+            before = {path.relative_to(original).as_posix(): path.read_bytes()
+                      for path in original.rglob('*') if path.is_file()}
+            replay = subprocess.run([sys.executable, '-Xutf8', '-m', 'aegis_dc', 'replay',
+                                     '--attempt', str(original), '--output', str(replayed)],
+                                    cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertEqual(replay.returncode, 0, replay.stderr)
+            self.assertEqual(read_attempt(original)['run']['trace'], read_attempt(replayed)['run']['trace'])
+            refused = subprocess.run(command, cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertNotEqual(refused.returncode, 0)
+            self.assertIn('exists', refused.stderr)
+            self.assertEqual(before, {path.relative_to(original).as_posix(): path.read_bytes()
+                                      for path in original.rglob('*') if path.is_file()})
+
+    def test_equal_time_work_order_is_canonical_and_not_caller_list_order(self):
+        from aegis_dc.replay import read_attempt, run_recorded
+        requests = [dict(id=identifier, time_s=.25, worker_id='worker_cooling',
+                         work_interface_id='inspect_facility_cooling', target_id='intake_pump',
+                         source_note='Competing finite engineering work records; no repair.')
+                    for identifier in ('z-last', 'a-first')]
+        with tempfile.TemporaryDirectory() as temporary:
+            first, second = Path(temporary) / 'first', Path(temporary) / 'second'
+            for directory, rows in ((first, requests), (second, list(reversed(requests)))):
+                run_recorded(load_scenario(PROFILE), directory,
+                             inputs=frozen_inputs(work_requests=rows), duration_s=1)
+            one, two = read_attempt(first), read_attempt(second)
+            self.assertEqual([row['id'] for row in one['inputs']['work_requests']], ['a-first', 'z-last'])
+            self.assertEqual(one['inputs'], two['inputs'])
+            self.assertEqual(one['run']['work_records'], two['run']['work_records'])
+            self.assertEqual(one['run']['work_records'][0]['id'], 'a-first')
+            self.assertEqual(one['run']['work_records'][1]['reason'], 'worker_busy')
+
+    def test_command_authority_and_coincident_conflicts_fail_before_simulation(self):
+        from aegis_dc.replay import run_recorded
+        with tempfile.TemporaryDirectory() as temporary:
+            for index, parameter in enumerate(('service_demand', 'lake_temperature', 'filter_resistance_multiplier')):
+                record = run_recorded(load_scenario(PROFILE), Path(temporary) / ('forbidden-' + str(index)),
+                                      inputs=frozen_inputs(action_commands=[dict(id='bad', time_s=.25,
+                                      parameter_id=parameter, value=0, source_note='Invalid engineer authority.')]), duration_s=1)
+                self.assertEqual(record['status'], 'FAILED')
+                self.assertIn('cannot write offered demand', record['failure']['message'])
+            commands = [dict(id=str(index), time_s=.25 + index * math.ulp(.25),
+                             parameter_id='internal_valve_opening', value=value,
+                             source_note='Numerically coincident conflicting commands.')
+                        for index, value in enumerate((0, 1))]
+            conflict = run_recorded(load_scenario(PROFILE), Path(temporary) / 'conflict',
+                                    inputs=frozen_inputs(action_commands=commands), duration_s=1)
+            self.assertEqual(conflict['status'], 'FAILED')
+            self.assertIn('Conflicting engineering command', conflict['failure']['message'])
+
+    def test_unfinalized_attempt_is_unknown_and_cannot_be_replayed_as_success(self):
+        from aegis_dc.replay import read_attempt, replay_attempt
+        with tempfile.TemporaryDirectory() as temporary:
+            interrupted = Path(temporary) / 'unfinalized'
+            interrupted.mkdir()
+            (interrupted / 'lifecycle.jsonl').write_text('{"state":"STARTED","attempt_id":"interrupted"}\n')
+            state = read_attempt(interrupted)
+            self.assertEqual(state['record']['status'], 'UNFINALIZED_RUNNING_OR_INTERRUPTED')
+            self.assertIsNone(state['run'])
+            refused = replay_attempt(interrupted, Path(temporary) / 'refused')
+            self.assertEqual(refused['status'], 'FAILED')
+            self.assertIn('unfinalized', refused['failure']['message'].lower())
+
+    def test_invalid_submitted_JSON_is_retained_in_a_failed_CLI_attempt(self):
+        environment = dict(os.environ, PYTHONPATH=str(ROOT / 'src'))
+        with tempfile.TemporaryDirectory() as temporary:
+            folder = Path(temporary)
+            bad_input = folder / 'duplicate-keys.json'
+            raw = b'{"schema":"first","schema":"second"}\n'
+            bad_input.write_bytes(raw)
+            output = folder / 'invalid-input'
+            result = subprocess.run([sys.executable, '-Xutf8', '-m', 'aegis_dc', 'record',
+                                     '--inputs', str(bad_input), '--output', str(output), '--duration', '1'],
+                                    cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertEqual(json.loads(result.stdout)['status'], 'FAILED')
+            self.assertEqual((output / 'submitted-inputs.json').read_bytes(), raw)
+            self.assertIn('Duplicate JSON object key', json.loads(result.stdout)['failure']['message'])
+
+    def test_attempt_declares_durable_roles_before_hashing_and_does_not_deliver_caches(self):
+        from aegis_dc.replay import read_attempt, run_recorded
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'declared'
+            run_recorded(load_scenario(PROFILE), output, inputs=frozen_inputs(), duration_s=1)
+            declaration = json.loads((output / 'declaration.json').read_text())
+            record = read_attempt(output)['record']
+            self.assertEqual(declaration['schema'], 'aegisdc-attempt-declaration-v1')
+            self.assertEqual(set(record['artifacts']), set(declaration['required_when_completed']))
+            self.assertEqual(declaration['runtime_caches'], 'NOT_DELIVERABLE')
+            self.assertNotIn('attempt.json', record['artifacts'])
 
 
 if __name__ == '__main__':
