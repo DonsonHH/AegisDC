@@ -34,7 +34,12 @@ used: an arrival one binary64 ULP in the future remains hidden.
 `arrived_at_s <= as_of_s`, then derives every record list, correlation and
 conflict from those selected records alone. `records` includes received expired
 and missing records for audit. `current_record_ids` includes only received,
-present, unexpired values. Age is always `as_of_s - observed_at_s`. Numeric zero,
+present, unexpired values. Age is the exact difference of the decoded decision
+and observation numbers, published as an integer when integral and otherwise
+rounded once to binary64. An age outside the supported finite numeric output
+domain is refused consistently. Equivalent integer/float timestamp encodings
+therefore give equal ages. Selection and expiry comparisons never use this
+rounded diagnostic age. Numeric zero,
 negative offsets and JSON `false` are values; only null means missing. Binary
 observations require JSON booleans, not numeric substitutes.
 

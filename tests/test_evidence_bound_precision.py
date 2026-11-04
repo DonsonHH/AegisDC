@@ -55,6 +55,30 @@ class DeclaredBoundPrecisionTests(unittest.TestCase):
         document['records'].append(equivalent)
         self.assertEqual(json.dumps(EvidenceLedger(document).snapshot(2), sort_keys=True), before)
 
+    def test_equal_time_encodings_keep_large_integral_age_exact(self):
+        integer = example()
+        integer['records'][0].update(observed_at_s=0, arrived_at_s=0, valid_until_s=None)
+        floating = deepcopy(integer)
+        floating['records'][0].update(observed_at_s=0.0, arrived_at_s=0.0)
+        self.assertEqual(integer, floating)
+        first = EvidenceLedger(integer).snapshot(9007199254740993)
+        second = EvidenceLedger(floating).snapshot(9007199254740993)
+        self.assertEqual(first, second)
+        self.assertEqual(second['records'][0]['age_s'], 9007199254740993)
+        self.assertIs(type(second['records'][0]['age_s']), int)
+
+    def test_fractional_age_has_one_binary64_rule_and_overflow_is_refused(self):
+        document = example()
+        document['records'][0].update(observed_at_s=0, arrived_at_s=0, valid_until_s=None)
+        age = EvidenceLedger(document).snapshot(.25)['records'][0]['age_s']
+        self.assertEqual(age, .25)
+        self.assertIs(type(age), float)
+        for observed in (-(2 ** 1023), float(-(2 ** 1023))):
+            with self.subTest(observed_type=type(observed).__name__):
+                document['records'][0]['observed_at_s'] = observed
+                with self.assertRaises(ValueError):
+                    EvidenceLedger(document).snapshot(2 ** 1023)
+
 
 if __name__ == '__main__':
     unittest.main()

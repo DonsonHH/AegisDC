@@ -16,12 +16,27 @@ def _svg(width, height, title, subtitle):
 
 def render(document, output):
     records = document['records']
-    rows = _svg(1320, 175 + 46 * len(records), 'Evidence arrival and observation time',
-                'Engineering input stream, not a dispatch view. Seconds relative to t=0; historical times clipped at -5 s.')
+    rows = _svg(1320, 200 + 46 * len(records), 'Evidence arrival and observation time',
+                'Engineering input stream. Display window [-5, 30] s; arrows mark either off-scale end. Exact seconds appear in each row.')
     minimum, maximum, left, scale = -5, 30, 350, 25
 
     def x(value):
         return left + (max(minimum, min(maximum, value)) - minimum) * scale
+
+    def marker(value, y, color, shape):
+        position = x(value)
+        if value < minimum or value > maximum:
+            direction = -1 if value < minimum else 1
+            tip, base = position + direction * 2, position - direction * 6
+            rows.append(f'<path d="M{base} {y - 6}L{tip} {y}L{base} {y + 6}Z" fill="{color}"/>')
+            if value > maximum:
+                rows.append(f'<text x="{position + 10}" y="{y + 4}" font-size="11" fill="{color}">{value:g} s</text>')
+        elif shape == 'circle':
+            rows.append(f'<circle cx="{position}" cy="{y}" r="5" fill="{color}"/>')
+        elif shape == 'square':
+            rows.append(f'<rect x="{position - 5}" y="{y - 5}" width="10" height="10" fill="{color}"/>')
+        else:
+            rows.append(f'<path d="M{position} {y - 8}V{y + 8}" stroke="{color}" stroke-width="2"/>')
 
     bottom = 110 + 46 * len(records)
     for tick in range(-5, 31, 5):
@@ -34,13 +49,14 @@ def render(document, output):
         label = record['id'] + (' (missing)' if record['value'] is None else '')
         rows.append(f'<text x="32" y="{y + 4}" font-size="13">{escape(label)}</text>')
         rows.append(f'<path d="M{x(observed)} {y}H{x(arrived)}" stroke="#5279b2" stroke-width="3"/>')
-        rows.append(f'<circle cx="{x(observed)}" cy="{y}" r="5" fill="#5279b2"/>')
-        rows.append(f'<rect x="{x(arrived) - 5}" y="{y - 5}" width="10" height="10" fill="#d06e2b"/>')
+        marker(observed, y, '#5279b2', 'circle')
+        marker(arrived, y, '#d06e2b', 'square')
         if until is not None:
-            rows.append(f'<path d="M{x(until)} {y - 8}V{y + 8}" stroke="#ab3a52" stroke-width="2"/>')
+            marker(until, y, '#ab3a52', 'bar')
         detail = f'observed {observed:g}; arrived {arrived:g}; expires ' + ('never' if until is None else f'{until:g}')
         rows.append(f'<text x="350" y="{y + 19}" font-size="10" class="muted">{escape(detail)}</text>')
-    rows.append(f'<text x="32" y="{bottom + 44}" font-size="13">Blue circle = observed; orange square = arrived; red bar = exclusive expiry. Arrival never resets age.</text>')
+    rows.append(f'<text x="32" y="{bottom + 39}" font-size="13">Blue = observed; orange = arrived; red = exclusive expiry. Arrival never resets age.</text>')
+    rows.append(f'<text x="32" y="{bottom + 61}" font-size="13">Arrows indicate off-scale times, not the -5 s or 30 s tick; exact times are printed per row.</text>')
     rows.append('</svg>')
     (output / 'arrival-timeline.svg').write_text('\n'.join(rows) + '\n', encoding='utf-8', newline='\n')
 

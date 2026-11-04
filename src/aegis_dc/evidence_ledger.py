@@ -31,6 +31,16 @@ def _finite(value, label):
     _require(valid, label + ' must be a finite numeric value, not boolean or missing')
 
 
+def _age(as_of_s, observed_at_s):
+    difference = Fraction(as_of_s) - Fraction(observed_at_s)
+    try:
+        result = difference.numerator if difference.denominator == 1 else float(difference)
+    except OverflowError as error:
+        raise ValueError('Evidence age exceeds the finite numeric output domain') from error
+    _finite(result, 'Evidence age')
+    return result
+
+
 def _plain_json(value, ancestors=None, depth=0):
     """Reject executable/custom objects before any copy or serialization hook."""
     _require(depth < 64, 'Evidence must be shallow plain JSON, without cycles')
@@ -257,8 +267,7 @@ class EvidenceLedger:
             if record['arrived_at_s'] > as_of_s or record['observed_at_s'] > as_of_s:
                 continue
             row = deepcopy(record)
-            row['age_s'] = as_of_s - record['observed_at_s']
-            _finite(row['age_s'], 'Evidence age')
+            row['age_s'] = _age(as_of_s, record['observed_at_s'])
             row['availability'] = ('missing' if record['value'] is None else
                                    'expired' if record['valid_until_s'] is not None
                                    and as_of_s >= record['valid_until_s'] else 'current')

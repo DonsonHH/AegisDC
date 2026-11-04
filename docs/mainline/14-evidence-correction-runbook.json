@@ -1,0 +1,32 @@
+{
+  "schema": "aegisdc-evidence-correction-runbook-v1",
+  "classification": "ENGINEERING_CORRECTION_NOT_RESEARCH",
+  "previous_execution_commit": "3c4e964061a77ddbd43f7ca0fee78f6aa9087c50",
+  "previous_delivery_commit": "442983e69b8d0b093f676da2f82da1561b4ae666",
+  "previous_proof_commit": "143831ae3bd8f1523f16708d174d7e2bae70246c",
+  "previous_directory": "evidence/mainline/engineering/14-evidence/capture-01",
+  "previous_fresh_proof": "evidence/mainline/engineering/14-evidence/delivery-442983e6-fresh-01.json",
+  "fixture": "configs/full-facility-evidence-v1.json",
+  "original_snapshot_runbook": "docs/mainline/14-evidence-runbook.json",
+  "corrections": [
+    "Exact declared intervals of decoded finite integers and binary64 values; positive gaps are not erased by endpoint rounding",
+    "Equal duplicate IDs retain the first accepted record representation and outcome",
+    "Decoded times are subtracted exactly; integral ages remain integers, other ages round once to binary64, and unsupported overflow is refused",
+    "Version-2 timeline explicitly marks both off-scale ends and the actual 600 s expiry; original SVGs remain unchanged"
+  ],
+  "precision_cases": ["integer-zero", "floating-zero", "binary64-positive-gap"],
+  "expected_conflict_pairs_each": [["left", "right"]],
+  "binary64_positive_gap_exact": "1/36028797018963968",
+  "duplicate_ingest_result": "ALREADY_PRESENT",
+  "expected_duplicate_serialization_unchanged": true,
+  "target_pattern": "test_evidence*.py",
+  "expected_target_tests": 19,
+  "large_integral_age_s": 9007199254740993,
+  "fractional_age_s": 0.25,
+  "new_source_full_regression": "NOT_RERUN_BY_OWNER_ROOT_INTEGRATION_REQUIRED",
+  "old_full_regression_scope": "371 run, 369 executed, two pre-existing optional Torch skips, zero failures/errors; belongs only to previous execution commit",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
