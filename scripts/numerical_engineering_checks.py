@@ -98,9 +98,14 @@ def inspect_run(item, manifest, scenario, trace, balances):
             anchor = check.get('event_anchor')
             exact = [row for row in trace if row['time_s'] == when]
             if anchor:
-                matched_events = [row for row in manifest['events']
-                                  if all(row.get(key) == value for key, value in anchor.items())
-                                  and abs(row.get('applied_at_s', row['time_s']) - when) <= 1e-8]
+                if anchor['kind'] == 'PLC_SAMPLE':
+                    sampled_times = {row['domains']['control_monitoring']['local_measurement']['sampled_at_s'] for row in trace}
+                    matched_events = [dict(time_s=time) for time in sampled_times
+                                      if abs(time - when) <= 8 * max(math.ulp(time), math.ulp(when))]
+                else:
+                    matched_events = [row for row in manifest['events']
+                                      if all(row.get(key) == value for key, value in anchor.items())
+                                      and abs(row.get('applied_at_s', row['time_s']) - when) <= 1e-8]
                 if len(matched_events) != 1:
                     raise ValueError('Missing/ambiguous explicitly anchored hand checkpoint')
                 matched_time = matched_events[0].get('applied_at_s', matched_events[0]['time_s'])
@@ -116,7 +121,9 @@ def inspect_run(item, manifest, scenario, trace, balances):
                 row = next(row for row in trace if row['time_s'] == matched_time)
                 checkpoint_matches.append(dict(path=check['path'], target_time_s=when,
                     matched_row_time_s=matched_time, actual_applied_event_time_s=matched_time,
-                    timestamp_error_s=matched_time - when, basis='RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT', event_anchor=anchor))
+                    timestamp_error_s=matched_time - when,
+                    basis='RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_PLC_SAMPLE' if anchor['kind'] == 'PLC_SAMPLE' else 'RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT',
+                    event_anchor=anchor))
             elif len(exact) == 1:
                 row = exact[0]
                 checkpoint_matches.append(dict(path=check['path'], target_time_s=when,
