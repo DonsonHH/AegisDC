@@ -46,7 +46,7 @@
 
 ## 当前起点与持续执行
 
-当前已有三站资料包、场景契约及同一八域设施的正常/有限工程作业运行基线。供电、水力阀组、相变、服务账、环境/访问及本地控制已通过独立复核，最新根验收263项全执行、零跳过。[工程数据图](../evidence/mainline/engineering/04-06-root-acceptance/README.md)、[服务核算](../evidence/mainline/engineering/08-root-acceptance/README.md)、[环境耦合](../evidence/mainline/engineering/07-root-acceptance/README.md)及[控制/可移植交付收据](../evidence/mainline/engineering/09-root-acceptance/README.md)保留原执行身份。当前继续备用保障及全场验收；M1仍进行。风险认识、证据驱动调度、专业诊断/处置/恢复和独立方法比较尚待后续实现。由依赖关系决定可执行前沿，基线轨迹不代替研究结论。
+当前已有三站资料包、场景契约及同一八域设施的正常/有限工程作业运行基线。供电、水力阀组、相变、服务账、环境/访问、本地控制及有限备用分项已通过独立复核，最新根验收289项全执行、零跳过。[工程数据图](../evidence/mainline/engineering/04-06-root-acceptance/README.md)、[服务核算](../evidence/mainline/engineering/08-root-acceptance/README.md)、[环境耦合](../evidence/mainline/engineering/07-root-acceptance/README.md)、[控制/交付修订](../evidence/mainline/engineering/09-root-acceptance/README.md)和[备用供能/切换收据](../evidence/mainline/engineering/10-root-acceptance/README.md)保留原执行身份。当前进行同一完整配置的八域联合验收；M1仍进行。数值资格、风险认识、证据驱动调度、专业诊断/处置/恢复和独立方法比较尚待后续阶段。由依赖关系决定可执行前沿，基线轨迹不代替研究结论。
 
 - [详细规格](../.scratch/full-facility-mainline/spec.md)
 - [任务图](../.scratch/full-facility-mainline/map.md)
