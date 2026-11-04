@@ -182,15 +182,18 @@ class _Plant:
                 transfer_ok=p['backup_cooling_transfer_ok'], controller_power_W=power['actual_powers_W']['local_controller'],
                 nominal_controller_power_W=p['controller_power'], delay_s=p['backup_cooling_transfer_delay']),
         }
+        changed = False
         for actor, state in states.items():
             previous = old[actor] or {}
             if any(previous.get(key) != state.get(key) for key in ('mode', 'ready_at_s', 'requested_at_s')):
+                changed = True
                 self.events.append(dict(time_s=time_s, kind='reserve_transition', actor=actor,
                                         mode=state['mode'], request_actor=state['request_actor'],
                                         requested_at_s=state['requested_at_s'], ready_at_s=state['ready_at_s']))
         self.reserve_state = states
         self.generator_mode = states['generator']['mode']
         self.generator_ready = states['generator']['ready_at_s']
+        return changed
 
     def update_room_work_access(self, point):
         """Use the actual post-control right-hand heat direction at equality."""
@@ -611,8 +614,16 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         plant.sample_control(time_s, point)
         point = plant.point()
         if plant.reserve_model:
-            plant.update_reserves(time_s, point, sampled=sample_due)
-            point = plant.point()
+            # The sampled selector can change the current protected demand.
+            # Settle autonomous reserve actors at this same instant without
+            # taking a second PLC sample or adding a numeric-step delay.
+            for attempt in range(4):
+                changed = plant.update_reserves(time_s, point, sampled=sample_due and attempt == 0)
+                point = plant.point()
+                if not changed:
+                    break
+            else:
+                raise ValueError('Reserve source/selector states did not settle at the current instant')
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
         trace.append(plant.snapshot(time_s, point, workforce))

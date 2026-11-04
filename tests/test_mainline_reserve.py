@@ -499,6 +499,21 @@ class ReserveFacilityTests(unittest.TestCase):
         self.assertEqual(result['summary']['backup_water_heat_J'], 0)
         self.assertEqual(result['summary']['backup_fan_energy_J'], 360000)
 
+    def test_same_time_selector_change_cancels_obsolete_UPS_need_and_pays_partial_fan(self):
+        from aegis_dc.plant import simulate_scenario
+        # 100+10 W local reserve actors, 1 kW PLC and19.2 kW internal pump
+        # leave exactly5 kW AC for the fan after the primary intake is isolated.
+        result = simulate_scenario(changed_reserve(grid_capacity=25310,
+                    backup_cooling_requested=1), duration_s=4)
+        initial = result['trace'][0]['domains']
+        self.assertFalse(initial['power']['ups_transfer_needed'])
+        self.assertEqual(initial['backup']['reserve_states']['ups']['mode'], 'bypass')
+        active = next(row['domains'] for row in result['trace'] if row['time_s'] == 2)
+        self.assertEqual(active['power']['actual_powers_W']['backup_fan'], 5000)
+        self.assertEqual(active['facility_cooling']['backup_exchange']['air_capacity_W_K'], 125000)
+        self.assertEqual(active['facility_cooling']['backup_exchange']['conductance_W_K'], 75000)
+        self.assertEqual(result['summary']['backup_fan_energy_J'], 10000)
+
 
 if __name__ == '__main__':
     unittest.main()

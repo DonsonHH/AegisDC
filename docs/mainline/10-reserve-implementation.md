@@ -97,7 +97,9 @@ fan-heat addition. Floor mass/energy and leakage transfer retain 07's equations.
 Timed inputs apply first. Independent UPS/generator transitions use actual actor
 power, then the point is recalculated. The original 09 sample runs on its own
 clock; only a powered sample accepts a new cooling request. The point is then
-recomputed before 07's directional room-access and work processing. An active
+recomputed before 07's directional room-access and work processing. Autonomous
+reserve states settle again after a sampled selector change, without resampling
+the PLC or leaving an obsolete UPS request until the next numerical step. An active
 selector can hold an already accepted position without a new request; interrupted
 switching returns to its declared passive primary position. Maintenance resets
 pending clocks; recovery requests start fresh delays. All observations remain
@@ -105,7 +107,7 @@ private plant/evaluator records, with no dispatch truth channel.
 
 ## Finite hand checks and evidence status
 
-Twenty-four public component/run/CLI targets pass before saved-run capture.
+Twenty-five public component/run/CLI targets pass before saved-run capture.
 They include 3.6326 MJ UPS energy with .2 s waiting and32.4 s of100 kW protected
 output:3.24 MJ load +360 kJ conversion loss +32.6 kJ internal control, exhausted
 at32.6 s. A full generator case takes3+2 s to connect, then delivers1110 W for10 s;
