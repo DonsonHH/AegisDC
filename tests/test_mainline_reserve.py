@@ -514,6 +514,25 @@ class ReserveFacilityTests(unittest.TestCase):
         self.assertEqual(active['facility_cooling']['backup_exchange']['conductance_W_K'], 75000)
         self.assertEqual(result['summary']['backup_fan_energy_J'], 10000)
 
+    def test_same_time_return_to_primary_begins_the_new_UPS_delay_at_the_paid_sample(self):
+        from aegis_dc.plant import simulate_scenario
+        for step in (1, 0.25):
+            with self.subTest(maximum_step_s=step):
+                result = simulate_scenario(changed_reserve(grid_capacity=25310,
+                            backup_cooling_requested=1), duration_s=4, step_s=step,
+                            boundary_events=[boundary(2.25, 'backup_cooling_requested', 0)])
+                at3 = next(row['domains'] for row in result['trace'] if row['time_s'] == 3)
+                ups = at3['backup']['reserve_states']['ups']
+                self.assertTrue(at3['power']['ups_transfer_needed'])
+                self.assertEqual(ups['mode'], 'waiting')
+                self.assertEqual(ups['requested_at_s'], 3)
+                self.assertEqual(ups['ready_at_s'], 3.2)
+                supplied = next(row['domains'] for row in result['trace'] if row['time_s'] == 3.2)
+                self.assertEqual(supplied['backup']['reserve_states']['ups']['mode'], 'supplying')
+                self.assertAlmostEqual(supplied['power']['ups_protected_output_W'], 16428.571428571428, delta=1e-7)
+                self.assertEqual(supplied['control_monitoring']['local_measurement']['sampled_at_s'], 3)
+                self.assertEqual(supplied['power']['actual_powers_W']['backup_fan'], 0)
+
 
 if __name__ == '__main__':
     unittest.main()

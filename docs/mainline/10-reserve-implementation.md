@@ -107,7 +107,7 @@ private plant/evaluator records, with no dispatch truth channel.
 
 ## Finite hand checks and evidence status
 
-Twenty-five public component/run/CLI targets pass before saved-run capture.
+Twenty-six public component/run/CLI targets pass before saved-run capture.
 They include 3.6326 MJ UPS energy with .2 s waiting and32.4 s of100 kW protected
 output:3.24 MJ load +360 kJ conversion loss +32.6 kJ internal control, exhausted
 at32.6 s. A full generator case takes3+2 s to connect, then delivers1110 W for10 s;
@@ -123,6 +123,11 @@ plate-HX UA outside its existing range, omitted accepted valve resistance, and
 the parent's .92 efficiency instead of declared .9. Only fixture inputs were
 corrected; the three logs remain and no physical rule/expected budget was tuned.
 The clean-source runbook will separately freeze the accepted complete inputs.
+The same-time UPS-need correction is covered in both directions: selecting
+reserve cancels obsolete intake demand, while returning to primary at the paid
+3 s PLC sample begins a new .2 s UPS delay at3 s, with connection at3.2 s for
+maximum steps1 s and .25 s. The PLC's last sample remains3 s at that connection.
+These are two directions of the same causal correction, not two research gains.
 
 Durable delivery is declared before hashing. Runtime caches are classified as
 non-deliverable from the start, never skipped because a hash failed. Saved runs
