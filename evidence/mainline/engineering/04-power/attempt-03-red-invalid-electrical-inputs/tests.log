@@ -1,0 +1,89 @@
+test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) ... 
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'grid_capacity': -1}, ups_energy=0, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'switchboard_capacity': nan}, ups_energy=0, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'controller_power': -1}, ups_energy=0, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'rectifier_efficiency': 0}, ups_energy=0, fuel_energy=0) ... ERROR
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'ups_discharge_efficiency': 1.1}, ups_energy=0, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'diesel_efficiency': inf}, ups_energy=0, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={}, ups_energy=-1, fuel_energy=0) ... FAIL
+  test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={}, ups_energy=0, fuel_energy=nan) ... FAIL
+test_electrical_component_refuses_negative_pump_request (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_negative_pump_request) ... ok
+
+======================================================================
+ERROR: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'rectifier_efficiency': 0}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 43, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    allocate_power(electrical_hand_case(**changes),
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\src\aegis_dc\power.py", line 37, in allocate_power
+    rectifier_input = min(requested_dc / p['rectifier_efficiency'],
+                          ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: division by zero
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'grid_capacity': -1}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'switchboard_capacity': nan}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'controller_power': -1}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'ups_discharge_efficiency': 1.1}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={'diesel_efficiency': inf}, ups_energy=0, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={}, ups_energy=-1, fuel_energy=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_electrical_component_refuses_invalid_supply_and_conversion_inputs (test_mainline_power.MainlinePowerTests.test_electrical_component_refuses_invalid_supply_and_conversion_inputs) (changes={}, ups_energy=0, fuel_energy=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-04\tests\test_mainline_power.py", line 42, in test_electrical_component_refuses_invalid_supply_and_conversion_inputs
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+FAILED (failures=7, errors=1)
