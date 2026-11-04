@@ -18,7 +18,9 @@
       "status": "accepted",
       "acceptance_evidence": [
         "25f4e43a",
-        ".scratch/full-facility-mainline/issues/01-freeze-mainline.md"
+        ".scratch/full-facility-mainline/issues/01-freeze-mainline.md",
+        "ae70023f",
+        "planning Spec review: 2 dependency issues closed"
       ]
     },
     {
@@ -66,5 +68,21 @@
   "agent_stage": "deferred_until_eligibility_gate",
   "rsi_gain": "NOT_ESTABLISHED",
   "field_calibration": "PENDING",
-  "completion_rule": "Required M0-M6 evidence and M7 eligibility/result accounting must be audited; a plan, fixture, test pass or CI is not completion."
+  "completion_rule": "Required M0-M6 evidence and M7 eligibility/result accounting must be audited; a plan, fixture, test pass or CI is not completion.",
+  "active_implementation": {
+    "ticket": "02",
+    "agent": "/root/mainline_02_implement",
+    "branch": "donson/mainline-02-scenario",
+    "worktree_hint": ".work/worktrees/full-site-02",
+    "base": "d654d139",
+    "liveness_note": "resume hint only; recheck agent/Git state before restarting work"
+  },
+  "engineering_references": [
+    {
+      "kind": "consistent pure-fluid EOS table",
+      "path": "configs/materials/reference-r134a-saturation.json",
+      "receipt": "evidence/mainline/engineering/property-reference/receipt.json",
+      "stage_effect": "reference ready; no facility milestone completed"
+    }
+  ]
 }
