@@ -1,0 +1,250 @@
+{
+  "schema": "aegisdc-ticket09-independent-spec-review-v1",
+  "classification": "FINITE_ENGINEERING_REVIEW_DIAGNOSTIC_NOT_RESEARCH",
+  "candidate_commit": "1ed6669221fd32a7ecfcc09d20292170505e89a8",
+  "observed_head": "1ed6669221fd32a7ecfcc09d20292170505e89a8",
+  "script_sha256": "59ecc9168eb04bc68e971287a6db360916ac2d79809433e3c4a7662bb2ab7a34",
+  "source_sha256": {
+    "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+    "src/aegis_dc/plant.py": "050330b5c5589bd9ac1849ed5600054ff809a7a14a84c76810952eec98f1fade",
+    "src/aegis_dc/scenario.py": "3f1b90c0251262b23fd4dfb6265f1b1cba44e791af2b3372388289a262547754",
+    "src/aegis_dc/runtime_contract.py": "a2671236de898aeec229ab7d984633b1c6c90d40d28cfbe2333a7d8ca803d62d",
+    "configs/materials/reference-r134a-saturation.json": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c"
+  },
+  "base_config": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-09\\configs\\full-facility-mainline-control-v5.json",
+  "base_config_sha256": "dde9549191393205921fcd34397f03cab855a6ab6579d6d0e500cf88a0315f4f",
+  "parameter_overrides": {
+    "protection_temperature": 315,
+    "protection_reset_temperature": 300,
+    "control_sample_time": 0.7,
+    "local_temperature_bias": 20,
+    "ups_energy": 0,
+    "diesel_initial_fuel_energy": 0
+  },
+  "boundary_events": [
+    {
+      "time_s": 0.3,
+      "parameter_id": "local_temperature_bias",
+      "value": 5,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 0.4,
+      "parameter_id": "supervisory_link_available",
+      "value": 0,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 0.8,
+      "parameter_id": "grid_capacity",
+      "value": 0,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 1.6,
+      "parameter_id": "grid_capacity",
+      "value": 10000000,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 1.9,
+      "parameter_id": "local_internal_flow_sensor_valid",
+      "value": 0,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 2.2,
+      "parameter_id": "local_internal_flow_sensor_valid",
+      "value": 1,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 2.4,
+      "parameter_id": "supervisory_link_available",
+      "value": 1,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    },
+    {
+      "time_s": 3.1,
+      "parameter_id": "local_temperature_bias",
+      "value": -10,
+      "source_note": "Independent Spec review compound control clock/latch engineering event; not research."
+    }
+  ],
+  "duration_s": 4.1,
+  "maximum_step_s": 0.37,
+  "independent_expected": {
+    "mode_sequence": [
+      "protected",
+      "protected",
+      "unpowered_fail_safe",
+      "sensor_invalid_fail_safe",
+      "protected",
+      "normal"
+    ],
+    "nominal_sample_times_s": [
+      0,
+      0.7,
+      1.4,
+      2.1,
+      2.8,
+      3.5
+    ],
+    "service_deficit_time_s": 3.5,
+    "delivered_service_unit_s": 0.6,
+    "basis": "Initial high report trips. Held latch survives in-band report, supervisory loss, power cycle, invalid sensor and supervisory return. Only the new safe report at 3.5 s meets reset gates; delivery lasts the remaining .6 s."
+  },
+  "observed_samples": [
+    {
+      "time_s": 0.0,
+      "mode": "protected",
+      "protection_latched": true,
+      "supervisory_mode": "connected",
+      "true_refrigerant_temperature_K": 304.47751006414603,
+      "reported_temperature_K": 324.47751006414603,
+      "reported_flow_m3_s": 0.12,
+      "local_measurement": {
+        "observed_at_s": 0.0,
+        "sampled_at_s": 0.0,
+        "temperature_K": 324.47751006414603,
+        "internal_volume_flow_m3_s": 0.12,
+        "temperature_valid": true,
+        "flow_valid": true,
+        "valid": true,
+        "invalid_reasons": [],
+        "controller_power_W": 1000.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    },
+    {
+      "time_s": 0.7,
+      "mode": "protected",
+      "protection_latched": true,
+      "supervisory_mode": "autonomous",
+      "true_refrigerant_temperature_K": 304.43716548119284,
+      "reported_temperature_K": 309.43716548119284,
+      "reported_flow_m3_s": 0.12,
+      "local_measurement": {
+        "observed_at_s": 0.7,
+        "sampled_at_s": 0.7,
+        "temperature_K": 309.43716548119284,
+        "internal_volume_flow_m3_s": 0.12,
+        "temperature_valid": true,
+        "flow_valid": true,
+        "valid": true,
+        "invalid_reasons": [],
+        "controller_power_W": 1000.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    },
+    {
+      "time_s": 1.4,
+      "mode": "unpowered_fail_safe",
+      "protection_latched": true,
+      "supervisory_mode": "autonomous",
+      "true_refrigerant_temperature_K": 304.6241962856614,
+      "reported_temperature_K": null,
+      "reported_flow_m3_s": null,
+      "local_measurement": {
+        "observed_at_s": null,
+        "sampled_at_s": 1.4,
+        "temperature_K": null,
+        "internal_volume_flow_m3_s": null,
+        "temperature_valid": false,
+        "flow_valid": false,
+        "valid": false,
+        "invalid_reasons": [
+          "controller_unpowered"
+        ],
+        "controller_power_W": 0.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    },
+    {
+      "time_s": 2.0999999999999996,
+      "mode": "sensor_invalid_fail_safe",
+      "protection_latched": true,
+      "supervisory_mode": "autonomous",
+      "true_refrigerant_temperature_K": 304.48963833329157,
+      "reported_temperature_K": 309.48963833329157,
+      "reported_flow_m3_s": 0.12,
+      "local_measurement": {
+        "observed_at_s": 2.0999999999999996,
+        "sampled_at_s": 2.0999999999999996,
+        "temperature_K": 309.48963833329157,
+        "internal_volume_flow_m3_s": 0.12,
+        "temperature_valid": true,
+        "flow_valid": false,
+        "valid": false,
+        "invalid_reasons": [
+          "flow_channel_invalid"
+        ],
+        "controller_power_W": 1000.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    },
+    {
+      "time_s": 2.8,
+      "mode": "protected",
+      "protection_latched": true,
+      "supervisory_mode": "connected",
+      "true_refrigerant_temperature_K": 304.2243087848049,
+      "reported_temperature_K": 309.2243087848049,
+      "reported_flow_m3_s": 0.12,
+      "local_measurement": {
+        "observed_at_s": 2.8,
+        "sampled_at_s": 2.8,
+        "temperature_K": 309.2243087848049,
+        "internal_volume_flow_m3_s": 0.12,
+        "temperature_valid": true,
+        "flow_valid": true,
+        "valid": true,
+        "invalid_reasons": [],
+        "controller_power_W": 1000.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    },
+    {
+      "time_s": 3.5,
+      "mode": "normal",
+      "protection_latched": false,
+      "supervisory_mode": "connected",
+      "true_refrigerant_temperature_K": 303.9557264626297,
+      "reported_temperature_K": 293.9557264626297,
+      "reported_flow_m3_s": 0.12,
+      "local_measurement": {
+        "observed_at_s": 3.5,
+        "sampled_at_s": 3.5,
+        "temperature_K": 293.9557264626297,
+        "internal_volume_flow_m3_s": 0.12,
+        "temperature_valid": true,
+        "flow_valid": true,
+        "valid": true,
+        "invalid_reasons": [],
+        "controller_power_W": 1000.0,
+        "visibility": "LOCAL_PLANT_ONLY"
+      }
+    }
+  ],
+  "observed_summary": {
+    "service_deficit_time_s": 3.5,
+    "demand_service_unit_s": 4.1,
+    "delivered_service_unit_s": 0.5999999999999996,
+    "max_energy_residual_J": 1.7179045244120061e-06,
+    "max_mass_residual_kg": 2.2737367544323206e-13
+  },
+  "sealed_originals_fresh_read": {
+    "status": "PASS",
+    "current_head": "1ed6669221fd32a7ecfcc09d20292170505e89a8",
+    "original_execution_commit": "363c5edf57554c99f80f92030d691d6e1ff4428d",
+    "source_files_match_frozen_execution": true,
+    "prior_engineering_files_rehashed": 164,
+    "legacy_inputs_hash_and_git_blob_checked": 6,
+    "engineering_files_rehashed": 74,
+    "saved_cases_fresh_read": 12,
+    "full_regression_repeated": false,
+    "research_trials": 0,
+    "M1_gate": "IN_PROGRESS",
+    "overall_goal": "ACTIVE"
+  }
+}

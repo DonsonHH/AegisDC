@@ -63,6 +63,25 @@ The frozen engineering runbook is
 full-facility examples, including one actual CLI and combined hot leakage/control
 interruption, with independent expected demand/delivery/deficit accounts. Source
 freeze precedes its artifact execution and the single full regression.
-Committed-source artifacts, independent review and root enabled-Torch acceptance
-remain pending at this source-freeze checkpoint.
+Committed execution `363c5edf` produced twelve successful full-facility cases
+(including actual CLI), six expected refusals and 74 freshly verified artifacts.
+Normal 600 s has zero room/hot drift and zero deficit. Maximum step energy,
+whole-run energy and water-mass residuals are respectively 3.3444e-6 J,
+3.8147e-6 J and 2.9104e-12 kg. The combined leak/control case retains actual
+hot mass/heat debit and evolving floor storage; reports never replace it.
+
+The single author full regression discovers 263 /executes 261 checks, with no
+failures/errors, exactly two prior optional isolated-Torch skips, no unexpected
+skip and twenty old evidence hashes verified. See
+[the evidence entry](../../evidence/mainline/engineering/09-control/README.md).
+Independent review and root enabled-Torch acceptance remain pending.
 No registered research, training or agent call is started by these checks.
+
+
+The artifact audit uses the newer `verify_portable.py` / `portable-inventory-v2.json`
+entry. The old 164-row v1 hash inventory is preserved as an author-local
+observation: 162 committed persistent files plus two untracked interpreter-cache
+hashes. It is not a 164-file checkout-delivery claim. V2 explicitly classifies
+those two non-delivery rows, checks durable files and Git identities strictly,
+and audits the unchanged 363c5edf execution without rerunning it. The physical
+263-test regression and portable artifact gate are separate evidence.
