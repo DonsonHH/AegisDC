@@ -36,3 +36,5 @@
 开发原件保留在 `evidence/mainline/engineering/11-coupled/development/`。初次缺少 runbook 的失败属于验收交付 tracer；排水草稿 18.45 kg 是作者手算准备错误，原草稿和失败日志保留，独立纠正为 11.95 kg。第一次读回器把外部 `floor_inlet_energy_J` 误当总流入，失败日志保留后按已存在的字段语义纠正；两者均不是运行器缺陷，也不追认为物理修复。
 
 本票不改变 M1/总研究状态。M1 仍需根独立双轴审查及联合门槛接受；票 12/13 继续负责数值资格与外生重放，后续票负责可用证据、风险、诊断、处置和恢复闭环。注册方法效果试验、训练及 LLM 调用均为 0；收益与 AI/RSI 增量未建立，现场标定 pending。
+
+正式数据后的 Spec 图审查发现一项独立可视语义错误：旧架构作者把实际双向的访问边 `a1..a5` 固定画成单向。原 b135 三图、绘图工具、执行收据及 1625764d 交付完整保留；新版本作者 `scripts/plot_mainline_coupled_architecture_v2.py` 按边的 `bidirectional` 字段绘制，并将 `a4` 从 `loc_hx` 框旁绕开。独立 `architecture-v2-01` 目录与收据 supersede 原 architecture，当前人读入口使用修订图；没有重跑物理或完整 306 项。本项计为 Spec 可视语义 finding 1，与前述作者准备纠正分别记账。

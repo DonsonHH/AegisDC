@@ -1,8 +1,14 @@
 # Preserve native PowerShell original bytes while recognizing CRLF as EOL.
 development/**/*.log whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-development/**/preflight.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+development/06-independent-accounts/preflight.py whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Existing acceptance.py writes these native Windows CRLF originals.
+fixtures-b135ecff-01/full-check/tests.log whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+fixtures-b135ecff-01/full-check/summary.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+fixtures-b135ecff-01/full-check/evidence.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # These three exact generated SVG originals contain coordinate-line spaces.
 # Keep their immutable bytes and normal whitespace checks everywhere else.
 fixtures-b135ecff-01/figures/coupled-response.svg -whitespace
 fixtures-b135ecff-01/figures/inventory-ledgers.svg -whitespace
 fixtures-b135ecff-01/figures/facility-architecture.svg -whitespace
+# Independently authored visual correction; the historical SVG stays sealed.
+architecture-v2-01/facility-architecture-v2.svg -whitespace
