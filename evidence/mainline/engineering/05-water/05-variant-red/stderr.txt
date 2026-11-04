@@ -1,0 +1,26 @@
+test_closed_valve_interlock_stops_pump_without_free_head_or_heat (test_full_facility_water.ValveLoopTests.test_closed_valve_interlock_stops_pump_without_free_head_or_heat) ... ok
+test_partial_opening_adds_quadratic_resistance_and_spends_power (test_full_facility_water.ValveLoopTests.test_partial_opening_adds_quadratic_resistance_and_spends_power) ... ok
+test_declared_water_variant_preserves_normal_working_point_and_valve_identity (test_full_facility_water.WaterFacilityTests.test_declared_water_variant_preserves_normal_working_point_and_valve_identity) ... ERROR
+
+======================================================================
+ERROR: test_declared_water_variant_preserves_normal_working_point_and_valve_identity (test_full_facility_water.WaterFacilityTests.test_declared_water_variant_preserves_normal_working_point_and_valve_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-05\tests\test_full_facility_water.py", line 48, in test_declared_water_variant_preserves_normal_working_point_and_valve_identity
+    scenario = load_scenario(WATER)
+               ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-05\src\aegis_dc\scenario.py", line 382, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-05\\configs\\full-facility-mainline-water-v3.json'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.021s
+
+FAILED (errors=1)

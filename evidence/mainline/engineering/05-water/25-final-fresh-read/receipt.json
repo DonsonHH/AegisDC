@@ -1,0 +1,33 @@
+{
+  "classification": "ENGINEERING_CHECK_ONLY",
+  "research_trials": 0,
+  "git_commit": "122f73bd7fcd38fb18d3911227a58aaf8aafaafd",
+  "command": [
+    "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "-c",
+    "import hashlib, importlib.util, json, subprocess\nfrom pathlib import Path\nroot=Path.cwd()\nbase=root/'evidence/mainline/engineering/05-water'\nspec=importlib.util.spec_from_file_location('water_fresh_check',base/'run_fixtures.py')\nmodule=importlib.util.module_from_spec(spec)\nspec.loader.exec_module(module)\nold=json.loads((base/'fixtures-e8555f76/fresh-read-receipt.json').read_text())\nnew=json.loads((base/'fixtures-122f73bd/fresh-read-receipt.json').read_text())\ncomparisons={}\nfor key in new:\n    first=base/'fixtures-e8555f76'/key\n    second=base/'fixtures-122f73bd'/key\n    fresh=module.fresh_check(second)\n    assert fresh==new[key], key+' fresh receipt changed'\n    old_rows=[json.loads(line) for line in (first/'private-state.jsonl').read_text().splitlines()]\n    new_rows=[json.loads(line) for line in (second/'private-state.jsonl').read_text().splitlines()]\n    assert old_rows==new_rows, key+' semantic state trajectory changed after power integration'\n    assert (first/'balances.jsonl').read_bytes()==(second/'balances.jsonl').read_bytes(), key+' balance file changed'\n    comparisons[key]={'semantic_private_states_identical':True,'balance_bytes_identical':True,'fresh_read_pass':True}\nfrozen={}\nfor name in ('configs/full-facility-mainline-v1.json','configs/full-facility-mainline-v2.json','configs/materials/reference-r134a-saturation.json','src/aegis_dc/__main__.py','src/aegis_dc/scenario.py'):\n    expected=subprocess.check_output(['git','rev-parse','0ee160cdcdbd195acf35d552abd8040ef7e55b5c:'+name],text=True).strip()\n    actual=subprocess.check_output(['git','hash-object','--no-filters',name],text=True).strip()\n    assert expected==actual, name+' changed'\n    frozen[name]={'unchanged_git_blob':actual,'sha256':hashlib.sha256((root/name).read_bytes()).hexdigest()}\nacceptance=json.loads((base/'acceptance-122f73bd/summary.json').read_text())\nassert acceptance['overall']=='PASS' and acceptance['tests']['run']==206 and acceptance['tests']['executed']==204\nassert acceptance['tests']['failures']==acceptance['tests']['errors']==0 and len(acceptance['tests']['optional_neural_skips'])==2 and not acceptance['tests']['unexpected_skips']\nchecks={}\nfor directory in sorted(base.glob('[0-9][0-9]-*')):\n    if directory.name.startswith('25-'): continue\n    receipt=json.loads((directory/'receipt.json').read_text())\n    checks[directory.name]=receipt['exit_code']\nfailures=[name for name,code in checks.items() if code!=0]\nassert len(failures)==8, failures\nfiles={path.relative_to(root).as_posix():hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(base.rglob('*')) if path.is_file() and '__pycache__' not in path.parts and not any(part.startswith('25-final') for part in path.parts)}\nreceipt={'schema':'aegisdc-water-engineering-receipt-v1','classification':'FINITE_ENGINEERING_VERIFICATION_ONLY','implementation_commit':'8db1e95a','final_run_source_commit':'122f73bd7fcd38fb18d3911227a58aaf8aafaafd','root_acceptance':'PENDING','mainline_status':'active','M1_status':'in_progress','frozen_inputs':frozen,'full_acceptance':{'path':'evidence/mainline/engineering/05-water/acceptance-122f73bd/summary.json','discovered':206,'executed':204,'optional_neural_skips':2,'unexpected_skips':0,'failures':0,'errors':0,'original_files_valid':20},'checks_exit_code':checks,'failed_engineering_checks_preserved':failures,'cross_integration_fresh_comparisons':comparisons,'prior_engineering_files_sha256':files,'research_trials':0,'model_calls':0,'training_calls':0,'field_calibration':'PENDING','scientific_gain':'NOT_ESTABLISHED'}\nwith (base/'receipt-122f73bd.json').open('x',encoding='utf-8',newline='\\n') as stream:\n    stream.write(json.dumps(receipt,indent=2)+'\\n')\nprint(json.dumps({'fresh_run_count':len(comparisons),'all_semantic_states_and_balance_files_preserved':True,'unchanged_input_count':len(frozen),'prior_engineering_files_hashed':len(files),'failed_engineering_checks_preserved':failures,'full_acceptance':receipt['full_acceptance']},indent=2))"
+  ],
+  "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-05",
+  "PYTHONPATH": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-05\\src",
+  "source_and_input_sha256": {
+    "configs/full-facility-mainline-v1.json": "2091ed7483e9e58b36b5722fb305b0e86657a6515ee97194ecbd7427573a0f0b",
+    "configs/full-facility-mainline-v2.json": "6641e8014a9e1bf7a601f92b699fdfb79667d46b357240ec60110fa9cb6cd51a",
+    "configs/full-facility-mainline-water-v3.json": "31a993b269827623fa5103788228c7e3cf292fc9b65f273f17533808bbf89403",
+    "configs/materials/reference-r134a-saturation.json": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+    "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+    "src/aegis_dc/__main__.py": "a455eab907f3dce6e7ce2f15e31e0a0d963055c6889edd527f51ff45f3d28568",
+    "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+    "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+    "src/aegis_dc/plant.py": "3c8e8b7bc3c6cf3b8ac9b1b3ecc75887a891b790b1f17a572e26a0c4f75c49d1",
+    "src/aegis_dc/power.py": "f8269c5699c986263a6a858034587bda09d3cf5491dadab324066eb47b46c8d8",
+    "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+    "src/aegis_dc/runtime_contract.py": "0f6f9e45fa14cc61c6a0a9210b7cbeafe59b7a16996eec5a2e0d0d86006f55f0",
+    "src/aegis_dc/scenario.py": "18f8468324a1af7a3f4ffa7db4f8161a3afca4bd16d41e06f27a8ad56e3708b6",
+    "src/aegis_dc/thermodynamics.py": "61de7d9d698d35fc1ead238eca0005d92fd362edc626019d1167fb84f42e2e56",
+    "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+    "tests/test_full_facility_plant.py": "0a7a9e09a0b15d36f4bdbe0db070040b1b629fe23617416aac62822a8aec317f",
+    "tests/test_full_facility_scenario.py": "855b8cc0d3a59465ead355e804ddfc0c78d11b4e755fbc6040c58e511a811c36",
+    "tests/test_full_facility_water.py": "ec8a2fb06c4a542317262a3640b7c549ae71da1108a8f744bdf9c7c3775318e8"
+  },
+  "exit_code": 0
+}

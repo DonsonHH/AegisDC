@@ -11,8 +11,9 @@ from pathlib import Path
 import subprocess
 
 from patrol_rsi.contracts import digest
-from .heat_transfer import counterflow_exchange, pump_operating_point
+from .heat_transfer import counterflow_exchange, pump_operating_point, valve_loop_operating_point
 from .power import allocate_power
+from .runtime_contract import WATER_MODEL
 from .scenario import validate_scenario
 from .thermodynamics import SaturationTable, finite_number
 from .workforce import Workforce
@@ -22,6 +23,8 @@ EXOGENOUS_PARAMETERS = {
     'grid_capacity', 'compute_demand_power', 'network_demand_power', 'storage_demand_power',
     'compute_service_capacity', 'network_service_capacity', 'storage_service_capacity',
     'service_demand', 'lake_temperature', 'filter_resistance_multiplier',
+    'lake_valve_opening', 'internal_valve_opening', 'plate_hx_conductance',
+    'pump_pressure_rise', 'internal_pump_pressure_rise',
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
 }
 
@@ -35,7 +38,7 @@ def _boundary_events(rows, parameters, duration):
             raise ValueError('Declare each timed boundary input with parameter, value and source note')
         time_s = finite_number(row['time_s'], 'Boundary event time')
         name = row['parameter_id']
-        if not isinstance(name, str) or name not in EXOGENOUS_PARAMETERS:
+        if not isinstance(name, str) or name not in EXOGENOUS_PARAMETERS or name not in parameters:
             raise ValueError('Boundary event parameter is not an exogenous input')
         value = finite_number(row['value'], 'Boundary event value')
         low, high = parameters[name]['valid_range']
@@ -130,17 +133,31 @@ class _Plant:
                      p['pump_efficiency'], speed)
         internal_args = (p['internal_pump_pressure_rise'], p['internal_hydraulic_resistance'],
                          p['internal_pump_efficiency'], speed)
-        requested = {'intake_pump': pump_operating_point(*lake_args)['electric_power_W'],
-                     'internal_pump': pump_operating_point(*internal_args)['electric_power_W']}
+        operating_point = pump_operating_point
+        if self.scenario['runtime']['model'] == WATER_MODEL:
+            lake_args = (*lake_args[:2], p['lake_valve_open_resistance'],
+                         p['lake_valve_opening'], *lake_args[2:])
+            internal_args = (*internal_args[:2], p['internal_valve_open_resistance'],
+                             p['internal_valve_opening'], *internal_args[2:])
+            operating_point = valve_loop_operating_point
+        requested = {'intake_pump': operating_point(*lake_args)['electric_power_W'],
+                     'internal_pump': operating_point(*internal_args)['electric_power_W']}
         power = allocate_power(p, requested, control['compute_permitted'], self.energy['ups'],
                                 self.generator_mode == 'running', self.energy['fuel'])
         actual = power['actual_powers_W']
-        lake = pump_operating_point(*lake_args, available_power_W=actual['intake_pump'])
-        internal = pump_operating_point(*internal_args, available_power_W=actual['internal_pump'])
+        lake = operating_point(*lake_args, available_power_W=actual['intake_pump'])
+        internal = operating_point(*internal_args, available_power_W=actual['internal_pump'])
         t, r = self.temperatures(), self.refrigerant()
         ci = p['water_density'] * p['water_specific_heat'] * internal['volume_flow_m3_s']
         cl = p['water_density'] * p['water_specific_heat'] * lake['volume_flow_m3_s']
         fraction = p['pump_fluid_heat_fraction']
+        # This model has no separate pipe heat-loss or pressure-work export:
+        # all q*dp work dissipates in that fluid. f*Pe includes it exactly once.
+        # Check the actual operating point, including timed enables, rather
+        # than constraining an unpowered/zero-head/shutoff pump's unused eta.
+        for pump, efficiency in ((lake, p['pump_efficiency']), (internal, p['internal_pump_efficiency'])):
+            if pump['hydraulic_power_W'] > 0 and fraction < efficiency:
+                raise ValueError('Pump fluid heat must include the hydraulic dissipation; require fluid heat fraction >= active pump efficiency')
         lake_pump_heat = fraction * actual['intake_pump']
         lake_inlet = p['lake_temperature'] + lake_pump_heat / cl if cl else p['lake_temperature']
         hx = counterflow_exchange(p['plate_hx_conductance'], ci, cl, t['hot'], lake_inlet)
@@ -324,6 +341,21 @@ class _Plant:
 
     def snapshot(self, time_s, point, workforce):
         p, t = self.p, point['temperatures']
+        valves = {}
+        control = deepcopy(self.control)
+        if self.scenario['runtime']['model'] == WATER_MODEL:
+            for loop in ('lake', 'internal'):
+                pump = point[loop + '_pump']
+                valves[loop + '_valve_group'] = {
+                    'opening': pump['opening'],
+                    'effective_resistance_Pa_s2_m6': pump['valve_resistance_Pa_s2_m6'],
+                    'dynamic_pressure_drop_Pa': pump['valve_pressure_drop_Pa'],
+                    'closed_valve_interlock': pump['closed_valve_interlock'],
+                }
+            control['hardwired_pump_permits'] = {
+                'intake_pump': not point['lake_pump']['closed_valve_interlock'],
+                'internal_pump': not point['internal_pump']['closed_valve_interlock'],
+            }
         return {'time_s': time_s, 'domains': {
             'power': point['power'],
             'backup': {'ups_energy_J': self.energy['ups'], 'fuel_energy_J': self.energy['fuel'],
@@ -338,12 +370,13 @@ class _Plant:
                                  'internal_hx_outlet_K': point['hx']['hot_outlet_K'],
                                  'lake_hx_outlet_K': point['hx']['cold_outlet_K'],
                                  'plate_hx_heat_W': point['hx']['heat_W'],
-                                 'condenser_heat_W': point['condenser_heat_W']},
+                                 'condenser_heat_W': point['condenser_heat_W'],
+                                 **({'valve_groups': valves} if valves else {})},
             'equipment_environment': {'solid_temperature_K': t['solid'], 'room_temperature_K': t['room'],
                                       'room_humidity': p['room_humidity'], 'refrigerant': point['refrigerant'],
                                       'solid_coolant_heat_W': point['solid_coolant_heat_W'],
                                       'solid_air_heat_W': point['solid_air_heat_W']},
-            'it_service': point['service'], 'control_monitoring': deepcopy(self.control),
+            'it_service': point['service'], 'control_monitoring': control,
             'space_access': {'floor_water_mass_kg': self.floor_mass, 'drain_kg_s': point['drain_kg_s'],
                               'blocked_location_ids': sorted(self.blocked_locations())},
             'people_tools_work': workforce.snapshot(),
