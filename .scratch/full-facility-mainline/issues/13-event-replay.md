@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** resolved
+**Status:** claimed
 
 **Milestone:** M2
 
@@ -17,6 +17,13 @@
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
 ## Evidence
+
+Reopened after independent Spec review of `aaa4d8cb`: unsupported terminal /
+declaration versions and malformed/incomplete lifecycle origins were not
+authoritatively checked. The exact original probes and red observations are
+preserved under `evidence/mainline/engineering/13-replay/review-AAA-spec/`.
+The prior engineering capture/delivery/full counts below retain their actual
+source identity; they do not validate the pending reader correction.
 
 Owner: `/root/mainline_13_replay`, branch `donson/mainline-13-replay`, worktree
 `.work/worktrees/full-site-13`; integration base `77660da5` confirmed against

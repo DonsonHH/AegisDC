@@ -208,7 +208,7 @@ class FacilityReplayTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             interrupted = Path(temporary) / 'unfinalized'
             interrupted.mkdir()
-            (interrupted / 'lifecycle.jsonl').write_text('{"state":"STARTED","attempt_id":"interrupted"}\n')
+            (interrupted / 'lifecycle.jsonl').write_text('{"state":"STARTED","attempt_id":"interrupted","recorded_at_utc":"2026-11-05T00:00:00+00:00"}\n')
             state = read_attempt(interrupted)
             self.assertEqual(state['record']['status'], 'UNFINALIZED_RUNNING_OR_INTERRUPTED')
             self.assertIsNone(state['run'])
@@ -239,7 +239,7 @@ class FacilityReplayTests(unittest.TestCase):
             run_recorded(load_scenario(PROFILE), output, inputs=frozen_inputs(), duration_s=1)
             declaration = json.loads((output / 'declaration.json').read_text())
             record = read_attempt(output)['record']
-            self.assertEqual(declaration['schema'], 'aegisdc-attempt-declaration-v1')
+            self.assertEqual(declaration['schema'], 'aegisdc-attempt-declaration-v2')
             self.assertEqual(set(record['artifacts']), set(declaration['required_when_completed']))
             self.assertEqual(declaration['runtime_caches'], 'NOT_DELIVERABLE')
             self.assertNotIn('attempt.json', record['artifacts'])

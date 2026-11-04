@@ -93,6 +93,28 @@ A directory without its terminal envelope is
 Read-only verification cannot determine whether its writer is still alive.
 Existing output directories are rejected before their contents are changed.
 
+Reader-authority revision (new v2 captures): writers now emit
+`aegisdc-facility-attempt-v2` and `aegisdc-attempt-declaration-v2`, with explicit
+`aegisdc-attempt-lifecycle-v1` rows. The reader supports the known v1 historical
+terminal/declaration pair and its exact legacy lifecycle row structure, and
+the new v2 pair; unknown versions, mixed terminal/declaration versions, unknown
+terminal states and malformed objects are refused before trajectory authority
+is granted. Timestamps, field types, execution/research authority, artifact
+roles and completed request structure are validated. Historical v1 bytes and
+their original execution claims stay unchanged.
+
+A supported declaration interrupted before lifecycle creation is also
+`UNFINALIZED_RUNNING_OR_INTERRUPTED`. Empty or unrecognized origins have no
+authority. Malformed lifecycle rows (including scalar JSON such as `42`) are
+validation refusals. Replay records these and source refusals as a new FAILED
+request at a named `replay_origin.*` stage. The new request stores exact readable
+origin terminal/declaration/lifecycle bytes under its declared `origin/` roles,
+plus the offending file when identified. These snapshots are private data,
+never executable state. The original directory is read-only; unreadable or
+missing bytes are not fabricated. Unknown or unfinished origins are never
+promoted to completed or failed historical attempts. The new FAILED record
+describes the refused request, not the unknown historical outcome.
+
 There are no automatic retries. An engineering retry must use a new directory
 and explicitly name the prior finalized FAILED attempt and a nonempty reason.
 The new record pins the prior attempt ID/hash. Corrected configuration or code
