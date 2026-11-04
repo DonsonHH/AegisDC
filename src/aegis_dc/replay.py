@@ -237,6 +237,13 @@ def read_attempt(directory):
     if len(lifecycle) != 2 or [row['state'] for row in lifecycle] != ['STARTED', record['status']] \
             or lifecycle[0]['attempt_id'] != record['attempt_id'] or lifecycle[-1]['failure'] != record['failure']:
         raise ValueError('Terminal attempt and append-only lifecycle disagree')
+    scenario = _read_json(directory / 'scenario-input.json') if (directory / 'scenario-input.json').exists() else None
+    submitted = _read_json(directory / 'inputs.json') if (directory / 'inputs.json').exists() else None
+    frozen = _read_json(directory / 'frozen-inputs.json') if (directory / 'frozen-inputs.json').exists() else submitted
+    if 'inputs_sha256' in record and digest(frozen) != record['inputs_sha256']:
+        raise ValueError('Frozen input identity differs from the executed attempt')
+    if 'scenario_sha256' in record and digest(scenario) != record['scenario_sha256']:
+        raise ValueError('Frozen scenario identity differs from the executed attempt')
     run = None
     if record['status'] == 'COMPLETED':
         folder = directory / 'trajectory'
@@ -244,14 +251,19 @@ def read_attempt(directory):
         run.update(source_config=_read_json(folder / 'scenario.json'),
                    trace=[strict_json(line) for line in (folder / 'private-state.jsonl').read_text(encoding='utf-8').splitlines()],
                    balances=[strict_json(line) for line in (folder / 'balances.jsonl').read_text(encoding='utf-8').splitlines()])
-        if run['code_identity']['files'] != source['files'] or run['scenario_sha256'] != record['scenario_sha256']:
+        if any(run['code_identity'][field] != source[field]
+               for field in ('files', 'source_tree_sha256', 'git_commit', 'implementation_has_changes')) \
+                or run['scenario_sha256'] != record['scenario_sha256'] or run['source_config'] != scenario:
             raise ValueError('Private trajectory and frozen execution source/config identity differ')
+        if run['inputs']['boundary_events'] != frozen['exogenous_events'] \
+                or run['inputs'].get('action_commands', []) != frozen['action_commands'] \
+                or run['inputs']['work_requests'] != frozen['work_requests'] \
+                or run['inputs']['duration_s'] != record['duration_s'] \
+                or run['inputs']['maximum_step_s'] != record['maximum_step_s']:
+            raise ValueError('Private trajectory input identity differs from the frozen attempt')
     return dict(record=record, record_sha256=_file_sha(directory / 'attempt.json'),
-                scenario=_read_json(directory / 'scenario-input.json') if (directory / 'scenario-input.json').exists() else None,
-                inputs=_read_json(directory / ('frozen-inputs.json' if (directory / 'frozen-inputs.json').exists()
-                                               else 'inputs.json')) if (directory / 'inputs.json').exists() else None,
-                submitted_inputs=_read_json(directory / 'inputs.json') if (directory / 'inputs.json').exists() else None,
-                request=_read_json(directory / 'request.json'), run=run)
+                scenario=scenario, inputs=frozen, submitted_inputs=submitted,
+                request=_read_json(directory / 'request.json') if (directory / 'request.json').exists() else None, run=run)
 
 
 def replay_attempt(original, directory, *, action_commands=None):
@@ -278,8 +290,6 @@ def replay_attempt(original, directory, *, action_commands=None):
     return _run_recorded(prior['scenario'], directory, inputs=inputs,
                          duration_s=request['duration_s'], step_s=request['maximum_step_s'],
                          required_source=prior['record']['source_identity'],
-                         preflight_error=None if prior['record']['status'] == 'COMPLETED'
-                         else 'Failed or unfinished origins require an explicit retry, not replay',
                          replay_of=dict(attempt_id=prior['record']['attempt_id'],
                                         attempt_sha256=prior['record_sha256'],
                                         mode='EXACT_REEXECUTION' if action_commands is None

@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 import os
 import math
+from hashlib import sha256
 import subprocess
 import sys
 import tempfile
@@ -242,6 +243,20 @@ class FacilityReplayTests(unittest.TestCase):
             self.assertEqual(set(record['artifacts']), set(declaration['required_when_completed']))
             self.assertEqual(declaration['runtime_caches'], 'NOT_DELIVERABLE')
             self.assertNotIn('attempt.json', record['artifacts'])
+
+    def test_frozen_input_identity_cannot_drift_from_the_executed_attempt(self):
+        from aegis_dc.replay import read_attempt, run_recorded
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'altered-input'
+            run_recorded(load_scenario(PROFILE), output, inputs=frozen_inputs(), duration_s=1)
+            changed = json.loads((output / 'frozen-inputs.json').read_text())
+            changed['seed'] = 999
+            (output / 'frozen-inputs.json').write_text(json.dumps(changed), encoding='utf-8')
+            record = json.loads((output / 'attempt.json').read_text())
+            record['artifacts']['frozen-inputs.json'] = sha256((output / 'frozen-inputs.json').read_bytes()).hexdigest()
+            (output / 'attempt.json').write_text(json.dumps(record), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'input identity'):
+                read_attempt(output)
 
 
 if __name__ == '__main__':
