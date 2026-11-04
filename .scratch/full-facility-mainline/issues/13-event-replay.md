@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M2
 
@@ -18,4 +18,8 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `/root/mainline_13_replay`, branch `donson/mainline-13-replay`, worktree
+`.work/worktrees/full-site-13`; integration base `77660da5` confirmed against
+live agent/worktree inventory on 2026-11-05. Public scenario/run/save/replay and
+actual CLI seams follow the accepted specification. Implementation and
+acceptance evidence pending; this claim is not M2 or research completion.

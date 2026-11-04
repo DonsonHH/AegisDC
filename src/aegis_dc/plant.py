@@ -37,6 +37,13 @@ EXOGENOUS_PARAMETERS = {
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
 } | ENVIRONMENT_EXOGENOUS_PARAMETERS | set(CONTROL_QUANTITIES) | set(RESERVE_EXOGENOUS_PARAMETERS)
 
+# Parameter commands supported by the current low-order engineering plant.
+# They are not field-authorized repairs, capacity restoration or policy actions.
+ENGINEERING_COMMAND_PARAMETERS = frozenset({
+    'lake_valve_opening', 'internal_valve_opening', 'pump_pressure_rise',
+    'internal_pump_pressure_rise', 'backup_cooling_requested',
+})
+
 
 def _boundary_events(rows, parameters, duration, *, model, control_profile=None, reserve_profile=None):
     if not isinstance(rows, (list, tuple)):
@@ -87,6 +94,27 @@ def _code_identity():
         commit, dirty = None, None
     return {'git_commit': commit, 'implementation_has_changes': dirty,
             'source_tree_sha256': digest(files), 'files': files}
+
+
+def _action_commands(rows, parameters, duration, **profiles):
+    if not isinstance(rows, (list, tuple)):
+        raise ValueError('Engineering control commands must be a declared list')
+    result, identifiers = [], set()
+    for row in rows:
+        if not isinstance(row, dict) or set(row) != {'id', 'time_s', 'parameter_id', 'value', 'source_note'}:
+            raise ValueError('Declare each engineering control command with its ID and timed parameter')
+        identifier = row['id']
+        if not isinstance(identifier, str) or not identifier.strip() or identifier in identifiers:
+            raise ValueError('Engineering control command IDs must be distinct nonempty text')
+        if row['parameter_id'] not in ENGINEERING_COMMAND_PARAMETERS:
+            raise ValueError('Engineering command cannot write offered demand, weather or fault/maintenance parameters')
+        checked = _boundary_events([{key: value for key, value in row.items() if key != 'id'}],
+                                   parameters, duration, **profiles)[0]
+        result.append(dict(checked, id=identifier))
+        identifiers.add(identifier)
+    if len({(row['time_s'], row['parameter_id']) for row in result}) != len(result):
+        raise ValueError('Conflicting engineering command at the same time and parameter')
+    return sorted(result, key=lambda row: (row['time_s'], row['parameter_id'], row['id']))
 
 
 class _Plant:
@@ -573,7 +601,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=()):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=()):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -592,6 +620,16 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
                                     control_profile=scenario['runtime'].get('local_control_profile'),
                                     reserve_profile=scenario['runtime'].get('reserve_profile'))
+    commands = _action_commands(action_commands, p_records, duration, model=scenario['runtime']['model'],
+                                control_profile=scenario['runtime'].get('local_control_profile'),
+                                reserve_profile=scenario['runtime'].get('reserve_profile'))
+    boundary_inputs = deepcopy(timed_inputs)
+    if {(row['time_s'], row['parameter_id']) for row in timed_inputs} & \
+            {(row['time_s'], row['parameter_id']) for row in commands}:
+        raise ValueError('Conflicting boundary input and engineering command at the same time and parameter')
+    timed_inputs = sorted([dict(row, kind='exogenous_boundary_input') for row in timed_inputs]
+                          + [dict(row, kind='engineering_control_command') for row in commands],
+                          key=lambda row: (row['time_s'], row['parameter_id']))
     event_index = 0
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])
@@ -603,7 +641,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         while event_index < len(timed_inputs) and timed_inputs[event_index]['time_s'] <= time_s:
             event = timed_inputs[event_index]
             plant.p[event['parameter_id']] = event['value']
-            plant.events.append(dict(event, kind='exogenous_boundary_input'))
+            plant.events.append(dict(event))
             event_index += 1
         plant.discrete(time_s)
         point = plant.point()
@@ -671,7 +709,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'research_trials': 0, 'model_calls': 0, 'training_calls': 0,
             'scenario_sha256': digest(scenario), 'source_config': scenario, 'code_identity': _code_identity(),
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
-            'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': workforce.requests, 'boundary_events': timed_inputs},
+            'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': workforce.requests,
+                       'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 
 
