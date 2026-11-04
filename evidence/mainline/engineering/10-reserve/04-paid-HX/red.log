@@ -1,0 +1,17 @@
+test_UPS_internal_control_is_paid_even_before_its_output_connects (test_mainline_reserve.ReserveComponentTests.test_UPS_internal_control_is_paid_even_before_its_output_connects) ... ok
+test_dead_main_PLC_cannot_deadlock_the_independently_powered_UPS (test_mainline_reserve.ReserveComponentTests.test_dead_main_PLC_cannot_deadlock_the_independently_powered_UPS) ... ok
+test_generator_requires_finite_local_start_energy_despite_plentiful_fuel (test_mainline_reserve.ReserveComponentTests.test_generator_requires_finite_local_start_energy_despite_plentiful_fuel) ... ok
+test_paid_heat_boundary_matches_the_independent_40_kW_port_budget (test_mainline_reserve.ReserveComponentTests.test_paid_heat_boundary_matches_the_independent_40_kW_port_budget) ... ERROR
+
+======================================================================
+ERROR: test_paid_heat_boundary_matches_the_independent_40_kW_port_budget (test_mainline_reserve.ReserveComponentTests.test_paid_heat_boundary_matches_the_independent_40_kW_port_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-10\tests\test_mainline_reserve.py", line 98, in test_paid_heat_boundary_matches_the_independent_40_kW_port_budget
+    from aegis_dc.reserve import paid_backup_exchange
+ImportError: cannot import name 'paid_backup_exchange' from 'aegis_dc.reserve' (C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-10\src\aegis_dc\reserve.py)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (errors=1)

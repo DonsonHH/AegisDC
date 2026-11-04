@@ -4,7 +4,7 @@
 
 **Blocked by:** 04, 05
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -28,5 +28,12 @@ See `docs/mainline/10-reserve-design.md` for the primary-source boundary,
 finite-energy/transfer proposal, paid effective cooling interface, 07/09
 compatibility and independent hand acceptance cases. This round changes no
 runtime/config and executes no tests, engineering simulation or effect study.
-Status remains ready-for-agent pending the root's implementation follow-up;
+Status remained ready-for-agent pending the root's implementation follow-up;
 the design is not acceptance evidence or M1 completion.
+
+## Implementation started 2026-11-05
+
+Owner/worktree unchanged. Accepted integration `98fd8c4b` and stable, not-yet-root-
+accepted 09 interface `4619dbfd` are merged before this implementation.
+`docs/mainline/10-reserve-implementation.md` records the revised finite actor-
+power boundary resolving the design's unpowered-controller startup deadlock.
