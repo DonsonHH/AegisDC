@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -41,6 +42,8 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--plot-dependencies', type=Path)
     parser.add_argument('--development', action='store_true', help='Reduced, explicitly unqualified preparation; no full suite')
+    parser.add_argument('--reuse-from', type=Path, action='append', default=[],
+                        help='Losslessly inherit declared engineering originals only when runtime bytes and exact physical inputs match')
     args = parser.parse_args()
     output = args.output.resolve()
     if not output.is_relative_to(ROOT):
@@ -61,6 +64,30 @@ def main():
     prior = ['docs/mainline/evidence/11.json', 'docs/mainline/evidence/M1.json',
              'evidence/mainline/engineering/property-reference/receipt.json',
              'evidence/mainline/engineering/12-numerical/development/red-clock-ulp.log']
+    reused, inherited_origins = {}, {}
+    for source in args.reuse_from:
+        source = source.resolve()
+        if not source.is_relative_to(ROOT):
+            raise ValueError('Inherited engineering originals must remain inside this worktree')
+        origin_status = json.loads((source / 'capture-status.json').read_text(encoding='utf-8'))
+        origin_declaration = json.loads((source / 'declaration.json').read_text(encoding='utf-8'))
+        prior += [(source / name).relative_to(ROOT).as_posix() for name in
+                  ('capture-status.json', 'declaration.json', 'runbook-copy.json', 'engineering-attempts.jsonl')]
+        for item in book['cases']:
+            for h in steps:
+                candidate = source / f"runs/{item['id']}/h-{h}.zip"
+                if candidate.is_file():
+                    key = (item['id'], str(h))
+                    if key in reused and file_sha(reused[key]) != file_sha(candidate):
+                        raise ValueError('Conflicting inherited original for one case/step')
+                    reused[key] = candidate
+                    inherited_origins[key] = dict(original_archive=candidate.relative_to(ROOT).as_posix(),
+                        original_archive_sha256=file_sha(candidate),
+                        original_capture_status=origin_status['status'], original_capture_stage=origin_status.get('stage'),
+                        original_capture_status_sha256=file_sha(source / 'capture-status.json'),
+                        original_execution_commit=origin_declaration['execution_commit'],
+                        original_analysis_not_upgraded=True)
+    prior += [path.relative_to(ROOT).as_posix() for path in reused.values()]
     pinned = {}
     for group, names in [('pinned_tools', tools), ('execution_inputs', inputs), ('prior_durable_files', prior)]:
         pinned[group] = {name: file_sha(ROOT / name) for name in names}
@@ -82,7 +109,7 @@ def main():
         original_policy='ZIP losslessly preserves all four original save_run files; member hashes/counts checked against public run.json. No trajectory writer remains after archive close.',
         full_regression_runs=0 if args.development else 1, classification='DEVELOPMENT_NOT_QUALIFIED' if args.development else 'ENGINEERING_NUMERICAL_QUALIFICATION_NOT_RESEARCH'))
     write_new(output / 'runbook-copy.json', book)
-    index, analyses, sources = {}, {}, None
+    index, analyses, sources, runtime_commits = {}, {}, None, set()
     stage = None
     with (output / 'engineering-attempts.jsonl').open('x', encoding='utf-8', newline='\n') as ledger:
         def record(value):
@@ -97,32 +124,52 @@ def main():
                 index[name], analyses[name] = {}, {}
                 for h in steps:
                     stage = name + '/' + str(h)
-                    result = simulate_scenario(configured(base, item), duration_s=item['duration_s'], step_s=h,
-                        boundary_events=item['events'], work_requests=item['work_requests'])
-                    if sources is None:
-                        sources = result['code_identity']['files']
-                    if result['code_identity']['files'] != sources or (not args.development and result['code_identity']['implementation_has_changes']):
-                        raise ValueError('Runtime source changed during capture')
                     archive_path = output / archives[name][str(h)]
                     archive_path.parent.mkdir(parents=True, exist_ok=True)
-                    with tempfile.TemporaryDirectory(dir=staging, prefix='numeric-') as temporary:
-                        temp_path = Path(temporary).resolve()
-                        if not temp_path.is_relative_to(staging.resolve()):
-                            raise ValueError('Temporary cleanup path escaped declared staging directory')
-                        saved = temp_path / 'public-run'
-                        save_run(result, saved)
-                        with zipfile.ZipFile(archive_path, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
-                            for path in sorted(saved.iterdir()):
-                                archive.writestr(path.name, path.read_bytes())
+                    inherited = reused.get((name, str(h)))
+                    if inherited:
+                        with inherited.open('rb') as reader, archive_path.open('xb') as writer:
+                            shutil.copyfileobj(reader, writer)
+                    else:
+                        result = simulate_scenario(configured(base, item), duration_s=item['duration_s'], step_s=h,
+                            boundary_events=item['events'], work_requests=item['work_requests'])
+                        with tempfile.TemporaryDirectory(dir=staging, prefix='numeric-') as temporary:
+                            temp_path = Path(temporary).resolve()
+                            if not temp_path.is_relative_to(staging.resolve()):
+                                raise ValueError('Temporary cleanup path escaped declared staging directory')
+                            saved = temp_path / 'public-run'
+                            save_run(result, saved)
+                            with zipfile.ZipFile(archive_path, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+                                for path in sorted(saved.iterdir()):
+                                    archive.writestr(path.name, path.read_bytes())
+                        del result
                     manifest, scenario, trace, balances = read_archive(archive_path)
+                    identity = manifest['code_identity']
+                    if sources is None:
+                        sources = identity['files']
+                    if identity['files'] != sources or (not args.development and identity['implementation_has_changes']):
+                        raise ValueError('Runtime source changed during capture/inheritance')
+                    if identity['git_commit'] not in runtime_commits:
+                        for path, expected in sources.items():
+                            if file_sha(ROOT / path) != expected or git_blob_sha(ROOT, identity['git_commit'], path) != expected \
+                                    or (not args.development and git_blob_sha(ROOT, execution, path) != expected):
+                                raise ValueError('Inherited/actual runtime bytes do not match the declared execution revisions')
+                        runtime_commits.add(identity['git_commit'])
+                    if scenario != configured(base, item) or manifest['inputs']['maximum_step_s'] != h \
+                            or manifest['inputs']['duration_s'] != item['duration_s']:
+                        raise ValueError('Inherited/actual physical inputs or numeric step differ from the declared case')
                     if scenario['entities'] != base['entities'] or scenario['graphs'] != base['graphs']:
                         raise ValueError('Complete V6 facility identities/relations changed')
                     analysis = inspect_run(item, manifest, scenario, trace, balances)
                     index[name][str(h)] = dict(archive=archives[name][str(h)], archive_sha256=file_sha(archive_path),
                         original_members=member_identities(archive_path),
-                        source_commit=execution, scenario_sha256=manifest['scenario_sha256'], analysis=analysis)
+                        inherited_origin=inherited_origins.get((name, str(h))),
+                        source_commit=identity['git_commit'], scenario_sha256=manifest['scenario_sha256'], analysis=analysis)
                     analyses[name][str(h)] = analysis
-                    record(dict(case=name, maximum_step_s=h, outcome='ENGINEERING_COMPLETED',
+                    record(dict(case=name, maximum_step_s=h,
+                        outcome='REUSED_ENGINEERING_ORIGINAL' if inherited else 'ENGINEERING_COMPLETED',
+                        runtime_source_commit=identity['git_commit'],
+                        inherited_origin=inherited_origins.get((name, str(h))),
                         archive=archives[name][str(h)], archive_sha256=file_sha(archive_path)))
                 print('captured numerical ' + name, flush=True)
             write_new(output / 'runs-index.json', index)
@@ -173,6 +220,7 @@ def main():
         raise ValueError('Declared durable set differs from completed outputs: ' + str(actual ^ set(planned)))
     write_new(output / 'receipt.json', dict(schema='aegisdc-numerical-capture-v1', engineering_capture='PASS',
         delivery_gate='PENDING_COMMIT_AND_FRESH_CHECKOUT', execution_commit=execution, runtime_sources=sources,
+        runtime_execution_commits=sorted(runtime_commits), reused_engineering_originals=len(reused),
         **pinned, artifacts={name: file_sha(output / name) for name in planned},
         full_regression_runs=0 if args.development else 1, full_tests=full['tests'] if full else None,
         toolchain=dict(python=platform.python_version(), python_executable=sys.executable,

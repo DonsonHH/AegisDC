@@ -44,7 +44,7 @@ def verify(root, directory, delivery_commit):
         raise ValueError('Frozen runbook copy differs')
     original_index = json.loads((directory / 'runs-index.json').read_text(encoding='utf-8'))
     base = json.loads((root / book['profile']).read_text(encoding='utf-8'))
-    analyses, count, points = {}, 0, 0
+    analyses, count, points, verified_runtime_commits = {}, 0, 0, set()
     for item in book['cases']:
         analyses[item['id']] = {}
         by_step = original_index[item['id']]
@@ -57,8 +57,13 @@ def verify(root, directory, delivery_commit):
             if member_identities(path) != record['original_members']:
                 raise ValueError('Original member SHA/byte/count identity differs')
             manifest, scenario, trace, balances = read_archive(path)
-            if manifest['code_identity']['git_commit'] != execution or manifest['code_identity']['files'] != receipt['runtime_sources'] or manifest['code_identity']['implementation_has_changes']:
+            if manifest['code_identity']['git_commit'] != record['source_commit'] or manifest['code_identity']['files'] != receipt['runtime_sources'] or manifest['code_identity']['implementation_has_changes']:
                 raise ValueError('Runtime differs from its recorded clean execution source')
+            if record['source_commit'] not in verified_runtime_commits:
+                for name, identity in receipt['runtime_sources'].items():
+                    if git_blob_sha(root, record['source_commit'], name) != identity:
+                        raise ValueError('Historical actual runtime differs from its execution Git revision')
+                verified_runtime_commits.add(record['source_commit'])
             if scenario['entities'] != base['entities'] or scenario['graphs'] != base['graphs']:
                 raise ValueError('One complete V6 identity/topology changed')
             if manifest['inputs']['maximum_step_s'] != float(h) or manifest['scenario_sha256'] != record['scenario_sha256']:
@@ -69,6 +74,8 @@ def verify(root, directory, delivery_commit):
             analyses[item['id']][h] = actual_analysis
             count += 1
             points += len(trace)
+    if verified_runtime_commits != set(receipt['runtime_execution_commits']):
+        raise ValueError('Declared runtime execution revisions differ from actual original manifests')
     assessment = assess(book, analyses)
     if assessment != json.loads((directory / 'assessment.json').read_text(encoding='utf-8')):
         raise ValueError('Numerical assessment does not reproduce')
@@ -94,6 +101,8 @@ def verify(root, directory, delivery_commit):
     return dict(status='PASS', execution_commit=execution, delivery_commit=delivery,
                 declared_durable_artifacts=len(declared), original_archives=count, original_members=4 * count,
                 state_points=points, cases=len(analyses), numerical_gate=assessment['all_declared_fixtures_qualified'],
+                runtime_execution_commits=receipt['runtime_execution_commits'],
+                reused_engineering_originals=receipt['reused_engineering_originals'],
                 frozen_representation_cases=432, strict_refusals=5, representation_neighbors=255,
                 full_facility_expected_refusals=len(rejections),
                 full_tests=full['tests'], verified_original_files=full['verified_original_files'],

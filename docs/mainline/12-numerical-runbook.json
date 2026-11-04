@@ -595,63 +595,108 @@
           "expected": 46,
           "time_s": 46,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "cooling",
+            "mode": "switching"
+          }
         },
         {
           "path": "backup.backup_tower_mode",
           "expected": "active",
           "time_s": 48,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "cooling",
+            "mode": "active"
+          }
         },
         {
           "path": "facility_cooling.lake_mass_flow_kg_s",
           "expected": 0,
           "time_s": 48,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "cooling",
+            "mode": "active"
+          }
         },
         {
           "path": "backup.reserve_states.ups.mode",
           "expected": "supplying",
           "time_s": 65.7,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "ups",
+            "mode": "supplying"
+          }
         },
         {
           "path": "control_monitoring.local_measurement.sampled_at_s",
           "expected": 65,
           "time_s": 65.7,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "ups",
+            "mode": "supplying"
+          }
         },
         {
           "path": "power.actual_powers_W.compute",
           "expected": 0,
           "time_s": 65.7,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "ups",
+            "mode": "supplying"
+          }
         },
         {
           "path": "power.actual_powers_W.backup_fan",
           "expected": 0,
           "time_s": 65.7,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "ups",
+            "mode": "supplying"
+          }
         },
         {
           "path": "backup.generator_mode",
           "expected": "supplying",
           "time_s": 97.5,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
         },
         {
           "path": "control_monitoring.supervisory_mode",
           "expected": "autonomous",
           "time_s": 97.5,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
         },
         {
           "path": "work_records.0.status",
@@ -728,14 +773,20 @@
           "expected": "sensor_invalid_fail_safe",
           "time_s": 176,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "PLC_SAMPLE"
+          }
         },
         {
           "path": "control_monitoring.mode",
           "expected": "normal",
           "time_s": 180,
           "op": "equal",
-          "absolute_tolerance": 1e-07
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "PLC_SAMPLE"
+          }
         },
         {
           "path": "summary.service_deficit_time_s",

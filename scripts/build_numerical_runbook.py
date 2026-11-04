@@ -57,6 +57,15 @@ def build():
                 anchor = ({'kind': 'reserve_transition', 'actor': 'generator', 'mode': 'transferring'} if check['time_s'] == 3 else
                           {'kind': 'reserve_transition', 'actor': 'generator', 'mode': 'supplying'} if check['time_s'] == 5 else
                           {'kind': 'fuel_depleted'} if check['time_s'] == 15 else None)
+            if item['id'] == 'combined-240s' and check['time_s'] in (46, 48):
+                anchor = {'kind': 'reserve_transition', 'actor': 'cooling',
+                          'mode': 'switching' if check['time_s'] == 46 else 'active'}
+            if item['id'] == 'combined-240s' and check['time_s'] == 65.7:
+                anchor = {'kind': 'reserve_transition', 'actor': 'ups', 'mode': 'supplying'}
+            if item['id'] == 'combined-240s' and check['time_s'] == 97.5:
+                anchor = {'kind': 'reserve_transition', 'actor': 'generator', 'mode': 'supplying'}
+            if item['id'] == 'combined-240s' and check['time_s'] in (176, 180):
+                anchor = {'kind': 'PLC_SAMPLE'}
             if anchor:
                 check['event_anchor'] = anchor
     return dict(schema='aegisdc-numerical-qualification-v1',
