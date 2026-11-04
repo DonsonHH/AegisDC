@@ -129,7 +129,8 @@ def _run_recorded(scenario, directory, *, inputs, duration_s=None, step_s=None,
         _write_json(directory / 'request.json', dict(duration_s=duration_s, maximum_step_s=step_s,
                                                     retry_of=str(retry_of) if retry_of is not None else None,
                                                     retry_reason=retry_reason, attempt_kind=attempt_kind,
-                                                    research_registration=research_registration))
+                                                    research_registration=research_registration,
+                                                    source_files={name: str(path) for name, path in (source_files or {}).items()}))
         supplied, failures = {}, []
         for name, source_file in (source_files or {}).items():
             try:
