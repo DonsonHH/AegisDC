@@ -30,6 +30,10 @@ hour-based foundation prototype and private V6 plant are preserved.
 - Prior precision/age runtime/tools execution: `28e8756d1014646952efb3661d323a68b68bd3ef`.
 - Prior precision/age delivery: `4328c613e150474cb0e44dc9a11416680ebdc096`, 13 declared
   artifacts plus terminal receipt, independently checked in its fresh checkout.
+- Current admission-corrected execution: `f9450246347e08dabfe9b40709e12da115a4de59`;
+  delivery `4b1997b72ada11f3ae518db25c552c65d51e72a4`, nine declared
+  artifacts plus terminal receipt; separate fresh proof passes, preserving 43
+  prior originals and 200 prior corrected source/tool/input identities.
 - Exact-bound, duplicate, time-scalar and finite-endpoint admission corrections:
   independent red/green examples and 20 passing evidence tests; current full regression awaits root
   integration. Original 371-test regression belongs only to execution `3c4e9640`.
