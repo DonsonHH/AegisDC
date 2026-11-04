@@ -89,3 +89,17 @@ subject to normal whitespace checks. Reproduce into a fresh directory using:
 $env:PYTHONPATH = (Resolve-Path src).Path
 python evidence/mainline/engineering/09-control/capture_engineering.py --output <new-directory>
 ```
+
+
+## Latest-integration readback
+
+The branch subsequently merged accepted integration `de5dbc69` at `bcad4042`.
+Only the sixteen control targets and fresh saved-original/source checks were
+repeated, not the full suite or engineering trajectories. Attempts 26/27 preserve
+the actual commands, checked HEAD and readback. `verify_saved.py` rehashes all
+prior local originals, all 74 saved artifacts, six legacy input hashes/Git blobs
+and every saved-run source file, then rechecks twelve saved physical accounts.
+All match the actual frozen execution; root metadata/figures do not reattribute
+that earlier execution to a later Git commit. CLI console whitespace rules are
+in the fixture directory's own scoped attributes so the parent metadata file
+also retains its pre-existing byte identity.

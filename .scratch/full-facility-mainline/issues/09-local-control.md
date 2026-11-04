@@ -72,3 +72,8 @@ V1-V4, frozen property data, original outputs and CLI defaults retain their byte
 This resolves a finite ticket implementation slice, not root acceptance or M1.
 Research/AI/training trials remain zero, field calibration PENDING, scientific
 gain NOT_ESTABLISHED and the overall mainline goal ACTIVE.
+
+Post-integration: accepted tip `de5dbc69` merged at `bcad4042`; the sixteen
+control targets and sealed artifact/source/legacy-input reads pass again in
+attempts 26/27. Execution remains attributed to `363c5edf`; full regression and
+engineering runs were not repeated for a documentation/figure integration.
