@@ -1,0 +1,20 @@
+test_timed_compute_capacity_limits_service_without_changing_demand (test_mainline_service.MainlineServiceTests.test_timed_compute_capacity_limits_service_without_changing_demand) ... ERROR
+
+======================================================================
+ERROR: test_timed_compute_capacity_limits_service_without_changing_demand (test_mainline_service.MainlineServiceTests.test_timed_compute_capacity_limits_service_without_changing_demand)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-08\tests\test_mainline_service.py", line 22, in test_timed_compute_capacity_limits_service_without_changing_demand
+    result = simulate_scenario(load_scenario(SCENARIO), duration_s=2, boundary_events=[
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-08\src\aegis_dc\plant.py", line 368, in simulate_scenario
+    timed_inputs = _boundary_events(boundary_events, p_records, duration)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-08\src\aegis_dc\plant.py", line 38, in _boundary_events
+    raise ValueError('Boundary event parameter is not an exogenous input')
+ValueError: Boundary event parameter is not an exogenous input
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (errors=1)
