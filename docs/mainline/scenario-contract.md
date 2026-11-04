@@ -37,4 +37,9 @@ Functional edges describe required/capacity/backup/control-permit or access-cond
 
 ## Remaining implementation
 
+Ticket 03 adds the backward-compatible v2 runtime scenario and a separate
+`simulate` command, described in [the healthy-run model](healthy-run-model.md).
+The original v1 structural snapshot and the default `scenario` command remain
+unchanged. Loading or describing either version alone still does not execute it.
+
 The output keeps `dynamic_model_executed: false`, `field_calibration: PENDING` and `research_gain_claim: NOT_ESTABLISHED`. Individual parameter ranges do not prove coupled initialization, phase EOS consistency, stability, conservation, reserve coverage or work feasibility. Those behaviors remain the explicit successors of [ticket 02](../../.scratch/full-facility-mainline/issues/02-scenario-contract.md); this structural contract does not complete milestone M1.

@@ -1,4 +1,4 @@
-"""Load the full-facility structural contract; this module performs no simulation."""
+"""Load structural v1 and backward-compatible runnable v2 scenario contracts."""
 from pathlib import Path
 import math
 
@@ -15,6 +15,8 @@ SI_UNITS = {
     'thermal_conductance': 'W/K', 'specific_heat': 'J/(kg*K)',
     'density': 'kg/m3', 'efficiency': '1', 'relative_humidity': '1',
     'service_capacity': '1', 'probability': '1', 'length': 'm',
+    'hydraulic_resistance': 'Pa*s2/m6', 'fraction': '1',
+    'temperature_difference': 'K', 'inventory_mass': 'kg',
 }
 PARAMETER_BASES = {'synthetic_assumption', 'published_reference', 'derived_reference'}
 STRICTLY_POSITIVE = {'temperature', 'mass', 'volume', 'time', 'thermal_capacity',
@@ -88,8 +90,11 @@ def _provenance(row, sources):
 
 
 def _contract(scenario):
-    _require(isinstance(scenario, dict) and set(scenario) == SCENARIO_FIELDS, 'Scenario fields do not match the v1 contract')
-    _require(scenario['schema'] == 'aegisdc-full-facility-scenario-v1', 'Unknown scenario schema')
+    _require(isinstance(scenario, dict), 'Scenario must be an object')
+    schema = scenario.get('schema')
+    _require(schema in {'aegisdc-full-facility-scenario-v1', 'aegisdc-full-facility-scenario-v2'}, 'Unknown scenario schema')
+    fields = SCENARIO_FIELDS | ({'runtime'} if schema.endswith('-v2') else set())
+    _require(set(scenario) == fields, 'Scenario fields do not match the declared contract')
     _require(scenario['basis'] == 'zhengzhou_inspired_synthetic', 'Declare a Zhengzhou-inspired synthetic research basis')
     _text(scenario['id'], 'Scenario id')
     _text(scenario['scope'], 'Scenario scope')
@@ -355,9 +360,8 @@ def _graphs(scenario, entities, parameters):
                 _require(all(ref in qualifications for ref in edge['requires_qualification_ids']), 'Unknown access qualification')
 
 
-def load_scenario(path):
-    """Read and validate a structural scenario; no dynamics or actions are run."""
-    scenario = strict_json(Path(path).read_text(encoding='utf-8'))
+def validate_scenario(scenario):
+    """Validate a loaded or edited dictionary without executing physical state."""
     _contract(scenario)
     _domains(scenario)
     parameters = _parameters(scenario)
@@ -366,7 +370,15 @@ def load_scenario(path):
     _ports(scenario, entities, parameters)
     _people_and_work(scenario, entities, parameters)
     _graphs(scenario, entities, parameters)
+    if scenario['schema'].endswith('-v2'):
+        from .runtime_contract import validate_runtime_contract
+        validate_runtime_contract(scenario, entities, parameters)
     return scenario
+
+
+def load_scenario(path):
+    """Read and validate a scenario; no dynamics or actions are run."""
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
 
 
 def describe_scenario(scenario):

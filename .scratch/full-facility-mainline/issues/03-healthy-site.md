@@ -4,7 +4,7 @@
 
 **Blocked by:** 02
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -21,4 +21,8 @@ This ticket includes the minimum observable personnel behavior needed by the M1 
 
 ## Evidence
 
-Pending implementation and acceptance.
+Implementation claimed on `donson/mainline-03-healthy`, worktree `full-site-03`,
+based on integration commit `0e2e2a8e5faf98f6ee9870dc4adf0c94d077db15`.
+Public verification boundaries are the scenario loader, facility run interface,
+replaceable thermodynamic property interface, and CLI, as authorized by the
+mainline specification. Acceptance evidence remains pending.
