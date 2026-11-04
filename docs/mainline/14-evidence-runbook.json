@@ -1,0 +1,41 @@
+{
+  "schema": "aegisdc-evidence-engineering-runbook-v1",
+  "classification": "ENGINEERING_NOT_RESEARCH",
+  "fixture": "configs/full-facility-evidence-v1.json",
+  "profile_identity_only": "configs/full-facility-mainline-reserve-v6.json",
+  "time_unit": "s",
+  "snapshots": [
+    {"id": "t0", "as_of_s": 0, "current_record_ids": ["design-rating", "maintenance-history"]},
+    {"id": "before-work-order", "as_of_s": 10.999999999999998, "current_record_ids": ["design-rating", "maintenance-history", "human-false", "control-offline"]},
+    {"id": "work-order-first", "as_of_s": 11, "current_record_ids": ["design-rating", "maintenance-history", "human-false", "control-offline", "copy-before-alarm"]},
+    {"id": "original-arrives", "as_of_s": 12, "current_record_ids": ["design-rating", "maintenance-history", "human-false", "control-offline", "copy-before-alarm", "alarm-t10"]},
+    {"id": "handheld-arrives", "as_of_s": 14, "current_record_ids": ["design-rating", "maintenance-history", "human-false", "control-offline", "copy-before-alarm", "alarm-t10", "handheld-negative"]},
+    {"id": "late-history", "as_of_s": 16, "current_record_ids": ["design-rating", "maintenance-history", "control-offline", "copy-before-alarm", "alarm-t10", "handheld-negative"]},
+    {"id": "before-conflict", "as_of_s": 17.999999999999996, "current_record_ids": ["design-rating", "maintenance-history", "control-offline", "copy-before-alarm", "alarm-t10", "handheld-negative"]},
+    {"id": "conflict", "as_of_s": 18, "current_record_ids": ["design-rating", "maintenance-history", "control-offline", "copy-before-alarm", "alarm-t10", "handheld-negative", "handheld-conflict"]},
+    {"id": "missing-arrives", "as_of_s": 20, "current_record_ids": ["design-rating", "maintenance-history", "copy-before-alarm", "alarm-t10", "handheld-negative", "handheld-conflict"]},
+    {"id": "expired", "as_of_s": 26, "current_record_ids": ["design-rating", "maintenance-history"]}
+  ],
+  "literal_checks": {
+    "late_history_at_16_age_s": 76,
+    "late_history_at_16_availability": "expired",
+    "conflict_pairs_at_18": [["alarm-t10", "handheld-conflict"], ["copy-before-alarm", "handheld-conflict"]],
+    "copied_origin": "temperature-observation-10",
+    "known_reference_before_alarm": "alarm-t10",
+    "fixed_sources": 3,
+    "shared_entity_ids": 45
+  },
+  "cli": [
+    {"id": "valid", "expected_exit": 0},
+    {"id": "invalid-unit", "expected_exit": 2},
+    {"id": "malformed", "expected_exit": 2},
+    {"id": "overwrite", "expected_exit": 2}
+  ],
+  "full_regression_executions": 1,
+  "allowed_skips": "Only two pre-existing optional Torch checks if Torch is unavailable",
+  "runtime_caches": "NOT_DELIVERABLE",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
