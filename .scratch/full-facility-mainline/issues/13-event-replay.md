@@ -4,13 +4,13 @@
 
 **Blocked by:** 11
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M2
 
-- [ ] 外生需求/天气/扰动与行动引起的状态变化分开。
-- [ ] 输出含源哈希、种子/事件、时间步与失败状态；已有输出停止覆盖。
-- [ ] 工程夹具与注册研究尝试区分，失败和重试规则可追溯。
+- [x] 外生需求/天气/扰动与行动引起的状态变化分开。
+- [x] 输出含源哈希、种子/事件、时间步与失败状态；已有输出停止覆盖。
+- [x] 工程夹具与注册研究尝试区分，失败和重试规则可追溯。
 
 ## Context
 
@@ -21,5 +21,49 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Owner: `/root/mainline_13_replay`, branch `donson/mainline-13-replay`, worktree
 `.work/worktrees/full-site-13`; integration base `77660da5` confirmed against
 live agent/worktree inventory on 2026-11-05. Public scenario/run/save/replay and
-actual CLI seams follow the accepted specification. Implementation and
-acceptance evidence pending; this claim is not M2 or research completion.
+actual CLI seams follow the accepted specification.
+
+Implementation resolved with engineering checks and a real fresh-checkout
+delivery proof; root's independent review/integration acceptance remains
+pending. This resolution is neither numerical qualification of ticket 12 nor
+completion of M2 or the complete research objective.
+
+- Execution source `264e8423a8620d3a10bf3a9af863b212e9b37022` includes the
+  coordinated `8e57abb9`/`8191244e` time/floor source and retains the distinct
+  command origin. The actual root integration `08f2c1bc` is an ancestor.
+- Data delivery `3e23431fc5a78b2748b1f72c3ed99a86fd2f8798` contains the
+  separately frozen `capture-02` package. Its initial pending receipt is
+  unchanged. The original `capture-01` FAIL at `79e2f926`, committed as
+  `dcb118dc`, remains intact with all 139 original files and zero full runs.
+- `docs/mainline/13-replay-contract.md` and
+  `docs/mainline/13-replay-runbook.json` define command authority, exact source
+  and interpreter replay, canonical conflict/order rules and private visibility.
+- `evidence/mainline/engineering/13-replay/capture-02/receipt.json` records two
+  exact full-facility pairs (600 s normal / 240 s combined), 31 inherited
+  independent literals and all boundary/resource accounts; the command pair
+  retains offered demand 2 each and delivers 2 versus 1 service-unit s through
+  real valve/PLC/thermal changes. There are 13 terminal engineering/request
+  records: 6 completed, 7 expected failures, one explicit retry. No-overwrite
+  and malformed-JSON CLI refusals preserve original bytes.
+- The single full check discovered 330 tests, executed 328 with zero failures
+  or errors, and reported only the two pre-existing optional Torch skips.
+  Twenty historical originals verify. The earlier failed capture ran no full
+  check; it was not promoted after the adapter correction.
+- Actual fresh checkout `.work/replay13-fresh-3e23431f-01` verified 142 declared
+  artifacts plus terminal receipt, all runtime/tool identities, 139 retained
+  failed-capture originals and committed Git blobs. The separate proof is
+  `evidence/mainline/engineering/13-replay/delivery-3e23431f-fresh-01.json`.
+  It reran neither physics nor the full suite and required no runtime caches.
+- Reproduce capture with primary Python `-Xutf8
+  scripts/capture_replay_engineering.py --output NEW_DIRECTORY`; verify from
+  the fresh delivery using `scripts/verify_replay_delivery.py --directory
+  evidence/mainline/engineering/13-replay/capture-02 --delivery-commit
+  3e23431fc5a78b2748b1f72c3ed99a86fd2f8798 --output NEW_PROOF.json`.
+
+Structured implementation evidence: `docs/mainline/evidence/13.json`.
+Registered research/protocol/budget remains unopened; field calibration is
+PENDING and effect/AI/training claims remain unestablished. Replay inputs,
+future faults and actual trajectories are evaluator-private. Tickets 14-15
+must expose only legally arrived evidence; professional inspection/repair and
+dispatch remain later tickets. Fresh-read progress still reports current 12,
+M2 in progress and the complete research objective active.
