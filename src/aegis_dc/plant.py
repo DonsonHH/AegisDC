@@ -11,24 +11,29 @@ from pathlib import Path
 import subprocess
 
 from patrol_rsi.contracts import digest
+from .environment import condensation_risk, floor_water_step
 from .heat_transfer import counterflow_exchange, pump_operating_point, valve_loop_operating_point
 from .power import allocate_power
-from .runtime_contract import WATER_MODEL
+from .runtime_contract import ENVIRONMENT_MODEL, WATER_MODELS
 from .scenario import validate_scenario
 from .thermodynamics import SaturationTable, finite_number
 from .workforce import Workforce
 
 ROOT = Path(__file__).resolve().parents[2]
+ENVIRONMENT_EXOGENOUS_PARAMETERS = {
+    'room_ambient_temperature', 'room_conductance', 'room_humidity',
+    'internal_hot_leak_mass_flow', 'it_access_permit',
+}
 EXOGENOUS_PARAMETERS = {
     'grid_capacity', 'compute_demand_power', 'network_demand_power', 'storage_demand_power',
     'service_demand', 'lake_temperature', 'filter_resistance_multiplier',
     'lake_valve_opening', 'internal_valve_opening', 'plate_hx_conductance',
     'pump_pressure_rise', 'internal_pump_pressure_rise',
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
-}
+} | ENVIRONMENT_EXOGENOUS_PARAMETERS
 
 
-def _boundary_events(rows, parameters, duration):
+def _boundary_events(rows, parameters, duration, *, model):
     if not isinstance(rows, (list, tuple)):
         raise ValueError('Boundary events must be a declared list')
     result, seen = [], set()
@@ -39,7 +44,11 @@ def _boundary_events(rows, parameters, duration):
         name = row['parameter_id']
         if not isinstance(name, str) or name not in EXOGENOUS_PARAMETERS or name not in parameters:
             raise ValueError('Boundary event parameter is not an exogenous input')
+        if name in ENVIRONMENT_EXOGENOUS_PARAMETERS and model != ENVIRONMENT_MODEL:
+            raise ValueError('Environmental boundary events require the explicit environment runtime model')
         value = finite_number(row['value'], 'Boundary event value')
+        if name == 'it_access_permit' and value not in (0, 1):
+            raise ValueError('IT access permission must be the declared binary 0/1 state')
         low, high = parameters[name]['valid_range']
         if not 0 <= time_s <= duration or not low <= value <= high:
             raise ValueError('Boundary event time/value outside declared range')
@@ -70,6 +79,7 @@ def _code_identity():
 class _Plant:
     def __init__(self, scenario, table):
         self.scenario, self.table = scenario, table
+        self.environment_model = scenario['runtime']['model'] == ENVIRONMENT_MODEL
         self.p = {row['id']: row['value'] for row in scenario['parameters']}
         p = self.p
         self.capacities = {'solid': p['it_thermal_capacity'], 'room': p['room_thermal_capacity'],
@@ -81,6 +91,9 @@ class _Plant:
         self.energy.update(coolant=p['coolant_initial_energy'], ups=p['ups_energy'],
                            fuel=p['diesel_initial_fuel_energy'])
         self.floor_mass = p['initial_floor_water_mass']
+        self.hot_mass = p['internal_hot_mass']
+        self.floor_energy = self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']
+        self.room_access_blocked = self.environment_model and p['room_temperature'] >= p['maximum_room_work_temperature']
         self.floor_access_blocked = self.floor_mass >= p['access_block_mass']
         self.control = {'mode': 'normal', 'protection_latched': False,
                         'compute_permitted': True, 'pump_speed_command': 1.0,
@@ -98,18 +111,24 @@ class _Plant:
 
     def stored_energy(self):
         p = self.p
-        return math.fsum(self.energy.values()) + self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']
+        floor = self.floor_energy if self.environment_model else self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']
+        return math.fsum(self.energy.values()) + floor
 
     def blocked_locations(self):
         locations = set(self.scenario['runtime']['closed_location_ids'])
         if self.floor_access_blocked:
             locations.add('loc_it')
+        if self.environment_model and self.p['it_access_permit'] == 0:
+            locations.add('loc_it')
+        if self.room_access_blocked:
+            locations.add('loc_it')
         return locations
 
     def discrete(self, time_s):
         p = self.p
+        floor_inflow = p['floor_water_inflow'] + (p['internal_hot_leak_mass_flow'] if self.environment_model else 0)
         if self.floor_access_blocked and self.floor_mass == p['access_block_mass'] \
-                and p['floor_water_inflow'] < p['drainage_mass_flow']:
+                and floor_inflow < p['drainage_mass_flow']:
             self.floor_access_blocked = False
             self.events.append({'time_s': time_s, 'kind': 'floor_access_opened', 'split_step': True})
         if p['grid_capacity'] == 0 and self.energy['fuel'] > 0:
@@ -125,6 +144,18 @@ class _Plant:
         elif self.energy['fuel'] == 0:
             self.generator_mode = 'fuel_exhausted'
 
+    def update_room_work_access(self, point):
+        """Use the actual post-control right-hand heat direction at equality."""
+        if not self.environment_model:
+            return
+        room, limit = point['temperatures']['room'], self.p['maximum_room_work_temperature']
+        if room > limit:
+            self.room_access_blocked = True
+        elif room < limit:
+            self.room_access_blocked = False
+        elif point['rates_W']['room']:
+            self.room_access_blocked = point['rates_W']['room'] > 0
+
     def point(self):
         p, control = self.p, self.control
         speed = control['pump_speed_command']
@@ -133,7 +164,7 @@ class _Plant:
         internal_args = (p['internal_pump_pressure_rise'], p['internal_hydraulic_resistance'],
                          p['internal_pump_efficiency'], speed)
         operating_point = pump_operating_point
-        if self.scenario['runtime']['model'] == WATER_MODEL:
+        if self.scenario['runtime']['model'] in WATER_MODELS:
             lake_args = (*lake_args[:2], p['lake_valve_open_resistance'],
                          p['lake_valve_opening'], *lake_args[2:])
             internal_args = (*internal_args[:2], p['internal_valve_open_resistance'],
@@ -172,20 +203,26 @@ class _Plant:
         capacities = {name: min(p[name + '_service_capacity'], actual[name] / p[name + '_nominal_power'])
                       for name in ('compute', 'network', 'storage')}
         delivery = min(p['service_demand'], *capacities.values())
-        drain = p['drainage_mass_flow'] if self.floor_mass > 0 else min(p['floor_water_inflow'], p['drainage_mass_flow'])
+        leak = p['internal_hot_leak_mass_flow'] if self.environment_model else 0.0
+        leak_heat = leak * p['water_specific_heat'] * t['hot']
+        floor_inflow = p['floor_water_inflow'] + leak
+        drain = p['drainage_mass_flow'] if self.floor_mass > 0 else min(floor_inflow, p['drainage_mass_flow'])
         return {'power': power, 'lake_pump': lake, 'internal_pump': internal, 'hx': hx,
                 'temperatures': t, 'refrigerant': r, 'lake_inlet_K': lake_inlet,
                 'condenser_heat_W': condenser, 'solid_coolant_heat_W': solid_coolant,
                 'solid_air_heat_W': solid_air, 'room_out_W': room_out,
                 'lake_out_W': hx['heat_W'] + lake_pump_heat,
                 'drain_kg_s': drain, 'circulation_W': circulation,
+                'hot_leak_kg_s': leak, 'hot_leak_heat_W': leak_heat,
+                'floor_inflow_kg_s': floor_inflow,
+                'floor_inlet_energy_W': p['floor_water_inflow'] * p['water_specific_heat'] * p['room_ambient_temperature'] + leak_heat,
                 'service': {'demand': p['service_demand'], 'delivered': delivery,
                             'capacities': capacities, 'unserved': p['service_demand'] - delivery},
                 'rates_W': {
                     'solid': actual['compute'] - solid_coolant - solid_air,
                     'room': room_input - room_out,
                     'coolant': solid_coolant - condenser,
-                    'hot': condenser + actual['storage'] + fraction * actual['internal_pump'] - circulation,
+                    'hot': condenser + actual['storage'] + fraction * actual['internal_pump'] - circulation - leak_heat,
                     'cold': circulation - hx['heat_W'],
                     'ups': -power['ups_depletion_W'], 'fuel': -power['fuel_depletion_W'],
                 }}
@@ -224,19 +261,43 @@ class _Plant:
                                ('fuel', point['power']['fuel_depletion_W'])]:
             if depletion > 0 and self.energy[key] > 0:
                 times.append(time_s + self.energy[key] / depletion)
-        floor_rate = self.p['floor_water_inflow'] - point['drain_kg_s']
+        floor_rate = point['floor_inflow_kg_s'] - point['drain_kg_s']
         if floor_rate < 0 and self.floor_mass > 0:
             times.append(time_s + self.floor_mass / -floor_rate)
             if self.floor_mass > self.p['access_block_mass']:
                 times.append(time_s + (self.floor_mass - self.p['access_block_mass']) / -floor_rate)
         if floor_rate > 0 and self.floor_mass < self.p['access_block_mass']:
             times.append(time_s + (self.p['access_block_mass'] - self.floor_mass) / floor_rate)
+        if self.environment_model and point['hot_leak_kg_s'] > 0 \
+                and self.hot_mass > self.p['minimum_internal_hot_mass']:
+            times.append(time_s + (self.hot_mass - self.p['minimum_internal_hot_mass']) / point['hot_leak_kg_s'])
+        if self.environment_model:
+            room = point['temperatures']['room']
+            rate = point['rates_W']['room'] / self.capacities['room']
+            limit = self.p['maximum_room_work_temperature']
+            if (rate > 0 and room < limit) or (rate < 0 and room > limit):
+                times.append(time_s + (limit - room) / rate)
         return min(value for value in times if value > time_s)
 
     def integrate(self, start, end, point):
         dt, p = end - start, self.p
         before = self.energy.copy()
         old_floor, old_total = self.floor_mass, self.stored_energy()
+        old_hot_mass = self.hot_mass
+        old_floor_energy = self.floor_energy if self.environment_model else old_floor * p['water_specific_heat'] * p['room_ambient_temperature']
+        leaked_mass = point['hot_leak_kg_s'] * dt
+        pool = None
+        if self.environment_model:
+            new_hot_mass = math.fsum([old_hot_mass, -leaked_mass])
+            minimum = p['minimum_internal_hot_mass']
+            if new_hot_mass < minimum:
+                if old_hot_mass > minimum and point['hot_leak_kg_s'] > 0 and math.isclose(
+                        dt, (old_hot_mass - minimum) / point['hot_leak_kg_s'], rel_tol=1e-12, abs_tol=1e-12):
+                    new_hot_mass = minimum  # roundoff at the explicitly split domain boundary
+                else:
+                    raise ValueError('Hot-water inventory below the declared hydraulic validity minimum; low-inventory geometry is not modeled')
+            pool = floor_water_step(old_floor, old_floor_energy, p['water_specific_heat'],
+                point['floor_inflow_kg_s'], point['floor_inlet_energy_W'], point['drain_kg_s'], dt)
         for name, rate in point['rates_W'].items():
             if rate < 0 and before[name] > 0 and math.isclose(dt, before[name] / -rate,
                                                             rel_tol=1e-12, abs_tol=1e-12) \
@@ -247,13 +308,27 @@ class _Plant:
                 self.energy[name] += rate * dt
             if not math.isfinite(self.energy[name]) or self.energy[name] < 0:
                 raise ValueError('Invalid energy inventory at ' + str(end) + ' s: ' + name)
-        floor_rate = p['floor_water_inflow'] - point['drain_kg_s']
-        if floor_rate < 0 and math.isclose(dt, old_floor / -floor_rate, rel_tol=1e-12, abs_tol=1e-12):
+        floor_rate = point['floor_inflow_kg_s'] - point['drain_kg_s']
+        if self.environment_model:
+            self.hot_mass = new_hot_mass
+            self.capacities['hot'] = new_hot_mass * p['water_specific_heat']
+            self.floor_mass, self.floor_energy = pool['mass_kg'], pool['energy_J']
+        elif floor_rate < 0 and math.isclose(dt, old_floor / -floor_rate, rel_tol=1e-12, abs_tol=1e-12):
             self.floor_mass = 0.0
         else:
             self.floor_mass += floor_rate * dt
         if self.floor_mass < 0 or not math.isfinite(self.floor_mass):
             raise ValueError('Invalid floor-water inventory')
+        if self.environment_model:
+            room = point['temperatures']['room']
+            rate = point['rates_W']['room'] / self.capacities['room']
+            limit = p['maximum_room_work_temperature']
+            if ((rate > 0 and room < limit) or (rate < 0 and room > limit)) and math.isclose(
+                    dt, (limit - room) / rate, rel_tol=1e-12, abs_tol=1e-12):
+                self.energy['room'] = self.capacities['room'] * limit
+                self.room_access_blocked = rate > 0
+                self.events.append({'time_s': end, 'kind': 'room_work_access_closed' if rate > 0 else 'room_work_access_opened',
+                                    'split_step': True, 'basis': 'DECLARED_RESEARCH_THRESHOLD_NOT_SITE_OR_OCCUPATIONAL_LIMIT'})
         threshold = p['access_block_mass']
         if old_floor < threshold <= self.floor_mass and floor_rate > 0:
             self.floor_access_blocked = True
@@ -274,7 +349,11 @@ class _Plant:
                             for name, rate in point['rates_W'].items()}
         power = point['power']
         floor_in = p['floor_water_inflow'] * p['water_specific_heat'] * p['room_ambient_temperature']
-        floor_out = point['drain_kg_s'] * p['water_specific_heat'] * p['room_ambient_temperature']
+        floor_out = pool['drained_energy_J'] / dt if self.environment_model else point['drain_kg_s'] * p['water_specific_heat'] * p['room_ambient_temperature']
+        rates = dict(point['rates_W'])
+        if self.environment_model:
+            rates['floor_water'] = point['floor_inlet_energy_W'] - floor_out
+            energy_residuals['floor_water'] = self.floor_energy - old_floor_energy - rates['floor_water'] * dt
         boundary_input = power['grid_draw_W'] + floor_in
         boundary_output = point['lake_out_W'] + point['room_out_W'] + power['generator_waste_W'] + floor_out
         energy_residuals['facility'] = self.stored_energy() - old_total - (boundary_input - boundary_output) * dt
@@ -286,13 +365,19 @@ class _Plant:
                             'after_kg': new_refrigerant['liquid_mass_kg'] + new_refrigerant['vapor_mass_kg'],
                             'in_kg': 0.0, 'out_kg': 0.0},
             'floor_water': {'before_kg': old_floor, 'after_kg': self.floor_mass,
-                            'in_kg': p['floor_water_inflow'] * dt, 'out_kg': point['drain_kg_s'] * dt},
+                            'in_kg': point['floor_inflow_kg_s'] * dt, 'out_kg': point['drain_kg_s'] * dt},
             'lake_throughflow': {'before_kg': 0.0, 'after_kg': 0.0,
                                 'in_kg': lake_flow * dt, 'out_kg': lake_flow * dt},
         }
-        for name, mass in [('internal_hot', p['internal_hot_mass']), ('internal_cold', p['internal_cold_mass'])]:
+        for name, mass in [('internal_hot', old_hot_mass), ('internal_cold', p['internal_cold_mass'])]:
             mass_accounts[name] = {'before_kg': mass, 'after_kg': mass,
                                   'in_kg': internal_flow * dt, 'out_kg': internal_flow * dt}
+        if self.environment_model:
+            mass_accounts['internal_hot'].update(after_kg=self.hot_mass, out_kg=internal_flow * dt + leaked_mass)
+            mass_accounts['facility_water'] = {
+                'before_kg': old_hot_mass + p['internal_cold_mass'] + old_floor,
+                'after_kg': self.hot_mass + p['internal_cold_mass'] + self.floor_mass,
+                'in_kg': p['floor_water_inflow'] * dt, 'out_kg': point['drain_kg_s'] * dt}
         mass_residuals = {name: math.fsum((row['before_kg'], row['in_kg'], -row['out_kg'], -row['after_kg']))
                           for name, row in mass_accounts.items()}
         electrical_residual = power['grid_draw_W'] + power['generator_output_W'] + power['ups_output_W'] \
@@ -314,14 +399,15 @@ class _Plant:
         return {'start_s': start, 'end_s': end, 'energy_residuals_J': energy_residuals,
                 'mass_residuals_kg': mass_residuals, 'electrical_residual_W': electrical_residual,
                 'mass_accounts_kg': mass_accounts,
-                'storage_before_J': dict(before, floor_water=old_floor * p['water_specific_heat'] * p['room_ambient_temperature']),
-                'storage_after_J': dict(self.energy, floor_water=self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']),
-                'component_energy_rates_W': point['rates_W'],
+                'storage_before_J': dict(before, floor_water=old_floor_energy),
+                'storage_after_J': dict(self.energy, floor_water=self.floor_energy if self.environment_model else self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']),
+                'component_energy_rates_W': rates,
                 'heat_transfers_W': {'solid_to_coolant': point['solid_coolant_heat_W'],
                                      'solid_to_room': point['solid_air_heat_W'],
                                      'coolant_to_internal_water': point['condenser_heat_W'],
                                      'plate_hx_to_lake': point['hx']['heat_W'],
-                                     'internal_hot_to_cold_advection': point['circulation_W']},
+                                     'internal_hot_to_cold_advection': point['circulation_W'],
+                                     **({'hot_water_leak_to_floor': point['hot_leak_heat_W']} if self.environment_model else {})},
                 'capacity_slack_W': power['capacity_slack_W'],
                 'boundary_input_J': boundary_input * dt, 'boundary_output_J': boundary_output * dt,
                 'grid_energy_J': power['grid_draw_W'] * dt, 'lake_heat_J': point['lake_out_W'] * dt,
@@ -332,6 +418,8 @@ class _Plant:
                 'floor_water_inlet_mass_kg': p['floor_water_inflow'] * dt,
                 'floor_water_drained_mass_kg': point['drain_kg_s'] * dt,
                 'floor_inlet_energy_J': floor_in * dt, 'floor_drain_energy_J': floor_out * dt,
+                **({'internal_hot_leaked_mass_kg': leaked_mass,
+                    'internal_hot_leak_energy_J': point['hot_leak_heat_W'] * dt} if self.environment_model else {}),
                 'room_heat_J': point['room_out_W'] * dt,
                 'demand_service_unit_s': point['service']['demand'] * dt,
                 'delivered_service_unit_s': point['service']['delivered'] * dt,
@@ -342,7 +430,7 @@ class _Plant:
         p, t = self.p, point['temperatures']
         valves = {}
         control = deepcopy(self.control)
-        if self.scenario['runtime']['model'] == WATER_MODEL:
+        if self.scenario['runtime']['model'] in WATER_MODELS:
             for loop in ('lake', 'internal'):
                 pump = point[loop + '_pump']
                 valves[loop + '_valve_group'] = {
@@ -355,13 +443,26 @@ class _Plant:
                 'intake_pump': not point['lake_pump']['closed_valve_interlock'],
                 'internal_pump': not point['internal_pump']['closed_valve_interlock'],
             }
+        condensation = {}
+        floor_state = {}
+        if self.environment_model:
+            criterion = condensation_risk(t['room'], p['room_humidity'], t['cold'])
+            condensation['condensation_boundary'] = dict(criterion,
+                surface_entity_id='internal_water', surface_temperature_K=t['cold'],
+                surface_temperature_basis='COLD_BUFFER_BULK_PROXY_NO_WALL_OR_INSULATION_MODEL',
+                visibility='PRIVATE_PLANT_EVALUATOR_ONLY')
+            floor_state = {'floor_water_temperature_K': self.floor_energy / (self.floor_mass * p['water_specific_heat']) if self.floor_mass else None,
+                           'floor_water_sensible_energy_J': self.floor_energy,
+                           'it_access_gate': {'entity_id': 'it_access_gate', 'permit': bool(p['it_access_permit'])},
+                           'room_work_access_blocked': self.room_access_blocked,
+                           'room_work_temperature_limit_K': p['maximum_room_work_temperature']}
         return {'time_s': time_s, 'domains': {
             'power': point['power'],
             'backup': {'ups_energy_J': self.energy['ups'], 'fuel_energy_J': self.energy['fuel'],
                        'generator_mode': self.generator_mode, 'generator_ready_at_s': self.generator_ready,
                        'backup_tower_mode': 'standby_uncommanded'},
             'facility_cooling': {'hot_temperature_K': t['hot'], 'cold_temperature_K': t['cold'],
-                                 'hot_mass_kg': p['internal_hot_mass'], 'cold_mass_kg': p['internal_cold_mass'],
+                                 'hot_mass_kg': self.hot_mass, 'cold_mass_kg': p['internal_cold_mass'],
                                  'lake_pump': point['lake_pump'], 'internal_pump': point['internal_pump'],
                                  'internal_mass_flow_kg_s': point['internal_pump']['volume_flow_m3_s'] * p['water_density'],
                                  'lake_mass_flow_kg_s': point['lake_pump']['volume_flow_m3_s'] * p['water_density'],
@@ -374,10 +475,10 @@ class _Plant:
             'equipment_environment': {'solid_temperature_K': t['solid'], 'room_temperature_K': t['room'],
                                       'room_humidity': p['room_humidity'], 'refrigerant': point['refrigerant'],
                                       'solid_coolant_heat_W': point['solid_coolant_heat_W'],
-                                      'solid_air_heat_W': point['solid_air_heat_W']},
+                                      'solid_air_heat_W': point['solid_air_heat_W'], **condensation},
             'it_service': point['service'], 'control_monitoring': control,
             'space_access': {'floor_water_mass_kg': self.floor_mass, 'drain_kg_s': point['drain_kg_s'],
-                              'blocked_location_ids': sorted(self.blocked_locations())},
+                              'blocked_location_ids': sorted(self.blocked_locations()), **floor_state},
             'people_tools_work': workforce.snapshot(),
         }}
 
@@ -398,7 +499,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         low, high = p_records[name]['valid_range']
         if not low <= value <= high:
             raise ValueError(name + ' outside declared runtime range')
-    timed_inputs = _boundary_events(boundary_events, p_records, duration)
+    timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'])
     event_index = 0
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])
@@ -413,10 +514,11 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             plant.events.append(dict(event, kind='exogenous_boundary_input'))
             event_index += 1
         plant.discrete(time_s)
-        workforce.process(time_s, plant.blocked_locations())
         point = plant.point()
         plant.sample_control(time_s, point)
         point = plant.point()
+        plant.update_room_work_access(point)
+        workforce.process(time_s, plant.blocked_locations())
         trace.append(plant.snapshot(time_s, point, workforce))
         if time_s >= duration:
             break
@@ -434,6 +536,9 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 'floor_water_inlet_mass_kg', 'floor_water_drained_mass_kg', 'floor_inlet_energy_J', 'floor_drain_energy_J',
                 'worker_travel_person_s', 'worker_work_person_s', 'tool_occupation_tool_s',
                 'demand_service_unit_s', 'delivered_service_unit_s', 'service_deficit_time_s')}
+    if plant.environment_model:
+        summary.update({key: math.fsum(row[key] for row in balances) for key in
+                        ('internal_hot_leaked_mass_kg', 'internal_hot_leak_energy_J')})
     summary.update(duration_s=duration, integration_steps=len(balances), initial_stored_energy_J=initial_energy,
                    final_stored_energy_J=plant.stored_energy(),
                    whole_run_energy_residual_J=plant.stored_energy() - initial_energy

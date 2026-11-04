@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -19,4 +19,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `donson/mainline-07-environment`, `.work/worktrees/full-site-07`, assigned
+after root acceptance/integration of 03/04/05/06. Live worktree state checked;
+base/integration tip `02423809d20fcd4541e8a16177f0e10371fb6f09`. Checks pending.

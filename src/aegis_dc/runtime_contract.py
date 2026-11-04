@@ -4,10 +4,16 @@ from patrol_rsi.contracts import digest
 MODEL = 'aegisdc-low-order-facility-v1'
 TOPOLOGY_SHA256 = 'f6a5fed4e33ef6ef26dfb35f6daf5c9070e2125587ce7e3b84fc9c2383709254'
 WATER_MODEL = 'aegisdc-low-order-facility-water-v2'
+ENVIRONMENT_MODEL = 'aegisdc-low-order-facility-environment-v3'
+WATER_MODELS = {WATER_MODEL, ENVIRONMENT_MODEL}
 SUPPORTED_TOPOLOGIES = {
     MODEL: TOPOLOGY_SHA256,
     WATER_MODEL: '40852da7230c6db601d8ab7d5a360b45e61356df929826fe62a90016305aeea2',
+    ENVIRONMENT_MODEL: '16a1b495731abf52140c921e2dfd185e19cde6493b9f57e504965c9b82c755e4',
 }
+ENVIRONMENT_QUANTITIES = {'internal_hot_leak_mass_flow': 'mass_flow',
+                          'minimum_internal_hot_mass': 'mass', 'it_access_permit': 'fraction',
+                          'maximum_room_work_temperature': 'temperature'}
 WATER_QUANTITIES = {
     'lake_valve_open_resistance': 'hydraulic_resistance',
     'internal_valve_open_resistance': 'hydraulic_resistance',
@@ -73,8 +79,10 @@ def validate_runtime_contract(scenario, entities, parameters):
     if runtime['topology_sha256'] != topology or digest(scenario['graphs']) != topology:
         raise ValueError('Unsupported runtime topology; revise the model explicitly rather than ignoring graph changes')
     required = dict(RUNTIME_QUANTITIES)
-    if runtime['model'] == WATER_MODEL:
+    if runtime['model'] in WATER_MODELS:
         required.update(WATER_QUANTITIES)
+    if runtime['model'] == ENVIRONMENT_MODEL:
+        required.update(ENVIRONMENT_QUANTITIES)
     for name, quantity in required.items():
         if name not in parameters or parameters[name]['quantity'] != quantity:
             raise ValueError('Runtime requires SI parameter ' + name + ' of quantity ' + quantity)
@@ -82,13 +90,20 @@ def validate_runtime_contract(scenario, entities, parameters):
     for name in ('pump_min_speed', 'pump_fluid_heat_fraction'):
         if not 0 <= values[name] <= 1:
             raise ValueError(name + ' must stay in [0,1]')
-    if runtime['model'] == WATER_MODEL:
+    if runtime['model'] in WATER_MODELS:
         for name in ('lake_valve_opening', 'internal_valve_opening'):
             if not 0 <= values[name] <= 1 or parameters[name]['valid_range'][1] > 1:
                 raise ValueError(name + ' and its declared range must stay in [0,1]')
         for name in ('lake_valve_open_resistance', 'internal_valve_open_resistance'):
             if values[name] <= 0:
                 raise ValueError(name + ' must be positive in the runtime model')
+    if runtime['model'] == ENVIRONMENT_MODEL:
+        if not 273.16 <= values['maximum_room_work_temperature'] <= 333.15:
+            raise ValueError('Room work-temperature threshold must stay inside the declared environment domain')
+        if values['it_access_permit'] not in (0, 1):
+            raise ValueError('IT access permission must be the declared binary 0/1 state')
+        if not 0 < values['minimum_internal_hot_mass'] <= values['internal_hot_mass']:
+            raise ValueError('Minimum hot-water inventory must be positive and no greater than initial inventory')
     for name in ('compute_nominal_power', 'network_nominal_power', 'storage_nominal_power',
                  'lake_hydraulic_resistance', 'internal_hydraulic_resistance', 'access_block_mass'):
         if values[name] <= 0:
