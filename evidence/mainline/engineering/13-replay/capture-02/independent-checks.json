@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "exact_replay_pairs": {
+    "normal-600s": {
+      "status": "EXACT_ALL_RUN_SEMANTICS",
+      "state_points": 601,
+      "intervals": 600,
+      "eight_domains": 8,
+      "offered_service_unit_s": 600.0
+    },
+    "combined-episode-CLI": {
+      "status": "EXACT_ALL_RUN_SEMANTICS",
+      "state_points": 266,
+      "intervals": 265,
+      "eight_domains": 8,
+      "offered_service_unit_s": 275.0
+    }
+  },
+  "inherited_independent_case_checks": {
+    "normal-600s": {
+      "independent_accounts": "PASS",
+      "independent_literal_checks": 7,
+      "maximum_absolute_reconciliation_error": {
+        "energy_J": 6.05359673500061e-09,
+        "water_kg": 0.0,
+        "electric_W": 0.0,
+        "phase_kg": 0.0,
+        "service_unit_s": 0.0
+      },
+      "state_points": 601,
+      "intervals": 600
+    },
+    "combined-episode-CLI": {
+      "independent_accounts": "PASS",
+      "independent_literal_checks": 24,
+      "maximum_absolute_reconciliation_error": {
+        "energy_J": 8.31950455904007e-06,
+        "water_kg": 1.4224732503009818e-15,
+        "electric_W": 5.820766091346741e-11,
+        "phase_kg": 2.2737367544323206e-13,
+        "service_unit_s": 0.0
+      },
+      "state_points": 266,
+      "intervals": 265
+    }
+  },
+  "engineering_causal_pair": {
+    "baseline_delivered_service_unit_s": 2,
+    "command_delivered_service_unit_s": 1,
+    "offered_service_unit_s_each": 2,
+    "physical_trajectory_differs": true,
+    "command_is_not_exogenous": true
+  },
+  "terminal_attempts": 13,
+  "completed_attempts": 6,
+  "failed_attempts": 7,
+  "explicit_retries": 1,
+  "refused_overwrite_preserved": true,
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING"
+}
