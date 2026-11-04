@@ -443,8 +443,25 @@ class _Plant:
                     new_hot_mass = minimum  # roundoff at the explicitly split domain boundary
                 else:
                     raise ValueError('Hot-water inventory below the declared hydraulic validity minimum; low-inventory geometry is not modeled')
-            pool = floor_water_step(old_floor, old_floor_energy, p['water_specific_heat'],
-                point['floor_inflow_kg_s'], point['floor_inlet_energy_W'], point['drain_kg_s'], dt)
+            net_drain = point['drain_kg_s'] - point['floor_inflow_kg_s']
+            empty_at = start + old_floor / net_drain if old_floor > 0 and net_drain > 0 else None
+            if empty_at is not None and same_time(end, empty_at):
+                # The already scheduled exact empty event can leave either a
+                # positive or negative roundoff residue. Its analytic boundary
+                # exports all stored/incoming heat; do not carry a tiny pool
+                # into a following interval whose empty time rounds to now.
+                incoming = point['floor_inlet_energy_W'] * dt
+                pool = dict(mass_kg=0.0, energy_J=0.0, temperature_K=None,
+                    drained_mass_kg=math.fsum([old_floor, point['floor_inflow_kg_s'] * dt]),
+                    drained_energy_J=math.fsum([old_floor_energy, incoming]), inlet_energy_J=incoming)
+                self.events.append(dict(time_s=end, kind='floor_water_emptied', split_step=True,
+                    projected_crossing_at_s=empty_at, applied_at_s=end, actual_floor_mass_before_kg=old_floor,
+                    raw_after_mass_kg=math.fsum([old_floor, point['floor_inflow_kg_s'] * dt, -point['drain_kg_s'] * dt]),
+                    compensation_reset='HIGH_AND_LOW_AT_EXPLICIT_EMPTY',
+                    numerical_time_convention='aegisdc-binary64-time-v1'))
+            else:
+                pool = floor_water_step(old_floor, old_floor_energy, p['water_specific_heat'],
+                    point['floor_inflow_kg_s'], point['floor_inlet_energy_W'], point['drain_kg_s'], dt)
             self.floor_mass_sum.add(point['floor_inflow_kg_s'] * dt)
             integrated_mass = self.floor_mass_sum.add(-point['drain_kg_s'] * dt)
             if pool['mass_kg'] == 0:
