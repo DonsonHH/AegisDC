@@ -76,3 +76,12 @@ skip and twenty old evidence hashes verified. See
 [the evidence entry](../../evidence/mainline/engineering/09-control/README.md).
 Independent review and root enabled-Torch acceptance remain pending.
 No registered research, training or agent call is started by these checks.
+
+
+The artifact audit uses the newer `verify_portable.py` / `portable-inventory-v2.json`
+entry. The old 164-row v1 hash inventory is preserved as an author-local
+observation: 162 committed persistent files plus two untracked interpreter-cache
+hashes. It is not a 164-file checkout-delivery claim. V2 explicitly classifies
+those two non-delivery rows, checks durable files and Git identities strictly,
+and audits the unchanged 363c5edf execution without rerunning it. The physical
+263-test regression and portable artifact gate are separate evidence.

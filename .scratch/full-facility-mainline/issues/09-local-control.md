@@ -77,3 +77,15 @@ Post-integration: accepted tip `de5dbc69` merged at `bcad4042`; the sixteen
 control targets and sealed artifact/source/legacy-input reads pass again in
 attempts 26/27. Execution remains attributed to `363c5edf`; full regression and
 engineering runs were not repeated for a documentation/figure integration.
+
+
+Portable-evidence correction: the original 164-row hash inventory also records
+two author-local untracked compileall caches. Its original local PASS is retained,
+not upgraded to a 164-file Git delivery. A fresh-checkout v1 failure is preserved;
+new `portable-inventory-v2.json` classifies 162 committed durable files and the
+two exact excluded_non_delivery rows (with original hashes/reasons). New
+`verify_portable.py` checks itself/manifest against Git, all durable identities,
+six legacy inputs, 74 engineering files, twelve saved cases and six refusals.
+No indexed original helper, receipt, trace, failure or ledger is rewritten.
+This fix changes evidence tools/current explanations only, with no new plant run
+or repeated full regression; root artifact acceptance remains separate.

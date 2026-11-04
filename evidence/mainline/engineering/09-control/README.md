@@ -1,5 +1,25 @@
 # Ticket 09 local-control engineering evidence
 
+The portable evidence check is now `verify_portable.py` with
+`portable-inventory-v2.json`. The original v1 164-row inventory included two
+untracked `__pycache__/*.pyc` observations; its local PASS is not a 164-file Git
+delivery claim. The committed persistent inventory has **162 files**. V2 preserves
+the original receipt/hashes and classifies exactly those two caches as
+`excluded_non_delivery`, retaining their original observed hashes and reasons.
+The original v1 `verify_saved.py` remains unchanged and can fail on a fresh tree
+without those caches. Use the following read-only command for a Git checkout:
+
+```powershell
+python -B evidence/mainline/engineering/09-control/verify_portable.py
+```
+
+V2 checks its own committed identity, the portable manifest, all 162 persistent
+bytes and Git blobs, six legacy inputs, 74 saved artifacts, twelve cases and six
+refusals. Recorded source is verified at the actual execution commit `363c5edf`;
+current-source equality is reported separately. It imports no runtime/author
+module and executes no plant simulation. Missing or changed persistent evidence
+fails; only the two enumerated untracked caches are excluded.
+
 This is finite engineering verification of the same complete synthetic facility.
 M1 and the total research goal remain active. No registered effect trial,
 field calibration, policy benefit, training or AI-call result is claimed.
@@ -99,7 +119,26 @@ repeated, not the full suite or engineering trajectories. Attempts 26/27 preserv
 the actual commands, checked HEAD and readback. `verify_saved.py` rehashes all
 prior local originals, all 74 saved artifacts, six legacy input hashes/Git blobs
 and every saved-run source file, then rechecks twelve saved physical accounts.
-All match the actual frozen execution; root metadata/figures do not reattribute
+That original PASS describes the author-local tree, including its cache bytes;
+it does not establish a portable 164-file Git delivery. The new V2 gate above
+separately verifies the 162 durable files. Root metadata/figures do not reattribute
 that earlier execution to a later Git commit. CLI console whitespace rules are
 in the fixture directory's own scoped attributes so the parent metadata file
 also retains its pre-existing byte identity.
+
+
+## Portable inventory correction and validation
+
+The source/trajectory/receipt files indexed by v1 are retained byte-for-byte.
+`capture_engineering.py`, `check.py`, `build_config.py`, `full_acceptance.py` and
+their original hashes were not rewritten. V2 is a new evidence-classification
+and read-only audit tool; it changes neither physical execution nor source
+attribution and reruns no simulation or full regression.
+
+`portable-v2-validation/01-v1-missing-cache/` preserves the real old-verifier
+FileNotFoundError on a fresh tracked checkout at `1ed66692`. The copied root
+readback independently records 162 persistent files and the two cache blockers.
+Subsequent V2 validation records cover an author tree, a separate fresh checkout
+with missing caches and the same checkout with deliberately different synthetic
+cache bytes. A deliberate change to the new verifier's test copy must fail its
+committed-self check. All original archived data remain untouched.
