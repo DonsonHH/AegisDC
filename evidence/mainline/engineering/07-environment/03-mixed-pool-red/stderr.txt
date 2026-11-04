@@ -1,0 +1,18 @@
+test_continuous_mixing_matches_independent_constant_mass_tank_solution (test_full_facility_environment.FloorWaterTests.test_continuous_mixing_matches_independent_constant_mass_tank_solution) ... ERROR
+test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy (test_full_facility_environment.FloorWaterTests.test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy) ... ok
+
+======================================================================
+ERROR: test_continuous_mixing_matches_independent_constant_mass_tank_solution (test_full_facility_environment.FloorWaterTests.test_continuous_mixing_matches_independent_constant_mass_tank_solution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\tests\test_full_facility_environment.py", line 21, in test_continuous_mixing_matches_independent_constant_mass_tank_solution
+    point = floor_water_step(1000, 1200000000, 4000, 2, 2560000, 2, 500)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\src\aegis_dc\environment.py", line 25, in floor_water_step
+    raise ValueError('Floor-water inflow is not supported by this withdrawal slice')
+ValueError: Floor-water inflow is not supported by this withdrawal slice
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.022s
+
+FAILED (errors=1)

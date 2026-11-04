@@ -183,9 +183,22 @@ mixing cases give 315 K /12.4 MJ drained at variable mass and
 2 kg/s leakage against .1 kg/s drainage reaches the 10 kg access threshold at
 100/19 s and aborts existing work, with no nuisance-source mass invented.
 
-Committed-source runs, explicit CLI verification, expected domain failure and
-fresh hash/count/mass/energy receipts will be attached after the implementation
-commit. All source facts, original failures and earlier artifacts are retained.
+Implementation is `ab6094bf`; accepted service integration is merged at run source
+`5ca3c3a03d05802458cef1bdd10e66928d75bc1b`. Nine successful engineering runs,
+one expected inventory-domain failure, and a separate CLI output are retained at
+`evidence/mainline/engineering/07-environment/`, with complete runbook/attempt
+ledger, actual source identities and fresh hash/count/mass/energy receipts.
+Normal 600 s has zero room/hot drift and zero deficit. Successful fixture maximum
+fresh interval energy residual is below `3.70e-6 J`, water mass residual below
+`2.55e-12 kg`, and floor heat residual below `8.42e-9 J`; CLI fresh checks also pass.
+
+`acceptance-5ca3c3a0/summary.json` records engineering/evidence/overall PASS:
+247 discovered /245 executed, no failures/errors, exactly two pre-existing
+optional isolated-Torch skips, no unexpected skips and 20 original-file hashes
+valid. All 22 environment tests execute without skips. Root owns enabled-Torch
+coverage, independent Standards/Spec review and integration acceptance.
+
+All source facts, original failures and earlier artifacts are retained.
 These engineering checks do not establish step convergence, field calibration,
 inspection quality, interventions, policy benefit or M1/full-goal completion.
 The later control and reserve profiles must consume these dynamic inventories
