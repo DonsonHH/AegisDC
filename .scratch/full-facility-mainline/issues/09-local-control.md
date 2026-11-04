@@ -4,7 +4,7 @@
 
 **Blocked by:** 04, 05, 06
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -19,3 +19,16 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+## Preparation (implementation not started)
+
+Assigned owner/worktree: `donson/mainline-09-control`,
+`.work/worktrees/full-site-09`, prepared at integration `e12a2d76`.
+See `docs/mainline/09-control-design.md` for the source/assumption review,
+07-compatible explicit profile and public run acceptance proposal. Ticket 07's
+owner confirmed `local_control_profile` as a later 09 extension; unsupported or
+unimplemented values must be rejected until behavior is implemented. This round
+changes no runtime source/config and performs no engineering acceptance run.
+Status remains ready-for-agent pending the root's implementation follow-up.
+
+Implementation started after root acceptance of 07/08 at integration `98fd8c4b`; the public loader/run/CLI and independently varying local-control component are the authorized seams. Signed offsets must not relax physical quantity ranges.

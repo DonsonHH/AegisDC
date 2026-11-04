@@ -1,11 +1,13 @@
 """The explicit supported low-order facility, not a generic graph simulator."""
 from patrol_rsi.contracts import digest
+from .local_control import validate_control_profile
 
 MODEL = 'aegisdc-low-order-facility-v1'
 TOPOLOGY_SHA256 = 'f6a5fed4e33ef6ef26dfb35f6daf5c9070e2125587ce7e3b84fc9c2383709254'
 WATER_MODEL = 'aegisdc-low-order-facility-water-v2'
 ENVIRONMENT_MODEL = 'aegisdc-low-order-facility-environment-v3'
 WATER_MODELS = {WATER_MODEL, ENVIRONMENT_MODEL}
+ENVIRONMENT_MODELS = {ENVIRONMENT_MODEL}
 SUPPORTED_TOPOLOGIES = {
     MODEL: TOPOLOGY_SHA256,
     WATER_MODEL: '40852da7230c6db601d8ab7d5a360b45e61356df929826fe62a90016305aeea2',
@@ -67,6 +69,8 @@ RUNTIME_QUANTITIES = {
 def validate_runtime_contract(scenario, entities, parameters):
     runtime = scenario['runtime']
     expected = {'model', 'property_table', 'property_sha256', 'topology_sha256', 'closed_location_ids'}
+    if isinstance(runtime, dict) and 'local_control_profile' in runtime:
+        expected.add('local_control_profile')
     if not isinstance(runtime, dict) or set(runtime) != expected \
             or not isinstance(runtime['model'], str) or runtime['model'] not in SUPPORTED_TOPOLOGIES:
         raise ValueError('Declare the supported runtime model and its closed contract')
@@ -81,11 +85,12 @@ def validate_runtime_contract(scenario, entities, parameters):
     required = dict(RUNTIME_QUANTITIES)
     if runtime['model'] in WATER_MODELS:
         required.update(WATER_QUANTITIES)
-    if runtime['model'] == ENVIRONMENT_MODEL:
+    if runtime['model'] in ENVIRONMENT_MODELS:
         required.update(ENVIRONMENT_QUANTITIES)
     for name, quantity in required.items():
         if name not in parameters or parameters[name]['quantity'] != quantity:
             raise ValueError('Runtime requires SI parameter ' + name + ' of quantity ' + quantity)
+    validate_control_profile(runtime, parameters)
     values = {name: record['value'] for name, record in parameters.items()}
     for name in ('pump_min_speed', 'pump_fluid_heat_fraction'):
         if not 0 <= values[name] <= 1:
@@ -97,7 +102,7 @@ def validate_runtime_contract(scenario, entities, parameters):
         for name in ('lake_valve_open_resistance', 'internal_valve_open_resistance'):
             if values[name] <= 0:
                 raise ValueError(name + ' must be positive in the runtime model')
-    if runtime['model'] == ENVIRONMENT_MODEL:
+    if runtime['model'] in ENVIRONMENT_MODELS:
         if not 273.16 <= values['maximum_room_work_temperature'] <= 333.15:
             raise ValueError('Room work-temperature threshold must stay inside the declared environment domain')
         if values['it_access_permit'] not in (0, 1):

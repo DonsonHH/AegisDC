@@ -1,0 +1,25 @@
+test_signed_measurement_offsets_load_without_relaxing_physical_domains (test_mainline_control.ControlScenarioTests.test_signed_measurement_offsets_load_without_relaxing_physical_domains) ... ERROR
+
+======================================================================
+ERROR: test_signed_measurement_offsets_load_without_relaxing_physical_domains (test_mainline_control.ControlScenarioTests.test_signed_measurement_offsets_load_without_relaxing_physical_domains)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\tests\test_mainline_control.py", line 29, in test_signed_measurement_offsets_load_without_relaxing_physical_domains
+    loaded = load_scenario(path)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\scenario.py", line 382, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\scenario.py", line 368, in validate_scenario
+    parameters = _parameters(scenario)
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\scenario.py", line 136, in _parameters
+    _require(quantity in SI_UNITS, 'Unknown SI quantity')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\scenario.py", line 46, in _require
+    raise ValueError(message)
+ValueError: Unknown SI quantity
+
+----------------------------------------------------------------------
+Ran 1 test in 0.009s
+
+FAILED (errors=1)

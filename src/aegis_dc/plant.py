@@ -14,7 +14,8 @@ from patrol_rsi.contracts import digest
 from .environment import condensation_risk, floor_water_step
 from .heat_transfer import counterflow_exchange, pump_operating_point, valve_loop_operating_point
 from .power import allocate_power
-from .runtime_contract import ENVIRONMENT_MODEL, WATER_MODELS
+from .runtime_contract import ENVIRONMENT_MODELS, WATER_MODELS
+from .local_control import CONTROL_PROFILE, CONTROL_QUANTITIES, CONTROL_BINARY_PARAMETERS, sample_local_control
 from .scenario import validate_scenario
 from .thermodynamics import SaturationTable, finite_number
 from .workforce import Workforce
@@ -31,10 +32,10 @@ EXOGENOUS_PARAMETERS = {
     'lake_valve_opening', 'internal_valve_opening', 'plate_hx_conductance',
     'pump_pressure_rise', 'internal_pump_pressure_rise',
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
-} | ENVIRONMENT_EXOGENOUS_PARAMETERS
+} | ENVIRONMENT_EXOGENOUS_PARAMETERS | set(CONTROL_QUANTITIES)
 
 
-def _boundary_events(rows, parameters, duration, *, model):
+def _boundary_events(rows, parameters, duration, *, model, control_profile=None):
     if not isinstance(rows, (list, tuple)):
         raise ValueError('Boundary events must be a declared list')
     result, seen = [], set()
@@ -45,9 +46,13 @@ def _boundary_events(rows, parameters, duration, *, model):
         name = row['parameter_id']
         if not isinstance(name, str) or name not in EXOGENOUS_PARAMETERS or name not in parameters:
             raise ValueError('Boundary event parameter is not an exogenous input')
-        if name in ENVIRONMENT_EXOGENOUS_PARAMETERS and model != ENVIRONMENT_MODEL:
+        if name in ENVIRONMENT_EXOGENOUS_PARAMETERS and model not in ENVIRONMENT_MODELS:
             raise ValueError('Environmental boundary events require the explicit environment runtime model')
+        if name in CONTROL_QUANTITIES and control_profile != CONTROL_PROFILE:
+            raise ValueError('Local control events require the implemented explicit control profile')
         value = finite_number(row['value'], 'Boundary event value')
+        if name in CONTROL_BINARY_PARAMETERS and value not in (0, 1):
+            raise ValueError('Local control availability must be the declared binary 0/1 state')
         if name == 'it_access_permit' and value not in (0, 1):
             raise ValueError('IT access permission must be the declared binary 0/1 state')
         low, high = parameters[name]['valid_range']
@@ -80,7 +85,7 @@ def _code_identity():
 class _Plant:
     def __init__(self, scenario, table):
         self.scenario, self.table = scenario, table
-        self.environment_model = scenario['runtime']['model'] == ENVIRONMENT_MODEL
+        self.environment_model = scenario['runtime']['model'] in ENVIRONMENT_MODELS
         self.p = {row['id']: row['value'] for row in scenario['parameters']}
         p = self.p
         self.capacities = {'solid': p['it_thermal_capacity'], 'room': p['room_thermal_capacity'],
@@ -233,6 +238,16 @@ class _Plant:
             return
         p, c = self.p, self.control
         power = point['power']['actual_powers_W']['local_controller']
+        if self.scenario['runtime'].get('local_control_profile') == CONTROL_PROFILE:
+            measurement = {'observed_at_s': time_s,
+                'temperature_K': point['refrigerant']['temperature_K'] + p['local_temperature_bias'],
+                'internal_volume_flow_m3_s': point['internal_pump']['volume_flow_m3_s'] + p['local_internal_flow_bias'],
+                'temperature_valid': p['local_temperature_sensor_valid'] == 1,
+                'flow_valid': p['local_internal_flow_sensor_valid'] == 1,
+                'supervisory_connected': p['supervisory_link_available'] == 1}
+            self.control = sample_local_control(c, p, measurement, controller_power_W=power)
+            self.next_sample = time_s + p['control_sample_time']
+            return
         if power < p['controller_power'] or p['controller_power'] == 0:
             c.update(mode='unpowered_fail_safe', compute_permitted=False, pump_speed_command=1.0)
         else:
@@ -500,7 +515,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         low, high = p_records[name]['valid_range']
         if not low <= value <= high:
             raise ValueError(name + ' outside declared runtime range')
-    timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'])
+    timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
+                                    control_profile=scenario['runtime'].get('local_control_profile'))
     event_index = 0
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])

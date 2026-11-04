@@ -1,0 +1,26 @@
+test_high_local_temperature_bias_changes_protection_but_not_true_temperature (test_mainline_control.ControlFacilityTests.test_high_local_temperature_bias_changes_protection_but_not_true_temperature) ... ERROR
+test_signed_measurement_offsets_load_without_relaxing_physical_domains (test_mainline_control.ControlScenarioTests.test_signed_measurement_offsets_load_without_relaxing_physical_domains) ... ok
+test_invalid_local_channel_latches_fail_safe_without_reading_true_state (test_mainline_control.LocalControllerTests.test_invalid_local_channel_latches_fail_safe_without_reading_true_state) ... ok
+
+======================================================================
+ERROR: test_high_local_temperature_bias_changes_protection_but_not_true_temperature (test_mainline_control.ControlFacilityTests.test_high_local_temperature_bias_changes_protection_but_not_true_temperature)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\tests\test_mainline_control.py", line 43, in test_high_local_temperature_bias_changes_protection_but_not_true_temperature
+    scenario = load_scenario(CONTROL)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\scenario.py", line 386, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-09\\configs\\full-facility-mainline-control-v5.json'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.025s
+
+FAILED (errors=1)
