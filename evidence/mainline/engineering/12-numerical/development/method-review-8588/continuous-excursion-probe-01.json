@@ -1,0 +1,172 @@
+{
+  "scope": "ALGORITHMIC_COUNTEREXAMPLE_ONLY_NOT_OBSERVED_FACILITY_RUN",
+  "source_commit": "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+  "actual": {
+    "times": [
+      0.0,
+      1.0,
+      1.0000000000000009,
+      1.0000000000000018,
+      3.0
+    ],
+    "series": {
+      "room_K": [
+        300.0,
+        300.0,
+        300.1,
+        300.0,
+        300.0
+      ]
+    },
+    "events": [
+      {
+        "identity": [
+          "reserve_transition",
+          "ups",
+          "supplying"
+        ],
+        "time_s": 1.0
+      }
+    ],
+    "metrics": {
+      "service_deficit_time_s": 0.0
+    },
+    "literal_checks_pass": true
+  },
+  "reference": {
+    "times": [
+      0.0,
+      1.0000000000000018,
+      3.0
+    ],
+    "series": {
+      "room_K": [
+        300.0,
+        300.0,
+        300.0
+      ]
+    },
+    "events": [
+      {
+        "identity": [
+          "reserve_transition",
+          "ups",
+          "supplying"
+        ],
+        "time_s": 1.0000000000000018
+      }
+    ],
+    "metrics": {
+      "service_deficit_time_s": 0.0
+    },
+    "literal_checks_pass": true
+  },
+  "limits": {
+    "temperature_K": 0.05,
+    "pressure_Pa": 1000,
+    "heat_W": 25000,
+    "service_deficit_time_s": 0.001,
+    "unserved_service_unit_s": 0.001,
+    "resource_time_s": 0.001,
+    "switch_time_s": 0.001
+  },
+  "comparison": {
+    "maximum_absolute_series_error": {
+      "room_K": 0.0
+    },
+    "absolute_integral_error": {
+      "service_deficit_time_s": 0.0
+    },
+    "event_sequence_match": true,
+    "maximum_switch_time_error_s": 1.7763568394002505e-15,
+    "within_predeclared_limits": true,
+    "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+    "raw_causal": {
+      "maximum_absolute_series_error": {
+        "room_K": 0.10000000000002274
+      },
+      "within_predeclared_limits": false,
+      "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+    },
+    "alignment": {
+      "changed_epoch_groups": 1,
+      "total_window_duration_s": 1.7763568394002505e-15,
+      "excluded_union_points": 3,
+      "excluded_union_times_s": [
+        1.0,
+        1.0000000000000009,
+        1.0000000000000018
+      ],
+      "windows": [
+        {
+          "actual_time_s": 1.0,
+          "reference_time_s": 1.0000000000000018,
+          "common_anchor_s": 1.0,
+          "start_s": 1.0,
+          "end_s": 1.0000000000000018,
+          "width_s": 1.7763568394002505e-15,
+          "identities": [
+            [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ]
+          ],
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000009,
+            1.0000000000000018
+          ],
+          "excluded_union_points": 3
+        }
+      ],
+      "paired_side_limits": [
+        {
+          "actual_time_s": 1.0,
+          "reference_time_s": 1.0000000000000018,
+          "identities": [
+            [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ]
+          ],
+          "epoch_alignment_allowed": true,
+          "maximum_absolute_side_errors": {
+            "left": {
+              "room_K": 0.0
+            },
+            "right": {
+              "room_K": 0.0
+            }
+          },
+          "side_values": {
+            "left": {
+              "actual": {
+                "room_K": 300.0
+              },
+              "reference": {
+                "room_K": 300.0
+              }
+            },
+            "right": {
+              "actual": {
+                "room_K": 300.0
+              },
+              "reference": {
+                "room_K": 300.0
+              }
+            }
+          }
+        }
+      ],
+      "blocked_groups": [],
+      "sequence_mismatch_disables_all_alignment": false
+    }
+  },
+  "independently_expected": "Piecewise-linear continuous temperature excursion of .1 K must remain visible or alignment must be blocked; unchanged .05 K bound should not pass.",
+  "source_guard": "PASS",
+  "guarded_files": 20,
+  "physics_runs": 0,
+  "research_trials": 0
+}

@@ -1,0 +1,60 @@
+test_a_genuine_post_event_value_between_the_two_jump_limits_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_a_genuine_post_event_value_between_the_two_jump_limits_is_retained) ... FAIL
+test_closed_high_endpoint_five_MW_right_value_cannot_disappear_until_three_seconds (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_closed_high_endpoint_five_MW_right_value_cannot_disappear_until_three_seconds) ... FAIL
+test_constant_post_event_non_event_rows_do_not_create_a_spike (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_constant_post_event_non_event_rows_do_not_create_a_spike) ... ok
+test_continuous_temperature_closed_endpoint_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_continuous_temperature_closed_endpoint_is_retained) ... FAIL
+test_continuous_temperature_open_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_continuous_temperature_open_peak_is_retained) ... FAIL
+test_open_interval_post_event_five_MW_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_open_interval_post_event_five_MW_peak_is_retained) ... FAIL
+test_pressure_non_event_two_kPa_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_pressure_non_event_two_kPa_peak_is_retained) ... FAIL
+
+======================================================================
+FAIL: test_a_genuine_post_event_value_between_the_two_jump_limits_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_a_genuine_post_event_value_between_the_two_jump_limits_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 55, in test_a_genuine_post_event_value_between_the_two_jump_limits_is_retained
+    self.assertGreaterEqual(result['maximum_absolute_series_error']['condenser_W'], 1000000.)
+AssertionError: 0.0 not greater than or equal to 1000000.0
+
+======================================================================
+FAIL: test_closed_high_endpoint_five_MW_right_value_cannot_disappear_until_three_seconds (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_closed_high_endpoint_five_MW_right_value_cannot_disappear_until_three_seconds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 31, in test_closed_high_endpoint_five_MW_right_value_cannot_disappear_until_three_seconds
+    self.assertGreaterEqual(result['maximum_absolute_series_error']['condenser_W'], 3000000.)
+AssertionError: 0.0 not greater than or equal to 3000000.0
+
+======================================================================
+FAIL: test_continuous_temperature_closed_endpoint_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_continuous_temperature_closed_endpoint_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 43, in test_continuous_temperature_closed_endpoint_is_retained
+    self.assertAlmostEqual(result['maximum_absolute_series_error']['solid_K'], .1, delta=1e-12)
+AssertionError: 0.0 != 0.1 within 1e-12 delta (0.1 difference)
+
+======================================================================
+FAIL: test_continuous_temperature_open_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_continuous_temperature_open_peak_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 37, in test_continuous_temperature_open_peak_is_retained
+    self.assertAlmostEqual(result['maximum_absolute_series_error']['solid_K'], .1, delta=1e-12)
+AssertionError: 0.0 != 0.1 within 1e-12 delta (0.1 difference)
+
+======================================================================
+FAIL: test_open_interval_post_event_five_MW_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_open_interval_post_event_five_MW_peak_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 25, in test_open_interval_post_event_five_MW_peak_is_retained
+    self.assertGreaterEqual(result['maximum_absolute_series_error']['condenser_W'], 3000000.)
+AssertionError: 0.0 not greater than or equal to 3000000.0
+
+======================================================================
+FAIL: test_pressure_non_event_two_kPa_peak_is_retained (test_numerical_alignment_amplitudes.NumericalAmplitudeGuardTests.test_pressure_non_event_two_kPa_peak_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_numerical_alignment_amplitudes.py", line 49, in test_pressure_non_event_two_kPa_peak_is_retained
+    self.assertGreaterEqual(result['maximum_absolute_series_error']['pressure_Pa'], 2000.)
+AssertionError: 0.0 not greater than or equal to 2000.0
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+FAILED (failures=6)

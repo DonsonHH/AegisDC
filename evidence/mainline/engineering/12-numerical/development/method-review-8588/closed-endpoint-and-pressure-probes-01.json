@@ -1,0 +1,482 @@
+{
+  "scope": "ALGORITHMIC_COUNTEREXAMPLES_ONLY_NOT_OBSERVED_FACILITY_RUN",
+  "source_commit": "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+  "limits": {
+    "temperature_K": 0.05,
+    "pressure_Pa": 1000,
+    "heat_W": 25000,
+    "service_deficit_time_s": 0.001,
+    "unserved_service_unit_s": 0.001,
+    "resource_time_s": 0.001,
+    "switch_time_s": 0.001
+  },
+  "probes": {
+    "pressure_open_interval_peak": {
+      "actual": {
+        "times": [
+          0.0,
+          1.0,
+          1.0000000000000009,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "pressure_Pa": [
+            1000000.0,
+            1000000.0,
+            1002000.0,
+            1000000.0,
+            1000000.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "reference": {
+        "times": [
+          0.0,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "pressure_Pa": [
+            1000000.0,
+            1000000.0,
+            1000000.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0000000000000018
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "pressure_Pa": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": true,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "pressure_Pa": 2000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 3,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000009,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000009,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 3
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "pressure_Pa": 0.0
+                },
+                "right": {
+                  "pressure_Pa": 0.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "pressure_Pa": 1000000.0
+                  },
+                  "reference": {
+                    "pressure_Pa": 1000000.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "pressure_Pa": 1000000.0
+                  },
+                  "reference": {
+                    "pressure_Pa": 1000000.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      },
+      "independently_expected": "2000 Pa continuous peak exceeds 1000 Pa."
+    },
+    "heat_cross_endpoint_holds_outside_window": {
+      "actual": {
+        "times": [
+          0.0,
+          1.0,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "condenser_W": [
+            0.0,
+            2000000.0,
+            5000000.0,
+            2000000.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "reference": {
+        "times": [
+          0.0,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "condenser_W": [
+            0.0,
+            2000000.0,
+            2000000.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0000000000000018
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": true,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 3000000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "condenser_W": 0.0
+                },
+                "right": {
+                  "condenser_W": 0.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "condenser_W": 0.0
+                  },
+                  "reference": {
+                    "condenser_W": 0.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "condenser_W": 2000000.0
+                  },
+                  "reference": {
+                    "condenser_W": 2000000.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      },
+      "independently_expected": "3 MW actual/reference error persists on [1+8ULP,3), almost two seconds OUTSIDE the aligned tiny window."
+    },
+    "temperature_cross_endpoint_persists_outside_window": {
+      "actual": {
+        "times": [
+          0.0,
+          1.0,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "room_K": [
+            300.0,
+            300.0,
+            300.1,
+            300.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "reference": {
+        "times": [
+          0.0,
+          1.0000000000000018,
+          3.0
+        ],
+        "series": {
+          "room_K": [
+            300.0,
+            300.0,
+            300.0
+          ]
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 1.0000000000000018
+          }
+        ],
+        "metrics": {
+          "service_deficit_time_s": 0.0
+        },
+        "literal_checks_pass": true
+      },
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "room_K": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": true,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "room_K": 0.10000000000002274
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "room_K": 0.0
+                },
+                "right": {
+                  "room_K": 0.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "room_K": 300.0
+                  },
+                  "reference": {
+                    "room_K": 300.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "room_K": 300.0
+                  },
+                  "reference": {
+                    "room_K": 300.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      },
+      "independently_expected": "Continuous .1 K error at right endpoint persists just outside the window and decays linearly to zero at t=3."
+    }
+  },
+  "source_guard": "PASS",
+  "guarded_files": 20,
+  "physics_runs": 0,
+  "research_trials": 0
+}

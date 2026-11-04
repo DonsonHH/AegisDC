@@ -1,0 +1,843 @@
+{
+  "source_commit": "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+  "baseline": "0456d47d30210c66e6ec112f6615f05865c451a7",
+  "algebraic_targets": 8,
+  "results": {
+    "affine_temperature_offset_retained": {
+      "status": "PASS",
+      "independently_expected": "Maximum error .02 K, including paired continuous limits, not zero.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "room_K": 0.01999999999998181
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": true,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "room_K": 0.01999999999998181
+          },
+          "within_predeclared_limits": true,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "room_K": 0.01999999999998181
+                },
+                "right": {
+                  "room_K": 0.01999999999998181
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "room_K": 301.0
+                  },
+                  "reference": {
+                    "room_K": 301.02
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "room_K": 301.0
+                  },
+                  "reference": {
+                    "room_K": 301.02
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "both_heat_side_errors_retained": {
+      "status": "PASS",
+      "independently_expected": "Both matched side limits differ by 100000 W; 25000 W bound fails.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 100000.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 1900000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "condenser_W": 100000.0
+                },
+                "right": {
+                  "condenser_W": 100000.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "condenser_W": 0.0
+                  },
+                  "reference": {
+                    "condenser_W": 100000.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "condenser_W": 2000000.0
+                  },
+                  "reference": {
+                    "condenser_W": 2100000.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "role_reversal_symmetry": {
+      "status": "PASS",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 100000.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 1900000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0000000000000018,
+              "reference_time_s": 1.0,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0000000000000018,
+              "reference_time_s": 1.0,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "condenser_W": 100000.0
+                },
+                "right": {
+                  "condenser_W": 100000.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "condenser_W": 100000.0
+                  },
+                  "reference": {
+                    "condenser_W": 0.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "condenser_W": 2100000.0
+                  },
+                  "reference": {
+                    "condenser_W": 2000000.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "resource_cost_not_erased_by_epoch_alignment": {
+      "status": "PASS",
+      "independently_expected": "A .002 person-second resource discrepancy exceeds its unchanged .001 bound.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0,
+          "worker_work_person_s": 0.0020000000000000018
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 2000000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "condenser_W": 0.0
+                },
+                "right": {
+                  "condenser_W": 0.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "condenser_W": 0.0
+                  },
+                  "reference": {
+                    "condenser_W": 0.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "condenser_W": 2000000.0
+                  },
+                  "reference": {
+                    "condenser_W": 2000000.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "pressure_offset_fails_independently": {
+      "status": "PASS",
+      "independently_expected": "1250 Pa constant error exceeds 1000 Pa, including aligned event interval.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "pressure_Pa": 1250.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 1.7763568394002505e-15,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "pressure_Pa": 1250.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 1,
+          "total_window_duration_s": 1.7763568394002505e-15,
+          "excluded_union_points": 2,
+          "excluded_union_times_s": [
+            1.0,
+            1.0000000000000018
+          ],
+          "windows": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "common_anchor_s": 1.0,
+              "start_s": 1.0,
+              "end_s": 1.0000000000000018,
+              "width_s": 1.7763568394002505e-15,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "excluded_union_times_s": [
+                1.0,
+                1.0000000000000018
+              ],
+              "excluded_union_points": 2
+            }
+          ],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.0000000000000018,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": true,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "pressure_Pa": 1250.0
+                },
+                "right": {
+                  "pressure_Pa": 1250.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "pressure_Pa": 1000000.0
+                  },
+                  "reference": {
+                    "pressure_Pa": 1001250.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "pressure_Pa": 1000000.0
+                  },
+                  "reference": {
+                    "pressure_Pa": 1001250.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "no_event_heat_error_stays_visible": {
+      "status": "PASS",
+      "independently_expected": "30000 W held discrepancy on [1,3) exceeds 25000 W; no alignment exists.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 30000.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 0.0,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 30000.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 0,
+          "total_window_duration_s": 0.0,
+          "excluded_union_points": 0,
+          "excluded_union_times_s": [],
+          "windows": [],
+          "paired_side_limits": [],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    },
+    "missing_event_fails_even_with_zero_value_error": {
+      "status": "PASS",
+      "independently_expected": "An absent event fails the sequence gate despite identical numeric values.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": false,
+        "maximum_switch_time_error_s": null,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 0.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 0,
+          "total_window_duration_s": 0.0,
+          "excluded_union_points": 0,
+          "excluded_union_times_s": [],
+          "windows": [],
+          "paired_side_limits": [],
+          "blocked_groups": [],
+          "sequence_mismatch_disables_all_alignment": true
+        }
+      }
+    },
+    "time_error_fails_even_with_zero_value_error": {
+      "status": "PASS",
+      "independently_expected": "A .002 second real shift fails independently even with identical series.",
+      "comparison": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 0.0
+        },
+        "absolute_integral_error": {
+          "service_deficit_time_s": 0.0
+        },
+        "event_sequence_match": true,
+        "maximum_switch_time_error_s": 0.0020000000000000018,
+        "within_predeclared_limits": false,
+        "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+        "raw_causal": {
+          "maximum_absolute_series_error": {
+            "condenser_W": 0.0
+          },
+          "within_predeclared_limits": false,
+          "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+        },
+        "alignment": {
+          "changed_epoch_groups": 0,
+          "total_window_duration_s": 0.0,
+          "excluded_union_points": 0,
+          "excluded_union_times_s": [],
+          "windows": [],
+          "paired_side_limits": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.002,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "epoch_alignment_allowed": false,
+              "maximum_absolute_side_errors": {
+                "left": {
+                  "condenser_W": 0.0
+                },
+                "right": {
+                  "condenser_W": 0.0
+                }
+              },
+              "side_values": {
+                "left": {
+                  "actual": {
+                    "condenser_W": 0.0
+                  },
+                  "reference": {
+                    "condenser_W": 0.0
+                  }
+                },
+                "right": {
+                  "actual": {
+                    "condenser_W": 0.0
+                  },
+                  "reference": {
+                    "condenser_W": 0.0
+                  }
+                }
+              }
+            }
+          ],
+          "blocked_groups": [
+            {
+              "actual_time_s": 1.0,
+              "reference_time_s": 1.002,
+              "identities": [
+                [
+                  "reserve_transition",
+                  "ups",
+                  "supplying"
+                ]
+              ],
+              "reason": "MORE_THAN_EIGHT_ULP"
+            }
+          ],
+          "sequence_mismatch_disables_all_alignment": false
+        }
+      }
+    }
+  },
+  "interior_excursion_diagnostic": {
+    "scope": "ALGORITHMIC_COUNTEREXAMPLE_ONLY_NOT_OBSERVED_FACILITY_RUN",
+    "actual": {
+      "times": [
+        0.0,
+        1.0,
+        1.0000000000000009,
+        1.0000000000000018,
+        3.0
+      ],
+      "series": {
+        "condenser_W": [
+          0.0,
+          2000000.0,
+          5000000.0,
+          2000000.0,
+          2000000.0
+        ]
+      },
+      "events": [
+        {
+          "identity": [
+            "reserve_transition",
+            "ups",
+            "supplying"
+          ],
+          "time_s": 1.0
+        }
+      ],
+      "metrics": {
+        "service_deficit_time_s": 0.0
+      },
+      "literal_checks_pass": true
+    },
+    "reference": {
+      "times": [
+        0.0,
+        1.0000000000000018,
+        3.0
+      ],
+      "series": {
+        "condenser_W": [
+          0.0,
+          2000000.0,
+          2000000.0
+        ]
+      },
+      "events": [
+        {
+          "identity": [
+            "reserve_transition",
+            "ups",
+            "supplying"
+          ],
+          "time_s": 1.0000000000000018
+        }
+      ],
+      "metrics": {
+        "service_deficit_time_s": 0.0
+      },
+      "literal_checks_pass": true
+    },
+    "comparison": {
+      "maximum_absolute_series_error": {
+        "condenser_W": 0.0
+      },
+      "absolute_integral_error": {
+        "service_deficit_time_s": 0.0
+      },
+      "event_sequence_match": true,
+      "maximum_switch_time_error_s": 1.7763568394002505e-15,
+      "within_predeclared_limits": true,
+      "comparison_method": "FIXED_IDENTITY_PAIRED_EPOCH_WITH_CAUSAL_LEFT_HELD_RAW_V2",
+      "raw_causal": {
+        "maximum_absolute_series_error": {
+          "condenser_W": 5000000.0
+        },
+        "within_predeclared_limits": false,
+        "method": "UNION_GRID_NO_LOOKAHEAD_CONTINUOUS_LINEAR_FLUX_LEFT_HELD"
+      },
+      "alignment": {
+        "changed_epoch_groups": 1,
+        "total_window_duration_s": 1.7763568394002505e-15,
+        "excluded_union_points": 3,
+        "excluded_union_times_s": [
+          1.0,
+          1.0000000000000009,
+          1.0000000000000018
+        ],
+        "windows": [
+          {
+            "actual_time_s": 1.0,
+            "reference_time_s": 1.0000000000000018,
+            "common_anchor_s": 1.0,
+            "start_s": 1.0,
+            "end_s": 1.0000000000000018,
+            "width_s": 1.7763568394002505e-15,
+            "identities": [
+              [
+                "reserve_transition",
+                "ups",
+                "supplying"
+              ]
+            ],
+            "excluded_union_times_s": [
+              1.0,
+              1.0000000000000009,
+              1.0000000000000018
+            ],
+            "excluded_union_points": 3
+          }
+        ],
+        "paired_side_limits": [
+          {
+            "actual_time_s": 1.0,
+            "reference_time_s": 1.0000000000000018,
+            "identities": [
+              [
+                "reserve_transition",
+                "ups",
+                "supplying"
+              ]
+            ],
+            "epoch_alignment_allowed": true,
+            "maximum_absolute_side_errors": {
+              "left": {
+                "condenser_W": 0.0
+              },
+              "right": {
+                "condenser_W": 0.0
+              }
+            },
+            "side_values": {
+              "left": {
+                "actual": {
+                  "condenser_W": 0.0
+                },
+                "reference": {
+                  "condenser_W": 0.0
+                }
+              },
+              "right": {
+                "actual": {
+                  "condenser_W": 2000000.0
+                },
+                "reference": {
+                  "condenser_W": 2000000.0
+                }
+              }
+            }
+          }
+        ],
+        "blocked_groups": [],
+        "sequence_mismatch_disables_all_alignment": false
+      }
+    },
+    "observed_false_pass": true,
+    "independently_expected": "The unmatched interior 5 MW excursion must remain visible or invalidate alignment; its amplitude exceeds every reference value by at least 3 MW."
+  },
+  "official_tests": {
+    "command": [
+      "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_numerical_alignment.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "test_a_real_second_of_switching_difference_is_not_hidden (test_numerical_alignment.NumericalEpochAlignmentTests.test_a_real_second_of_switching_difference_is_not_hidden) ... ok\ntest_adjacent_eight_ulp_chain_cannot_roll_into_a_sixteen_ulp_group (test_numerical_alignment.NumericalEpochAlignmentTests.test_adjacent_eight_ulp_chain_cannot_roll_into_a_sixteen_ulp_group) ... ok\ntest_different_mode_order_cannot_be_retimed_into_agreement (test_numerical_alignment.NumericalEpochAlignmentTests.test_different_mode_order_cannot_be_retimed_into_agreement) ... ok\ntest_eight_ulp_same_epoch_jump_has_zero_epoch_error_and_retains_causal_raw_peak (test_numerical_alignment.NumericalEpochAlignmentTests.test_eight_ulp_same_epoch_jump_has_zero_epoch_error_and_retains_causal_raw_peak) ... ok\ntest_near_distinct_event_retains_its_temporary_different_right_limit (test_numerical_alignment.NumericalEpochAlignmentTests.test_near_distinct_event_retains_its_temporary_different_right_limit) ... ok\ntest_nine_ulp_jump_is_not_aligned_and_keeps_the_large_value_error (test_numerical_alignment.NumericalEpochAlignmentTests.test_nine_ulp_jump_is_not_aligned_and_keeps_the_large_value_error) ... ok\ntest_unmatched_event_identity_disables_alignment_even_with_equal_values (test_numerical_alignment.NumericalEpochAlignmentTests.test_unmatched_event_identity_disables_alignment_even_with_equal_values) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n"
+  },
+  "guarded_files": 20,
+  "source_guard": "PASS",
+  "guarded_after_sha256": {
+    ".gitattributes": "900bc60f27e96fb98d4d70aae416afc32d00635a8aefb3f74621d5b5ae70c531",
+    ".scratch/full-facility-mainline/issues/12-numerical-verification.md": "e57a877369cc464ff938477786468ae53e9cdd404b57832b2dd462d49cc3d5c0",
+    ".scratch/full-facility-mainline/spec.md": "b07b05fea49741034dd3b655ab4ecb8cce1d35dadd3111d94f0884ad3c520227",
+    "docs/mainline/12-numerical-analysis-v2.md": "e12d359feeb093a3efe40838994f6bdb7080df85bdef0e52c370aebec6ac36c6",
+    "docs/mainline/12-numerical-refinement-v2.json": "4d14ee73cf395fba526672c0a7d155d0ee6d5784f0f555ee63cdafed7bc472b4",
+    "evidence/mainline/engineering/12-numerical/development/green-reader-eight-nine-chain.log": "93210eed707c4eaf8a6b2eec41f3288bef07489e31769edd85e7e5497a1b23cd",
+    "evidence/mainline/engineering/12-numerical/development/green-reader-eight-ulp.log": "5a6fca25ff5d1895162fa2fcd99ad0c1d2d28801647c4bfaf2ca7bbcd1cd9cc9",
+    "evidence/mainline/engineering/12-numerical/development/green-reader-final-audit.log": "93210eed707c4eaf8a6b2eec41f3288bef07489e31769edd85e7e5497a1b23cd",
+    "evidence/mainline/engineering/12-numerical/development/reader-correction-combined-01.json": "267af9ece267ee173db915899f2b892a02add77e3970e83a4956038723cc1ec4",
+    "evidence/mainline/engineering/12-numerical/development/red-reader-nontransitive-peek.log": "95500c5e1df17a6066e4ec87024195bdb9a6d5c8b86abffade89863fd6c12357",
+    "evidence/mainline/engineering/12-numerical/format-classification-01.json": "a8d91dd9e07c92693d2dfa496dd18a2c113971cf0984252c5c2bf6590adaec4f",
+    "evidence/mainline/engineering/12-numerical/v1-fresh-proof-01.json": "c7040542220fe69318996802c24ba5eea7265bbff4ff026209ad21328040933d",
+    "scripts/capture_numerical_refinement.py": "048b795a85af72fecfb2f1e861a12a274eea5a2c94ca924e5cb36808840eec8e",
+    "scripts/coupled_engineering_checks.py": "cf153dcdcaef6843db62115ef265a03de2eb296261d52bff92d87a0c3eeeea18",
+    "scripts/numerical_engineering_checks.py": "ef8f3e15b8d495eb998812bae91d6a9bcf0895e52c9481ef52c37367a8a3eecc",
+    "scripts/numerical_refinement_checks.py": "88e88e30973cf32e695a9f2e6139d6bc207f8b28ce16650d2c74e45138e606a6",
+    "scripts/plot_numerical_refinement.py": "796f476791ae1805d37a1737a1158725004e242009adfc297b4e795a83c41250",
+    "scripts/prepare_numerical_refinement.py": "92ff70444bbcf7f4c53e9cbef7857f0a984c934820335222e445312dc53d41b2",
+    "scripts/verify_numerical_refinement.py": "74af8f6587daff86f5e7a0e486f375eeb493cc119215d43ad01b992f6c1fedbb",
+    "tests/test_numerical_alignment.py": "e4ba26578f6f37e2f68def278f98998ca28ba3d7efb9009cfb19f199457b0cb0"
+  },
+  "physics_runs": 0,
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}
