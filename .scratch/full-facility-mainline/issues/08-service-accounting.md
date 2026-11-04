@@ -74,3 +74,8 @@ This resolves the finite ticket-08 accounting slice, not M1 or the complete
 research objective. State remains PRIVATE_PLANT_EVALUATOR_ONLY, research/model/
 training calls are zero, gain NOT_ESTABLISHED and field calibration PENDING.
 Global progress was not edited by this ticket.
+
+Post-integration target checks and fresh reads are recorded at
+`evidence/mainline/engineering/08-service/post-merge-81416154/integration-readback.json`.
+The latest accepted integration `81416154` was merged; only the eight service
+targets and sealed original-file reads were repeated, not the full regression.
