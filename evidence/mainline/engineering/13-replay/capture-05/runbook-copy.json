@@ -1,0 +1,27 @@
+{
+  "schema": "aegisdc-replay-binding-runbook-v1",
+  "classification": "ENGINEERING_CORRECTION_NOT_RESEARCH",
+  "reason": "Two independent v2-review P2 corrections: effective request binding and typed consistent interval time axes",
+  "core_pin": "e59d3ec16a598dde80cb9dcd1a26e695e2f2360c",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "seed": 1301,
+  "positive_cases": [
+    {"id": "explicit", "duration_s": 2, "maximum_step_s": 0.5, "default_overrides": {}, "expected_duration_s": 2, "expected_maximum_step_s": 0.5},
+    {"id": "defaults", "duration_s": null, "maximum_step_s": null, "default_overrides": {"duration": 3, "step_time": 0.25}, "expected_duration_s": 3, "expected_maximum_step_s": 0.25}
+  ],
+  "refusal_cases": [
+    {"id": "request-duration", "mutation": "duration_s", "value": 3, "stage": "replay_origin.request", "artifact": "request.json"},
+    {"id": "request-step", "mutation": "maximum_step_s", "value": 0.25, "stage": "replay_origin.request", "artifact": "request.json"},
+    {"id": "balance-time", "mutation": "balance_start", "value": "not-a-time", "stage": "replay_origin.trajectory_balances", "artifact": "trajectory/balances.jsonl"}
+  ],
+  "targets": ["test_mainline_replay", "test_replay_reader_authority", "test_replay_execution_binding"],
+  "prior_capture": "evidence/mainline/engineering/13-replay/capture-04",
+  "retained_indexes": ["docs/mainline/evidence/13-reader-v2.json", "evidence/mainline/engineering/13-replay/delivery-v2-3e508cbe-fresh-01.json"],
+  "retained_reviews": ["evidence/mainline/engineering/13-replay/review-reader-v2-spec", "evidence/mainline/engineering/13-replay/review-reader-v2-standards"],
+  "full_suite_policy": "NOT_RUN_BY_AUTHOR_THIS_REVISION; final root Torch suite is a separate later execution",
+  "historical_full": {"execution": "cf9b3390", "run": 345, "executed": 343, "optional_skips": 2},
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "scope": "Same full V6 eight-domain/four-relation synthetic research facility; short validation fixtures only, physical equations unchanged and numerical qualification remains independent"
+}
