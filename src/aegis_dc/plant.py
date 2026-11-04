@@ -91,6 +91,19 @@ def _code_identity():
             'source_tree_sha256': digest(files), 'files': files}
 
 
+class _InventorySum:
+    """Compensated accumulation of declared flux increments, without clipping."""
+
+    def __init__(self, initial):
+        self.total, self.correction = initial, 0.0
+
+    def add(self, value):
+        updated = self.total + value
+        self.correction = math.fsum([self.correction, self.total, value, -updated])
+        self.total = updated
+        return math.fsum([self.total, self.correction])
+
+
 class _Plant:
     def __init__(self, scenario, table):
         self.scenario, self.table = scenario, table
@@ -110,10 +123,12 @@ class _Plant:
         if self.reserve_model:
             self.energy['starter'] = p['generator_initial_start_energy']
         self.floor_mass = p['initial_floor_water_mass']
+        self.floor_mass_sum = _InventorySum(self.floor_mass)
         self.hot_mass = p['internal_hot_mass']
         self.floor_energy = self.floor_mass * p['water_specific_heat'] * p['room_ambient_temperature']
         self.room_access_blocked = self.environment_model and p['room_temperature'] >= p['maximum_room_work_temperature']
         self.floor_access_blocked = self.floor_mass >= p['access_block_mass']
+        self.floor_access_boundary_mass = self.floor_mass if self.floor_mass == p['access_block_mass'] else None
         self.control = {'mode': 'normal', 'protection_latched': False,
                         'compute_permitted': True, 'pump_speed_command': 1.0,
                         'local_measurement': None}
@@ -147,10 +162,26 @@ class _Plant:
     def discrete(self, time_s):
         p = self.p
         floor_inflow = p['floor_water_inflow'] + (p['internal_hot_leak_mass_flow'] if self.environment_model else 0)
-        if self.floor_access_blocked and self.floor_mass == p['access_block_mass'] \
-                and floor_inflow < p['drainage_mass_flow']:
-            self.floor_access_blocked = False
-            self.events.append({'time_s': time_s, 'kind': 'floor_access_opened', 'split_step': True})
+        floor_rate = floor_inflow - p['drainage_mass_flow']
+        threshold = p['access_block_mass']
+        projected = time_s + (threshold - self.floor_mass) / floor_rate if floor_rate else None
+        # A positive remaining mass can imply a crossing time that rounds to
+        # NOW, so filtering future events with value>now must not drop it.
+        # Process that time coordinate without changing any physical inventory.
+        at_boundary = (self.floor_mass == threshold
+            or (projected is not None and same_time(time_s, projected))
+            or self.floor_mass == self.floor_access_boundary_mass)
+        blocked = (floor_rate > 0 if floor_rate else self.floor_access_blocked) if at_boundary else self.floor_mass > threshold
+        if blocked != self.floor_access_blocked:
+            self.floor_access_blocked = blocked
+            self.events.append(dict(time_s=time_s, kind='floor_access_closed' if blocked else 'floor_access_opened',
+                split_step=True, projected_crossing_at_s=projected, actual_floor_mass_kg=self.floor_mass,
+                threshold_mass_kg=threshold, applied_at_s=time_s, direction_kg_s=floor_rate,
+                numerical_time_convention='aegisdc-binary64-time-v1'))
+        if at_boundary:
+            # Preserve a stationary boundary's logical side while its exact
+            # stored mass remains unchanged; no mass is snapped to threshold.
+            self.floor_access_boundary_mass = self.floor_mass
         if self.reserve_model:
             return
         if p['grid_capacity'] == 0 and self.energy['fuel'] > 0:
@@ -384,6 +415,13 @@ class _Plant:
                     raise ValueError('Hot-water inventory below the declared hydraulic validity minimum; low-inventory geometry is not modeled')
             pool = floor_water_step(old_floor, old_floor_energy, p['water_specific_heat'],
                 point['floor_inflow_kg_s'], point['floor_inlet_energy_W'], point['drain_kg_s'], dt)
+            self.floor_mass_sum.add(point['floor_inflow_kg_s'] * dt)
+            integrated_mass = self.floor_mass_sum.add(-point['drain_kg_s'] * dt)
+            if pool['mass_kg'] == 0:
+                # Retain the existing explicit empty-inventory event exactly.
+                self.floor_mass_sum = _InventorySum(0.0)
+            else:
+                pool['mass_kg'] = integrated_mass
         for name, rate in point['rates_W'].items():
             if rate < 0 and before[name] > 0 and math.isclose(dt, before[name] / -rate,
                                                             rel_tol=1e-12, abs_tol=1e-12) \
@@ -416,12 +454,22 @@ class _Plant:
                 self.events.append({'time_s': end, 'kind': 'room_work_access_closed' if rate > 0 else 'room_work_access_opened',
                                     'split_step': True, 'basis': 'DECLARED_RESEARCH_THRESHOLD_NOT_SITE_OR_OCCUPATIONAL_LIMIT'})
         threshold = p['access_block_mass']
-        if old_floor < threshold <= self.floor_mass and floor_rate > 0:
+        crossing = start + (threshold - old_floor) / floor_rate if floor_rate else None
+        crossing_due = crossing is not None and time_due(end, crossing)
+        if not self.floor_access_blocked and old_floor < threshold and floor_rate > 0 and (threshold <= self.floor_mass or crossing_due):
             self.floor_access_blocked = True
-            self.events.append({'time_s': end, 'kind': 'floor_access_closed', 'split_step': True})
-        elif self.floor_mass <= threshold < old_floor and floor_rate < 0:
+            self.floor_access_boundary_mass = self.floor_mass
+            self.events.append(dict(time_s=end, kind='floor_access_closed', split_step=True,
+                projected_crossing_at_s=crossing, actual_floor_mass_kg=self.floor_mass,
+                threshold_mass_kg=threshold, applied_at_s=end, direction_kg_s=floor_rate,
+                numerical_time_convention='aegisdc-binary64-time-v1'))
+        elif self.floor_access_blocked and threshold < old_floor and floor_rate < 0 and (self.floor_mass <= threshold or crossing_due):
             self.floor_access_blocked = False
-            self.events.append({'time_s': end, 'kind': 'floor_access_opened', 'split_step': True})
+            self.floor_access_boundary_mass = self.floor_mass
+            self.events.append(dict(time_s=end, kind='floor_access_opened', split_step=True,
+                projected_crossing_at_s=crossing, actual_floor_mass_kg=self.floor_mass,
+                threshold_mass_kg=threshold, applied_at_s=end, direction_kg_s=floor_rate,
+                numerical_time_convention='aegisdc-binary64-time-v1'))
         new_t = self.temperatures()
         for name, initial_parameter in [('solid', 'initial_solid_temperature'), ('room', 'room_temperature'),
                                         ('hot', 'initial_hot_temperature'), ('cold', 'initial_cold_temperature')]:
