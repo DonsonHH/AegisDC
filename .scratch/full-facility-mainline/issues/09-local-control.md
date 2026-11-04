@@ -89,3 +89,11 @@ six legacy inputs, 74 engineering files, twelve saved cases and six refusals.
 No indexed original helper, receipt, trace, failure or ledger is rewritten.
 This fix changes evidence tools/current explanations only, with no new plant run
 or repeated full regression; root artifact acceptance remains separate.
+
+V2 portability validation at tool commit `9ef2eb5a`: author-cache / fresh-missing-
+cache / fresh-different-cache all PASS; the original v1 fresh-tree failure and a
+v2 changed-self negative are preserved. `portable-v2-validation/receipt-v2.json`
+records the exact delivery classification and actual 363c5edf physical source.
+All original indexed observations remain unchanged; root performs the limited
+artifact-tool review/merge without treating the existing 263-test run as an
+artifact portability proof.

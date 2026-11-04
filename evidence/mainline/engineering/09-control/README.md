@@ -142,3 +142,14 @@ Subsequent V2 validation records cover an author tree, a separate fresh checkout
 with missing caches and the same checkout with deliberately different synthetic
 cache bytes. A deliberate change to the new verifier's test copy must fail its
 committed-self check. All original archived data remain untouched.
+
+
+The completed portable validation receipt is
+`portable-v2-validation/receipt-v2.json`. V2 passed in the author tree with its
+original caches, in a separate fresh checkout with both caches absent, and in
+that checkout with both cache files deliberately replaced by synthetic unrelated
+bytes. A changed test copy of the newly introduced verifier was correctly
+rejected by its committed-self identity check, then restored. All original 164
+local observation bytes remain unchanged in the author tree; the Git delivery
+claim remains exactly 162 durable files. No physical code/config changed and no
+plant simulation or full regression was repeated for this repair.
