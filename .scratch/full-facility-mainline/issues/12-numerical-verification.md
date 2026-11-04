@@ -19,3 +19,16 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+## Preserved input for the later qualification
+
+The independent 04–06 review retained a 432-case frozen-row mixture
+representation probe, including five mass-scaled nominal pure-vapor inputs
+strictly refused after encoded M/U/V reconstructs x=1.0000000000000002.
+The exact inputs, hexadecimal values, outcomes, implementation/table identities
+and a standalone reproducer are in
+`evidence/mainline/engineering/04-06-root-acceptance/endpoint-representation/`.
+Quantify this floating-point representation boundary together with the physical
+domain; do not silently clip quality, assume every nominal construction is
+exactly admissible, or call the finite probe empirical validation. This note
+does not start ticket 12 ahead of blocker 11.
