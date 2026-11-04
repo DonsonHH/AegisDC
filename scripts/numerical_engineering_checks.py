@@ -104,6 +104,8 @@ def inspect_run(item, manifest, scenario, trace, balances):
                 if len(matched_events) != 1:
                     raise ValueError('Missing/ambiguous explicitly anchored hand checkpoint')
                 matched_time = matched_events[0].get('applied_at_s', matched_events[0]['time_s'])
+                if abs(matched_time - when) > .001:
+                    raise ValueError('Identified actual checkpoint event exceeds the unchanged .001 s timing bound')
                 # Do not sweep a genuinely distinct nearby event into a
                 # checkpoint window. The identity-specific right limit is
                 # evaluated at the ACTUAL event, never claimed at target t.
