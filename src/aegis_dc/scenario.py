@@ -56,8 +56,13 @@ def _strings(value, label, *, allow_empty=False):
 
 
 def _number(value, label):
-    _require(type(value) in (int, float) and math.isfinite(value),
-             label + ' requires a finite number; missing is not zero')
+    valid = type(value) in (int, float)
+    if valid:
+        try:
+            valid = math.isfinite(float(value))
+        except OverflowError:
+            valid = False
+    _require(valid, label + ' requires a finite representable number; missing is not zero')
 
 
 def _fields(row, expected, label):

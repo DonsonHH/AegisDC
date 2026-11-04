@@ -53,7 +53,7 @@ class FullFacilityScenarioTests(unittest.TestCase):
     def test_active_parameters_require_finite_SI_values_ranges_and_provenance(self):
         cases = [
             ('value', None), ('value', True), ('value', float('inf')),
-            ('value', float('nan')), ('value', -1), ('value', 30000),
+            ('value', float('nan')), ('value', 10**400), ('value', -1), ('value', 30000),
             ('unit', 'kV'), ('quantity', 'unknown_quantity'),
             ('valid_range', [20000, 1000]), ('valid_range', [True, 20000]),
             ('source_note', ''), ('source_refs', ['not_a_source']),
