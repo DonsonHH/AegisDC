@@ -1,0 +1,115 @@
+{
+  "schema": "aegisdc-replay-engineering-runbook-v2",
+  "classification": "ENGINEERING_FIXTURES_NOT_RESEARCH_TRIALS",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "prior_runbook": "docs/mainline/11-coupled-runbook.json",
+  "seed": 1301,
+  "legacy_input_adapter": "M1 event rows split by the declared engineering-control authority; canonical time/parameter order, command ID uses original row index. Original literal outcomes and original checker remain unchanged.",
+  "retained_failed_captures": [
+    "evidence/mainline/engineering/13-replay/capture-01"
+  ],
+  "exact_replay_cases": [
+    "normal-600s",
+    "combined-episode-CLI"
+  ],
+  "causal_case": {
+    "duration_s": 2,
+    "maximum_step_s": 0.5,
+    "exogenous_events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "service_demand",
+        "value": 1,
+        "source_note": "Frozen synthetic offered demand; not deleted after protection."
+      },
+      {
+        "time_s": 0.25,
+        "parameter_id": "lake_temperature",
+        "value": 285,
+        "source_note": "Frozen synthetic weather boundary; evaluator only."
+      }
+    ],
+    "action_commands": [
+      {
+        "id": "close-internal-valve",
+        "time_s": 0.25,
+        "parameter_id": "internal_valve_opening",
+        "value": 0,
+        "source_note": "Predeclared engineering control, not professional repair or a policy trial."
+      }
+    ],
+    "independent_expectations": {
+      "baseline_delivered_service_unit_s": 2,
+      "command_delivered_service_unit_s": 1,
+      "offered_demand_service_unit_s_each": 2,
+      "internal_mass_flow_at_command_kg_s": 0,
+      "protection_trip_at_s": 1
+    }
+  },
+  "failure_source_case": "hot-inventory-domain-exit",
+  "required_refusals": [
+    "forbidden-demand-command",
+    "coincident-command-conflict",
+    "invalid-replay-origin",
+    "research-before-protocol",
+    "malformed-CLI-input",
+    "existing-output",
+    "reader-terminal-version",
+    "reader-declaration-version",
+    "reader-terminal-state",
+    "reader-invalid-lifecycle",
+    "reader-setup-interruption"
+  ],
+  "research_trials": 0,
+  "training_calls": 0,
+  "model_calls": 0,
+  "scope": "One complete V6 synthetic facility; exact replay, causal engineering input response, lifecycle and durable delivery only.",
+  "revision_reason": "Independent AAA Spec reader-authority correction; new v2 writers, bounded legacy read compatibility and explicit origin-refusal lifecycle. No research protocol/budget opened.",
+  "retained_successful_captures": [
+    "evidence/mainline/engineering/13-replay/capture-02"
+  ],
+  "retained_reviews": [
+    "evidence/mainline/engineering/13-replay/review-AAA-spec",
+    "evidence/mainline/engineering/13-replay/review-AAA-standards"
+  ],
+  "retained_indexes": [
+    "docs/mainline/evidence/13.json",
+    "evidence/mainline/engineering/13-replay/delivery-3e23431f-fresh-01.json"
+  ],
+  "reader_fixture_source": "evidence/mainline/engineering/13-replay/capture-02/causal-baseline",
+  "reader_cases": [
+    {
+      "id": "reader-terminal-version",
+      "mutation": "terminal_schema",
+      "read": "REFUSED",
+      "stage": "terminal_header"
+    },
+    {
+      "id": "reader-declaration-version",
+      "mutation": "declaration_schema",
+      "read": "REFUSED",
+      "stage": "declaration_header"
+    },
+    {
+      "id": "reader-terminal-state",
+      "mutation": "terminal_status",
+      "read": "REFUSED",
+      "stage": "terminal_header"
+    },
+    {
+      "id": "reader-invalid-lifecycle",
+      "mutation": "bad_lifecycle",
+      "read": "REFUSED",
+      "stage": "lifecycle"
+    },
+    {
+      "id": "reader-setup-interruption",
+      "mutation": "declaration_only",
+      "read": "UNFINALIZED_RUNNING_OR_INTERRUPTED",
+      "stage": "unfinalized_setup"
+    }
+  ],
+  "retained_preflight_records": [
+    "evidence/mainline/engineering/13-replay/preflight-03"
+  ]
+}

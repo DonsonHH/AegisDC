@@ -6,6 +6,7 @@ from .facility import load_model,describe,candidate_service_exposure
 from .risk import recommend
 from .scenario import load_scenario,describe_scenario
 from .plant import simulate_scenario,describe_run,save_run
+from .replay import record_files,replay_attempt
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -22,6 +23,18 @@ def main():
     run.add_argument('--duration',type=float)
     run.add_argument('--step',type=float)
     run.add_argument('--inputs',type=Path,help='Declared engineering work requests and timed boundary events')
+    record=sub.add_parser('record',help='Freeze and execute one private engineering attempt, including failures')
+    record.add_argument('--model',type=Path,default=ROOT/'configs/full-facility-mainline-reserve-v6.json')
+    record.add_argument('--inputs',type=Path,required=True)
+    record.add_argument('--output',type=Path,required=True)
+    record.add_argument('--duration',type=float)
+    record.add_argument('--step',type=float)
+    record.add_argument('--retry-of',type=Path)
+    record.add_argument('--retry-reason')
+    replay=sub.add_parser('replay',help='Re-execute frozen private inputs with exactly matching runtime bytes/interpreter')
+    replay.add_argument('--attempt',type=Path,required=True)
+    replay.add_argument('--output',type=Path,required=True)
+    replay.add_argument('--commands',type=Path,help='Explicit engineering command list for a paired exogenous re-execution')
     demo=sub.add_parser('risk-demo');demo.add_argument('--case',type=Path,default=ROOT/'configs/risk-method-demo.json');demo.add_argument('--output',type=Path)
     args=parser.parse_args()
     try:
@@ -49,6 +62,11 @@ def main():
                 inputs={name:inputs[name] for name in ('work_requests','boundary_events')}
             trajectory=simulate_scenario(load_scenario(args.model),duration_s=args.duration,step_s=args.step,**inputs)
             result=save_run(trajectory,args.output) if args.output else describe_run(trajectory)
+        elif args.command=='record':
+            result=record_files(args.model,args.inputs,args.output,duration_s=args.duration,step_s=args.step,
+                                retry_of=args.retry_of,retry_reason=args.retry_reason)
+        elif args.command=='replay':
+            result=replay_attempt(args.attempt,args.output,action_commands=args.commands)
         else:
             case=strict_json(args.case.read_text(encoding='utf-8'))
             if set(case)!={'schema','basis','facility_model','as_of_hour','questions','evidence'} or case['schema']!='aegisdc-risk-demo-v1' or case['basis']!='synthetic_assumption':
@@ -64,6 +82,8 @@ def main():
                 (args.output/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
     except (ValueError,KeyError,OSError) as error:parser.error(str(error))
     print(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False))
+    if args.command in {'record','replay'} and result['status']!='COMPLETED':
+        raise SystemExit(1)
 
 
 if __name__=='__main__':main()

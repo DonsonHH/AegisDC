@@ -1,0 +1,28 @@
+{
+  "classification": "ORIGIN_READER_ONLY_PROBE_NO_PLANT_EXECUTION",
+  "source_pin": "aaa4d8cba3738e47e700c2134000a72bd2390cc0",
+  "reader_sha256": "ddddf415f12ef1bedd8afa42d8a917ff8e530190651cd0d3eab3730265ef121f",
+  "malformed_lifecycle_raw_hex": "34320a",
+  "malformed_lifecycle_sha256": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+  "observed": [
+    {
+      "case": "interrupted_after_declaration_before_lifecycle",
+      "outcome": "RAISED",
+      "type": "FileNotFoundError",
+      "message": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\Donson\\\\AppData\\\\Local\\\\Temp\\\\aegisdc13-lifecycle-reader-r2xwe9ge\\\\declaration-only\\\\lifecycle.jsonl'"
+    },
+    {
+      "case": "invalid_typed_lifecycle_origin",
+      "outcome": "UNRECORDED_EXCEPTION",
+      "type": "AttributeError",
+      "message": "'int' object has no attribute 'get'",
+      "terminal_created": false
+    },
+    {
+      "case": "supported_started_only_control",
+      "outcome": "UNFINALIZED_RUNNING_OR_INTERRUPTED"
+    }
+  ],
+  "new_simulations": 0,
+  "note": "Temporary origins only; repository and frozen capture files untouched. Missing lifecycle after a written declaration is an interrupted setup window; typed malformed origin should be a retained failed replay request, not AttributeError."
+}

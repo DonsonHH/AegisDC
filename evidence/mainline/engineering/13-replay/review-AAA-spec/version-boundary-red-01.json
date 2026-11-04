@@ -1,0 +1,42 @@
+{
+  "classification": "COPY_ONLY_FORMAT_BOUNDARY_PROBE_NO_PLANT_EXECUTION",
+  "source_pin": "aaa4d8cba3738e47e700c2134000a72bd2390cc0",
+  "source_guard_before": {
+    "src/aegis_dc/replay.py": "ddddf415f12ef1bedd8afa42d8a917ff8e530190651cd0d3eab3730265ef121f",
+    "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+  },
+  "source_guard_after": {
+    "src/aegis_dc/replay.py": "ddddf415f12ef1bedd8afa42d8a917ff8e530190651cd0d3eab3730265ef121f",
+    "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+  },
+  "origin": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-13\\evidence\\mainline\\engineering\\13-replay\\capture-02\\causal-baseline",
+  "origin_attempt_sha256_preserved": "c702fbdc52b16d003acebf599e578160a0afa9ae1f05b6aefe99c1301728ee34",
+  "method": "Each mutation starts from a separate copy; declaration/lifecycle artifact SHA is updated only in the copy so the probe isolates missing version/state validation. Originals are never changed.",
+  "expected": "Unknown terminal/declaration versions and unknown finalized states should be rejected before interpretation/replay.",
+  "observed": [
+    {
+      "mutation": "terminal_schema",
+      "outcome": "ACCEPTED",
+      "returned_status": "COMPLETED",
+      "reader_returned_trajectory": true,
+      "mutated_record_schema": "aegisdc-facility-attempt-v999"
+    },
+    {
+      "mutation": "declaration_schema",
+      "outcome": "ACCEPTED",
+      "returned_status": "COMPLETED",
+      "reader_returned_trajectory": true,
+      "mutated_record_schema": "aegisdc-facility-attempt-v1"
+    },
+    {
+      "mutation": "terminal_status",
+      "outcome": "ACCEPTED",
+      "returned_status": "UNRECOGNIZED_TERMINAL_STATE",
+      "reader_returned_trajectory": false,
+      "mutated_record_schema": "aegisdc-facility-attempt-v1"
+    }
+  ],
+  "new_simulations": 0,
+  "full_regression_run": false,
+  "script_sha256": "0531480c2f781a1805ff5c23c142f595c44637ffa56bf7c7c62f5b31d0035716"
+}

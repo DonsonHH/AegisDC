@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "exact_pairs": {
+    "explicit": {
+      "status": "EXACT",
+      "execution_inputs": {
+        "duration_s": 2,
+        "maximum_step_s": 0.5
+      },
+      "states_each": 5,
+      "intervals_each": 4
+    },
+    "defaults": {
+      "status": "EXACT",
+      "execution_inputs": {
+        "duration_s": 3,
+        "maximum_step_s": 0.25
+      },
+      "states_each": 13,
+      "intervals_each": 12
+    }
+  },
+  "staged_refusals": {
+    "request-duration": {
+      "status": "FAILED_REQUEST",
+      "stage": "replay_origin.request",
+      "execution_kind": "NOT_STARTED",
+      "raw_bytes_preserved": true
+    },
+    "request-step": {
+      "status": "FAILED_REQUEST",
+      "stage": "replay_origin.request",
+      "execution_kind": "NOT_STARTED",
+      "raw_bytes_preserved": true
+    },
+    "balance-time": {
+      "status": "FAILED_REQUEST",
+      "stage": "replay_origin.trajectory_balances",
+      "execution_kind": "NOT_STARTED",
+      "raw_bytes_preserved": true
+    }
+  },
+  "completed_attempts": 4,
+  "failed_requests": 3,
+  "full_suite": "NOT_RUN_THIS_REVISION",
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

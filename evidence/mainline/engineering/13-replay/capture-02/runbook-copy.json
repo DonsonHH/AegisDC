@@ -1,0 +1,34 @@
+{
+  "schema": "aegisdc-replay-engineering-runbook-v1",
+  "classification": "ENGINEERING_FIXTURES_NOT_RESEARCH_TRIALS",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "prior_runbook": "docs/mainline/11-coupled-runbook.json",
+  "seed": 1301,
+  "legacy_input_adapter": "M1 event rows split by the declared engineering-control authority; canonical time/parameter order, command ID uses original row index. Original literal outcomes and original checker remain unchanged.",
+  "retained_failed_captures": ["evidence/mainline/engineering/13-replay/capture-01"],
+  "exact_replay_cases": ["normal-600s", "combined-episode-CLI"],
+  "causal_case": {
+    "duration_s": 2,
+    "maximum_step_s": 0.5,
+    "exogenous_events": [
+      {"time_s": 0.25, "parameter_id": "service_demand", "value": 1, "source_note": "Frozen synthetic offered demand; not deleted after protection."},
+      {"time_s": 0.25, "parameter_id": "lake_temperature", "value": 285, "source_note": "Frozen synthetic weather boundary; evaluator only."}
+    ],
+    "action_commands": [
+      {"id": "close-internal-valve", "time_s": 0.25, "parameter_id": "internal_valve_opening", "value": 0, "source_note": "Predeclared engineering control, not professional repair or a policy trial."}
+    ],
+    "independent_expectations": {
+      "baseline_delivered_service_unit_s": 2,
+      "command_delivered_service_unit_s": 1,
+      "offered_demand_service_unit_s_each": 2,
+      "internal_mass_flow_at_command_kg_s": 0,
+      "protection_trip_at_s": 1
+    }
+  },
+  "failure_source_case": "hot-inventory-domain-exit",
+  "required_refusals": ["forbidden-demand-command", "coincident-command-conflict", "invalid-replay-origin", "research-before-protocol", "malformed-CLI-input", "existing-output"],
+  "research_trials": 0,
+  "training_calls": 0,
+  "model_calls": 0,
+  "scope": "One complete V6 synthetic facility; exact replay, causal engineering input response, lifecycle and durable delivery only."
+}

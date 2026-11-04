@@ -1,0 +1,99 @@
+{
+  "schema": "aegisdc-mainline-ticket-implementation-v1",
+  "ticket": "13",
+  "status": "IMPLEMENTED_ENGINEERING_VERIFIED_PENDING_ROOT_REVIEW",
+  "branch": "donson/mainline-13-replay",
+  "execution_commit": "264e8423a8620d3a10bf3a9af863b212e9b37022",
+  "delivery_commit": "3e23431fc5a78b2748b1f72c3ed99a86fd2f8798",
+  "integration_ancestor": "08f2c1bc",
+  "shared_runtime_ancestors": ["cf1550cc", "8191244e", "8e57abb9"],
+  "facility": "same complete V6 Zhengzhou-inspired synthetic facility; eight domains and four shared-identity relations",
+  "contract": "docs/mainline/13-replay-contract.md",
+  "runbook": "docs/mainline/13-replay-runbook.json",
+  "execution_receipt": "evidence/mainline/engineering/13-replay/capture-02/receipt.json",
+  "fresh_delivery_receipt": "evidence/mainline/engineering/13-replay/delivery-3e23431f-fresh-01.json",
+  "fresh_checkout": ".work/replay13-fresh-3e23431f-01",
+  "durable_delivery": {
+    "declared_artifacts": 142,
+    "terminal_receipt": 1,
+    "runtime_source_entries": 17,
+    "pinned_tool_entries": 76,
+    "retained_prior_durable_files": 139,
+    "runtime_caches_required": 0,
+    "initial_pending_receipt_preserved": true,
+    "fresh_committed_blob_verification": "PASS",
+    "physics_rerun_for_delivery": false,
+    "full_suite_rerun_for_delivery": false
+  },
+  "behavior_checks": {
+    "exact_replay_pairs": [
+      {"case": "normal-600s", "state_points_each": 601, "intervals_each": 600},
+      {"case": "combined-episode-CLI", "state_points_each": 266, "intervals_each": 265}
+    ],
+    "equality_scope": "All run semantics including physical/control/service/personnel traces, balances, events, work records and inputs; only source/serialized-file identities excluded",
+    "inherited_independent_literal_checks": 31,
+    "independent_conservation_resource_accounts": "PASS",
+    "causal_engineering_pair": {
+      "same_config_and_exogenous_schedule": true,
+      "offered_service_unit_s_each": 2,
+      "baseline_delivered_service_unit_s": 2,
+      "command_delivered_service_unit_s": 1,
+      "command": "Internal-valve closure at .25 s, flow stops then existing 1 s PLC sampling trips compute",
+      "internal_thermal_trajectory_differs": true,
+      "command_origin": "engineering_control_command, separate from exogenous input"
+    },
+    "terminal_records": 13,
+    "completed_records": 6,
+    "expected_failed_records": 7,
+    "explicit_retries": 1,
+    "overwrite_and_invalid_JSON_CLI_preservation": "PASS",
+    "changed_source_or_interpreter_refusal": "Covered at public replay seam in full regression",
+    "unfinished_attempt": "UNFINALIZED_RUNNING_OR_INTERRUPTED; not silently retried or accepted"
+  },
+  "full_check": {
+    "executions": 1,
+    "run": 330,
+    "executed": 328,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "skip_scope": "Only the two pre-existing isolated optional Torch model checks",
+    "unexpected_skips": 0,
+    "verified_historical_originals": 20,
+    "overall": "PASS",
+    "source": "evidence/mainline/engineering/13-replay/capture-02/full-check/summary.json"
+  },
+  "retained_failure": {
+    "path": "evidence/mainline/engineering/13-replay/capture-01",
+    "execution_commit": "79e2f926003248dbecf3d28bf5a343bebf82a7e9",
+    "original_delivery_commit": "dcb118dc",
+    "engineering_capture": "FAIL",
+    "original_files": 139,
+    "full_check_executions": 0,
+    "reason": "Unchanged M1 verifier expected the old boundary-event contract; new origin/canonical adapter independently derives expected inputs from the pinned original case",
+    "original_receipt_or_trajectory_rewritten": false,
+    "fresh_historical_source_and_byte_preservation": "PASS"
+  },
+  "commands": {
+    "capture": "C:/Users/Donson/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -Xutf8 scripts/capture_replay_engineering.py --output evidence/mainline/engineering/13-replay/capture-02",
+    "fresh_verify": "C:/Users/Donson/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -Xutf8 scripts/verify_replay_delivery.py --directory evidence/mainline/engineering/13-replay/capture-02 --delivery-commit 3e23431fc5a78b2748b1f72c3ed99a86fd2f8798 --output C:/Users/Donson/Documents/ChatGPT/Renly/.work/worktrees/full-site-13/evidence/mainline/engineering/13-replay/delivery-3e23431f-fresh-01.json"
+  },
+  "scope_boundaries": [
+    "Deterministic engineering replay infrastructure, not numerical/step qualification of ticket 12 or completion of M2",
+    "Engineering parameter commands and finite work records do not implement professional diagnosis, repair, dispatch or risk-issue closure",
+    "Replay metadata, future fault schedules, commands, control flow and true state remain PRIVATE_PLANT_EVALUATOR_ONLY; tickets 14-15 must independently enforce available evidence",
+    "Research requests fail closed before the new ticket-30 frozen protocol and budget gate; this is not a registered research-attempt execution ledger",
+    "A changed runtime/interpreter is not silently called the same replay; later source changes need explicit new execution evidence",
+    "Original pre-meeting records, protocols, failures, M1 source/evidence and site-data uncertainties retain their original scope"
+  ],
+  "field_calibration": "PENDING",
+  "registered_research_trials": 0,
+  "research_protocol": null,
+  "research_budget": null,
+  "agent_model_calls": 0,
+  "training_calls": 0,
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "current_progress_fresh_read": {"current_ticket": "12", "current_milestone": "M2", "mainline_status": "active"},
+  "root_acceptance": "PENDING",
+  "overall_goal": "ACTIVE"
+}

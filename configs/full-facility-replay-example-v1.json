@@ -1,0 +1,22 @@
+{
+  "schema": "aegisdc-facility-replay-inputs-v1",
+  "seed": 1301,
+  "exogenous_events": [
+    {
+      "time_s": 0.25,
+      "parameter_id": "service_demand",
+      "value": 1.2,
+      "source_note": "Frozen synthetic offered service demand; unmet demand remains in the account."
+    }
+  ],
+  "action_commands": [
+    {
+      "id": "engineering-internal-shutoff",
+      "time_s": 0.5,
+      "parameter_id": "internal_valve_opening",
+      "value": 0,
+      "source_note": "Predeclared private engineering control fixture; no diagnosis, field repair or research benefit claim."
+    }
+  ],
+  "work_requests": []
+}

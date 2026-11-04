@@ -1,0 +1,28 @@
+{
+  "schema": "aegisdc-facility-replay-inputs-v1",
+  "seed": 1301,
+  "exogenous_events": [
+    {
+      "time_s": 0.25,
+      "parameter_id": "lake_temperature",
+      "value": 285,
+      "source_note": "Frozen synthetic weather boundary; evaluator only."
+    },
+    {
+      "time_s": 0.25,
+      "parameter_id": "service_demand",
+      "value": 1,
+      "source_note": "Frozen synthetic offered demand; not deleted after protection."
+    }
+  ],
+  "action_commands": [
+    {
+      "id": "close-internal-valve",
+      "time_s": 0.25,
+      "parameter_id": "internal_valve_opening",
+      "value": 0,
+      "source_note": "Predeclared engineering control, not professional repair or a policy trial."
+    }
+  ],
+  "work_requests": []
+}
