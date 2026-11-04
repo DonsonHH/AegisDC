@@ -1,0 +1,86 @@
+{
+  "schema": "aegisdc-mainline-ticket-candidate-v1",
+  "ticket": "11",
+  "status": "IMPLEMENTATION_VERIFIED_PENDING_ROOT_ACCEPTANCE",
+  "source_commit": "b135ecffb5fe5c3fecaa44859afbf925b8549bb1",
+  "original_delivery_commit": "1625764dd4c79a408ff13c76e8189ab8a7994769",
+  "plot_source_commit": "2727adfce8128feb543efd2f489d37eb4a9bbd73",
+  "visual_delivery_commit": "eb5df8e8bdd6448363b6bbcd29db86d439f22644",
+  "scope": "Same V6 complete synthetic facility; eight behavior domains and four relation semantics; accepted runtime/configs unchanged",
+  "artifacts": {
+    "entry": "evidence/mainline/engineering/11-coupled/README.md",
+    "original_receipt": "evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/receipt.json",
+    "physical_fresh_checkout_readback": "evidence/mainline/engineering/11-coupled/delivery-readback-1625764d-fresh-01.json",
+    "current_architecture": "evidence/mainline/engineering/11-coupled/architecture-v2-01/facility-architecture-v2.svg",
+    "visual_fresh_checkout_readback": "evidence/mainline/engineering/11-coupled/visual-delivery-readback-eb5df8e8-fresh-01.json",
+    "runbook": "docs/mainline/11-coupled-runbook.json",
+    "scope_and_hand_cases": "docs/mainline/11-coupled-acceptance.md"
+  },
+  "engineering": {
+    "cases": 17,
+    "independent_literal_conditions": 129,
+    "expected_refusals": 3,
+    "declared_originals": 125,
+    "state_points": 1272,
+    "intervals": 1255,
+    "normal_duration_s": 600,
+    "combined_episode": {
+      "duration_s": 240,
+      "demand_service_unit_s": 275,
+      "delivered_service_unit_s": 231.8,
+      "normalized_deficit_s": 36,
+      "leaked_water_kg": 20,
+      "drained_water_kg": 11.95,
+      "final_floor_water_kg": 8.05,
+      "work_aborted_at_s": 145.5,
+      "travel_person_s": 120,
+      "work_person_s": 25.25,
+      "tool_occupation_tool_s": 145.25
+    }
+  },
+  "full_acceptance": {
+    "full_regression_runs": 1,
+    "tests": {
+      "run": 306,
+      "executed": 304,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "optional_neural_skips": [
+        {
+          "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+          "reason": "Optional isolated Torch runtime is required for neural model checks"
+        },
+        {
+          "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+          "reason": "Optional isolated Torch runtime is required for neural model checks"
+        }
+      ],
+      "unexpected_skips": [],
+      "gate": "PASS"
+    },
+    "verified_old_original_files": 20
+  },
+  "fresh_delivery": {
+    "physical": "PASS",
+    "visual": "PASS",
+    "runtime_caches_required": 0,
+    "original_pending_receipts_preserved": true,
+    "physics_rerun": false,
+    "full_suite_rerun": false
+  },
+  "review": {
+    "root_dual_axis_and_M1_acceptance": "PENDING",
+    "spec_visual_findings": 1,
+    "correction": "Independent architecture v2 follows V6 bidirectional access, avoids a4 crossing loc_hx, and preserves all old bytes",
+    "root_delta_review": "PENDING",
+    "preparation_corrections_are_not_runtime_findings": true
+  },
+  "M1_gate": "PENDING_ROOT_ACCEPTANCE",
+  "registered_research_trials": 0,
+  "simulation_model_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "research_gain": "NOT_ESTABLISHED",
+  "overall_goal": "ACTIVE"
+}

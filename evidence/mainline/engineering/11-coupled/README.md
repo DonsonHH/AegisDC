@@ -29,7 +29,19 @@ $env:PYTHONPATH='src'
 & 'C:/Users/Donson/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' scripts/capture_coupled_engineering.py --output evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01 --plot-dependencies C:/Users/Donson/Documents/ChatGPT/Renly/.work/paper-writing-deps
 ```
 
-原输出已封存，不重复使用该目录。执行收据的初始 `PENDING_COMMIT_AND_FRESH_CHECKOUT` 状态保持原样；后续交付证明单独记录。新 checkout 读回需要执行与交付历史 Git 对象，不能用默认 shallow checkout 冒称历史源码核验。读回不重跑物理或全套。
+原输出已封存，不重复使用该目录。执行收据的初始 `PENDING_COMMIT_AND_FRESH_CHECKOUT` 状态保持原样；[原包新 checkout 交付证明](delivery-readback-1625764d-fresh-01.json) 单独记录，按执行 b135 验源码、按交付 `1625764d` 验 Git blobs，全部通过。[独立架构修订交付证明](visual-delivery-readback-eb5df8e8-fresh-01.json) 从新 checkout `eb5df8e8` 验证绘图源 `2727adfc`、3 个声明原件、37 个源关系与 5 条双向访问边，同时核对原 162 输入字节未变。两次读回均不重跑物理或全套。新 checkout 读回需要执行与交付历史 Git 对象，不能用默认 shallow checkout 冒称历史源码核验。
+
+原包读回命令：
+
+```powershell
+python scripts/verify_coupled_delivery.py --directory evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01 --delivery-commit 1625764dd4c79a408ff13c76e8189ab8a7994769 --output NEW-READBACK.json
+```
+
+架构修订从独立提交生成，并使用下列无仿真读回；命令须在含对应文件与历史 Git 对象的 checkout 执行，输出另用新路径：
+
+```powershell
+python scripts/verify_coupled_architecture_v2.py --directory evidence/mainline/engineering/11-coupled/architecture-v2-01 --delivery-commit eb5df8e8bdd6448363b6bbcd29db86d439f22644 --original-delivery-commit 1625764dd4c79a408ff13c76e8189ab8a7994769 --output NEW-VISUAL-READBACK.json
+```
 
 `development/` 保留准备失败与纠正：缺 runbook、作者排水手算错误，以及作者读回器把外部 nuisance-water 携能字段误认为总流入。这些不是运行器缺陷。叶 `.gitattributes` 仅把原 PowerShell 日志 CRLF 认作行尾，并精确标记三张生成 SVG 的坐标空格；原字节与哈希保留，其他源码/文档空白检查继续。
 
