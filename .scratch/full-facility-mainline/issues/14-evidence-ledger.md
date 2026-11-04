@@ -4,7 +4,7 @@
 
 **Blocked by:** 12, 13
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
