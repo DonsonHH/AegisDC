@@ -7,6 +7,15 @@ and [raw acceptance](acceptance-d6842591/summary.json) preserve source identitie
 The original author's 247 collected /245 executed /2 optional skips remains
 separate from this later root run.
 
+![Hot-water leakage, sensible heat and work interruption](figures/leak-and-work.png)
+
+The figure uses the preserved `5ca3c3a0` engineering run. Its mass, heat and work
+accounts reconcile with the saved intervals. At 10 s, 20 kg has left the internal
+loop, 19 kg remains on the floor and 1 kg has drained out. PNG/SVG were inspected
+for visible series, units and annotations; line styles distinguish the series.
+[Editable SVG](figures/leak-and-work.svg) · [data identity](figures/leak-and-work.json)
+· [figure author](../../../../scripts/plot_mainline_environment.py).
+
 ## What now acts in the facility
 
 ```mermaid
