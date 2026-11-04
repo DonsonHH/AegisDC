@@ -1,0 +1,511 @@
+{
+  "schema": "aegisdc-reserve-engineering-runbook-v1",
+  "recorded_date": "2026-11-05",
+  "scope": "ENGINEERING_FIXTURES_ONLY; not independent policy-effect confirmation or field calibration",
+  "source_profile": "configs/full-facility-mainline-reserve-v6.json",
+  "expected_basis": "Independent literal energy/time/port budgets and declared qualitative conservation/protection cases; all development observations retained separately",
+  "absolute_metric_tolerance": 0.00001,
+  "cases": [
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {},
+      "id": "normal",
+      "duration_s": 30,
+      "overrides": {},
+      "expected": {
+        "demand_service_unit_s": 30,
+        "delivered_service_unit_s": 30,
+        "service_deficit_time_s": 0,
+        "reserve_external_electric_heat_J": 300,
+        "backup_fan_energy_J": 0,
+        "starter_output_energy_J": 0
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "ups_depleted_at_s": 32.6
+      },
+      "id": "UPS-hand",
+      "duration_s": 33,
+      "overrides": {
+        "grid_capacity": 0,
+        "ups_energy": 3632600,
+        "ups_discharge_efficiency": 0.9,
+        "ups_internal_control_power": 1000,
+        "generator_initial_start_energy": 0,
+        "diesel_initial_fuel_energy": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "room_aux_power": 0,
+        "room_conductance": 0,
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "initial_hot_temperature": 300,
+        "initial_cold_temperature": 300,
+        "pump_pressure_rise": 346500,
+        "lake_hydraulic_resistance": 31650000,
+        "internal_pump_pressure_rise": 309375,
+        "internal_hydraulic_resistance": 18151041.666666664
+      },
+      "expected": {
+        "demand_service_unit_s": 33,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 33,
+        "ups_output_energy_J": 3272600,
+        "ups_loss_energy_J": 360000,
+        "reserve_room_control_heat_J": 32600
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "fuel_depleted_at_s": 15
+      },
+      "id": "generator-hand",
+      "duration_s": 16,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 2,
+        "diesel_initial_fuel_energy": 42750,
+        "generator_initial_start_energy": 10000,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "room_aux_power": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0
+      },
+      "expected": {
+        "demand_service_unit_s": 16,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 16,
+        "generator_output_energy_J": 11100,
+        "generator_waste_energy_J": 31650,
+        "starter_output_energy_J": 3060
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "final_starter_energy_J": 0,
+        "final_generator_mode": "starter_depleted"
+      },
+      "id": "starter-empty",
+      "duration_s": 2,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "generator_initial_start_energy": 0,
+        "diesel_initial_fuel_energy": 1000000
+      },
+      "expected": {
+        "demand_service_unit_s": 2,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 2,
+        "generator_output_energy_J": 0,
+        "starter_output_energy_J": 0
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "starter_depleted_at_s": 0.2,
+        "final_starter_energy_J": 0,
+        "final_generator_mode": "starter_depleted"
+      },
+      "id": "starter-exhausted",
+      "duration_s": 2,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "generator_initial_start_energy": 202,
+        "diesel_initial_fuel_energy": 1000000
+      },
+      "expected": {
+        "demand_service_unit_s": 2,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 2,
+        "generator_output_energy_J": 0,
+        "starter_output_energy_J": 202,
+        "generator_waste_energy_J": 200
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "no_main_PLC_or_protected_output": true,
+        "no_cooling_request": true
+      },
+      "id": "common-distribution",
+      "duration_s": 6,
+      "overrides": {
+        "shared_distribution_available": 0,
+        "diesel_start_time": 3,
+        "backup_cooling_requested": 1
+      },
+      "expected": {
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 6,
+        "generator_output_energy_J": 0,
+        "starter_output_energy_J": 3060,
+        "backup_fan_energy_J": 0
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 1,
+          "parameter_id": "diesel_in_service",
+          "value": 1,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {},
+      "id": "generator-maintenance",
+      "duration_s": 8,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_in_service": 0
+      },
+      "expected": {
+        "demand_service_unit_s": 8,
+        "delivered_service_unit_s": 2,
+        "service_deficit_time_s": 6
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 6,
+          "parameter_id": "diesel_transfer_ok",
+          "value": 1,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {},
+      "id": "generator-transfer-failure",
+      "duration_s": 12,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_transfer_ok": 0
+      },
+      "expected": {
+        "demand_service_unit_s": 12,
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 11
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "cooling_requested_at_s": 5
+      },
+      "id": "main-PLC-after-generator",
+      "duration_s": 8,
+      "overrides": {
+        "grid_capacity": 0,
+        "ups_in_service": 0,
+        "diesel_start_time": 3,
+        "backup_cooling_requested": 1
+      },
+      "expected": {
+        "demand_service_unit_s": 8,
+        "delivered_service_unit_s": 3,
+        "service_deficit_time_s": 5,
+        "backup_fan_energy_J": 20000,
+        "ups_output_energy_J": 500,
+        "ups_loss_energy_J": 0
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {},
+      "id": "backup-limited",
+      "duration_s": 4,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 4,
+        "service_deficit_time_s": 0,
+        "backup_water_heat_J": 600000,
+        "backup_fan_energy_J": 40000,
+        "reserve_external_electric_heat_J": 40040
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 3,
+          "parameter_id": "backup_heat_capacity",
+          "value": 0,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        },
+        {
+          "time_s": 5,
+          "parameter_id": "backup_heat_capacity",
+          "value": 300000,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {},
+      "id": "backup-capacity-loss",
+      "duration_s": 6,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000
+      },
+      "expected": {
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 6,
+        "service_deficit_time_s": 0,
+        "backup_water_heat_J": 600000,
+        "backup_fan_energy_J": 80000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 3,
+          "parameter_id": "backup_cooling_transfer_ok",
+          "value": 0,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        },
+        {
+          "time_s": 4,
+          "parameter_id": "backup_cooling_transfer_ok",
+          "value": 1,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {},
+      "id": "backup-valve-failure",
+      "duration_s": 7,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000
+      },
+      "expected": {
+        "demand_service_unit_s": 7,
+        "delivered_service_unit_s": 7,
+        "service_deficit_time_s": 0,
+        "backup_water_heat_J": 600000,
+        "backup_fan_energy_J": 40000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 1,
+          "parameter_id": "backup_cooling_in_service",
+          "value": 1,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {},
+      "id": "backup-maintenance",
+      "duration_s": 4,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000,
+        "backup_cooling_in_service": 0
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 4,
+        "service_deficit_time_s": 0,
+        "backup_water_heat_J": 300000,
+        "backup_fan_energy_J": 20000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "final_hot_mass_kg": 9988,
+        "final_floor_mass_kg": 12,
+        "floor_energy_equals_leak": true,
+        "protection_latched": true
+      },
+      "id": "leak-biased-control",
+      "duration_s": 6,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000,
+        "internal_hot_leak_mass_flow": 2,
+        "drainage_mass_flow": 0,
+        "local_temperature_bias": 40
+      },
+      "expected": {
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 6,
+        "backup_water_heat_J": 1200000,
+        "backup_fan_energy_J": 80000,
+        "internal_hot_leaked_mass_kg": 12
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {},
+      "id": "warm-external-sink",
+      "duration_s": 4,
+      "overrides": {
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 300000,
+        "room_ambient_temperature": 313.15
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 4,
+        "service_deficit_time_s": 0,
+        "backup_water_heat_J": -600000,
+        "backup_fan_energy_J": 40000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "positive_service_deficit": true,
+        "true_temperature_at_first_trip_min_K": 304.6
+      },
+      "id": "cold-loss-service",
+      "duration_s": 20,
+      "overrides": {
+        "pump_pressure_rise": 0,
+        "backup_cooling_requested": 1,
+        "backup_heat_capacity": 0,
+        "protection_temperature": 304.6,
+        "protection_reset_temperature": 304.5
+      },
+      "expected": {
+        "demand_service_unit_s": 20,
+        "backup_water_heat_J": 0,
+        "backup_fan_energy_J": 360000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 1,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {
+        "cooling_requested_at_s": 1
+      },
+      "id": "CLI-paid-command",
+      "duration_s": 4,
+      "overrides": {},
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 4,
+        "service_deficit_time_s": 0,
+        "backup_fan_energy_J": 20000
+      },
+      "via_cli": true
+    },
+    {
+      "step_s": 1,
+      "events": [],
+      "checks": {
+        "initial_UPS_mode": "bypass"
+      },
+      "id": "partial-fan",
+      "duration_s": 4,
+      "overrides": {
+        "grid_capacity": 25310,
+        "backup_cooling_requested": 1
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 4,
+        "backup_fan_energy_J": 10000
+      }
+    },
+    {
+      "step_s": 1,
+      "events": [
+        {
+          "time_s": 2.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 0,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {
+        "UPS_requested_at_3": true
+      },
+      "id": "return-primary-step-1",
+      "duration_s": 4,
+      "overrides": {
+        "grid_capacity": 25310,
+        "backup_cooling_requested": 1
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 4,
+        "backup_fan_energy_J": 5000,
+        "ups_output_energy_J": 13142.857142857141
+      }
+    },
+    {
+      "step_s": 0.25,
+      "events": [
+        {
+          "time_s": 2.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 0,
+          "source_note": "Ticket 10 frozen synthetic engineering boundary; not a site fault/repair record."
+        }
+      ],
+      "checks": {
+        "UPS_requested_at_3": true
+      },
+      "id": "return-primary-step-0.25",
+      "duration_s": 4,
+      "overrides": {
+        "grid_capacity": 25310,
+        "backup_cooling_requested": 1
+      },
+      "expected": {
+        "demand_service_unit_s": 4,
+        "delivered_service_unit_s": 0,
+        "service_deficit_time_s": 4,
+        "backup_fan_energy_J": 5000,
+        "ups_output_energy_J": 13142.857142857141
+      }
+    }
+  ],
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}
