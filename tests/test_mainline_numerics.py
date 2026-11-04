@@ -5,7 +5,8 @@ from pathlib import Path
 import unittest
 
 from aegis_dc.plant import simulate_scenario
-from aegis_dc.scenario import load_scenario
+from aegis_dc.scenario import load_scenario, validate_scenario
+from aegis_dc.thermodynamics import SaturationTable
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNBOOK = ROOT / 'docs/mainline/12-numerical-runbook.json'
@@ -107,6 +108,27 @@ class FullFacilityNumericalTests(unittest.TestCase):
         self.assertEqual(result['work_records'][0]['status'], 'working')
         self.assertAlmostEqual(result['summary']['worker_work_person_s'], .4, delta=1e-12)
         self.assertAlmostEqual(result['trace'][-1]['domains']['space_access']['floor_water_mass_kg'], .56)
+
+    def test_dimensionally_incompatible_heat_mass_and_power_units_are_refused(self):
+        for identifier, wrong_unit in [('water_specific_heat', 'J/kg'),
+                                        ('coolant_inventory', 'kg/s'), ('grid_capacity', 'J')]:
+            with self.subTest(parameter=identifier):
+                scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                next(row for row in scenario['parameters'] if row['id'] == identifier)['unit'] = wrong_unit
+                with self.assertRaises(ValueError):
+                    validate_scenario(scenario)
+
+    def test_five_original_encoded_vapor_endpoint_refusals_remain_strict(self):
+        path = ROOT / 'evidence/mainline/engineering/04-06-root-acceptance/endpoint-representation/probe-result-01.json'
+        old = json.loads(path.read_text(encoding='utf-8'))
+        table = SaturationTable.from_file(ROOT / 'configs/materials/reference-r134a-saturation.json')
+        refused = [row for row in old['all_outcomes'] if row['outcome']['status'] == 'REFUSED']
+        self.assertEqual(len(refused), 5)
+        for row in refused:
+            with self.subTest(inputs=row['inputs_float_hex']):
+                self.assertGreater(row['representation_observation']['reconstructed_quality'], 1)
+                with self.assertRaisesRegex(ValueError, 'exactly one domain-valid root'):
+                    table.flash(**row['inputs'])
 
 
 if __name__ == '__main__':
