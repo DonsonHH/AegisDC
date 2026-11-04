@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** resolved
+**Status:** claimed
 
 **Milestone:** M2
 
@@ -17,6 +17,14 @@
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
 ## Evidence
+
+Second review follow-up (candidate `9a68ea7f`): the original authority and
+attribute findings remain closed, while two new distinct P2 cases require
+request-to-execution binding and balance-timestamp validation. Their original
+reports/probes are retained under `review-reader-v2-spec` and
+`review-reader-v2-standards`. Captures 01/02/04, their full checks, and both
+existing candidate indexes retain their actual source identities; they are
+not new-source acceptance for this correction.
 
 Review history: reopened after independent Spec review of `aaa4d8cb`: unsupported terminal /
 declaration versions and malformed/incomplete lifecycle origins were not

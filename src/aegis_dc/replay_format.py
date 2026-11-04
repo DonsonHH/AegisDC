@@ -202,6 +202,22 @@ def completed_request(value):
     return value
 
 
+def bind_execution_inputs(request, scenario, terminal, run_inputs):
+    """Resolve request defaults and bind them to both recorded actual inputs."""
+    result = {}
+    for name, parameter in (('duration_s', 'duration'), ('maximum_step_s', 'step_time')):
+        effective = request[name]
+        if effective is None:
+            _require(isinstance(scenario, dict) and isinstance(scenario.get('parameters'), list), 'Frozen scenario lacks request defaults')
+            matches = [row for row in scenario['parameters'] if isinstance(row, dict) and row.get('id') == parameter]
+            _require(len(matches) == 1, 'Frozen scenario requires one default for ' + parameter)
+            effective = matches[0].get('value')
+        _require(_positive(effective) and _positive(terminal.get(name)) and _positive(run_inputs.get(name)), 'Invalid effective execution input ' + name)
+        _require(effective == terminal[name] == run_inputs[name], 'Request effective ' + name + ' differs from the frozen actual execution')
+        result[name] = terminal[name]
+    return result
+
+
 def engineering_run_header(value):
     _require(isinstance(value, dict) and value.get('schema') == 'aegisdc-engineering-facility-run-v1', 'Unsupported private trajectory schema/version')
     _require(value.get('status') == 'ENGINEERING_FIXTURE_COMPLETED' and value.get('state_visibility') == 'PRIVATE_PLANT_EVALUATOR_ONLY', 'Invalid trajectory status/visibility')
@@ -224,4 +240,26 @@ def trace_rows(rows):
 def balance_rows(rows):
     _require(isinstance(rows, list) and bool(rows), 'Invalid interval balance sequence')
     _require(all(isinstance(row, dict) and {'start_s', 'end_s'} <= set(row) for row in rows), 'Invalid interval balance row structure')
+    for index, row in enumerate(rows):
+        _require(type(row['start_s']) in (int, float) and (row['start_s'] == 0 or _positive(row['start_s']))
+                 and _positive(row['end_s']), 'Balance timestamps require finite nonnegative numeric values')
+        _require(row['end_s'] > row['start_s'], 'Balance interval must have positive duration')
+        if index:
+            _require(row['start_s'] == rows[index - 1]['end_s'], 'Balance intervals must be contiguous and nonoverlapping')
+    return rows
+
+
+def balance_time_axis(rows, trace, duration_s, maximum_step_s):
+    """Check saved coordinates against their trace and frozen run boundaries."""
+    _require(len(trace) == len(rows) + 1, 'Balance/trace interval counts differ')
+    _require(trace[0]['time_s'] == rows[0]['start_s'] == 0
+             and trace[-1]['time_s'] == rows[-1]['end_s'] == duration_s,
+             'Balance/trace time axis must cover exactly the frozen run')
+    for index, row in enumerate(rows):
+        _require(row['start_s'] == trace[index]['time_s'] and row['end_s'] == trace[index + 1]['time_s'],
+                 'Balance interval coordinates differ from the stored trace')
+        _require(0 <= row['start_s'] < row['end_s'] <= duration_s, 'Balance interval is outside the frozen run')
+        # This is the same declared coordinate upper bound, not a physical
+        # tolerance or a subtraction-based test that can add rounding error.
+        _require(row['end_s'] <= row['start_s'] + maximum_step_s, 'Balance interval exceeds the frozen maximum step')
     return rows

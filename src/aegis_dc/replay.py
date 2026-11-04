@@ -16,7 +16,7 @@ from uuid import uuid4
 from patrol_rsi.contracts import digest, strict_json
 from .plant import ENGINEERING_COMMAND_PARAMETERS, save_run, simulate_scenario
 from .scenario import validate_scenario
-from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, completed_request, declaration_header,
+from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, bind_execution_inputs, completed_request, declaration_header,
                             engineering_run_header, lifecycle_rows, terminal_header, trace_rows)
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -288,7 +288,7 @@ def _read_attempt(directory):
                                 status='UNFINALIZED_RUNNING_OR_INTERRUPTED',
                                 attempt_id=lifecycle[0].get('attempt_id') if lifecycle else None),
                     record_sha256=None, scenario=None, inputs=None, submitted_inputs=None,
-                    request=None, run=None, integrity='UNFINALIZED', lifecycle=lifecycle)
+                    request=None, execution_inputs=None, run=None, integrity='UNFINALIZED', lifecycle=lifecycle)
     record = _checked_read(directory, 'attempt.json', 'terminal_header', terminal_header)
     actual = {path.relative_to(directory).as_posix() for path in directory.rglob('*')
               if path.is_file() and not _runtime_cache(path)}
@@ -324,7 +324,7 @@ def _read_attempt(directory):
         raise ValueError('Frozen input identity differs from the executed attempt')
     if 'scenario_sha256' in record and digest(scenario) != record['scenario_sha256']:
         raise ValueError('Frozen scenario identity differs from the executed attempt')
-    run = None
+    run, execution_inputs = None, None
     if record['status'] == 'COMPLETED':
         if request is None:
             raise AttemptReadError('request', 'request.json', 'Completed attempt lacks its request')
@@ -332,6 +332,14 @@ def _read_attempt(directory):
         run.update(source_config=_checked_read(directory, 'trajectory/scenario.json', 'trajectory_scenario'),
                    trace=_checked_read(directory, 'trajectory/private-state.jsonl', 'trajectory_trace', trace_rows, lines=True),
                    balances=_checked_read(directory, 'trajectory/balances.jsonl', 'trajectory_balances', balance_rows, lines=True))
+        try:
+            execution_inputs = bind_execution_inputs(request, scenario, record, run['inputs'])
+        except ValueError as error:
+            raise AttemptReadError('request', 'request.json', str(error)) from error
+        try:
+            balance_time_axis(run['balances'], run['trace'], **execution_inputs)
+        except ValueError as error:
+            raise AttemptReadError('trajectory_balances', 'trajectory/balances.jsonl', str(error)) from error
         if any(run['code_identity'][field] != source[field]
                for field in ('files', 'source_tree_sha256', 'git_commit', 'implementation_has_changes')) \
                 or run['scenario_sha256'] != record['scenario_sha256'] or run['source_config'] != scenario:
@@ -344,7 +352,7 @@ def _read_attempt(directory):
             raise ValueError('Private trajectory input identity differs from the frozen attempt')
     return dict(record=record, record_sha256=_file_sha(directory / 'attempt.json'),
                 scenario=scenario, inputs=frozen, submitted_inputs=submitted,
-                request=request, run=run)
+                request=request, execution_inputs=execution_inputs, run=run)
 
 
 def replay_attempt(original, directory, *, action_commands=None):
@@ -367,13 +375,13 @@ def replay_attempt(original, directory, *, action_commands=None):
                              replay_of=dict(attempt_id=prior['record']['attempt_id'], attempt_sha256=prior['record_sha256']),
                              preflight_error='Failed origins require an explicit retry, not replay', origin_directory=original,
                              preflight_stage='replay_origin.failed_origin')
-    request = prior['request']
+    execution_inputs = prior['execution_inputs']
     inputs = deepcopy(prior['inputs'])
     command_file = isinstance(action_commands, (str, Path))
     if action_commands is not None and not command_file:
         inputs['action_commands'] = action_commands
     return _run_recorded(prior['scenario'], directory, inputs=inputs,
-                         duration_s=request['duration_s'], step_s=request['maximum_step_s'],
+                         duration_s=execution_inputs['duration_s'], step_s=execution_inputs['maximum_step_s'],
                          required_source=prior['record']['source_identity'],
                          origin_directory=original,
                          replay_of=dict(attempt_id=prior['record']['attempt_id'],

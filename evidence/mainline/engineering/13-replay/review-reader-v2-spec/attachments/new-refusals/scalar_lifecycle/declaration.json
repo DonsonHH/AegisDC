@@ -1,0 +1,40 @@
+{
+  "schema": "aegisdc-attempt-declaration-v2",
+  "required_when_completed": [
+    "declaration.json",
+    "frozen-inputs.json",
+    "inputs.json",
+    "lifecycle.jsonl",
+    "origin/declaration.json",
+    "origin/lifecycle.jsonl",
+    "request.json",
+    "scenario-input.json",
+    "trajectory/balances.jsonl",
+    "trajectory/private-state.jsonl",
+    "trajectory/run.json",
+    "trajectory/scenario.json"
+  ],
+  "allowed_before_finalization": [
+    "declaration.json",
+    "frozen-inputs.json",
+    "inputs.json",
+    "lifecycle.jsonl",
+    "origin/declaration.json",
+    "origin/lifecycle.jsonl",
+    "request.json",
+    "scenario-input.json",
+    "trajectory/balances.jsonl",
+    "trajectory/private-state.jsonl",
+    "trajectory/run.json",
+    "trajectory/scenario.json"
+  ],
+  "lifecycle_schema": "aegisdc-attempt-lifecycle-v1",
+  "origin_snapshot_files": [
+    "origin/declaration.json",
+    "origin/lifecycle.jsonl"
+  ],
+  "terminal_manifest": "attempt.json",
+  "runtime_caches": "NOT_DELIVERABLE",
+  "tools": "source_identity in terminal manifest; runtime bytes plus exact Python version",
+  "incomplete": "STARTED without terminal manifest is running or interrupted, never success"
+}

@@ -115,6 +115,22 @@ missing bytes are not fabricated. Unknown or unfinished origins are never
 promoted to completed or failed historical attempts. The new FAILED record
 describes the refused request, not the unknown historical outcome.
 
+Execution-binding reader revision (v3 correction, stored formats stay v1/v2):
+for a completed origin, null request duration/step resolves only through the
+frozen scenario's `duration`/`step_time` parameters. Those effective values must
+equal both the terminal's actual inputs and `run.inputs`. The reader exposes
+only the validated actual values as `execution_inputs`; replay uses those
+values rather than reinterpreting the original request. Any disagreement is
+`AttemptReadError(stage='request', artifact='request.json')`, so refusal records
+retain the exact conflicting request bytes.
+
+Balance coordinates must be finite numeric seconds (not booleans), with
+nonnegative starts and strictly positive intervals. They form one contiguous,
+nonoverlapping partition whose coordinates match successive saved trace
+points, begin at zero, end at the frozen actual duration and respect the
+declared maximum-step coordinate bound. These are consistency checks on saved
+coordinates, not new physical equations or a widened numerical tolerance.
+
 There are no automatic retries. An engineering retry must use a new directory
 and explicitly name the prior finalized FAILED attempt and a nonempty reason.
 The new record pins the prior attempt ID/hash. Corrected configuration or code
