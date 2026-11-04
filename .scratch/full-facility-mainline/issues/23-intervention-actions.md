@@ -16,6 +16,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+Apply `docs/mainline/information-boundary.md` to proposal validation and execution acknowledgments. Backend safety checks may use actual state; information returned to dispatch needs a declared channel, timing and resource accounting, including failed attempts. Repeated zero-cost rejection queries cannot become an undeclared inspection mechanism.
+
 ## Evidence
 
 Pending implementation and acceptance.

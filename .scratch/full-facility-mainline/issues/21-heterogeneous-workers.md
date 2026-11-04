@@ -18,6 +18,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+Apply `docs/mainline/information-boundary.md` to access and task feasibility. Unknown actual closures must not leak through pre-travel masks or free remote queries; a declared remote status channel or timed observation at a safe access point can supply legitimate evidence. Retain incurred travel, waiting and resource costs.
+
 ## Evidence
 
 Pending implementation and acceptance.
