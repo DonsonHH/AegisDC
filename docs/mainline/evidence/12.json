@@ -1,0 +1,171 @@
+{
+  "schema": "aegisdc-mainline-ticket-candidate-v1",
+  "ticket": "12",
+  "status": "IMPLEMENTED_VERIFIED_PENDING_ROOT_ACCEPTANCE",
+  "milestone": "M2",
+  "implementation_base": "77660da5",
+  "numeric_kernel_commit": "8e57abb9",
+  "final_authoring_commit": "dac0df3df23c60eece75fb74528f4f5ff4d746eb",
+  "final_data_delivery_commit": "39d48b6781201a783702145324b7964d083691dc",
+  "entry": "evidence/mainline/engineering/12-numerical/final-entry-01/README.md",
+  "scope_document": "docs/mainline/12-numerical-qualification.md",
+  "declared_finite_full_facility_cases": 11,
+  "finite_case_gate": true,
+  "complete_original_archives": 102,
+  "original_members": 408,
+  "complete_state_points": 306705,
+  "actual_runtime_execution_commits": [
+    "5bc38536b2fa10965d1a4d5c8b9f5e74e0e7938c",
+    "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+    "89f47b6fdc61c14e8c9367fadfe33966e40f0926",
+    "a5b2f3228912ac82f329154ca71631adcfaf73f2",
+    "edb21ddd8fe76b68b55aecac4a1cb969db9fdf84"
+  ],
+  "metric": "Event-side anchor / phase-consistent diagnostic with closed-interval amplitude preservation; causal same-clock raw and actual event-time errors separately retained, not a raw true-error bound",
+  "chosen_operating_step_s": 0.01,
+  "witness_ladders": {
+    "isolated-room": {
+      "original_candidate_s": 0.025,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.02,
+        0.01
+      ]
+    },
+    "normal": {
+      "original_candidate_s": 0.025,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.02,
+        0.01
+      ]
+    },
+    "thermal-hydraulic": {
+      "original_candidate_s": 0.025,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.02,
+        0.01
+      ]
+    },
+    "zero-flow": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.005,
+        0.0025
+      ]
+    },
+    "outage": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.0025,
+        0.00125
+      ]
+    },
+    "shared-AC-capacity": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.005,
+        0.0025
+      ]
+    },
+    "finite-generator-hand": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.0025,
+        0.00125
+      ]
+    },
+    "finite-UPS-hand": {
+      "original_candidate_s": 0.025,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.02,
+        0.01
+      ]
+    },
+    "room-thermal-work-limit": {
+      "original_candidate_s": 0.025,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.02,
+        0.01
+      ]
+    },
+    "combined-240s": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.005,
+        0.0025
+      ]
+    },
+    "thermal-protection": {
+      "original_candidate_s": 0.01,
+      "chosen_operating_s": 0.01,
+      "reference_steps_s": [
+        0.005,
+        0.0025
+      ]
+    }
+  },
+  "no_continuous_parameter_or_step_interval_guarantee": true,
+  "no_new_finer_reference_for_five_original_fixtures": true,
+  "full_regression_runs": 1,
+  "full_tests": {
+    "run": 317,
+    "executed": 315,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "PASS"
+  },
+  "historical_originals_verified": 20,
+  "physical_behavior_targets": {
+    "numerical": 11,
+    "environment": 22,
+    "coupled": 17
+  },
+  "reader_author_targets": 16,
+  "independent_method_review": {
+    "original_findings": 1,
+    "closed": 1,
+    "new_findings": 0,
+    "independent_checks": 28,
+    "author_targets": 16,
+    "source_guards": 9,
+    "report": "evidence/mainline/engineering/12-numerical/development/method-review-v3/review.md",
+    "report_sha256": "f1486839f0ff5f5283b51291d57cce314933b6013ae0f93b6f0c07a06031f3d8"
+  },
+  "original_v1_and_v2_NO_GO_preserved": true,
+  "initial_pending_receipts_preserved": true,
+  "fresh_proofs": {
+    "evidence/mainline/engineering/12-numerical/v1-fresh-proof-01.json": "c7040542220fe69318996802c24ba5eea7265bbff4ff026209ad21328040933d",
+    "evidence/mainline/engineering/12-numerical/v2-fresh-proof-01.json": "67708d6276830da8da2e251dad4402a1e8fc8c6ada5e05c842e256af584978ea",
+    "evidence/mainline/engineering/12-numerical/v3-fresh-proof-01.json": "16142b6b5b4e195e6f37758aaa8065f0aaf444f33fcea8cffebb62cb611f7636",
+    "evidence/mainline/engineering/12-numerical/final-entry-fresh-proof-01.json": "dd3e19685b4489b466e78ff29a6aee94c2fc68fa4e4dc2123a10084577daaacd"
+  },
+  "runtime_caches_required": 0,
+  "field_calibration": "PENDING",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "research_gain": "NOT_ESTABLISHED",
+  "M2_gate": "PENDING_ROOT_WHOLE_MILESTONE_ACCEPTANCE",
+  "overall_goal": "ACTIVE"
+}
