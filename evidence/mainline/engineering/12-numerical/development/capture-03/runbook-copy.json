@@ -1,0 +1,439 @@
+{
+  "schema": "aegisdc-numerical-qualification-v1",
+  "classification": "FULL_V6_ENGINEERING_NUMERICAL_QUALIFICATION_NOT_RESEARCH",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "cases": [
+    {
+      "id": "isolated-room",
+      "duration_s": 10,
+      "overrides": {
+        "shared_distribution_available": 0,
+        "ups_in_service": 0,
+        "diesel_in_service": 0,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_temperature": 303.15,
+        "room_ambient_temperature": 293.15,
+        "room_thermal_capacity": 1000000,
+        "room_conductance": 100000
+      },
+      "events": [],
+      "work_requests": [],
+      "reference": "Exact scalar ODE: T=293.15+10 exp(-t/10) K; Qout=C(T0-T). All eight V6 domains/identities/relations retained; isolated by declared boundary/coefficients.",
+      "expected_at_10s_K": 296.8287944117144,
+      "qualified_analytic_absolute_error_K": 0.005,
+      "qualified_analytic_step_s": 0.025,
+      "checks": []
+    },
+    {
+      "id": "normal",
+      "duration_s": 12,
+      "overrides": {},
+      "events": [],
+      "work_requests": [],
+      "reference": "Same V6 steady initialization; independent zero-change expectation.",
+      "checks": []
+    },
+    {
+      "id": "thermal-hydraulic",
+      "duration_s": 12,
+      "overrides": {},
+      "work_requests": [],
+      "events": [
+        {
+          "time_s": 1.125,
+          "parameter_id": "service_demand",
+          "value": 1.2,
+          "source_note": "Frozen ticket 12 synthetic engineering perturbation."
+        },
+        {
+          "time_s": 2.375,
+          "parameter_id": "filter_resistance_multiplier",
+          "value": 4,
+          "source_note": "Frozen ticket 12 synthetic engineering perturbation."
+        },
+        {
+          "time_s": 3.875,
+          "parameter_id": "internal_valve_opening",
+          "value": 0.8,
+          "source_note": "Frozen ticket 12 synthetic engineering perturbation."
+        },
+        {
+          "time_s": 5.125,
+          "parameter_id": "backup_cooling_requested",
+          "value": 1,
+          "source_note": "Frozen ticket 12 synthetic engineering perturbation."
+        },
+        {
+          "time_s": 9.125,
+          "parameter_id": "backup_cooling_requested",
+          "value": 0,
+          "source_note": "Frozen ticket 12 synthetic engineering perturbation."
+        }
+      ],
+      "reference": "Two fine explicit-Euler full-facility trajectories; numerical convergence only.",
+      "checks": []
+    },
+    {
+      "id": "zero-flow",
+      "duration_s": 4,
+      "overrides": {},
+      "work_requests": [],
+      "events": [
+        {
+          "time_s": 1.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 0,
+          "source_note": "Frozen ticket 12 flow interruption and restoration."
+        },
+        {
+          "time_s": 3.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 1,
+          "source_note": "Frozen ticket 12 flow interruption and restoration."
+        }
+      ],
+      "reference": "Full-facility fine-step reference; zero-flow transfer must be exactly zero.",
+      "checks": []
+    },
+    {
+      "id": "outage",
+      "duration_s": 8,
+      "overrides": {
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 0.5
+      },
+      "work_requests": [],
+      "events": [
+        {
+          "time_s": 0.75,
+          "parameter_id": "grid_capacity",
+          "value": 0,
+          "source_note": "Frozen ticket 12 outage; connection at .75+3+.5=4.25 s."
+        },
+        {
+          "time_s": 5.25,
+          "parameter_id": "grid_capacity",
+          "value": 10000000,
+          "source_note": "Frozen ticket 12 outage; connection at .75+3+.5=4.25 s."
+        }
+      ],
+      "reference": "Independent switching times .75/.95/3.75/4.25/5.25 s; normalized deficit 3.5 s.",
+      "checks": []
+    },
+    {
+      "id": "shared-AC-capacity",
+      "duration_s": 2,
+      "overrides": {
+        "grid_capacity": 100000
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "power.grid_draw_W",
+          "expected": 100000,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.rectifier_input_W",
+          "expected": 53261.42857142857,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "it_service.delivered",
+          "expected": 0.02348344805194805,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0.0469668961038961,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 1.953033103896104,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "reference": "100000 W AC minus 110 W reserve actors, 1000 W PLC, 19200 W circulation, 150000/7 W intake and 5000 W room leaves 53261.42857142857 W rectifier input; 0.97 efficiency and 2.2 MW total IT give service fraction 0.02348344805194805."
+    },
+    {
+      "id": "finite-generator-hand",
+      "duration_s": 16,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 2,
+        "diesel_initial_fuel_energy": 42750,
+        "generator_initial_start_energy": 10000,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "room_aux_power": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.generator_mode",
+          "expected": "transferring",
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "supplying",
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.starter_energy_J",
+          "expected": 6950,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 37750,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.generator_output_W",
+          "expected": 1110,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 0,
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "fuel_exhausted",
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "reference": "3 s cranking at 1010 W and 2 s control at 10 W leave 6950 J starter. Idle fuel uses 5000 J before transfer; a 1110 W AC load at .4 efficiency plus 1000 W idle uses the remaining 37750 J in 10 s, exhausting at 15 s."
+    },
+    {
+      "id": "finite-UPS-hand",
+      "duration_s": 33,
+      "overrides": {
+        "grid_capacity": 0,
+        "ups_energy": 3632600,
+        "ups_discharge_efficiency": 0.9,
+        "ups_internal_control_power": 1000,
+        "controller_power": 100000,
+        "generator_initial_start_energy": 0,
+        "diesel_initial_fuel_energy": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "room_aux_power": 0,
+        "room_conductance": 0,
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "initial_hot_temperature": 300,
+        "initial_cold_temperature": 300,
+        "pump_pressure_rise": 346500,
+        "lake_hydraulic_resistance": 31650000,
+        "internal_pump_pressure_rise": 309375,
+        "internal_hydraulic_resistance": 18151041.666666664
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.ups_energy_J",
+          "expected": 0,
+          "time_s": 32.6,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.ups_protected_output_W",
+          "expected": 100000,
+          "time_s": 0.2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.ups_output_energy_J",
+          "expected": 3272600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.ups_loss_energy_J",
+          "expected": 360000,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.reserve_room_control_heat_J",
+          "expected": 32600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "reference": "1000 W battery control during .2 s disconnected, then 100 kW protected PLC at .9 efficiency. .2*1000 +32.4*(100000/.9+1000) =3632600 J; no IT coverage is created. The total battery output is3.24 MJ protected plus32600 J control and360000 J conversion loss."
+    },
+    {
+      "id": "room-thermal-work-limit",
+      "duration_s": 2,
+      "overrides": {
+        "room_temperature": 300,
+        "room_thermal_capacity": 1000000,
+        "maximum_room_work_temperature": 300.15165,
+        "room_conductance": 0,
+        "room_aux_power": 100000,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0
+      },
+      "events": [],
+      "work_requests": [
+        {
+          "id": "warm-room",
+          "time_s": 0,
+          "worker_id": "worker_it",
+          "work_interface_id": "inspect_it_service",
+          "target_id": "compute",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "checks": [
+        {
+          "path": "work_records.0.status",
+          "expected": "aborted",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.finished_at_s",
+          "expected": 1.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_work_person_s",
+          "expected": 1.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "equipment_environment.room_temperature_K",
+          "expected": 300.2022,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "space_access.floor_water_mass_kg",
+          "expected": 0,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "reference": "The room receives 100000+1000+100 =101100 W, with a 1 MJ/K air capacity and no outward heat. A .15165 K headroom lasts exactly 1.5 s. IT worker and tool begin at their normal loc_it identity."
+    },
+    {
+      "id": "thermal-protection",
+      "duration_s": 60,
+      "overrides": {
+        "internal_hot_mass": 1000,
+        "internal_cold_mass": 1000,
+        "minimum_internal_hot_mass": 900,
+        "protection_temperature": 306,
+        "protection_reset_temperature": 305
+      },
+      "events": [
+        {
+          "time_s": 1.125,
+          "parameter_id": "plate_hx_conductance",
+          "value": 10000,
+          "source_note": "Declared synthetic HX degradation; 306/305 K protection thresholds are frozen research settings, not site limits."
+        }
+      ],
+      "work_requests": [],
+      "reference": "Fine-step same-model water/solid/phase/PLC interaction. Threshold-driven service changes may be non-smooth in step; no threshold retuning after observation.",
+      "checks": []
+    }
+  ],
+  "maximum_steps_s": [
+    1,
+    0.5,
+    0.25,
+    0.125,
+    0.0625,
+    0.025,
+    0.02,
+    0.01
+  ],
+  "fine_reference_s": 0.01,
+  "reference_refinement_s": 0.02,
+  "proposed_qualified_maximum_step_s": 0.025,
+  "literal_checkpoint_time_tolerance_s": 1e-08,
+  "comparison": "Maximum error over the union of saved time coordinates: piecewise linear states, interval-held fluxes, declared eight-ULP time convention. Event sequence compared separately.",
+  "limits": {
+    "temperature_K": 0.05,
+    "pressure_Pa": 1000,
+    "heat_W": 25000,
+    "service_deficit_time_s": 0.001,
+    "unserved_service_unit_s": 0.001,
+    "resource_time_s": 0.001,
+    "switch_time_s": 0.001
+  },
+  "fine_reference_fraction_of_limits": 0.25,
+  "restrictions": [
+    "Finite explicit synthetic fixture points only; no parameter-box proof or empirical/site calibration.",
+    "No single-phase continuation; no quality/inventory clipping; phase flash refusals remain failures.",
+    "Isolated-room analytic error <=.005 K is a separate stronger check; all other dynamic references are numerical.",
+    "Qualification of these equations/steps does not open registered mechanism comparisons before ticket 30."
+  ],
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

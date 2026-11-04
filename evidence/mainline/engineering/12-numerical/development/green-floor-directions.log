@@ -1,0 +1,42 @@
+test_access_at_a_threshold_uses_the_final_same_epoch_drain_direction (test_mainline_numerics.FullFacilityNumericalTests.test_access_at_a_threshold_uses_the_final_same_epoch_drain_direction) ... ok
+test_coincident_conflicting_parameter_values_are_rejected (test_mainline_numerics.FullFacilityNumericalTests.test_coincident_conflicting_parameter_values_are_rejected) ... ok
+test_dimensionally_incompatible_heat_mass_and_power_units_are_refused (test_mainline_numerics.FullFacilityNumericalTests.test_dimensionally_incompatible_heat_mass_and_power_units_are_refused) ... ok
+test_eight_ulp_coincidence_is_bounded_and_does_not_roll_across_an_event_chain (test_mainline_numerics.FullFacilityNumericalTests.test_eight_ulp_coincidence_is_bounded_and_does_not_roll_across_an_event_chain) ... ok
+test_five_original_encoded_vapor_endpoint_refusals_remain_strict (test_mainline_numerics.FullFacilityNumericalTests.test_five_original_encoded_vapor_endpoint_refusals_remain_strict) ... ok
+test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) ... 
+  test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.5, initial=20, final_inlet=0.4) ... FAIL
+  test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.1, initial=0, final_inlet=0) ... FAIL
+  test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.1, initial=20, final_inlet=0.4) ... FAIL
+test_isolated_room_agrees_with_independent_exponential_solution (test_mainline_numerics.FullFacilityNumericalTests.test_isolated_room_agrees_with_independent_exponential_solution) ... ok
+test_one_ulp_event_expression_does_not_change_the_sampled_protection_epoch (test_mainline_numerics.FullFacilityNumericalTests.test_one_ulp_event_expression_does_not_change_the_sampled_protection_epoch) ... ok
+test_rounded_floor_crossing_does_not_delay_access_by_an_entire_step (test_mainline_numerics.FullFacilityNumericalTests.test_rounded_floor_crossing_does_not_delay_access_by_an_entire_step) ... ok
+test_sample_clock_stays_anchored_during_arbitrary_step_subdivision (test_mainline_numerics.FullFacilityNumericalTests.test_sample_clock_stays_anchored_during_arbitrary_step_subdivision) ... ok
+
+======================================================================
+FAIL: test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.5, initial=20, final_inlet=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_mainline_numerics.py", line 161, in test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side
+    self.assertEqual(result['work_records'][0]['accepted'], not blocked)
+AssertionError: False != True
+
+======================================================================
+FAIL: test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.1, initial=0, final_inlet=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_mainline_numerics.py", line 161, in test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side
+    self.assertEqual(result['work_records'][0]['accepted'], not blocked)
+AssertionError: False != True
+
+======================================================================
+FAIL: test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side (test_mainline_numerics.FullFacilityNumericalTests.test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side) (step=0.1, initial=20, final_inlet=0.4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-12\tests\test_mainline_numerics.py", line 161, in test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side
+    self.assertEqual(result['work_records'][0]['accepted'], not blocked)
+AssertionError: False != True
+
+----------------------------------------------------------------------
+Ran 10 tests in 14.087s
+
+FAILED (failures=3)

@@ -5,7 +5,8 @@ from pathlib import Path
 import unittest
 
 from aegis_dc.plant import simulate_scenario
-from aegis_dc.scenario import load_scenario
+from aegis_dc.scenario import load_scenario, validate_scenario
+from aegis_dc.thermodynamics import SaturationTable
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNBOOK = ROOT / 'docs/mainline/12-numerical-runbook.json'
@@ -107,6 +108,66 @@ class FullFacilityNumericalTests(unittest.TestCase):
         self.assertEqual(result['work_records'][0]['status'], 'working')
         self.assertAlmostEqual(result['summary']['worker_work_person_s'], .4, delta=1e-12)
         self.assertAlmostEqual(result['trace'][-1]['domains']['space_access']['floor_water_mass_kg'], .56)
+
+    def test_dimensionally_incompatible_heat_mass_and_power_units_are_refused(self):
+        for identifier, wrong_unit in [('water_specific_heat', 'J/kg'),
+                                        ('coolant_inventory', 'kg/s'), ('grid_capacity', 'J')]:
+            with self.subTest(parameter=identifier):
+                scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                next(row for row in scenario['parameters'] if row['id'] == identifier)['unit'] = wrong_unit
+                with self.assertRaises(ValueError):
+                    validate_scenario(scenario)
+
+    def test_five_original_encoded_vapor_endpoint_refusals_remain_strict(self):
+        path = ROOT / 'evidence/mainline/engineering/04-06-root-acceptance/endpoint-representation/probe-result-01.json'
+        old = json.loads(path.read_text(encoding='utf-8'))
+        table = SaturationTable.from_file(ROOT / 'configs/materials/reference-r134a-saturation.json')
+        refused = [row for row in old['all_outcomes'] if row['outcome']['status'] == 'REFUSED']
+        self.assertEqual(len(refused), 5)
+        for row in refused:
+            with self.subTest(inputs=row['inputs_float_hex']):
+                self.assertGreater(row['representation_observation']['reconstructed_quality'], 1)
+                with self.assertRaisesRegex(ValueError, 'exactly one domain-valid root'):
+                    table.flash(**row['inputs'])
+
+    def test_rounded_floor_crossing_does_not_delay_access_by_an_entire_step(self):
+        item, scenario = numerical_case('combined-240s')
+        result = simulate_scenario(scenario, duration_s=240, step_s=.5,
+                                   boundary_events=item['events'], work_requests=item['work_requests'])
+        work = next(row for row in result['work_records'] if row['id'] == 'room-engineering-visit')
+        self.assertAlmostEqual(work['finished_at_s'], 145.5, delta=1e-8)
+        self.assertAlmostEqual(result['summary']['worker_work_person_s'], 25.25, delta=1e-8)
+        boundary = next(row for row in result['trace'] if row['time_s'] == 145.5)['domains']
+        self.assertIn('loc_it', boundary['space_access']['blocked_location_ids'])
+        self.assertAlmostEqual(boundary['space_access']['floor_water_mass_kg'], 10, delta=1e-10)
+
+    def test_floor_boundary_stationary_and_reversed_right_limits_keep_their_declared_side(self):
+        for h in (1, .5, .1):
+            for initial, inlet, drain, after_inlet, blocked in (
+                    (0, .5, .1, .1, True), (0, .5, .1, 0, False),
+                    (20, 0, .4, .4, False), (20, 0, .4, .8, True)):
+                with self.subTest(step=h, initial=initial, final_inlet=after_inlet):
+                    scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                    values = dict(initial_floor_water_mass=initial, floor_water_inflow=inlet, drainage_mass_flow=drain)
+                    for row in scenario['parameters']:
+                        if row['id'] in values:
+                            row['value'] = values[row['id']]
+                    result = simulate_scenario(scenario, duration_s=26, step_s=h,
+                        boundary_events=[dict(time_s=25, parameter_id='floor_water_inflow', value=after_inlet,
+                            source_note='Exact 25 s threshold: stop or reverse the right-hand flow.')],
+                        work_requests=[dict(id='right-limit', time_s=25, worker_id='worker_it',
+                            work_interface_id='inspect_it_service', target_id='compute',
+                            source_note='Check access only after the final same-time flow.')])
+                    self.assertEqual(result['work_records'][0]['accepted'], not blocked)
+                    self.assertEqual('loc_it' in result['trace'][-1]['domains']['space_access']['blocked_location_ids'], blocked)
+        scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+        for row in scenario['parameters']:
+            if row['id'] == 'initial_floor_water_mass':
+                row['value'] = 10
+            if row['id'] == 'drainage_mass_flow':
+                row['value'] = 0
+        result = simulate_scenario(scenario, duration_s=.1)
+        self.assertIn('loc_it', result['trace'][-1]['domains']['space_access']['blocked_location_ids'])
 
 
 if __name__ == '__main__':
