@@ -1,0 +1,54 @@
+test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) ... 
+  test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=1e-10) ... ERROR
+  test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=0.99999) ... ERROR
+  test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=0.9999999999) ... ERROR
+  test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=3000000.0, quality=1.0) ... ERROR
+
+======================================================================
+ERROR: test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=1e-10)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\tests\test_mainline_phase.py", line 19, in test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping
+    state = table.flash(**record['MUV'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\src\aegis_dc\thermodynamics.py", line 130, in flash
+    raise ValueError('Two-phase M/U/V flash requires exactly one domain-valid root; found ' + str(len(roots)))
+ValueError: Two-phase M/U/V flash requires exactly one domain-valid root; found 0
+
+======================================================================
+ERROR: test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=0.99999)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\tests\test_mainline_phase.py", line 19, in test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping
+    state = table.flash(**record['MUV'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\src\aegis_dc\thermodynamics.py", line 130, in flash
+    raise ValueError('Two-phase M/U/V flash requires exactly one domain-valid root; found ' + str(len(roots)))
+ValueError: Two-phase M/U/V flash requires exactly one domain-valid root; found 0
+
+======================================================================
+ERROR: test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=100000.0, quality=0.9999999999)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\tests\test_mainline_phase.py", line 19, in test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping
+    state = table.flash(**record['MUV'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\src\aegis_dc\thermodynamics.py", line 130, in flash
+    raise ValueError('Two-phase M/U/V flash requires exactly one domain-valid root; found ' + str(len(roots)))
+ValueError: Two-phase M/U/V flash requires exactly one domain-valid root; found 0
+
+======================================================================
+ERROR: test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping (test_mainline_phase.PhaseDomainTests.test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping) (pressure=3000000.0, quality=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\tests\test_mainline_phase.py", line 19, in test_frozen_EOS_saturation_endpoints_are_usable_without_quality_clipping
+    state = table.flash(**record['MUV'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-06\src\aegis_dc\thermodynamics.py", line 130, in flash
+    raise ValueError('Two-phase M/U/V flash requires exactly one domain-valid root; found ' + str(len(roots)))
+ValueError: Two-phase M/U/V flash requires exactly one domain-valid root; found 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (errors=4)

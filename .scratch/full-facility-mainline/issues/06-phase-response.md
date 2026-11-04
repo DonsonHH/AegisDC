@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -18,4 +18,11 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `donson/mainline-06-phase` in `.work/worktrees/full-site-06`, based on
+integration `0ee160cdcdbd195acf35d552abd8040ef7e55b5c` (2026-11-04).
+
+Public behavior checks use `SaturationTable.from_file` / `at_pressure` / `flash`
+and `simulate_scenario` with the accepted v2 eight-domain scenario. Ticket 03
+already implements the fixed-volume equilibrium state update; ticket 06 accepts
+or corrects that implementation against conservation and frozen independent-input
+EOS examples. No facility milestone or research gain follows from this fixture.

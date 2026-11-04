@@ -1,0 +1,483 @@
+{
+  "schema": "aegisdc-phase-direct-eos-reference-v1",
+  "recorded_UTC": "2026-11-04T14:26:20.522334+00:00",
+  "scope": "Finite same-EOS numerical cross-check; no empirical/field validation or research trial",
+  "source": {
+    "library": "CoolProp",
+    "version": "8.0.0",
+    "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+    "backend": "HEOS",
+    "fluid": "R134a",
+    "reference_state": "DEF",
+    "extension_sha256": "eba3061d6e3cf1435573156f61310389ea2e2c8918b893032d9ca5737ed56440",
+    "official_API": "https://coolprop.org/coolprop/HighLevelAPI.html",
+    "official_fluid": "https://coolprop.org/fluid_properties/fluids/R134a.html",
+    "previous_receipt_sha256": "f01a106b83ec83ecebba7ad6253685b7b48c56590515a908bb020329e78073b7"
+  },
+  "author": {
+    "python": "3.12.14",
+    "script_sha256": "e6dd108db6c791bfa8ac39e07935ee573c37ea0790f5fd38d5ce2f889f44f30b",
+    "imports_aegis_dc": false
+  },
+  "property_table_sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+  "input_v2_config_sha256": "6641e8014a9e1bf7a601f92b699fdfb79667d46b357240ec60110fa9cb6cd51a",
+  "predeclared_limits": {
+    "pressure_relative": 1e-05,
+    "temperature_abs_K": 0.0005,
+    "quality_abs": 5e-06,
+    "specific_energy_residual_abs_J_kg": 1e-06
+  },
+  "fixed_volume_histories": [
+    {
+      "id": "nominal-v2",
+      "initial_MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 516335850.31469756,
+        "volume_m3": 6.647467643830208
+      },
+      "states": [
+        {
+          "net_heat_J": -2000000.0,
+          "internal_energy_J": 514335850.31469756,
+          "expected_EOS": {
+            "pressure_Pa": 787268.6875578972,
+            "temperature_K": 303.91503967801657,
+            "quality": 0.09836941749471412,
+            "density_kg_m3": 300.8664512803283,
+            "specific_energy_J_kg": 257167.9251573488,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 0.0,
+          "internal_energy_J": 516335850.31469756,
+          "expected_EOS": {
+            "pressure_Pa": 800000.0134860302,
+            "temperature_K": 304.4774637554627,
+            "quality": 0.10000054472823525,
+            "density_kg_m3": 300.86645128032825,
+            "specific_energy_J_kg": 258167.9251573488,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 2000000.0,
+          "internal_energy_J": 518335850.31469756,
+          "expected_EOS": {
+            "pressure_Pa": 812848.4892202652,
+            "temperature_K": 305.03827784078914,
+            "quality": 0.1016506388208148,
+            "density_kg_m3": 300.8664512803283,
+            "specific_energy_J_kg": 259167.9251573487,
+            "phase_index": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "liquid-rich",
+      "initial_MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 486241426.8231971,
+        "volume_m3": 1.7412672894418058
+      },
+      "states": [
+        {
+          "net_heat_J": -100000.0,
+          "internal_energy_J": 486141426.8231971,
+          "expected_EOS": {
+            "pressure_Pa": 799196.3205302334,
+            "temperature_K": 304.44215939577754,
+            "quality": 0.001002956382555875,
+            "density_kg_m3": 1148.5887388610715,
+            "specific_energy_J_kg": 243070.71341159864,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 0.0,
+          "internal_energy_J": 486241426.8231971,
+          "expected_EOS": {
+            "pressure_Pa": 800000.0000000005,
+            "temperature_K": 304.4774631632767,
+            "quality": 0.0009999999999999963,
+            "density_kg_m3": 1148.5887388610715,
+            "specific_energy_J_kg": 243120.71341159855,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 100000.0,
+          "internal_energy_J": 486341426.8231971,
+          "expected_EOS": {
+            "pressure_Pa": 800804.2308834911,
+            "temperature_K": 304.5127644567745,
+            "quality": 0.000997034218500565,
+            "density_kg_m3": 1148.5887388610715,
+            "specific_energy_J_kg": 243170.71341159858,
+            "phase_index": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "vapor-rich",
+      "initial_MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 786880007.6431878,
+        "volume_m3": 50.75344443043507
+      },
+      "states": [
+        {
+          "net_heat_J": -100000.0,
+          "internal_energy_J": 786780007.6431878,
+          "expected_EOS": {
+            "pressure_Pa": 799774.7553981273,
+            "temperature_K": 304.4675713842904,
+            "quality": 0.9897039191533173,
+            "density_kg_m3": 39.40619247509968,
+            "specific_energy_J_kg": 393390.00382159394,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 0.0,
+          "internal_energy_J": 786880007.6431878,
+          "expected_EOS": {
+            "pressure_Pa": 799999.9999999979,
+            "temperature_K": 304.4774631632766,
+            "quality": 0.9900000000000001,
+            "density_kg_m3": 39.40619247509968,
+            "specific_energy_J_kg": 393440.003821594,
+            "phase_index": 6
+          }
+        },
+        {
+          "net_heat_J": 100000.0,
+          "internal_energy_J": 786980007.6431878,
+          "expected_EOS": {
+            "pressure_Pa": 800225.2634344539,
+            "temperature_K": 304.4873536742221,
+            "quality": 0.9902961230094129,
+            "density_kg_m3": 39.40619247509968,
+            "specific_energy_J_kg": 393490.0038215938,
+            "phase_index": 6
+          }
+        }
+      ]
+    }
+  ],
+  "saturation_endpoint_cases": [
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 0.0,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 165369.28181500823,
+        "volume_m3": 0.0007259314992640866
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 0.0,
+        "density_kg_m3": 1377.5404442619592,
+        "specific_energy_J_kg": 165369.28181500823,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 1e-10,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 165369.28183480565,
+        "volume_m3": 0.0007259315184472742
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 1e-10,
+        "density_kg_m3": 1377.5404078596043,
+        "specific_energy_J_kg": 165369.28183480565,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 1e-05,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 165371.2615566289,
+        "volume_m3": 0.0007278498180069566
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 1e-05,
+        "density_kg_m3": 1373.909802901733,
+        "specific_energy_J_kg": 165371.2615566289,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 0.5,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 264356.3628475469,
+        "volume_m3": 0.09664186864276121
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 0.5,
+        "density_kg_m3": 10.347482039037573,
+        "specific_energy_J_kg": 264356.3628475469,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 0.99999,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 363341.46413846477,
+        "volume_m3": 0.19255588746751548
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 0.99999,
+        "density_kg_m3": 5.193297453284578,
+        "specific_energy_J_kg": 363341.46413846477,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 0.9999999999,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 363343.443860288,
+        "volume_m3": 0.19255780576707512
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 0.9999999999,
+        "density_kg_m3": 5.193245716611645,
+        "specific_energy_J_kg": 363343.443860288,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 100000.0,
+      "given_quality": 1.0,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 363343.4438800855,
+        "volume_m3": 0.1925578057862583
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 100000.0,
+        "temperature_K": 246.78881174998398,
+        "quality": 1.0,
+        "density_kg_m3": 5.193245716094278,
+        "specific_energy_J_kg": 363343.4438800855,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 0.0,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 331280.5067611868,
+        "volume_m3": 0.0011412755517717452
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 0.0,
+        "density_kg_m3": 876.2125837599646,
+        "specific_energy_J_kg": 331280.5067611868,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 1e-10,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 331280.50676920824,
+        "volume_m3": 0.0011412755521857487
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 1e-10,
+        "density_kg_m3": 876.212583442114,
+        "specific_energy_J_kg": 331280.50676920824,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 1e-05,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 331281.30890547234,
+        "volume_m3": 0.0011413169521346858
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 1e-05,
+        "density_kg_m3": 876.180799846729,
+        "specific_energy_J_kg": 331281.30890547234,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 0.5,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 371387.72103993804,
+        "volume_m3": 0.003211293698807523
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 0.5,
+        "density_kg_m3": 311.400978481457,
+        "specific_energy_J_kg": 371387.72103993804,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 0.99999,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 411494.13317440375,
+        "volume_m3": 0.005281270445480361
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 0.99999,
+        "density_kg_m3": 189.3483793952999,
+        "specific_energy_J_kg": 411494.13317440375,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 0.9999999999,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 411494.93531066785,
+        "volume_m3": 0.005281311845429298
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 0.9999999999,
+        "density_kg_m3": 189.3468951024826,
+        "specific_energy_J_kg": 411494.93531066785,
+        "phase_index": 6
+      }
+    },
+    {
+      "given_pressure_Pa": 3000000.0,
+      "given_quality": 1.0,
+      "MUV": {
+        "mass_kg": 1.0,
+        "internal_energy_J": 411494.9353186893,
+        "volume_m3": 0.005281311845843301
+      },
+      "expected_EOS_PQ": {
+        "pressure_Pa": 3000000.0,
+        "temperature_K": 359.35326845157533,
+        "quality": 1.0,
+        "density_kg_m3": 189.34689508763964,
+        "specific_energy_J_kg": 411494.9353186893,
+        "phase_index": 6
+      }
+    }
+  ],
+  "refused_cases": [
+    {
+      "id": "outside-pressure-90000",
+      "MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 524509407.5447569,
+        "volume_m3": 213.36297040400967
+      },
+      "expected_EOS": {
+        "pressure_Pa": 90000.0,
+        "temperature_K": 244.51681361551056,
+        "quality": 0.5,
+        "density_kg_m3": 9.373697770578163,
+        "specific_energy_J_kg": 262254.70377237845,
+        "phase_index": 6
+      },
+      "expected_table_outcome": "REJECT_OUTSIDE_PRESSURE_DOMAIN"
+    },
+    {
+      "id": "outside-pressure-3100000",
+      "MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 745613460.3422753,
+        "volume_m3": 6.1610738251964055
+      },
+      "expected_EOS": {
+        "pressure_Pa": 3100000.0,
+        "temperature_K": 360.9378798506774,
+        "quality": 0.5,
+        "density_kg_m3": 324.61873639961505,
+        "specific_energy_J_kg": 372806.7301711376,
+        "phase_index": 6
+      },
+      "expected_table_outcome": "REJECT_OUTSIDE_PRESSURE_DOMAIN"
+    },
+    {
+      "id": "subcooled",
+      "MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 444882823.4513072,
+        "volume_m3": 1.6151986370829459
+      },
+      "expected_EOS": {
+        "pressure_Pa": 799999.9999996842,
+        "temperature_K": 290.0,
+        "quality": -1.0,
+        "density_kg_m3": 1238.237795700476,
+        "specific_energy_J_kg": 222441.4117256536,
+        "phase_index": 0
+      },
+      "expected_table_outcome": "REJECT_NO_TWO_PHASE_ROOT"
+    },
+    {
+      "id": "superheated",
+      "MUV": {
+        "mass_kg": 2000.0,
+        "internal_energy_J": 872272342.4603183,
+        "volume_m3": 64.49606977846031
+      },
+      "expected_EOS": {
+        "pressure_Pa": 799999.9999994766,
+        "temperature_K": 350.0,
+        "quality": -1.0,
+        "density_kg_m3": 31.009641469160314,
+        "specific_energy_J_kg": 436136.1712301592,
+        "phase_index": 5
+      },
+      "expected_table_outcome": "REJECT_NO_TWO_PHASE_ROOT"
+    }
+  ],
+  "field_medium_identity": "UNKNOWN",
+  "research_trials": 0,
+  "training_calls": 0
+}
