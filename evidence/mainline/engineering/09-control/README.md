@@ -7,7 +7,8 @@ delivery claim. The committed persistent inventory has **162 files**. V2 preserv
 the original receipt/hashes and classifies exactly those two caches as
 `excluded_non_delivery`, retaining their original observed hashes and reasons.
 The original v1 `verify_saved.py` remains unchanged and can fail on a fresh tree
-without those caches. Use the following read-only command for a Git checkout:
+without those caches. Use the following read-only command in a Git checkout
+containing the recorded `363c5edf` execution and `1ed66692` delivery history:
 
 ```powershell
 python -B evidence/mainline/engineering/09-control/verify_portable.py
