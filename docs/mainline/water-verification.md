@@ -160,9 +160,32 @@ Check 16 records a fixture expectation mistake: the worker/tool were already at
 `loc_hx`; check 17 corrects the expected 0/30 s arrival/completion after reading
 their declared static locations. No plant code was changed to fit that mistake.
 
-Accepted source-attributed runs and fresh-read receipts will be appended after
-the implementation commit. These checks are finite engineering verification,
-not M1 acceptance, a registered research comparison or a measured mechanism gain.
+Implementation is `8db1e95a`. The first committed-source engineering artifacts
+are under `evidence/mainline/engineering/05-water/fixtures-e8555f76/`; after
+incorporating power ticket 04, merge `122f73bd7fcd38fb18d3911227a58aaf8aafaafd`
+has a second independently saved set at `fixtures-122f73bd/`. Both sets retain
+their actual source identity; none was overwritten or reattributed. Each has
+nine fresh-read runs and an engineering attempt ledger. The explicit CLI output
+and its separate fresh read are also retained.
+
+Normal 600 s output has zero water/solid temperature drift and zero service
+deficit. Under the declared 306/305 K engineering protection settings, lake
+shutoff and UA degradation first trip at 56/57 s and give 42/43 s deficit over
+180 s. These are model fixture outcomes, not independently measured field facts
+or policy benefits. Fresh interval energy residual is below `4.49e-6 J`, mass
+residual below `4.55e-13 kg`; both HX-port enthalpy and series pressure-loss
+checks pass. Exact hashes/counts/outcomes are in each fresh-read receipt.
+
+Final full acceptance on merge `122f73bd` is
+`evidence/mainline/engineering/05-water/acceptance-122f73bd/summary.json`:
+engineering/evidence/overall PASS, 206 discovered /204 executed, no failures or
+errors, exactly two existing optional neural checks skipped because isolated
+Torch is absent in this interpreter, no unexpected skips, and 20 original-file
+hashes valid. All 18 water checks execute without skips. Root owns enabled-Torch
+verification, independent review and integration acceptance.
+
+These checks are finite engineering verification, not M1 acceptance, a
+registered research comparison or a measured mechanism gain.
 Step convergence, field calibration, richer control, interventions and parallel
 reserve coverage remain their separate gates. No research/AI/training run is
 started by this ticket; the complete research goal stays active.

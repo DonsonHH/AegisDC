@@ -1,0 +1,21 @@
+test_closed_valve_interlock_stops_pump_without_free_head_or_heat (test_full_facility_water.ValveLoopTests.test_closed_valve_interlock_stops_pump_without_free_head_or_heat) ... ERROR
+test_partial_opening_adds_quadratic_resistance_and_spends_power (test_full_facility_water.ValveLoopTests.test_partial_opening_adds_quadratic_resistance_and_spends_power) ... ok
+
+======================================================================
+ERROR: test_closed_valve_interlock_stops_pump_without_free_head_or_heat (test_full_facility_water.ValveLoopTests.test_closed_valve_interlock_stops_pump_without_free_head_or_heat)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-05\tests\test_full_facility_water.py", line 21, in test_closed_valve_interlock_stops_pump_without_free_head_or_heat
+    point = valve_loop_operating_point(100000, 6e8, 1e8, 0, 0.5, 1)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-05\src\aegis_dc\heat_transfer.py", line 72, in valve_loop_operating_point
+    fraction = finite_number(opening, 'Valve opening', positive=True)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-05\src\aegis_dc\thermodynamics.py", line 24, in finite_number
+    raise ValueError(label + ' must be a finite' + (' positive' if positive else '') + ' number')
+ValueError: Valve opening must be a finite positive number
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.024s
+
+FAILED (errors=1)

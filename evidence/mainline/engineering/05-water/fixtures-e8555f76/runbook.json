@@ -1,0 +1,153 @@
+{
+  "classification": "ENGINEERING_FIXTURES_ONLY",
+  "research_protocol": null,
+  "base_input": "configs/full-facility-mainline-water-v3.json",
+  "base_input_sha256": "31a993b269827623fa5103788228c7e3cf292fc9b65f273f17533808bbf89403",
+  "fixture_script_sha256": "c409b7a5391b9704124b7441ca20d144c2525549d240a835cc4d6e3df4000449",
+  "cases": [
+    {
+      "id": "normal",
+      "duration_s": 600,
+      "overrides": {},
+      "events": [],
+      "work": []
+    },
+    {
+      "id": "hand-399500W",
+      "duration_s": 1,
+      "overrides": {
+        "pump_pressure_rise": 100000,
+        "internal_pump_pressure_rise": 100000,
+        "lake_hydraulic_resistance": 600000000.0,
+        "internal_hydraulic_resistance": 600000000.0,
+        "lake_valve_open_resistance": 100000000.0,
+        "internal_valve_open_resistance": 100000000.0,
+        "lake_valve_opening": 0.5,
+        "internal_valve_opening": 0.5,
+        "pump_efficiency": 0.5,
+        "internal_pump_efficiency": 0.5,
+        "pump_fluid_heat_fraction": 0.5,
+        "water_specific_heat": 4000,
+        "water_density": 1000,
+        "lake_temperature": 300,
+        "initial_hot_temperature": 320,
+        "initial_cold_temperature": 310,
+        "plate_hx_conductance": 40000
+      },
+      "events": [],
+      "work": []
+    },
+    {
+      "id": "filter",
+      "duration_s": 20,
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "filter_resistance_multiplier",
+          "value": 4,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "quarter-head",
+      "duration_s": 20,
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "pump_pressure_rise",
+          "value": 37500,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "hx-degradation",
+      "duration_s": 180,
+      "overrides": {
+        "protection_temperature": 306,
+        "protection_reset_temperature": 305
+      },
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "plate_hx_conductance",
+          "value": 10000,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "internal-shutoff",
+      "duration_s": 2,
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 0,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "internal-reopen",
+      "duration_s": 3,
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 0,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        },
+        {
+          "time_s": 1.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 1,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "lake-shutoff",
+      "duration_s": 180,
+      "overrides": {
+        "protection_temperature": 306,
+        "protection_reset_temperature": 305
+      },
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "lake_valve_opening",
+          "value": 0,
+          "source_note": "Predeclared synthetic engineering boundary fixture; no policy trial or human intervention."
+        }
+      ],
+      "work": []
+    },
+    {
+      "id": "valve-visit",
+      "duration_s": 31,
+      "overrides": {},
+      "events": [],
+      "work": [
+        {
+          "id": "inspect-internal-valve",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_facility_cooling",
+          "target_id": "internal_valve_group",
+          "source_note": "Engineering visit only: no diagnosis, inspection evidence or repair result."
+        }
+      ]
+    }
+  ]
+}
