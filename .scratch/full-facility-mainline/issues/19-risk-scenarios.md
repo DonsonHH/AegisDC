@@ -17,6 +17,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+Background reading prepared while03 was active: `docs/mainline/research/closest-methods.md`. Its finite access scope does not complete this ticket or establish novelty; assess applicability against the implemented model.
+
 ## Evidence
 
 Pending implementation and acceptance.

@@ -2,7 +2,9 @@
 
 For research continuation, read `docs/MAINLINE.md`, then `docs/mainline/progress.json` and the current ticket. Keep the complete-facility objective and its acceptance gates through context changes. A plan, component test, demo, or passing CI is a milestone, not completion of the research goal.
 
-Work the first ready ticket in the dependency graph. Record accepted artifacts and their checks before resolving it. Report a negative result as a research result; revise hypotheses through an explicit protocol revision instead of changing the target or reusing sealed outcomes.
+Work the ready frontier in dependency order; the primary current ticket is the earliest ready item. Independent ready tickets may run in parallel within the same mainline, each with one owner/worktree. Record accepted artifacts and their checks before resolving it. Report a negative result as a research result; revise hypotheses through an explicit protocol revision instead of changing the target or reusing sealed outcomes.
+
+Before claiming, inspect the active-work hints in progress and confirm live agent/worktree state. A ticket's claimed status may still be only on its unmerged worktree; do not duplicate a live assigned implementation or restart it solely because an observation timed out.
 
 Use one Zhengzhou-inspired **synthetic research facility** with eight operational domains. Keep source facts, design claims, modeling assumptions, and unresolved site data explicit. Maintain physical, functional, control/information and access relations with shared entity identities. Personnel are domain actors; AI decision modules are a later, independently evaluated choice.
 
