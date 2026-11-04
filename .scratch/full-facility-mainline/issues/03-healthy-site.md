@@ -75,3 +75,34 @@ comparison remain their later tickets. Private trajectories are not dispatch
 evidence; engineering work completion is not repair or inspection confirmation.
 Research trials/model calls/training are zero; field calibration PENDING and gain
 NOT_ESTABLISHED. Global progress remains active/in_progress and was not modified.
+
+## Post-resolution review lifecycle
+
+The implementer resolved this slice in `dd2c9775`; root had **not** accepted ticket
+03 or M1. Subsequent Standards/Spec review requested two corrections. The original
+resolution/evidence is retained above as historical process, not silently replaced
+with a corrected-source claim.
+
+- Standards schema correction: `037d82fb0348d89b33f1f76585c49eace5fb18f4`.
+  Arrays/objects are rejected as loader `ValueError` before schema-set membership;
+  `scenario` and `simulate` CLI produce clean exit-2 errors without traceback.
+  Actual red (4 failure subcases /2 error subcases) and green logs are in
+  `evidence/mainline/engineering/03-healthy-site/schema-review-fix/`.
+- Spec local-protection correction: `bc1b9173d8b0deb796b7a2938924dc146e0e4588`.
+  `protection_latched` survives the controller's unpowered mode. Only a powered
+  sample satisfying the existing below-reset and adequate-flow gates clears it.
+  Public run regression first reproduced premature compute restoration at Tr
+  303.17935754 K above the 290 K reset, then confirmed protection/zero compute and
+  a separate valid 303.5 K reset. Red/green source-attributed runs and logs remain
+  in `evidence/mainline/engineering/03-healthy-site/latch-review-fix/`.
+- Current target suite: 37 executed, zero failures/errors/skips. Current full
+  acceptance: 179 discovered /177 executed, zero failures/errors, the same two
+  optional Torch skips, no unexpected skips, original 20 saved-file hashes valid.
+  `evidence/mainline/engineering/03-healthy-site/review-fixes-bc1b9173/` contains
+  the current acceptance, fresh-read verifier and source/hash/outcome receipt.
+- All 13 files registered in the original 37432b25 receipt remain byte-identical;
+  original normal/acceptance outputs were not overwritten or reattributed.
+
+The implementer's corrected implementation status is `resolved`; root Standards,
+Spec and integration acceptance are still pending. Global M1/mainline progress
+was not advanced. These remain engineering fixes, with no scientific gain claim.

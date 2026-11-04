@@ -1,3 +1,6 @@
 # The acceptance helper writes native Windows CRLF. Preserve the hashed originals;
 # carriage returns at line endings are representation, not trailing content.
 acceptance-37432b25/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+review-fixes-bc1b9173/acceptance/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# unittest leaves a progress space before subtest-result newlines in this red log.
+schema-review-fix/red.log -text whitespace=blank-at-eof,space-before-tab,-blank-at-eol

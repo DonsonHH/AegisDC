@@ -1,0 +1,110 @@
+{
+  "schema": "aegisdc-ticket03-review-fixes-v1",
+  "status": "PASS",
+  "scope": "Finite engineering regression and artifact integrity; no scientific gain or field validation",
+  "schema_fix_commit": "037d82fb0348d89b33f1f76585c49eace5fb18f4",
+  "latch_fix_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+  "target_tests": {
+    "run": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full_acceptance": {
+    "run": 179,
+    "executed": 177,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "PASS"
+  },
+  "prior_receipt_files_preserved": 13,
+  "red_power_cycle": {
+    "source_commit": "037d82fb0348d89b33f1f76585c49eace5fb18f4",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "b622c012d437b37e64a153e6283d2da239aac48b5bc1e64b40c346d2841f7389",
+    "final_mode": "normal",
+    "protection_latched": null,
+    "final_temperature_K": 303.179357540086,
+    "reset_temperature_K": 290,
+    "compute_power_W": 2000000.0,
+    "internal_volume_flow_m3_s": 0.12
+  },
+  "green_power_cycle": {
+    "source_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "7423a4ba1de2c42015b733ad920b638831e8e730a420906f8d443d73022fe6fe",
+    "final_mode": "protected",
+    "protection_latched": true,
+    "final_temperature_K": 303.179357540086,
+    "reset_temperature_K": 290,
+    "compute_power_W": 0.0,
+    "internal_volume_flow_m3_s": 0.12
+  },
+  "green_valid_reset": {
+    "source_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "7423a4ba1de2c42015b733ad920b638831e8e730a420906f8d443d73022fe6fe",
+    "final_mode": "normal",
+    "protection_latched": false,
+    "final_temperature_K": 303.179357540086,
+    "reset_temperature_K": 303.5,
+    "compute_power_W": 2000000.0,
+    "internal_volume_flow_m3_s": 0.12
+  },
+  "root_integration_acceptance": "PENDING",
+  "mainline_status": "active",
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "files_sha256": {
+    "schema-review-fix/green.log": "d9eb2460f04baf884dedcfacd43694a12a87ca8ee9b6a25c3c03a24c34b79362",
+    "schema-review-fix/red.log": "ce9493e66ef247a8465144af71fd606d3840781b57b9b5c6b4c0331dd7336c92",
+    "schema-review-fix/tested-source.json": "0d13a5d2be2dbb82bd0ba0eb32d8856765133e82675a8a3745192ad41f7cbd71",
+    "latch-review-fix/green-bc1b9173/below-reset/balances.jsonl": "70bfac3ad6e6e0cd0c5b3a6eace9d497ba2b11441d100b189cd3cac68f556017",
+    "latch-review-fix/green-bc1b9173/below-reset/private-state.jsonl": "0caf0b9075c51eda9215208f4207b4eb1ebe242de0b1c0cc5eeec45343cdc294",
+    "latch-review-fix/green-bc1b9173/below-reset/run.json": "47a9f0bd2c98e7098afaf1927e807301e2b675f68d37aaca5d0e539109f56a30",
+    "latch-review-fix/green-bc1b9173/below-reset/scenario.json": "3dbceac1e4a74fd0571915fcaab6558480c82cdaa49638ce190037ada7ee1238",
+    "latch-review-fix/green-bc1b9173/power-cycle/balances.jsonl": "70bfac3ad6e6e0cd0c5b3a6eace9d497ba2b11441d100b189cd3cac68f556017",
+    "latch-review-fix/green-bc1b9173/power-cycle/private-state.jsonl": "3cb4924d14deb48da207755f9cc9ab9d0ef9f87cd8141e237d0851d72aa0b0f5",
+    "latch-review-fix/green-bc1b9173/power-cycle/run.json": "f38733b96dd23ea3abd26fb3cc6833d9e9fb96f4ebec6318da0ddc84bd034d11",
+    "latch-review-fix/green-bc1b9173/power-cycle/scenario.json": "7bb1b13820c2ea9afae613839cb892a0edb46dc2edf35009d95f8d39becdd3c7",
+    "latch-review-fix/green-bc1b9173/summary.json": "04deea64e6ea8dff0fc83337b3a11fe4555b634a65634e323c399d66ca80f2c0",
+    "latch-review-fix/green-bc1b9173/uninterrupted/balances.jsonl": "f5b4f0366cc61187e892fe427268d7542e4f03e812cc6e3ca9c81d9b6dbef7b4",
+    "latch-review-fix/green-bc1b9173/uninterrupted/private-state.jsonl": "289d0a0d139cee3c45650c70eb3e1de743dc08031a22631f39fb2aaf25c886f4",
+    "latch-review-fix/green-bc1b9173/uninterrupted/run.json": "c11576639c7cb0008535fdd33ef890c06848adf62193fd9e95c531e3980740bf",
+    "latch-review-fix/green-bc1b9173/uninterrupted/scenario.json": "7bb1b13820c2ea9afae613839cb892a0edb46dc2edf35009d95f8d39becdd3c7",
+    "latch-review-fix/green.log": "4ea832383bf261c5af0adcfd8d88708efe2f41c2755ed4fc1ed3127268ec7ed0",
+    "latch-review-fix/red-037d82fb/below-reset/balances.jsonl": "70bfac3ad6e6e0cd0c5b3a6eace9d497ba2b11441d100b189cd3cac68f556017",
+    "latch-review-fix/red-037d82fb/below-reset/private-state.jsonl": "07bbea4d5182200ccbd64c6a4921234609fb463cc419176b6bb2cde3bc2cdaf7",
+    "latch-review-fix/red-037d82fb/below-reset/run.json": "7728bbfb1c771fee80510c2e9a045e8bf40629c2286b3b25766ae10c95347a01",
+    "latch-review-fix/red-037d82fb/below-reset/scenario.json": "3dbceac1e4a74fd0571915fcaab6558480c82cdaa49638ce190037ada7ee1238",
+    "latch-review-fix/red-037d82fb/power-cycle/balances.jsonl": "70bfac3ad6e6e0cd0c5b3a6eace9d497ba2b11441d100b189cd3cac68f556017",
+    "latch-review-fix/red-037d82fb/power-cycle/private-state.jsonl": "07bbea4d5182200ccbd64c6a4921234609fb463cc419176b6bb2cde3bc2cdaf7",
+    "latch-review-fix/red-037d82fb/power-cycle/run.json": "f149d88c2d91790d101a6b9fa9de55576f9091d8d2892f1cf99451ed0e0ef23b",
+    "latch-review-fix/red-037d82fb/power-cycle/scenario.json": "7bb1b13820c2ea9afae613839cb892a0edb46dc2edf35009d95f8d39becdd3c7",
+    "latch-review-fix/red-037d82fb/summary.json": "86f3859db5175bf887ce1909e5d128748595df7508e2d0a13a5087326902ed37",
+    "latch-review-fix/red-037d82fb/uninterrupted/balances.jsonl": "f5b4f0366cc61187e892fe427268d7542e4f03e812cc6e3ca9c81d9b6dbef7b4",
+    "latch-review-fix/red-037d82fb/uninterrupted/private-state.jsonl": "194d09c14b541a62b82d721e81dff42c13e55c7439c0e8eba50bc815c00bf491",
+    "latch-review-fix/red-037d82fb/uninterrupted/run.json": "2d383e664e215f2976af1dcbe4355a430e5a9475ec7580bd2bca64f2ce68bb0e",
+    "latch-review-fix/red-037d82fb/uninterrupted/scenario.json": "7bb1b13820c2ea9afae613839cb892a0edb46dc2edf35009d95f8d39becdd3c7",
+    "latch-review-fix/red.log": "30cbf7ebe810ae212a564c811b7073f74ec77e0797bec3d150c1a69035afe73c",
+    "latch-review-fix/reproduce.py": "3366c72930849925c3a14dbcd3cfb1561fdcb9d29f9cbd62fb59c98ce2c47761",
+    "latch-review-fix/tested-source.json": "d186df1498a298b5a50b72b10467f88be60fc49a539009d483d05b47bb18334e",
+    "review-fixes-bc1b9173/acceptance/evidence.json": "b4d812cf009c9392c7891e5f7868570e560f68df55479b0b2faf1a548a22f26e",
+    "review-fixes-bc1b9173/acceptance/summary.json": "2f3f35207c81b783662959fc875747c46d79a9a081de63ee7b8c80211c4004a6",
+    "review-fixes-bc1b9173/acceptance/tests.log": "8354b9a56523eb2ea4b4e04b83fcf07255d90940ebc7f28c701c1ea9d49b93c8",
+    "review-fixes-bc1b9173/verify_review.py": "b562e1651b750b79ac3d4334354002fc4567d3a1b23b828e4d7543f1b940307d"
+  }
+}

@@ -1,0 +1,96 @@
+test_active_parameters_require_finite_SI_values_ranges_and_provenance (test_full_facility_scenario.FullFacilityScenarioTests.test_active_parameters_require_finite_SI_values_ranges_and_provenance) ... ok
+test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) ... 
+  test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema=[], command='scenario') ... FAIL
+  test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema=[], command='simulate') ... FAIL
+  test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema={}, command='scenario') ... FAIL
+  test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema={}, command='simulate') ... FAIL
+test_array_and_object_schema_fail_as_loader_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_fail_as_loader_contract_errors) ... 
+  test_array_and_object_schema_fail_as_loader_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_fail_as_loader_contract_errors) (schema=[]) ... ERROR
+  test_array_and_object_schema_fail_as_loader_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_fail_as_loader_contract_errors) (schema={}) ... ERROR
+test_cli_inspects_the_structural_contract_without_claiming_a_run (test_full_facility_scenario.FullFacilityScenarioTests.test_cli_inspects_the_structural_contract_without_claiming_a_run) ... ok
+test_cli_rejects_an_invalid_scenario_before_outputting_a_valid_summary (test_full_facility_scenario.FullFacilityScenarioTests.test_cli_rejects_an_invalid_scenario_before_outputting_a_valid_summary) ... ok
+test_duplicate_json_fields_are_rejected_before_interpreting_the_scenario (test_full_facility_scenario.FullFacilityScenarioTests.test_duplicate_json_fields_are_rejected_before_interpreting_the_scenario) ... ok
+test_each_operational_domain_requires_a_behavior_and_work_contract (test_full_facility_scenario.FullFacilityScenarioTests.test_each_operational_domain_requires_a_behavior_and_work_contract) ... ok
+test_electrical_ports_require_compatible_nominal_voltage_parameters (test_full_facility_scenario.FullFacilityScenarioTests.test_electrical_ports_require_compatible_nominal_voltage_parameters) ... ok
+test_malformed_symbolic_fields_fail_as_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_malformed_symbolic_fields_fail_as_contract_errors) ... ok
+test_physical_ports_separate_carriers_media_and_voltage_levels (test_full_facility_scenario.FullFacilityScenarioTests.test_physical_ports_separate_carriers_media_and_voltage_levels) ... ok
+test_research_scenario_declares_all_domains_and_relation_views (test_full_facility_scenario.FullFacilityScenarioTests.test_research_scenario_declares_all_domains_and_relation_views) ... ok
+test_shared_identities_and_relationship_roles_are_checked (test_full_facility_scenario.FullFacilityScenarioTests.test_shared_identities_and_relationship_roles_are_checked) ... ok
+test_site_gaps_and_source_identity_cannot_be_promoted_to_active_facts (test_full_facility_scenario.FullFacilityScenarioTests.test_site_gaps_and_source_identity_cannot_be_promoted_to_active_facts) ... ok
+test_undeclared_numeric_shortcuts_cannot_bypass_parameter_metadata (test_full_facility_scenario.FullFacilityScenarioTests.test_undeclared_numeric_shortcuts_cannot_bypass_parameter_metadata) ... ok
+test_workers_tools_and_work_entries_have_compatible_qualified_references (test_full_facility_scenario.FullFacilityScenarioTests.test_workers_tools_and_work_entries_have_compatible_qualified_references) ... ok
+
+======================================================================
+ERROR: test_array_and_object_schema_fail_as_loader_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_fail_as_loader_contract_errors) (schema=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 207, in test_array_and_object_schema_fail_as_loader_contract_errors
+    self.load_changed(changed)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 25, in load_changed
+    return load_scenario(file)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 381, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 365, in validate_scenario
+    _contract(scenario)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 95, in _contract
+    _require(schema in {'aegisdc-full-facility-scenario-v1', 'aegisdc-full-facility-scenario-v2'}, 'Unknown scenario schema')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_array_and_object_schema_fail_as_loader_contract_errors (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_fail_as_loader_contract_errors) (schema={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 207, in test_array_and_object_schema_fail_as_loader_contract_errors
+    self.load_changed(changed)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 25, in load_changed
+    return load_scenario(file)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 381, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 365, in validate_scenario
+    _contract(scenario)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\src\aegis_dc\scenario.py", line 95, in _contract
+    _require(schema in {'aegisdc-full-facility-scenario-v1', 'aegisdc-full-facility-scenario-v2'}, 'Unknown scenario schema')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+======================================================================
+FAIL: test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema=[], command='scenario')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 221, in test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run
+    self.assertEqual(process.returncode, 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema=[], command='simulate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 221, in test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run
+    self.assertEqual(process.returncode, 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema={}, command='scenario')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 221, in test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run
+    self.assertEqual(process.returncode, 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run (test_full_facility_scenario.FullFacilityScenarioTests.test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run) (schema={}, command='simulate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-03\tests\test_full_facility_scenario.py", line 221, in test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run
+    self.assertEqual(process.returncode, 2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.708s
+
+FAILED (failures=4, errors=2)

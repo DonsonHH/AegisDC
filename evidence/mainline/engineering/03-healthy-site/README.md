@@ -62,3 +62,9 @@ supported topology, equations, initialization and remaining capabilities are in
 [the model description](../../../../docs/mainline/healthy-run-model.md). Full
 anomaly/control/backup qualification, delayed/noisy evidence, risk scheduling,
 intervention/verification and numerical convergence remain their mainline tickets.
+
+Review corrections after the implementer's resolution are recorded separately in
+`review-fixes-bc1b9173/`, `schema-review-fix/` and `latch-review-fix/`. They preserve
+the original 37432b25 run/acceptance bytes and their historical source attribution.
+Ticket 03 still requires root Standards/Spec and integration acceptance; the
+original implementation resolution did not constitute that acceptance.

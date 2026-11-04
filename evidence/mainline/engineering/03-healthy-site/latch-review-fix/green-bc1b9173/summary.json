@@ -1,0 +1,39 @@
+{
+  "scope": "Finite engineering regression only: controller power cycle and trip hysteresis.",
+  "cases": {
+    "uninterrupted": {
+      "source_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+      "implementation_has_changes": false,
+      "source_tree_sha256": "7423a4ba1de2c42015b733ad920b638831e8e730a420906f8d443d73022fe6fe",
+      "final_mode": "protected",
+      "protection_latched": true,
+      "final_temperature_K": 302.6524176861432,
+      "reset_temperature_K": 290,
+      "compute_power_W": 0.0,
+      "internal_volume_flow_m3_s": 0.12
+    },
+    "power-cycle": {
+      "source_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+      "implementation_has_changes": false,
+      "source_tree_sha256": "7423a4ba1de2c42015b733ad920b638831e8e730a420906f8d443d73022fe6fe",
+      "final_mode": "protected",
+      "protection_latched": true,
+      "final_temperature_K": 303.179357540086,
+      "reset_temperature_K": 290,
+      "compute_power_W": 0.0,
+      "internal_volume_flow_m3_s": 0.12
+    },
+    "below-reset": {
+      "source_commit": "bc1b9173d8b0deb796b7a2938924dc146e0e4588",
+      "implementation_has_changes": false,
+      "source_tree_sha256": "7423a4ba1de2c42015b733ad920b638831e8e730a420906f8d443d73022fe6fe",
+      "final_mode": "normal",
+      "protection_latched": false,
+      "final_temperature_K": 303.179357540086,
+      "reset_temperature_K": 303.5,
+      "compute_power_W": 2000000.0,
+      "internal_volume_flow_m3_s": 0.12
+    }
+  },
+  "research_trials": 0
+}
