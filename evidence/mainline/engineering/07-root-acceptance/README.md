@@ -13,6 +13,9 @@ The figure uses the preserved `5ca3c3a0` engineering run. Its mass, heat and wor
 accounts reconcile with the saved intervals. At 10 s, 20 kg has left the internal
 loop, 19 kg remains on the floor and 1 kg has drained out. PNG/SVG were inspected
 for visible series, units and annotations; line styles distinguish the series.
+The water-energy curves use the model's common `cp*T` reference with a zero-K
+mathematical origin; stored water, incoming leakage and exported drainage all
+use that same reference.
 [Editable SVG](figures/leak-and-work.svg) · [data identity](figures/leak-and-work.json)
 · [figure author](../../../../scripts/plot_mainline_environment.py).
 

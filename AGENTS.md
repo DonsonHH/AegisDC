@@ -30,4 +30,6 @@ Local role vocabulary: `docs/agents/triage-labels.md`.
 
 The shared implementation/testing boundaries are the scenario loader, facility run interface, evidence-only decision view, and CLI. Their contracts and limits are in `.scratch/full-facility-mainline/spec.md`. Use red/green behavior slices at those interfaces, with conservation/analytic examples and independently specified outcomes.
 
+Define the durable delivery set before hashing: declared inputs/outputs, immutable records and pinned authoring/verification tools. Automatic `__pycache__`, `.pyc` and `.pyo` files are runtime caches, not delivered evidence. Verify declared artifacts against their manifests and committed delivery blobs in a fresh checkout; check runtime source against its recorded execution revision. If an old manifest mixed caches with durable files, retain the original and add an exact classification correction rather than skipping arbitrary hash failures or rewriting originals.
+
 Integrate one reviewed ticket at a time. Re-read the integration tip before coding in a worktree; preserve concurrent work, run appropriate checks, and publish milestone evidence. Read `docs/mainline/progress.json` again before deciding what is complete.
