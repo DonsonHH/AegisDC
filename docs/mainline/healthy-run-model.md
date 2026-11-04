@@ -183,7 +183,10 @@ temperature labels. Perturbed inputs deliberately create nonzero thermal evoluti
 Local sampling has its own configured period, independent of the maximum numeric
 step. Ideal local refrigerant temperature and internal flow can trip compute.
 Thermal protection resets only below the separate reset threshold with adequate
-flow. Pump commands use high/low hysteresis; loss of controller power holds the
+flow. Its `protection_latched` state persists independently of powered/unpowered
+mode; losing and restoring controller power cannot itself clear protection.
+Only a powered local sample satisfying both reset conditions can clear the latch.
+Pump commands use high/low hysteresis; loss of controller power holds the
 declared fail-safe pump command and removes compute permission at the next sample.
 No human dispatch is required for protection. Delayed/noisy dispatch evidence and
 control communication faults remain later tickets.

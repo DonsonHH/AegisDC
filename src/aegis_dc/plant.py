@@ -79,7 +79,8 @@ class _Plant:
                            fuel=p['diesel_initial_fuel_energy'])
         self.floor_mass = p['initial_floor_water_mass']
         self.floor_access_blocked = self.floor_mass >= p['access_block_mass']
-        self.control = {'mode': 'normal', 'compute_permitted': True, 'pump_speed_command': 1.0,
+        self.control = {'mode': 'normal', 'protection_latched': False,
+                        'compute_permitted': True, 'pump_speed_command': 1.0,
                         'local_measurement': None}
         self.next_sample = 0.0
         self.generator_mode, self.generator_ready = 'off', None
@@ -184,9 +185,11 @@ class _Plant:
             flow = point['internal_pump']['volume_flow_m3_s']
             trip = temperature >= p['protection_temperature'] or flow < p['minimum_internal_volume_flow']
             if trip:
-                c.update(mode='protected', compute_permitted=False)
-            elif c['mode'] != 'protected' or temperature <= p['protection_reset_temperature']:
-                c.update(mode='normal', compute_permitted=True)
+                c['protection_latched'] = True
+            elif temperature <= p['protection_reset_temperature'] and flow >= p['minimum_internal_volume_flow']:
+                c['protection_latched'] = False
+            c.update(mode='protected' if c['protection_latched'] else 'normal',
+                     compute_permitted=not c['protection_latched'])
             if temperature >= p['cooling_setpoint']:
                 c['pump_speed_command'] = 1.0
             elif temperature <= p['cooling_setpoint'] - p['control_hysteresis']:

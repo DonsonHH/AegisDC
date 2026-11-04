@@ -220,6 +220,38 @@ class HealthyFacilityTests(unittest.TestCase):
         self.assertEqual(protected['trace'][0]['domains']['power']['actual_powers_W']['compute'], 0)
         self.assertEqual(protected['summary']['service_deficit_time_s'], 2)
 
+    def test_local_trip_latch_survives_controller_power_loss_until_a_valid_reset(self):
+        from aegis_dc.plant import simulate_scenario
+        scenario = changed_parameters(protection_temperature=304, protection_reset_temperature=290,
+                                       initial_solid_temperature=300, ups_energy=0,
+                                       diesel_initial_fuel_energy=0)
+        events = [
+            {'time_s': 0.25, 'parameter_id': 'grid_capacity', 'value': 0,
+             'source_note': 'Engineering controller-power-loss hysteresis regression.'},
+            {'time_s': 1.25, 'parameter_id': 'grid_capacity', 'value': 10000000,
+             'source_note': 'Engineering controller-power-restoration hysteresis regression.'},
+        ]
+        uninterrupted = simulate_scenario(scenario, duration_s=2)
+        cycled = simulate_scenario(scenario, duration_s=2, boundary_events=events)
+        self.assertEqual(uninterrupted['trace'][-1]['domains']['control_monitoring']['mode'], 'protected')
+        final = cycled['trace'][-1]['domains']
+        self.assertGreater(final['equipment_environment']['refrigerant']['temperature_K'], 290)
+        self.assertEqual(final['control_monitoring']['mode'], 'protected')
+        self.assertTrue(final['control_monitoring']['protection_latched'])
+        self.assertEqual(final['power']['actual_powers_W']['compute'], 0)
+        dark = next(row['domains']['control_monitoring'] for row in cycled['trace'] if row['time_s'] == 1)
+        self.assertEqual(dark['mode'], 'unpowered_fail_safe')
+        self.assertTrue(dark['protection_latched'])
+        # The same power cycle can clear the latch only after both reset gates.
+        for record in scenario['parameters']:
+            if record['id'] == 'protection_reset_temperature':
+                record['value'] = 303.5
+        reset = simulate_scenario(scenario, duration_s=2, boundary_events=events)['trace'][-1]['domains']
+        self.assertLessEqual(reset['equipment_environment']['refrigerant']['temperature_K'], 303.5)
+        self.assertGreaterEqual(reset['facility_cooling']['internal_pump']['volume_flow_m3_s'], 0.01)
+        self.assertEqual(reset['control_monitoring']['mode'], 'normal')
+        self.assertFalse(reset['control_monitoring']['protection_latched'])
+
     def test_generator_start_delay_is_a_split_event_and_fuel_is_finite(self):
         from aegis_dc.plant import simulate_scenario
         result = simulate_scenario(changed_parameters(grid_capacity=0, diesel_start_time=2.5), duration_s=3)
