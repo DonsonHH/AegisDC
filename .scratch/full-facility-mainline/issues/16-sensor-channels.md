@@ -16,6 +16,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+The user confirmed that fixed sensors exist but cannot cover every location because of cost and other constraints (ADR 0002, 2026-11-05 clarification). Include sparse fixed measurements in the primary scenario. Missing/disabled/no-fixed-input cases test information availability; they do not redefine the primary facility as sensor-free. Historical/asset records, human reports/work orders and on-site portable measurements remain allowed evidence sources.
+
 ## Evidence
 
 Pending implementation and acceptance.
