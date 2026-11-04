@@ -1,0 +1,120 @@
+{
+  "scope": "ENGINEERING_FIXTURES_ONLY",
+  "runs": [
+    {
+      "id": "normal",
+      "duration_s": 2,
+      "step_s": 0.5,
+      "parameters": {}
+    },
+    {
+      "id": "heating-2MJ",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "condenser_conductance": 0
+      },
+      "expected_delta_U_J": 2000000
+    },
+    {
+      "id": "cooling-2MJ",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0
+      },
+      "expected_delta_U_J": -2000000
+    },
+    {
+      "id": "both-closed",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0
+      }
+    },
+    {
+      "id": "reverse-condenser",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0,
+        "initial_cold_temperature": 310,
+        "initial_hot_temperature": 310
+      }
+    },
+    {
+      "id": "reverse-closed",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "initial_cold_temperature": 310,
+        "initial_hot_temperature": 310
+      }
+    },
+    {
+      "id": "stopped-internal-flow",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "internal_pump_pressure_rise": 0
+      },
+      "expected_delta_U_J": 2000000
+    },
+    {
+      "id": "heating-transient",
+      "duration_s": 10,
+      "step_s": 0.25,
+      "parameters": {
+        "condenser_conductance": 0
+      }
+    },
+    {
+      "id": "cooling-transient",
+      "duration_s": 10,
+      "step_s": 0.25,
+      "parameters": {
+        "solid_coolant_conductance": 0
+      }
+    },
+    {
+      "id": "liquid-rich",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "coolant_inventory": 2000.0,
+        "coolant_initial_energy": 486241426.8231971,
+        "coolant_control_volume": 1.7412672894418058
+      }
+    },
+    {
+      "id": "vapor-rich",
+      "duration_s": 1,
+      "step_s": 1,
+      "parameters": {
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "coolant_inventory": 2000.0,
+        "coolant_initial_energy": 786880007.6431878,
+        "coolant_control_volume": 50.75344443043507
+      }
+    }
+  ],
+  "expected_rejection": {
+    "id": "runtime-upper-domain-exit",
+    "duration_s": 0.01,
+    "step_s": 0.01,
+    "parameters": {
+      "coolant_inventory": 2000,
+      "coolant_initial_energy": 742775442.0798761,
+      "coolant_control_volume": 6.422587397615047,
+      "initial_solid_temperature": 370,
+      "condenser_conductance": 0
+    }
+  }
+}

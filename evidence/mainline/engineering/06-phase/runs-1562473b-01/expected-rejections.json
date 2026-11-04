@@ -1,0 +1,87 @@
+[
+  {
+    "id": "outside-pressure-90000",
+    "input_MUV": {
+      "mass_kg": 2000.0,
+      "internal_energy_J": 524509407.5447569,
+      "volume_m3": 213.36297040400967
+    },
+    "expected_EOS": {
+      "pressure_Pa": 90000.0,
+      "temperature_K": 244.51681361551056,
+      "quality": 0.5,
+      "density_kg_m3": 9.373697770578163,
+      "specific_energy_J_kg": 262254.70377237845,
+      "phase_index": 6
+    },
+    "error": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+  },
+  {
+    "id": "outside-pressure-3100000",
+    "input_MUV": {
+      "mass_kg": 2000.0,
+      "internal_energy_J": 745613460.3422753,
+      "volume_m3": 6.1610738251964055
+    },
+    "expected_EOS": {
+      "pressure_Pa": 3100000.0,
+      "temperature_K": 360.9378798506774,
+      "quality": 0.5,
+      "density_kg_m3": 324.61873639961505,
+      "specific_energy_J_kg": 372806.7301711376,
+      "phase_index": 6
+    },
+    "error": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+  },
+  {
+    "id": "subcooled",
+    "input_MUV": {
+      "mass_kg": 2000.0,
+      "internal_energy_J": 444882823.4513072,
+      "volume_m3": 1.6151986370829459
+    },
+    "expected_EOS": {
+      "pressure_Pa": 799999.9999996842,
+      "temperature_K": 290.0,
+      "quality": -1.0,
+      "density_kg_m3": 1238.237795700476,
+      "specific_energy_J_kg": 222441.4117256536,
+      "phase_index": 0
+    },
+    "error": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+  },
+  {
+    "id": "superheated",
+    "input_MUV": {
+      "mass_kg": 2000.0,
+      "internal_energy_J": 872272342.4603183,
+      "volume_m3": 64.49606977846031
+    },
+    "expected_EOS": {
+      "pressure_Pa": 799999.9999994766,
+      "temperature_K": 350.0,
+      "quality": -1.0,
+      "density_kg_m3": 31.009641469160314,
+      "specific_energy_J_kg": 436136.1712301592,
+      "phase_index": 5
+    },
+    "error": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0"
+  },
+  {
+    "id": "runtime-upper-domain-exit",
+    "error": "Two-phase M/U/V flash requires exactly one domain-valid root; found 0",
+    "input": {
+      "id": "runtime-upper-domain-exit",
+      "duration_s": 0.01,
+      "step_s": 0.01,
+      "parameters": {
+        "coolant_inventory": 2000,
+        "coolant_initial_energy": 742775442.0798761,
+        "coolant_control_volume": 6.422587397615047,
+        "initial_solid_temperature": 370,
+        "condenser_conductance": 0
+      }
+    },
+    "successful_trajectory_returned": false
+  }
+]
