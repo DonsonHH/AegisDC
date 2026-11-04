@@ -4,7 +4,7 @@
 
 **Blocked by:** 04, 05, 06
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -30,3 +30,5 @@ owner confirmed `local_control_profile` as a later 09 extension; unsupported or
 unimplemented values must be rejected until behavior is implemented. This round
 changes no runtime source/config and performs no engineering acceptance run.
 Status remains ready-for-agent pending the root's implementation follow-up.
+
+Implementation started after root acceptance of 07/08 at integration `98fd8c4b`; the public loader/run/CLI and independently varying local-control component are the authorized seams. Signed offsets must not relax physical quantity ranges.

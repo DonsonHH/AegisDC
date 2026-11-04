@@ -17,6 +17,7 @@ SI_UNITS = {
     'service_capacity': '1', 'probability': '1', 'length': 'm',
     'hydraulic_resistance': 'Pa*s2/m6', 'fraction': '1',
     'temperature_difference': 'K', 'inventory_mass': 'kg',
+    'temperature_offset': 'K', 'volume_flow_offset': 'm3/s',
 }
 PARAMETER_BASES = {'synthetic_assumption', 'published_reference', 'derived_reference'}
 STRICTLY_POSITIVE = {'temperature', 'mass', 'volume', 'time', 'thermal_capacity',
@@ -148,7 +149,10 @@ def _parameters(scenario):
         for limit in limits:
             _number(limit, 'valid_range')
         low, high = limits
-        _require(0 <= low <= value <= high, 'Parameter outside nonnegative valid_range')
+        if quantity in {'temperature_offset', 'volume_flow_offset'}:
+            _require(low <= value <= high, 'Signed measurement offset outside declared valid_range')
+        else:
+            _require(0 <= low <= value <= high, 'Parameter outside nonnegative valid_range')
         if quantity in STRICTLY_POSITIVE:
             _require(low > 0, 'Quantity requires a strictly positive valid_range')
         if quantity in {'efficiency', 'relative_humidity', 'probability'}:
