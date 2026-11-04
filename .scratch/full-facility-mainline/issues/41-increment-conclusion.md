@@ -4,6 +4,8 @@
 
 **Blocked by:** 38, 39, 40
 
+39/40若由38的有证据NOT_ELIGIBLE决定标为`deferred-by-gate`，本票可执行资格限制审计，并明确增量未测；不能报告为负测量或已完成相应实验。
+
 **Status:** ready-for-agent
 
 **Milestone:** M7

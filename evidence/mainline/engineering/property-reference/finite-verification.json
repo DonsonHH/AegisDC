@@ -1,0 +1,833 @@
+{
+  "schema": "aegisdc-property-verification-v1",
+  "status": "PASS",
+  "recorded_UTC": "2026-11-04T12:17:07.736766+00:00",
+  "scope": "Finite EOS/table consistency and off-grid numerical checks; no empirical/site validation, facility simulation, scheduling trial or training",
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.3.5",
+    "coolprop": "8.0.0",
+    "coolprop_gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+    "installation_scope": "isolated temporary target, not project/global dependency"
+  },
+  "artifacts": {
+    "table": {
+      "file": "reference-r134a-saturation.json",
+      "bytes": 226640,
+      "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c"
+    },
+    "wheel": {
+      "file": "wheels/coolprop-8.0.0-cp312-abi3-win_amd64.whl",
+      "sha256": "f1f78a2ee9ce703c496a42a68cde9bd6f22b2b964375c2abba39d6dc879918d3"
+    },
+    "installed_extension": {
+      "file": "coolprop-deps\\CoolProp\\CoolProp.pyd",
+      "sha256": "eba3061d6e3cf1435573156f61310389ea2e2c8918b893032d9ca5737ed56440"
+    },
+    "authoring_script": {
+      "file": "prepare_reference_properties.py",
+      "sha256": "3993ec6467888cb90c2a0cab88f7f6770cd0f3c5d756a060535f1695d9dba55a"
+    },
+    "pypi_metadata": {
+      "file": "coolprop-pypi-metadata.json",
+      "sha256": "a32d50d2840a4ebc229acc59e97c5b70cd06ae1a3f14de989bed83794ff58c41"
+    }
+  },
+  "predeclared_numerical_limits": {
+    "raw_h_u_identity_abs_J_kg": 1e-06,
+    "interpolated_temperature_abs_K": 0.01,
+    "interpolated_property_max_relative": 0.0005,
+    "inverse_pressure_relative": 0.001,
+    "inverse_temperature_abs_K": 0.03,
+    "inverse_quality_abs": 0.0005,
+    "external_flash_pressure_relative": 1e-08,
+    "external_flash_temperature_abs_K": 1e-06,
+    "external_flash_quality_abs": 1e-08
+  },
+  "table_checks": {
+    "finite": true,
+    "positive_T_p_density_and_positive_phase_gaps": true,
+    "strictly_monotonic_Tsat": true,
+    "bounded_above_triple_below_critical": true,
+    "max_raw_h_u_pv_residual_J_kg": 1.9826984498649836e-09,
+    "max_liquid_vapor_T_disagreement_K": 0.0,
+    "u_h_positive_on_this_DEF_table": true,
+    "energy_reference_note": "Absolute u/h positivity is reference dependent; it is observed here, not a universal acceptance rule."
+  },
+  "interpolation_checks": {
+    "probe_count": 543,
+    "geometric_cell_midpoints": 511,
+    "additional_off_grid": 32,
+    "errors": {
+      "T_sat_K": {
+        "max_abs": 5.826667648989314e-05,
+        "max_relative": 1.7246984221949762e-07,
+        "p_at_max_abs_Pa": 2032442.801543176,
+        "p_at_max_relative_Pa": 1698129.5894793528
+      },
+      "rho_l_kg_m3": {
+        "max_abs": 0.0075311922146283905,
+        "max_relative": 8.580597187694868e-06,
+        "p_at_max_abs_Pa": 2990032.649432629,
+        "p_at_max_relative_Pa": 2990032.649432629
+      },
+      "rho_v_kg_m3": {
+        "max_abs": 0.0008383932374158576,
+        "max_relative": 5.792258489420352e-06,
+        "p_at_max_abs_Pa": 2723998.443751575,
+        "p_at_max_relative_Pa": 2073434.2920584811
+      },
+      "u_l_J_kg": {
+        "max_abs": 0.5151421134360135,
+        "max_relative": 1.5564885684310964e-06,
+        "p_at_max_abs_Pa": 2990032.649432629,
+        "p_at_max_relative_Pa": 2990032.649432629
+      },
+      "u_v_J_kg": {
+        "max_abs": 0.5934795013745315,
+        "max_relative": 1.4421570681358461e-06,
+        "p_at_max_abs_Pa": 2990032.649432629,
+        "p_at_max_relative_Pa": 2990032.649432629
+      },
+      "h_l_J_kg": {
+        "max_abs": 0.5443736035376787,
+        "max_relative": 1.6280529549975015e-06,
+        "p_at_max_abs_Pa": 2990032.649432629,
+        "p_at_max_relative_Pa": 2990032.649432629
+      },
+      "h_v_J_kg": {
+        "max_abs": 0.5315864435979165,
+        "max_relative": 1.2437694952711067e-06,
+        "p_at_max_abs_Pa": 2990032.649432629,
+        "p_at_max_relative_Pa": 2990032.649432629
+      }
+    },
+    "identity_note": "h=u+pv is enforced by deriving h off grid; independent off-grid EOS error comparisons are recorded separately."
+  },
+  "initial_state_inverse": {
+    "case_count": 25,
+    "construction": "Direct EOS(P,Q)→M,U,V; independent EOS(Dmass,Umass) flash and table M/U/V inverse",
+    "max_table_errors": {
+      "pressure_relative": 4.596483450082955e-06,
+      "temperature_abs_K": 0.00020360948639108756,
+      "quality_abs": 2.1709033282135692e-06
+    },
+    "max_external_flash_errors": {
+      "pressure_relative": 3.337239225705465e-14,
+      "temperature_abs_K": 5.684341886080802e-14,
+      "quality_abs": 6.661338147750939e-16
+    },
+    "cases": [
+      {
+        "given_pressure_Pa": 130000.0,
+        "given_quality": 0.01,
+        "M_kg": 10.0,
+        "U_J": 1748557.8268345725,
+        "V_m3": 0.02231336996116319,
+        "external_EOS_flash": {
+          "p_Pa": 130000.0000000005,
+          "T_K": 252.66919177845915,
+          "quality": 0.009999999999999992
+        },
+        "table_inverse": {
+          "p_Pa": 129999.87408400587,
+          "T_K": 252.66919600776515,
+          "quality": 0.009999942916324863,
+          "specific_energy_residual_J_kg": 5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 9.685845701964213e-07,
+          "temperature_abs_K": 4.229305972103248e-06,
+          "quality_abs": 5.708367513748702e-08
+        },
+        "external_errors": {
+          "pressure_relative": 3.805885521265177e-15,
+          "temperature_abs_K": 2.842170943040401e-14,
+          "quality_abs": 8.673617379884035e-18
+        }
+      },
+      {
+        "given_pressure_Pa": 130000.0,
+        "given_quality": 0.1,
+        "M_kg": 10.0,
+        "U_J": 1922974.964130126,
+        "V_m3": 0.1569443729172062,
+        "external_EOS_flash": {
+          "p_Pa": 130000.00000000081,
+          "T_K": 252.6691917784592,
+          "quality": 0.10000000000000013
+        },
+        "table_inverse": {
+          "p_Pa": 130000.15395302343,
+          "T_K": 252.66924561951888,
+          "quality": 0.09999963572422847,
+          "specific_energy_residual_J_kg": -8.731149137020111e-11
+        },
+        "table_errors": {
+          "pressure_relative": 1.1842540263807258e-06,
+          "temperature_abs_K": 5.384105969596931e-05,
+          "quality_abs": 3.642757715333067e-07
+        },
+        "external_errors": {
+          "pressure_relative": 6.268517329142644e-15,
+          "temperature_abs_K": 2.842170943040401e-14,
+          "quality_abs": 1.249000902703301e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 130000.0,
+        "given_quality": 0.5,
+        "M_kg": 10.0,
+        "U_J": 2698162.240999252,
+        "V_m3": 0.7553043860551751,
+        "external_EOS_flash": {
+          "p_Pa": 130000.00000000064,
+          "T_K": 252.66919177845918,
+          "quality": 0.5
+        },
+        "table_inverse": {
+          "p_Pa": 130000.49760510484,
+          "T_K": 252.66930653780733,
+          "quality": 0.4999994367590181,
+          "specific_energy_residual_J_kg": -5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 3.827731575718364e-06,
+          "temperature_abs_K": 0.00011475934815052824,
+          "quality_abs": 5.632409819100737e-07
+        },
+        "external_errors": {
+          "pressure_relative": 4.925263615754934e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 130000.0,
+        "given_quality": 0.9,
+        "M_kg": 10.0,
+        "U_J": 3473349.5178683773,
+        "V_m3": 1.353664399193144,
+        "external_EOS_flash": {
+          "p_Pa": 130000.00000000064,
+          "T_K": 252.66919177845918,
+          "quality": 0.8999999999999999
+        },
+        "table_inverse": {
+          "p_Pa": 130000.58600401605,
+          "T_K": 252.66932220802067,
+          "quality": 0.8999995685047578,
+          "specific_energy_residual_J_kg": -1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 4.5077232003677634e-06,
+          "temperature_abs_K": 0.00013042956149433849,
+          "quality_abs": 4.3149524220353896e-07
+        },
+        "external_errors": {
+          "pressure_relative": 4.925263615754934e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 1.1102230246251565e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 130000.0,
+        "given_quality": 0.99,
+        "M_kg": 10.0,
+        "U_J": 3647766.6551639307,
+        "V_m3": 1.488295402149187,
+        "external_EOS_flash": {
+          "p_Pa": 130000.00000000064,
+          "T_K": 252.66919177845918,
+          "quality": 0.99
+        },
+        "table_inverse": {
+          "p_Pa": 130000.59754284851,
+          "T_K": 252.66932425347454,
+          "quality": 0.9899996089671484,
+          "specific_energy_residual_J_kg": -1.7462298274040222e-10
+        },
+        "table_errors": {
+          "pressure_relative": 4.596483450082955e-06,
+          "temperature_abs_K": 0.0001324750153628429,
+          "quality_abs": 3.910328515432937e-07
+        },
+        "external_errors": {
+          "pressure_relative": 4.925263615754934e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 350000.0,
+        "given_quality": 0.01,
+        "M_kg": 10.0,
+        "U_J": 2082621.8524233575,
+        "V_m3": 0.013578520334027738,
+        "external_EOS_flash": {
+          "p_Pa": 350000.0000000013,
+          "T_K": 278.1780721179307,
+          "quality": 0.01000000000000002
+        },
+        "table_inverse": {
+          "p_Pa": 349999.6892243279,
+          "T_K": 278.17807190489697,
+          "quality": 0.009999955862608968,
+          "specific_energy_residual_J_kg": -5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 8.879304916730949e-07,
+          "temperature_abs_K": 2.130336724803783e-07,
+          "quality_abs": 4.413739103197034e-08
+        },
+        "external_errors": {
+          "pressure_relative": 3.6587672574179516e-15,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 1.9081958235744878e-17
+        }
+      },
+      {
+        "given_pressure_Pa": 350000.0,
+        "given_quality": 0.1,
+        "M_kg": 10.0,
+        "U_J": 2239744.158770109,
+        "V_m3": 0.06536129519895224,
+        "external_EOS_flash": {
+          "p_Pa": 350000.0000000006,
+          "T_K": 278.17807211793064,
+          "quality": 0.10000000000000003
+        },
+        "table_inverse": {
+          "p_Pa": 350000.13867422944,
+          "T_K": 278.1781088649662,
+          "quality": 0.09999969370075056,
+          "specific_energy_residual_J_kg": 2.9103830456733704e-11
+        },
+        "table_errors": {
+          "pressure_relative": 3.962120841190751e-07,
+          "temperature_abs_K": 3.674703555134329e-05,
+          "quality_abs": 3.062992494501371e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.6630760260990687e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 2.7755575615628914e-17
+        }
+      },
+      {
+        "given_pressure_Pa": 350000.0,
+        "given_quality": 0.5,
+        "M_kg": 10.0,
+        "U_J": 2938065.520311227,
+        "V_m3": 0.2955069612652833,
+        "external_EOS_flash": {
+          "p_Pa": 350000.0000000006,
+          "T_K": 278.17807211793064,
+          "quality": 0.49999999999999994
+        },
+        "table_inverse": {
+          "p_Pa": 350000.8474154838,
+          "T_K": 278.17816714750757,
+          "quality": 0.4999994720646169,
+          "specific_energy_residual_J_kg": 5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 2.4211870965414815e-06,
+          "temperature_abs_K": 9.502957692575364e-05,
+          "quality_abs": 5.279353830767164e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.6630760260990687e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 5.551115123125783e-17
+        }
+      },
+      {
+        "given_pressure_Pa": 350000.0,
+        "given_quality": 0.9,
+        "M_kg": 10.0,
+        "U_J": 3636386.8818523455,
+        "V_m3": 0.5256526273316144,
+        "external_EOS_flash": {
+          "p_Pa": 350000.0000000006,
+          "T_K": 278.17807211793064,
+          "quality": 0.9
+        },
+        "table_inverse": {
+          "p_Pa": 350001.0671414095,
+          "T_K": 278.1781852163984,
+          "quality": 0.8999996084309873,
+          "specific_energy_residual_J_kg": -1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 3.0489754557077375e-06,
+          "temperature_abs_K": 0.0001130984677502056,
+          "quality_abs": 3.9156901276982126e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.6630760260990687e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 350000.0,
+        "given_quality": 0.99,
+        "M_kg": 10.0,
+        "U_J": 3793509.1881990973,
+        "V_m3": 0.577435402196539,
+        "external_EOS_flash": {
+          "p_Pa": 350000.0000000006,
+          "T_K": 278.17807211793064,
+          "quality": 0.9900000000000002
+        },
+        "table_inverse": {
+          "p_Pa": 350001.0971915077,
+          "T_K": 278.17818768753034,
+          "quality": 0.9899996533073079,
+          "specific_energy_residual_J_kg": 1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 3.134832879129265e-06,
+          "temperature_abs_K": 0.00011556959969993841,
+          "quality_abs": 3.466926921102953e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.6630760260990687e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 2.220446049250313e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 800000.0,
+        "given_quality": 0.01,
+        "M_kg": 10.0,
+        "U_J": 2444886.3415344884,
+        "V_m3": 0.010936415285777983,
+        "external_EOS_flash": {
+          "p_Pa": 799999.9999999992,
+          "T_K": 304.47746316327664,
+          "quality": 0.010000000000000014
+        },
+        "table_inverse": {
+          "p_Pa": 799998.7240845616,
+          "T_K": 304.47745402968746,
+          "quality": 0.009999920647047546,
+          "specific_energy_residual_J_kg": 2.9103830456733704e-11
+        },
+        "table_errors": {
+          "pressure_relative": 1.594894298032159e-06,
+          "temperature_abs_K": 9.13358911702744e-06,
+          "quality_abs": 7.935295245377338e-08
+        },
+        "external_errors": {
+          "pressure_relative": 1.0186340659856795e-15,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 1.3877787807814457e-17
+        }
+      },
+      {
+        "given_pressure_Pa": 800000.0,
+        "given_quality": 0.1,
+        "M_kg": 10.0,
+        "U_J": 2581678.41571952,
+        "V_m3": 0.03323720367146753,
+        "external_EOS_flash": {
+          "p_Pa": 799999.9999999992,
+          "T_K": 304.47746316327664,
+          "quality": 0.10000000000000017
+        },
+        "table_inverse": {
+          "p_Pa": 799999.9865077632,
+          "T_K": 304.47750947160705,
+          "quality": 0.09999945527478588,
+          "specific_energy_residual_J_kg": -1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 1.6865296056494117e-08,
+          "temperature_abs_K": 4.630833046803673e-05,
+          "quality_abs": 5.447252141299597e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.0186340659856795e-15,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 1.6653345369377348e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 800000.0,
+        "given_quality": 0.5,
+        "M_kg": 10.0,
+        "U_J": 3189643.189875214,
+        "V_m3": 0.13235181871897667,
+        "external_EOS_flash": {
+          "p_Pa": 799999.9999999979,
+          "T_K": 304.4774631632766,
+          "quality": 0.5000000000000001
+        },
+        "table_inverse": {
+          "p_Pa": 800002.4883025594,
+          "T_K": 304.4776193428289,
+          "quality": 0.4999989942426237,
+          "specific_energy_residual_J_kg": -1.7462298274040222e-10
+        },
+        "table_errors": {
+          "pressure_relative": 3.1103781991987488e-06,
+          "temperature_abs_K": 0.00015617955233437897,
+          "quality_abs": 1.005757376326688e-06
+        },
+        "external_errors": {
+          "pressure_relative": 2.6193447411060335e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 1.1102230246251565e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 800000.0,
+        "given_quality": 0.9,
+        "M_kg": 10.0,
+        "U_J": 3797607.964030909,
+        "V_m3": 0.2314664337664858,
+        "external_EOS_flash": {
+          "p_Pa": 799999.9999999979,
+          "T_K": 304.4774631632766,
+          "quality": 0.9
+        },
+        "table_inverse": {
+          "p_Pa": 800003.4317120006,
+          "T_K": 304.47766077441435,
+          "quality": 0.8999993388677198,
+          "specific_energy_residual_J_kg": -2.3283064365386963e-10
+        },
+        "table_errors": {
+          "pressure_relative": 4.289640000788495e-06,
+          "temperature_abs_K": 0.00019761113776439743,
+          "quality_abs": 6.611322802552166e-07
+        },
+        "external_errors": {
+          "pressure_relative": 2.6193447411060335e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 800000.0,
+        "given_quality": 0.99,
+        "M_kg": 10.0,
+        "U_J": 3934400.038215939,
+        "V_m3": 0.25376722215217534,
+        "external_EOS_flash": {
+          "p_Pa": 799999.9999999979,
+          "T_K": 304.4774631632766,
+          "quality": 0.9900000000000001
+        },
+        "table_inverse": {
+          "p_Pa": 800003.5682962635,
+          "T_K": 304.477666772763,
+          "quality": 0.9899994555349605,
+          "specific_energy_residual_J_kg": -5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 4.460370329325087e-06,
+          "temperature_abs_K": 0.00020360948639108756,
+          "quality_abs": 5.44465039498121e-07
+        },
+        "external_errors": {
+          "pressure_relative": 2.6193447411060335e-15,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 1.1102230246251565e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 1500000.0,
+        "given_quality": 0.01,
+        "M_kg": 10.0,
+        "U_J": 2797183.9869318893,
+        "V_m3": 0.010496351265491371,
+        "external_EOS_flash": {
+          "p_Pa": 1500000.00000005,
+          "T_K": 328.3829375472021,
+          "quality": 0.01
+        },
+        "table_inverse": {
+          "p_Pa": 1499998.5397241267,
+          "T_K": 328.38292461690924,
+          "quality": 0.009999930649110277,
+          "specific_energy_residual_J_kg": -1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 9.735172488726675e-07,
+          "temperature_abs_K": 1.2930292825785727e-05,
+          "quality_abs": 6.935088972363779e-08
+        },
+        "external_errors": {
+          "pressure_relative": 3.337239225705465e-14,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 1500000.0,
+        "given_quality": 0.1,
+        "M_kg": 10.0,
+        "U_J": 2911661.7338746735,
+        "V_m3": 0.02141092749463211,
+        "external_EOS_flash": {
+          "p_Pa": 1500000.00000005,
+          "T_K": 328.3829375472021,
+          "quality": 0.10000000000000013
+        },
+        "table_inverse": {
+          "p_Pa": 1499999.5870204899,
+          "T_K": 328.38295328682,
+          "quality": 0.09999964038216919,
+          "specific_energy_residual_J_kg": -5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 2.7531967343141636e-07,
+          "temperature_abs_K": 1.5739617936105788e-05,
+          "quality_abs": 3.5961783081961407e-07
+        },
+        "external_errors": {
+          "pressure_relative": 3.337239225705465e-14,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 1.249000902703301e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 1500000.0,
+        "given_quality": 0.5,
+        "M_kg": 10.0,
+        "U_J": 3420451.7202870473,
+        "V_m3": 0.06992015517970204,
+        "external_EOS_flash": {
+          "p_Pa": 1500000.00000005,
+          "T_K": 328.3829375472021,
+          "quality": 0.5000000000000007
+        },
+        "table_inverse": {
+          "p_Pa": 1500002.0950720052,
+          "T_K": 328.38302194506275,
+          "quality": 0.4999993681562577,
+          "specific_energy_residual_J_kg": -1.7462298274040222e-10
+        },
+        "table_errors": {
+          "pressure_relative": 1.3967146701179444e-06,
+          "temperature_abs_K": 8.439786068947797e-05,
+          "quality_abs": 6.31843742326943e-07
+        },
+        "external_errors": {
+          "pressure_relative": 3.337239225705465e-14,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 6.661338147750939e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 1500000.0,
+        "given_quality": 0.9,
+        "M_kg": 10.0,
+        "U_J": 3929241.7066994207,
+        "V_m3": 0.11842938286477198,
+        "external_EOS_flash": {
+          "p_Pa": 1500000.000000048,
+          "T_K": 328.38293754720206,
+          "quality": 0.9
+        },
+        "table_inverse": {
+          "p_Pa": 1500003.2312033942,
+          "T_K": 328.3830530467724,
+          "quality": 0.8999997464504913,
+          "specific_energy_residual_J_kg": 0.0
+        },
+        "table_errors": {
+          "pressure_relative": 2.154135596162329e-06,
+          "temperature_abs_K": 0.00011549957031320446,
+          "quality_abs": 2.535495087219175e-07
+        },
+        "external_errors": {
+          "pressure_relative": 3.197540839513143e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 1500000.0,
+        "given_quality": 0.99,
+        "M_kg": 10.0,
+        "U_J": 4043719.453642205,
+        "V_m3": 0.12934395909391272,
+        "external_EOS_flash": {
+          "p_Pa": 1500000.000000048,
+          "T_K": 328.38293754720206,
+          "quality": 0.9899999999999999
+        },
+        "table_inverse": {
+          "p_Pa": 1500003.4061513708,
+          "T_K": 328.3830578359885,
+          "quality": 0.9899998698232415,
+          "specific_energy_residual_J_kg": -1.1641532182693481e-10
+        },
+        "table_errors": {
+          "pressure_relative": 2.2707675805625816e-06,
+          "temperature_abs_K": 0.00012028878643377539,
+          "quality_abs": 1.3017675848381316e-07
+        },
+        "external_errors": {
+          "pressure_relative": 3.197540839513143e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 1.1102230246251565e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 2700000.0,
+        "given_quality": 0.01,
+        "M_kg": 10.0,
+        "U_J": 3226134.139006811,
+        "V_m3": 0.011393007820902757,
+        "external_EOS_flash": {
+          "p_Pa": 2700000.000000035,
+          "T_K": 354.3287969021853,
+          "quality": 0.010000000000000004
+        },
+        "table_inverse": {
+          "p_Pa": 2699995.2457137117,
+          "T_K": 354.3287447034928,
+          "quality": 0.009999449154549598,
+          "specific_energy_residual_J_kg": 5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 1.7608467734384315e-06,
+          "temperature_abs_K": 5.219869245820519e-05,
+          "quality_abs": 5.508454504025984e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.2935035758548313e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 3.469446951953614e-18
+        }
+      },
+      {
+        "given_pressure_Pa": 2700000.0,
+        "given_quality": 0.1,
+        "M_kg": 10.0,
+        "U_J": 3307273.1519482173,
+        "V_m3": 0.016009195463896335,
+        "external_EOS_flash": {
+          "p_Pa": 2700000.0000000317,
+          "T_K": 354.3287969021852,
+          "quality": 0.09999999999999994
+        },
+        "table_inverse": {
+          "p_Pa": 2699997.512823554,
+          "T_K": 354.32878433802153,
+          "quality": 0.09999897494735646,
+          "specific_energy_residual_J_kg": 5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 9.211764613994294e-07,
+          "temperature_abs_K": 1.2564163739625656e-05,
+          "quality_abs": 1.0250526435440221e-06
+        },
+        "external_errors": {
+          "pressure_relative": 1.1727765754417138e-14,
+          "temperature_abs_K": 5.684341886080802e-14,
+          "quality_abs": 6.938893903907228e-17
+        }
+      },
+      {
+        "given_pressure_Pa": 2700000.0,
+        "given_quality": 0.5,
+        "M_kg": 10.0,
+        "U_J": 3667890.987243358,
+        "V_m3": 0.03652558498831223,
+        "external_EOS_flash": {
+          "p_Pa": 2700000.000000035,
+          "T_K": 354.3287969021853,
+          "quality": 0.5
+        },
+        "table_inverse": {
+          "p_Pa": 2700004.230881493,
+          "T_K": 354.3289017856247,
+          "quality": 0.49999922988383855,
+          "specific_energy_residual_J_kg": -2.3283064365386963e-10
+        },
+        "table_errors": {
+          "pressure_relative": 1.5669931455825766e-06,
+          "temperature_abs_K": 0.00010488343940551204,
+          "quality_abs": 7.701161614526164e-07
+        },
+        "external_errors": {
+          "pressure_relative": 1.2935035758548313e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 0.0
+        }
+      },
+      {
+        "given_pressure_Pa": 2700000.0,
+        "given_quality": 0.9,
+        "M_kg": 10.0,
+        "U_J": 4028508.8225384983,
+        "V_m3": 0.05704197451272812,
+        "external_EOS_flash": {
+          "p_Pa": 2700000.000000035,
+          "T_K": 354.3287969021853,
+          "quality": 0.8999999999999999
+        },
+        "table_inverse": {
+          "p_Pa": 2700008.0753579154,
+          "T_K": 354.32896899606885,
+          "quality": 0.9000015065350145,
+          "specific_energy_residual_J_kg": 5.820766091346741e-11
+        },
+        "table_errors": {
+          "pressure_relative": 2.9908733019881224e-06,
+          "temperature_abs_K": 0.00017209388357741773,
+          "quality_abs": 1.5065350145171408e-06
+        },
+        "external_errors": {
+          "pressure_relative": 1.2935035758548313e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 1.1102230246251565e-16
+        }
+      },
+      {
+        "given_pressure_Pa": 2700000.0,
+        "given_quality": 0.99,
+        "M_kg": 10.0,
+        "U_J": 4109647.8354799044,
+        "V_m3": 0.0616581621557217,
+        "external_EOS_flash": {
+          "p_Pa": 2700000.000000035,
+          "T_K": 354.3287969021853,
+          "quality": 0.9900000000000002
+        },
+        "table_inverse": {
+          "p_Pa": 2700008.724145023,
+          "T_K": 354.32898033837625,
+          "quality": 0.9900021709033282,
+          "specific_energy_residual_J_kg": -1.7462298274040222e-10
+        },
+        "table_errors": {
+          "pressure_relative": 3.2311648233897157e-06,
+          "temperature_abs_K": 0.00018343619098004638,
+          "quality_abs": 2.1709033282135692e-06
+        },
+        "external_errors": {
+          "pressure_relative": 1.2935035758548313e-14,
+          "temperature_abs_K": 0.0,
+          "quality_abs": 2.220446049250313e-16
+        }
+      }
+    ]
+  },
+  "out_of_table_pressure_rejected_Pa": [
+    50000.0,
+    3030000.0
+  ],
+  "environment_change": "CoolProp only installed in requested Temp target; no global or pyproject dependency modification",
+  "new_facility_research_trials": 0,
+  "new_training": 0,
+  "curated_from_original_sha256": "fd944159ad25df623b4793f49d308889a7ee7dce1e59afeb351a34058560f27c",
+  "public_table_path": "configs/materials/reference-r134a-saturation.json"
+}
