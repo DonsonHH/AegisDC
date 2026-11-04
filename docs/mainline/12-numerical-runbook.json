@@ -1,0 +1,28 @@
+{
+  "schema": "aegisdc-numerical-qualification-v1",
+  "classification": "FULL_V6_ENGINEERING_NUMERICAL_QUALIFICATION_NOT_RESEARCH",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "cases": [
+    {
+      "id": "isolated-room",
+      "duration_s": 10,
+      "overrides": {
+        "shared_distribution_available": 0,
+        "ups_in_service": 0,
+        "diesel_in_service": 0,
+        "solid_coolant_conductance": 0,
+        "solid_air_conductance": 0,
+        "room_temperature": 303.15,
+        "room_ambient_temperature": 293.15,
+        "room_thermal_capacity": 1000000,
+        "room_conductance": 100000
+      },
+      "events": [],
+      "work_requests": [],
+      "reference": "Exact scalar ODE: T=293.15+10 exp(-t/10) K; Qout=C(T0-T). All eight V6 domains/identities/relations retained; isolated by declared boundary/coefficients.",
+      "expected_at_10s_K": 296.8287944117144,
+      "qualified_analytic_absolute_error_K": 0.005,
+      "qualified_analytic_step_s": 0.025
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+"""Independent numerical qualification at the accepted V6 public seams."""
+import json
+import math
+from pathlib import Path
+import unittest
+
+from aegis_dc.plant import simulate_scenario
+from aegis_dc.scenario import load_scenario
+
+ROOT = Path(__file__).resolve().parents[1]
+RUNBOOK = ROOT / 'docs/mainline/12-numerical-runbook.json'
+
+
+def numerical_case(identifier):
+    book = json.loads(RUNBOOK.read_text(encoding='utf-8'))
+    item = next(row for row in book['cases'] if row['id'] == identifier)
+    scenario = load_scenario(ROOT / book['profile'])
+    for row in scenario['parameters']:
+        if row['id'] in item['overrides']:
+            row.update(value=item['overrides'][row['id']], basis='synthetic_assumption',
+                       source_note='Frozen ticket 12 numerical engineering case: ' + identifier)
+    return item, scenario
+
+
+class FullFacilityNumericalTests(unittest.TestCase):
+    def test_isolated_room_agrees_with_independent_exponential_solution(self):
+        # C=1 MJ/K, G=0.1 MW/K, initially 10 K above a constant 293.15 K
+        # boundary. Exact solution at 10 s is 293.15 + 10/e K. This is
+        # an analytic ODE solution, not the production Euler recurrence.
+        item, scenario = numerical_case('isolated-room')
+        result = simulate_scenario(scenario, duration_s=10, step_s=.025)
+        end = result['trace'][-1]['domains']
+        self.assertEqual(len(end), 8)
+        self.assertAlmostEqual(end['equipment_environment']['room_temperature_K'],
+                               296.8287944117144, delta=.005)
+        self.assertEqual(end['facility_cooling']['internal_mass_flow_kg_s'], 0)
+        self.assertEqual(end['facility_cooling']['condenser_heat_W'], 0)
+        self.assertEqual(end['equipment_environment']['refrigerant']['mass_kg'], 2000)
+        self.assertEqual(result['summary']['service_deficit_time_s'], 10)
+        self.assertLess(abs(result['summary']['whole_run_energy_residual_J']), .001)
+
+    def test_one_ulp_event_expression_does_not_change_the_sampled_protection_epoch(self):
+        # 0.6 and .2*3 differ by one binary64 ulp. They describe the same
+        # research time, whereas .600001 is a deliberately later instant.
+        for when, delivered in ((.6, .6), (.2 * 3, .6), (.600001, .7)):
+            with self.subTest(encoded_time=when.hex()):
+                scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                next(row for row in scenario['parameters'] if row['id'] == 'control_sample_time')['value'] = .1
+                result = simulate_scenario(scenario, duration_s=1, step_s=.25,
+                    boundary_events=[dict(time_s=when, parameter_id='local_temperature_bias',
+                        value=50, source_note='One-ulp time-expression numerical engineering probe.')])
+                self.assertAlmostEqual(result['summary']['delivered_service_unit_s'], delivered, delta=1e-12)
+                event = next(row for row in result['events'] if row['kind'] == 'exogenous_boundary_input')
+                self.assertEqual(event['time_s'], when)
+                self.assertLessEqual(abs(event['applied_at_s'] - when), 8 * math.ulp(when))
+                self.assertEqual(result['time_coordinate_convention']['version'], 'aegisdc-binary64-time-v1')
+
+    def test_eight_ulp_coincidence_is_bounded_and_does_not_roll_across_an_event_chain(self):
+        for offset, expected in ((8, .5), (9, .75)):
+            with self.subTest(offset_ulps=offset):
+                scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+                next(row for row in scenario['parameters'] if row['id'] == 'control_sample_time')['value'] = .25
+                when = .5 + offset * math.ulp(.5)
+                result = simulate_scenario(scenario, duration_s=1, step_s=.25,
+                    boundary_events=[dict(time_s=when, parameter_id='local_temperature_bias', value=50,
+                        source_note='Boundary of declared numerical coincidence, not equipment resolution.')])
+                self.assertAlmostEqual(result['summary']['delivered_service_unit_s'], expected, delta=1e-12)
+        scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+        events = [dict(time_s=.5 + offset * math.ulp(.5), parameter_id=name, value=value,
+                       source_note='Non-transitive adjacent-event chain numerical probe.')
+                  for offset, name, value in ((0, 'supervisory_link_available', 0),
+                                              (8, 'network_service_capacity', .5),
+                                              (16, 'storage_service_capacity', .25))]
+        result = simulate_scenario(scenario, duration_s=1, step_s=.25, boundary_events=events)
+        applied = [row['applied_at_s'] for row in result['events'] if row['kind'] == 'exogenous_boundary_input']
+        self.assertEqual(applied, [.5, .5, .5 + 16 * math.ulp(.5)])
+        self.assertEqual(result['inputs']['boundary_events'], events)
+
+    def test_coincident_conflicting_parameter_values_are_rejected(self):
+        scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+        events = [dict(time_s=when, parameter_id='service_demand', value=value,
+                       source_note='Conflicting same-epoch numerical engineering inputs.')
+                  for when, value in ((.6, 1), (.2 * 3, 1.5))]
+        with self.assertRaisesRegex(ValueError, 'Conflicting boundary event'):
+            simulate_scenario(scenario, duration_s=1, boundary_events=events)
+
+    def test_sample_clock_stays_anchored_during_arbitrary_step_subdivision(self):
+        scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+        next(row for row in scenario['parameters'] if row['id'] == 'control_sample_time')['value'] = .1
+        result = simulate_scenario(scenario, duration_s=10, step_s=.037)
+        sampled = sorted({row['domains']['control_monitoring']['local_measurement']['sampled_at_s']
+                          for row in result['trace']})
+        self.assertEqual(sampled, [index * .1 for index in range(101)])
+
+    def test_access_at_a_threshold_uses_the_final_same_epoch_drain_direction(self):
+        scenario = load_scenario(ROOT / 'configs/full-facility-mainline-reserve-v6.json')
+        values = {'floor_water_inflow': 1.1, 'drainage_mass_flow': .1, 'access_block_mass': .6}
+        for row in scenario['parameters']:
+            if row['id'] in values:
+                row['value'] = values[row['id']]
+        result = simulate_scenario(scenario, duration_s=1, step_s=.25,
+            boundary_events=[dict(time_s=.2 * 3, parameter_id='floor_water_inflow', value=0,
+                source_note='Net 1 kg/s reaches .6 kg at .6 s, then drains.')],
+            work_requests=[dict(id='threshold-work', time_s=.6, worker_id='worker_it',
+                work_interface_id='inspect_it_service', target_id='compute',
+                source_note='Public work boundary at the final right-hand threshold state.')])
+        self.assertEqual(result['work_records'][0]['status'], 'working')
+        self.assertAlmostEqual(result['summary']['worker_work_person_s'], .4, delta=1e-12)
+        self.assertAlmostEqual(result['trace'][-1]['domains']['space_access']['floor_water_mass_kg'], .56)
+
+
+if __name__ == '__main__':
+    unittest.main()

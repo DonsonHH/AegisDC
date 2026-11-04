@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M2
 
@@ -18,7 +18,12 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner `/root/mainline_12_numerical`, branch `donson/mainline-12-numerical`,
+worktree `.work/worktrees/full-site-12`, actual integration base `77660da5`.
+Active assignment and Git worktree state checked before claim. Public seams are
+the already approved loader, full-facility run/save and replaceable property
+interfaces; no new permission gate is inferred from TDD. Formal engineering
+qualification and root acceptance remain pending.
 
 ## Preserved input for the later qualification
 
