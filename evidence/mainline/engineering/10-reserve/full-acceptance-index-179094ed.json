@@ -1,0 +1,73 @@
+{
+  "schema": "aegisdc-reserve-completed-full-check-delivery-v1",
+  "execution_commit": "179094ed28b482fd75c50396c6213472870eed3d",
+  "full_regression_runs": 1,
+  "execution_command": "scripts.acceptance.verify(Path.cwd(), acceptance-179094ed-01); primary Python with this worktree src",
+  "summary_path": "evidence/mainline/engineering/10-reserve/acceptance-179094ed-01/summary.json",
+  "tests": {
+    "run": 289,
+    "executed": 287,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "PASS"
+  },
+  "artifacts": {
+    "evidence/mainline/engineering/10-reserve/acceptance-179094ed-01/evidence.json": "b4d812cf009c9392c7891e5f7868570e560f68df55479b0b2faf1a548a22f26e",
+    "evidence/mainline/engineering/10-reserve/acceptance-179094ed-01/summary.json": "89bc78288b57070e4d9b8940ecff00e350feca2304fdde18416a368de8167a48",
+    "evidence/mainline/engineering/10-reserve/acceptance-179094ed-01/tests.log": "9450070afb3f7f4505309aca03c29b99fadd411efcb53e3d15ad9973d0a90d78"
+  },
+  "execution_tools_and_tests": {
+    "scripts/acceptance.py": "3cb96de19b79c1323108794640389f5b92fb5440addfc8156c1a09ee16986267",
+    "scripts/verify_evidence.py": "ad0e2456acef93fa9182cd3feda11341cd80c4709a3d33e6df5314db29237004",
+    "tests/test_acceptance_optional.py": "841a8ebea65d5ed7696e074e5aa523749777f88b8de0592e229a82295c447e92",
+    "tests/test_baseline_correction.py": "dfb218fda31cbee5dd7ad1de1cef289d28212a54dd2bb646957d5329ee8c5c35",
+    "tests/test_case_report.py": "ba7468e4258f2d0fc6f52c3bb12a3c874ea0f3969e26b4ba6e758080fed1865d",
+    "tests/test_cli_contract.py": "95779a5b799257d8f3d92c34baf87dc9abb95ca12083533b8802d4d80eb9048d",
+    "tests/test_core_migration.py": "336996554609b92ffb5e67f3b58a662f8c95c04d0c8dffd610ba7b398f5ee482",
+    "tests/test_coverage_plan.py": "d9f1db2026ff270f51ad5dba38cf4ef3ccc99cfd5104e77b1e84fa9f1de341ed",
+    "tests/test_event_resumption.py": "9d7f6c9bc417ac7dce9b38f880ad25a26907e2fdd7be1a7e1bf6d3ae8ad06760",
+    "tests/test_event_validation.py": "789af5bc3e7a853457eb73fe38cb43013126a40d7915c6cbb143dcd3cd099c5f",
+    "tests/test_evidence.py": "e4a7e52c1c64c953ca40c0ce5367290fe9af469d7e3f815f59140c1ade18020a",
+    "tests/test_facility.py": "4c3143a2d2ba6a186136219de373c07a83494d8539e2febf229d2bfe0b81196b",
+    "tests/test_facility_foundation.py": "05b022a11ce6a894c259f187a3cfcbeb6796fd6b4d76d1d8ff15738c59f7f840",
+    "tests/test_feedback_study.py": "3be0af3775b69e3f0b082a7a00142ceafa49cf446c78968faedced3aea7a0c6f",
+    "tests/test_full_facility_environment.py": "ccd593497173ead241c2ae1d02fde85918de66653ddfe92054de3248dc2dbb2d",
+    "tests/test_full_facility_plant.py": "0a7a9e09a0b15d36f4bdbe0db070040b1b629fe23617416aac62822a8aec317f",
+    "tests/test_full_facility_scenario.py": "855b8cc0d3a59465ead355e804ddfc0c78d11b4e755fbc6040c58e511a811c36",
+    "tests/test_full_facility_water.py": "ec8a2fb06c4a542317262a3640b7c549ae71da1108a8f744bdf9c7c3775318e8",
+    "tests/test_local_reorder.py": "ffdad480a8f6ee051f3752ba20ac0523c176dc3cb65e8c743a7020de2c07eda6",
+    "tests/test_local_score.py": "837e416ab69aa6d264771d094e8846671e7e3b6795c5cbd086cd920104884cd8",
+    "tests/test_mainline_control.py": "467471c4f7dcb501a0d6893a0c343acb85ae216ededf033c047c9e3d91f96596",
+    "tests/test_mainline_phase.py": "7e964f514b9d599b542aab45ca4fc0601949306aadb70636714a9f40bceee133",
+    "tests/test_mainline_power.py": "3aee89a80e5cf1cbc5774a9b24e7a2cc269a1665640a92ec40ca5b03edf2b885",
+    "tests/test_mainline_reserve.py": "9cfafaa1890cf3e487b30ab3f9876329acecd8ddf4f8562cadb2222dbad2931e",
+    "tests/test_mainline_service.py": "2eab72418c587d0dc6b92a842d13f21cf149f3297d9552eadf53a75fe1d66962",
+    "tests/test_model_input_budget.py": "9e7b0f102199866cf1dccd5fccd7842280e337e5132cc0fe940e9944dd92d285",
+    "tests/test_response_rule.py": "2a25650adc65ddae884843e76d1b2cdeedaf6847ed2f15c16e70ff95358df2f7",
+    "tests/test_response_search.py": "27698f90301468e6cb7fe869ea2e95afcb9a273d6dbbb297d23a2c11730b6407",
+    "tests/test_risk_response.py": "232b33176fadca49bcef7e68277b39da3f7555f047aea985ccf455352d536f6c",
+    "tests/test_source_lineage.py": "148502adf43185c7e00c5766b94d84fbce3b62e7bf15bd0124e2de747f3e011c",
+    "tests/test_supplement_metrics.py": "304ea5449818ba80809b44180de2c829fea996389adc6c51ee2a25c3e5376ebf",
+    "tests/test_supplement_models.py": "324f80ad1ac53c1c529c43fbc568971df3dff56e2f4de57d88d6e933b4604e8f",
+    "tests/test_supplement_recovery.py": "9ca90286be97f11e6026123818e2b596c481c07b3609930112f99d176ac077d2",
+    "tests/test_supplement_runner.py": "5f431ab7e07b044924d49d12bab399c0dd1b1a9a9fe5f2ffc650d54124fc1734",
+    "tests/test_supplement_task.py": "4f6707cc5cb0c29f89c5d979396ac1c0b071060a346d7a83ab872d1669562a03"
+  },
+  "post_execution_tools": {
+    "scripts/verify_reserve_candidate.py": "d9c0ed839afdd2dedccb781fa4e405143f9a4194935dab046880a73a5f8b9c59"
+  },
+  "captured_only_after_full_process_completed": true,
+  "scope": "Engineering/evidence regression only; not research gain or field calibration"
+}
