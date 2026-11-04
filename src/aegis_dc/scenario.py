@@ -92,6 +92,7 @@ def _provenance(row, sources):
 def _contract(scenario):
     _require(isinstance(scenario, dict), 'Scenario must be an object')
     schema = scenario.get('schema')
+    _text(schema, 'Scenario schema')
     _require(schema in {'aegisdc-full-facility-scenario-v1', 'aegisdc-full-facility-scenario-v2'}, 'Unknown scenario schema')
     fields = SCENARIO_FIELDS | ({'runtime'} if schema.endswith('-v2') else set())
     _require(set(scenario) == fields, 'Scenario fields do not match the declared contract')

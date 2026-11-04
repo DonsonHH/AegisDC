@@ -199,6 +199,30 @@ class FullFacilityScenarioTests(unittest.TestCase):
             with self.subTest(path=keys), self.assertRaises(ValueError):
                 self.load_changed(changed)
 
+    def test_array_and_object_schema_fail_as_loader_contract_errors(self):
+        for value in ([], {}):
+            changed = deepcopy(self.raw)
+            changed['schema'] = value
+            with self.subTest(schema=value), self.assertRaisesRegex(ValueError, 'schema'):
+                self.load_changed(changed)
+
+    def test_array_and_object_schema_are_clean_CLI_errors_for_inspection_and_run(self):
+        for value in ([], {}):
+            changed = deepcopy(self.raw)
+            changed['schema'] = value
+            with tempfile.TemporaryDirectory() as folder:
+                path = Path(folder) / 'invalid-schema.json'
+                path.write_text(json.dumps(changed), encoding='utf-8')
+                for command in ('scenario', 'simulate'):
+                    with self.subTest(schema=value, command=command):
+                        process = subprocess.run([sys.executable, '-m', 'aegis_dc', command, '--model', str(path)],
+                                                 cwd=ROOT, env=dict(os.environ, PYTHONPATH=str(ROOT / 'src')),
+                                                 capture_output=True, text=True)
+                        self.assertEqual(process.returncode, 2)
+                        self.assertIn('schema', process.stderr)
+                        self.assertNotIn('Traceback', process.stderr)
+                        self.assertEqual(process.stdout, '')
+
     def test_undeclared_numeric_shortcuts_cannot_bypass_parameter_metadata(self):
         for keys in [('entities', 0), ('domains', 0), ('graphs', 'access', 0), ('parameters', 0)]:
             changed = deepcopy(self.raw)
