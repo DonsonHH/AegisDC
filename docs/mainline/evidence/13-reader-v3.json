@@ -1,0 +1,71 @@
+{
+  "schema": "aegisdc-mainline-ticket-correction-v1",
+  "ticket": "13",
+  "status": "REQUEST_BINDING_AND_BALANCE_AXIS_CORRECTED_PENDING_ROOT_CLOSURE",
+  "original_candidate_indexes_preserved": ["docs/mainline/evidence/13.json", "docs/mainline/evidence/13-reader-v2.json"],
+  "reviewed_v2_candidate": "9a68ea7fb2eeee580d3fa0b794e8cbe0fb734a97",
+  "core_pin": "e59d3ec16a598dde80cb9dcd1a26e695e2f2360c",
+  "execution_commit": "e4ecc1a8b30f7d85cb1b0fc31157c7d178289c40",
+  "delivery_commit": "8ac3f7865f2fd36af4859116307b11df1726fae0",
+  "runbook": "docs/mainline/13-reader-runbook-v3.json",
+  "execution_receipt": "evidence/mainline/engineering/13-replay/capture-05/receipt.json",
+  "fresh_checkout": ".work/replay13-v3-fresh-8ac3f786-01",
+  "fresh_receipt": "evidence/mainline/engineering/13-replay/delivery-v3-8ac3f786-fresh-01.json",
+  "independent_findings": {
+    "previous_authority_group": "CLOSED_AT_CF9; original reports retained",
+    "previous_attribute_group": "CLOSED_AT_CF9; original bytes retained",
+    "new_spec_request_binding": {
+      "original_review": "evidence/mainline/engineering/13-replay/review-reader-v2-spec",
+      "correction": "Resolve None only from frozen scenario defaults; effective request inputs equal terminal actual inputs and run.inputs; replay uses validated execution_inputs",
+      "refusal_stage": "replay_origin.request",
+      "offending_artifact": "request.json"
+    },
+    "new_standards_balance_time": {
+      "original_review": "evidence/mainline/engineering/13-replay/review-reader-v2-standards",
+      "correction": "Finite numeric nonboolean times, positive contiguous intervals, trace/count alignment, exact 0-to-duration coverage and maximum-step coordinate bound",
+      "refusal_stage": "replay_origin.trajectory_balances",
+      "offending_artifact": "trajectory/balances.jsonl"
+    },
+    "root_independent_closure": "PENDING"
+  },
+  "positive_fixtures": [
+    {"case": "explicit", "duration_s": 2, "maximum_step_s": 0.5, "baseline_and_replay": "EXACT_ALL_RUN_SEMANTICS"},
+    {"case": "defaults", "request_duration_s": null, "request_maximum_step_s": null, "frozen_default_duration_s": 3, "frozen_default_step_s": 0.25, "baseline_and_replay": "EXACT_ALL_RUN_SEMANTICS"}
+  ],
+  "refusal_fixtures": {
+    "request_duration_2_to_3": "Actual CLI FAILED/NOT_STARTED; bad request bytes retained before plant execution",
+    "request_step_half_to_quarter": "Actual CLI FAILED/NOT_STARTED; bad request bytes retained before plant execution",
+    "balance_start_not_a_time": "Actual CLI FAILED/NOT_STARTED; synchronized inner/outer hashes do not grant time-axis authority; bad balance bytes retained"
+  },
+  "focused_tests": {"run": 26, "failures": 0, "errors": 0, "skipped": 0},
+  "focused_scope": "All current public reader/replay targets, original version/setup/lifecycle boundaries, request/None binding and interval type/finite/reverse/zero/gap/overlap/end/max-step counterexamples; valid historical v1/v2 partitions stay readable",
+  "new_source_author_full_suite": "NOT_RUN_THIS_REVISION",
+  "final_root_torch_full_suite": "PENDING_SEPARATE_INTEGRATED_EXECUTION",
+  "historical_full_preserved": {"source": "cf9b33900d8f349b9a8145c042bbffe03503c858", "run": 345, "executed": 343, "optional_skips": 2, "not_attributed_to_new_source": true},
+  "fresh_delivery": {
+    "status": "PASS",
+    "declared_artifacts": 126,
+    "terminal_receipt": 1,
+    "prior_durable_files": 664,
+    "runtime_source_entries": 18,
+    "pinned_tool_entries": 5,
+    "completed_attempts": 4,
+    "failed_requests": 3,
+    "initial_pending_receipt_preserved": true,
+    "physics_rerun": false,
+    "target_rerun": false,
+    "runtime_caches_required": 0
+  },
+  "physical_kernel": "8e lineage unchanged; this correction validates saved metadata and does not extend physical equations",
+  "facility_scope": "Same complete V6 synthetic facility with eight domains/four shared-identity relations; short engineering fixtures, not method-effect trials",
+  "state_visibility": "PRIVATE_PLANT_EVALUATOR_ONLY",
+  "field_calibration": "PENDING",
+  "registered_research_trials": 0,
+  "research_protocol": null,
+  "research_budget": null,
+  "agent_model_calls": 0,
+  "training_calls": 0,
+  "numerical_qualification": "INDEPENDENT; not established by this replay correction",
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "overall_goal": "ACTIVE"
+}

@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M2
 
@@ -25,6 +25,27 @@ reports/probes are retained under `review-reader-v2-spec` and
 `review-reader-v2-standards`. Captures 01/02/04, their full checks, and both
 existing candidate indexes retain their actual source identities; they are
 not new-source acceptance for this correction.
+
+The two new cases are separately corrected at core `e59d3ec1`, frozen capture
+source `e4ecc1a8b30f7d85cb1b0fc31157c7d178289c40`, delivery
+`8ac3f7865f2fd36af4859116307b11df1726fae0`. Request effective duration/step
+(including nulls resolved against frozen defaults) bind to terminal/run actual
+inputs; replay uses only the validated actual inputs. Saved balance times are
+finite numeric nonnegative coordinates with positive, contiguous intervals,
+aligned with the trace and frozen run/maximum-step boundaries. No physical
+equation or tolerance was changed.
+
+`capture-05` is an explicitly minimal engineering revision: two short full-V6
+baselines and exact replays, three bad-origin actual CLI refusals with original
+request/balance bytes and named stages, and 26 focused public targets passing
+without failures/errors/skips. No author full suite was run in this revision;
+the old 345/343/two-skip full remains exclusively cf9 evidence. Real fresh
+checkout `.work/replay13-v3-fresh-8ac3f786-01` passed 126 artifacts plus receipt,
+664 retained prior files and historical source/delivery hashes without rerunning
+the plant or targets. New correction index: `docs/mainline/evidence/13-reader-v3.json`.
+Root's independent limited closure and final integrated Torch full remain its
+separate acceptance gates. Original `13.json`, v2 index and all captures stay
+unchanged; numerical ticket 12 and the complete research goal remain active.
 
 Review history: reopened after independent Spec review of `aaa4d8cb`: unsupported terminal /
 declaration versions and malformed/incomplete lifecycle origins were not
