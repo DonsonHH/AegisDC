@@ -4,7 +4,7 @@
 
 **Blocked by:** 11
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M2
 
@@ -18,12 +18,40 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Reopened after independent Spec review of `aaa4d8cb`: unsupported terminal /
+Review history: reopened after independent Spec review of `aaa4d8cb`: unsupported terminal /
 declaration versions and malformed/incomplete lifecycle origins were not
 authoritatively checked. The exact original probes and red observations are
 preserved under `evidence/mainline/engineering/13-replay/review-AAA-spec/`.
 The prior engineering capture/delivery/full counts below retain their actual
-source identity; they do not validate the pending reader correction.
+source identity. The correction is separately verified at execution
+`cf9b33900d8f349b9a8145c042bbffe03503c858`, delivery
+`3e508cbe3ce3c157ef4ad13d0b7d8d4d1f6e802e`; root review remains pending.
+
+Reader-v2 follow-up: `docs/mainline/evidence/13-reader-v2.json` records strict
+known terminal/declaration/lifecycle versions and typed authority, bounded v1
+legacy compatibility, staged origin refusal and exact original bad bytes.
+Eight new copy-only/public reader/replay/actual CLI tests plus the original
+thirteen focused cases passed. The frozen v2 runbook generated five explicit
+review-origin cases; all new refusals are FAILED requests with no plant
+execution, while declaration-only historical state stays UNKNOWN.
+
+`capture-04` has 239 declared artifacts plus receipt, 18 terminal requests
+(6 completed / 12 expected failures), unchanged whole-facility exact/causal
+checks, and one new-source full check: 345 discovered, 343 executed, zero
+failures/errors, only two old optional Torch skips. Source/tool and 299 prior
+durable records passed real fresh-checkout/Git-blob verification at
+`.work/replay13-v2-fresh-3e508cbe-01`. Its separate receipt is
+`evidence/mainline/engineering/13-replay/delivery-v2-3e508cbe-fresh-01.json`;
+no physics/full rerun or runtime cache was required for delivery verification.
+
+The attempted `capture-03` stopped before directory creation on the root
+attribute-file CRLF/LF identity preflight (0 plant, 0 full). Its stderr/stdout,
+original working-tree bytes and diagnostic are preserved under `preflight-03`.
+Exact leaf attribute corrections preserve all historical bytes; root attribute
+LF is anchored only at `/.gitattributes`. The old `13.json`, capture-01 FAIL,
+capture-02 success and its 330/328 full remain unchanged. Shared numerical
+source remains 8e; ticket 12 qualification/NO-GO is independent. This remains
+an engineering implementation milestone, not M2 or research-goal completion.
 
 Owner: `/root/mainline_13_replay`, branch `donson/mainline-13-replay`, worktree
 `.work/worktrees/full-site-13`; integration base `77660da5` confirmed against
