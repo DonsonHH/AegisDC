@@ -11,10 +11,13 @@
 - [ ] FEMA作为过程参照，数值评分/概率对象为本研究定义。
 - [ ] 相互重叠服务损失去重，多后果维度不混量纲。
 - [ ] 高风险可直接处置，不强制先检查；低风险问题允许暂缓。
+- [ ] 主来源相关工作对照明确已有部分可观测/多部件检查维护方法的假设与边界，区分已有方法复现、工程扩展和待检验的新机制，不把范围大或FEMA名词当作新颖性证明。
 
 ## Context
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
+
+Background reading prepared while03 was active: `docs/mainline/research/closest-methods.md`. Its finite access scope does not complete this ticket or establish novelty; assess applicability against the implemented model.
 
 ## Evidence
 

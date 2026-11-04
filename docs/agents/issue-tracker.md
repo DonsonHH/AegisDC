@@ -9,6 +9,7 @@ The user approved autonomous mainline planning and implementation on 2026-11-04.
 - Ticket `Status` is authoritative: `ready-for-agent`, `claimed`, `resolved`, or `deferred-by-gate`. Ready-for-agent describes an executable ticket; blockers still determine whether it is on the ready frontier.
 - Append implementation/check/source-commit pointers under the ticket's Evidence section. Resolve only after the behavior and stage gate are verified.
 - `.scratch/full-facility-mainline/map.md` provides navigation. `docs/mainline/progress.json` records the active ticket, milestone gates and research conclusion; it does not replace the ticket evidence.
+- During an assigned worktree implementation, its ticket lifecycle is on that branch until merge. Progress active-work entries locate it; check live agent and Git state before claiming/restarting. Exclude a confirmed live assigned ticket from the available frontier even if the integration copy still says ready-for-agent.
 - Conditional agent/RSI tickets require their predecessor eligibility decision. A documented deferred branch is not evidence of a measured gain.
 
 ## Conditional eligibility branch
