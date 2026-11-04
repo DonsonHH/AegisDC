@@ -5,9 +5,9 @@ remains active and M3 remains in progress. Ticket 14 supplies an evidence ledger
 full hidden-world decision-view qualification, observation generation, risk and
 professional execution remain later tickets.
 
-The [interface contract](../../../../../docs/mainline/14-evidence-contract.md)
+The [interface contract](../../../../docs/mainline/14-evidence-contract.md)
 describes the closed SI schema, strict decision-time gate, reported quality and
-copy provenance. The [same V6 fixture](../../../../../configs/full-facility-evidence-v1.json)
+copy provenance. The [same V6 fixture](../../../../configs/full-facility-evidence-v1.json)
 contains 45 shared entity identities, seven source kinds and three sparse fixed
 sensor sources. Values are static engineering examples, not generated telemetry.
 
@@ -15,7 +15,7 @@ sensor sources. Values are static engineering examples, not generated telemetry.
 - [Current observation/arrival/expiry timeline](capture-02-correction/figures/arrival-timeline.svg)
 - [Latest minimal admission capture](capture-03-admission/receipt.json)
 - [Latest fresh-checkout proof](delivery-4b1997b7-fresh-01.json)
-- [Machine-readable candidate record](../../../../../docs/mainline/evidence/14.json)
+- [Machine-readable candidate record](../../../../docs/mainline/evidence/14.json)
 
 Latest execution source is `f9450246347e08dabfe9b40709e12da115a4de59`;
 its delivery is `4b1997b72ada11f3ae518db25c552c65d51e72a4`.
