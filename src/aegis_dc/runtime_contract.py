@@ -3,6 +3,16 @@ from patrol_rsi.contracts import digest
 
 MODEL = 'aegisdc-low-order-facility-v1'
 TOPOLOGY_SHA256 = 'f6a5fed4e33ef6ef26dfb35f6daf5c9070e2125587ce7e3b84fc9c2383709254'
+WATER_MODEL = 'aegisdc-low-order-facility-water-v2'
+SUPPORTED_TOPOLOGIES = {
+    MODEL: TOPOLOGY_SHA256,
+    WATER_MODEL: '40852da7230c6db601d8ab7d5a360b45e61356df929826fe62a90016305aeea2',
+}
+WATER_QUANTITIES = {
+    'lake_valve_open_resistance': 'hydraulic_resistance',
+    'internal_valve_open_resistance': 'hydraulic_resistance',
+    'lake_valve_opening': 'fraction', 'internal_valve_opening': 'fraction',
+}
 
 # Physical inputs are SI/provenance/range records in the scenario, never hidden
 # numerical defaults in the simulator. The names are part of this model version.
@@ -51,22 +61,34 @@ RUNTIME_QUANTITIES = {
 def validate_runtime_contract(scenario, entities, parameters):
     runtime = scenario['runtime']
     expected = {'model', 'property_table', 'property_sha256', 'topology_sha256', 'closed_location_ids'}
-    if not isinstance(runtime, dict) or set(runtime) != expected or runtime['model'] != MODEL:
+    if not isinstance(runtime, dict) or set(runtime) != expected \
+            or not isinstance(runtime['model'], str) or runtime['model'] not in SUPPORTED_TOPOLOGIES:
         raise ValueError('Declare the supported runtime model and its closed contract')
     if runtime['property_table'] != 'configs/materials/reference-r134a-saturation.json':
         raise ValueError('Runtime uses only the declared frozen saturation reference')
     identity = runtime['property_sha256']
     if not isinstance(identity, str) or len(identity) != 64 or any(c not in '0123456789abcdef' for c in identity):
         raise ValueError('Declare property SHA-256 identity')
-    if runtime['topology_sha256'] != TOPOLOGY_SHA256 or digest(scenario['graphs']) != TOPOLOGY_SHA256:
+    topology = SUPPORTED_TOPOLOGIES[runtime['model']]
+    if runtime['topology_sha256'] != topology or digest(scenario['graphs']) != topology:
         raise ValueError('Unsupported runtime topology; revise the model explicitly rather than ignoring graph changes')
-    for name, quantity in RUNTIME_QUANTITIES.items():
+    required = dict(RUNTIME_QUANTITIES)
+    if runtime['model'] == WATER_MODEL:
+        required.update(WATER_QUANTITIES)
+    for name, quantity in required.items():
         if name not in parameters or parameters[name]['quantity'] != quantity:
             raise ValueError('Runtime requires SI parameter ' + name + ' of quantity ' + quantity)
     values = {name: record['value'] for name, record in parameters.items()}
     for name in ('pump_min_speed', 'pump_fluid_heat_fraction'):
         if not 0 <= values[name] <= 1:
             raise ValueError(name + ' must stay in [0,1]')
+    if runtime['model'] == WATER_MODEL:
+        for name in ('lake_valve_opening', 'internal_valve_opening'):
+            if not 0 <= values[name] <= 1 or parameters[name]['valid_range'][1] > 1:
+                raise ValueError(name + ' and its declared range must stay in [0,1]')
+        for name in ('lake_valve_open_resistance', 'internal_valve_open_resistance'):
+            if values[name] <= 0:
+                raise ValueError(name + ' must be positive in the runtime model')
     for name in ('compute_nominal_power', 'network_nominal_power', 'storage_nominal_power',
                  'lake_hydraulic_resistance', 'internal_hydraulic_resistance', 'access_block_mass'):
         if values[name] <= 0:

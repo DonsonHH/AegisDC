@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -18,4 +18,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `donson/mainline-05-water` in `.work/worktrees/full-site-05`, assigned by
+the integration owner after ticket 03 acceptance. Base/integration tip checked:
+`0ee160cdcdbd195acf35d552abd8040ef7e55b5c`. Implementation/check records pending.
