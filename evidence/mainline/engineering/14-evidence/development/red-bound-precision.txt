@@ -1,0 +1,30 @@
+FFF
+======================================================================
+FAIL: test_binary64_declared_intervals_with_exact_gap_2_to_minus_55_are_disjoint (test_evidence_bound_precision.DeclaredBoundPrecisionTests.test_binary64_declared_intervals_with_exact_gap_2_to_minus_55_are_disjoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_bound_precision.py", line 43, in test_binary64_declared_intervals_with_exact_gap_2_to_minus_55_are_disjoint
+    self.assertEqual(len(conflicts), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_equal_JSON_integer_and_float_zero_bounds_keep_the_integer_gap (test_evidence_bound_precision.DeclaredBoundPrecisionTests.test_equal_JSON_integer_and_float_zero_bounds_keep_the_integer_gap) (bound_type='float')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_bound_precision.py", line 33, in test_equal_JSON_integer_and_float_zero_bounds_keep_the_integer_gap
+    self.assertEqual(len(conflicts), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_equal_duplicate_preserves_existing_record_encoding_and_outcome (test_evidence_bound_precision.DeclaredBoundPrecisionTests.test_equal_duplicate_preserves_existing_record_encoding_and_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-14\tests\test_evidence_bound_precision.py", line 54, in test_equal_duplicate_preserves_existing_record_encoding_and_outcome
+    self.assertEqual(json.dumps(ledger.snapshot(2), sort_keys=True), before)
+AssertionError: '{"as[20 chars]s": [], "correlation_groups": [], "current_rec[1522 chars]"s"}' != '{"as[20 chars]s": [{"kind": "disjoint_declared_bounds", "obs[1666 chars]"s"}'
+Diff is 5493 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (failures=3)

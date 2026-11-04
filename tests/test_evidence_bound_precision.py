@@ -1,0 +1,60 @@
+"""Independent exact-gap counterexamples at the public evidence ledger seam."""
+from copy import deepcopy
+import json
+import unittest
+
+from aegis_dc.evidence_ledger import EvidenceLedger
+from test_evidence_ledger import example
+
+
+def declared_pair(left_value, left_error, right_value, right_error):
+    document = example()
+    document['observables'][0]['quantity'] = 'temperature_offset'
+    left = document['records'][0]
+    left.update(id='left', value=left_value)
+    left['quality']['error_bound'] = left_error
+    left['provenance']['origin_id'] = 'origin-left'
+    right = deepcopy(left)
+    right.update(id='right', value=right_value)
+    right['quality']['error_bound'] = right_error
+    right['provenance']['origin_id'] = 'origin-right'
+    document['records'].append(right)
+    return document
+
+
+class DeclaredBoundPrecisionTests(unittest.TestCase):
+    def test_equal_JSON_integer_and_float_zero_bounds_keep_the_integer_gap(self):
+        integer = declared_pair(9007199254740992, 0, 9007199254740993, 0)
+        floating = declared_pair(9007199254740992, 0.0, 9007199254740993, 0.0)
+        self.assertEqual(integer, floating)
+        for document in (integer, floating):
+            with self.subTest(bound_type=type(document['records'][0]['quality']['error_bound']).__name__):
+                conflicts = EvidenceLedger(document).snapshot(2)['conflicts']
+                self.assertEqual(len(conflicts), 1)
+                self.assertEqual(conflicts[0]['record_ids'], ['left', 'right'])
+
+    def test_binary64_declared_intervals_with_exact_gap_2_to_minus_55_are_disjoint(self):
+        # These decoded binary64 literals are exactly 1, 2^-55, 1+2^-52,
+        # and 3*2^-54. Their intervals have positive gap 2^-55; rounded
+        # endpoint addition/subtraction incorrectly makes both endpoints 1.
+        document = declared_pair(1.0, 2.7755575615628914e-17,
+                                 1.0000000000000002, 1.6653345369377348e-16)
+        conflicts = EvidenceLedger(document).snapshot(2)['conflicts']
+        self.assertEqual(len(conflicts), 1)
+        self.assertEqual(conflicts[0]['kind'], 'disjoint_declared_bounds')
+
+    def test_equal_duplicate_preserves_existing_record_encoding_and_outcome(self):
+        document = declared_pair(9007199254740992, 0, 9007199254740993, 0)
+        ledger = EvidenceLedger(document)
+        before = json.dumps(ledger.snapshot(2), sort_keys=True)
+        equivalent = deepcopy(document['records'][1])
+        equivalent['quality']['error_bound'] = 0.0
+        self.assertEqual(equivalent, document['records'][1])
+        self.assertEqual(ledger.ingest(equivalent), 'ALREADY_PRESENT')
+        self.assertEqual(json.dumps(ledger.snapshot(2), sort_keys=True), before)
+        document['records'].append(equivalent)
+        self.assertEqual(json.dumps(EvidenceLedger(document).snapshot(2), sort_keys=True), before)
+
+
+if __name__ == '__main__':
+    unittest.main()

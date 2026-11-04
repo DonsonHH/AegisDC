@@ -1,5 +1,6 @@
 """Decision-time evidence records; no plant state or inference dependencies."""
 from copy import deepcopy
+from fractions import Fraction
 from itertools import combinations
 import math
 from pathlib import Path
@@ -170,7 +171,8 @@ def validate_ledger(document):
         _record(row, sources, observables)
         if row['id'] in records:
             _require(records[row['id']] == row, 'Conflicting duplicate record id: ' + row['id'])
-        records[row['id']] = row
+        else:
+            records[row['id']] = row
     result = deepcopy(document)
     result['records'] = deepcopy(list(records.values()))
     return result
@@ -183,8 +185,10 @@ def _conflicts(rows):
         if any(left[key] != right[key] for key in keys) or left['value'] is None or right['value'] is None:
             continue
         if left['quality']['status'] == right['quality']['status'] == 'bounded':
-            a, b = left['value'], right['value']
-            ea, eb = left['quality']['error_bound'], right['quality']['error_bound']
+            # Exact rational arithmetic on the validated decoded int/binary64
+            # values prevents endpoint rounding from erasing a positive gap.
+            a, b = Fraction(left['value']), Fraction(right['value'])
+            ea, eb = Fraction(left['quality']['error_bound']), Fraction(right['quality']['error_bound'])
             if not (a + ea < b - eb or b + eb < a - ea):
                 continue
             kind = 'disjoint_declared_bounds'
@@ -242,7 +246,8 @@ class EvidenceLedger:
         candidate['records'].append(record)
         validated = validate_ledger(candidate)
         added = len(validated['records']) > len(self._document['records'])
-        self._document = validated
+        if added:
+            self._document = validated
         return 'ADDED' if added else 'ALREADY_PRESENT'
 
     def snapshot(self, as_of_s):

@@ -11,7 +11,8 @@ ticket 22 connects actual professional execution to returned evidence.
 detached validated document. `EvidenceLedger(document).ingest(record)` atomically
 returns `ADDED` or `ALREADY_PRESENT`. Repeating the same ID and equal validated
 content adds no second sample; numeric `1` and `1.0` have the same JSON-number
-meaning. Reusing an ID for different content raises `ValueError` without changing
+meaning; an equal repeat retains the first accepted record representation.
+Reusing an ID for different content raises `ValueError` without changing
 the ledger. `snapshot(as_of_s)` returns detached plain JSON data.
 
 The closed `aegisdc-evidence-ledger-v1` document declares a ledger/facility ID,
@@ -60,7 +61,11 @@ source or payload. Distinct tokens are not proof of independence:
 Conflict output is a transparent discrepancy ledger, not truth arbitration.
 Only present values of the same target, observable and exact observation time
 are compared. Disjoint declared numeric intervals are
-`disjoint_declared_bounds`; different values with unbounded/reported quality are
+`disjoint_declared_bounds`. Interval comparison uses exact rational arithmetic
+on the already-decoded finite integer/binary64 numbers, so floating endpoint
+rounding cannot erase a positive declared gap. It does not reinterpret decimal
+input text as an exact decimal measurement or widen an error bound.
+Different values with unbounded/reported quality are
 `different_reported_values`. Overlapping intervals and sequential observations
 are not flagged as contradictions. Expired discrepancies remain visible for
 audit alongside each record's availability. No source wins a conflict here.
