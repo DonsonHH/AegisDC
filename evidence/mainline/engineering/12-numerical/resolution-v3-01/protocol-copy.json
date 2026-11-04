@@ -1,0 +1,176 @@
+{
+  "schema": "aegisdc-numerical-resolution-protocol-v3",
+  "classification": "ADDITIVE_ENGINEERING_REFERENCE_RESOLUTION_NOT_RESEARCH",
+  "reason": "Amplitude-safe reanalysis of all100 originals retained reference failures; neither limits nor existing outcomes change.",
+  "prior_reanalysis": "evidence/mainline/engineering/12-numerical/reanalysis-v3-01",
+  "prior_assessment_sha256": "1c7874fd711e48ee60781b8878a4b0455309ebb2dad42cf68ce91bd527cf5007",
+  "prior_receipt_sha256": "8b37062301ea3146955f57a6be9ac83deca9365b2b22ec47f0926ad4c51c0e9f",
+  "cases": [
+    {
+      "id": "outage",
+      "duration_s": 8,
+      "overrides": {
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 0.5
+      },
+      "work_requests": [],
+      "events": [
+        {
+          "time_s": 0.75,
+          "parameter_id": "grid_capacity",
+          "value": 0,
+          "source_note": "Frozen ticket 12 outage; connection at .75+3+.5=4.25 s."
+        },
+        {
+          "time_s": 5.25,
+          "parameter_id": "grid_capacity",
+          "value": 10000000,
+          "source_note": "Frozen ticket 12 outage; connection at .75+3+.5=4.25 s."
+        }
+      ],
+      "reference": "Independent switching times .75/.95/3.75/4.25/5.25 s; normalized deficit 3.5 s.",
+      "checks": []
+    },
+    {
+      "id": "finite-generator-hand",
+      "duration_s": 16,
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 2,
+        "diesel_initial_fuel_energy": 42750,
+        "generator_initial_start_energy": 10000,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "room_aux_power": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.generator_mode",
+          "expected": "transferring",
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "transferring"
+          }
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "supplying",
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
+        },
+        {
+          "path": "backup.starter_energy_J",
+          "expected": 6950,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 37750,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
+        },
+        {
+          "path": "power.generator_output_W",
+          "expected": 1110,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "reserve_transition",
+            "actor": "generator",
+            "mode": "supplying"
+          }
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 0,
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "fuel_depleted"
+          }
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "fuel_exhausted",
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07,
+          "event_anchor": {
+            "kind": "fuel_depleted"
+          }
+        }
+      ],
+      "reference": "3 s cranking at 1010 W and 2 s control at 10 W leave 6950 J starter. Idle fuel uses 5000 J before transfer; a 1110 W AC load at .4 efficiency plus 1000 W idle uses the remaining 37750 J in 10 s, exhausting at 15 s."
+    }
+  ],
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "limits": {
+    "temperature_K": 0.05,
+    "pressure_Pa": 1000,
+    "heat_W": 25000,
+    "service_deficit_time_s": 0.001,
+    "unserved_service_unit_s": 0.001,
+    "resource_time_s": 0.001,
+    "switch_time_s": 0.001
+  },
+  "fine_reference_fraction_of_limits": 0.25,
+  "maximum_steps_s": [
+    0.01,
+    0.0025,
+    0.00125
+  ],
+  "proposed_qualified_maximum_step_s": 0.01,
+  "reference_refinement_s": 0.0025,
+  "fine_reference_s": 0.00125,
+  "newly_run_steps_s": [
+    0.00125
+  ],
+  "numeric_domain_extension": {
+    "parameter_id": "step_time",
+    "canonical_minimum_s": 0.01,
+    "new_minimum_s": 0.00125,
+    "changes": [
+      "valid_range lower endpoint",
+      "basis",
+      "source_note"
+    ],
+    "physical_values_unchanged": true
+  },
+  "analysis_method": "FIXED_PAIRED_EPOCH_WITH_CLOSED_INTERVAL_AMPLITUDE_GUARD_V3",
+  "prior_v1_and_v2_NO_GO_preserved": true,
+  "full_suite_rerun": false,
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

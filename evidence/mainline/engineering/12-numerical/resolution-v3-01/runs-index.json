@@ -1,0 +1,1527 @@
+{
+  "outage": {
+    "0.01": {
+      "original_path": "evidence/mainline/engineering/12-numerical/capture-04/runs/outage/h-0.01.zip",
+      "archive_sha256": "864f1fd855285c8db9ce2f13df8be69ccd82165dbadee1da0e48295425163b85",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "b546df7264e23fc51701e359287702b393b7a099cae9164c360081fd2eb10bc5",
+          "bytes": 2689673,
+          "records": 807
+        },
+        "private-state.jsonl": {
+          "sha256": "8d8fb1a913bda015eb119bcd7095b33f81534ef03d5d4b96417729575d7df27a",
+          "bytes": 5614446,
+          "records": 808
+        },
+        "run.json": {
+          "sha256": "2253b340969f5af33b1de45cefaa7046904df77f60dd531ab3251eeec7874d88",
+          "bytes": 10196,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "a9f1adb4b102bed55ffedc43cb524119f38dc472aac66ca4df33ad4d6ffda58f",
+          "bytes": 144147,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "5bc38536b2fa10965d1a4d5c8b9f5e74e0e7938c",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 3.5,
+          "unserved_service_unit_s": 3.5,
+          "ups_supply_s": 3.3,
+          "generator_supply_s": 0.9999999999999947,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.95
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 5.249999999999995
+          },
+          {
+            "identity": [
+              "PLC",
+              "normal",
+              true,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              0.0
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              10000000.0
+            ],
+            "time_s": 5.249999999999995
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            304.85518820704436,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.8956283109265,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.4947338209803,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.2957013920834,
+            296.2962145993765
+          ],
+          "phase_K": [
+            303.3530660990439,
+            304.5832029271338
+          ],
+          "pressure_Pa": [
+            774699.3982005012,
+            802410.2724197534
+          ],
+          "condenser_W": [
+            0.0,
+            2025837.6838834183
+          ],
+          "plate_W": [
+            0.0,
+            2119200.000000006
+          ],
+          "solid_phase_W": [
+            577578.506167015,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.0967622945608036,
+          0.10030952842255973
+        ],
+        "checks": {
+          "energy_absolute_J": 7.879672921262681e-06,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 5.329070518200751e-15
+        },
+        "state_points": 808,
+        "intervals": 807,
+        "independent_literal_checks": 0,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": []
+      },
+      "new_physics": false
+    },
+    "0.0025": {
+      "original_path": "evidence/mainline/engineering/12-numerical/refinement-01/runs/outage/h-0.0025.zip",
+      "archive_sha256": "b8bb900a51755d15d1b54be74778d07249e701a2f56b2011b59f6a96a708f6a1",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "c8fbefd84656213e724304ab3c8b2790279969027aa2776fa1bdff32dc6d7b28",
+          "bytes": 10683584,
+          "records": 3205
+        },
+        "private-state.jsonl": {
+          "sha256": "1b6009e7018626d060c355d4ea186fa18715d822250fa4d80e24dd60f889c428",
+          "bytes": 22298659,
+          "records": 3206
+        },
+        "run.json": {
+          "sha256": "ebea99adf7a71c4fd72b7678b08110774a08a36079c585b9b2ba0a16789bd299",
+          "bytes": 10178,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "f3473f4f72ec1cb4eef1b4e27bc2d74ace5b5d82056171ebcc8590a1e6896c39",
+          "bytes": 144114,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 3.5,
+          "unserved_service_unit_s": 3.5,
+          "ups_supply_s": 3.3,
+          "generator_supply_s": 1.0,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.95
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 5.25
+          },
+          {
+            "identity": [
+              "PLC",
+              "normal",
+              true,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              0.0
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              10000000.0
+            ],
+            "time_s": 5.25
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            304.8567382640095,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.8956289720909,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.49471448891865,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.2957001180648,
+            296.2962145993765
+          ],
+          "phase_K": [
+            303.35365791446213,
+            304.58296469206454
+          ],
+          "pressure_Pa": [
+            774712.5558600968,
+            802404.8314317128
+          ],
+          "condenser_W": [
+            0.0,
+            2025779.4449235124
+          ],
+          "plate_W": [
+            0.0,
+            2119200.000000006
+          ],
+          "solid_phase_W": [
+            578414.4290967959,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.09676397541665833,
+          0.10030882849667379
+        ],
+        "checks": {
+          "energy_absolute_J": 1.0442805432830937e-05,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 5.329070518200751e-15
+        },
+        "state_points": 3206,
+        "intervals": 3205,
+        "independent_literal_checks": 0,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": []
+      },
+      "new_physics": false
+    },
+    "0.00125": {
+      "original_path": "evidence/mainline/engineering/12-numerical/resolution-v3-01/runs/outage/h-0.00125.zip",
+      "archive_sha256": "bc5cd88dc5c31e146d4868866cf11facbfa7e58c2101093b50c5431e6c3d5125",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "e7feb8962a577a7cac011a77bd5b4497525591bcee910a1cbe5ff8ebb461f48a",
+          "bytes": 21390789,
+          "records": 6409
+        },
+        "private-state.jsonl": {
+          "sha256": "0e528a3536025360ad3ca8b79bd5a6b3d6f79d348ef8fb19d0f19b8611bbd514",
+          "bytes": 44554891,
+          "records": 6410
+        },
+        "run.json": {
+          "sha256": "773a3a1be14d83a8d623508390d011b8ebf94aacbaa93226aa3b476ad3db8b85",
+          "bytes": 10178,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "bff80618a17e2f83430ad464714538805ff97d43cd6c1280074c7445ea43255c",
+          "bytes": 144117,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "edb21ddd8fe76b68b55aecac4a1cb969db9fdf84",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 3.5,
+          "unserved_service_unit_s": 3.5,
+          "ups_supply_s": 3.3,
+          "generator_supply_s": 1.0,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.95
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3.75
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 4.25
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "off"
+            ],
+            "time_s": 5.25
+          },
+          {
+            "identity": [
+              "PLC",
+              "normal",
+              true,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              0.0
+            ],
+            "time_s": 0.75
+          },
+          {
+            "identity": [
+              "exogenous_boundary_input",
+              "grid_capacity",
+              10000000.0
+            ],
+            "time_s": 5.25
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            304.85699648662893,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.89562908228373,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.4947112690163,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.29569990572685,
+            296.2962145993765
+          ],
+          "phase_K": [
+            303.3537563636768,
+            304.5829251275897
+          ],
+          "pressure_Pa": [
+            774714.7446744533,
+            802403.927832659
+          ],
+          "condenser_W": [
+            0.0,
+            2025769.7729895252
+          ],
+          "plate_W": [
+            0.0,
+            2119200.000000006
+          ],
+          "solid_phase_W": [
+            578553.6855713361,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.09676425503495603,
+          0.10030871225868222
+        ],
+        "checks": {
+          "energy_absolute_J": 9.542800398776308e-06,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 1.1102230246251565e-15
+        },
+        "state_points": 6410,
+        "intervals": 6409,
+        "independent_literal_checks": 0,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": []
+      },
+      "new_physics": true
+    }
+  },
+  "finite-generator-hand": {
+    "0.01": {
+      "original_path": "evidence/mainline/engineering/12-numerical/capture-04/runs/finite-generator-hand/h-0.01.zip",
+      "archive_sha256": "9b7f144d1bcb0e558317dd041fe10ff7b09f8dfdbb3bc13646df50b98382746e",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "25212df019b0f5ffdcdf3f181c0add4768c821dc85e72e32ce237898f9776f5c",
+          "bytes": 5016633,
+          "records": 1614
+        },
+        "private-state.jsonl": {
+          "sha256": "433ad8684620305647a5f59a1b619e4620fd9bc8e1d7cd941b17d1d8e25a74c8",
+          "bytes": 10763680,
+          "records": 1615
+        },
+        "run.json": {
+          "sha256": "fc2dcfab084ecc417556a1f359b92936c35a4a25050f1c0ef8cf42362abf7df8",
+          "bytes": 9425,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "2dde7301644cda66686c252caf9f2fe6db80c0d54de074ff7dc1c3604b87fc9d",
+          "bytes": 143570,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "5bc38536b2fa10965d1a4d5c8b9f5e74e0e7938c",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 16.0,
+          "unserved_service_unit_s": 16.0,
+          "ups_supply_s": 5.600000000000178,
+          "generator_supply_s": 9.999999999999822,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.2
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "fuel_depleted",
+              null,
+              null
+            ],
+            "time_s": 14.999999999999822
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 14.999999999999822
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "fuel_exhausted"
+            ],
+            "time_s": 14.999999999999822
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 15.199999999999822
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 1
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 16.0
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            305.35304398405543,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.6843857252479,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.5295616763055,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.2962145993765,
+            296.2962145993765
+          ],
+          "phase_K": [
+            304.47751006414603,
+            305.35290550766337
+          ],
+          "pressure_Pa": [
+            800000.0000000003,
+            820123.7689697553
+          ],
+          "condenser_W": [
+            0.0,
+            0.0
+          ],
+          "plate_W": [
+            0.0,
+            0.0
+          ],
+          "solid_phase_W": [
+            69.23819603343873,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.10000000000000002,
+          0.10258647797883617
+        ],
+        "checks": {
+          "energy_absolute_J": 4.328088152760756e-06,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 0.0
+        },
+        "state_points": 1615,
+        "intervals": 1614,
+        "independent_literal_checks": 7,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": [
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 3,
+            "matched_row_time_s": 3,
+            "actual_applied_event_time_s": 3,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "transferring"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.starter_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "power.generator_output_W",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 15,
+            "matched_row_time_s": 14.999999999999822,
+            "actual_applied_event_time_s": 14.999999999999822,
+            "timestamp_error_s": -1.7763568394002505e-13,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 15,
+            "matched_row_time_s": 14.999999999999822,
+            "actual_applied_event_time_s": 14.999999999999822,
+            "timestamp_error_s": -1.7763568394002505e-13,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          }
+        ]
+      },
+      "new_physics": false
+    },
+    "0.0025": {
+      "original_path": "evidence/mainline/engineering/12-numerical/refinement-01/runs/finite-generator-hand/h-0.0025.zip",
+      "archive_sha256": "b6b12828582cd34efc3964f286607ccc9bc71b1b1c553dd4eced402dd8b2fd24",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "6cba66dad514ae3b5cf6ed24d4c660d25abdc3c6b32ecfd455723652d979fcbf",
+          "bytes": 19972776,
+          "records": 6413
+        },
+        "private-state.jsonl": {
+          "sha256": "42df9e8b6515447d1e56f31ed170fc581bb6446acc02001d11884f1cca99b16c",
+          "bytes": 42765431,
+          "records": 6414
+        },
+        "run.json": {
+          "sha256": "3607004417792c191838e4ee3e2dede1ef44e1c8ea969bad741f80657ea6f413",
+          "bytes": 9293,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "67813d1029a312527521f8ea39b5566be4ad21909d97c64811ea8e67291de156",
+          "bytes": 143537,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "8588bfb2502118c771f3917f4edadfabe3a10fd7",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 16.0,
+          "unserved_service_unit_s": 16.0,
+          "ups_supply_s": 5.6000000000000005,
+          "generator_supply_s": 10.0,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.2
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "fuel_depleted",
+              null,
+              null
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "fuel_exhausted"
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 15.2
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 1
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 16.0
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            305.3530466898604,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.684388694004,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.5295616763055,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.2962145993765,
+            296.2962145993765
+          ],
+          "phase_K": [
+            304.47751006414603,
+            305.35290475080666
+          ],
+          "pressure_Pa": [
+            800000.0000000003,
+            820123.7514186829
+          ],
+          "condenser_W": [
+            0.0,
+            0.0
+          ],
+          "plate_W": [
+            0.0,
+            0.0
+          ],
+          "solid_phase_W": [
+            70.96952685969882,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.10000000000000002,
+          0.10258647572408776
+        ],
+        "checks": {
+          "energy_absolute_J": 4.312710586873436e-06,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 0.0
+        },
+        "state_points": 6414,
+        "intervals": 6413,
+        "independent_literal_checks": 7,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": [
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 3,
+            "matched_row_time_s": 3,
+            "actual_applied_event_time_s": 3,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "transferring"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.starter_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "power.generator_output_W",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 15,
+            "matched_row_time_s": 15,
+            "actual_applied_event_time_s": 15,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 15,
+            "matched_row_time_s": 15,
+            "actual_applied_event_time_s": 15,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          }
+        ]
+      },
+      "new_physics": false
+    },
+    "0.00125": {
+      "original_path": "evidence/mainline/engineering/12-numerical/resolution-v3-01/runs/finite-generator-hand/h-0.00125.zip",
+      "archive_sha256": "219afc4507e7957c775392eff8ccdc38e37df6cc2594d27b4294b95afd5a842d",
+      "original_members": {
+        "balances.jsonl": {
+          "sha256": "d19283f4d56279a6f1b4b9966822ba18801f6af29a99e5ed356042d62a819ed9",
+          "bytes": 39932929,
+          "records": 12808
+        },
+        "private-state.jsonl": {
+          "sha256": "49a7c6fe3008ff00414c19ce127080ebe27383f6c2b61dec87fa429ac095f3ea",
+          "bytes": 85427372,
+          "records": 12809
+        },
+        "run.json": {
+          "sha256": "3b6b2d9a746873d745226c022143281f2b61e74f0cfc5e08afa05773ea52793b",
+          "bytes": 9429,
+          "records": 1
+        },
+        "scenario.json": {
+          "sha256": "388de50436ee5e929a356a457d07d3f7ced62cb8354127ec9da9a21111c325dd",
+          "bytes": 143540,
+          "records": 1
+        }
+      },
+      "runtime_execution_commit": "edb21ddd8fe76b68b55aecac4a1cb969db9fdf84",
+      "analysis": {
+        "metrics": {
+          "service_deficit_time_s": 16.0,
+          "unserved_service_unit_s": 16.0,
+          "ups_supply_s": 5.600000000001054,
+          "generator_supply_s": 9.999999999998947,
+          "backup_fan_s": 0.0,
+          "worker_travel_person_s": 0.0,
+          "worker_work_person_s": 0.0,
+          "tool_occupation_tool_s": 0.0
+        },
+        "events": [
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "starting"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "cooling",
+              "primary"
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 0.2
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "transferring"
+            ],
+            "time_s": 3
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "supplying"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "bypass"
+            ],
+            "time_s": 5
+          },
+          {
+            "identity": [
+              "fuel_depleted",
+              null,
+              null
+            ],
+            "time_s": 14.999999999998947
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "waiting"
+            ],
+            "time_s": 14.999999999998947
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "generator",
+              "fuel_exhausted"
+            ],
+            "time_s": 14.999999999998947
+          },
+          {
+            "identity": [
+              "reserve_transition",
+              "ups",
+              "supplying"
+            ],
+            "time_s": 15.199999999998946
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 0.0
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 1
+          },
+          {
+            "identity": [
+              "PLC",
+              "unpowered_fail_safe",
+              false,
+              1.0
+            ],
+            "time_s": 15
+          },
+          {
+            "identity": [
+              "PLC",
+              "protected",
+              false,
+              1.0
+            ],
+            "time_s": 16.0
+          }
+        ],
+        "observed_ranges": {
+          "solid_K": [
+            305.35304714564694,
+            308.47751006414603
+          ],
+          "room_K": [
+            298.68438918878985,
+            298.95470790378005
+          ],
+          "hot_K": [
+            300.5295616763055,
+            300.5295616763055
+          ],
+          "cold_K": [
+            296.2962145993765,
+            296.2962145993765
+          ],
+          "phase_K": [
+            304.47751006414603,
+            305.35290462331585
+          ],
+          "pressure_Pa": [
+            800000.0000000003,
+            820123.7484622455
+          ],
+          "condenser_W": [
+            0.0,
+            0.0
+          ],
+          "plate_W": [
+            0.0,
+            0.0
+          ],
+          "solid_phase_W": [
+            71.26116554445616,
+            2000000.0
+          ]
+        },
+        "observed_quality_range": [
+          0.10000000000000002,
+          0.10258647534428061
+        ],
+        "checks": {
+          "energy_absolute_J": 4.34532523740927e-06,
+          "mass_absolute_kg": 0.0,
+          "sample_epoch_error_s": 0.0
+        },
+        "state_points": 12809,
+        "intervals": 12808,
+        "independent_literal_checks": 7,
+        "literal_checks_pass": true,
+        "literal_deviations": [],
+        "literal_checkpoint_matches": [
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 3,
+            "matched_row_time_s": 3,
+            "actual_applied_event_time_s": 3,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "transferring"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.starter_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "power.generator_output_W",
+            "target_time_s": 5,
+            "matched_row_time_s": 5,
+            "actual_applied_event_time_s": 5,
+            "timestamp_error_s": 0,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "reserve_transition",
+              "actor": "generator",
+              "mode": "supplying"
+            }
+          },
+          {
+            "path": "backup.fuel_energy_J",
+            "target_time_s": 15,
+            "matched_row_time_s": 14.999999999998947,
+            "actual_applied_event_time_s": 14.999999999998947,
+            "timestamp_error_s": -1.0533796057643485e-12,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          },
+          {
+            "path": "backup.generator_mode",
+            "target_time_s": 15,
+            "matched_row_time_s": 14.999999999998947,
+            "actual_applied_event_time_s": 14.999999999998947,
+            "timestamp_error_s": -1.0533796057643485e-12,
+            "basis": "RIGHT_LIMIT_AT_IDENTIFIED_ACTUAL_EVENT",
+            "event_anchor": {
+              "kind": "fuel_depleted"
+            }
+          }
+        ]
+      },
+      "new_physics": true
+    }
+  }
+}
