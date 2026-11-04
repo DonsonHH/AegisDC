@@ -1,0 +1,614 @@
+{
+  "schema": "aegisdc-coupled-architecture-correction-v2",
+  "classification": "ENGINEERING_VISUAL_CORRECTION_NOT_NEW_PHYSICS",
+  "delivery_gate": "PENDING_COMMIT_AND_FRESH_CHECKOUT",
+  "plot_source_commit": "2727adfce8128feb543efd2f489d37eb4a9bbd73",
+  "original_execution_identity": {
+    "git_commit": "b135ecffb5fe5c3fecaa44859afbf925b8549bb1",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "526b88c63f7682f7e72a81bb2139532dbb9cb85b39105bd2ff1bf4b17d22514d",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "a455eab907f3dce6e7ce2f15e31e0a0d963055c6889edd527f51ff45f3d28568",
+      "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+      "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+      "src/aegis_dc/plant.py": "4c9a0954529c6e310e97ce51fda0de8c57d6ff79d85e1540539335c5b9f7a227",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+      "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+      "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "source_run": "evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/combined-episode-CLI/run.json",
+  "source_run_sha256": "a760756e56efd634dd30a9a9d5482f3555d75732fe772c3d48fc511e7f55f657",
+  "source_scenario_sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+  "source_originals": {
+    "scenario.json": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+    "private-state.jsonl": "2a59e965324659502f1546153dc1f0f14d1985d02775eecdb97aa4b9b12105e6",
+    "balances.jsonl": "c36de6064c5aac894f9e7af8135081050e53819a99872fb477d52941c63e067f"
+  },
+  "pinned_authoring_tools": {
+    "scripts/plot_mainline_coupled_architecture_v2.py": "7c94073ca49d3163f03a9ba21d59e63a527bf0c17583f89fba608cd25194772c",
+    "scripts/plot_mainline_coupled.py": "cb30dbfd41b3795bfccf510bfc068794bb2cf6073e5a3edfa5ef68d6c972e058",
+    "scripts/verify_reserve_delivery.py": "facc52bbd170aae5dd000a097e087fa820524943e253bff7f5f37e0c8fd473f9"
+  },
+  "supersedes": "evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/figures/facility-architecture.json",
+  "superseded_receipt_sha256": "84318a780f670deda983720fd5af012694b4ddb9f8bdb9d79c33e5573f171a4f",
+  "superseded_artifacts": {
+    "facility-architecture.png": "fa7cd752ab484b2926e476064e0b60b1653caad7c24dacf576dd445c58801036",
+    "facility-architecture.svg": "41e617c4b51823a2cea07cec04d99bd5810f52c66fbbba78bd5e455c0b05af68"
+  },
+  "artifacts": {
+    "declaration.json": "ab7fc9d1f78893fdab1d6d7aba47090a5199561c06ab50b92036d03f87450945",
+    "facility-architecture-v2.png": "0e7b5dd196043f0d2bd3a7d77a95f562f2944dba742a984333af6f4e5b9a8594",
+    "facility-architecture-v2.svg": "7a83139606935cfcb555bbbfa28279707f76c34841835bc81e9588e06dc21ab9"
+  },
+  "details": {
+    "selected_declared_edges": {
+      "p_grid": {
+        "id": "p_grid",
+        "from": "grid",
+        "to": "main_switchboard",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "out",
+        "to_port": "in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "p_normal_distribution": {
+        "id": "p_normal_distribution",
+        "from": "main_switchboard",
+        "to": "load_distribution",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "from_port": "aux",
+        "to_port": "normal_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "p_generator": {
+        "id": "p_generator",
+        "from": "generator",
+        "to": "main_switchboard",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rrun"
+        ],
+        "source_note": "Explicit powered/protected connection in the synthetic low-order run model.",
+        "from_port": "out",
+        "to_port": "generator_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "p_protected_distribution": {
+        "id": "p_protected_distribution",
+        "from": "ups",
+        "to": "load_distribution",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "from_port": "protected_out",
+        "to_port": "protected_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "p_rectifier": {
+        "id": "p_rectifier",
+        "from": "load_distribution",
+        "to": "rectifier",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "from_port": "normal_out",
+        "to_port": "in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "p_compute": {
+        "id": "p_compute",
+        "from": "rectifier",
+        "to": "compute",
+        "kind": "electric",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0",
+          "Z2"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "compute",
+        "to_port": "power",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_compute": {
+        "id": "q_compute",
+        "from": "compute",
+        "to": "immersion",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0",
+          "Z2"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "heat",
+        "to_port": "heat_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_condenser": {
+        "id": "q_condenser",
+        "from": "immersion",
+        "to": "internal_water",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "heat_out",
+        "to_port": "heat_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_internal_hx": {
+        "id": "q_internal_hx",
+        "from": "internal_water",
+        "to": "plate_hx",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "heat_out",
+        "to_port": "heat_in",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_to_lake": {
+        "id": "q_to_lake",
+        "from": "plate_hx",
+        "to": "lake",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "from_port": "heat_out",
+        "to_port": "heat",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_backup_water": {
+        "id": "q_backup_water",
+        "from": "internal_water",
+        "to": "backup_tower",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "from_port": "heat_out",
+        "to_port": "heat",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "q_backup_air": {
+        "id": "q_backup_air",
+        "from": "backup_tower",
+        "to": "reserve_external_air",
+        "kind": "heat",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "from_port": "heat_out",
+        "to_port": "heat",
+        "graph": "physical",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f_common_distribution": {
+        "id": "f_common_distribution",
+        "from": "load_distribution",
+        "to": "critical_service",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "parameter_refs": [
+          "shared_distribution_available"
+        ],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f3": {
+        "id": "f3",
+        "from": "rectifier",
+        "to": "compute",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f4": {
+        "id": "f4",
+        "from": "rectifier",
+        "to": "network",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f5": {
+        "id": "f5",
+        "from": "rectifier",
+        "to": "storage",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f12": {
+        "id": "f12",
+        "from": "compute",
+        "to": "critical_service",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f13": {
+        "id": "f13",
+        "from": "network",
+        "to": "critical_service",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f14": {
+        "id": "f14",
+        "from": "storage",
+        "to": "critical_service",
+        "kind": "requires",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f8": {
+        "id": "f8",
+        "from": "ups",
+        "to": "local_controller",
+        "kind": "backup",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f9": {
+        "id": "f9",
+        "from": "ups",
+        "to": "intake_pump",
+        "kind": "backup",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f_ups_internal_pump": {
+        "id": "f_ups_internal_pump",
+        "from": "ups",
+        "to": "internal_pump",
+        "kind": "backup",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rrun"
+        ],
+        "source_note": "M1 explicit internal circulation power/protection dependency.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "f11": {
+        "id": "f11",
+        "from": "backup_tower",
+        "to": "internal_water",
+        "kind": "backup",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "parameter_refs": [],
+        "graph": "functional",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c2": {
+        "id": "c2",
+        "from": "immersion",
+        "to": "point_temperature",
+        "kind": "measurement",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c_internal_measurement": {
+        "id": "c_internal_measurement",
+        "from": "internal_pump",
+        "to": "point_internal_flow",
+        "kind": "measurement",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rrun"
+        ],
+        "source_note": "Explicit local plant instrument/command connection in the synthetic M1 runtime.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c5": {
+        "id": "c5",
+        "from": "point_temperature",
+        "to": "local_controller",
+        "kind": "report",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c_internal_local_report": {
+        "id": "c_internal_local_report",
+        "from": "point_internal_flow",
+        "to": "local_controller",
+        "kind": "report",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rrun"
+        ],
+        "source_note": "Explicit local plant instrument/command connection in the synthetic M1 runtime.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c7": {
+        "id": "c7",
+        "from": "local_controller",
+        "to": "compute",
+        "kind": "command",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c6": {
+        "id": "c6",
+        "from": "local_controller",
+        "to": "intake_pump",
+        "kind": "command",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c_internal_command": {
+        "id": "c_internal_command",
+        "from": "local_controller",
+        "to": "internal_pump",
+        "kind": "command",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rrun"
+        ],
+        "source_note": "Explicit local plant instrument/command connection in the synthetic M1 runtime.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c_backup_selector": {
+        "id": "c_backup_selector",
+        "from": "local_controller",
+        "to": "backup_tower",
+        "kind": "command",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "Rreserve"
+        ],
+        "source_note": "Explicit synthetic reserve topology; coverage and backup piping at the real site remain unknown.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "c9": {
+        "id": "c9",
+        "from": "point_temperature",
+        "to": "evidence_inbox",
+        "kind": "report",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "graph": "control_information",
+        "rendered_arrowstyle": "-|>"
+      },
+      "a1": {
+        "id": "a1",
+        "from": "loc_entry",
+        "to": "loc_control",
+        "kind": "walk",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "duration_parameter": "walk_short",
+        "bidirectional": true,
+        "requires_qualification_ids": [],
+        "graph": "access",
+        "rendered_arrowstyle": "<->"
+      },
+      "a5": {
+        "id": "a5",
+        "from": "loc_control",
+        "to": "loc_electrical",
+        "kind": "walk",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "duration_parameter": "walk_short",
+        "bidirectional": true,
+        "requires_qualification_ids": [
+          "qualified_electrical_inspection"
+        ],
+        "graph": "access",
+        "rendered_arrowstyle": "<->"
+      },
+      "a2": {
+        "id": "a2",
+        "from": "loc_control",
+        "to": "loc_hx",
+        "kind": "walk",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "duration_parameter": "walk_short",
+        "bidirectional": true,
+        "requires_qualification_ids": [],
+        "graph": "access",
+        "rendered_arrowstyle": "<->"
+      },
+      "a3": {
+        "id": "a3",
+        "from": "loc_hx",
+        "to": "loc_lake",
+        "kind": "walk",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "duration_parameter": "walk_long",
+        "bidirectional": true,
+        "requires_qualification_ids": [],
+        "graph": "access",
+        "rendered_arrowstyle": "<->"
+      },
+      "a4": {
+        "id": "a4",
+        "from": "loc_control",
+        "to": "loc_it",
+        "kind": "walk",
+        "basis": "synthetic_assumption",
+        "source_refs": [
+          "R0"
+        ],
+        "source_note": "Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion.",
+        "duration_parameter": "walk_short",
+        "bidirectional": true,
+        "requires_qualification_ids": [],
+        "graph": "access",
+        "rendered_arrowstyle": "<->"
+      }
+    },
+    "relation_semantics": [
+      "physical ports",
+      "functional/capacity/redundancy",
+      "control/information",
+      "personnel access"
+    ],
+    "correction": "V6 access a1..a5 are bidirectional; arrows now show both heads; a4 avoids loc_hx",
+    "drawing_rule": "Selected edge groups only; shared IDs and capacity/delay/permission conditions are explicit; boxes are editable SVG text and paths"
+  },
+  "toolchain": {
+    "matplotlib": "3.10.7",
+    "numpy": "2.3.5",
+    "font": "DejaVu Sans",
+    "font_file_sha256": "3fdf69cabf06049ea70a00b5919340e2ce1e6d02b0cc3c4b44fb6801bd1e0d22"
+  },
+  "physics_rerun": false,
+  "full_suite_rerun": false,
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "research_gain": "NOT_ESTABLISHED"
+}
