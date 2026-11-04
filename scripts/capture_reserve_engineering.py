@@ -68,8 +68,8 @@ def main():
         for path in sorted(source.rglob('*')):
             if path.is_file() and is_runtime_cache(path.relative_to(ROOT)):
                 cache_observations.append({'path': path.relative_to(ROOT).as_posix(),
-                    'classification': 'RUNTIME_CACHE_NOT_DELIVERED', 'observed_sha256': file_sha(path),
-                    'reason': 'Automatic __pycache__/.pyc/.pyo; no gate requires this cache or its hash'})
+                    'classification': 'RUNTIME_CACHE_NOT_DELIVERED', 'observed_sha256': None,
+                    'reason': 'Classified before hashing as automatic cache; never a declared original or a delivery/hash gate'})
 
     base = load_scenario(PROFILE)
     bad = []
