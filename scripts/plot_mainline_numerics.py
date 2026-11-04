@@ -12,6 +12,7 @@ def render(directory):
     assessment = json.loads((directory / 'assessment.json').read_text(encoding='utf-8'))
     index = json.loads((directory / 'runs-index.json').read_text(encoding='utf-8'))
     phase = json.loads((directory / 'phase-domain.json').read_text(encoding='utf-8'))
+    limits = json.loads((directory / 'runbook-copy.json').read_text(encoding='utf-8'))['limits']
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9, 'svg.fonttype': 'none'})
     figure, axes = plt.subplots(3, 2, figsize=(11.5, 11), constrained_layout=True)
     for number, (name, item) in enumerate(assessment['cases'].items()):
@@ -23,14 +24,16 @@ def render(directory):
             values = [max(v for key, v in row['maximum_absolute_series_error'].items() if key.endswith(suffix)) for _, row in rows]
             axis.loglog([h for h, _ in rows], [max(v, 1e-12) for v in values], '.-', label=name, linewidth=1, color=color)
             axis.set_ylabel(label)
-        values = [max([*row['absolute_integral_error'].values(), row['maximum_switch_time_error_s'] or 0]) for _, row in rows]
-        axes[1, 1].loglog([h for h, _ in rows], [max(v, 1e-14) for v in values], '.-', linewidth=1, label=name, color=color)
+        values = [max([*(v / limits.get(key, limits['resource_time_s'])
+                         for key, v in row['absolute_integral_error'].items()),
+                        (row['maximum_switch_time_error_s'] or 0) / limits['switch_time_s']]) for _, row in rows]
+        axes[1, 1].loglog([h for h, _ in rows], [max(v, 1e-12) for v in values], '.-', linewidth=1, label=name, color=color)
     axes[0, 0].axhline(.05, color='black', linestyle='--', linewidth=.8)
     axes[0, 1].axhline(1000, color='black', linestyle='--', linewidth=.8)
     axes[1, 0].axhline(25000, color='black', linestyle='--', linewidth=.8)
-    axes[1, 1].axhline(.001, color='black', linestyle='--', linewidth=.8)
-    axes[1, 1].set_ylabel('Deficit / occupation / switch error (s)')
-    axes[1, 1].text(.03, .94, 'Numerical zeros shown at 1e-14 s', transform=axes[1, 1].transAxes, va='top', fontsize=8)
+    axes[1, 1].axhline(1, color='black', linestyle='--', linewidth=.8)
+    axes[1, 1].set_ylabel('Maximum integral / event error divided by its own limit')
+    axes[1, 1].text(.03, .94, 'Dimensionless; zero ratios shown at 1e-12', transform=axes[1, 1].transAxes, va='top', fontsize=8)
     analytic = sorted((float(h), row['analysis']['metrics']['analytic_max_temperature_error_K'])
                       for h, row in index['isolated-room'].items())
     axes[2, 0].loglog([h for h, _ in analytic], [v for _, v in analytic], 'o-', label='Exact ODE comparison')

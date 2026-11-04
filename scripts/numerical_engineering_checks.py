@@ -87,7 +87,7 @@ def inspect_run(item, manifest, scenario, trace, balances):
               1e-8, 'normalized deficit has unit seconds')
     if maximum_sample > 8 * math.ulp(max(1., item['duration_s'])):
         raise ValueError('Sample epoch drifted from the zero-anchored clock')
-    checkpoint_matches = []
+    checkpoint_matches, literal_deviations = [], []
     for check in item['checks']:
         when = check['time_s']
         if when is None:
@@ -125,9 +125,13 @@ def inspect_run(item, manifest, scenario, trace, balances):
             selected = row['domains']
         actual, expected = value_at(selected, check['path']), check['expected']
         if type(expected) in (int, float):
-            close(actual, expected, check['absolute_tolerance'], 'independent accepted hand case/' + check['path'])
-        elif actual != expected:
-            raise ValueError('Hand-case discrete expectation differs')
+            valid = actual > expected if check['op'] == 'greater' else abs(actual - expected) <= check['absolute_tolerance']
+        else:
+            valid = actual == expected
+        if not valid:
+            literal_deviations.append(dict(path=check['path'], time_s=when, actual=actual, expected=expected,
+                absolute_tolerance=check['absolute_tolerance'],
+                classification='NUMERICAL_QUALIFICATION_FAILURE_NOT_A_CAPTURE_FAILURE'))
     metrics = dict(service_deficit_time_s=manifest['summary']['service_deficit_time_s'],
         unserved_service_unit_s=manifest['summary']['demand_service_unit_s'] - manifest['summary']['delivered_service_unit_s'])
     for name, domain, field in [('ups_supply_s', 'power', 'ups_protected_output_W'),
@@ -173,6 +177,7 @@ def inspect_run(item, manifest, scenario, trace, balances):
                                 max(row['domains']['equipment_environment']['refrigerant']['quality'] for row in trace)],
         checks=dict(energy_absolute_J=maximum_energy, mass_absolute_kg=maximum_mass, sample_epoch_error_s=maximum_sample),
         state_points=len(trace), intervals=len(balances), independent_literal_checks=len(item['checks']),
+        literal_checks_pass=not literal_deviations, literal_deviations=literal_deviations,
         literal_checkpoint_matches=checkpoint_matches)
 
 
@@ -193,7 +198,8 @@ def compare(actual, reference, limits, *, factor=1):
                      if not key.startswith('analytic_')}
     sequence = [row['identity'] for row in actual['events']] == [row['identity'] for row in reference['events']]
     switch_error = max((abs(a['time_s'] - b['time_s']) for a, b in zip(actual['events'], reference['events'])), default=0.) if sequence else None
-    within = (sequence and switch_error <= factor * limits['switch_time_s']
+    within = (sequence and actual['literal_checks_pass'] and reference['literal_checks_pass']
+              and switch_error <= factor * limits['switch_time_s']
               and all(value <= factor * limits['temperature_K' if key.endswith('_K') else 'pressure_Pa' if key.endswith('_Pa') else 'heat_W']
                       for key, value in errors.items())
               and all(value <= factor * limits[key if key in limits else 'resource_time_s'] for key, value in metric_errors.items()))
