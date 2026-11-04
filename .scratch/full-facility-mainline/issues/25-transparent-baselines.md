@@ -1,0 +1,21 @@
+# 25: 在同一设施运行透明比较策略
+
+**What to build:** 无人工、固定周期对照、FIFO及风险优先可通过同一动作和证据接口运行。
+
+**Blocked by:** 24
+
+**Status:** ready-for-agent
+
+**Milestone:** M4
+
+- [ ] 默认运行不生成固定全场Tour；周期策略仅为声明的对照。
+- [ ] 人员、工具、保护规则和可获得信息一致，策略可选择不同使用方法。
+- [ ] 每次选择/暂缓理由与不可行候选可追踪。
+
+## Context
+
+Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
+
+## Evidence
+
+Pending implementation and acceptance.
