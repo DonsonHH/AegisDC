@@ -46,3 +46,9 @@ Captured unittest logs retain their native CRLF bytes. The first staged
 whitespace check flagged those carriage returns; the same scoped `cr-at-eol`
 attribute already used by tickets 04/06 now declares them valid in this evidence
 directory. No captured result bytes were rewritten to satisfy the check.
+
+The source was committed as `2c328cab`, then merged with accepted water/phase
+integration `588cec81` at `60f21f25`. Eight focused tests passed again. The saved
+engineering runs and the one full regression use that clean assembled source:
+`runs-60f21f25-01/` and `acceptance-60f21f25-01/`. The latter passes with 225
+discovered /223 executed, two declared optional Torch skips and no failure/error.

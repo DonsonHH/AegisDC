@@ -1,0 +1,364 @@
+{
+  "hand_case_file": "evidence/mainline/engineering/08-service/hand-cases-v1.json",
+  "hand_case_sha256": "a8a8274745e7c55b6b3d26468805fb4eee770027ac7cece40c75a68a6c3a116f",
+  "implementation_commit": "60f21f25dc55765124398215b065c2c29bac0dfb",
+  "accepted_cases": {
+    "schema": "aegisdc-service-hand-cases-v1",
+    "scope": "ENGINEERING_FIXTURES_ONLY",
+    "expected_basis": "Independent literal interval sums in normalized service-rate units; no AegisDC implementation used to calculate expected values",
+    "service_rate_unit": "1 (normalized synthetic reference multiplier)",
+    "integrated_service_unit": "normalized service-unit s",
+    "deficit_time_unit": "s",
+    "absolute_throughput_calibration": "UNKNOWN; not FLOP/s, network bit/s or storage IOPS; no inference from MW",
+    "cases": [
+      {
+        "id": "normal",
+        "duration_s": 2,
+        "boundary_events": [],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 2,
+          "service_deficit_time_s": 0
+        },
+        "step_s": 1
+      },
+      {
+        "id": "compute-half",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0.25,
+            "parameter_id": "compute_service_capacity",
+            "value": 0.5,
+            "source_note": "Ticket 08 synthetic hand case: available compute ceiling reduced. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.25,
+            "parameter_id": "compute_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: available compute ceiling restored. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 1.5,
+          "service_deficit_time_s": 0.5
+        },
+        "via_cli": true,
+        "step_s": 1
+      },
+      {
+        "id": "network-storage-overlap",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0.25,
+            "parameter_id": "network_service_capacity",
+            "value": 0.6,
+            "source_note": "Ticket 08 synthetic hand case: available network ceiling reduced. Not a site event or research trial."
+          },
+          {
+            "time_s": 0.75,
+            "parameter_id": "storage_service_capacity",
+            "value": 0.4,
+            "source_note": "Ticket 08 synthetic hand case: available storage ceiling reduced. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.25,
+            "parameter_id": "network_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: available network ceiling restored. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.75,
+            "parameter_id": "storage_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: available storage ceiling restored. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 1.2,
+          "service_deficit_time_s": 0.8
+        },
+        "step_s": 1
+      },
+      {
+        "id": "compute-unavailable",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0.25,
+            "parameter_id": "compute_service_capacity",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: required compute unavailable. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.25,
+            "parameter_id": "compute_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: required compute available again. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 1,
+          "service_deficit_time_s": 1
+        },
+        "step_s": 1
+      },
+      {
+        "id": "network-unavailable",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0.25,
+            "parameter_id": "network_service_capacity",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: required network unavailable. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.25,
+            "parameter_id": "network_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: required network available again. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 1,
+          "service_deficit_time_s": 1
+        },
+        "step_s": 1
+      },
+      {
+        "id": "storage-unavailable",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0.25,
+            "parameter_id": "storage_service_capacity",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: required storage unavailable. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.25,
+            "parameter_id": "storage_service_capacity",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: required storage available again. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2,
+          "delivered_service_unit_s": 1,
+          "service_deficit_time_s": 1
+        },
+        "step_s": 1
+      },
+      {
+        "id": "zero-then-positive-demand",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0,
+            "parameter_id": "service_demand",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: exogenous offered demand zero. Not a site event or research trial."
+          },
+          {
+            "time_s": 0,
+            "parameter_id": "network_service_capacity",
+            "value": 0.25,
+            "source_note": "Ticket 08 synthetic hand case: available network ceiling quarter scale. Not a site event or research trial."
+          },
+          {
+            "time_s": 1,
+            "parameter_id": "service_demand",
+            "value": 1,
+            "source_note": "Ticket 08 synthetic hand case: exogenous offered demand becomes one. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 1,
+          "delivered_service_unit_s": 0.25,
+          "service_deficit_time_s": 0.75
+        },
+        "step_s": 1
+      },
+      {
+        "id": "changing-fractional-demand",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0,
+            "parameter_id": "service_demand",
+            "value": 0.5,
+            "source_note": "Ticket 08 synthetic hand case: exogenous offered demand half scale. Not a site event or research trial."
+          },
+          {
+            "time_s": 0,
+            "parameter_id": "network_service_capacity",
+            "value": 0.25,
+            "source_note": "Ticket 08 synthetic hand case: available network ceiling quarter scale. Not a site event or research trial."
+          },
+          {
+            "time_s": 1,
+            "parameter_id": "service_demand",
+            "value": 2,
+            "source_note": "Ticket 08 synthetic hand case: exogenous offered demand double scale. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 2.5,
+          "delivered_service_unit_s": 0.5,
+          "service_deficit_time_s": 1.375
+        },
+        "step_s": 1
+      },
+      {
+        "id": "execution-paused",
+        "duration_s": 3,
+        "boundary_events": [
+          {
+            "time_s": 0.5,
+            "parameter_id": "compute_demand_power",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: execution request paused; external demand unchanged; not hardware failure. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.5,
+            "parameter_id": "compute_demand_power",
+            "value": 2000000,
+            "source_note": "Ticket 08 synthetic hand case: execution request restored; past loss retained. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 3,
+          "delivered_service_unit_s": 2,
+          "service_deficit_time_s": 1
+        },
+        "step_s": 1
+      },
+      {
+        "id": "execution-throttled",
+        "duration_s": 3,
+        "boundary_events": [
+          {
+            "time_s": 0.5,
+            "parameter_id": "compute_demand_power",
+            "value": 1000000,
+            "source_note": "Ticket 08 synthetic hand case: execution request halved; external demand unchanged; not hardware failure. Not a site event or research trial."
+          },
+          {
+            "time_s": 1.5,
+            "parameter_id": "compute_demand_power",
+            "value": 2000000,
+            "source_note": "Ticket 08 synthetic hand case: execution request restored; past loss retained. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 3,
+          "delivered_service_unit_s": 2.5,
+          "service_deficit_time_s": 0.5
+        },
+        "step_s": 1
+      },
+      {
+        "id": "zero-demand",
+        "duration_s": 2,
+        "boundary_events": [
+          {
+            "time_s": 0,
+            "parameter_id": "service_demand",
+            "value": 0,
+            "source_note": "Ticket 08 synthetic hand case: exogenous offered demand zero throughout. Not a site event or research trial."
+          }
+        ],
+        "expected": {
+          "demand_service_unit_s": 0,
+          "delivered_service_unit_s": 0,
+          "service_deficit_time_s": 0
+        },
+        "step_s": 1
+      }
+    ],
+    "research_trials": 0,
+    "training_calls": 0,
+    "model_calls": 0
+  },
+  "expected_rejections": [
+    {
+      "id": "negative-capacity",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "compute_service_capacity",
+          "value": -0.1,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        }
+      ]
+    },
+    {
+      "id": "capacity-outside-range",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "network_service_capacity",
+          "value": 2.1,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        }
+      ]
+    },
+    {
+      "id": "boolean-capacity",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "storage_service_capacity",
+          "value": true,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        }
+      ]
+    },
+    {
+      "id": "missing-source",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "network_service_capacity",
+          "value": 0.5,
+          "source_note": ""
+        }
+      ]
+    },
+    {
+      "id": "conflicting-capacity",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 0.5,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        },
+        {
+          "time_s": 0.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 1,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        }
+      ]
+    },
+    {
+      "id": "static-coefficient",
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "compute_nominal_power",
+          "value": 1000000,
+          "source_note": "Ticket 08 synthetic invalid-input negative fixture."
+        }
+      ]
+    }
+  ],
+  "scope": "ENGINEERING_FIXTURES_ONLY"
+}
