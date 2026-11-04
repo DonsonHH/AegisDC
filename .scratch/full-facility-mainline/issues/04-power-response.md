@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -18,4 +18,11 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Assigned implementation: `donson/mainline-04-power`, worktree
+`.work/worktrees/full-site-04`, owner `mainline_04_power`. The live assignment and
+worktree were checked before claiming on 2026-11-04; starting integration commit
+is `0ee160cdcdbd195acf35d552abd8040ef7e55b5c`. Public verification boundaries are
+`simulate_scenario`/CLI and the electrical component interfaces used by that run.
+
+Pending implementation and acceptance. Engineering fixtures only; no registered
+research trial, training run or AI call.
