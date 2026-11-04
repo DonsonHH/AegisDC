@@ -4,7 +4,7 @@
 
 **Blocked by:** 03
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -18,4 +18,12 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `donson/mainline-08-service` in `.work/worktrees/full-site-08`, based on
+integration `454408e33bc39a45a87ac2799c8dfd8ceff0a4ae` (2026-11-04).
+
+The accepted scenario/run and CLI seams are used. The existing joint-service
+minimum and independent requested/delivered accounts are retained; timed changes
+to the three already declared normalized component capacities are the missing
+engineering input behavior. Work remains in the complete eight-domain scene;
+no queue, scheduler, policy comparison, FLOP/s calibration or research trial is
+introduced.

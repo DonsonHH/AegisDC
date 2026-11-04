@@ -20,6 +20,7 @@ from .workforce import Workforce
 ROOT = Path(__file__).resolve().parents[2]
 EXOGENOUS_PARAMETERS = {
     'grid_capacity', 'compute_demand_power', 'network_demand_power', 'storage_demand_power',
+    'compute_service_capacity', 'network_service_capacity', 'storage_service_capacity',
     'service_demand', 'lake_temperature', 'filter_resistance_multiplier',
     'room_aux_power', 'floor_water_inflow', 'drainage_mass_flow',
 }
