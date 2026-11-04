@@ -4,7 +4,7 @@
 
 **Blocked by:** 04, 05, 06, 07, 08, 09, 10
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M1
 
@@ -19,4 +19,22 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner: `/root/mainline_11_coupled`, branch `donson/mainline-11-coupled`,
+worktree `.work/worktrees/full-site-11`; confirmed no duplicate live owner and
+started from integration `cb249b611a9fee3d87a974524786ce2c014bbb55`.
+
+Public seams: `load_scenario`/validation, `simulate_scenario`/describe/save,
+and the actual CLI, as authorized by the specification. Acceptance will keep
+one V6 identity across all eight domains; engineering fixtures are not
+registered effect studies. Implementation and acceptance in progress.
+
+Source/test/tool freeze is prepared in `docs/mainline/11-coupled-acceptance.md`
+and `docs/mainline/11-coupled-runbook.json`: 17 same-V6 engineering cases,
+129 independent literal conditions, three explicit refusals and 17 public-seam
+tests. Draft public tests and saved-port conservation checks pass; retained
+preparation failures distinguish a missing runbook, an author drainage
+arithmetic error and a verifier's external-versus-internal floor-energy field
+classification. None changed the accepted runtime or V1-V6 snapshots.
+
+Formal immutable capture, one full suite and fresh-checkout delivery are still
+pending. M1 and the complete research goal remain in progress.

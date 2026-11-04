@@ -1,0 +1,1586 @@
+{
+  "schema": "aegisdc-coupled-engineering-runbook-v1",
+  "classification": "ENGINEERING_FIXTURES_NOT_RESEARCH_TRIALS",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "shared_facility_id": "same accepted V6; parameter overrides retain entities/four graphs",
+  "scope": "Bounded low-order synthetic facility inspired by Zhengzhou; actual fluid/topology/staff data remain unknown.",
+  "water_reference": "Common zero-K sensible cp*T reference for internal water, leak, nuisance inflow, floor pool and drainage; carried energy is not an extra heat source.",
+  "source_kinds": "All event/override numbers are explicit synthetic engineering assumptions, within V6 SI ranges; EOS reference is separately pinned.",
+  "research_trials": 0,
+  "training_calls": 0,
+  "model_calls": 0,
+  "cases": [
+    {
+      "id": "normal-600s",
+      "duration_s": 600,
+      "step_s": 1,
+      "rationale": "Ten-minute normal V6 working point; 600 requested and delivered service-unit s, no store draw.",
+      "overrides": {},
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "summary.demand_service_unit_s",
+          "expected": 600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 0,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.grid_energy_J",
+          "expected": 1388867885.125184,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "backup.ups_energy_J",
+          "expected": 18000000,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.starter_energy_J",
+          "expected": 100000,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 500000000,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "shared-AC-capacity",
+      "duration_s": 2,
+      "step_s": 1,
+      "rationale": "100000 W AC minus 110 W reserve actors, 1000 W PLC, 19200 W circulation, 150000/7 W intake and 5000 W room leaves 53261.42857142857 W rectifier input; 0.97 efficiency and 2.2 MW total IT give service fraction 0.02348344805194805.",
+      "overrides": {
+        "grid_capacity": 100000
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "power.grid_draw_W",
+          "expected": 100000,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.rectifier_input_W",
+          "expected": 53261.42857142857,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "it_service.delivered",
+          "expected": 0.02348344805194805,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0.0469668961038961,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 1.953033103896104,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "shared-rectifier-capacity",
+      "duration_s": 1,
+      "step_s": 1,
+      "rationale": "One 100 kW AC rectifier at unity efficiency supplies all three IT groups; the independent service fraction is 100/2200 =1/22, despite ample mains.",
+      "overrides": {
+        "rectifier_capacity": 100000,
+        "rectifier_efficiency": 1
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "power.rectifier_input_W",
+          "expected": 100000,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "it_service.delivered",
+          "expected": 0.045454545454545456,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0.045454545454545456,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "common-distribution",
+      "duration_s": 2,
+      "step_s": 1,
+      "rationale": "The common enclosure removes normal and protected load rails despite positive UPS/fuel/starter stores. Power returns at 1.75 s; the already unpowered PLC waits until its 2 s sample, so only the first .25 s is served.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "shared_distribution_available",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.75,
+          "parameter_id": "shared_distribution_available",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "power.actual_powers_W.local_controller",
+          "expected": 0,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.ups_protected_output_W",
+          "expected": 0,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.generator_output_W",
+          "expected": 0,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.ups_energy_J",
+          "expected": 0,
+          "time_s": 1,
+          "op": "greater",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "unpowered_fail_safe",
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.sampled_at_s",
+          "expected": 1,
+          "time_s": 1.75,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 1.75,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "internal-valve-phase",
+      "duration_s": 1.25,
+      "step_s": 1,
+      "rationale": "A hardwired shutoff at .25 s stops only circulation immediately. The still-powered compute and stored solid heat put exactly 1.5 MJ into the closed 2000 kg refrigerant over the next .75 s; the first low-flow PLC sample at 1 s stops compute. No missing condenser heat is invented.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "internal_valve_opening",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "facility_cooling.internal_mass_flow_kg_s",
+          "expected": 0,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "facility_cooling.condenser_heat_W",
+          "expected": 0,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "facility_cooling.plate_hx_heat_W",
+          "expected": 0,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.compute",
+          "expected": 2000000,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "equipment_environment.refrigerant.internal_energy_J",
+          "expected": 517835850.31469756,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "control_monitoring.protection_latched",
+          "expected": true,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 1,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 0.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "joint-compute-network-storage",
+      "duration_s": 8,
+      "step_s": 1,
+      "rationale": "One common service, not three added losses: .25*1 +2*.5 +2*.25 +2*0 +1.75*1 =3.5 service-unit s, and 8-3.5 =4.5 normalized deficit s. External demand stays one.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "compute_service_capacity",
+          "value": 0.5,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 2.25,
+          "parameter_id": "network_service_capacity",
+          "value": 0.25,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 4.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 6.25,
+          "parameter_id": "compute_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 6.25,
+          "parameter_id": "network_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 6.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "it_service.delivered",
+          "expected": 0.5,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "it_service.delivered",
+          "expected": 0.25,
+          "time_s": 2.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "it_service.delivered",
+          "expected": 0,
+          "time_s": 4.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.compute",
+          "expected": 1000000,
+          "time_s": 4.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.network",
+          "expected": 25000,
+          "time_s": 4.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.demand_service_unit_s",
+          "expected": 8,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 3.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 4.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "bias-link-power-latch",
+      "duration_s": 4,
+      "step_s": 1,
+      "rationale": "Bias changes the local report at the 1 s sample while link loss leaves protection local. Removing both protected sources at 1.5 s makes the 2 s PLC unpowered. Power/link restoration does not erase the latch while true temperature exceeds the 300 K reset gate.",
+      "overrides": {
+        "protection_temperature": 310,
+        "protection_reset_temperature": 300
+      },
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "local_temperature_bias",
+          "value": 10,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 0.5,
+          "parameter_id": "supervisory_link_available",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.25,
+          "parameter_id": "local_temperature_bias",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.5,
+          "parameter_id": "grid_capacity",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.5,
+          "parameter_id": "ups_in_service",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.5,
+          "parameter_id": "diesel_in_service",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 2.25,
+          "parameter_id": "grid_capacity",
+          "value": 10000000,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 3.25,
+          "parameter_id": "supervisory_link_available",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "control_monitoring.local_measurement.sampled_at_s",
+          "expected": 0,
+          "time_s": 0.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "equipment_environment.refrigerant.temperature_K",
+          "expected": 304.47751006414603,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.temperature_K",
+          "expected": 314.47751006414603,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.supervisory_mode",
+          "expected": "autonomous",
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "unpowered_fail_safe",
+          "time_s": 2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.protection_latched",
+          "expected": true,
+          "time_s": 2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "protected",
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.protection_latched",
+          "expected": true,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.supervisory_mode",
+          "expected": "connected",
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 1,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 3,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "invalid-flow-channel",
+      "duration_s": 3,
+      "step_s": 1,
+      "rationale": "A -0.2 m3/s bias on the real .12 m3/s report is invalid, rather than clipped. The change at .25 s takes effect only at sample 1; recovery at 1.25 waits for sample 2.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "local_internal_flow_bias",
+          "value": -0.2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 1.25,
+          "parameter_id": "local_internal_flow_bias",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "control_monitoring.mode",
+          "expected": "sensor_invalid_fail_safe",
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.internal_volume_flow_m3_s",
+          "expected": -0.08,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.valid",
+          "expected": false,
+          "time_s": 1,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.sampled_at_s",
+          "expected": 1,
+          "time_s": 1.25,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "normal",
+          "time_s": 2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 2,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 1,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "personnel-resource-conflicts",
+      "duration_s": 151,
+      "step_s": 1,
+      "rationale": "The initial qualified cooling job walks two 60 s edges and works 30 s. Its one shared meter is reserved during both travel and work; qualification, worker and route limits reject other jobs.",
+      "overrides": {},
+      "events": [],
+      "work_requests": [
+        {
+          "id": "holds-meter",
+          "time_s": 0.25,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "immersion",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "meter-conflict",
+          "time_s": 0.5,
+          "worker_id": "worker_control",
+          "work_interface_id": "inspect_facility_cooling",
+          "target_id": "plate_hx",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "qualification-conflict",
+          "time_s": 0.75,
+          "worker_id": "worker_it",
+          "work_interface_id": "inspect_power",
+          "target_id": "rectifier",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "worker-conflict",
+          "time_s": 1,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_facility_cooling",
+          "target_id": "filter",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "route-qualification",
+          "time_s": 1.25,
+          "worker_id": "worker_control",
+          "work_interface_id": "inspect_control_monitoring",
+          "target_id": "point_power",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "checks": [
+        {
+          "path": "summary.worker_travel_person_s",
+          "expected": 120,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_work_person_s",
+          "expected": 30,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.tool_occupation_tool_s",
+          "expected": 150,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.arrived_at_s",
+          "expected": 120.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.completed_at_s",
+          "expected": 150.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.1.reason",
+          "expected": "tool_busy",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.2.reason",
+          "expected": "qualification_mismatch",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.3.reason",
+          "expected": "worker_busy",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.4.reason",
+          "expected": "access_unreachable",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 0,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "gate-before-arrival",
+      "duration_s": 121,
+      "step_s": 1,
+      "rationale": "A healthy service path cannot authorize access. The gate closes before the 120 s arrival; the worker/meter stop at loc_control with 120 person s travel, zero actual arrival/work.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 90,
+          "parameter_id": "it_access_permit",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [
+        {
+          "id": "approach-gate",
+          "time_s": 0,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "room",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "checks": [
+        {
+          "path": "work_records.0.status",
+          "expected": "aborted",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.finished_at_s",
+          "expected": 120,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "people_tools_work.workers.worker_cooling.location_id",
+          "expected": "loc_control",
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_travel_person_s",
+          "expected": 120,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_work_person_s",
+          "expected": 0,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 121,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "room-thermal-work-limit",
+      "duration_s": 2,
+      "step_s": 1,
+      "rationale": "The room receives 100000+1000+100 =101100 W, with a 1 MJ/K air capacity and no outward heat. A .15165 K headroom lasts exactly 1.5 s. IT worker and tool begin at their normal loc_it identity.",
+      "overrides": {
+        "room_temperature": 300,
+        "room_thermal_capacity": 1000000,
+        "maximum_room_work_temperature": 300.15165,
+        "room_conductance": 0,
+        "room_aux_power": 100000,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0
+      },
+      "events": [],
+      "work_requests": [
+        {
+          "id": "warm-room",
+          "time_s": 0,
+          "worker_id": "worker_it",
+          "work_interface_id": "inspect_it_service",
+          "target_id": "compute",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "checks": [
+        {
+          "path": "work_records.0.status",
+          "expected": "aborted",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.finished_at_s",
+          "expected": 1.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_work_person_s",
+          "expected": 1.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "equipment_environment.room_temperature_K",
+          "expected": 300.2022,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "space_access.floor_water_mass_kg",
+          "expected": 0,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "finite-generator-hand",
+      "duration_s": 16,
+      "step_s": 1,
+      "rationale": "3 s cranking at 1010 W and 2 s control at 10 W leave 6950 J starter. Idle fuel uses 5000 J before transfer; a 1110 W AC load at .4 efficiency plus 1000 W idle uses the remaining 37750 J in 10 s, exhausting at 15 s.",
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_start_time": 3,
+        "diesel_transfer_delay": 2,
+        "diesel_initial_fuel_energy": 42750,
+        "generator_initial_start_energy": 10000,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "room_aux_power": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.generator_mode",
+          "expected": "transferring",
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "supplying",
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.starter_energy_J",
+          "expected": 6950,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 37750,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.generator_output_W",
+          "expected": 1110,
+          "time_s": 5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 0,
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "fuel_exhausted",
+          "time_s": 15,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "selector-cancels-old-need",
+      "duration_s": 4,
+      "step_s": 1,
+      "rationale": "25310 W minus 110 W reserve actors, 1000 W PLC and 19200 W internal pump leaves 5000 W fan. The selector removes primary intake demand at the same time, cancelling stale UPS need.",
+      "overrides": {
+        "grid_capacity": 25310,
+        "backup_cooling_requested": 1
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.reserve_states.ups.mode",
+          "expected": "bypass",
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.ups_transfer_needed",
+          "expected": false,
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.backup_fan",
+          "expected": 5000,
+          "time_s": 2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "facility_cooling.backup_exchange.air_capacity_W_K",
+          "expected": 125000,
+          "time_s": 2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.backup_fan_energy_J",
+          "expected": 10000,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "selector-creates-new-need",
+      "duration_s": 4,
+      "step_s": 1,
+      "rationale": "Returning to primary at the paid 3 s PLC sample creates a new UPS need immediately, with transfer at 3.2 s. Its report remains the single 3 s sample.",
+      "overrides": {
+        "grid_capacity": 25310,
+        "backup_cooling_requested": 1
+      },
+      "events": [
+        {
+          "time_s": 2.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.reserve_states.ups.mode",
+          "expected": "waiting",
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.reserve_states.ups.requested_at_s",
+          "expected": 3,
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.reserve_states.ups.ready_at_s",
+          "expected": 3.2,
+          "time_s": 3,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.reserve_states.ups.mode",
+          "expected": "supplying",
+          "time_s": 3.2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.sampled_at_s",
+          "expected": 3,
+          "time_s": 3.2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.ups_protected_output_W",
+          "expected": 16428.571428571428,
+          "time_s": 3.2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "combined-episode-CLI",
+      "duration_s": 240,
+      "step_s": 1,
+      "rationale": "Admissible engineering episode, chosen for interpretable coupling, not policy benefit. Demand 1.2 during 10.25..185.25 requests 275 service-unit s in total. Mains loss spans 65.5..105.25; autonomous generator supplies after 30+2 s at 97.5. The invalid temperature channel stops compute during 176..180. Leak .5 minus drain .1 reaches 10 kg after 25 s, at145.5, interrupting the qualified room job after 120 s travel and25.25 s work. Forty seconds of leak removes20 kg hot water; the floor drains11.95 kg by240, retaining8.05 kg.",
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 10.25,
+          "parameter_id": "service_demand",
+          "value": 1.2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 10.25,
+          "parameter_id": "compute_service_capacity",
+          "value": 1.2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 10.25,
+          "parameter_id": "network_service_capacity",
+          "value": 1.2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 10.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 1.2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 30.5,
+          "parameter_id": "filter_resistance_multiplier",
+          "value": 4,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 35.25,
+          "parameter_id": "local_temperature_bias",
+          "value": -2,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 45.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 60.25,
+          "parameter_id": "supervisory_link_available",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 65.5,
+          "parameter_id": "grid_capacity",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 105.25,
+          "parameter_id": "grid_capacity",
+          "value": 10000000,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 110.25,
+          "parameter_id": "backup_cooling_requested",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 112.5,
+          "parameter_id": "filter_resistance_multiplier",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 115.25,
+          "parameter_id": "supervisory_link_available",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 120.5,
+          "parameter_id": "internal_hot_leak_mass_flow",
+          "value": 0.5,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 160.5,
+          "parameter_id": "internal_hot_leak_mass_flow",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 170.25,
+          "parameter_id": "local_temperature_bias",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 175.25,
+          "parameter_id": "local_temperature_sensor_valid",
+          "value": 0,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 179.25,
+          "parameter_id": "local_temperature_sensor_valid",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 185.25,
+          "parameter_id": "service_demand",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 185.25,
+          "parameter_id": "compute_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 185.25,
+          "parameter_id": "network_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "time_s": 185.25,
+          "parameter_id": "storage_service_capacity",
+          "value": 1,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "work_requests": [
+        {
+          "id": "room-engineering-visit",
+          "time_s": 0.25,
+          "worker_id": "worker_cooling",
+          "work_interface_id": "inspect_equipment_environment",
+          "target_id": "immersion",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "meter-is-held",
+          "time_s": 0.5,
+          "worker_id": "worker_control",
+          "work_interface_id": "inspect_facility_cooling",
+          "target_id": "plate_hx",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        },
+        {
+          "id": "unqualified-electrical",
+          "time_s": 0.75,
+          "worker_id": "worker_it",
+          "work_interface_id": "inspect_power",
+          "target_id": "rectifier",
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "checks": [
+        {
+          "path": "summary.demand_service_unit_s",
+          "expected": 275,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.reserve_states.cooling.requested_at_s",
+          "expected": 46,
+          "time_s": 46,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.backup_tower_mode",
+          "expected": "active",
+          "time_s": 48,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "facility_cooling.lake_mass_flow_kg_s",
+          "expected": 0,
+          "time_s": 48,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.reserve_states.ups.mode",
+          "expected": "supplying",
+          "time_s": 65.7,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.local_measurement.sampled_at_s",
+          "expected": 65,
+          "time_s": 65.7,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.compute",
+          "expected": 0,
+          "time_s": 65.7,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.actual_powers_W.backup_fan",
+          "expected": 0,
+          "time_s": 65.7,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.generator_mode",
+          "expected": "supplying",
+          "time_s": 97.5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.supervisory_mode",
+          "expected": "autonomous",
+          "time_s": 97.5,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.status",
+          "expected": "aborted",
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.arrived_at_s",
+          "expected": 120.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "work_records.0.finished_at_s",
+          "expected": 145.5,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_travel_person_s",
+          "expected": 120,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.worker_work_person_s",
+          "expected": 25.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.tool_occupation_tool_s",
+          "expected": 145.25,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.internal_hot_leaked_mass_kg",
+          "expected": 20,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.floor_water_drained_mass_kg",
+          "expected": 11.95,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "facility_cooling.hot_mass_kg",
+          "expected": 9980,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "space_access.floor_water_mass_kg",
+          "expected": 8.05,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "sensor_invalid_fail_safe",
+          "time_s": 176,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "control_monitoring.mode",
+          "expected": "normal",
+          "time_s": 180,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.service_deficit_time_s",
+          "expected": 36,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 231.8,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": true
+    },
+    {
+      "id": "finite-UPS-hand",
+      "duration_s": 33,
+      "step_s": 1,
+      "rationale": "1000 W battery control during .2 s disconnected, then 100 kW protected PLC at .9 efficiency. .2*1000 +32.4*(100000/.9+1000) =3632600 J; no IT coverage is created. The total battery output is3.24 MJ protected plus32600 J control and360000 J conversion loss.",
+      "overrides": {
+        "grid_capacity": 0,
+        "ups_energy": 3632600,
+        "ups_discharge_efficiency": 0.9,
+        "ups_internal_control_power": 1000,
+        "controller_power": 100000,
+        "generator_initial_start_energy": 0,
+        "diesel_initial_fuel_energy": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0,
+        "room_aux_power": 0,
+        "room_conductance": 0,
+        "solid_coolant_conductance": 0,
+        "condenser_conductance": 0,
+        "initial_hot_temperature": 300,
+        "initial_cold_temperature": 300,
+        "pump_pressure_rise": 346500,
+        "lake_hydraulic_resistance": 31650000,
+        "internal_pump_pressure_rise": 309375,
+        "internal_hydraulic_resistance": 18151041.666666664
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.ups_energy_J",
+          "expected": 0,
+          "time_s": 32.6,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.ups_protected_output_W",
+          "expected": 100000,
+          "time_s": 0.2,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "summary.ups_output_energy_J",
+          "expected": 3272600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.ups_loss_energy_J",
+          "expected": 360000,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.reserve_room_control_heat_J",
+          "expected": 32600,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 0.001
+        },
+        {
+          "path": "summary.delivered_service_unit_s",
+          "expected": 0,
+          "time_s": null,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    },
+    {
+      "id": "empty-starter-with-fuel",
+      "duration_s": 6,
+      "step_s": 1,
+      "rationale": "With 42750 J fuel but zero starter energy and no mains, the generator cannot start. The independent UPS does not lend its store to the starter.",
+      "overrides": {
+        "grid_capacity": 0,
+        "diesel_initial_fuel_energy": 42750,
+        "generator_initial_start_energy": 0,
+        "pump_pressure_rise": 0,
+        "internal_pump_pressure_rise": 0,
+        "compute_demand_power": 0,
+        "network_demand_power": 0,
+        "storage_demand_power": 0
+      },
+      "events": [],
+      "work_requests": [],
+      "checks": [
+        {
+          "path": "backup.generator_mode",
+          "expected": "starter_depleted",
+          "time_s": 0,
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "backup.fuel_energy_J",
+          "expected": 42750,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        },
+        {
+          "path": "power.generator_output_W",
+          "expected": 0,
+          "time_s": "final",
+          "op": "equal",
+          "absolute_tolerance": 1e-07
+        }
+      ],
+      "via_cli": false
+    }
+  ],
+  "rejections": [
+    {
+      "id": "phase-domain-exit",
+      "duration_s": 0.01,
+      "step_s": 0.01,
+      "overrides": {
+        "coolant_inventory": 2000,
+        "coolant_initial_energy": 742775442.0798761,
+        "coolant_control_volume": 6.422587397615047,
+        "initial_solid_temperature": 370,
+        "condenser_conductance": 0
+      },
+      "events": [],
+      "error_contains": "exactly one domain-valid root",
+      "rationale": "Legal 3 MPa x=.5 EOS endpoint plus stored solid heat exits the table; no extrapolated or clipped success is permitted."
+    },
+    {
+      "id": "hot-inventory-domain-exit",
+      "duration_s": 1,
+      "step_s": 1,
+      "overrides": {
+        "internal_hot_mass": 1000,
+        "minimum_internal_hot_mass": 999,
+        "internal_hot_leak_mass_flow": 2
+      },
+      "events": [],
+      "error_contains": "hydraulic validity minimum",
+      "rationale": "1000 kg -2 kg/s falls below999 kg after .5 s; unsupported suction geometry must fail."
+    },
+    {
+      "id": "fractional-access-permit",
+      "duration_s": 1,
+      "step_s": 1,
+      "overrides": {},
+      "events": [
+        {
+          "time_s": 0.25,
+          "parameter_id": "it_access_permit",
+          "value": 0.5,
+          "source_note": "Predeclared ticket 11 synthetic engineering boundary; no site fault, policy, diagnosis or repair."
+        }
+      ],
+      "error_contains": "binary",
+      "rationale": "Permission is explicitly binary, not an invented partial authorization."
+    }
+  ]
+}
