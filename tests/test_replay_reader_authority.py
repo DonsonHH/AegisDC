@@ -149,6 +149,37 @@ class ReplayReaderAuthorityTests(unittest.TestCase):
             self.assertEqual(read_attempt(output)['request']['duration_s'], -1)
             self.assertIsNone(read_attempt(output)['run'])
 
+    def test_malformed_completed_request_is_refused_before_replay_and_its_bytes_are_saved(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            origin, output = Path(temporary) / 'bad-request', Path(temporary) / 'refusal'
+            shutil.copytree(ORIGINAL, origin)
+            path = origin / 'request.json'
+            path.write_bytes(b'42\n')
+            record = json.loads((origin / 'attempt.json').read_text())
+            record['artifacts']['request.json'] = sha256(path.read_bytes()).hexdigest()
+            replace_json(origin / 'attempt.json', record)
+            result = replay_attempt(origin, output)
+            self.assertEqual(result['status'], 'FAILED')
+            self.assertEqual(result['failure']['stage'], 'replay_origin.request')
+            self.assertEqual((output / 'origin/request.json').read_bytes(), b'42\n')
+            self.assertIsNone(read_attempt(output)['run'])
+
+    def test_malformed_private_trajectory_is_a_staged_refusal_with_exact_bad_bytes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            for index, name in enumerate(('trajectory/private-state.jsonl', 'trajectory/run.json')):
+                with self.subTest(artifact=name):
+                    origin, output = Path(temporary) / ('origin-' + str(index)), Path(temporary) / ('refusal-' + str(index))
+                    shutil.copytree(ORIGINAL, origin)
+                    (origin / name).write_bytes(b'42\n')
+                    record = json.loads((origin / 'attempt.json').read_text())
+                    record['artifacts'][name] = sha256(b'42\n').hexdigest()
+                    replace_json(origin / 'attempt.json', record)
+                    result = replay_attempt(origin, output)
+                    self.assertEqual(result['status'], 'FAILED')
+                    self.assertTrue(result['failure']['stage'].startswith('replay_origin.trajectory'))
+                    self.assertEqual((output / 'origin' / name).read_bytes(), b'42\n')
+                    self.assertIsNone(read_attempt(output)['run'])
+
 
 if __name__ == '__main__':
     unittest.main()

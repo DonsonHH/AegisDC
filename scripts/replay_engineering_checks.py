@@ -14,6 +14,10 @@ LEGACY_ENGINEERING_CONTROLS = {'lake_valve_opening', 'internal_valve_opening', '
                                'internal_pump_pressure_rise', 'backup_cooling_requested'}
 
 
+def attempt_names(book):
+    return ATTEMPTS + [item['id'] for item in book.get('reader_cases', [])]
+
+
 def _require(condition, message):
     if not condition:
         raise ValueError(message)
@@ -28,7 +32,7 @@ def check_package(root, directory):
     directory, root = Path(directory), Path(root)
     book = json.loads((directory / 'runbook-copy.json').read_text(encoding='utf-8'))
     prior = json.loads((root / book['prior_runbook']).read_text(encoding='utf-8'))
-    records = {name: read_attempt(directory / name) for name in ATTEMPTS}
+    records = {name: read_attempt(directory / name) for name in attempt_names(book)}
     pairs, independent = {}, {}
     for identifier in book['exact_replay_cases']:
         original, replayed = records[identifier], records[identifier + '-replay']
@@ -82,6 +86,22 @@ def check_package(root, directory):
         if name == 'existing-output':
             continue
         _require(records[name]['record']['status'] == 'FAILED' and records[name]['run'] is None, 'Refusal failed: ' + name)
+    reader_cases = {}
+    for item in book.get('reader_cases', []):
+        origin = directory / 'reader-origins' / item['id']
+        try:
+            observed = read_attempt(origin)['record']['status']
+        except ValueError:
+            observed = 'REFUSED'
+        _require(observed == item['read'], 'Unsupported origin acquired authority: ' + item['id'])
+        refused = records[item['id']]['record']
+        _require(refused['execution_kind'] == 'NOT_STARTED' and refused['failure']['stage'] == 'replay_origin.' + item['stage'],
+                 'Reader refusal stage/authority differs: ' + item['id'])
+        for name in ('attempt.json', 'declaration.json', 'lifecycle.jsonl'):
+            if (origin / name).exists():
+                _require((origin / name).read_bytes() == (directory / item['id'] / 'origin' / name).read_bytes(), 'Bad origin bytes were not retained')
+        reader_cases[item['id']] = dict(origin_outcome=observed, request_outcome='FAILED',
+                                        failure_stage=refused['failure']['stage'], plant_executed=False)
     overwrite = json.loads((directory / 'overwrite-refusal.json').read_text(encoding='utf-8'))
     _require(overwrite['returncode'] == 2 and overwrite['before'] == overwrite['after'], 'Existing output was overwritten')
     current = {path.relative_to(directory / 'normal-600s').as_posix(): sha256(path.read_bytes()).hexdigest()
@@ -91,12 +111,13 @@ def check_package(root, directory):
         record = attempt['record']
         _require(record['research_trials'] == record['model_calls'] == record['training_calls'] == 0, 'Engineering evidence claims a research run')
         _require(record['state_visibility'] == 'PRIVATE_PLANT_EVALUATOR_ONLY', 'Replay data became dispatch evidence')
-    for label in ('normal-600s', 'normal-600s-replay', 'combined-episode-CLI', 'combined-episode-CLI-replay', 'malformed-CLI-input'):
+    for label in ['normal-600s', 'normal-600s-replay', 'combined-episode-CLI', 'combined-episode-CLI-replay', 'malformed-CLI-input'] + [item['id'] for item in book.get('reader_cases', [])]:
         _require(json.loads((directory / (label + '-stdout.json')).read_text(encoding='utf-8')) == records[label]['record'], 'CLI stdout differs from terminal attempt')
     return dict(status='PASS', exact_replay_pairs=pairs, inherited_independent_case_checks=independent,
                 engineering_causal_pair=dict(baseline_delivered_service_unit_s=2, command_delivered_service_unit_s=1,
                                              offered_service_unit_s_each=2, physical_trajectory_differs=True,
                                              command_is_not_exogenous=True),
-                terminal_attempts=len(records), completed_attempts=6, failed_attempts=7,
+                terminal_attempts=len(records), completed_attempts=6, failed_attempts=len(records) - 6,
+                reader_authority_refusals=reader_cases,
                 explicit_retries=1, refused_overwrite_preserved=True,
                 research_trials=0, model_calls=0, training_calls=0, field_calibration='PENDING')

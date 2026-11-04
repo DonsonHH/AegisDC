@@ -104,6 +104,12 @@ def terminal_header(value):
             _require(_sha(value[name]), 'Invalid terminal input identity')
     if 'seed' in value:
         _require(value['seed'] is None or type(value['seed']) is int, 'Invalid terminal seed')
+    if 'randomness' in value:
+        _require(_text(value['randomness']), 'Invalid terminal randomness declaration')
+    if 'replay_source_rule' in value:
+        _require(value['replay_source_rule'] == 'EXACT_RUNTIME_BYTES_AND_INTERPRETER', 'Unsupported replay source rule')
+    if 'replay_revision_relationship' in value:
+        _require(value['replay_revision_relationship'] in {'SAME_COMMIT', 'DIFFERENT_COMMIT_SAME_RUNTIME_BYTES'}, 'Unsupported replay revision relationship')
     for name in ('duration_s', 'maximum_step_s'):
         if name in value and value['status'] == 'COMPLETED':
             _require(_positive(value[name]), 'Invalid terminal time input')
@@ -200,4 +206,22 @@ def engineering_run_header(value):
     _require(isinstance(value, dict) and value.get('schema') == 'aegisdc-engineering-facility-run-v1', 'Unsupported private trajectory schema/version')
     _require(value.get('status') == 'ENGINEERING_FIXTURE_COMPLETED' and value.get('state_visibility') == 'PRIVATE_PLANT_EVALUATOR_ONLY', 'Invalid trajectory status/visibility')
     _require(isinstance(value.get('inputs'), dict) and isinstance(value.get('code_identity'), dict), 'Invalid trajectory input/source structure')
+    _require(isinstance(value.get('summary'), dict) and isinstance(value.get('events'), list)
+             and isinstance(value.get('work_records'), list)
+             and all(isinstance(row, dict) for row in value['events'] + value['work_records']), 'Invalid trajectory summary/event/work structure')
     return value
+
+
+def trace_rows(rows):
+    _require(isinstance(rows, list) and len(rows) >= 2, 'Invalid private trajectory row sequence')
+    for row in rows:
+        _fields(row, {'time_s', 'domains'}, set(), 'private trajectory row')
+        _require(type(row['time_s']) in (int, float) and (row['time_s'] == 0 or _positive(row['time_s'])) and isinstance(row['domains'], dict),
+                 'Invalid private trajectory time/domains structure')
+    return rows
+
+
+def balance_rows(rows):
+    _require(isinstance(rows, list) and bool(rows), 'Invalid interval balance sequence')
+    _require(all(isinstance(row, dict) and {'start_s', 'end_s'} <= set(row) for row in rows), 'Invalid interval balance row structure')
+    return rows

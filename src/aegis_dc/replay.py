@@ -16,8 +16,8 @@ from uuid import uuid4
 from patrol_rsi.contracts import digest, strict_json
 from .plant import ENGINEERING_COMMAND_PARAMETERS, save_run, simulate_scenario
 from .scenario import validate_scenario
-from .replay_format import (LIFECYCLE_SCHEMA, completed_request, declaration_header,
-                            engineering_run_header, lifecycle_rows, terminal_header)
+from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, completed_request, declaration_header,
+                            engineering_run_header, lifecycle_rows, terminal_header, trace_rows)
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v1'
@@ -282,6 +282,8 @@ def _read_attempt(directory):
             raise ValueError('Unknown replay origin; no supported declaration or STARTED lifecycle')
         if declaration and declaration['schema'].endswith('-v2') and any(row.get('schema') != LIFECYCLE_SCHEMA for row in lifecycle):
             raise AttemptReadError('lifecycle', 'lifecycle.jsonl', 'v2 declaration requires explicitly versioned lifecycle rows')
+        if declaration and declaration['schema'].endswith('-v1') and any('schema' in row for row in lifecycle):
+            raise AttemptReadError('lifecycle', 'lifecycle.jsonl', 'Historical v1 declaration requires its known legacy lifecycle rows')
         return dict(record=dict(schema='aegisdc-unfinalized-attempt-v1',
                                 status='UNFINALIZED_RUNNING_OR_INTERRUPTED',
                                 attempt_id=lifecycle[0].get('attempt_id') if lifecycle else None),
@@ -308,6 +310,8 @@ def _read_attempt(directory):
     lifecycle = _checked_read(directory, 'lifecycle.jsonl', 'lifecycle', lifecycle_rows, lines=True)
     if record['schema'].endswith('-v2') and any(row.get('schema') != LIFECYCLE_SCHEMA for row in lifecycle):
         raise AttemptReadError('lifecycle', 'lifecycle.jsonl', 'v2 terminal requires explicitly versioned lifecycle rows')
+    if record['schema'].endswith('-v1') and any('schema' in row for row in lifecycle):
+        raise AttemptReadError('lifecycle', 'lifecycle.jsonl', 'Historical v1 terminal requires its known legacy lifecycle rows')
     if len(lifecycle) != 2 or [row['state'] for row in lifecycle] != ['STARTED', record['status']] \
             or lifecycle[0]['attempt_id'] != record['attempt_id'] or lifecycle[-1]['failure'] != record['failure']:
         raise ValueError('Terminal attempt and append-only lifecycle disagree')
@@ -324,11 +328,10 @@ def _read_attempt(directory):
     if record['status'] == 'COMPLETED':
         if request is None:
             raise AttemptReadError('request', 'request.json', 'Completed attempt lacks its request')
-        folder = directory / 'trajectory'
         run = _checked_read(directory, 'trajectory/run.json', 'trajectory', engineering_run_header)
-        run.update(source_config=_read_json(folder / 'scenario.json'),
-                   trace=[strict_json(line) for line in (folder / 'private-state.jsonl').read_text(encoding='utf-8').splitlines()],
-                   balances=[strict_json(line) for line in (folder / 'balances.jsonl').read_text(encoding='utf-8').splitlines()])
+        run.update(source_config=_checked_read(directory, 'trajectory/scenario.json', 'trajectory_scenario'),
+                   trace=_checked_read(directory, 'trajectory/private-state.jsonl', 'trajectory_trace', trace_rows, lines=True),
+                   balances=_checked_read(directory, 'trajectory/balances.jsonl', 'trajectory_balances', balance_rows, lines=True))
         if any(run['code_identity'][field] != source[field]
                for field in ('files', 'source_tree_sha256', 'git_commit', 'implementation_has_changes')) \
                 or run['scenario_sha256'] != record['scenario_sha256'] or run['source_config'] != scenario:

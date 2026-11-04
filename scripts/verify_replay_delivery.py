@@ -8,7 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from aegis_dc.replay import read_attempt
-from replay_engineering_checks import ATTEMPTS, check_package
+from replay_engineering_checks import attempt_names, check_package
 from verify_reserve_delivery import file_sha, git_blob_sha, is_runtime_cache, safe_path
 
 
@@ -18,11 +18,15 @@ def verify(root, directory, *, delivery_commit):
     relative = directory.relative_to(root).as_posix()
     delivery = subprocess.check_output(['git', 'rev-parse', delivery_commit + '^{commit}'], cwd=root, text=True).strip()
     receipt = json.loads((directory / 'receipt.json').read_text(encoding='utf-8'))
+    if receipt.get('schema') not in {'aegisdc-replay-engineering-receipt-v1', 'aegisdc-replay-engineering-receipt-v2'}:
+        raise ValueError('Unsupported engineering capture receipt version')
     if git_blob_sha(root, delivery, relative + '/receipt.json') != file_sha(directory / 'receipt.json'):
         raise ValueError('Initial receipt differs from committed delivery')
     if receipt['engineering_capture'] != 'PASS' or receipt['delivery_gate'] != 'PENDING_COMMIT_AND_FRESH_CHECKOUT':
         raise ValueError('Initial execution capture failed or its pending receipt was rewritten')
     declaration = json.loads((directory / 'declaration.json').read_text(encoding='utf-8'))
+    if declaration.get('schema') not in {'aegisdc-replay-delivery-declaration-v1', 'aegisdc-replay-delivery-declaration-v2'}:
+        raise ValueError('Unsupported engineering delivery declaration version')
     declared = set(declaration['declared_artifacts'])
     actual = {path.relative_to(directory).as_posix() for path in directory.rglob('*')
               if path.is_file() and not is_runtime_cache(path)}
@@ -58,7 +62,32 @@ def verify(root, directory, *, delivery_commit):
             for name, expected in failed[group].items():
                 if git_blob_sha(root, failed['execution_commit'], name) != expected:
                     raise ValueError('Retained failed capture does not match its historical execution source')
-    for name in ATTEMPTS:
+    for historical in receipt.get('retained_successful_captures', []):
+        folder = safe_path(root, historical)
+        saved = json.loads((folder / 'receipt.json').read_text(encoding='utf-8'))
+        if saved['engineering_capture'] != 'PASS':
+            raise ValueError('Retained successful capture was rewritten or misclassified')
+        actual_saved = {path.relative_to(folder).as_posix() for path in folder.rglob('*')
+                        if path.is_file() and not is_runtime_cache(path)}
+        if actual_saved != set(saved['artifacts']) | {'receipt.json'}:
+            raise ValueError('Retained successful capture durable set differs')
+        for name, expected in saved['artifacts'].items():
+            if file_sha(safe_path(folder, name)) != expected:
+                raise ValueError('Retained successful artifact changed: ' + name)
+        for group in ('runtime_sources', 'pinned_tools', 'execution_inputs', 'prior_durable_files'):
+            for name, expected in saved[group].items():
+                if git_blob_sha(root, saved['execution_commit'], name) != expected:
+                    raise ValueError('Retained successful capture historical source identity differs')
+    for historical in receipt.get('retained_reviews', []):
+        folder = safe_path(root, historical)
+        preserved = json.loads((folder / 'preservation.json').read_text(encoding='utf-8'))
+        if set(preserved['declared_original_files']) != set(preserved['artifacts']):
+            raise ValueError('Independent review original declaration differs')
+        for name, expected in preserved['artifacts'].items():
+            if file_sha(safe_path(folder, name)) != expected:
+                raise ValueError('Independent review original changed')
+    book = json.loads((directory / 'runbook-copy.json').read_text(encoding='utf-8'))
+    for name in attempt_names(book):
         attempt = read_attempt(directory / name)
         source = attempt['record']['source_identity']
         if source['git_commit'] != execution or source['implementation_has_changes'] is not False \
@@ -73,9 +102,12 @@ def verify(root, directory, *, delivery_commit):
         raise ValueError('Exactly one completed full check was not retained')
     return dict(status='PASS', execution_commit=execution, delivery_commit=delivery,
                 durable_artifacts=len(declared), terminal_attempts=checks['terminal_attempts'],
-                exact_replay_pairs=len(checks['exact_replay_pairs']), completed_attempts=6, failed_attempts=7,
-                explicit_retries=1, source_and_tool_files=len(receipt['runtime_sources']) + len(receipt['pinned_tools']),
+                exact_replay_pairs=len(checks['exact_replay_pairs']), completed_attempts=checks['completed_attempts'], failed_attempts=checks['failed_attempts'],
+                explicit_retries=1, source_and_tool_entries=len(receipt['runtime_sources']) + len(receipt['pinned_tools']),
+                unique_source_tool_paths=len(set(receipt['runtime_sources']) | set(receipt['pinned_tools'])),
                 retained_failed_captures=len(receipt['retained_failed_captures']),
+                retained_successful_captures=len(receipt.get('retained_successful_captures', [])),
+                reader_authority_refusals=len(checks.get('reader_authority_refusals', {})),
                 retained_prior_durable_files=len(receipt['prior_durable_files']),
                 full_tests=regression['tests'], verified_original_files=regression['verified_original_files'],
                 runtime_caches_required=0, initial_pending_receipt_preserved=True,

@@ -6,6 +6,7 @@ import json
 import math
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -29,14 +30,22 @@ def inputs(book, events=(), commands=(), jobs=()):
                 exogenous_events=list(events), action_commands=list(commands), work_requests=list(jobs))
 
 
-def declare_attempt(name):
+def declare_attempt(name, reader_case=None):
     base = ['attempt.json', 'declaration.json', 'lifecycle.jsonl', 'request.json', 'scenario-input.json', 'inputs.json']
-    if name not in {'invalid-replay-origin', 'research-before-protocol', 'malformed-CLI-input'}:
+    if name not in {'invalid-replay-origin', 'research-before-protocol', 'malformed-CLI-input'} and reader_case is None:
         base += ['frozen-inputs.json']
     if name in ATTEMPTS[:6]:
         base += ['trajectory/run.json', 'trajectory/scenario.json', 'trajectory/private-state.jsonl', 'trajectory/balances.jsonl']
     if name in {'normal-600s', 'combined-episode-CLI', 'malformed-CLI-input'}:
         base += ['submitted-scenario.json', 'submitted-inputs.json']
+    if name in {'normal-600s-replay', 'combined-episode-CLI-replay', 'causal-command'}:
+        base += ['origin/attempt.json', 'origin/declaration.json', 'origin/lifecycle.jsonl']
+    if reader_case is not None:
+        base += ['origin/declaration.json']
+        if reader_case['mutation'] != 'declaration_only':
+            base += ['origin/lifecycle.jsonl']
+        if reader_case['mutation'] not in {'declaration_only', 'bad_lifecycle'}:
+            base += ['origin/attempt.json']
     return [name + '/' + path for path in base]
 
 
@@ -47,7 +56,7 @@ def capture(directory):
     if source['implementation_has_changes'] is not False:
         raise ValueError('Commit frozen runtime/tool/runbook inputs before engineering capture')
     execution = source['git_commit']
-    book_path = ROOT / 'docs/mainline/13-replay-runbook.json'
+    book_path = ROOT / 'docs/mainline/13-reader-runbook-v2.json'
     book = json.loads(book_path.read_text(encoding='utf-8'))
     prior = json.loads((ROOT / book['prior_runbook']).read_text(encoding='utf-8'))
     tool_paths = ['scripts/capture_replay_engineering.py', 'scripts/replay_engineering_checks.py',
@@ -55,23 +64,33 @@ def capture(directory):
                   'scripts/coupled_engineering_checks.py', 'scripts/verify_reserve_delivery.py', 'pyproject.toml']
     tool_paths += [path.relative_to(ROOT).as_posix() for path in sorted((ROOT / 'tests').glob('*.py'))]
     tool_paths += [path.relative_to(ROOT).as_posix() for path in sorted((ROOT / 'src/patrol_rsi').glob('*.py'))]
-    input_paths = ['docs/mainline/13-replay-runbook.json', book['prior_runbook'], book['profile'],
-                   'configs/materials/reference-r134a-saturation.json']
-    prior_paths = [path.relative_to(ROOT).as_posix() for folder in book['retained_failed_captures']
+    input_paths = ['docs/mainline/13-reader-runbook-v2.json', book['prior_runbook'], book['profile'],
+                   'configs/materials/reference-r134a-saturation.json', '.gitattributes',
+                   'evidence/mainline/engineering/13-replay/.gitattributes']
+    retained = book['retained_failed_captures'] + book['retained_successful_captures'] + book['retained_reviews']
+    prior_paths = [path.relative_to(ROOT).as_posix() for folder in retained
                    for path in sorted((ROOT / folder).rglob('*')) if path.is_file() and not is_runtime_cache(path)]
+    prior_paths += book['retained_indexes']
     for path in list(source['files']) + tool_paths + input_paths + prior_paths:
         if file_sha(ROOT / path) != git_blob_sha(ROOT, execution, path):
             raise ValueError('Uncommitted authoring/runtime/input bytes: ' + path)
     labels = ['normal-600s', 'normal-600s-replay', 'combined-episode-CLI', 'combined-episode-CLI-replay',
-              'malformed-CLI-input', 'existing-output']
+              'malformed-CLI-input', 'existing-output'] + [item['id'] for item in book['reader_cases']]
     declared = ['declaration.json', 'runbook-copy.json', 'README.md', 'command-receipts.json',
                 'independent-checks.json', 'overwrite-refusal.json', 'inputs/normal-600s.json',
                 'inputs/combined-episode-CLI.json', 'inputs/malformed.json',
                 'full-check/summary.json', 'full-check/tests.log', 'full-check/evidence.json']
     declared += [path for name in ATTEMPTS for path in declare_attempt(name)]
+    fixture_files = [path.relative_to(ROOT / book['reader_fixture_source']).as_posix()
+                     for path in (ROOT / book['reader_fixture_source']).rglob('*') if path.is_file() and not is_runtime_cache(path)]
+    for item in book['reader_cases']:
+        declared += declare_attempt(item['id'], item)
+        names = (['declaration.json'] if item['mutation'] == 'declaration_only' else
+                 ['declaration.json', 'lifecycle.jsonl'] if item['mutation'] == 'bad_lifecycle' else fixture_files)
+        declared += ['reader-origins/' + item['id'] + '/' + name for name in names]
     declared += [label + suffix for label in labels for suffix in ('-stdout.json', '-stderr.txt')]
     directory.mkdir(parents=True, exist_ok=False)
-    declaration = dict(schema='aegisdc-replay-delivery-declaration-v1', classification='ENGINEERING_NOT_RESEARCH',
+    declaration = dict(schema='aegisdc-replay-delivery-declaration-v2', classification='ENGINEERING_NOT_RESEARCH',
                        declared_artifacts=sorted(declared), declared_tools=tool_paths,
                        declared_execution_inputs=input_paths, declared_prior_files=prior_paths,
                        runtime_caches='NOT_DELIVERABLE',
@@ -99,7 +118,7 @@ def capture(directory):
             raise ValueError('Actual CLI failed: ' + label + ': ' + result.stderr)
         return result
 
-    receipt = dict(schema='aegisdc-replay-engineering-receipt-v1', execution_commit=execution,
+    receipt = dict(schema='aegisdc-replay-engineering-receipt-v2', execution_commit=execution,
                    started_at_utc=datetime.now(timezone.utc).isoformat(), engineering_capture='FAIL',
                    delivery_gate='PENDING_COMMIT_AND_FRESH_CHECKOUT', research_trials=0, model_calls=0,
                    training_calls=0, research_protocol=None, research_budget=None, field_calibration='PENDING')
@@ -150,6 +169,37 @@ def capture(directory):
         malformed.write_bytes(b'{"schema":"duplicate","schema":"rejected"}\n')
         cli('malformed-CLI-input', ['record', '--model', ROOT / book['profile'], '--inputs', malformed,
                                    '--duration', 1, '--output', directory / 'malformed-CLI-input'], expected=1)
+        for item in book['reader_cases']:
+            origin = directory / 'reader-origins' / item['id']
+            original = ROOT / book['reader_fixture_source']
+            origin.parent.mkdir(parents=True, exist_ok=True)
+            if item['mutation'] in {'bad_lifecycle', 'declaration_only'}:
+                origin.mkdir()
+                (origin / 'declaration.json').write_bytes((original / 'declaration.json').read_bytes())
+                if item['mutation'] == 'bad_lifecycle':
+                    (origin / 'lifecycle.jsonl').write_bytes(b'42\n')
+            else:
+                shutil.copytree(original, origin)
+                record = json.loads((origin / 'attempt.json').read_text(encoding='utf-8'))
+                if item['mutation'] == 'terminal_schema':
+                    record['schema'] = 'aegisdc-facility-attempt-v999'
+                elif item['mutation'] == 'declaration_schema':
+                    path = origin / 'declaration.json'
+                    value = json.loads(path.read_text(encoding='utf-8'))
+                    value['schema'] = 'aegisdc-attempt-declaration-v999'
+                    path.unlink()
+                    write(path, value)
+                    record['artifacts']['declaration.json'] = file_sha(path)
+                else:
+                    record['status'] = 'UNRECOGNIZED_TERMINAL_STATE'
+                    path = origin / 'lifecycle.jsonl'
+                    rows = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()]
+                    rows[-1]['state'] = record['status']
+                    path.write_text(''.join(json.dumps(row) + '\n' for row in rows), encoding='utf-8', newline='\n')
+                    record['artifacts']['lifecycle.jsonl'] = file_sha(path)
+                (origin / 'attempt.json').unlink()
+                write(origin / 'attempt.json', record)
+            cli(item['id'], ['replay', '--attempt', origin, '--output', directory / item['id']], expected=1)
         original = directory / 'normal-600s'
         before = {path.relative_to(original).as_posix(): file_sha(path) for path in original.rglob('*') if path.is_file()}
         refused = cli('existing-output', ['replay', '--attempt', original, '--output', original], expected=2)
@@ -174,6 +224,8 @@ def capture(directory):
                    execution_inputs={path: file_sha(ROOT / path) for path in input_paths},
                    prior_durable_files={path: file_sha(ROOT / path) for path in prior_paths},
                    retained_failed_captures=book['retained_failed_captures'],
+                   retained_successful_captures=book['retained_successful_captures'],
+                   retained_reviews=book['retained_reviews'],
                    artifacts={path.relative_to(directory).as_posix(): file_sha(path) for path in sorted(directory.rglob('*'))
                               if path.is_file() and not is_runtime_cache(path)})
     write(directory / 'receipt.json', receipt)
