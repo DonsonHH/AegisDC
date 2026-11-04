@@ -27,7 +27,11 @@ def main():
     try:
         if args.command=='status':
             result=strict_json((ROOT/'docs/current-research.json').read_text(encoding='utf-8'))
-            result.update(implementation='structural validation and synthetic decision-value prototype',field_calibration='PENDING',postmeeting_model_calls=0,postmeeting_training=0)
+            result.update(implementation=result.get('implementation','structural validation and synthetic decision-value prototype'),field_calibration='PENDING',postmeeting_model_calls=0,postmeeting_training=0)
+            if 'progress' in result:
+                progress=strict_json((ROOT/result['progress']).read_text(encoding='utf-8'))
+                result['mainline_progress']={key:progress[key] for key in ('status','goal','current_ticket','current_milestone','agent_stage','rsi_gain','research_trials')}
+                result['postmeeting_model_calls_scope']='agent/LLM research calls; engineering physics/property calculations are separate'
         elif args.command=='foundation':
             model=load_model(args.model);result=describe(model);result['screened_asset']=args.asset
             result['candidate_exposed_services']=candidate_service_exposure(model,args.asset)
