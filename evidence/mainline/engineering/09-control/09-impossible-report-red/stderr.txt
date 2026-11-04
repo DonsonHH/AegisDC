@@ -1,0 +1,21 @@
+test_high_local_temperature_bias_changes_protection_but_not_true_temperature (test_mainline_control.ControlFacilityTests.test_high_local_temperature_bias_changes_protection_but_not_true_temperature) ... ok
+test_signed_measurement_offsets_load_without_relaxing_physical_domains (test_mainline_control.ControlScenarioTests.test_signed_measurement_offsets_load_without_relaxing_physical_domains) ... ok
+test_invalid_local_channel_latches_fail_safe_without_reading_true_state (test_mainline_control.LocalControllerTests.test_invalid_local_channel_latches_fail_safe_without_reading_true_state) ... ok
+test_unrepresentable_report_enters_invalid_channel_mode_without_clipping (test_mainline_control.LocalControllerTests.test_unrepresentable_report_enters_invalid_channel_mode_without_clipping) ... ERROR
+
+======================================================================
+ERROR: test_unrepresentable_report_enters_invalid_channel_mode_without_clipping (test_mainline_control.LocalControllerTests.test_unrepresentable_report_enters_invalid_channel_mode_without_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\tests\test_mainline_control.py", line 86, in test_unrepresentable_report_enters_invalid_channel_mode_without_clipping
+    state = sample_local_control(previous, settings, measured, controller_power_W=100)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-09\src\aegis_dc\local_control.py", line 59, in sample_local_control
+    temperature_finite = type(temperature) in (int, float) and math.isfinite(temperature)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+OverflowError: int too large to convert to float
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.144s
+
+FAILED (errors=1)
