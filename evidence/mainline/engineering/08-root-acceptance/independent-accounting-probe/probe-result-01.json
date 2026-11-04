@@ -1,0 +1,104 @@
+{
+  "classification": "READ_ONLY_ENGINEERING_SPEC_REVIEW_NOT_RESEARCH",
+  "source_commit": "1fb8981b970e1e120e64598c5ce95c566037dfed",
+  "script_sha256": "c10371b036e121152cdf0244fa066db1c0cec981e9936155238e7b282a4fac2d",
+  "duration_s": 2.4,
+  "maximum_step_s": 0.37,
+  "boundary_events": [
+    {
+      "time_s": 0,
+      "parameter_id": "service_demand",
+      "value": 0.4,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 0,
+      "parameter_id": "network_service_capacity",
+      "value": 0.1,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 0.3,
+      "parameter_id": "service_demand",
+      "value": 1.5,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 0.7,
+      "parameter_id": "network_service_capacity",
+      "value": 0.8,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 0.7,
+      "parameter_id": "storage_service_capacity",
+      "value": 0.25,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 1.2,
+      "parameter_id": "service_demand",
+      "value": 0,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 1.8,
+      "parameter_id": "service_demand",
+      "value": 1,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 1.8,
+      "parameter_id": "network_service_capacity",
+      "value": 1,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 1.8,
+      "parameter_id": "storage_service_capacity",
+      "value": 1,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 1.8,
+      "parameter_id": "compute_demand_power",
+      "value": 0,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    },
+    {
+      "time_s": 2.1,
+      "parameter_id": "compute_demand_power",
+      "value": 2000000,
+      "source_note": "Independent Spec review engineering accounting probe; not research."
+    }
+  ],
+  "independent_expected": {
+    "demand_service_unit_s": 2.07,
+    "delivered_service_unit_s": 0.495,
+    "service_deficit_time_s": 1.315
+  },
+  "outcomes": [
+    {
+      "model": "full-facility-mainline-v2.json",
+      "observed": {
+        "demand_service_unit_s": 2.07,
+        "delivered_service_unit_s": 0.49499999999999983,
+        "service_deficit_time_s": 1.315
+      }
+    },
+    {
+      "model": "full-facility-mainline-water-v3.json",
+      "observed": {
+        "demand_service_unit_s": 2.07,
+        "delivered_service_unit_s": 0.49499999999999983,
+        "service_deficit_time_s": 1.315
+      }
+    }
+  ],
+  "fresh_read": {
+    "runs": 11,
+    "artifacts_checked_for_sha_and_records": 33,
+    "receipt_hashes_checked": 59,
+    "status": "PASS"
+  }
+}
