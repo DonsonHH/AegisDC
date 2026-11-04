@@ -1,0 +1,25 @@
+test_boundary_straddles_the_independent_published_dewpoint_example (test_full_facility_environment.CondensationBoundaryTests.test_boundary_straddles_the_independent_published_dewpoint_example) ... ok
+test_actual_isothermal_hot_water_leak_moves_mass_and_energy_once_to_the_floor (test_full_facility_environment.EnvironmentFacilityTests.test_actual_isothermal_hot_water_leak_moves_mass_and_energy_once_to_the_floor) ... ok
+test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point (test_full_facility_environment.EnvironmentFacilityTests.test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point) ... ok
+test_permission_closure_aborts_work_at_its_actual_location_and_keeps_spent_resources (test_full_facility_environment.EnvironmentFacilityTests.test_permission_closure_aborts_work_at_its_actual_location_and_keeps_spent_resources) ... ERROR
+test_continuous_mixing_matches_independent_constant_mass_tank_solution (test_full_facility_environment.FloorWaterTests.test_continuous_mixing_matches_independent_constant_mass_tank_solution) ... ok
+test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy (test_full_facility_environment.FloorWaterTests.test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy) ... ok
+
+======================================================================
+ERROR: test_permission_closure_aborts_work_at_its_actual_location_and_keeps_spent_resources (test_full_facility_environment.EnvironmentFacilityTests.test_permission_closure_aborts_work_at_its_actual_location_and_keeps_spent_resources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\tests\test_full_facility_environment.py", line 62, in test_permission_closure_aborts_work_at_its_actual_location_and_keeps_spent_resources
+    result = simulate_scenario(load_scenario(ENVIRONMENT), duration_s=126,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\src\aegis_dc\plant.py", line 458, in simulate_scenario
+    timed_inputs = _boundary_events(boundary_events, p_records, duration)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\src\aegis_dc\plant.py", line 42, in _boundary_events
+    raise ValueError('Boundary event parameter is not an exogenous input')
+ValueError: Boundary event parameter is not an exogenous input
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.363s
+
+FAILED (errors=1)

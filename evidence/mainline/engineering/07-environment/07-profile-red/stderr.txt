@@ -1,0 +1,27 @@
+test_boundary_straddles_the_independent_published_dewpoint_example (test_full_facility_environment.CondensationBoundaryTests.test_boundary_straddles_the_independent_published_dewpoint_example) ... ok
+test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point (test_full_facility_environment.EnvironmentFacilityTests.test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point) ... ERROR
+test_continuous_mixing_matches_independent_constant_mass_tank_solution (test_full_facility_environment.FloorWaterTests.test_continuous_mixing_matches_independent_constant_mass_tank_solution) ... ok
+test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy (test_full_facility_environment.FloorWaterTests.test_isothermal_withdrawal_preserves_temperature_and_exports_the_removed_energy) ... ok
+
+======================================================================
+ERROR: test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point (test_full_facility_environment.EnvironmentFacilityTests.test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\tests\test_full_facility_environment.py", line 59, in test_new_environment_profile_keeps_the_same_eight_domain_normal_working_point
+    scenario = load_scenario(ENVIRONMENT)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-07\src\aegis_dc\scenario.py", line 382, in load_scenario
+    return validate_scenario(strict_json(Path(path).read_text(encoding='utf-8')))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-07\\configs\\full-facility-mainline-environment-v4.json'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.023s
+
+FAILED (errors=1)
