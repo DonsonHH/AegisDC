@@ -1,0 +1,27 @@
+{
+  "schema": "aegisdc-engineering-inputs-v1",
+  "boundary_events": [
+    {
+      "time_s": 60,
+      "parameter_id": "grid_capacity",
+      "value": 0,
+      "source_note": "Predeclared synthetic engineering supply interruption, not a policy/field trial."
+    },
+    {
+      "time_s": 120,
+      "parameter_id": "grid_capacity",
+      "value": 10000000,
+      "source_note": "Predeclared synthetic engineering supply restoration."
+    }
+  ],
+  "work_requests": [
+    {
+      "id": "engineering-cooling-visit",
+      "time_s": 0.25,
+      "worker_id": "worker_cooling",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "intake_pump",
+      "source_note": "Predeclared qualified engineering visit; no diagnostic/repair/service benefit is assigned."
+    }
+  ]
+}

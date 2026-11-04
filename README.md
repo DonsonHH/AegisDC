@@ -46,6 +46,14 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 ## 新研究原型入口
 
+完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。更深的M1/M2验证、风险证据与策略闭环仍按固定主线推进。
+
+```bash
+python -m aegis_dc scenario
+python -m aegis_dc simulate --output runs/full-site-engineering-new
+python -m aegis_dc status
+```
+
 第一版[设施结构与风险方法原型](docs/FOUNDATION.md)已可运行：14个功能区、29个资产/服务对象与候选依赖，支持无固定测点的基线和可选稀疏证据。用合成算例区分有单位的风险与检查价值；真实参数、动态物理模型及策略收益尚待标定和独立验证。
 
 已执行的[合成算例与复核快照](evidence/foundation-v0.1-20261104/README.md)包含CLI输出、源码/输入SHA和本地验收摘要。

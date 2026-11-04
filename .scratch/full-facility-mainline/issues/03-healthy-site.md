@@ -106,3 +106,7 @@ with a corrected-source claim.
 The implementer's corrected implementation status is `resolved`; root Standards,
 Spec and integration acceptance are still pending. Global M1/mainline progress
 was not advanced. These remain engineering fixes, with no scientific gain claim.
+
+## Root integration acceptance
+
+Accepted source66696336, enabled-Torch complete179/179 with zero skips/failures/errors. Standards1/schema and Spec1/latch were fixed and independently closed, with original red/success records preserved. Root600s normal and180s supply/work fixtures pass fresh per-file/energy checks; refs docs/mainline/evidence/03.json and evidence/mainline/engineering/03-root-demonstration. M1 and full goal remainactive; next frontier04/05/06/07/08.

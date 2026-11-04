@@ -32,3 +32,7 @@ jobs:
           python -m aegis_dc risk-demo
       - name: Verify three facility case reading pack
         run: python scripts/verify_facility_cases.py
+      - name: Check complete-facility engineering baseline
+        run: |
+          python -m aegis_dc scenario
+          python -m aegis_dc simulate --duration 2
