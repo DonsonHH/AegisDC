@@ -16,6 +16,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+Include the candidate/action masks, feasibility queries and operational feedback from `docs/mainline/information-boundary.md` in the paired-hidden-state audit. Equal available records must produce equal pre-observation dispatch inputs and choices; later differences require declared, timed evidence. Private safety interlocks remain active.
+
 ## Evidence
 
 Pending implementation and acceptance.

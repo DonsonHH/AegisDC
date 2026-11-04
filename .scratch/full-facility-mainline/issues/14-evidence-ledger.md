@@ -16,6 +16,8 @@
 
 Read the fixed mainline, accepted scope ADR, specification, predecessor evidence and current progress. Work at the declared public interface. The scope remains one complete facility.
 
+Read `docs/mainline/information-boundary.md` before defining dispatch-facing records. Evidence availability, candidate masks and execution feedback share the same information boundary; the private plant may enforce safety without exposing undeclared instantaneous observations.
+
 ## Evidence
 
 Pending implementation and acceptance.
