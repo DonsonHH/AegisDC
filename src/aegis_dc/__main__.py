@@ -4,6 +4,7 @@ from pathlib import Path
 from patrol_rsi.contracts import strict_json
 from .facility import load_model,describe,candidate_service_exposure
 from .risk import recommend
+from .scenario import load_scenario,describe_scenario
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -13,6 +14,7 @@ def main():
     sub=parser.add_subparsers(dest='command',required=True)
     sub.add_parser('status')
     structure=sub.add_parser('foundation');structure.add_argument('--model',type=Path,default=ROOT/'configs/facility-structure-v0.1.json');structure.add_argument('--asset',default='main_switchgear')
+    scenario=sub.add_parser('scenario');scenario.add_argument('--model',type=Path,default=ROOT/'configs/full-facility-mainline-v1.json')
     demo=sub.add_parser('risk-demo');demo.add_argument('--case',type=Path,default=ROOT/'configs/risk-method-demo.json');demo.add_argument('--output',type=Path)
     args=parser.parse_args()
     try:
@@ -22,6 +24,9 @@ def main():
         elif args.command=='foundation':
             model=load_model(args.model);result=describe(model);result['screened_asset']=args.asset
             result['candidate_exposed_services']=candidate_service_exposure(model,args.asset)
+        elif args.command=='scenario':
+            try:result=describe_scenario(load_scenario(args.model))
+            except OSError as error:parser.error(str(error))
         else:
             case=strict_json(args.case.read_text(encoding='utf-8'))
             if set(case)!={'schema','basis','facility_model','as_of_hour','questions','evidence'} or case['schema']!='aegisdc-risk-demo-v1' or case['basis']!='synthetic_assumption':
