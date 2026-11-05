@@ -41,6 +41,11 @@ def fixture(as_of_s=6):
     program=dict(schema='aegisdc-closure-program-v1',profile=profile,risk_catalog=catalog,belief_model=load('configs/full-facility-belief-model-v1.json'),
         intervention_feedback=[dict(task_id='clean-filter',operation_id='clean-filter-operation',source_id='intervention-execution-report',
             observed_at_s=3,arrived_at_s=3.5,outcome='APPLIED',reason=None,origin_id='intervention:clean-filter',coverage='THIS_AUTHORIZED_TASK_ONLY',risk_closed=False)])
+    declaration=load('evidence/mainline/engineering/23-interventions/reference/filter-later-inspection.json')['intervention_program']
+    declaration['profile']['operations'][0]['id']='clean-filter-operation'
+    declaration['profile']['authorizations'][0]['operation_ids']=['clean-filter-operation']
+    declaration['bindings'][0].update(task_id='clean-filter',operation_id='clean-filter-operation')
+    program['intervention_declaration']=declaration
     return frame,program,ledger,nominal
 
 def reframe(ledger,nominal,time):
@@ -49,6 +54,13 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_rule_operation_must_bind_a_declared_intervention_task(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,_,_=fixture()
+        program['profile']['rules'][0]['operation_id']='made-up-repair'
+        program['intervention_feedback'][0]['operation_id']='made-up-repair'
+        with self.assertRaises(ValueError):assess_closure(frame,program)
+
     def test_cli_assesses_only_the_declared_public_frame_and_closed_program(self):
         from aegis_dc.verified_closure import assess_closure
         frame,program,_,_=fixture()
@@ -155,6 +167,12 @@ class VerifiedClosureTests(unittest.TestCase):
         expired=assess_closure(reframe(ledger,nominal,8),program)['questions'][0]
         self.assertFalse(expired['question_closed'])
         self.assertNotEqual(expired['status'],'RISK_ACCEPTED')
+        # An unresolved reported disposition cannot silently override escalation.
+        escalation=deepcopy(ledger['records'][0]);escalation.update(id='escalate-risk',value='ESCALATE',observed_at_s=5,arrived_at_s=5.5)
+        escalation['provenance']['origin_id']='escalate-risk-1';ledger['records'].append(escalation)
+        raised=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertEqual(raised['status'],'ESCALATED')
+        self.assertFalse(raised['question_closed'])
 
     def test_genuine_verification_samples_need_distinct_observation_times(self):
         from aegis_dc.verified_closure import assess_closure

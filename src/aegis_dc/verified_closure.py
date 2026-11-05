@@ -5,8 +5,9 @@ from fractions import Fraction
 from .decision_view import validate_current_frame
 from .evidence_ledger import _fields,_plain_json,_registry,_require,_strings,_text,_finite
 from .risk_scenarios import assess_risks
+from .intervention_execution import _profile as _intervention_profile,BIND_FIELDS,SETTING_BOUNDS
 
-PROGRAM_FIELDS={'schema','profile','risk_catalog','belief_model','intervention_feedback'}
+PROGRAM_FIELDS={'schema','profile','risk_catalog','belief_model','intervention_feedback','intervention_declaration'}
 PROFILE_FIELDS={'schema','id','facility_id','nominal_knowledge_id','risk_catalog_id','basis','time_unit','source_note','rules','review_channels','authorizations','false_alarm_reviews'}
 RULE_FIELDS={'id','question_id','opened_at_s','task_id','operation_id','minimum_span_s','required_samples','checks'}
 CHECK_FIELDS={'id','role','target_id','observable_id','source_ids','accepted_interval'}
@@ -114,6 +115,31 @@ def _feedback(frame,program):
         result[row['task_id']]=row
     return result
 
+def _action_declaration(frame,program,rules):
+    declared=program['intervention_declaration']
+    _fields(declared,{'schema','profile','bindings'},'Public intervention declaration')
+    _require(declared['schema']=='aegisdc-intervention-program-v1','Unknown declared intervention schema')
+    operations,grants=_intervention_profile(declared['profile'],frame['nominal_knowledge'])
+    _require(type(declared['bindings']) is list,'Declare task-operation bindings')
+    bindings={}
+    for binding in declared['bindings']:
+        _fields(binding,BIND_FIELDS,'Declared task-operation binding')
+        _text(binding['task_id'],'Declared task identity');_finite(binding['setting'],'Declared operation setting')
+        _require(binding['task_id'] not in bindings and binding['operation_id'] in operations
+            and binding['authorization_id'] in grants,'Unknown/repeated task operation declaration')
+        op=operations[binding['operation_id']];grant=grants[binding['authorization_id']]
+        low,high=SETTING_BOUNDS[op['kind']]
+        _require(low<=binding['setting']<=high and op['id'] in grant['operation_ids']
+            and op['target_id'] in grant['target_ids'],'Declared operation setting or authority differs')
+        if op['kind']=='request_backup_cooling':_require(binding['setting'] in (0,1),'Backup declaration must be binary')
+        bindings[binding['task_id']]=binding
+    questions={q['id']:q for q in program['risk_catalog']['questions']}
+    for rule in rules.values():
+        binding=bindings.get(rule['task_id'])
+        _require(binding is not None and binding['operation_id']==rule['operation_id']
+            and operations[rule['operation_id']]['target_id'] in questions[rule['question_id']]['target_ids'],
+            'Closure action must bind a declared named task operation within question scope')
+
 def _check(frame,rule,check,after):
     rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
         and r['observable_id']==check['observable_id'] and r['source_id'] in check['source_ids']
@@ -146,6 +172,7 @@ def assess_closure(frame,program):
     _require(program['schema']=='aegisdc-closure-program-v1','Unknown closure program schema')
     risks=assess_risks(frame,program['belief_model'],program['risk_catalog'])
     rules=_profile(frame,program,risks);feedback=_feedback(frame,program);reviews=_reviews(frame,program,rules)
+    _action_declaration(frame,program,rules)
     dossiers=_false_alarm_dossiers(program,rules);questions=[]
     for rule in rules.values():
         action=feedback.get(rule['task_id']);checks=[];trace=[]
