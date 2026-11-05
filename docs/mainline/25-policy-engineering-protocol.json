@@ -1,0 +1,309 @@
+{
+  "schema": "aegisdc-policy-engineering-protocol-v1",
+  "ticket": "25",
+  "classification": "FINITE_ENGINEERING_INTERFACE_CHECKS_NOT_EFFECT_COMPARISON",
+  "cases": [
+    {
+      "id": "no-human",
+      "input": "evidence/mainline/engineering/25-baselines/reference/no-human.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "fifo",
+      "input": "evidence/mainline/engineering/25-baselines/reference/fifo.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          3
+        ],
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "periodic",
+      "input": "evidence/mainline/engineering/25-baselines/reference/periodic.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          null,
+          null,
+          null,
+          "first-inspection"
+        ],
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "risk-condition",
+      "input": "evidence/mainline/engineering/25-baselines/reference/risk-condition.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          3
+        ],
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "one-observation",
+      "input": "evidence/mainline/engineering/25-baselines/reference/one-observation.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          3
+        ],
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "decimal-prefix",
+      "input": "evidence/mainline/engineering/25-baselines/reference/decimal-prefix.json",
+      "duration_s": 0.5,
+      "expected": {
+        "chosen": [
+          null
+        ],
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "sensor_polls": 6,
+        "last_poll_index": 5,
+        "last_polled_at_s": 0.5,
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "future-authority",
+      "input": "evidence/mainline/engineering/25-baselines/reference/future-authority.json",
+      "duration_s": 0.5,
+      "expected": {
+        "forbidden_first": "first-inspection",
+        "forecast_block": "FORECAST_ACTION_AUTHORITY_UNAVAILABLE_AT_COMPLETION",
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "continuation-budget",
+      "input": "evidence/mainline/engineering/25-baselines/reference/continuation-budget.json",
+      "duration_s": 0.5,
+      "expected": {
+        "forbidden_first": "first-inspection",
+        "forecast_block": "COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET",
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "closure-pending",
+      "input": "evidence/mainline/engineering/25-baselines/reference/closure-pending.json",
+      "duration_s": 4,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          3
+        ],
+        "closure_status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "delivered_service_unit_s": 1,
+        "service_deficit_time_s": 3,
+        "demand_service_unit_s": 4
+      }
+    },
+    {
+      "id": "exact-continuation-budget",
+      "input": "evidence/mainline/engineering/25-baselines/reference/exact-continuation-budget.json",
+      "duration_s": 0.5,
+      "expected": {
+        "forbidden_first": "first-inspection",
+        "forecast_block": "COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET",
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "hidden-open",
+      "input": "evidence/mainline/engineering/25-baselines/reference/hidden-open.json",
+      "duration_s": 0.5,
+      "expected": {
+        "chosen": [
+          "a-first",
+          null
+        ],
+        "work_status": [
+          "working"
+        ],
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "empty_work_feedback": true,
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "hidden-closed",
+      "input": "evidence/mainline/engineering/25-baselines/reference/hidden-closed.json",
+      "duration_s": 0.5,
+      "expected": {
+        "chosen": [
+          "a-first",
+          null
+        ],
+        "work_status": [
+          "aborted"
+        ],
+        "completed_at_s": [],
+        "effect_at_s": [],
+        "empty_work_feedback": true,
+        "delivered_service_unit_s": 0.125,
+        "service_deficit_time_s": 0.375,
+        "demand_service_unit_s": 0.5
+      }
+    },
+    {
+      "id": "delayed-rejection",
+      "input": "evidence/mainline/engineering/25-baselines/reference/delayed-rejection.json",
+      "duration_s": 3,
+      "expected": {
+        "chosen": [
+          "a-first",
+          null,
+          "b-second"
+        ],
+        "work_status": [
+          "rejected",
+          "completed"
+        ],
+        "completed_at_s": [
+          2.25
+        ],
+        "effect_at_s": [
+          2.25
+        ],
+        "rejection_observed_at_s": 0,
+        "rejection_arrived_at_s": 0.5,
+        "delivered_service_unit_s": 0.9375,
+        "service_deficit_time_s": 2.0625,
+        "demand_service_unit_s": 3
+      }
+    }
+  ],
+  "maximum_step_s": 0.01,
+  "physical_runs": 13,
+  "total_simulated_duration_s": 30.0,
+  "same_world_cases": [
+    "no-human",
+    "fifo",
+    "periodic",
+    "risk-condition",
+    "one-observation"
+  ],
+  "authoring_tool": "scripts/policy_delivery.py",
+  "helper_tool": "scripts/inspection_delivery.py",
+  "input_preparation_tool": "scripts/prepare_policy_inputs.py",
+  "input_fixture": "tests/test_dispatch_policy.py",
+  "additional_test_input": "tests/test_action_value.py",
+  "closure_test_input": "tests/test_verified_closure.py",
+  "contract": "docs/mainline/25-policy-execution.md",
+  "literature_note": "docs/research/20261105/baseline-selection.md",
+  "durable_root": [
+    "attempt.json",
+    "attempts.jsonl",
+    "checks.json",
+    "policy-decisions.svg",
+    "policy-boundary.svg"
+  ],
+  "durable_case": [
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl"
+  ],
+  "terminal_receipt": "receipt.json",
+  "absolute_tolerance": 1e-09,
+  "energy_tolerance_J": 0.0001,
+  "mass_tolerance_kg": 1e-09,
+  "retry_rule": "One call per case. STARTED precedes actual call; save and validate before next attempt. Failure stops immediately and remains. No automatic retries; correction needs new protocol/source/output.",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "full_regression": "ROOT_INTEGRATED_ONLY",
+  "scope": "Same synthetic eight-domain facility, same public static/arrived inputs and actual resources for five declared policies. Literal task/observation/authority/budget/order checks only; no superiority claim. Forecast model remains declared uncalibrated finite law; actual power/service remains plant account.",
+  "hidden_public_equal_cases": [
+    "hidden-open",
+    "hidden-closed"
+  ]
+}
