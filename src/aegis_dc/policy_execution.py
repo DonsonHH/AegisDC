@@ -20,6 +20,14 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v2':
+            inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
+            intervention_ids={b['task_id'] for b in self.intervention_program['bindings']} if self.intervention_program is not None else set()
+            _require(not inspection_ids&intervention_ids,'One task cannot combine inspection and physical intervention')
+            for candidate in program['policy_program']['candidates']:
+                _text(candidate.get('kind'),'Declared policy intention kind')
+                expected=inspection_ids if candidate['kind']=='inspect' else intervention_ids if candidate['kind']=='intervene' else set()
+                _require(candidate['task']['id'] in expected,'Declared policy intention kind differs from its execution binding')
         if self.inspection_program is not None:
             profile=self.inspection_program['profile']['nonfixed_profile']['registry']
             _require(profile['facility_id']==self.ledger['facility_id'] and set(profile['entity_ids'])==set(self.ledger['entity_ids']),

@@ -46,13 +46,22 @@ def _history(frame,history,candidates):
 def choose_work(frame,program,history):
     """Choose a declared intention from current public information only."""
     frame=validate_current_frame(frame);_plain_json(program);_plain_json(history)
-    _fields(program,PROGRAM_FIELDS,'Dispatch policy program');_fields(history,{'issued','work_feedback'},'Public policy history')
-    _require(program['schema']=='aegisdc-dispatch-policy-program-v1' and program['basis']=='synthetic_assumption','Declare synthetic policy program')
+    version2=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v2'
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set()),'Dispatch policy program')
+    _fields(history,{'issued','work_feedback'},'Public policy history')
+    _text(program['schema'],'Policy program schema')
+    _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2'}
+        and program['basis']=='synthetic_assumption','Declare synthetic policy program')
     _text(program['id'],'Policy program id')
-    _require(program['policy'] in {'no_human','fifo'},'Policy not implemented in this development slice')
+    _text(program['policy'],'Policy name')
+    _require(program['policy'] in ({'no_human','fifo','periodic'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+    if version2 and program['policy']!='periodic':_fields(program['options'],set(),'Policy options')
     candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
     for candidate in candidates.values():
-        _fields(candidate,CANDIDATE_FIELDS,'Policy candidate')
+        _fields(candidate,CANDIDATE_FIELDS|({'kind'} if version2 else set()),'Policy candidate')
+        if version2:
+            _text(candidate['kind'],'Declared policy intention kind')
+            _require(candidate['kind'] in {'inspect','intervene'},'Declare inspection or intervention intention kind')
         for key in ('question_id','source_note'):_text(candidate[key],'Candidate '+key)
         _finite(candidate['available_at_s'],'Candidate availability')
         _require(candidate['available_at_s']>=0,'Negative candidate availability')
@@ -71,17 +80,33 @@ def choose_work(frame,program,history):
         if candidate['available_at_s']>frame['as_of_s']:reasons.append('NOT_YET_AVAILABLE')
         audits.append(dict(candidate_id=candidate['id'],task_id=candidate['task']['id'],question_id=candidate['question_id'],
             eligible=not reasons,reasons=sorted(set(reasons)),available_at_s=candidate['available_at_s'],
-            public_assessment=assessment))
+            kind=candidate['kind'] if version2 else 'LEGACY_WORK_INTENTION',public_assessment=assessment))
     audits.sort(key=lambda c:c['candidate_id'])
+    due={}
+    if program['policy']=='periodic':
+        _fields(program['options'],{'schedule'},'Periodic reference options')
+        schedule=program['options']['schedule'];_require(type(schedule) is list,'Declare explicit periodic reference list')
+        for row in schedule:
+            _fields(row,{'candidate_id','due_at_s'},'Periodic inspection reference')
+            _text(row['candidate_id'],'Scheduled candidate');_finite(row['due_at_s'],'Periodic due time')
+            _require(row['candidate_id'] in candidates and row['candidate_id'] not in due and row['due_at_s']>=0,
+                'Unknown/repeated periodic inspection or negative due time')
+            _require(candidates[row['candidate_id']]['kind']=='inspect','Periodic reference can schedule inspections only')
+            due[row['candidate_id']]=row['due_at_s']
     issued,occupied=_history(frame,history,candidates)
     for audit in audits:
         candidate=candidates[audit['candidate_id']]
         if candidate['id'] in issued:audit['reasons'].append('ALREADY_ISSUED')
         elif _resources(frame,candidate['task'])&occupied:audit['reasons'].append('PUBLIC_UNACKNOWLEDGED_RESOURCE_OCCUPATION')
+        if program['policy']=='periodic':
+            if candidate['id'] not in due:audit['reasons'].append('NOT_IN_DECLARED_PERIODIC_REFERENCE')
+            elif due[candidate['id']]>frame['as_of_s']:audit['reasons'].append('PERIODIC_REFERENCE_NOT_DUE')
         audit['reasons']=sorted(set(audit['reasons']));audit['eligible']=not audit['reasons']
     eligible=sorted((c for c in audits if c['eligible']),key=lambda c:(c['available_at_s'],c['candidate_id']))
-    selected=eligible[0]['candidate_id'] if program['policy']=='fifo' and eligible else None
+    if program['policy']=='periodic':eligible.sort(key=lambda c:(due[c['candidate_id']],c['candidate_id']))
+    selected=eligible[0]['candidate_id'] if program['policy'] in {'fifo','periodic'} and eligible else None
     return dict(schema='aegisdc-policy-choice-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],policy=program['policy'],
         chosen_candidate_id=selected,work_intention=deepcopy(candidates[selected]['task']) if selected else None,
-        reason='POLICY_NO_HUMAN' if program['policy']=='no_human' else 'FIFO_EARLIEST_AVAILABLE' if selected else 'NO_PUBLICLY_ELIGIBLE_CANDIDATE',candidates=audits,
+        reason='POLICY_NO_HUMAN' if program['policy']=='no_human' else
+            ('EXPLICIT_PERIODIC_INSPECTION_REFERENCE' if program['policy']=='periodic' else 'FIFO_EARLIEST_AVAILABLE') if selected else 'NO_PUBLICLY_ELIGIBLE_CANDIDATE',candidates=audits,
         generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED')

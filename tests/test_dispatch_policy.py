@@ -23,6 +23,56 @@ def fixture(policy='fifo',time=0):
     return frame,program,dict(issued=[],work_feedback=[])
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_declared_inspection_cannot_silently_execute_an_intervention_binding(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
+        frame,policy,_=fixture()
+        policy.update(schema='aegisdc-dispatch-policy-program-v2',options={})
+        for candidate in policy['candidates']:candidate['kind']='inspect'
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        actions=inputs['intervention_program'];binding=actions['bindings'][0];binding['task_id']='work-first'
+        actions['bindings'].append(dict(binding,task_id='work-second',setting=.5))
+        program=dict(schema='aegisdc-policy-run-program-v1',id='mismatched-operation-kind-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0],
+            inspection_program=None,intervention_program=actions)
+        with self.assertRaises(ValueError):simulate_scenario(inputs['model'],duration_s=.5,step_s=.01,dispatch_program=program)
+
+    def test_periodic_inspection_runs_at_declared_due_time_in_the_same_facility(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
+        submitted=inputs['work_program']['submissions'][0];frame=submitted['frame']
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        policy=dict(schema='aegisdc-dispatch-policy-program-v2',id='periodic-policy25',basis='synthetic_assumption',policy='periodic',
+            workforce_profile=inputs['work_program']['profile'],options=dict(schedule=[dict(candidate_id='due-inspection',due_at_s=1)]),
+            candidates=[dict(id='due-inspection',kind='inspect',task=submitted['task'],available_at_s=0,question_id='cooling',
+                source_note='Explicit periodic reference inspection, not a generated facility tour.')])
+        program=dict(schema='aegisdc-policy-run-program-v1',id='online-periodic-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0,1,2,4],
+            inspection_program=inputs['inspection_program'],intervention_program=None)
+        result=simulate_scenario(inputs['model'],duration_s=4,step_s=.01,dispatch_program=program,boundary_events=inputs['boundary_events'])
+        self.assertEqual([r['choice']['chosen_candidate_id'] for r in result['policy_public_decisions']],[None,'due-inspection',None,None])
+        self.assertEqual((result['work_records'][0]['issued_at_s'],result['work_records'][0]['completed_at_s']),(1,3.25))
+        record=result['policy_public_decisions'][-1]['frame']['evidence']['records'][0]
+        self.assertEqual((record['observed_at_s'],record['arrived_at_s'],record['value']),(3.25,3.75,0))
+
+    def test_periodic_reference_uses_only_explicit_inspection_schedule(self):
+        from aegis_dc.dispatch_policy import choose_work
+        frame,program,history=fixture()
+        program.update(schema='aegisdc-dispatch-policy-program-v2',policy='periodic',
+            options=dict(schedule=[dict(candidate_id='b-second',due_at_s=1)]))
+        for candidate in program['candidates']:candidate['kind']='inspect'
+        before=choose_work(frame,program,history)
+        self.assertIsNone(before['chosen_candidate_id'])
+        self.assertIn('NOT_IN_DECLARED_PERIODIC_REFERENCE',before['candidates'][0]['reasons'])
+        self.assertIn('PERIODIC_REFERENCE_NOT_DUE',before['candidates'][1]['reasons'])
+        frame,_,_=fixture(time=1)
+        due=choose_work(frame,program,history)
+        self.assertEqual(due['chosen_candidate_id'],'b-second')
+        self.assertEqual(due['reason'],'EXPLICIT_PERIODIC_INSPECTION_REFERENCE')
+        self.assertFalse(due['generated_tour'])
+        program['candidates'][1]['kind']='intervene'
+        with self.assertRaises(ValueError):choose_work(frame,program,history)
+
     def test_real_onsite_measurement_enters_a_later_policy_frame_only_after_arrival(self):
         inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
         submitted=inputs['work_program']['submissions'][0];frame=submitted['frame']
