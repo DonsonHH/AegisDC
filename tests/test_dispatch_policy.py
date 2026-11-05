@@ -123,6 +123,18 @@ class DispatchPolicyTests(unittest.TestCase):
         self.assertFalse(plan['eligible'])
         self.assertIn('COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',plan['planning_reasons'])
         self.assertNotEqual(choice['chosen_candidate_id'],'first-inspection')
+        # Display coordinates9.7+9.7 must not hide the exact decoded window
+        # (10 - binary64(.3)) twice, which exceeds decoded19.4 by a positive gap.
+        model,program=lookahead_run_fixture();program['decision_times_s']=[.3]
+        policy=program['policy_program']
+        policy.update(schema='aegisdc-dispatch-policy-program-v3',intervention_declaration=program['intervention_program'],
+            resource_budget=dict(person_s=19.4,tool_s=19.4,cost=2,cost_unit='research_cost_unit'))
+        for candidate in policy['candidates']:candidate.update(issue_cost=1,available_at_s=.3)
+        local=policy['options']['value_model']['question_models'][0];local['inspection']['cost']=local['intervention']['cost']=1
+        decimal=simulate_scenario(model,duration_s=.5,step_s=.01,dispatch_program=program)
+        alternative=next(a for a in decimal['policy_public_decisions'][0]['choice']['forecast_plans'][0]['alternatives'] if a['kind']=='inspect_then_act')
+        self.assertFalse(alternative['eligible'])
+        self.assertIn('COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',alternative['planning_reasons'])
 
     def test_online_closure_consumes_actual_arrived_action_reports_without_auto_closing(self):
         from test_verified_closure import fixture as closure_fixture

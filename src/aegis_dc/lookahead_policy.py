@@ -37,7 +37,7 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits,*,resource_ledger=None,intervention_declaration=None):
+def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
@@ -89,10 +89,8 @@ def evaluate(frame,options,candidates,audits,*,resource_ledger=None,intervention
             reasons=list(alternative['planning_reasons'])
             if continuation:
                 allowed=allowed and by_id[binding['intervention_candidate_id']]['eligible']
-                if resource_ledger is not None:
-                    first=by_id[binding['inspection_candidate_id']]['declared_resource_reservation']
-                    second=by_id[binding['intervention_candidate_id']]['declared_resource_reservation']
-                    if any(Fraction(first[k])+Fraction(second[k])>Fraction(resource_ledger['remaining'][k]) for k in first):
+                if admission_budget is not None:
+                    if not admission_budget.can_reserve([binding['inspection_candidate_id'],binding['intervention_candidate_id']]):
                         allowed=False;reasons.append('COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET')
             if intervention_declaration is not None and (kind=='direct_intervention' or continuation):
                 task_id=candidates[binding['intervention_candidate_id']]['task']['id']

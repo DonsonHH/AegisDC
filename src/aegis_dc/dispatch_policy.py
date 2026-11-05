@@ -144,10 +144,11 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
             if candidate['id'] not in due:audit['reasons'].append('NOT_IN_DECLARED_PERIODIC_REFERENCE')
             elif due[candidate['id']]>frame['as_of_s']:audit['reasons'].append('PERIODIC_REFERENCE_NOT_DUE')
         audit['reasons']=sorted(set(audit['reasons']));audit['eligible']=not audit['reasons']
-    ledger=None
+    ledger=None;admission_budget=None
     if version3:
-        from .policy_budget import account
-        ledger=account(frame,program,history,candidates,audits)
+        from .policy_budget import AdmissionBudget
+        admission_budget=AdmissionBudget(frame,program,history,candidates)
+        ledger=admission_budget.audit(audits)
     eligible=sorted((c for c in audits if c['eligible']),key=lambda c:(c['available_at_s'],c['candidate_id']))
     if program['policy']=='periodic':eligible.sort(key=lambda c:(due[c['candidate_id']],c['candidate_id']))
     selected=eligible[0]['candidate_id'] if program['policy'] in {'fifo','periodic'} and eligible else None
@@ -162,7 +163,7 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
             _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
             for key,value in ledger['remaining'].items():
                 options['value_model']['resource_budget'][key]=min(options['value_model']['resource_budget'][key],value)
-        selected,detail=evaluate(frame,options,candidates,audits,resource_ledger=ledger,intervention_declaration=intervention_declaration)
+        selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration)
     reason=detail.pop('reason',None)
     if reason is None:
         reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else
