@@ -30,7 +30,7 @@ def main():
     definitions=[('verified','VERIFIED_CLOSED',6),('action-only','ACTION_COMPLETED_PENDING_VERIFICATION',3.5),
         ('condition-only','SYMPTOM_RETREATED_PENDING_VERIFICATION',6),('expired','ACTION_COMPLETED_PENDING_VERIFICATION',10),
         ('same-origin','ACTION_COMPLETED_PENDING_VERIFICATION',6),('cross-source-conflict','ACTION_COMPLETED_PENDING_VERIFICATION',6),
-        ('risk-accepted','RISK_ACCEPTED',6),('risk-acceptance-expired','ACTION_COMPLETED_PENDING_VERIFICATION',8),
+        ('risk-accepted','RISK_ACCEPTED',6),('risk-acceptance-expired','SYMPTOM_RETREATED_PENDING_VERIFICATION',8),
         ('escalated','ESCALATED',6),('false-alarm','FALSE_ALARM_REVIEWED',6),('false-alarm-adverse','OPEN_UNCONFIRMED',6),
         ('fresh-after-expiry','VERIFIED_CLOSED',6),('fabricated-operation','REJECTED',6),('expired-action-grant','REJECTED',6),
         ('actual23-inspection-incomplete','ACTION_COMPLETED_PENDING_VERIFICATION',6)]
