@@ -1,0 +1,25 @@
+...F..E
+======================================================================
+ERROR: test_zero_support_report_is_not_a_zero_risk_conditional_posterior (test_action_value.ActionValueTests.test_zero_support_report_is_not_a_zero_risk_conditional_posterior)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 156, in test_zero_support_report_is_not_a_zero_risk_conditional_posterior
+    self.assertEqual(branch['status'],'ZERO_SUPPORT_REPORT')
+                     ~~~~~~^^^^^^^^^^
+KeyError: 'status'
+
+======================================================================
+FAIL: test_horizon_truncates_costs_but_never_invents_completed_inspection_or_repair (test_action_value.ActionValueTests.test_horizon_truncates_costs_but_never_invents_completed_inspection_or_repair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 134, in test_horizon_truncates_costs_but_never_invents_completed_inspection_or_repair
+    self.assertEqual(rows['inspect_then_act']['branches'][0]['report'],'unavailable_within_horizon')
+AssertionError: 'positive' != 'unavailable_within_horizon'
+- positive
++ unavailable_within_horizon
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.437s
+
+FAILED (failures=1, errors=1)

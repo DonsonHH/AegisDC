@@ -21,3 +21,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Pending implementation and acceptance.
 
 Assigned `/root/m3_20_value`, branch `donson/mainline-20-value`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline20-action-value/Renly`. Ticket19 Root acceptance and fresh proof satisfy its blocker; no20effect or acceptance is implied.
+
+Implementation candidate: `docs/mainline/evidence/20.json`; original source83de/data2aea preserved, saved-only fresh proof and rendered figures added after owner continuity. Root integrated full and acceptance pending; this ticket remains claimed.

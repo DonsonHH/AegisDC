@@ -1,0 +1,52 @@
+{
+  "schema": "aegisdc-action-value-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "20",
+  "interpretation": "Finite same-information value prediction and analytic action tree, not physical efficacy or field calibration.",
+  "frame": "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json",
+  "belief_model": "configs/full-facility-belief-model-v1.json",
+  "risk_catalog": "configs/full-facility-risk-scenarios-v1.json",
+  "value_model": "configs/full-facility-action-value-v1.json",
+  "witness_frame": "evidence/mainline/engineering/20-action-value/reference/witness-frame.json",
+  "witness_belief": "evidence/mainline/engineering/20-action-value/reference/witness-belief.json",
+  "witness_catalog": "evidence/mainline/engineering/20-action-value/reference/witness-catalog.json",
+  "witness_value": "evidence/mainline/engineering/20-action-value/reference/witness-value.json",
+  "independent_witness": "evidence/mainline/engineering/20-action-value/reference/independent-action-tree.json",
+  "absolute_numeric_tolerance": 1e-14,
+  "independent_prior_cases": [
+    "0",
+    "1/4",
+    "9/10"
+  ],
+  "boundary_cases": [
+    "unfinished-inspection",
+    "unfinished-action",
+    "resource-budget",
+    "unknown-availability",
+    "zero-support-report"
+  ],
+  "durable_outputs": [
+    "attempt.json",
+    "check-results.json",
+    "cli-stdout.raw",
+    "cli-stderr.raw",
+    "value-comparison.svg",
+    "decision-boundary.svg"
+  ],
+  "terminal_receipt": "receipt.json",
+  "tools": [
+    "scripts/action_value_engineering_checks.py",
+    "scripts/action_value_delivery.py",
+    "scripts/plot_action_value.py"
+  ],
+  "frozen_documents": [
+    "docs/mainline/20-action-value-contract.md"
+  ],
+  "full_regression": "ROOT_INTEGRATED_ONLY_NOT_AUTHOR",
+  "retries": "No overwrite. Retain failure with source and terminal receipt. Any correction uses new source/protocol/output.",
+  "new_physical_runs": 0,
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING"
+}

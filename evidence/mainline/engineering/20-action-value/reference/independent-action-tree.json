@@ -1,0 +1,77 @@
+{
+  "schema": "independent-ticket20-information-action-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "scope": "Preparation only:20 remainsblockedon19. Independent finite action tree, not physical facility efficacy.",
+  "declared_law": {
+    "horizon_s": 100,
+    "initial_defect": "Hiddenbinary,fixeduntilrepaired",
+    "prior_basis": "Explicitresearchassumption",
+    "inspection_s": 10,
+    "repair_s": 20,
+    "inspection_sensitivity": "4/5",
+    "inspection_specificity": "9/10",
+    "inspection_effect": "Informationonly;facilitycontinueswithsamephysicalstate",
+    "repair_effect": "Serviceunavailableduring20srepairforhealthyandfaulty;defectrestoredaftercompletion",
+    "no_action": "Faultyserviceunavailableentire100s;healthyfullyserved",
+    "inspection_policy": "Interveneonlyafterpositivereportat10s;negativebranchdefer",
+    "authorization": "Bothactionsassumedqualifiedandfeasibleinthisfinitewitness;actualfacilityenforcementseparately21/23",
+    "window": "0to100s;normalization1offeredservice"
+  },
+  "cases": [
+    {
+      "prior_fault": "0",
+      "positive_probability": "1/10",
+      "expected_deficit_time_s": {
+        "defer": "0",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "2"
+      },
+      "expected_worker_person_s": {
+        "defer": "0",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "12"
+      },
+      "smallest_service_deficit_option": "defer"
+    },
+    {
+      "prior_fault": "1/4",
+      "positive_probability": "11/40",
+      "expected_deficit_time_s": {
+        "defer": "25",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "25/2"
+      },
+      "expected_worker_person_s": {
+        "defer": "0",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "31/2"
+      },
+      "smallest_service_deficit_option": "inspect_then_intervene_if_positive"
+    },
+    {
+      "prior_fault": "9/10",
+      "positive_probability": "73/100",
+      "expected_deficit_time_s": {
+        "defer": "90",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "199/5"
+      },
+      "expected_worker_person_s": {
+        "defer": "0",
+        "direct_intervention": "20",
+        "inspect_then_intervene_if_positive": "123/5"
+      },
+      "smallest_service_deficit_option": "direct_intervention"
+    }
+  ],
+  "assertions": [
+    "Checkdelayispartofphysicalserviceintegral;informationdoesnotdeductloss",
+    "Falsepositivehealthyrepaircauses20sdeficit",
+    "False negativescontinue100sdeficit",
+    "No fixedscalarweightcombinespersonsecondswithservicedeficit",
+    "Highpriorcanpreferrdirectintervention;zero-priorcanpreferdefer",
+    "Allbranchesrecomputefromsameknownlaw;noactualtruthinput"
+  ],
+  "research_trials": 0,
+  "new_physical_runs": 0
+}

@@ -1,0 +1,172 @@
+{
+  "schema": "aegisdc-action-value-model-v1",
+  "id": "V6-action-value-v1",
+  "basis": "synthetic_assumption",
+  "source_note": "Finite information/action model, not calibrated prediction or physical authorization.",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+  "risk_catalog_id": "V6-risk-scenarios-v1",
+  "time_unit": "s",
+  "cost_unit": "research_cost_unit",
+  "availability_basis": "DECLARED_PLANNING_ASSUMPTIONS_NOT_ACTUAL_RESOURCE_STATE",
+  "resource_budget": {
+    "person_s": 100,
+    "tool_s": 100,
+    "cost": 100
+  },
+  "availability": [
+    {
+      "resource_id": "worker_cooling",
+      "window_s": [
+        0,
+        2
+      ]
+    },
+    {
+      "resource_id": "tool_flow_meter",
+      "window_s": [
+        0,
+        2
+      ]
+    }
+  ],
+  "question_models": [
+    {
+      "id": "cooling-value",
+      "question_id": "cooling",
+      "inspection_option_id": "inspect-cooling",
+      "intervention_option_id": "isolate-cooling",
+      "inspector_id": "worker_cooling",
+      "intervenor_id": "worker_cooling",
+      "inspection": {
+        "travel_s": 0.125,
+        "wait_s": 0.125,
+        "work_s": 0.25,
+        "report_latency_s": 0.125,
+        "cost": 1
+      },
+      "intervention": {
+        "travel_s": 0.125,
+        "wait_s": 0.125,
+        "work_s": 0.25,
+        "cost": 2
+      },
+      "action_on_positive": "intervene",
+      "action_on_negative": "defer",
+      "variants": [
+        {
+          "id": "reference",
+          "basis": "Declared observation and intervention assumptions; not field calibration.",
+          "positive_likelihood": {
+            "nominal": 0.1,
+            "cooling-limited": 0.8,
+            "power-limited": 0.1,
+            "other": 0.8
+          },
+          "during_capacity": {
+            "nominal": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "cooling-limited": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "power-limited": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "other": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            }
+          },
+          "after_capacity": {
+            "nominal": {
+              "compute": 2,
+              "network": 2,
+              "storage": 2
+            },
+            "cooling-limited": {
+              "compute": 2,
+              "network": 2,
+              "storage": 2
+            },
+            "power-limited": {
+              "compute": 2,
+              "network": 2,
+              "storage": 2
+            },
+            "other": {
+              "compute": 2,
+              "network": 2,
+              "storage": 2
+            }
+          }
+        },
+        {
+          "id": "weaker-test-and-residual",
+          "basis": "Declared observation and intervention assumptions; not field calibration.",
+          "positive_likelihood": {
+            "nominal": 0.1,
+            "cooling-limited": 0.65,
+            "power-limited": 0.1,
+            "other": 0.65
+          },
+          "during_capacity": {
+            "nominal": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "cooling-limited": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "power-limited": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            },
+            "other": {
+              "compute": 0,
+              "network": 0,
+              "storage": 0
+            }
+          },
+          "after_capacity": {
+            "nominal": {
+              "compute": 1,
+              "network": 1,
+              "storage": 1
+            },
+            "cooling-limited": {
+              "compute": 1,
+              "network": 1,
+              "storage": 1
+            },
+            "power-limited": {
+              "compute": 1,
+              "network": 1,
+              "storage": 1
+            },
+            "other": {
+              "compute": 1,
+              "network": 1,
+              "storage": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "unidentified": [
+    "Six domain-specific probabilities are not identified by the finite four-class belief; their values remain unknown.",
+    "Availability, travel and operation effects are explicit planning assumptions until qualified by executor and independent physical/field evidence."
+  ]
+}

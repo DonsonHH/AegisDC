@@ -1,0 +1,21 @@
+........E...
+======================================================================
+ERROR: test_optional_best_service_continuation_can_intervene_after_negative_when_prior_is_high (test_action_value.ActionValueTests.test_optional_best_service_continuation_can_intervene_after_negative_when_prior_is_high)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 254, in test_optional_best_service_continuation_can_intervene_after_negative_when_prior_is_high
+    value=assess_action_value(frame,belief,catalog,model)['question_values'][0]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\action_value.py", line 178, in assess_action_value
+    availability=_validate(model,frame,catalog,risk)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\action_value.py", line 88, in _validate
+    _require(local[key] in {'defer','intervene'},'A report branch must explicitly defer or intervene')
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: A report branch must explicitly defer or intervene
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.835s
+
+FAILED (errors=1)
