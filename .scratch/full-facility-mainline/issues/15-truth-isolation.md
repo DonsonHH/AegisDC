@@ -4,7 +4,7 @@
 
 **Blocked by:** 14
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -20,4 +20,11 @@ Include the candidate/action masks, feasibility queries and operational feedback
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner `/root/mainline_12_method_spec`, branch `donson/mainline-15-truth`,
+worktree `.work/worktrees/full-site-15`, base
+`6fe8313d5780bbda86c4c9bec51071a570f0fd72`. The pre-created clean tree and
+accepted ticket-14 gate were checked before claim. The authorized public seams
+are the evidence-only current decision frame, pure candidate/feasibility query
+and CLI/tracer; implementation uses one red/green behavior slice at a time.
+No extra permission gate is inferred from TDD. Root owns independent review and
+acceptance; full M3 and the research goal remain active.

@@ -1,0 +1,25 @@
+test_fixed_public_ticks_release_detached_current_plain_frames (test_decision_view.DecisionViewTests.test_fixed_public_ticks_release_detached_current_plain_frames) ... ok
+test_nominal_plan_admission_rejects_private_fields_bad_references_and_callbacks (test_decision_view.DecisionViewTests.test_nominal_plan_admission_rejects_private_fields_bad_references_and_callbacks) ... ok
+test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives (test_decision_view.DecisionViewTests.test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives) ... ok
+test_queries_reject_forged_future_metadata_and_backend_handles (test_decision_view.DecisionViewTests.test_queries_reject_forged_future_metadata_and_backend_handles) ... ok
+test_registry_presentation_order_does_not_change_public_frames (test_decision_view.DecisionViewTests.test_registry_presentation_order_does_not_change_public_frames) ... ERROR
+
+======================================================================
+ERROR: test_registry_presentation_order_does_not_change_public_frames (test_decision_view.DecisionViewTests.test_registry_presentation_order_does_not_change_public_frames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\tests\test_decision_view.py", line 212, in test_registry_presentation_order_does_not_change_public_frames
+    second = DecisionGateway(knowledge, permuted, plan)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 283, in __init__
+    _binding_registry(knowledge, ledger)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 150, in _binding_registry
+    _require(ledger['entity_ids'] == [row['id'] for row in knowledge['entities']],
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 25, in _require
+    raise ValueError(message)
+ValueError: Evidence must use the same declared nominal entity registry
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.042s
+
+FAILED (errors=1)
