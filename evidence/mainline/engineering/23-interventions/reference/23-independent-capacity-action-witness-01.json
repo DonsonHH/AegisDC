@@ -1,0 +1,59 @@
+{
+  "schema": "independent-ticket23-physical-capacity-action-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "scope": "Named jointservice-capacity example using accepted08serviceaccount. No site efficacy claim.",
+  "law": {
+    "horizon_s": 3,
+    "offered_rate": 1,
+    "baseline_network_capacity": "1/4",
+    "other_required_capacities": 1,
+    "action_issue_s": 0,
+    "safe_access_check_s": "1/4",
+    "work_s": 1,
+    "completion_s": "5/4",
+    "qualified_actor": "worker_it with tool_it_diagnostic at loc_it",
+    "physical_effect": "Onlyatcompleted1.25s change network effectivecapacity ceiling;demandstays1",
+    "assumption": "Scenario legal timing scaled explicitly; real site times unknown"
+  },
+  "cases": [
+    {
+      "id": "full-restoration",
+      "after_network_capacity": "1",
+      "expected": {
+        "offered_work": "3",
+        "delivered_work": "33/16",
+        "unserved_work": "15/16",
+        "deficit_time_s": "15/16"
+      }
+    },
+    {
+      "id": "residual-restoration",
+      "after_network_capacity": "1/2",
+      "expected": {
+        "offered_work": "3",
+        "delivered_work": "19/16",
+        "unserved_work": "29/16",
+        "deficit_time_s": "29/16"
+      }
+    },
+    {
+      "id": "abort-or-unfinished",
+      "after_network_capacity": "1/4",
+      "expected": {
+        "offered_work": "3",
+        "delivered_work": "3/4",
+        "unserved_work": "9/4",
+        "deficit_time_s": "9/4"
+      }
+    }
+  ],
+  "assertions": [
+    "No effect at issue orarrival; successfulworkcompletioncausesdeclaredchange",
+    "Existingpastservice deficit isretained afterrestoration",
+    "Missing/aborted/unauthorizedactionneverreceivessuccessfulgain",
+    "Actualpower/heatrespondswhenexecutionrequest/physicalsourcechanges;capacity-onlyexampledoesnotinventenergy",
+    "No automaticriskclosure fromeffectcompletion"
+  ],
+  "new_physical_runs": 0,
+  "registered_research_trials": 0
+}

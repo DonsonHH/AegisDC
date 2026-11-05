@@ -1,0 +1,134 @@
+{
+  "schema": "aegisdc-intervention-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "23",
+  "authoring_tool": "scripts/intervention_delivery.py",
+  "helper_tool": "scripts/inspection_delivery.py",
+  "input_preparation_tool": "scripts/prepare_intervention_inputs.py",
+  "input_fixture": "tests/test_intervention_execution.py",
+  "contract": "docs/mainline/23-intervention-contract.md",
+  "reference_model": "configs/full-facility-mainline-reserve-v6.json",
+  "reference_property": "configs/materials/reference-r134a-saturation.json",
+  "cases": [
+    {
+      "id": "network-full",
+      "input": "evidence/mainline/engineering/23-interventions/reference/network-full.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 1.25,
+        "delivered": 2.0625,
+        "deficit": 0.9375
+      }
+    },
+    {
+      "id": "network-residual",
+      "input": "evidence/mainline/engineering/23-interventions/reference/network-residual.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 1.25,
+        "delivered": 1.1875,
+        "deficit": 1.8125
+      }
+    },
+    {
+      "id": "network-aborted",
+      "input": "evidence/mainline/engineering/23-interventions/reference/network-aborted.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "NO_EFFECT",
+        "reason": "actual_work_not_completed",
+        "delivered": 0.75,
+        "deficit": 2.25
+      }
+    },
+    {
+      "id": "filter-later-inspection",
+      "input": "evidence/mainline/engineering/23-interventions/reference/filter-later-inspection.json",
+      "duration_s": 6,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 3.25,
+        "before_flow_squared": 0.0029411764705882353,
+        "after_flow_squared": 0.005555555555555556,
+        "inspection_observed_at_s": 5.25,
+        "inspection_arrived_at_s": 5.75
+      }
+    },
+    {
+      "id": "compute-power",
+      "input": "evidence/mainline/engineering/23-interventions/reference/compute-power.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 1.25,
+        "delivered": 2.125,
+        "deficit": 0.875,
+        "compute_energy_J": 4250000
+      }
+    },
+    {
+      "id": "backup-request",
+      "input": "evidence/mainline/engineering/23-interventions/reference/backup-request.json",
+      "duration_s": 6.25,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 3.5,
+        "controller_request_s": 4,
+        "backup_ready_s": 6,
+        "backup_fan_energy_J": 5000
+      }
+    },
+    {
+      "id": "decimal-completion",
+      "input": "evidence/mainline/engineering/23-interventions/reference/decimal-completion.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "APPLIED",
+        "applied_at_s": 1.2,
+        "delivered": 2.1,
+        "deficit": 0.9
+      }
+    },
+    {
+      "id": "expired-authority",
+      "input": "evidence/mainline/engineering/23-interventions/reference/expired-authority.json",
+      "duration_s": 3,
+      "expected": {
+        "outcome": "NO_EFFECT",
+        "reason": "authorization_unavailable_at_completion",
+        "delivered": 0.75,
+        "deficit": 2.25
+      }
+    }
+  ],
+  "maximum_step_s": 0.01,
+  "declared_physical_runs": 8,
+  "total_simulated_duration_s": 30.25,
+  "absolute_tolerance": 1e-09,
+  "energy_tolerance_J": 0.0001,
+  "mass_tolerance_kg": 1e-09,
+  "retry_rule": "One attempt per frozen case. Stop on failure; preserve all partial files and terminal receipt. No automatic retries. A correction needs a new frozen protocol and directory.",
+  "durable_root": [
+    "attempt.json",
+    "attempts.jsonl",
+    "checks.json",
+    "intervention-data.svg",
+    "intervention-architecture.svg"
+  ],
+  "durable_per_case": [
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl"
+  ],
+  "terminal_receipt": "receipt.json",
+  "full_regression": "ROOT_INTEGRATED_ONLY",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "interpretation": "Literal finite timed-operation, service-integral and conservation checks only. No policy efficacy, scientific gain, verified risk closure or field claim.",
+  "expectation_basis": "Pre-existing independent capacity/power/filter witnesses, explicit backup PLC schedule, and independent decimal review counterexample. Input fixture is engineering preparation, not an independent oracle."
+}
