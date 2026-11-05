@@ -35,3 +35,5 @@
 独立复核发现原1939源码要求声明上界与精确有理积分完全相等，当0.1和0.2的解码值相加不能用binary64精确表示时，会拒绝所有合法上界。新运行源`9c0efc4dbd198d3fbf35c459cd5710c058a60569`使用最小向外舍入的有限binary64上界；过小、过大及溢出值仍显式拒绝。该数值约定见[更正文档](../../../../docs/mainline/19-bound-rounding-correction.md)，[独立协议](../../../../docs/mainline/19-bound-correction-protocol.json)和[更正候选索引](../../../../docs/mainline/evidence/19-correction.json)。
 
 新`correction-01`单独记录1次尝试、0次失败：7个定点检查通过，原4帧输出逐项相等；没有重跑旧捕获或作者完整回归。新源、2个工具和10个输入执行前后守卫通过。原`capture-01`、1939执行身份和原pending索引均保留；Root后续必须针对新运行源完成独立闭环、交付核对和统一回归。
+
+Root已分别在干净管理检出中通过[原捕获交付证明](../../../../docs/mainline/evidence/19-original-delivery.json)及[数值修正交付证明](../../../../docs/mainline/evidence/19-correction-delivery.json)，未重跑推断或全回归。原证明仅对应1939源码，修正证明对应9c0；当前复核入口见[运行身份说明](../../../../docs/mainline/19-current-runtime-and-reproduction.md)。统一Root回归和最终接受仍待完成。
