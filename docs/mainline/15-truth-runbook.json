@@ -1,0 +1,53 @@
+{
+  "schema": "aegisdc-truth-isolation-engineering-v1",
+  "classification": "FULL_V6_INFORMATION_FLOW_ENGINEERING_NOT_POLICY_RESEARCH",
+  "profile": "configs/full-facility-mainline-reserve-v6.json",
+  "public_fixture": "configs/full-facility-decision-v1",
+  "duration_s": 7,
+  "maximum_step_s": 0.01,
+  "private_worlds": [
+    {"id": "A", "overrides": {}, "boundary_events": []},
+    {"id": "B", "overrides": {"grid_capacity": 0, "initial_floor_water_mass": 20, "local_temperature_bias": 50},
+      "boundary_events": [
+        {"time_s": 1.375, "parameter_id": "filter_resistance_multiplier", "value": 4,
+          "source_note": "Private engineering event; it must not schedule a dispatch tick or create an observation."},
+        {"time_s": 1.875, "parameter_id": "filter_resistance_multiplier", "value": 1,
+          "source_note": "Private engineering event; it must not schedule a dispatch tick or create an observation."}
+      ]}
+  ],
+  "private_work_requests": [
+    {"id": "private-it-audit-job", "time_s": 0, "worker_id": "worker_it",
+      "work_interface_id": "inspect_it_service", "target_id": "compute",
+      "source_note": "Predeclared private M1 engineering job, not chosen or executed by the planning tracer and not inspection evidence."}
+  ],
+  "public_streams": {
+    "common": "common-ledger.json",
+    "open": "reported-open-ledger.json",
+    "closed": "reported-closed-ledger.json"
+  },
+  "independent_expectations": {
+    "world_A_delivered_service_unit_s": 7,
+    "world_B_delivered_service_unit_s": 0,
+    "world_A_private_job_status": "working",
+    "world_B_private_job_status": "rejected",
+    "world_B_private_job_reason": "access_unreachable",
+    "world_A_compute_permitted_at_end": true,
+    "world_B_compute_permitted_at_end": false,
+    "public_ticks_each_stream": [0, 2, 4, 5.999999999999999, 6, 7],
+    "open_closed_equal_frames_before_6": 4,
+    "open_closed_changed_frames_from_6": 2,
+    "first_public_choice_without_restriction": "intent-it-check",
+    "public_choice_with_arrived_restriction": "intent-filter-check",
+    "blocking_record_id": "it-entry-report-t4"
+  },
+  "limitations": [
+    "The private runs show distinct full-facility states/local protection/safety only, not policy effects or a newly calibrated parameter box.",
+    "Public observations are separately hand-authored engineering inputs; no sensor or worker-result generator is implemented here.",
+    "The demonstration only selects a planning intention and never executes it. Actual execution safety remains private and unmodified.",
+    "Hindsight traces, private case IDs, full input fingerprints and saved plant outputs are evaluator-only, never dispatcher inputs."
+  ],
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "research_gain_claim": "NOT_ESTABLISHED"
+}

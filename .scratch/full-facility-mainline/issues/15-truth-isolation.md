@@ -28,3 +28,13 @@ are the evidence-only current decision frame, pure candidate/feasibility query
 and CLI/tracer; implementation uses one red/green behavior slice at a time.
 No extra permission gate is inferred from TDD. Root owns independent review and
 acceptance; full M3 and the research goal remain active.
+
+Continuation owner `/root/m3_15_continue` verified the preserved dirty tree and
+the root-confirmed absence of the old owner before resuming. The root liveness
+record `56bcfe23af09c54f2e5927fe21cf87fdd17e8820` was merged normally before
+freezing; no reset, cleanup or other ticket's implementation was changed.
+The current source includes nine red/green public-interface slices, the
+canonical V6 public input authoring tool, actual paired private-world audit,
+capture/data-figure tools and a read-only fresh Git-delivery verifier. The
+development green log is not a frozen-source formal capture. Root review and
+acceptance remain pending.

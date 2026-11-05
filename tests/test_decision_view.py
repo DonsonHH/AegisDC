@@ -313,6 +313,39 @@ class DecisionViewTests(unittest.TestCase):
             self.assertEqual(refused.returncode, 2)
             self.assertEqual((output / 'private-decision-trace.json').read_bytes(), saved)
 
+    def test_two_actual_V6_private_worlds_keep_public_inputs_choices_and_ticks_separate(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'audit'
+            done = subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/audit_decision_privacy.py'),
+                '--output', str(output)], cwd=ROOT,
+                env=dict(os.environ, PYTHONPATH=str(ROOT / 'src')), capture_output=True, text=True)
+            self.assertEqual(done.returncode, 0, done.stderr)
+            a = json.loads((output / 'private-worlds/A/run.json').read_text(encoding='utf-8'))
+            b = json.loads((output / 'private-worlds/B/run.json').read_text(encoding='utf-8'))
+            self.assertAlmostEqual(a['summary']['delivered_service_unit_s'], 7, delta=1e-9)
+            self.assertEqual(b['summary']['delivered_service_unit_s'], 0)
+            self.assertEqual(a['work_records'][0]['status'], 'working')
+            self.assertEqual(b['work_records'][0]['status'], 'rejected')
+            self.assertEqual(b['work_records'][0]['reason'], 'access_unreachable')
+            for world, permitted in [('A', True), ('B', False)]:
+                states = (output / f'private-worlds/{world}/private-state.jsonl').read_text(encoding='utf-8').splitlines()
+                final = json.loads(states[-1])['domains']
+                self.assertEqual(len(final), 8)
+                self.assertIs(final['control_monitoring']['compute_permitted'], permitted)
+            traces = {(world, stream): json.loads((output / f'evaluator-traces/{world}/{stream}/private-decision-trace.json').read_text(encoding='utf-8'))
+                      for world in ['A', 'B'] for stream in ['common', 'open', 'closed']}
+            for stream in ['common', 'open', 'closed']:
+                self.assertEqual(traces['A', stream], traces['B', stream])
+                self.assertEqual([row['frame']['as_of_s'] for row in traces['A', stream]['steps']],
+                                 [0, 2, 4, math.nextafter(6, -math.inf), 6, 7])
+            for step in traces['B', 'common']['steps']:
+                self.assertTrue(step['options']['legal_mask']['intent-it-check'])
+                self.assertFalse(step['options']['execution_permission'])
+            for first, second in zip(traces['A', 'open']['steps'][:4], traces['B', 'closed']['steps'][:4]):
+                self.assertEqual(first, second)
+            self.assertEqual(traces['A', 'open']['steps'][4]['options']['demo_choice_id'], 'intent-it-check')
+            self.assertEqual(traces['B', 'closed']['steps'][4]['options']['demo_choice_id'], 'intent-filter-check')
+
 
 if __name__ == '__main__':
     unittest.main()
