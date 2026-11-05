@@ -1,0 +1,22 @@
+test_expired_declared_intentions_are_audited_as_unavailable (test_dispatch_policy.DispatchPolicyTests.test_expired_declared_intentions_are_audited_as_unavailable) ... ERROR
+
+======================================================================
+ERROR: test_expired_declared_intentions_are_audited_as_unavailable (test_dispatch_policy.DispatchPolicyTests.test_expired_declared_intentions_are_audited_as_unavailable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 28, in test_expired_declared_intentions_are_audited_as_unavailable
+    result=choose_work(frame,program,history)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 59, in choose_work
+    assessment=prepare_work(frame,program['workforce_profile'],candidate['task'])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\workforce_dispatch.py", line 50, in prepare_work
+    require(finite_number(task['deadline_s'],'Work deadline')>=frame['as_of_s'],'Deadline precedes issue time')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\workforce_dispatch.py", line 16, in require
+    raise ValueError(message)
+ValueError: Deadline precedes issue time
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (errors=1)

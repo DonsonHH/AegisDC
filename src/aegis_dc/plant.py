@@ -673,7 +673,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None, dispatch_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -706,6 +706,15 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])
     plant = _Plant(scenario, table)
+    dispatch = None
+    if dispatch_program is not None:
+        if work_program is not None or work_requests or inspection_program is not None or intervention_program is not None:
+            raise ValueError('Policy execution owns its declared crew and observation/action bindings')
+        from .policy_execution import PolicySession
+        dispatch = PolicySession(dispatch_program,duration)
+        work_program = dispatch.work_program
+        inspection_program = dispatch.inspection_program
+        intervention_program = dispatch.intervention_program
     if work_program is None:
         workforce = Workforce(scenario, plant.p, work_requests, duration)
     else:
@@ -718,13 +727,13 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         if work_program is None:
             raise ValueError('Real inspections require the actual crew work_program')
         from .inspection_execution import InspectionSession
-        inspections = InspectionSession(scenario, work_program, inspection_program)
+        inspections = InspectionSession(scenario, dispatch.catalog_program if dispatch is not None else work_program, inspection_program)
     interventions = None
     if intervention_program is not None:
         if work_program is None:
             raise ValueError('Actual interventions require a crew work_program')
         from .intervention_execution import InterventionSession
-        interventions = InterventionSession(scenario, work_program, intervention_program)
+        interventions = InterventionSession(scenario, dispatch.catalog_program if dispatch is not None else work_program, intervention_program)
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
@@ -774,12 +783,17 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         snapshot = plant.snapshot(time_s, point, workforce)
         if inspections is not None:
             inspections.process(time_s, workforce, snapshot)
+        if dispatch is not None and dispatch.sensors is not None:
+            dispatch.sensors.process(time_s,snapshot)
+        if dispatch is not None and dispatch.process(time_s,workforce,inspections,interventions):
+            workforce.process(time_s,plant.blocked_locations())
+            snapshot = plant.snapshot(time_s,point,workforce)
         trace.append(snapshot)
         if time_s >= duration:
             break
         next_input = timed_inputs[event_index]['time_s'] if event_index < len(timed_inputs) else duration
         end = min(duration, time_s + step, plant.next_physical_event(time_s, point), next_input,
-                  workforce.next_event(time_s))
+                  workforce.next_event(time_s),dispatch.next_event(time_s) if dispatch is not None else math.inf)
         occupation = workforce.occupation_rates()
         balance = plant.integrate(time_s, end, point)
         balance.update({key: value * (end - time_s) for key, value in occupation.items()})
@@ -830,7 +844,13 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 'inspection_private_audit': inspections.private_audit()} if inspections is not None else {}),
             **({'intervention_public_feedback': interventions.public_feedback(duration),
                 'intervention_private_audit': interventions.private_audit()} if interventions is not None else {}),
+            **({'policy_public_decisions': deepcopy(dispatch.decisions)} if dispatch is not None else {}),
+            **({'policy_computation_audit': deepcopy(dispatch.computation_audit)} if dispatch is not None else {}),
+            **({'policy_public_resource_ledger': dispatch.resource_ledger(duration,workforce,inspections)}
+                if dispatch is not None and dispatch.program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v3' else {}),
+            **({'policy_sensor_private_audit': deepcopy(dispatch.sensors.audit)} if dispatch is not None and dispatch.sensors is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
+                       **({'dispatch_program': deepcopy(dispatch_program)} if dispatch is not None else {}),
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
                        **({'inspection_program': deepcopy(inspection_program)} if inspections is not None else {}),
                        **({'intervention_program': deepcopy(intervention_program)} if interventions is not None else {}),

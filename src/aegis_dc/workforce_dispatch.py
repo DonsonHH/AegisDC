@@ -85,12 +85,15 @@ class CrewWorkforce(Workforce):
     """The same facility resources, extended with incremental queues and crew rendezvous."""
     def __init__(self,scenario,parameters,program,duration_s):
         super().__init__(scenario,parameters,[],duration_s)
-        _plain_json(program);fields(program,{'schema','id','profile','submissions'},'Work program')
-        require(program['schema']=='aegisdc-work-program-v1','Unknown work program schema')
+        _plain_json(program)
+        incremental=program.get('schema')=='aegisdc-work-program-v2'
+        fields(program,{'schema','id','profile','submissions'}|({'initial_frame'} if incremental else set()),'Work program')
+        require(program['schema'] in {'aegisdc-work-program-v1','aegisdc-work-program-v2'},'Unknown work program schema')
         text(program['id'],'Program id')
         require(type(program['submissions']) is list,'Submissions must be a list')
-        require(bool(program['submissions']),'Declare at least one issued work intention')
-        first=validate_current_frame(program['submissions'][0]['frame'])
+        require(incremental or bool(program['submissions']),'Declare at least one issued work intention')
+        first=validate_current_frame(program['initial_frame'] if incremental else program['submissions'][0]['frame'])
+        if incremental:require(first['as_of_s']==0,'Incremental crew execution starts at the facility epoch')
         self.profile=validate_profile(program['profile'],first['nominal_knowledge'])
         require(scenario['id']==self.profile['facility_id'],'Physical/public facility identities differ')
         nominal=first['nominal_knowledge'];self.nominal=deepcopy(nominal);nominal_entities={x['id']:x for x in nominal['entities']}
@@ -138,12 +141,23 @@ class CrewWorkforce(Workforce):
                     public_assessment=assessment,effect='ENGINEERING_WORK_RECORD_ONLY_NO_REPAIR_OR_EVIDENCE')
         self.records.append(record)
         if not assessment['legal_for_planning']:
-            record.update(finished_at_s=self.last_time,reason='public_static_or_reported_restriction');return
+            self._reject(record,self.last_time,'public_static_or_reported_restriction');return
         key=(task['work_interface_id'],task['target_id'])
         if any((r['work_interface_id'],r['target_id'])==key and r['status'] not in {'completed','aborted','rejected'}
                for r in self.records if r is not record):
-            record.update(status='rejected',accepted=False,finished_at_s=self.last_time,reason='duplicate_open_work');return
+            self._reject(record,self.last_time,'duplicate_open_work');return
         self.pending.append(record)
+
+    def _reject(self,record,time,reason):
+        record.update(status='rejected',accepted=False,finished_at_s=time,reason=reason)
+        # This declared execution channel acknowledges this task's admission
+        # only. It carries no actual location or private rejection cause and
+        # becomes available after a positive administrative reporting interval.
+        self.feedback.append(dict(task_id=record['id'],source_id='workforce-execution-report',observed_at_s=time,
+            arrived_at_s=time+max(self.profile['feedback_latency_s'],self.profile['access_check_s']),
+            status='rejected',reason='DECLARED_TASK_ADMISSION_REFUSAL',location_id=None,
+            origin_id='workforce:'+record['id'],coverage='THIS_ISSUED_TASK_ONLY',
+            basis='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL'))
 
     def _feedback(self,job,time,status,reason):
         record=job['record']
@@ -210,7 +224,7 @@ class CrewWorkforce(Workforce):
     def _start_queued(self,time):
         for record in list(self.pending):
             if time>=record['deadline_s']:
-                record.update(status='rejected',accepted=False,finished_at_s=time,reason='deadline_expired_in_queue')
+                self._reject(record,time,'deadline_expired_in_queue')
                 self.pending.remove(record);continue
             crew=[r['worker_id'] for r in record['crew']];interface=self.interfaces[record['work_interface_id']]
             tools=interface['tool_ids'];shifts=[self.profile['shifts'][w] for w in crew]
@@ -220,10 +234,10 @@ class CrewWorkforce(Workforce):
             target=target_entity['id'] if target_entity['kind']=='location' else target_entity['location_id']
             moves={w:self._moves(w,record['tool_carrier_id'],tools,target,time) for w in crew}
             if any(m is None for m in moves.values()):
-                record.update(status='rejected',accepted=False,finished_at_s=time,reason='static_access_unreachable');self.pending.remove(record);continue
+                self._reject(record,time,'static_access_unreachable');self.pending.remove(record);continue
             start=max(m[-1]['arrives_at_s'] for m in moves.values());end=start+self.profile['work_times_s'][interface['id']]
             if end>min(record['deadline_s'],*(s[1] for s in shifts),self.p['shift_end_time']):
-                record.update(status='rejected',accepted=False,finished_at_s=time,reason='shift_or_deadline_unavailable');self.pending.remove(record);continue
+                self._reject(record,time,'shift_or_deadline_unavailable');self.pending.remove(record);continue
             record.update(status='travelling',started_at_s=time,planned_work_start_s=start,scheduled_completion_at_s=end,
                           paths=deepcopy(moves),queue_wait_s=time-record['issued_at_s'])
             job=dict(record=record,crew=crew,tools=tools,target=target,moves=moves,index={w:0 for w in crew},work_start=None)

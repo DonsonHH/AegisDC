@@ -128,6 +128,13 @@ class InterventionSession:
             self.bindings[row['task_id']]=deepcopy(row);self.assessments[row['task_id']]=assessment
         self.events=[];self.feedback=[];self.processed=set();self.last_time=-1
 
+    def record_issue(self,frame,workforce_profile,task):
+        """Refresh a predeclared binding from its actual public issue frame."""
+        if task['id'] not in self.bindings:return
+        require(frame['as_of_s']==self.last_time and task['id'] not in self.processed,
+                'Intervention intention must use the current unprocessed issue instant')
+        self.assessments[task['id']]=prepare_intervention(frame,workforce_profile,task,self.profile,self.bindings[task['id']])
+
     def process(self,time,workforce,parameters):
         from .workforce_dispatch import CrewWorkforce
         require(type(workforce) is CrewWorkforce and workforce.last_time==time,'Use the actual current typed crew executor')

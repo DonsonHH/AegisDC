@@ -1,0 +1,21 @@
+test_common_budget_remains_spent_after_terminal_feedback_across_decisions (test_dispatch_policy.DispatchPolicyTests.test_common_budget_remains_spent_after_terminal_feedback_across_decisions) ... ERROR
+
+======================================================================
+ERROR: test_common_budget_remains_spent_after_terminal_feedback_across_decisions (test_dispatch_policy.DispatchPolicyTests.test_common_budget_remains_spent_after_terminal_feedback_across_decisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 59, in test_common_budget_remains_spent_after_terminal_feedback_across_decisions
+    first=choose_work(frame,policy,history)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 50, in choose_work
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set()),'Dispatch policy program')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Dispatch policy program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (errors=1)

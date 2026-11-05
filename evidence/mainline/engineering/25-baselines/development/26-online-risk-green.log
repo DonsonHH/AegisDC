@@ -1,0 +1,25 @@
+test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility (test_dispatch_policy.DispatchPolicyTests.test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility) ... FAIL
+
+======================================================================
+FAIL: test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility (test_dispatch_policy.DispatchPolicyTests.test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 70, in test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility
+    self.assertEqual([r['choice']['chosen_candidate_id'] for r in result['policy_public_decisions']],['actual-check',None,'conditional-action',None])
+AssertionError: Lists differ: ['actual-check', None, None, None] != ['actual-check', None, 'conditional-action', None]
+
+First differing element 2:
+None
+'conditional-action'
+
+- ['actual-check', None, None, None]
+?                        ^  ^
+
++ ['actual-check', None, 'conditional-action', None]
+?                        ^^  ^^^^^^^^^^^^^^^^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 3.474s
+
+FAILED (failures=1)

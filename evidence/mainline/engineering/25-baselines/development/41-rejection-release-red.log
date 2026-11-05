@@ -1,0 +1,25 @@
+test_delayed_task_local_rejection_releases_only_its_public_reservation (test_dispatch_policy.DispatchPolicyTests.test_delayed_task_local_rejection_releases_only_its_public_reservation) ... FAIL
+
+======================================================================
+FAIL: test_delayed_task_local_rejection_releases_only_its_public_reservation (test_dispatch_policy.DispatchPolicyTests.test_delayed_task_local_rejection_releases_only_its_public_reservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 64, in test_delayed_task_local_rejection_releases_only_its_public_reservation
+    self.assertEqual([r['choice']['chosen_candidate_id'] for r in result['policy_public_decisions']],['a-first',None,'b-second'])
+AssertionError: Lists differ: ['a-first', None, None] != ['a-first', None, 'b-second']
+
+First differing element 2:
+None
+'b-second'
+
+- ['a-first', None, None]
+?                   ^  ^
+
++ ['a-first', None, 'b-second']
+?                   ^^^^^^  ^^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 1.447s
+
+FAILED (failures=1)

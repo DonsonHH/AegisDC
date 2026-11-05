@@ -1,0 +1,19 @@
+test_one_observation_lookahead_selects_only_the_first_predicted_action (test_dispatch_policy.DispatchPolicyTests.test_one_observation_lookahead_selects_only_the_first_predicted_action) ... ERROR
+
+======================================================================
+ERROR: test_one_observation_lookahead_selects_only_the_first_predicted_action (test_dispatch_policy.DispatchPolicyTests.test_one_observation_lookahead_selects_only_the_first_predicted_action)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 64, in test_one_observation_lookahead_selects_only_the_first_predicted_action
+    result=choose_work(frame,policy,history)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 57, in choose_work
+    _require(program['policy'] in ({'no_human','fifo','periodic','risk_condition_priority_adapted'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy not implemented in this development slice
+
+----------------------------------------------------------------------
+Ran 1 test in 0.027s
+
+FAILED (errors=1)

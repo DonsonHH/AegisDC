@@ -1,0 +1,19 @@
+test_fifo_waits_for_arrived_resource_release_before_reusing_crew (test_dispatch_policy.DispatchPolicyTests.test_fifo_waits_for_arrived_resource_release_before_reusing_crew) ... ERROR
+
+======================================================================
+ERROR: test_fifo_waits_for_arrived_resource_release_before_reusing_crew (test_dispatch_policy.DispatchPolicyTests.test_fifo_waits_for_arrived_resource_release_before_reusing_crew)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 40, in test_fifo_waits_for_arrived_resource_release_before_reusing_crew
+    first=choose_work(frame,program,history)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 16, in choose_work
+    _require(program['policy']=='no_human','Policy not implemented in this development slice')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy not implemented in this development slice
+
+----------------------------------------------------------------------
+Ran 1 test in 0.013s
+
+FAILED (errors=1)

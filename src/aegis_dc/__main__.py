@@ -27,6 +27,7 @@ def main():
     run.add_argument('--work-program',type=Path,help='Versioned current-frame crew submissions; private evaluator input')
     run.add_argument('--inspection-program',type=Path,help='Actual work-bound inspection profile and private observation realization')
     run.add_argument('--intervention-program',type=Path,help='Named authorized completion-gated research actions; private evaluator input')
+    run.add_argument('--dispatch-program',type=Path,help='Declared same-facility evidence-only policy and private observation inputs; engineering only')
     record=sub.add_parser('record',help='Freeze and execute one private engineering attempt, including failures')
     record.add_argument('--model',type=Path,default=ROOT/'configs/full-facility-mainline-reserve-v6.json')
     record.add_argument('--inputs',type=Path,required=True)
@@ -74,6 +75,8 @@ def main():
                 inputs['inspection_program']=strict_json(args.inspection_program.read_text(encoding='utf-8'))
             if args.intervention_program:
                 inputs['intervention_program']=strict_json(args.intervention_program.read_text(encoding='utf-8'))
+            if args.dispatch_program:
+                inputs['dispatch_program']=strict_json(args.dispatch_program.read_text(encoding='utf-8'))
             trajectory=simulate_scenario(load_scenario(args.model),duration_s=args.duration,step_s=args.step,**inputs)
             result=save_run(trajectory,args.output) if args.output else describe_run(trajectory)
         elif args.command=='record':

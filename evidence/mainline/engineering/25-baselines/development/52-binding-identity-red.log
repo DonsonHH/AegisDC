@@ -1,0 +1,18 @@
+test_public_binding_identity_refuses_container_values_as_invalid_json_contract (test_dispatch_policy.DispatchPolicyTests.test_public_binding_identity_refuses_container_values_as_invalid_json_contract) ... ERROR
+
+======================================================================
+ERROR: test_public_binding_identity_refuses_container_values_as_invalid_json_contract (test_dispatch_policy.DispatchPolicyTests.test_public_binding_identity_refuses_container_values_as_invalid_json_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 61, in test_public_binding_identity_refuses_container_values_as_invalid_json_contract
+    with self.assertRaises(ValueError):choose_work(frame,policy,history,intervention_declaration=declaration)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 104, in choose_work
+    _require(binding['task_id'] in tasks and binding['task_id'] not in bindings,'Unknown/repeated public intervention task')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+FAILED (errors=1)

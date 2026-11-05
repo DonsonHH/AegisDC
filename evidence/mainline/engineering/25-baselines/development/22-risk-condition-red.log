@@ -1,0 +1,19 @@
+test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit (test_dispatch_policy.DispatchPolicyTests.test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit) ... ERROR
+
+======================================================================
+ERROR: test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit (test_dispatch_policy.DispatchPolicyTests.test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 54, in test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit
+    first=choose_work(frame,program,history)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 57, in choose_work
+    _require(program['policy'] in ({'no_human','fifo','periodic'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy not implemented in this development slice
+
+----------------------------------------------------------------------
+Ran 1 test in 0.015s
+
+FAILED (errors=1)
