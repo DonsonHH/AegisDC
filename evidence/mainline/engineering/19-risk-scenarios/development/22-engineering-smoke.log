@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\scripts\risk_engineering_checks.py", line 32, in exercise
+    results = [assess_risks(row,belief,catalog) for row in public_frames(frame,protocol['as_of_s'])]
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\scripts\risk_engineering_checks.py", line 21, in public_frames
+    gateway = DecisionGateway(frame['nominal_knowledge'],ledger,plan)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\decision_view.py", line 303, in __init__
+    ledger = validate_ledger(ledger_document)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 181, in validate_ledger
+    _record(row, sources, observables)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 93, in _record
+    _fields(record, RECORD_FIELDS, 'record')
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: record fields do not match the closed contract

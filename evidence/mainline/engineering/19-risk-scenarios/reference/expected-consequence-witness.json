@@ -1,0 +1,163 @@
+{
+  "schema": "independent-ticket19-expectation-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "scope": "Posterior at one decision instant held constant over an explicitly synthetic2s consequence horizon. This is an arithmetic witness, not the selected facility risk forecast or evidence of effectiveness.",
+  "probabilities": {
+    "nominal": "45/412",
+    "cooling-limited": "27/103",
+    "power-limited": "171/412",
+    "other": "22/103"
+  },
+  "probability_basis": "Independent ticket18 two-report exact current posterior; no hidden state input",
+  "interval_schema": [
+    "start_s",
+    "end_s",
+    "offered_rate_1",
+    "compute_capacity_1",
+    "network_capacity_1",
+    "storage_capacity_1"
+  ],
+  "intervals": {
+    "nominal": [
+      [
+        "0",
+        "1",
+        ".5",
+        "2",
+        "2",
+        "2"
+      ],
+      [
+        "1",
+        "2",
+        "2",
+        "2",
+        "2",
+        "2"
+      ]
+    ],
+    "cooling-limited": [
+      [
+        "0",
+        "1",
+        ".5",
+        "1",
+        "2",
+        "2"
+      ],
+      [
+        "1",
+        "2",
+        "2",
+        "1",
+        "2",
+        "2"
+      ]
+    ],
+    "power-limited": [
+      [
+        "0",
+        "1",
+        ".5",
+        ".25",
+        ".5",
+        ".4"
+      ],
+      [
+        "1",
+        "2",
+        "2",
+        ".25",
+        ".5",
+        ".4"
+      ]
+    ],
+    "other": [
+      [
+        "0",
+        ".5",
+        ".5",
+        "2",
+        ".4",
+        "2"
+      ],
+      [
+        ".5",
+        "1",
+        ".5",
+        "2",
+        ".4",
+        ".25"
+      ],
+      [
+        "1",
+        "1.5",
+        "2",
+        "2",
+        ".4",
+        ".25"
+      ],
+      [
+        "1.5",
+        "2",
+        "2",
+        "2",
+        "2",
+        ".25"
+      ]
+    ]
+  },
+  "expected_by_state": {
+    "nominal": {
+      "offered": "5/2",
+      "delivered": "5/2",
+      "unserved": "0",
+      "deficit_time_s": "0",
+      "wrong_sum_component_deficit_s": "0"
+    },
+    "cooling-limited": {
+      "offered": "5/2",
+      "delivered": "3/2",
+      "unserved": "1",
+      "deficit_time_s": "1/2",
+      "wrong_sum_component_deficit_s": "1/2"
+    },
+    "power-limited": {
+      "offered": "5/2",
+      "delivered": "1/2",
+      "unserved": "2",
+      "deficit_time_s": "11/8",
+      "wrong_sum_component_deficit_s": "25/8"
+    },
+    "other": {
+      "offered": "5/2",
+      "delivered": "23/40",
+      "unserved": "77/40",
+      "deficit_time_s": "49/40",
+      "wrong_sum_component_deficit_s": "69/40"
+    }
+  },
+  "expected": {
+    "offered": "5/2",
+    "delivered": "2053/2060",
+    "unserved": "3097/2060",
+    "deficit_time_s": "15877/16480",
+    "wrong_sum_component_deficit_s": "29607/16480"
+  },
+  "units": {
+    "offered": "normalized_service_unit_s",
+    "delivered": "normalized_service_unit_s",
+    "unserved": "normalized_service_unit_s",
+    "deficit_time_s": "s"
+  },
+  "assertions": [
+    "All four latent states share identical external demand",
+    "Delivered service is min(offered,compute,network,storage)",
+    "Overlapping component losses cannot be summed",
+    "Expected deficit time differs from expected unserved work divided by one mean demand",
+    "No zero probability removes the declared other-state uncertainty",
+    "Window cut applies per interval before integration"
+  ],
+  "new_physical_runs": 0,
+  "registered_research_trials": 0
+}

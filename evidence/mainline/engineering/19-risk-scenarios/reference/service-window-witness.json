@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "scope": "Read-only preliminary independent arithmetic witness for the future risk-consequence ticket. Ticket 19 remains blocked on ticket 18 acceptance.",
+  "fixture_unit": "Demand and delivered are normalized service-unit seconds. Deficit time is integral of unserved fraction during positive demand.",
+  "cases": {
+    "network-storage-overlap": {
+      "run_path": "evidence/mainline/engineering/08-service/runs-60f21f25-01/network-storage-overlap/run.json",
+      "run_sha256": "acae45bc98bf6d284ef6319f1113cde30bb1bb7b6f2af911d111a08e34a8b75a",
+      "source_revision": "60f21f25dc55765124398215b065c2c29bac0dfb",
+      "literal_intervals": [
+        [
+          "0",
+          ".25",
+          "1",
+          "1",
+          "1",
+          "1"
+        ],
+        [
+          ".25",
+          ".75",
+          "1",
+          "1",
+          ".6",
+          "1"
+        ],
+        [
+          ".75",
+          "1.25",
+          "1",
+          "1",
+          ".6",
+          ".4"
+        ],
+        [
+          "1.25",
+          "1.75",
+          "1",
+          "1",
+          "1",
+          ".4"
+        ],
+        [
+          "1.75",
+          "2",
+          "1",
+          "1",
+          "1",
+          "1"
+        ]
+      ],
+      "windows": [
+        {
+          "window_s": [
+            "0",
+            "2"
+          ],
+          "offered": "2",
+          "delivered": "6/5",
+          "unserved": "4/5",
+          "normalized_deficit_s": "4/5",
+          "deliberately_wrong_component_sum_s": "1"
+        },
+        {
+          "window_s": [
+            ".5",
+            "1.5"
+          ],
+          "offered": "1",
+          "delivered": "9/20",
+          "unserved": "11/20",
+          "normalized_deficit_s": "11/20",
+          "deliberately_wrong_component_sum_s": "3/4"
+        },
+        {
+          "window_s": [
+            ".75",
+            "1.25"
+          ],
+          "offered": "1/2",
+          "delivered": "1/5",
+          "unserved": "3/10",
+          "normalized_deficit_s": "3/10",
+          "deliberately_wrong_component_sum_s": "1/2"
+        }
+      ]
+    },
+    "changing-fractional-demand": {
+      "run_path": "evidence/mainline/engineering/08-service/runs-60f21f25-01/changing-fractional-demand/run.json",
+      "run_sha256": "3a602892f4ed4440d55763e081bb3a7dad0d5c05903f141ac7844e7cf432f98c",
+      "source_revision": "60f21f25dc55765124398215b065c2c29bac0dfb",
+      "literal_intervals": [
+        [
+          "0",
+          "1",
+          ".5",
+          "1",
+          ".25",
+          "1"
+        ],
+        [
+          "1",
+          "2",
+          "2",
+          "2",
+          ".25",
+          "2"
+        ]
+      ],
+      "windows": [
+        {
+          "window_s": [
+            "0",
+            "2"
+          ],
+          "offered": "5/2",
+          "delivered": "1/2",
+          "unserved": "2",
+          "normalized_deficit_s": "11/8",
+          "deliberately_wrong_component_sum_s": "11/8"
+        },
+        {
+          "window_s": [
+            ".5",
+            "1.5"
+          ],
+          "offered": "5/4",
+          "delivered": "1/4",
+          "unserved": "1",
+          "normalized_deficit_s": "11/16",
+          "deliberately_wrong_component_sum_s": "11/16"
+        }
+      ]
+    },
+    "zero-then-positive-demand": {
+      "run_path": "evidence/mainline/engineering/08-service/runs-60f21f25-01/zero-then-positive-demand/run.json",
+      "run_sha256": "9a2ade1dfe5256e4231cd541905085f97fd77e8bd1e987259f42d731bc0b8ce7",
+      "source_revision": "60f21f25dc55765124398215b065c2c29bac0dfb",
+      "literal_intervals": [
+        [
+          "0",
+          "1",
+          "0",
+          "1",
+          ".25",
+          "1"
+        ],
+        [
+          "1",
+          "2",
+          "1",
+          "1",
+          ".25",
+          "1"
+        ]
+      ],
+      "windows": [
+        {
+          "window_s": [
+            "0",
+            "2"
+          ],
+          "offered": "1",
+          "delivered": "1/4",
+          "unserved": "3/4",
+          "normalized_deficit_s": "3/4",
+          "deliberately_wrong_component_sum_s": "3/4"
+        },
+        {
+          "window_s": [
+            "0",
+            "1"
+          ],
+          "offered": "0",
+          "delivered": "0",
+          "unserved": "0",
+          "normalized_deficit_s": "0",
+          "deliberately_wrong_component_sum_s": "0"
+        }
+      ]
+    }
+  },
+  "new_physical_runs": 0,
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}
