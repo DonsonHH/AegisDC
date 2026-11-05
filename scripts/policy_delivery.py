@@ -72,6 +72,22 @@ def check_case(folder,case,protocol):
         polls=run['policy_sensor_private_audit'];require(len(polls)==expected['sensor_polls'],'Decimal sensor prefix count differs')
         require(polls[-1]['poll_index']==expected['last_poll_index'],'Decimal counter identity differs')
         close(polls[-1]['polled_at_s'],expected['last_polled_at_s'],'Decimal prefix endpoint')
+    if 'fixed_records_per_decision' in expected:
+        actual=[[[r['observed_at_s'],r['arrived_at_s']] for r in d['frame']['evidence']['records']
+            if r['source_id']=='rectifier-meter-record'] for d in decisions]
+        require(actual==expected['fixed_records_per_decision'],'Literal fixed-sensor arrivals differ')
+        require([p['polled_at_s'] for p in run['policy_sensor_private_audit']]==expected['sensor_poll_epochs_s'],'Literal sensor epochs differ')
+        measured=[[r for r in d['frame']['evidence']['records'] if r['source_id']=='portable-intake-meter'] for d in decisions]
+        require([len(records) for records in measured]==expected['handheld_records_per_decision'],'Literal handheld availability differs')
+        if expected['handheld_measurement'] is not None:
+            reference=expected['handheld_measurement'];numerator,denominator=reference['value_squared_ratio']
+            for records in measured:
+                for record in records:
+                    close(record['observed_at_s'],reference['observed_at_s'],'Handheld measurement time')
+                    close(record['arrived_at_s'],reference['arrived_at_s'],'Handheld arrival time')
+                    close(record['value'],math.sqrt(numerator/denominator),'Independent initial filter flow')
+                    require(record['provenance']['origin_id']=='post-clean-flow','Handheld origin differs')
+        require(run['policy_public_resource_ledger']['spent_or_reserved']==expected['final_spent_or_reserved'],'Literal cumulative budget differs')
     if 'closure_status' in expected:
         question=decisions[-1]['choice']['question_lifecycle']['questions'][0]
         require(question['status']==expected['closure_status'] and not question['risk_closed'],'Action completion fabricated verification')

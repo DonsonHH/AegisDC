@@ -65,6 +65,8 @@ def main():
         ('periodic','periodic',[None,None,None,'first-inspection'],[],[]),
         ('risk-condition','risk_condition_priority_adapted',['first-inspection',None,'first-action',None],[1.25,3],[3]),
         ('one-observation','one_observation_lookahead',['first-inspection',None,'first-action',None],[1.25,3],[3])]
+    fixed_records=[[],[[0,.5],[1,1.5]],[[0,.5],[1,1.5]],[[0,.5],[1,1.5],[2,2.5],[3,3.5]]]
+    spent={'no-human':(0,0,0),'fifo':(20,20,2),'periodic':(10,10,1),'risk-condition':(20,20,2),'one-observation':(20,20,2)}
     for name,kind,choices,completed,effects in definitions:
         program=deepcopy(base);p=program['policy_program'];p['policy']=kind
         if kind in {'no_human','fifo'}:p['options']={}
@@ -75,7 +77,11 @@ def main():
                 conditions=[dict(candidate_id='first-action',source_ids=['portable-intake-meter'],target_id='intake_pump',observable_id='flow',
                     accepted_interval=[0,.07],not_before_s=0)])
         add(name,deepcopy(model),program,4,dict(chosen=choices,completed_at_s=completed,effect_at_s=effects,
-            delivered_service_unit_s=1,service_deficit_time_s=3,demand_service_unit_s=4))
+            delivered_service_unit_s=1,service_deficit_time_s=3,demand_service_unit_s=4,
+            fixed_records_per_decision=fixed_records,sensor_poll_epochs_s=[0,1,2,3,4],
+            handheld_records_per_decision=[0,0,1,1] if completed else [0,0,0,0],
+            handheld_measurement=dict(observed_at_s=1.25,arrived_at_s=1.75,value_squared_ratio=[1,340]) if completed else None,
+            final_spent_or_reserved=dict(zip(('person_s','tool_s','cost'),spent[name]))))
     # At4s the explicit periodic decision finally issues its due inspection;
     # finishing lies beyond this horizon, and no success/effect is credited.
     decimal=deepcopy(base);decimal['policy_program'].update(policy='no_human',options={})
