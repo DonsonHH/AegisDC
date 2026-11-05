@@ -234,5 +234,34 @@ class TestRiskScenarios(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'finite binary64 output range'):
             assess_risks(frame,belief,model)
 
+    def test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        frame,belief,model=inputs()
+        model['demand']=[dict(start_s=0,end_s=2,rate=1e308)]
+        for question in model['questions']:
+            question['window_s']=[0,1]
+            question['consequence_bounds']['service_deficit_time_s']['interval']=[0,1]
+            question['consequence_bounds']['unserved_service_unit_s']['interval']=[0,1e308]
+        for questions in (model['questions'],[]):
+            changed=deepcopy(model);changed['questions']=questions
+            with self.subTest(questions=len(questions)), self.assertRaisesRegex(ValueError,'finite binary64 output range'):
+                assess_risks(frame,belief,changed)
+
+    def test_cli_declines_full_horizon_overflow_without_traceback(self):
+        frame,belief,model=inputs()
+        model['demand']=[dict(start_s=0,end_s=2,rate=1e308)]
+        model['questions']=[]
+        with tempfile.TemporaryDirectory() as directory:
+            paths=[Path(directory)/name for name in ('frame.json','belief.json','catalog.json')]
+            for path,value in zip(paths,(frame,belief,model)):
+                path.write_text(json.dumps(value),encoding='utf-8')
+            result=subprocess.run([sys.executable,'-B','-X','utf8','-m','aegis_dc.risk_scenarios',
+                '--frame',str(paths[0]),'--belief-model',str(paths[1]),'--catalog',str(paths[2])],
+                cwd=ROOT,capture_output=True,text=True)
+            self.assertEqual(result.returncode,2)
+            self.assertEqual(result.stdout,'')
+            self.assertIn('finite binary64 output range',result.stderr)
+            self.assertNotIn('Traceback',result.stderr)
+
 if __name__ == '__main__':
     unittest.main()
