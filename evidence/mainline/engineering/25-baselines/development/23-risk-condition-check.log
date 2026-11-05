@@ -1,0 +1,18 @@
+test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit (test_dispatch_policy.DispatchPolicyTests.test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit) ... ERROR
+
+======================================================================
+ERROR: test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit (test_dispatch_policy.DispatchPolicyTests.test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 54, in test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit
+    first=choose_work(frame,program,history)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 112, in choose_work
+    return dict(schema='aegisdc-policy-choice-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],policy=program['policy'],
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'reason'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.092s
+
+FAILED (errors=1)

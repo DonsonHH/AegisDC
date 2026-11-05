@@ -22,7 +22,83 @@ def fixture(policy='fifo',time=0):
         workforce_profile=inputs['work_program']['profile'],candidates=candidates)
     return frame,program,dict(issued=[],work_feedback=[])
 
+def risk_fixture(time=0):
+    from aegis_dc.evidence_ledger import RECORD_FIELDS
+    load=lambda name:json.loads((ROOT/name).read_bytes())
+    accepted=load('evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json')
+    ledger=dict(schema='aegisdc-evidence-ledger-v1',id=accepted['evidence']['ledger_id'],facility_id=accepted['facility_id'],
+        basis='synthetic_assumption',time_unit='s',**accepted['evidence']['static_knowledge'],records=[])
+    ledger['sources'].append(dict(id='policy-condition-meter',kind='handheld',basis='synthetic_assumption',target_ids=['intake_pump'],
+        observable_ids=['flow'],dependency_group='policy-meter-chain',source_note='Declared finite professional condition measurement channel.'))
+    plan=dict(schema='aegisdc-public-preparation-plan-v1',id='risk-policy25',basis='synthetic_assumption',time_unit='s',decision_times_s=[time],requests=accepted['requests'])
+    frame=DecisionGateway(accepted['nominal_knowledge'],ledger,plan).next_frame()
+    _,program,history=fixture()
+    task=program['candidates'][0]['task']
+    task.update(id='cooling-inspection',target_id='intake_pump',work_interface_id='inspect_facility_cooling',
+        crew=[dict(worker_id='worker_cooling',qualification_id='qualified_cooling_inspection')],tool_carrier_id='worker_cooling')
+    repair=deepcopy(task);repair.update(id='filter-cleaning',target_id='filter')
+    unknown=deepcopy(task);unknown.update(id='room-inspection',target_id='room',work_interface_id='inspect_equipment_environment')
+    program.update(schema='aegisdc-dispatch-policy-program-v2',policy='risk_condition_priority_adapted',
+        candidates=[dict(id='cooling-check',kind='inspect',task=task,available_at_s=0,question_id='cooling',source_note='Declared cooling check.'),
+            dict(id='filter-action',kind='intervene',task=repair,available_at_s=0,question_id='cooling',source_note='Conditional filter action.'),
+            dict(id='unknown-room-check',kind='inspect',task=unknown,available_at_s=0,question_id='room-boundary',source_note='Unmodeled room question stays explicit.')],
+        options=dict(belief_model=load('configs/full-facility-belief-model-v1.json'),catalog=load('configs/full-facility-risk-scenarios-v1.json'),
+            preparation_requests=accepted['requests'],
+            minimum_service_deficit_s=0,unknown_inspection_policy='fifo',conditions=[dict(candidate_id='filter-action',source_ids=['policy-condition-meter'],
+                target_id='intake_pump',observable_id='flow',accepted_interval=[0,.05],not_before_s=0)]))
+    return frame,program,history,ledger,accepted['nominal_knowledge'],plan
+
 class DispatchPolicyTests(unittest.TestCase):
+    def test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
+        _,policy,_,ledger,nominal,_=risk_fixture()
+        inspection=inputs['work_program']['submissions'][0]['task']
+        action=deepcopy(inspection);action.update(id='conditional-filter-action',target_id='filter')
+        policy['candidates']=[dict(id='actual-check',kind='inspect',task=inspection,available_at_s=0,question_id='cooling',source_note='Actual paid cooling inspection.'),
+            dict(id='conditional-action',kind='intervene',task=action,available_at_s=0,question_id='cooling',source_note='Conditioned research operation.')]
+        policy['options']['catalog']['questions'][0]['target_ids'].append('internal_pump')
+        source_id=inputs['inspection_program']['profile']['nonfixed_profile']['models'][0]['source_id']
+        # The actual flow model named by the binding supplies this channel.
+        model_id=inputs['inspection_program']['profile']['bindings'][0]['model_id']
+        source_id=next(m['source_id'] for m in inputs['inspection_program']['profile']['nonfixed_profile']['models'] if m['model']['id']==model_id)
+        policy['options']['conditions']=[dict(candidate_id='conditional-action',source_ids=[source_id],target_id='internal_pump',observable_id='flow',accepted_interval=[-.01,.05],not_before_s=0)]
+        actions=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/filter-later-inspection.json').read_bytes())['intervention_program']
+        actions['bindings'][0]['task_id']=action['id']
+        program=dict(schema='aegisdc-policy-run-program-v1',id='online-risk-condition-engineering',policy_program=policy,
+            nominal_knowledge=nominal,evidence_ledger=ledger,decision_times_s=[0,2.5,3,7],inspection_program=inputs['inspection_program'],intervention_program=actions)
+        result=simulate_scenario(inputs['model'],duration_s=7,step_s=.01,dispatch_program=program,boundary_events=inputs['boundary_events'])
+        self.assertEqual([r['choice']['chosen_candidate_id'] for r in result['policy_public_decisions']],['actual-check',None,'conditional-action',None])
+        decision=result['policy_public_decisions'][2]
+        self.assertEqual(decision['choice']['reason'],'ARRIVED_CONDITION_MAINTENANCE_ADAPTATION')
+        self.assertEqual(decision['frame']['evidence']['records'][0]['arrived_at_s'],2.75)
+        self.assertEqual(result['intervention_private_audit']['events'][0]['applied_at_s'],6.25)
+        self.assertFalse(result['intervention_public_feedback'][0]['risk_closed'])
+
+    def test_risk_condition_policy_waits_for_arrived_condition_and_keeps_unknown_explicit(self):
+        from aegis_dc.dispatch_policy import choose_work
+        frame,program,history,ledger,nominal,plan=risk_fixture()
+        first=choose_work(frame,program,history)
+        self.assertEqual(first['chosen_candidate_id'],'cooling-check')
+        self.assertEqual(first['model_evaluations'],dict(risk=1,action_value=0))
+        unknown=next(c for c in first['candidates'] if c['candidate_id']=='unknown-room-check')
+        self.assertIsNone(unknown['risk_service_deficit_s'])
+        self.assertIn('room-boundary',first['unmodeled_question_ids'])
+        action=next(c for c in first['candidates'] if c['candidate_id']=='filter-action')
+        self.assertIn('NO_CURRENT_CONDITION_SUPPORT',action['reasons'])
+        ledger['records'].append(dict(id='low-flow-confirmation',source_id='policy-condition-meter',target_id='intake_pump',observable_id='flow',
+            unit='m3/s',value=.02,observed_at_s=.5,arrived_at_s=1,valid_until_s=3,
+            quality=dict(status='bounded',error_bound=.005,note='Declared finite numeric condition witness.'),
+            provenance=dict(origin_id='low-flow-origin',copied_from_record_id=None)))
+        plan['decision_times_s']=[.75];early=DecisionGateway(nominal,ledger,plan).next_frame()
+        self.assertEqual(choose_work(early,program,history)['chosen_candidate_id'],'cooling-check')
+        plan['decision_times_s']=[1];arrived=DecisionGateway(nominal,ledger,plan).next_frame()
+        ready=choose_work(arrived,program,history)
+        self.assertEqual(ready['chosen_candidate_id'],'filter-action')
+        self.assertEqual(ready['reason'],'ARRIVED_CONDITION_MAINTENANCE_ADAPTATION')
+        self.assertEqual(next(c for c in ready['candidates'] if c['candidate_id']=='filter-action')['condition_record_ids'],['low-flow-confirmation'])
+        plan['decision_times_s']=[3];expired=DecisionGateway(nominal,ledger,plan).next_frame()
+        self.assertNotEqual(choose_work(expired,program,history)['chosen_candidate_id'],'filter-action')
+
     def test_declared_inspection_cannot_silently_execute_an_intervention_binding(self):
         inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
         frame,policy,_=fixture()

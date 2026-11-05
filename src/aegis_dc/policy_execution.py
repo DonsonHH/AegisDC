@@ -56,7 +56,7 @@ class PolicySession:
             basis='synthetic_assumption',time_unit='s',**snapshot['static_knowledge'],
             records=[{k:r[k] for k in RECORD_FIELDS} for r in snapshot['records']])
         plan=dict(schema='aegisdc-public-preparation-plan-v1',id=self.program['id'],basis='synthetic_assumption',time_unit='s',
-            decision_times_s=[time_s],requests=[])
+            decision_times_s=[time_s],requests=deepcopy(self.program['policy_program'].get('options',{}).get('preparation_requests',[])))
         return DecisionGateway(self.nominal,document,plan).next_frame()
 
     def process(self,time_s,workforce,inspections,interventions):

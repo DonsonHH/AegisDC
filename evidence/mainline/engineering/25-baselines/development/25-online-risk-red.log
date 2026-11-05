@@ -1,0 +1,30 @@
+test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility (test_dispatch_policy.DispatchPolicyTests.test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility) ... ERROR
+
+======================================================================
+ERROR: test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility (test_dispatch_policy.DispatchPolicyTests.test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 69, in test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility
+    result=simulate_scenario(inputs['model'],duration_s=7,step_s=.01,dispatch_program=program,boundary_events=inputs['boundary_events'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\plant.py", line 786, in simulate_scenario
+    if dispatch is not None and dispatch.process(time_s,workforce,inspections,interventions):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\policy_execution.py", line 67, in process
+    choice=choose_work(frame,self.program['policy_program'],history)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 111, in choose_work
+    selected,detail=evaluate(frame,program['options'],candidates,audits)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\risk_condition_policy.py", line 30, in evaluate
+    _fields(options,OPTION_FIELDS,'Risk/condition policy options')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Risk/condition policy options fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.078s
+
+FAILED (errors=1)

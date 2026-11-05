@@ -54,8 +54,8 @@ def choose_work(frame,program,history):
         and program['basis']=='synthetic_assumption','Declare synthetic policy program')
     _text(program['id'],'Policy program id')
     _text(program['policy'],'Policy name')
-    _require(program['policy'] in ({'no_human','fifo','periodic'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
-    if version2 and program['policy']!='periodic':_fields(program['options'],set(),'Policy options')
+    _require(program['policy'] in ({'no_human','fifo','periodic','risk_condition_priority_adapted'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+    if version2 and program['policy'] in {'no_human','fifo'}:_fields(program['options'],set(),'Policy options')
     candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
     for candidate in candidates.values():
         _fields(candidate,CANDIDATE_FIELDS|({'kind'} if version2 else set()),'Policy candidate')
@@ -105,8 +105,15 @@ def choose_work(frame,program,history):
     eligible=sorted((c for c in audits if c['eligible']),key=lambda c:(c['available_at_s'],c['candidate_id']))
     if program['policy']=='periodic':eligible.sort(key=lambda c:(due[c['candidate_id']],c['candidate_id']))
     selected=eligible[0]['candidate_id'] if program['policy'] in {'fifo','periodic'} and eligible else None
+    detail=dict(model_evaluations=dict(risk=0,action_value=0),unmodeled_question_ids=[])
+    if program['policy']=='risk_condition_priority_adapted':
+        from .risk_condition_policy import evaluate
+        selected,detail=evaluate(frame,program['options'],candidates,audits)
+    reason=detail.pop('reason',None)
+    if reason is None:
+        reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else
+            ('EXPLICIT_PERIODIC_INSPECTION_REFERENCE' if program['policy']=='periodic' else 'FIFO_EARLIEST_AVAILABLE') if selected else 'NO_PUBLICLY_ELIGIBLE_CANDIDATE')
     return dict(schema='aegisdc-policy-choice-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],policy=program['policy'],
         chosen_candidate_id=selected,work_intention=deepcopy(candidates[selected]['task']) if selected else None,
-        reason='POLICY_NO_HUMAN' if program['policy']=='no_human' else
-            ('EXPLICIT_PERIODIC_INSPECTION_REFERENCE' if program['policy']=='periodic' else 'FIFO_EARLIEST_AVAILABLE') if selected else 'NO_PUBLICLY_ELIGIBLE_CANDIDATE',candidates=audits,
-        generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED')
+        reason=reason,candidates=audits,
+        generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED',**detail)
