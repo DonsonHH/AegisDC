@@ -4,6 +4,7 @@ import unittest
 
 from aegis_dc.decision_view import DecisionGateway
 from aegis_dc.dispatch_policy import choose_work
+from aegis_dc.evidence_ledger import RECORD_FIELDS
 from test_dispatch_policy import lookahead_run_fixture
 
 
@@ -42,7 +43,36 @@ def fixture():
     return frame,policy,dict(issued=[],work_feedback=[])
 
 
+def reframe(frame,time,records=None):
+    ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+        basis='synthetic_assumption',time_unit='s',**deepcopy(frame['evidence']['static_knowledge']),
+        records=[{k:deepcopy(r[k]) for k in RECORD_FIELDS} for r in (frame['evidence']['records'] if records is None else records)])
+    plan=dict(schema='aegisdc-public-preparation-plan-v1',id='candidate26-current-history',basis='synthetic_assumption',
+        time_unit='s',decision_times_s=[time],requests=frame['requests'])
+    return DecisionGateway(frame['nominal_knowledge'],ledger,plan).next_frame()
+
+
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_another_issued_inspection_with_no_arrived_result_is_not_an_empty_future_context(self):
+        frame,policy,history=fixture();frame=reframe(frame,1);policy['policy']='evidence_consistent_contingent'
+        other=deepcopy(policy['candidates'][0]);other.update(id='other-inspection');other['task']['id']='other-inspection-task'
+        policy['candidates'].append(other)
+        binding=deepcopy(policy['evidence_projection']['inspection_profile']['bindings'][0])
+        binding.update(task_id=other['task']['id'],record_id='other-result',provenance=dict(origin_id='other-result',copied_from_record_id=None))
+        policy['evidence_projection']['inspection_profile']['bindings'].append(binding)
+        history['issued']=[dict(candidate_id=other['id'],issued_at_s=0)]
+        pending=choose_work(frame,policy,history)
+        self.assertEqual(pending['prospective_evidence_audit'][0]['classification'],'UNMODELED')
+        self.assertIn('PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED',pending['prospective_evidence_audit'][0]['reasons'])
+        inspected=next(r for r in pending['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')
+        self.assertIsNone(inspected['expected_service_deficit_s'])
+        for status in ('aborted','rejected'):
+            history['work_feedback']=[dict(task_id=other['task']['id'],source_id='workforce-execution-report',
+                observed_at_s=.25,arrived_at_s=.75,status=status,reason='DECLARED_TASK_ADMISSION_REFUSAL' if status=='rejected' else 'DECLARED_ABORT',
+                location_id=None,origin_id='workforce:'+other['task']['id'],coverage='THIS_ISSUED_TASK_ONLY',basis='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL')]
+            choice=choose_work(frame,policy,history)
+            self.assertEqual(choice['prospective_evidence_audit'][0]['classification'],'NON_ADAPTIVE_UNDER_DECLARED_UPDATER')
+
     def test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access(self):
         for path in (('bindings',),('value_model',),('value_model','question_models'),
             ('value_model','question_models',0,'inspection','work_s'),('belief_model','channels'),

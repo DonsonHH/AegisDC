@@ -165,7 +165,7 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
         options=deepcopy(program['options'])
         projection=program['evidence_projection'] if program['policy']=='evidence_consistent_contingent' else None
         selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration,evidence_projection=projection,
-            policy_declaration=program if version4 else None)
+            policy_declaration=program if version4 else None,history=history)
     reason=detail.pop('reason',None)
     if reason is None:
         reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else

@@ -79,10 +79,23 @@ def _factor_signature(belief):
         for r in belief['record_audit'] if r['disposition']=='used')
 
 
-def project_inspections(frame,options,candidates,projection):
+def _pending_inspections(frame,candidates,bindings,history):
+    visible={r['id'] for r in frame['evidence']['records']}
+    stopped={r['task_id'] for r in history['work_feedback'] if r['status'] in {'aborted','rejected'}}
+    pending=[]
+    for issued in history['issued']:
+        candidate=candidates[issued['candidate_id']]
+        if candidate['kind']!='inspect':continue
+        task=candidate['task']['id'];binding=bindings.get(task)
+        if task not in stopped and (binding is None or binding['record_id'] not in visible):pending.append(task)
+    return sorted(pending)
+
+
+def project_inspections(frame,options,candidates,projection,history):
     validate_projection(frame,projection)
     profile=projection['inspection_profile'];bindings={b['task_id']:b for b in profile['bindings']}
     models={m['model']['id']:m for m in profile['nonfixed_profile']['models']}
+    pending_tasks=_pending_inspections(frame,candidates,bindings,history)
     belief_model=options['belief_model'];channels=belief_model['channels'];priority={c['id']:i for i,c in enumerate(channels)}
     independent={frozenset(pair) for pair in belief_model['independent_pairs']}
     current=infer_belief(frame,belief_model);calls=1;current_signature=_factor_signature(current)
@@ -97,10 +110,12 @@ def project_inspections(frame,options,candidates,projection):
         reasons=[];classification='UNMODELED';covered=['positive','negative','threshold_straddled','missing'] if model['model']['kind']=='numeric' else []
         audit=dict(question_id=q,classification=classification,predicted_observed_at_s=observed,predicted_arrived_at_s=arrival,
             predicted_valid_until_s=valid_until,covered_report_classes=covered,context_assumption=projection['context_assumption'],
-            unchanged_factor_record_ids=[],marginalization=None,proof='SUFFICIENT_STRUCTURAL_CONDITION_NOT_A_NECESSARY_INFORMATION_TEST')
+            unchanged_factor_record_ids=[],marginalization=None,pending_inspection_task_ids=pending_tasks,
+            proof='SUFFICIENT_STRUCTURAL_CONDITION_NOT_A_NECESSARY_INFORMATION_TEST')
         scope=belief_model['scope'];epoch=lambda t:(Fraction(t)-Fraction(scope['starts_at_s']))//Fraction(scope['epoch_s'])
         if epoch(now)!=epoch(arrival):reasons.append('CROSS_EPOCH_PROJECTION_UNMODELED')
         if _pending_background(projection['background_sensor_profile'],now,arrival):reasons.append('BACKGROUND_ARRIVAL_JOINT_LAW_UNMODELED')
+        if pending_tasks:reasons.append('PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED')
         if model['model']['kind']!='numeric':reasons.append('PRODUCER_CLASS_PARTITION_UNMODELED')
         prospective=next((c for c in channels if all(c[k]==model[k] for k in ('source_id','target_id','observable_id'))),None)
         _require(prospective is not None,'Projection measurement lacks a declared belief channel')

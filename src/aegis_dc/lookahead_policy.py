@@ -37,7 +37,7 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None,policy_declaration=None):
+def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None,policy_declaration=None,history=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
@@ -86,7 +86,7 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
     information=None;projection_audit=[];projection_calls=0
     if evidence_projection is not None:
         from .evidence_projection import project_inspections
-        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection)
+        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection,history)
     if policy_declaration is not None:
         values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information)
     by_id={r['candidate_id']:r for r in audits};plans=[];choices=[];branches=0
