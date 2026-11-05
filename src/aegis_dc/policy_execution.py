@@ -37,7 +37,7 @@ class PolicySession:
             fixed_sources={s['id'] for s in registry['sources']}
             _require(not any(r['source_id'] in fixed_sources for r in self.ledger['records']),
                 'Declare historical records separately from live fixed sensor sources')
-        if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v2':
+        if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}:
             inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
             intervention_ids={b['task_id'] for b in self.intervention_program['bindings']} if self.intervention_program is not None else set()
             _require(not inspection_ids&intervention_ids,'One task cannot combine inspection and physical intervention')
@@ -96,3 +96,10 @@ class PolicySession:
     def next_event(self,time_s):
         decision=self.times[self.index] if self.index<len(self.times) else math.inf
         return min(decision,self.sensors.next_event() if self.sensors is not None else math.inf)
+
+    def resource_ledger(self,time_s,workforce,inspections):
+        if self.program['policy_program']['schema']!='aegisdc-dispatch-policy-program-v3':return None
+        from .policy_budget import account
+        program=self.program['policy_program'];frame=self._frame(time_s,inspections)
+        return account(frame,program,dict(issued=self.issued,work_feedback=workforce.public_feedback(time_s)),
+            {c['id']:c for c in program['candidates']},[])

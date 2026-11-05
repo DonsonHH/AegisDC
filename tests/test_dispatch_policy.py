@@ -49,6 +49,31 @@ def risk_fixture(time=0):
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_common_budget_remains_spent_after_terminal_feedback_across_decisions(self):
+        from aegis_dc.dispatch_policy import choose_work
+        frame,policy,history=fixture()
+        policy.update(schema='aegisdc-dispatch-policy-program-v3',options={},
+            resource_budget=dict(person_s=15,tool_s=15,cost=1,cost_unit='research_cost_unit'))
+        for candidate in policy['candidates']:
+            candidate.update(kind='inspect',issue_cost=1)
+        first=choose_work(frame,policy,history)
+        self.assertEqual(first['chosen_candidate_id'],'a-first')
+        self.assertEqual(first['resource_ledger']['remaining'],dict(person_s=15,tool_s=15,cost=1))
+        history['issued']=[dict(candidate_id='a-first',issued_at_s=0)]
+        history['work_feedback']=[dict(task_id='work-first',source_id='workforce-execution-report',observed_at_s=1.25,
+            arrived_at_s=1.75,status='completed',reason=None,location_id='loc_it',origin_id='workforce:work-first',
+            coverage='THIS_ISSUED_TASK_ONLY',basis='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL')]
+        frame,_,_=fixture(time=2)
+        next_choice=choose_work(frame,policy,history)
+        self.assertIsNone(next_choice['chosen_candidate_id'])
+        self.assertEqual(next_choice['resource_ledger']['spent_or_reserved'],dict(person_s=10,tool_s=10,cost=1))
+        self.assertEqual(next_choice['resource_ledger']['remaining'],dict(person_s=5,tool_s=5,cost=0))
+        blocked=next(c for c in next_choice['candidates'] if c['candidate_id']=='b-second')
+        self.assertIn('COMMON_CUMULATIVE_BUDGET_EXHAUSTED',blocked['reasons'])
+        policy['policy']='no_human'
+        nohuman=choose_work(frame,policy,history)
+        self.assertEqual(nohuman['resource_ledger'],next_choice['resource_ledger'])
+
     def test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency(self):
         load=lambda name:json.loads((ROOT/name).read_bytes())
         inputs=load('evidence/mainline/engineering/23-interventions/reference/network-full.json')

@@ -46,11 +46,14 @@ def _history(frame,history,candidates):
 def choose_work(frame,program,history):
     """Choose a declared intention from current public information only."""
     frame=validate_current_frame(frame);_plain_json(program);_plain_json(history)
-    version2=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v2'
-    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set()),'Dispatch policy program')
+    _require(type(program) is dict,'Declare policy program object')
+    _text(program.get('schema'),'Policy program schema')
+    version3=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v3'
+    version2=type(program) is dict and program.get('schema') in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget'} if version3 else set()),'Dispatch policy program')
     _fields(history,{'issued','work_feedback'},'Public policy history')
     _text(program['schema'],'Policy program schema')
-    _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2'}
+    _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
         and program['basis']=='synthetic_assumption','Declare synthetic policy program')
     _text(program['id'],'Policy program id')
     _text(program['policy'],'Policy name')
@@ -58,7 +61,7 @@ def choose_work(frame,program,history):
     if version2 and program['policy'] in {'no_human','fifo'}:_fields(program['options'],set(),'Policy options')
     candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
     for candidate in candidates.values():
-        _fields(candidate,CANDIDATE_FIELDS|({'kind'} if version2 else set()),'Policy candidate')
+        _fields(candidate,CANDIDATE_FIELDS|({'kind'} if version2 else set())|({'issue_cost'} if version3 else set()),'Policy candidate')
         if version2:
             _text(candidate['kind'],'Declared policy intention kind')
             _require(candidate['kind'] in {'inspect','intervene'},'Declare inspection or intervention intention kind')
@@ -102,6 +105,10 @@ def choose_work(frame,program,history):
             if candidate['id'] not in due:audit['reasons'].append('NOT_IN_DECLARED_PERIODIC_REFERENCE')
             elif due[candidate['id']]>frame['as_of_s']:audit['reasons'].append('PERIODIC_REFERENCE_NOT_DUE')
         audit['reasons']=sorted(set(audit['reasons']));audit['eligible']=not audit['reasons']
+    ledger=None
+    if version3:
+        from .policy_budget import account
+        ledger=account(frame,program,history,candidates,audits)
     eligible=sorted((c for c in audits if c['eligible']),key=lambda c:(c['available_at_s'],c['candidate_id']))
     if program['policy']=='periodic':eligible.sort(key=lambda c:(due[c['candidate_id']],c['candidate_id']))
     selected=eligible[0]['candidate_id'] if program['policy'] in {'fifo','periodic'} and eligible else None
@@ -111,7 +118,12 @@ def choose_work(frame,program,history):
         selected,detail=evaluate(frame,program['options'],candidates,audits)
     elif program['policy']=='one_observation_lookahead':
         from .lookahead_policy import evaluate
-        selected,detail=evaluate(frame,program['options'],candidates,audits)
+        options=deepcopy(program['options'])
+        if ledger is not None:
+            _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
+            for key,value in ledger['remaining'].items():
+                options['value_model']['resource_budget'][key]=min(options['value_model']['resource_budget'][key],value)
+        selected,detail=evaluate(frame,options,candidates,audits)
     reason=detail.pop('reason',None)
     if reason is None:
         reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else
@@ -119,4 +131,5 @@ def choose_work(frame,program,history):
     return dict(schema='aegisdc-policy-choice-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],policy=program['policy'],
         chosen_candidate_id=selected,work_intention=deepcopy(candidates[selected]['task']) if selected else None,
         reason=reason,candidates=audits,
-        generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED',**detail)
+        generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED',
+        **({'resource_ledger':ledger} if version3 else {}),**detail)
