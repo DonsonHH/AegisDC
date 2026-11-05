@@ -85,12 +85,15 @@ class CrewWorkforce(Workforce):
     """The same facility resources, extended with incremental queues and crew rendezvous."""
     def __init__(self,scenario,parameters,program,duration_s):
         super().__init__(scenario,parameters,[],duration_s)
-        _plain_json(program);fields(program,{'schema','id','profile','submissions'},'Work program')
-        require(program['schema']=='aegisdc-work-program-v1','Unknown work program schema')
+        _plain_json(program)
+        incremental=program.get('schema')=='aegisdc-work-program-v2'
+        fields(program,{'schema','id','profile','submissions'}|({'initial_frame'} if incremental else set()),'Work program')
+        require(program['schema'] in {'aegisdc-work-program-v1','aegisdc-work-program-v2'},'Unknown work program schema')
         text(program['id'],'Program id')
         require(type(program['submissions']) is list,'Submissions must be a list')
-        require(bool(program['submissions']),'Declare at least one issued work intention')
-        first=validate_current_frame(program['submissions'][0]['frame'])
+        require(incremental or bool(program['submissions']),'Declare at least one issued work intention')
+        first=validate_current_frame(program['initial_frame'] if incremental else program['submissions'][0]['frame'])
+        if incremental:require(first['as_of_s']==0,'Incremental crew execution starts at the facility epoch')
         self.profile=validate_profile(program['profile'],first['nominal_knowledge'])
         require(scenario['id']==self.profile['facility_id'],'Physical/public facility identities differ')
         nominal=first['nominal_knowledge'];self.nominal=deepcopy(nominal);nominal_entities={x['id']:x for x in nominal['entities']}
