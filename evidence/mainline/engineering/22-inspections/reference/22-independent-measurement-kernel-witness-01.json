@@ -1,0 +1,48 @@
+{
+  "schema": "independent-ticket22-measurement-kernel-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "scope": "Numeric instrumentlawandprovenance invariants,notfieldmodel",
+  "cases": [
+    {
+      "id": "zero-noise-actual-signal",
+      "declared": {
+        "bias": 0,
+        "noise_bound": 0,
+        "public_error_bound": 0
+      },
+      "expected": "ReportedvalueequalswhitelistedactualcompletionSIvalueexactly"
+    },
+    {
+      "id": "bounded-error-same-public-quality",
+      "declared": {
+        "public_error_bound": 2,
+        "actual_bias": 1,
+        "actual_noise_bound": 0.5
+      },
+      "expected": "Actualerrorwithin[.5,1.5]andpublicbound2sameonallprivatekeyeddraws; source/quality_note/id/originunchanged"
+    },
+    {
+      "id": "repeat-snapshot-no-new-draw",
+      "expected": "Oneactualcompletedjob+instrument+originyieldsonecachedrecord; repeatedas_of snapshotscannotchangevalue"
+    },
+    {
+      "id": "unmeasured-target",
+      "expected": "Rejectbindingifinstrumentcoverage/measurementtargetdiffersactualcompletedtasktarget,unlessexplicitvalidatedsharedmeasurementcoverage"
+    },
+    {
+      "id": "incomplete-false-confirmation",
+      "expected": "Arrived/visitedbutworkunfinishedorabortneverproducesstatusconfirmednumericrecord"
+    },
+    {
+      "id": "unknown-condition",
+      "expected": "Completionactualbutinvalidconditionproducesdeclaredunknownvalueviaordinarylatency,nohiddenconditionlabelinpublicnote"
+    },
+    {
+      "id": "private-hidden-pair",
+      "expected": "Beforecompletion+latencyequalpublicknowledge producesidenticalpublicrecords; afterarrivaldifferencestraceonlytomodeledmeasurement"
+    }
+  ],
+  "assumption_separation": "Publicinstrumentperformancedeclaredonce; actualnoise/thresholdlatentclassificationprivate; integerzeroandfalsearevalidmeasurementsnotmissing",
+  "new_physical_runs": 0,
+  "registered_research_trials": 0
+}

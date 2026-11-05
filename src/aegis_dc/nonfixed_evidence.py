@@ -237,6 +237,30 @@ def _reported_number(value):
     return _finite(result, 'Reported measurement')
 
 
+def _measurement_result(model, token, signal, realization):
+    """Private pure observation law shared by fixture17 and actual execution22."""
+    if model['kind'] == 'unknown':
+        return None, dict(status='unknown', error_bound=None, note=model['quality_note']), dict(declared_indeterminate=True), None, None
+    realization = _realization(realization)
+    if model['kind'] == 'binary_detection' and (realization['bias'] != 0 or realization['noise_half_width'] != 0):
+        raise ValueError('Binary threshold performance is separate from the numeric bias/noise model')
+    if model['kind'] == 'numeric':
+        draw = _draw(realization, token, 'numeric-noise')
+        exact = Fraction(signal['value']) + Fraction(realization['bias']) + Fraction(realization['noise_half_width']) * (2 * draw - 1)
+        value = _reported_number(exact)
+        quality = dict(status='bounded', error_bound=model['reported_error_bound'], note=model['quality_note'])
+        outcome = dict(actual_error_vs_signal=_reported_number(Fraction(value)-Fraction(signal['value'])),
+            declared_bound_contains_signal=abs(Fraction(value)-Fraction(signal['value'])) <= Fraction(model['reported_error_bound']))
+    else:
+        draw = _draw(realization, token, 'threshold-detector')
+        latent = Fraction(signal['value']) >= Fraction(model['threshold'])
+        rate = model['sensitivity'] if latent else model['false_positive_rate']
+        value = draw < Fraction(rate)
+        quality = dict(status='reported', error_bound=None, note=model['quality_note'])
+        outcome = dict(latent_signal_above_threshold=latent, declared_detection_rate=rate)
+    return value, quality, outcome, realization, draw
+
+
 class NonfixedEvidenceProducer:
     """Produce only declared messages; this interface has no private fault input."""
 
@@ -283,33 +307,17 @@ class NonfixedEvidenceProducer:
         if SIGNALS[model['signal_id']][0] != token['target_id']:
             raise ValueError('Instrument channel and completion target differ')
         if model['kind'] == 'unknown':
-            realization, draw, value = None, None, None
             signal = dict(value=None, source_sample_at_s=None, private_source=None)
-            quality = dict(status='unknown', error_bound=None, note=model['quality_note'])
-            private_outcome = dict(declared_indeterminate=True)
         else:
             if type(private_signals) is not SavedRunSignals:
                 raise ValueError('Use the typed private SavedRunSignals adapter, not a world object or callback')
-            realization = _realization(realization)
-            if model['kind'] == 'binary_detection' and (realization['bias'] != 0 or realization['noise_half_width'] != 0):
+            # Validate private realization before opening the saved signal, as in17.
+            checked = _realization(realization)
+            if model['kind'] == 'binary_detection' and (checked['bias'] != 0 or checked['noise_half_width'] != 0):
                 raise ValueError('Binary threshold performance is separate from the numeric bias/noise model')
             signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
                 target_id=token['target_id'], facility_id=self._registry['facility_id'])
-            if model['kind'] == 'numeric':
-                draw = _draw(realization, token, 'numeric-noise')
-                exact = Fraction(signal['value']) + Fraction(realization['bias']) \
-                    + Fraction(realization['noise_half_width']) * (2 * draw - 1)
-                value = _reported_number(exact)
-                quality = dict(status='bounded', error_bound=model['reported_error_bound'], note=model['quality_note'])
-                private_outcome = dict(actual_error_vs_signal=_reported_number(Fraction(value)-Fraction(signal['value'])),
-                    declared_bound_contains_signal=abs(Fraction(value)-Fraction(signal['value'])) <= Fraction(model['reported_error_bound']))
-            else:
-                draw = _draw(realization, token, 'threshold-detector')
-                latent = Fraction(signal['value']) >= Fraction(model['threshold'])
-                rate = model['sensitivity'] if latent else model['false_positive_rate']
-                value = draw < Fraction(rate)
-                quality = dict(status='reported', error_bound=None, note=model['quality_note'])
-                private_outcome = dict(latent_signal_above_threshold=latent, declared_detection_rate=rate)
+        value, quality, private_outcome, realization, draw = _measurement_result(model, token, signal, realization)
         record = dict(id=token['id'], source_id=token['source_id'], target_id=token['target_id'],
             observable_id=token['observable_id'], unit=observable['unit'], value=value,
             observed_at_s=token['completed_at_s'], arrived_at_s=_arrival(token['completed_at_s'], token['arrival_latency_s']),
