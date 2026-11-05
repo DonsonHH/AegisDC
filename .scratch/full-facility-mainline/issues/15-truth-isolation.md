@@ -4,13 +4,13 @@
 
 **Blocked by:** 14
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M3
 
-- [ ] 调度API只收到允许的静态知识与证据，无后台对象/未来标签引用。
-- [ ] 隐藏故障本身不自动生成已知问题；必须经过声明的观测通道。
-- [ ] 保护使用本地测量的例外不扩展为调度全覆盖权限。
+- [x] 调度API只收到允许的静态知识与证据，无后台对象/未来标签引用。
+- [x] 隐藏故障本身不自动生成已知问题；必须经过声明的观测通道。
+- [x] 保护使用本地测量的例外不扩展为调度全覆盖权限。
 
 ## Context
 
@@ -38,3 +38,5 @@ canonical V6 public input authoring tool, actual paired private-world audit,
 capture/data-figure tools and a read-only fresh Git-delivery verifier. The
 development green log is not a frozen-source formal capture. Root review and
 acceptance remain pending.
+
+Root acceptance: `docs/mainline/evidence/15-root.json`. The integrated execution at `777ee58541a4cb2be2ff200de2ac135c6f13affe` passed all 420 checks. See `evidence/mainline/engineering/15-17-root-acceptance/README.md`.

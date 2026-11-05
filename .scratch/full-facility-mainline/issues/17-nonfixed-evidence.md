@@ -4,13 +4,13 @@
 
 **Blocked by:** 14
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M3
 
-- [ ] 正常和阴性结果可记录，误报/漏报及覆盖范围显式。
-- [ ] 检查结果在动作完成后才可用，设施在检查期间继续演化。
-- [ ] 同源信息和陈旧历史不能无条件重复叠乘。
+- [x] 正常和阴性结果可记录，误报/漏报及覆盖范围显式。
+- [x] 检查结果在动作完成后才可用，设施在检查期间继续演化。
+- [x] 同源信息和陈旧历史不能无条件重复叠乘。
 
 ## Context
 
@@ -27,3 +27,5 @@ Owner `/root/mainline_02_merge`, branch `donson/mainline-17-nonfixed`, sole work
 Pre-agreed seams are the authorized nonfixed record producer into existing14 `ingest`/`snapshot`, and a typed producer-side completion gate with a private exact-saved-signal adapter. Tests use these public boundaries, never private plant/ledger methods. History/manual claims test declared source/time/quality/provenance and delayed/stale admission, not truth calibration. Completion/measurement slices test coverage, status/declared qualification, actual completion/latency and reproducible declared error models; they do not test the professional route/resource executor (21/22). The existing M1 completed work effect is NO_REPAIR_OR_EVIDENCE and is not a completion token.
 
 Implementation contract: `docs/mainline/17-nonfixed-evidence.md`. Root authorized these producer/adapter seams in the assignment; no additional permission gate is inferred from TDD. Red/green slices, frozen engineering capture and independent root review remain required.
+
+Root acceptance: `docs/mainline/evidence/17-root.json`. The integrated execution at `777ee58541a4cb2be2ff200de2ac135c6f13affe` passed all 420 checks. See `evidence/mainline/engineering/15-17-root-acceptance/README.md`.

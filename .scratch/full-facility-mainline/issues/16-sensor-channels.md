@@ -4,13 +4,13 @@
 
 **Blocked by:** 14
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M3
 
-- [ ] 测点掩码不是全资产数组的隐含真值。
-- [ ] 测量误差/偏差和共同来源机制可单独改变；观测与故障过程不硬绑定成必报。
-- [ ] 无固定测点输入时，历史/人工/现场证据路径仍可工作。
+- [x] 测点掩码不是全资产数组的隐含真值。
+- [x] 测量误差/偏差和共同来源机制可单独改变；观测与故障过程不硬绑定成必报。
+- [x] 无固定测点输入时，历史/人工/现场证据路径仍可工作。
 
 ## Context
 
@@ -57,3 +57,5 @@ delivery and fresh-checkout proofs. The observation component passes; status is
 Ticket lifecycle stays claimed pending root Standards/Spec reviews and the
 integrated correct-environment/Torch regression. M3, mechanism comparisons,
 agent/RSI eligibility and the complete-facility objective are not resolved.
+
+Root acceptance: `docs/mainline/evidence/16-root.json`. The integrated execution at `777ee58541a4cb2be2ff200de2ac135c6f13affe` passed all 420 checks. See `evidence/mainline/engineering/15-17-root-acceptance/README.md`.
