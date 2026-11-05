@@ -25,3 +25,5 @@ Apply `docs/mainline/information-boundary.md` to access and task feasibility. Un
 Pending implementation and acceptance.
 
 Assigned independent ready slice: `/root/m4_21_workforce`, branch `donson/mainline-21-workforce`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline21-workforce/Renly`. Predecessors07/14 are accepted; current mainline primary remains19. This assignment does not accept M4 or start registered effects.
+
+Author candidate: docs/mainline/evidence/21.json; illustrated report and separately source-pinned normal/safety correction witnesses: evidence/mainline/engineering/21-workforce/README.md. Status remains claimed and acceptance checkboxes remain open pending independent review and Root integrated regression.
