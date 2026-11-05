@@ -2,6 +2,9 @@
 from copy import deepcopy
 import json
 import math
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 import unittest
 from aegis_dc.decision_view import DecisionGateway
@@ -145,5 +148,23 @@ class InterventionExecutionTests(unittest.TestCase):
         self.assertIn('declared_professional_work_too_short',assessment['public_reasons'])
         bad=deepcopy(actions['profile']);bad['authorizations'][0]['operation_ids']=[{}]
         with self.assertRaises(ValueError):prepare_intervention(frame,work['profile'],task,bad,actions['bindings'][0])
+
+    def test_operator_cli_runs_named_completion_effect_and_rejects_arbitrary_parameter_write(self):
+        scenario,work,actions=fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            paths=[Path(directory)/n for n in ('model.json','work.json','actions.json')]
+            for path,value in zip(paths,(scenario,work,actions)):path.write_text(json.dumps(value),encoding='utf-8')
+            command=[sys.executable,'-B','-X','utf8','-m','aegis_dc','simulate','--model',str(paths[0]),
+                '--work-program',str(paths[1]),'--intervention-program',str(paths[2]),'--duration','1.5','--step','.01']
+            called=subprocess.run(command,cwd=ROOT,capture_output=True,text=True)
+            self.assertEqual(called.returncode,0,called.stderr)
+            result=json.loads(called.stdout)
+            self.assertEqual(result['intervention_private_audit']['events'][0]['applied_at_s'],1.25)
+            actions['bindings'][0]['parameter_id']='service_demand'
+            paths[2].write_text(json.dumps(actions),encoding='utf-8')
+            declined=subprocess.run(command,cwd=ROOT,capture_output=True,text=True)
+            self.assertEqual(declined.returncode,2)
+            self.assertEqual(declined.stdout,'')
+            self.assertNotIn('Traceback',declined.stderr)
 
 if __name__=='__main__':unittest.main()
