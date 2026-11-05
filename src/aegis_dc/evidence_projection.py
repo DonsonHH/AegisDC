@@ -122,6 +122,8 @@ def project_inspections(frame,options,candidates,projection,history):
             proof='SUFFICIENT_STRUCTURAL_CONDITION_NOT_A_NECESSARY_INFORMATION_TEST')
         scope=belief_model['scope'];epoch=lambda t:(Fraction(t)-Fraction(scope['starts_at_s']))//Fraction(scope['epoch_s'])
         if observed<=now or observed<=work_started:reasons.append('PROJECTED_MEASUREMENT_CLOCK_NOT_ADVANCING')
+        if Fraction(local['inspection']['work_s'])<Fraction(binding['minimum_work_s']) or observed<work_started+binding['minimum_work_s']:
+            reasons.append('DECLARED_WORK_BELOW_MEASUREMENT_MINIMUM')
         if epoch(now)!=epoch(arrival):reasons.append('CROSS_EPOCH_PROJECTION_UNMODELED')
         if _pending_background(projection['background_sensor_profile'],now,arrival):reasons.append('BACKGROUND_ARRIVAL_JOINT_LAW_UNMODELED')
         if pending_tasks:reasons.append('PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED')

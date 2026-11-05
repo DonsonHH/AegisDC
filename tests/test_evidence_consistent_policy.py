@@ -55,6 +55,30 @@ def reframe(frame,time,records=None):
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_work_below_measurement_minimum_is_legal_work_with_unknown_information_value(self):
+        frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'
+        policy['evidence_projection']['inspection_profile']['bindings'][0]['minimum_work_s']=2
+        choice=choose_work(frame,policy,history)
+        inspection=next(r for r in choice['candidates'] if r['candidate_id']=='first-inspection')
+        self.assertTrue(inspection['public_assessment']['legal_for_planning'])
+        audit=choice['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'UNMODELED')
+        self.assertIn('DECLARED_WORK_BELOW_MEASUREMENT_MINIMUM',audit['reasons'])
+        plan=next(r for r in choice['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')
+        self.assertIsNone(plan['expected_service_deficit_s'])
+
+    def test_public_inspection_binding_rejects_wrong_target_tool_and_qualification(self):
+        for mismatch in ('target','tool','qualification'):
+            frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'
+            binding=policy['evidence_projection']['inspection_profile']['bindings'][0]
+            if mismatch=='target':
+                policy['candidates'][0]['task']['target_id']='filter'
+                request=next(r for r in frame['requests'] if r['id']=='intent-filter-check');request['target_id']='filter'
+                policy['options']['preparation_requests']=deepcopy(frame['requests'])
+            elif mismatch=='tool':binding['tool_id']='tool_it_diagnostic'
+            else:binding['qualification_id']='qualified_it_inspection'
+            with self.subTest(mismatch=mismatch),self.assertRaises(ValueError):choose_work(frame,policy,history)
+
     def test_background_profile_must_share_facility_entities_and_registry_for_every_v4_policy(self):
         original=json.loads((Path(__file__).resolve().parents[1]/'configs/full-facility-sensor-channels-v1.json').read_bytes())
         for name in ('one_observation_lookahead','evidence_consistent_contingent'):

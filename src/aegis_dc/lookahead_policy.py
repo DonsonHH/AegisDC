@@ -7,7 +7,7 @@ from .evidence_ledger import _fields,_require,_text
 OPTION_FIELDS={'belief_model','catalog','preparation_requests','value_model','bindings','unknown_inspection_policy'}
 BIND_FIELDS={'question_id','inspection_candidate_id','intervention_candidate_id','source_note'}
 
-def validate_execution_bindings(policy,inspection_program):
+def validate_execution_bindings(policy,inspection_program,*,frame=None):
     """Bind known work/report timing and reference report law to actual interfaces."""
     options=policy['options'];candidates={c['id']:c for c in policy['candidates']}
     locals={q['question_id']:q for q in options['value_model']['question_models']}
@@ -29,6 +29,13 @@ def validate_execution_bindings(policy,inspection_program):
         _require(local['inspection']['report_latency_s']==binding['arrival_latency_s'],
             'Forecast report latency differs from its actual observation channel')
         measured=models[binding['model_id']]
+        if frame is not None:
+            interface=next(i for i in frame['nominal_knowledge']['work_interfaces'] if i['id']==task['work_interface_id'])
+            entities={e['id']:e for e in frame['nominal_knowledge']['entities']}
+            _require(measured['target_id']==task['target_id'],'Inspection model target differs from the public work target')
+            _require(binding['tool_id'] in interface['tool_ids'] and binding['tool_id'] in entities
+                and entities[binding['tool_id']]['kind']=='tool','Inspection tool must be occupied by the declared public work interface')
+            _require(binding['qualification_id']==interface['qualification_id'],'Inspection qualification differs from the public work interface')
         channels=[c for c in belief['channels'] if all(c[k]==measured[k] for k in ('source_id','target_id','observable_id'))]
         _require(len(channels)==1,'Actual lookahead inspection requires one declared belief update channel')
         channel=channels[0];reference_value=local['variants'][0]
@@ -82,7 +89,7 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         bindings[q]=binding
     _require(set(bindings)==set(locals),'Bind every declared finite value question')
     if policy_declaration is not None:
-        validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']))
+        validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']),frame=frame)
     information=None;projection_audit=[];projection_calls=0
     if evidence_projection is not None:
         from .evidence_projection import project_inspections
