@@ -4,7 +4,7 @@
 
 **Blocked by:** 15, 16, 17
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -18,4 +18,4 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Implementation candidate: `docs/mainline/evidence/18.json`; source-frozen author capture and fresh Git delivery proof are documented in `evidence/mainline/engineering/18-beliefs/README.md`. Root integrated full regression and independent review are pending. This ticket is not resolved.
