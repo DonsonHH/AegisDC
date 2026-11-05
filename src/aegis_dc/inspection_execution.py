@@ -110,7 +110,10 @@ class InspectionSession:
                 elif high<threshold:confirmation='CONFIRMED_BELOW_THRESHOLD'
             self.feedback.append(dict(task_id=task['id'],record_id=record['id'],
                 observed_at_s=time_s,arrived_at_s=record['arrived_at_s'],confirmation=confirmation,
-                scope='NAMED_SIGNAL_THRESHOLD_ONLY_NOT_FAULT_DIAGNOSIS',source_id=record['source_id'],
+                scope='NAMED_SIGNAL_THRESHOLD_ONLY_NOT_FAULT_DIAGNOSIS',valid_until_s=record['valid_until_s'],
+                provenance=deepcopy(record['provenance']),additional_evidence_factor=False,
+                interpretation='Historical threshold finding supported only by the named measurement record; not current risk authorization',
+                source_id=record['source_id'],
                 target_id=record['target_id'],observable_id=record['observable_id']))
 
             self.events.append(dict(audit,disposition='CONDITION_OUTSIDE_DECLARED_RANGE' if not condition_ok else 'INDETERMINATE_READING' if model['kind']=='unknown' else 'OBSERVATION_REPORTED',
@@ -124,7 +127,12 @@ class InspectionSession:
     def public_feedback(self,as_of_s):
         _finite(as_of_s,'Inspection feedback time')
         require(0<=as_of_s<=self.last_time,'Inspection feedback cannot query the future')
-        return deepcopy([r for r in self.feedback if r['arrived_at_s']<=as_of_s])
+        rows=deepcopy([r for r in self.feedback if r['arrived_at_s']<=as_of_s])
+        records={r['id']:r for r in self.ledger.snapshot(as_of_s)['records']}
+        for row in rows:
+            row['availability']=records[row['record_id']]['availability']
+            row['current_confirmation']=(row['availability']=='current' and row['confirmation']!='UNCONFIRMED')
+        return rows
     def public_models(self):
         return dict(schema='aegisdc-inspection-public-models-v1',
             nonfixed_profile=deepcopy(self.profile),

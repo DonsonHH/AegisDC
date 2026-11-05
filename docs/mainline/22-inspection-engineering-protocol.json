@@ -1,0 +1,56 @@
+{
+  "schema": "aegisdc-inspection-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "22",
+  "input": "evidence/mainline/engineering/22-inspections/reference/input-v1.json",
+  "duration_s": 3,
+  "maximum_step_s": 0.01,
+  "formal_physical_runs": 1,
+  "formal_cli_runs": 0,
+  "expected": {
+    "arrived_at_s": 1.25,
+    "work_started_at_s": 1.25,
+    "completed_at_s": 2.25,
+    "observed_at_s": 2.25,
+    "arrived_record_at_s": 2.75,
+    "initial_flow_m3_s": 0.12,
+    "completion_flow_m3_s": 0,
+    "physical_change_at_s": 1.75
+  },
+  "witnesses": [
+    "evidence/mainline/engineering/22-inspections/reference/22-independent-completion-measurement-witness-01.json",
+    "evidence/mainline/engineering/22-inspections/reference/22-independent-measurement-kernel-witness-01.json"
+  ],
+  "contract": "docs/mainline/22-inspection-contract.md",
+  "authoring_tool": "scripts/inspection_delivery.py",
+  "absolute_tolerance": 1e-12,
+  "durable_outputs": [
+    "attempt.json",
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl",
+    "checks.json",
+    "public-before-completion.json",
+    "public-before-arrival.json",
+    "public-at-arrival.json",
+    "inspection-timing.svg",
+    "inspection-boundary.svg"
+  ],
+  "terminal_receipt": "receipt.json",
+  "full_regression": "ROOT_INTEGRATED_ONLY_NOT_AUTHOR",
+  "retries": "Never overwrite. Keep failed attempt/terminal receipt and use a new frozen correction protocol and output directory.",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "snapshot_as_of_s": {
+    "public-before-completion.json": 2.2499999999999996,
+    "public-before-arrival.json": 2.7499999999999996,
+    "public-at-arrival.json": 2.75
+  },
+  "snapshot_method": "Read-only reconstruction from the actual produced completion record through the accepted14 strict time gates; not an additional physical run or a dispatch view of the private trace.",
+  "reference_model": "configs/full-facility-mainline-reserve-v6.json",
+  "reference_property": "configs/materials/reference-r134a-saturation.json",
+  "runtime_source_rule": "All tracked Python sources under src at execution, authoring tool, protocol, contract, reference inputs/property and exact development logs are pinned before execution; caches are excluded."
+}

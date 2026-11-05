@@ -130,6 +130,11 @@ class InspectionExecutionTests(unittest.TestCase):
         self.assertEqual(row['valid_until_s'],1.75)
         self.assertEqual(row['arrived_at_s'],2.25)
         self.assertEqual(row['availability'],'expired')
+        feedback=late['inspection_public_feedback'][0]
+        self.assertEqual(feedback['availability'],'expired')
+        self.assertFalse(feedback['current_confirmation'])
+        self.assertEqual(feedback['provenance'],row['provenance'])
+        self.assertFalse(feedback['additional_evidence_factor'])
 
     def test_operator_cli_uses_real_completion_and_refuses_fixture_tokens(self):
         scenario,work,inspection=fixture()
