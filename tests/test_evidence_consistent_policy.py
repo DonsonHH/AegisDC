@@ -43,6 +43,16 @@ def fixture():
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access(self):
+        for path in (('bindings',),('value_model',),('value_model','question_models'),
+            ('value_model','question_models',0,'inspection','work_s'),('belief_model','channels'),
+            ('catalog','outcomes',0,'conditional_probability'),('bindings',0,'inspection_candidate_id')):
+            frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'
+            parent=policy['options']
+            for key in path[:-1]:parent=parent[key]
+            del parent[path[-1]]
+            with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+
     def test_result_independent_rejection_removes_false_contingent_credit_without_changing_report_law(self):
         frame,policy,history=fixture();before=deepcopy((frame,policy,history))
         baseline=choose_work(frame,policy,history)

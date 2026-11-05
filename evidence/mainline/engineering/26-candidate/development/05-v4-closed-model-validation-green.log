@@ -1,0 +1,19 @@
+test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) ... 
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model',)) ... ERROR
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 167, in choose_work
+    _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
+             ~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'value_model'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.388s
+
+FAILED (errors=1)

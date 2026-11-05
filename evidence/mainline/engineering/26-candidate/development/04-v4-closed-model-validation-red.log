@@ -1,0 +1,118 @@
+test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) ... 
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('bindings',)) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model',)) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model', 'question_models')) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model', 'question_models', 0, 'inspection', 'work_s')) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('belief_model', 'channels')) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('catalog', 'outcomes', 0, 'conditional_probability')) ... ERROR
+  test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('bindings', 0, 'inspection_candidate_id')) ... ERROR
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('bindings',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 19, in validate_execution_bindings
+    for mapping in options['bindings']:
+                   ~~~~~~~^^^^^^^^^^^^
+KeyError: 'bindings'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 167, in choose_work
+    _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
+             ~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'value_model'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model', 'question_models'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 13, in validate_execution_bindings
+    locals={q['question_id']:q for q in options['value_model']['question_models']}
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'question_models'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('value_model', 'question_models', 0, 'inspection', 'work_s'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 23, in validate_execution_bindings
+    _require(local[stage]['work_s']==policy['workforce_profile']['work_times_s'][task['work_interface_id']],
+             ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'work_s'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('belief_model', 'channels'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 32, in validate_execution_bindings
+    channels=[c for c in belief['channels'] if all(c[k]==measured[k] for k in ('source_id','target_id','observable_id'))]
+                         ~~~~~~^^^^^^^^^^^^
+KeyError: 'channels'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('catalog', 'outcomes', 0, 'conditional_probability'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 35, in validate_execution_bindings
+    expected=[sum(Fraction(str(o['conditional_probability'][h['id']]))*Fraction(str(reference_value['positive_likelihood'][o['id']]))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 35, in <genexpr>
+    expected=[sum(Fraction(str(o['conditional_probability'][h['id']]))*Fraction(str(reference_value['positive_likelihood'][o['id']]))
+                               ~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'conditional_probability'
+
+======================================================================
+ERROR: test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access) (path=('bindings', 0, 'inspection_candidate_id'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 54, in test_malformed_v4_options_and_nested_models_are_rejected_before_binding_or_projection_access
+    with self.subTest(path=path),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 168, in choose_work
+    if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\lookahead_policy.py", line 22, in validate_execution_bindings
+    candidate=candidates[mapping[key]];task=candidate['task']
+                         ~~~~~~~^^^^^
+KeyError: 'inspection_candidate_id'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.299s
+
+FAILED (errors=7)

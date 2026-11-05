@@ -37,18 +37,20 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None):
+def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None,policy_declaration=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
+    # v4 adds an early execution/projection consumer. Validate the complete
+    # existing value/risk/belief model before that consumer indexes any child.
+    # This is a real extra assessment and is reported separately in call counts.
+    values=assess_action_value(frame,options['belief_model'],options['catalog'],options['value_model']) if policy_declaration is not None else None
     model=deepcopy(options['value_model'])
     for local in model['question_models']:
         local['action_on_positive']=local['action_on_negative']='minimum_service_deficit'
-    information=None;projection_audit=[];projection_calls=0
-    if evidence_projection is not None:
-        from .evidence_projection import project_inspections
-        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection)
-    values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information)
+    if values is None:values=assess_action_value(frame,options['belief_model'],options['catalog'],model)
+    if admission_budget is not None:
+        _require(model['cost_unit']==admission_budget.cost_unit,'Shared policy and value-model cost units differ')
     locals={row['question_id']:row for row in model['question_models']}
     requests={r['id']:r for r in frame['requests']}
     questions={q['id']:q for q in values['risk']['questions']}
@@ -79,6 +81,14 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
             bound_ids.add(candidate['id'])
         bindings[q]=binding
     _require(set(bindings)==set(locals),'Bind every declared finite value question')
+    if policy_declaration is not None:
+        validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']))
+    information=None;projection_audit=[];projection_calls=0
+    if evidence_projection is not None:
+        from .evidence_projection import project_inspections
+        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection)
+    if policy_declaration is not None:
+        values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information)
     by_id={r['candidate_id']:r for r in audits};plans=[];choices=[];branches=0
     for value in values['question_values']:
         q=value['question_id'];binding=bindings[q];alternatives=[]
@@ -130,7 +140,7 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         if audit['candidate_id'] not in bound_ids and audit['question_id'] not in unmodeled:
             audit['reasons'].append('NO_DECLARED_FINITE_VALUE_BINDING');audit['eligible']=False
         audit['forecast_selected']=audit['candidate_id']==selected
-    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=1,**({'prospective_belief':projection_calls} if evidence_projection is not None else {})),unmodeled_question_ids=sorted(unmodeled),
+    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,**({'prospective_belief':projection_calls} if evidence_projection is not None else {})),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
         forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,

@@ -161,13 +161,11 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
         from .risk_condition_policy import evaluate
         selected,detail=evaluate(frame,program['options'],candidates,audits)
     elif program['policy'] in {'one_observation_lookahead','evidence_consistent_contingent'}:
-        from .lookahead_policy import evaluate,validate_execution_bindings
+        from .lookahead_policy import evaluate
         options=deepcopy(program['options'])
-        if ledger is not None:
-            _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
-        if version4:validate_execution_bindings(program,dict(profile=program['evidence_projection']['inspection_profile']))
         projection=program['evidence_projection'] if program['policy']=='evidence_consistent_contingent' else None
-        selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration,evidence_projection=projection)
+        selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration,evidence_projection=projection,
+            policy_declaration=program if version4 else None)
     reason=detail.pop('reason',None)
     if reason is None:
         reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else
