@@ -172,7 +172,10 @@ def capture(folder,protocol):
         receipt.update(status='FAIL',failures=1,error_type=type(error).__name__,error=str(error));raise
     finally:
         receipt['source_head_and_bytes_unchanged']=unchanged(source,identities)
-        if not receipt['source_head_and_bytes_unchanged']:receipt['status']='FAIL'
+        if not receipt['source_head_and_bytes_unchanged']:
+            receipt.update(status='FAIL',failures=1)
+            receipt.setdefault('error_type','SourceGuardError')
+            receipt.setdefault('error','Pinned source or HEAD changed during capture')
         receipt['artifacts']={name:digest((folder/name).read_bytes()) for name in sorted(durable(folder))}
         write(folder/'receipt.json',receipt)
     require(receipt['source_head_and_bytes_unchanged'],'Source changed during capture')
