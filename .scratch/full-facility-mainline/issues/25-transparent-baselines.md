@@ -22,3 +22,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Pending implementation and acceptance.
 
 Owner `/root`, branch `donson/mainline-25-baselines`; accepted24source2b8d/512checks and publicationd487. Public current evidence/action/CLI seams remain the implementation boundary. No policy effect experiments before30.
+
+Development milestone only: `c54b24aab132948737bd444ba0cc6aa2eed960e4` on the assigned branch adds a public no-human/FIFO selector, arrived-feedback resource book and expired-intention audit; 3 focused methods pass. See `docs/mainline/25-policy-execution.md` and `docs/research/20261105/baseline-selection.md`. Same-facility dynamic execution, periodic/risk/literature policies, authority/inspection/closure binding, frozen evidence and independent/root gates remain required. No formal25capture/full run or effect trial has run.
