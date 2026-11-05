@@ -18,6 +18,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Implementation candidate: `docs/mainline/evidence/18.json`; source-frozen author capture and fresh Git delivery proof are documented in `evidence/mainline/engineering/18-beliefs/README.md`. Root integrated full regression and independent review are pending. This ticket is not resolved.
+Implementation candidate: `docs/mainline/evidence/18.json`; source-frozen author capture and fresh Git delivery proof are documented in `evidence/mainline/engineering/18-beliefs/README.md`. The preserved author candidate originally awaited Root integrated full regression and independent review; the separate Root acceptance below now supplies both.
 
 Root acceptance: `docs/mainline/evidence/18-root.json`; unified execution `49a40b760e6bab1a89c884e3ef466a45337a5e26` passed 434 checks with zero skips. Figures and review evidence: `evidence/mainline/engineering/18-root-acceptance/README.md`. Original author candidate remains pending by design; Root authority resolves this ticket.
