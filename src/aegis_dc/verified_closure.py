@@ -204,13 +204,13 @@ def assess_closure(frame,program):
                 if all(c['passed'] for c in checks):status='VERIFIED_CLOSED'
                 elif all(c['passed'] for c in checks if c['role']=='condition'):status='SYMPTOM_RETREATED_PENDING_VERIFICATION'
         supported=sorted({identifier for c in checks for identifier in c['supporting_record_ids']})
-        for row in frame['evidence']['records']:
-            if row['id'] in supported:trace.append(dict(event='VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
-                observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
         dispositions=reviews[rule['question_id']]
-        verified_reviews=[]
+        verified_reviews=[];review_evaluations=[]
         for review in dispositions:
             if review['value']!='FALSE_ALARM':continue
+            evaluation=dict(review_record_id=review['id'],passed=False,reason='MISSING_OR_MISMATCHED_DOSSIER',
+                review_checks=[],current_checks=[])
+            review_evaluations.append(evaluation)
             dossier=dossiers.get(review['id'])
             if dossier is None or dossier['question_id']!=rule['question_id']:continue
             ids=set(dossier['supporting_record_ids'])
@@ -218,19 +218,24 @@ def assess_closure(frame,program):
             prior=deepcopy(frame)
             prior['evidence']['records']=[r for r in frame['evidence']['records'] if r['id'] in ids
                 and r['observed_at_s']<=review['observed_at_s'] and r['arrived_at_s']<=review['observed_at_s']]
-            if len(prior['evidence']['records'])!=len(ids):continue
+            if len(prior['evidence']['records'])!=len(ids):
+                evaluation['reason']='SUPPORT_NOT_AVAILABLE_AT_REVIEW';continue
             prior_ids={r['id'] for r in prior['evidence']['records']}
             prior['evidence']['conflicts']=[c for c in frame['evidence']['conflicts'] if set(c['record_ids'])<=prior_ids]
             evidence_checks=[_check(prior,rule,c,rule['opened_at_s']) for c in rule['checks']]
             current_checks=[_check(frame,rule,c,rule['opened_at_s']) for c in rule['checks']]
+            evaluation.update(review_checks=evidence_checks,current_checks=current_checks,reason='CRITERIA_INCOMPLETE_OR_CONTRADICTED')
             if all(c['passed'] for c in evidence_checks) and all(c['passed'] for c in current_checks):
                 verified_reviews.append(review);supported=sorted(set(supported)|ids)
+                evaluation.update(passed=True,reason='DECLARED_REVIEW_CRITERIA_MET')
         if any(r['value']=='ESCALATE' for r in dispositions):status='ESCALATED'
         elif any(r['value']=='ACCEPT_RISK' for r in dispositions):status='RISK_ACCEPTED'
         elif verified_reviews:status='FALSE_ALARM_REVIEWED'
-        traced={e['record_id'] for e in trace if e.get('event')=='VERIFICATION_RECORD_AVAILABLE'}
+        evaluated_checks=checks+[c for review in review_evaluations for key in ('review_checks','current_checks') for c in review[key]]
+        blocking={identifier for check in evaluated_checks for identifier in check['insufficient_record_ids']}
+        considered=set(supported)|blocking|{identifier for check in evaluated_checks for identifier in check['supporting_record_ids']}
         for row in frame['evidence']['records']:
-            if row['id'] in set(supported)-traced:trace.append(dict(event='VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
+            if row['id'] in considered:trace.append(dict(event='VERIFICATION_RECORD_BLOCKED' if row['id'] in blocking else 'VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
                 observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
         for row in dispositions:trace.append(dict(event='AUTHORIZED_REVIEW_AVAILABLE',record_id=row['id'],disposition=row['value'],
             observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
@@ -238,7 +243,8 @@ def assess_closure(frame,program):
         questions.append(dict(question_id=rule['question_id'],rule_id=rule['id'],as_of_s=frame['as_of_s'],status=status,
             risk_closed=status=='VERIFIED_CLOSED',question_closed=status in {'VERIFIED_CLOSED','RISK_ACCEPTED','FALSE_ALARM_REVIEWED'},
             physical_restoration_claim=False,scope='DECLARED_FINITE_SAMPLED_CRITERIA_ONLY',
-            supporting_record_ids=supported,disposition_record_ids=sorted(r['id'] for r in dispositions),checks=checks,trace=trace))
+            supporting_record_ids=supported,blocking_record_ids=sorted(blocking),review_evaluations=review_evaluations,
+            disposition_record_ids=sorted(r['id'] for r in dispositions),checks=checks,trace=trace))
     return dict(schema='aegisdc-closure-assessment-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],questions=questions,
         unevaluated_question_ids=sorted(q['id'] for q in risks['questions'] if q['id'] not in {r['question_id'] for r in rules.values()}),
         execution_permission=False,physical_actions=[],field_calibration='PENDING',research_gain_claim='NOT_ESTABLISHED')

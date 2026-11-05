@@ -171,6 +171,12 @@ class VerifiedClosureTests(unittest.TestCase):
         challenged=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
         self.assertFalse(challenged['question_closed'])
         self.assertNotEqual(challenged['status'],'FALSE_ALARM_REVIEWED')
+        evaluation=challenged['review_evaluations'][0]
+        self.assertEqual(evaluation['review_record_id'],'false-alarm-review')
+        self.assertFalse(evaluation['passed'])
+        blocking=next(e for e in challenged['trace'] if e.get('record_id')=='visible-adverse-flow')
+        self.assertEqual(blocking['event'],'VERIFICATION_RECORD_BLOCKED')
+        self.assertEqual((blocking['observed_at_s'],blocking['arrived_at_s']),(5.25,5.5))
 
     def test_authorized_risk_acceptance_is_not_verified_physical_restoration(self):
         from aegis_dc.verified_closure import assess_closure
