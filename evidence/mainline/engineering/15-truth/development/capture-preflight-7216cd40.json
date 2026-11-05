@@ -1,0 +1,16 @@
+{
+  "classification": "ENGINEERING_CAPTURE_PREFLIGHT_FAILURE_NOT_RESEARCH",
+  "source_commit": "7216cd40",
+  "command": "python -B -X utf8 scripts/capture_decision_engineering.py --output evidence/mainline/engineering/15-truth/capture-01",
+  "exit_code": 1,
+  "stage": "source_tool_input_blob_preflight_before_output_directory_creation",
+  "exception": "ValueError: Uncommitted frozen bytes: configs/candidate-example.json",
+  "cause": "The initial broad pin included an unrelated legacy patrol configuration whose clean Windows CRLF working bytes differ from its LF Git blob. The exact-byte preflight refused it before any execution.",
+  "capture_directory_created": false,
+  "physical_runs": 0,
+  "full_regression_executions": 0,
+  "disposition": "Retain this failure and source commit. A new source narrows the declared ticket15 input set to its canonical V6, property, ticket14 ledger and public fixture files. No hash failure is skipped for any remaining declared file.",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

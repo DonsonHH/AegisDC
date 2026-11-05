@@ -51,9 +51,11 @@ def pin_paths(root):
         'docs/adr/0002-sparse-evidence-not-sensor-free.md', 'docs/adr/0003-complete-facility-mainline.md',
         '.scratch/full-facility-mainline/spec.md', 'docs/mainline/information-boundary.md',
         'docs/mainline/15-decision-contract.md', BOOK,
+        'configs/full-facility-mainline-reserve-v6.json', 'configs/full-facility-evidence-v1.json',
+        'configs/materials/reference-r134a-saturation.json',
         'evidence/mainline/engineering/15-truth/README.md',
         'evidence/mainline/engineering/15-truth/.gitattributes']
-    inputs += [p.relative_to(root).as_posix() for folder in ('configs', 'tests/fixtures',
+    inputs += [p.relative_to(root).as_posix() for folder in (FIXTURE, 'tests/fixtures',
         'evidence/mainline/engineering/15-truth/development') for p in sorted((root / folder).rglob('*'))
         if p.is_file() and not is_runtime_cache(p)]
     return dict(runtime_sources=sorted(sources), authoring_verification_tools=sorted(tools), frozen_inputs=sorted(inputs))
