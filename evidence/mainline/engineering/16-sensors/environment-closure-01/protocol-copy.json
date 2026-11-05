@@ -1,0 +1,29 @@
+{
+  "schema": "aegisdc-sensor-environment-closure-protocol-v1",
+  "classification": "NARROW_ENVIRONMENT_CLOSURE_NOT_FULL_RETRY",
+  "original_execution_commit": "842093460248167c0b8e4d9e37e74aebc9da034a",
+  "original_delivery_commit": "92e2960cf538801c1803a260084ba83bf2e07048",
+  "original_capture": "evidence/mainline/engineering/16-sensors/capture-01",
+  "original_receipt_sha256": "286f6455efe926ef4fe96621a62a5349e52220f955bed81fe7eee54e3843f569",
+  "original_capture_status": "FAIL",
+  "original_declared_missing": ["source-guard.json"],
+  "original_full_tests": {"run": 390, "executed": 388, "failures": 1, "errors": 1, "skipped": 2, "gate": "FAIL"},
+  "original_results": [
+    {"kind": "ERROR", "test_id": "test_facility_foundation.FacilityFoundationTests.test_public_demo_is_synthetic_and_has_no_automatic_actions"},
+    {"kind": "FAIL", "test_id": "test_facility_foundation.FacilityFoundationTests.test_public_demo_rejects_duplicate_probability_before_assessment"}
+  ],
+  "reason": "The outer author command omitted PYTHONPATH. In-process sys.path did not reach the two legacy CLI child interpreters, which could not import aegis_dc. The original full result remains failed.",
+  "closure_output": "evidence/mainline/engineering/16-sensors/environment-closure-01",
+  "pythonpath_components": ["src", "scripts"],
+  "new_verification_paths": ["scripts/close_sensor_environment.py", "scripts/verify_sensor_retained_capture.py", "docs/mainline/16-sensor-delivery-addendum-v1.json"],
+  "test_executions": 2,
+  "full_regression_reruns": 0,
+  "observation_adapter_reruns": 0,
+  "new_physical_runs": 0,
+  "original_failed_receipt_rewritten": false,
+  "global_regression_gate": "PENDING_ROOT_INTEGRATED_FULL_WITH_CORRECT_PYTHONPATH_AND_TORCH",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
