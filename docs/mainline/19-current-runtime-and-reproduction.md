@@ -12,3 +12,8 @@
 原`19.json`是原作者候选记录，原`capture-01`/protocol/receipt保留；当前更新由`19-correction-v2.json`承载。作者没有执行完整回归。Root仍须完成修正后运行源的独立闭环与统一完整验收，ticket19保持claimed，M3和总研究目标继续。
 
 首次根源码7b9的448项全执行结果保持为历史PASS；其后发现完整时段输出溢出问题，因此不能代表当前接受。当前源码需经新独立闭环、保存原件交付证明与新的Root统一完整回归。作者不重复原捕获或旧全回归。
+
+
+## 根接受
+
+修复后集成源码`6193cb24851e3ed435a78153ffb79a64da77ab63`通过450项全执行回归，零失败、零错误、零跳过。720项Spec断言及完整时域边界独立Standards闭环通过，ticket19由单独[根权威](evidence/19-root.json)接受。原作者索引和原件保持原始身份；当前主票20，21另行验收。数据图与复算见[根验收包](../../evidence/mainline/engineering/19-root-acceptance/README.md)。
