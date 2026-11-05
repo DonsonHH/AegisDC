@@ -1,0 +1,123 @@
+"""Question lifecycle from current public evidence and declared verification rules."""
+from copy import deepcopy
+from fractions import Fraction
+
+from .decision_view import validate_current_frame
+from .evidence_ledger import _fields,_plain_json,_registry,_require,_strings,_text,_finite
+from .risk_scenarios import assess_risks
+
+PROGRAM_FIELDS={'schema','profile','risk_catalog','belief_model','intervention_feedback'}
+PROFILE_FIELDS={'schema','id','facility_id','nominal_knowledge_id','risk_catalog_id','basis','time_unit','source_note','rules'}
+RULE_FIELDS={'id','question_id','opened_at_s','task_id','operation_id','minimum_span_s','required_samples','checks'}
+CHECK_FIELDS={'id','role','target_id','observable_id','source_ids','accepted_interval'}
+FEEDBACK_FIELDS={'task_id','operation_id','source_id','observed_at_s','arrived_at_s','outcome','reason','origin_id','coverage','risk_closed'}
+
+def _profile(frame,program,risks):
+    profile=program['profile'];_fields(profile,PROFILE_FIELDS,'Closure profile')
+    _require(profile['schema']=='aegisdc-closure-profile-v1' and profile['basis']=='synthetic_assumption'
+        and profile['time_unit']=='s','Declare synthetic closure profile in SI seconds')
+    for key in ('id','source_note'):_text(profile[key],'Closure '+key)
+    _require(profile['facility_id']==frame['facility_id'] and profile['nominal_knowledge_id']==frame['nominal_knowledge']['id']
+        and profile['risk_catalog_id']==program['risk_catalog']['id'],'Closure facility/catalog identity differs')
+    questions={q['id']:q for q in program['risk_catalog']['questions']}
+    rules=_registry(profile['rules'],'Closure rule');seen=set()
+    sources={s['id']:s for s in frame['evidence']['static_knowledge']['sources']}
+    observables={o['id']:o for o in frame['evidence']['static_knowledge']['observables']}
+    for rule in rules.values():
+        _fields(rule,RULE_FIELDS,'Closure rule')
+        for key in ('question_id','task_id','operation_id'):_text(rule[key],'Closure '+key)
+        _require(rule['question_id'] in questions and rule['question_id'] not in seen,'Unknown/repeated closure question')
+        seen.add(rule['question_id']);q=questions[rule['question_id']]
+        _finite(rule['opened_at_s'],'Question opening');_finite(rule['minimum_span_s'],'Verification span')
+        _require(0<=rule['opened_at_s']<=frame['as_of_s'] and rule['minimum_span_s']>0,'Invalid opening or span')
+        _require(type(rule['required_samples']) is int and rule['required_samples']>=2,'Declare at least two genuine samples')
+        checks=_registry(rule['checks'],'Verification check');roles=set()
+        for check in checks.values():
+            _fields(check,CHECK_FIELDS,'Verification check');role=check['role'];roles.add(role)
+            _require(role in {'condition','service'},'Unknown verification role')
+            _require(check['target_id'] in q['target_ids'] if role=='condition' else
+                     check['target_id']==program['risk_catalog']['service_id'],'Verification target outside question/service')
+            observable=observables.get(check['observable_id'])
+            _require(observable is not None and observable['value_type']=='number','Numeric verification needs declared observable')
+            _strings(check['source_ids'],'Verification sources')
+            for identifier in check['source_ids']:
+                source=sources.get(identifier)
+                _require(source is not None and check['target_id'] in source['target_ids']
+                    and check['observable_id'] in source['observable_ids'],'Verification source outside declared coverage')
+            bounds=check['accepted_interval'];_require(type(bounds) is list and len(bounds)==2,'Declare accepted interval')
+            for bound in bounds:_finite(bound,'Accepted numeric bound')
+            _require(bounds[0]<=bounds[1],'Reversed accepted interval')
+        _require(roles=={'condition','service'},'Require both physical condition and service verification')
+    return rules
+
+def _feedback(frame,program):
+    _require(type(program['intervention_feedback']) is list,'Declare arrived intervention feedback list')
+    result={}
+    for row in program['intervention_feedback']:
+        _fields(row,FEEDBACK_FIELDS,'Arrived intervention feedback')
+        for key in ('task_id','operation_id','origin_id'):_text(row[key],'Feedback '+key)
+        _require(row['source_id']=='intervention-execution-report' and row['coverage']=='THIS_AUTHORIZED_TASK_ONLY'
+            and row['risk_closed'] is False and row['origin_id']=='intervention:'+row['task_id'],'Invalid task-local feedback channel')
+        _require(row['outcome'] in {'APPLIED','NO_EFFECT'},'Unknown intervention outcome')
+        _require(row['reason'] is None if row['outcome']=='APPLIED' else type(row['reason']) is str and bool(row['reason']),
+            'Feedback reason differs from outcome')
+        _finite(row['observed_at_s'],'Feedback observation');_finite(row['arrived_at_s'],'Feedback arrival')
+        _require(0<=row['observed_at_s']<=row['arrived_at_s']<=frame['as_of_s'],'Feedback cannot contain future/private time')
+        _require(row['task_id'] not in result,'Repeated terminal task feedback')
+        result[row['task_id']]=row
+    return result
+
+def _check(frame,rule,check,after):
+    rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
+        and r['observable_id']==check['observable_id'] and r['source_id'] in check['source_ids']
+        and r['observed_at_s']>=after]
+    eligible=[];issues=[];seen=set()
+    current_ids={r['id'] for r in rows if r['availability']=='current'}
+    conflict_ids={identifier for conflict in frame['evidence']['conflicts']
+        if set(conflict['record_ids'])<=current_ids for identifier in conflict['record_ids']}
+    provenance_ids={identifier for issue in frame['evidence']['provenance_issues']
+        if set(issue['record_ids'])&current_ids for identifier in issue['record_ids']}
+    for row in sorted(rows,key=lambda r:(r['observed_at_s'],r['id'])):
+        origin=row['provenance']['origin_id']
+        if row['availability']!='current' or row['quality']['status']!='bounded':issues.append(row['id']);continue
+        if row['id'] in conflict_ids|provenance_ids:issues.append(row['id']);continue
+        low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
+        if low<Fraction(check['accepted_interval'][0]) or high>Fraction(check['accepted_interval'][1]):issues.append(row['id']);continue
+        if row['provenance']['copied_from_record_id'] is not None or origin in seen:continue
+        seen.add(origin)
+        eligible.append(row)
+    span_ok=bool(eligible) and eligible[-1]['observed_at_s']>=eligible[0]['observed_at_s']+rule['minimum_span_s']
+    passed=not issues and len(eligible)>=rule['required_samples'] and span_ok
+    return dict(check_id=check['id'],role=check['role'],passed=passed,
+        supporting_record_ids=[r['id'] for r in eligible],insufficient_record_ids=issues,
+        genuine_sample_count=len(eligible),span_s=eligible[-1]['observed_at_s']-eligible[0]['observed_at_s'] if eligible else None,
+        independence='NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION')
+
+def assess_closure(frame,program):
+    """Evaluate declared question criteria from currently arrived public records only."""
+    frame=validate_current_frame(frame);_plain_json(program);_fields(program,PROGRAM_FIELDS,'Closure program')
+    _require(program['schema']=='aegisdc-closure-program-v1','Unknown closure program schema')
+    risks=assess_risks(frame,program['belief_model'],program['risk_catalog'])
+    rules=_profile(frame,program,risks);feedback=_feedback(frame,program);questions=[]
+    for rule in rules.values():
+        action=feedback.get(rule['task_id']);checks=[];trace=[]
+        if action is None:status='OPEN_UNCONFIRMED'
+        else:
+            _require(action['operation_id']==rule['operation_id'] and action['observed_at_s']>=rule['opened_at_s'],'Action differs from question rule')
+            trace.append(dict(event='ACTION_REPORT_AVAILABLE',observed_at_s=action['observed_at_s'],arrived_at_s=action['arrived_at_s'],origin_id=action['origin_id'],outcome=action['outcome']))
+            status='ACTION_COMPLETED_PENDING_VERIFICATION' if action['outcome']=='APPLIED' else 'OPEN_ACTION_FAILED'
+            if action['outcome']=='APPLIED':
+                checks=[_check(frame,rule,check,action['observed_at_s']) for check in rule['checks']]
+                if all(c['passed'] for c in checks):status='VERIFIED_CLOSED'
+                elif all(c['passed'] for c in checks if c['role']=='condition'):status='SYMPTOM_RETREATED_PENDING_VERIFICATION'
+        supported=sorted({identifier for c in checks for identifier in c['supporting_record_ids']})
+        for row in frame['evidence']['records']:
+            if row['id'] in supported:trace.append(dict(event='VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
+                observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
+        trace.sort(key=lambda e:(e['arrived_at_s'],e.get('record_id','')))
+        questions.append(dict(question_id=rule['question_id'],rule_id=rule['id'],as_of_s=frame['as_of_s'],status=status,
+            risk_closed=status=='VERIFIED_CLOSED',physical_restoration_claim=False,scope='DECLARED_FINITE_SAMPLED_CRITERIA_ONLY',
+            supporting_record_ids=supported,checks=checks,trace=trace))
+    return dict(schema='aegisdc-closure-assessment-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],questions=questions,
+        unevaluated_question_ids=sorted(q['id'] for q in risks['questions'] if q['id'] not in {r['question_id'] for r in rules.values()}),
+        execution_permission=False,physical_actions=[],field_calibration='PENDING',research_gain_claim='NOT_ESTABLISHED')

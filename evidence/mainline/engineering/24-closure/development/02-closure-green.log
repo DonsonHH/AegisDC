@@ -1,0 +1,25 @@
+test_action_completion_needs_post_action_condition_and_service_evidence (test_verified_closure.VerifiedClosureTests.test_action_completion_needs_post_action_condition_and_service_evidence) ... ERROR
+
+======================================================================
+ERROR: test_action_completion_needs_post_action_condition_and_service_evidence (test_verified_closure.VerifiedClosureTests.test_action_completion_needs_post_action_condition_and_service_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 46, in test_action_completion_needs_post_action_condition_and_service_evidence
+    frame,program,ledger,nominal=fixture();original=deepcopy((frame,program))
+                                 ^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 25, in fixture
+    frame=DecisionGateway(nominal,ledger,plan).next_frame()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\decision_view.py", line 303, in __init__
+    ledger = validate_ledger(ledger_document)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 163, in validate_ledger
+    _require(row['quantity'] in units and row['unit'] == units[row['quantity']], 'Observable quantity requires its declared SI unit')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Observable quantity requires its declared SI unit
+
+----------------------------------------------------------------------
+Ran 1 test in 0.013s
+
+FAILED (errors=1)
