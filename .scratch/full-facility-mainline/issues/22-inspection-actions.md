@@ -21,3 +21,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Pending implementation and acceptance.
 
 Assigned independent ready slice: `/root/m4_22_inspection`, branch `donson/mainline-22-inspection`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline22-inspection/Renly`. Predecessors17/21 accepted; primary remains20. Real completion/measurement integration requires its own acceptance.
+
+Implementation candidate: `docs/mainline/evidence/22.json`; actual source5486/data6812,1formal3srun, saved-only fresh proof and visual readback. Independent reviews and Root full/acceptance remain pending; ticket remainsclaimed.
