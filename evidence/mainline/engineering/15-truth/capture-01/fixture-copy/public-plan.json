@@ -1,0 +1,34 @@
+{
+  "schema": "aegisdc-public-preparation-plan-v1",
+  "id": "V6-public-preparation-tracer-v1",
+  "basis": "synthetic_assumption",
+  "time_unit": "s",
+  "decision_times_s": [
+    0,
+    2,
+    4,
+    5.999999999999999,
+    6,
+    7
+  ],
+  "requests": [
+    {
+      "id": "intent-it-check",
+      "worker_id": "worker_it",
+      "work_interface_id": "inspect_it_service",
+      "target_id": "compute"
+    },
+    {
+      "id": "intent-filter-check",
+      "worker_id": "worker_cooling",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "filter"
+    },
+    {
+      "id": "intent-unqualified-it-check",
+      "worker_id": "worker_electrical",
+      "work_interface_id": "inspect_it_service",
+      "target_id": "compute"
+    }
+  ]
+}
