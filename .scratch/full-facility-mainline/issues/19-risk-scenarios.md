@@ -4,7 +4,7 @@
 
 **Blocked by:** 18, 08
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -22,3 +22,5 @@ Background reading prepared while03 was active: `docs/mainline/research/closest-
 ## Evidence
 
 Pending implementation and acceptance.
+
+Assigned implementation: `/root/m3_19_risk`, branch `donson/mainline-19-risk`, isolated managed worktree `C:/Users/Donson/.codex/worktrees/mainline19-risk/Renly`. Ticket18 Root authority and delivery proof now satisfy the blocker; this ticket still requires its own acceptance.
