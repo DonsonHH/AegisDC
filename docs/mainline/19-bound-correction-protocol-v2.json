@@ -1,0 +1,60 @@
+{
+  "schema": "aegisdc-ticket19-bound-correction-protocol-v2",
+  "classification": "ENGINEERING_ONLY_NUMERIC_DOMAIN_CLOSURE",
+  "ticket": "19",
+  "original_execution": "1939cb2ff375f7a0632a0a05ada68ae98afbdc1a",
+  "original_data_delivery": "7069f2bee86ef7cdfd8d4849bb98bb5dacbf59cc",
+  "original_candidate": "c35a354da647f9690d5916d620a9c3cb657da23f",
+  "frame": "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json",
+  "belief_model": "configs/full-facility-belief-model-v1.json",
+  "risk_catalog": "configs/full-facility-risk-scenarios-v1.json",
+  "original_check_results": "evidence/mainline/engineering/19-risk-scenarios/capture-01/check-results.json",
+  "original_as_of_s": [
+    0,
+    10,
+    11,
+    12
+  ],
+  "documentation": "docs/mainline/19-full-horizon-correction.md",
+  "defect_reference": "evidence/mainline/engineering/19-risk-scenarios/reference/full-horizon-overflow-probe-01.json",
+  "authoring_tool": "scripts/risk_full_horizon_correction.py",
+  "development_logs": [
+    "evidence/mainline/engineering/19-risk-scenarios/development/28-full-horizon-overflow-red.log",
+    "evidence/mainline/engineering/19-risk-scenarios/development/29-full-horizon-overflow-green.log"
+  ],
+  "durable_outputs": [
+    "attempt.json",
+    "correction-results.json",
+    "cli-stdout.raw",
+    "cli-stderr.raw"
+  ],
+  "terminal_receipt": "receipt.json",
+  "case_ids": [
+    "full-horizon-overflow-short-question",
+    "full-horizon-overflow-no-questions",
+    "large-finite-horizon-no-questions",
+    "cli-overflow-no-traceback"
+  ],
+  "retries": "Never overwrite. A failed targeted correction remains with its source and receipt; use a new directory for a later attempt.",
+  "full_regression": "New Root full at corrected runtime after reviewed integration; no author full and no replay of the original captures.",
+  "new_physical_runs": 0,
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "revision": 2,
+  "previous_protocol": "docs/mainline/19-bound-correction-protocol.json",
+  "previous_execution": "9c0efc4dbd198d3fbf35c459cd5710c058a60569",
+  "previous_data_delivery": "83583f18669794142159e20e58016fff5b0c4fe2",
+  "first_root_regression_source": "7b9ac97383ecd82adc6bc720a83e71160bfec322",
+  "first_root_regression_scope": "448 executed checks passed at this historical source, but the new whole-horizon overflow domain defect lies outside those cases; this is not acceptance of the current runtime.",
+  "previous_authoring_tool": "scripts/risk_bound_correction.py",
+  "previous_case_ids": [
+    "nonrepresentable-work-outward",
+    "work-nearest-below-rejected",
+    "work-above-minimal-rejected",
+    "nonrepresentable-duration-outward",
+    "duration-above-minimal-rejected",
+    "large-finite-work",
+    "work-output-overflow-rejected"
+  ]
+}

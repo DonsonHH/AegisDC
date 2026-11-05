@@ -1,0 +1,26 @@
+.E..E.
+======================================================================
+ERROR: test_direct_intervention_and_defer_remain_options_without_forcing_inspection (test_risk_scenarios.TestRiskScenarios.test_direct_intervention_and_defer_remain_options_without_forcing_inspection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 85, in test_direct_intervention_and_defer_remain_options_without_forcing_inspection
+    options = {row['id']:row for row in result['questions'][0]['option_assessments']}
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'option_assessments'
+
+======================================================================
+ERROR: test_reference_model_conflict_is_unresolved_not_zero_risk (test_risk_scenarios.TestRiskScenarios.test_reference_model_conflict_is_unresolved_not_zero_risk)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 100, in test_reference_model_conflict_is_unresolved_not_zero_risk
+    result = assess_risks(frame,belief,model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 150, in assess_risks
+    posterior = {key:Fraction(str(value)) for key,value in belief['posterior'].items()}
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'items'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.133s
+
+FAILED (errors=2)

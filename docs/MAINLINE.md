@@ -46,7 +46,7 @@
 
 ## 当前起点与持续执行
 
-M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 当前权威](mainline/evidence/M2.json)与[数据图、四轴评审和复核包](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 统一回归源 bcac 为359项全执行零跳过；11个数值见证按5/4/2三类冻结阶梯解释，原NO-GO、失败和作者执行身份保留。下一阶段显式运行选择V6与最大步长.01；这不构成任意参数域或真轨迹绝对误差界。M3多源证据账14已由根接受：[377项原始结果、最新图及评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，当前主票19建立风险情景、时间窗及服务后果。 [第18票数据图、架构与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景存在稀疏固定传感器，并允许历史、人工、工单和手持结果；后台真值保持私有。整个研究目标仍active。
+M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 当前权威](mainline/evidence/M2.json)与[数据图、四轴评审和复核包](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 统一回归源 bcac 为359项全执行零跳过；11个数值见证按5/4/2三类冻结阶梯解释，原NO-GO、失败和作者执行身份保留。下一阶段显式运行选择V6与最大步长.01；这不构成任意参数域或真轨迹绝对误差界。M3多源证据账14已由根接受：[377项原始结果、最新图及评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票风险情景已由根接受，当前主票20比较检查与处置价值。 [第19票数据图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [第18票数据图、架构与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景存在稀疏固定传感器，并允许历史、人工、工单和手持结果；后台真值保持私有。整个研究目标仍active。
 
 - [详细规格](../.scratch/full-facility-mainline/spec.md)
 - [任务图](../.scratch/full-facility-mainline/map.md)

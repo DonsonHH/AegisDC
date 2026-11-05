@@ -1,0 +1,21 @@
+.......E.....
+======================================================================
+ERROR: test_nonrepresentable_universal_bound_uses_minimal_outward_binary64 (test_risk_scenarios.TestRiskScenarios.test_nonrepresentable_universal_bound_uses_minimal_outward_binary64)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 215, in test_nonrepresentable_universal_bound_uses_minimal_outward_binary64
+    result=assess_risks(frame,belief,model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 249, in assess_risks
+    catalog = _catalog_for_frame(catalog,frame,belief_model)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 119, in _catalog_for_frame
+    _require(lower==0 and upper==universal_upper,
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Conservative uncalibrated consequence bounds must include zero and the full nonnegative-capacity limit
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.472s
+
+FAILED (errors=1)
