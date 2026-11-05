@@ -23,6 +23,25 @@ def fixture(policy='fifo',time=0):
     return frame,program,dict(issued=[],work_feedback=[])
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_real_onsite_measurement_enters_a_later_policy_frame_only_after_arrival(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
+        submitted=inputs['work_program']['submissions'][0];frame=submitted['frame']
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        policy=dict(schema='aegisdc-dispatch-policy-program-v1',id='onsite-policy25',basis='synthetic_assumption',policy='fifo',
+            workforce_profile=inputs['work_program']['profile'],candidates=[dict(id='actual-flow-check',task=submitted['task'],
+                available_at_s=0,question_id='cooling',source_note='Actual paid site inspection in the same advancing facility.')])
+        program=dict(schema='aegisdc-policy-run-program-v1',id='online-actual-observation-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0,2.5,3],
+            inspection_program=inputs['inspection_program'],intervention_program=None)
+        result=simulate_scenario(inputs['model'],duration_s=3,step_s=.01,dispatch_program=program,boundary_events=inputs['boundary_events'])
+        decisions=result['policy_public_decisions']
+        self.assertEqual(decisions[0]['frame']['evidence']['records'],[])
+        self.assertEqual(decisions[1]['frame']['evidence']['records'],[])
+        record=decisions[2]['frame']['evidence']['records'][0]
+        self.assertEqual((record['observed_at_s'],record['arrived_at_s'],record['value']),(2.25,2.75,0))
+        self.assertEqual(result['work_records'][0]['completed_at_s'],2.25)
+
     def test_hidden_access_change_cannot_change_choices_before_paid_feedback_arrives(self):
         inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
         frame,policy,_=fixture()
