@@ -1,5 +1,7 @@
 """One public discriminating witness for the declared candidate mechanism."""
 from copy import deepcopy
+import json
+from pathlib import Path
 import unittest
 
 from aegis_dc.decision_view import DecisionGateway
@@ -53,6 +55,22 @@ def reframe(frame,time,records=None):
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_background_profile_must_share_facility_entities_and_registry_for_every_v4_policy(self):
+        original=json.loads((Path(__file__).resolve().parents[1]/'configs/full-facility-sensor-channels-v1.json').read_bytes())
+        for name in ('one_observation_lookahead','evidence_consistent_contingent'):
+            frame,policy,history=fixture();policy['policy']=name
+            policy['evidence_projection']['background_sensor_profile']=deepcopy(original)
+            choose_work(frame,policy,history)
+            for mismatch in ('facility','entities','source','observable'):
+                wrong=deepcopy(policy);registry=wrong['evidence_projection']['background_sensor_profile']['ledger']
+                if mismatch=='facility':registry['facility_id']='another-synthetic-facility'
+                elif mismatch=='entities':registry['entity_ids'].remove('loc_entry')
+                elif mismatch=='source':registry['sources'][0]['source_note']='Another public registry definition.'
+                else:
+                    extra=deepcopy(registry['observables'][0]);extra['id']='unshared-background-observable'
+                    registry['observables'].append(extra)
+                with self.subTest(policy=name,mismatch=mismatch),self.assertRaises(ValueError):choose_work(frame,wrong,history)
+
     def test_positive_work_must_advance_the_actual_projected_binary64_measurement_clock(self):
         for now,work in ((1,float.fromhex('0x0.0000000000001p-1022')),(1e16,1)):
             frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'

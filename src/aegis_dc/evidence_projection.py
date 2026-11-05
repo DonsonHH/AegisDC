@@ -12,6 +12,15 @@ from .sensor_channels import validate_channel_profile,_number
 FIELDS={'schema','basis','source_note','inspection_profile','background_sensor_profile','context_assumption'}
 
 
+def _shared_registry(frame,registry,label):
+    static=frame['evidence']['static_knowledge']
+    _require(registry['facility_id']==frame['facility_id'] and set(registry['entity_ids'])==set(static['entity_ids']),
+        label+' and public evidence entity identities differ')
+    for field in ('sources','observables'):
+        current={row['id']:row for row in static[field]}
+        _require(all(row['id'] in current and row==current[row['id']] for row in registry[field]),label+' registry differs from public frame')
+
+
 def validate_projection(frame,projection):
     _fields(projection,FIELDS,'Public evidence projection')
     _require(projection['schema']=='aegisdc-evidence-projection-v1' and projection['basis']=='synthetic_assumption'
@@ -22,12 +31,7 @@ def validate_projection(frame,projection):
         and profile['facility_id']==frame['facility_id'],'Projection inspection identity differs')
     for key in ('id','source_note'):_text(profile[key],'Projection inspection '+key)
     validated=validate_nonfixed_profile(profile['nonfixed_profile'])
-    registry=validated['registry'];static=frame['evidence']['static_knowledge']
-    _require(registry['facility_id']==frame['facility_id'] and set(registry['entity_ids'])==set(static['entity_ids']),
-        'Projection and public evidence entity identities differ')
-    for field in ('sources','observables'):
-        current={row['id']:row for row in static[field]}
-        _require(all(row['id'] in current and row==current[row['id']] for row in registry[field]),'Projection registry differs from public frame')
+    _shared_registry(frame,validated['registry'],'Projection inspection')
     models={row['model']['id'] for row in validated['models']};tasks=set();records=set()
     _require(type(profile['bindings']) is list,'Declare finite public inspection bindings')
     for binding in profile['bindings']:
@@ -43,7 +47,9 @@ def validate_projection(frame,projection):
         _fields(binding['provenance'],{'origin_id','copied_from_record_id'},'Projection provenance')
         _text(binding['provenance']['origin_id'],'Projection origin')
         if binding['provenance']['copied_from_record_id'] is not None:_text(binding['provenance']['copied_from_record_id'],'Projection copy parent')
-    if projection['background_sensor_profile'] is not None:validate_channel_profile(projection['background_sensor_profile'])
+    if projection['background_sensor_profile'] is not None:
+        background=validate_channel_profile(projection['background_sensor_profile'])
+        _shared_registry(frame,background['ledger'],'Projection background')
 
 
 def _projected_frame(frame,arrival):
