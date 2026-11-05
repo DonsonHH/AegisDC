@@ -121,7 +121,7 @@ def _feedback(frame,program):
         result[row['task_id']]=row
     return result
 
-def _action_declaration(frame,program,rules):
+def _action_declaration(frame,program,rules,feedback):
     declared=program['intervention_declaration']
     _fields(declared,{'schema','profile','bindings'},'Public intervention declaration')
     _require(declared['schema']=='aegisdc-intervention-program-v1','Unknown declared intervention schema')
@@ -145,6 +145,11 @@ def _action_declaration(frame,program,rules):
         _require(binding is not None and binding['operation_id']==rule['operation_id']
             and operations[rule['operation_id']]['target_id'] in questions[rule['question_id']]['target_ids'],
             'Closure action must bind a declared named task operation within question scope')
+        report=feedback.get(rule['task_id'])
+        if report is not None and report['outcome']=='APPLIED':
+            grant=grants[binding['authorization_id']]
+            _require(grant['starts_at_s']<=report['observed_at_s']<grant['expires_at_s'],
+                'Applied action report contradicts its declared authorization interval')
 
 def _check(frame,rule,check,after):
     rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
@@ -164,6 +169,7 @@ def _check(frame,rule,check,after):
                 low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
                 if high<Fraction(check['accepted_interval'][0]) or low>Fraction(check['accepted_interval'][1]):issues.append(row['id'])
             continue
+        if row['availability']=='expired':continue
         if row['availability']!='current' or row['quality']['status']!='bounded':issues.append(row['id']);continue
         if row['id'] in conflict_ids|provenance_ids:issues.append(row['id']);continue
         low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
@@ -184,7 +190,7 @@ def assess_closure(frame,program):
     _require(program['schema']=='aegisdc-closure-program-v1','Unknown closure program schema')
     risks=assess_risks(frame,program['belief_model'],program['risk_catalog'])
     rules=_profile(frame,program,risks);feedback=_feedback(frame,program);reviews=_reviews(frame,program,rules)
-    _action_declaration(frame,program,rules)
+    _action_declaration(frame,program,rules,feedback)
     dossiers=_false_alarm_dossiers(program,rules);questions=[]
     for rule in rules.values():
         action=feedback.get(rule['task_id']);checks=[];trace=[]

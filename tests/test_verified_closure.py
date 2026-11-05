@@ -54,6 +54,16 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_expired_historical_sample_does_not_block_a_new_fresh_verification_window(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,ledger,nominal=fixture()
+        old=deepcopy(next(r for r in ledger['records'] if r['id']=='verify-flow-4'))
+        old.update(id='old-expired-flow',observed_at_s=3.25,arrived_at_s=3.5,valid_until_s=3.75,value=.01)
+        old['provenance']['origin_id']='old-flow-origin';ledger['records'].append(old)
+        result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertEqual(result['status'],'VERIFIED_CLOSED')
+        self.assertNotIn('old-expired-flow',result['supporting_record_ids'])
+
     def test_current_same_signal_contradiction_blocks_even_outside_selected_sources(self):
         from aegis_dc.verified_closure import assess_closure
         frame,program,ledger,nominal=fixture()
@@ -71,6 +81,12 @@ class VerifiedClosureTests(unittest.TestCase):
         frame,program,_,_=fixture()
         program['profile']['rules'][0]['operation_id']='made-up-repair'
         program['intervention_feedback'][0]['operation_id']='made-up-repair'
+        with self.assertRaises(ValueError):assess_closure(frame,program)
+
+    def test_applied_report_must_match_its_declared_authority_at_action_time(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,_,_=fixture()
+        program['intervention_declaration']['profile']['authorizations'][0]['expires_at_s']=3
         with self.assertRaises(ValueError):assess_closure(frame,program)
 
     def test_cli_assesses_only_the_declared_public_frame_and_closed_program(self):
