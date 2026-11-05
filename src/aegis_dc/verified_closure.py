@@ -71,7 +71,7 @@ def _check(frame,rule,check,after):
     rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
         and r['observable_id']==check['observable_id'] and r['source_id'] in check['source_ids']
         and r['observed_at_s']>=after]
-    eligible=[];issues=[];seen=set()
+    eligible=[];issues=[];seen=set();seen_times=set()
     current_ids={r['id'] for r in rows if r['availability']=='current'}
     conflict_ids={identifier for conflict in frame['evidence']['conflicts']
         if set(conflict['record_ids'])<=current_ids for identifier in conflict['record_ids']}
@@ -83,8 +83,8 @@ def _check(frame,rule,check,after):
         if row['id'] in conflict_ids|provenance_ids:issues.append(row['id']);continue
         low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
         if low<Fraction(check['accepted_interval'][0]) or high>Fraction(check['accepted_interval'][1]):issues.append(row['id']);continue
-        if row['provenance']['copied_from_record_id'] is not None or origin in seen:continue
-        seen.add(origin)
+        if row['provenance']['copied_from_record_id'] is not None or origin in seen or row['observed_at_s'] in seen_times:continue
+        seen.add(origin);seen_times.add(row['observed_at_s'])
         eligible.append(row)
     span_ok=bool(eligible) and eligible[-1]['observed_at_s']>=eligible[0]['observed_at_s']+rule['minimum_span_s']
     passed=not issues and len(eligible)>=rule['required_samples'] and span_ok

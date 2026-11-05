@@ -44,6 +44,18 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_genuine_verification_samples_need_distinct_observation_times(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,ledger,nominal=fixture()
+        rule=program['profile']['rules'][0];rule['required_samples']=3
+        extra=deepcopy(next(r for r in ledger['records'] if r['id']=='verify-flow-4'))
+        extra.update(id='same-instant-other-report')
+        extra['provenance']['origin_id']='other-reported-origin'
+        ledger['records'].append(extra)
+        result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertFalse(result['checks'][0]['passed'])
+        self.assertEqual(result['checks'][0]['genuine_sample_count'],2)
+
     def test_conflicting_copy_cannot_be_ignored_to_keep_question_closed(self):
         from aegis_dc.verified_closure import assess_closure
         frame,program,ledger,nominal=fixture()
