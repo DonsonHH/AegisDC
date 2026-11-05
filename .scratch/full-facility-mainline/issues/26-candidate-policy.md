@@ -4,7 +4,7 @@
 
 **Blocked by:** 20, 25
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner `/root/m4_26_candidate`, branch `donson/mainline-26-candidate`, reused worktree `C:/Users/Donson/.codex/worktrees/mainline23-intervention/Renly`, base accepted25 publication48d223db. One candidate mechanism under design: explicitly account for prospective observation admissibility under the existing public evidence/provenance/dependence rules, keeping the declared loss/physical/execution models and resource rules fixed. A proposal is not an accepted algorithm or gain; first establish a falsifiable public behavior and a bounded prediction contract. Do not reuse any policy engineering result as a registered effect trial.
