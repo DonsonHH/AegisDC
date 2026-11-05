@@ -1,0 +1,75 @@
+test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) ... 
+  test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=True) ... ERROR
+  test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=0) ... ERROR
+  test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=1) ... ERROR
+
+======================================================================
+ERROR: test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 447, in test_invalid_completion_expiry_is_refused_before_private_input_is_opened
+    producer.publish_completion(completion(valid_until_s=expiry),model=numeric_model(),
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 290, in publish_completion
+    signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 167, in sample_at
+    self._load()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 127, in _load
+    run_bytes = (folder / 'run.json').read_bytes()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-17\\private-expiry-fixture-must-not-be-opened\\run.json'
+
+======================================================================
+ERROR: test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 447, in test_invalid_completion_expiry_is_refused_before_private_input_is_opened
+    producer.publish_completion(completion(valid_until_s=expiry),model=numeric_model(),
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 290, in publish_completion
+    signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 167, in sample_at
+    self._load()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 127, in _load
+    run_bytes = (folder / 'run.json').read_bytes()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-17\\private-expiry-fixture-must-not-be-opened\\run.json'
+
+======================================================================
+ERROR: test_invalid_completion_expiry_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_completion_expiry_is_refused_before_private_input_is_opened) (expiry=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 447, in test_invalid_completion_expiry_is_refused_before_private_input_is_opened
+    producer.publish_completion(completion(valid_until_s=expiry),model=numeric_model(),
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 290, in publish_completion
+    signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 167, in sample_at
+    self._load()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 127, in _load
+    run_bytes = (folder / 'run.json').read_bytes()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-17\\private-expiry-fixture-must-not-be-opened\\run.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=3)

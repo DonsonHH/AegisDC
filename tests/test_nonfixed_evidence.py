@@ -438,6 +438,28 @@ class NonfixedEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'completion|nonfixed|upstream'):
             NonfixedSession(profile_document(),producer_plan(external_records=[ungated]))
 
+    def test_invalid_completion_expiry_is_refused_before_private_input_is_opened(self):
+        from aegis_dc.nonfixed_evidence import NonfixedEvidenceProducer, SavedRunSignals
+        producer=NonfixedEvidenceProducer(registry())
+        missing=SavedRunSignals(ROOT/'private-expiry-fixture-must-not-be-opened')
+        for expiry in [True,0,1]:
+            with self.subTest(expiry=expiry), self.assertRaises(ValueError):
+                producer.publish_completion(completion(valid_until_s=expiry),model=numeric_model(),
+                    private_signals=missing,realization=dict(seed=1,bias=0,noise_half_width=0),as_of_s=2)
+        self.assertEqual(producer.private_audit()['events'],[])
+
+    def test_invalid_detector_realization_is_refused_before_private_input_is_opened(self):
+        from aegis_dc.nonfixed_evidence import NonfixedEvidenceProducer, SavedRunSignals
+        producer=NonfixedEvidenceProducer(detection_registry())
+        missing=SavedRunSignals(ROOT/'private-detector-fixture-must-not-be-opened')
+        token=completion(source_id='handheld-threshold-probe',observable_id='hot_reported',
+            coverage=[dict(target_id='immersion',observable_id='hot_reported')])
+        for realization in [dict(seed=1,bias=1,noise_half_width=0),dict(seed=1,bias=0,noise_half_width=.5)]:
+            with self.subTest(realization=realization), self.assertRaises(ValueError):
+                producer.publish_completion(token,model=detection_model(),private_signals=missing,
+                    realization=realization,as_of_s=2)
+        self.assertEqual(producer.private_audit()['events'],[])
+
 
 if __name__ == '__main__':
     unittest.main()

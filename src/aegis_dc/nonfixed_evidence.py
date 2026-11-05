@@ -80,6 +80,10 @@ def _completion(value):
         _finite(value['completed_at_s'], 'Effective completion')
     if value['status'] == 'COMPLETED' and (value['completed_at_s'] is None or value['completed_at_s'] <= value['started_at_s']):
         raise ValueError('Successful producer completion requires a positive actual observation interval')
+    if value['valid_until_s'] is not None:
+        _finite(value['valid_until_s'], 'Completion validity end')
+        if value['completed_at_s'] is not None and value['valid_until_s'] <= value['completed_at_s']:
+            raise ValueError('Completion validity end must follow its actual observation')
     if type(value['coverage']) is not list:
         raise ValueError('Declare measured coverage')
     for row in value['coverage']:
@@ -287,6 +291,8 @@ class NonfixedEvidenceProducer:
             if type(private_signals) is not SavedRunSignals:
                 raise ValueError('Use the typed private SavedRunSignals adapter, not a world object or callback')
             realization = _realization(realization)
+            if model['kind'] == 'binary_detection' and (realization['bias'] != 0 or realization['noise_half_width'] != 0):
+                raise ValueError('Binary threshold performance is separate from the numeric bias/noise model')
             signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
                 target_id=token['target_id'], facility_id=self._registry['facility_id'])
             if model['kind'] == 'numeric':
@@ -298,8 +304,6 @@ class NonfixedEvidenceProducer:
                 private_outcome = dict(actual_error_vs_signal=_reported_number(Fraction(value)-Fraction(signal['value'])),
                     declared_bound_contains_signal=abs(Fraction(value)-Fraction(signal['value'])) <= Fraction(model['reported_error_bound']))
             else:
-                if realization['bias'] != 0 or realization['noise_half_width'] != 0:
-                    raise ValueError('Binary threshold performance is separate from the numeric bias/noise model')
                 draw = _draw(realization, token, 'threshold-detector')
                 latent = Fraction(signal['value']) >= Fraction(model['threshold'])
                 rate = model['sensitivity'] if latent else model['false_positive_rate']

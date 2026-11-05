@@ -1,0 +1,52 @@
+test_invalid_detector_realization_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_detector_realization_is_refused_before_private_input_is_opened) ... 
+  test_invalid_detector_realization_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_detector_realization_is_refused_before_private_input_is_opened) (realization={'seed': 1, 'bias': 1, 'noise_half_width': 0}) ... ERROR
+  test_invalid_detector_realization_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_detector_realization_is_refused_before_private_input_is_opened) (realization={'seed': 1, 'bias': 0, 'noise_half_width': 0.5}) ... ERROR
+
+======================================================================
+ERROR: test_invalid_detector_realization_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_detector_realization_is_refused_before_private_input_is_opened) (realization={'seed': 1, 'bias': 1, 'noise_half_width': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 459, in test_invalid_detector_realization_is_refused_before_private_input_is_opened
+    producer.publish_completion(token,model=detection_model(),private_signals=missing,
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 294, in publish_completion
+    signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 171, in sample_at
+    self._load()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 131, in _load
+    run_bytes = (folder / 'run.json').read_bytes()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-17\\private-detector-fixture-must-not-be-opened\\run.json'
+
+======================================================================
+ERROR: test_invalid_detector_realization_is_refused_before_private_input_is_opened (test_nonfixed_evidence.NonfixedEvidenceTests.test_invalid_detector_realization_is_refused_before_private_input_is_opened) (realization={'seed': 1, 'bias': 0, 'noise_half_width': 0.5})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 459, in test_invalid_detector_realization_is_refused_before_private_input_is_opened
+    producer.publish_completion(token,model=detection_model(),private_signals=missing,
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 294, in publish_completion
+    signal = private_signals.sample_at(token['completed_at_s'], signal_id=model['signal_id'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 171, in sample_at
+    self._load()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 131, in _load
+    run_bytes = (folder / 'run.json').read_bytes()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-17\\private-detector-fixture-must-not-be-opened\\run.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (errors=2)
