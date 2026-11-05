@@ -2,6 +2,14 @@
 from copy import deepcopy
 import unittest
 import math
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def example():
@@ -87,7 +95,7 @@ class DecisionViewTests(unittest.TestCase):
             target_ids=['room'], observable_ids=['entry-permit'], dependency_group=None,
             source_note='Declared remote status channel, not an instantaneous backend query.'))
         knowledge['reported_constraints'] = [dict(id='reported-room-entry', source_id='gate-report',
-            target_id='room', observable_id='entry-permit', location_id='room')]
+            target_id='room', observable_id='entry-permit', location_id='room', blocking_value=False)]
         ledger['records'].append(dict(id='gate-t3', source_id='gate-report', target_id='room',
             observable_id='entry-permit', unit='1', value=False, observed_at_s=3,
             arrived_at_s=4, valid_until_s=6, quality=dict(status='reported', error_bound=None,
@@ -138,7 +146,7 @@ class DecisionViewTests(unittest.TestCase):
             ('private-ticks-field', lambda k, e, p: p.update(next_private_event_s=.1)),
             ('private-entity-registry', lambda k, e, p: e['entity_ids'].append('hidden-asset')),
             ('unregistered-restriction-channel', lambda k, e, p: k['reported_constraints'].append(dict(
-                id='bad-channel', source_id='no-source', target_id='room', observable_id='offset', location_id='room'))),
+                id='bad-channel', source_id='no-source', target_id='room', observable_id='offset', location_id='room', blocking_value=False))),
         ]
         for name, mutation in mutations:
             with self.subTest(case=name):
@@ -217,6 +225,93 @@ class DecisionViewTests(unittest.TestCase):
             self.assertEqual(left['evidence']['static_knowledge']['entity_ids'],
                              [row['id'] for row in knowledge['entities']])
         self.assertEqual(permuted, before)
+
+    def test_report_blocking_polarity_is_declared_not_inferred_from_a_name(self):
+        from aegis_dc.decision_view import DecisionGateway, public_feasibility
+        knowledge, ledger, plan = example()
+        ledger['observables'].append(dict(id='uninterpreted-flag', quantity='binary', value_type='boolean', unit='1'))
+        ledger['sources'].append(dict(id='declared-flag', kind='control_record', basis='synthetic_assumption',
+            target_ids=['room'], observable_ids=['uninterpreted-flag'], dependency_group=None,
+            source_note='Meaning/polarity is provided by the public binding.'))
+        ledger['records'].append(dict(id='flag-t0', source_id='declared-flag', target_id='room',
+            observable_id='uninterpreted-flag', unit='1', value=True, observed_at_s=0, arrived_at_s=1,
+            valid_until_s=2, quality=dict(status='reported', error_bound=None, note='A reported flag only.'),
+            provenance=dict(origin_id='carried-flag-t0', copied_from_record_id=None)))
+        knowledge['reported_constraints'] = [dict(id='declared-restriction', source_id='declared-flag',
+            target_id='room', observable_id='uninterpreted-flag', location_id='room', blocking_value=True)]
+        plan['decision_times_s'] = [0, 1]
+        gateway = DecisionGateway(knowledge, ledger, plan)
+        self.assertTrue(public_feasibility(gateway.next_frame(), 'public-pump-check')['legal_for_planning'])
+        current = gateway.next_frame()
+        self.assertFalse(public_feasibility(current, 'public-pump-check')['legal_for_planning'])
+        opposite = deepcopy(knowledge)
+        opposite['reported_constraints'][0]['blocking_value'] = False
+        other = DecisionGateway(opposite, ledger, plan)
+        other.next_frame()
+        self.assertTrue(public_feasibility(other.next_frame(), 'public-pump-check')['legal_for_planning'])
+
+    def test_canonical_V6_fixture_uses_all_identities_and_only_declared_public_inputs(self):
+        from aegis_dc.decision_view import DecisionGateway, decision_options
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'fixture'
+            done = subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/build_decision_fixture.py'),
+                '--output', str(output)], cwd=ROOT,
+                env=dict(os.environ, PYTHONPATH=str(ROOT / 'src')), capture_output=True, text=True)
+            self.assertEqual(done.returncode, 0, done.stderr)
+            knowledge = json.loads((output / 'public-nominal.json').read_text(encoding='utf-8'))
+            plan = json.loads((output / 'public-plan.json').read_text(encoding='utf-8'))
+            canonical = json.loads((ROOT / 'configs/full-facility-mainline-reserve-v6.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(knowledge['entities']), 45)
+            self.assertEqual([row['id'] for row in knowledge['entities']], [row['id'] for row in canonical['entities']])
+            self.assertEqual(knowledge['facility_id'], canonical['id'])
+            self.assertEqual(len(knowledge['domain_ids']), 8)
+            self.assertEqual(set(knowledge['graphs']), {'physical', 'functional', 'control_information', 'access'})
+            self.assertEqual(sum(edge['bidirectional'] for edge in knowledge['graphs']['access']), 5)
+            self.assertNotIn('runtime', knowledge)
+            self.assertNotIn('parameters', knowledge)
+            open_ledger = json.loads((output / 'reported-open-ledger.json').read_text(encoding='utf-8'))
+            closed_ledger = json.loads((output / 'reported-closed-ledger.json').read_text(encoding='utf-8'))
+            self.assertEqual(sum(source['kind'] == 'fixed_sensor' for source in open_ledger['sources']), 3)
+            first, second = DecisionGateway(knowledge, open_ledger, plan), DecisionGateway(knowledge, closed_ledger, plan)
+            before_equal, after_different = 0, 0
+            for time in plan['decision_times_s']:
+                a, b = first.next_frame(), second.next_frame()
+                if time < 6:
+                    self.assertEqual(a, b)
+                    self.assertEqual(decision_options(a), decision_options(b))
+                    before_equal += 1
+                else:
+                    self.assertEqual(decision_options(a)['demo_choice_id'], 'intent-it-check')
+                    self.assertEqual(decision_options(b)['demo_choice_id'], 'intent-filter-check')
+                    self.assertEqual(decision_options(b)['candidate_assessments'][0]['blocking_record_ids'], ['it-entry-report-t4'])
+                    after_different += 1
+            self.assertEqual((before_equal, after_different), (4, 2))
+
+    def test_standalone_CLI_is_an_offline_evaluator_trace_and_refuses_overwrite(self):
+        from aegis_dc.decision_view import decision_options
+        fixture = ROOT / 'configs/full-facility-decision-v1'
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'trace'
+            command = [sys.executable, '-X', 'utf8', '-m', 'aegis_dc.decision_view',
+                '--nominal', str(fixture / 'public-nominal.json'),
+                '--ledger', str(fixture / 'reported-closed-ledger.json'),
+                '--plan', str(fixture / 'public-plan.json'), '--output', str(output)]
+            environment = dict(os.environ, PYTHONPATH=str(ROOT / 'src'))
+            done = subprocess.run(command, cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertTrue(done.stdout.strip(), 'The CLI must actually release the declared frames.')
+            trace = json.loads(done.stdout)
+            self.assertEqual(trace['visibility'], 'PRIVATE_EVALUATOR_ONLY_NOT_A_DISPATCH_INPUT')
+            self.assertEqual([step['frame']['as_of_s'] for step in trace['steps']],
+                             [0, 2, 4, math.nextafter(6, -math.inf), 6, 7])
+            self.assertEqual(trace['steps'][4]['options']['demo_choice_id'], 'intent-filter-check')
+            saved = (output / 'private-decision-trace.json').read_bytes()
+            self.assertEqual(json.loads(saved), trace)
+            with self.assertRaises(ValueError):
+                decision_options(trace)
+            refused = subprocess.run(command, cwd=ROOT, env=environment, capture_output=True, text=True)
+            self.assertEqual(refused.returncode, 2)
+            self.assertEqual((output / 'private-decision-trace.json').read_bytes(), saved)
 
 
 if __name__ == '__main__':

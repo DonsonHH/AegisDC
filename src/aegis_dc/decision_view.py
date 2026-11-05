@@ -1,6 +1,8 @@
 """Current public decision inputs; backend handles never enter the frame."""
 from copy import deepcopy
+from pathlib import Path
 
+from patrol_rsi.contracts import strict_json
 from .evidence_ledger import EvidenceLedger, RECORD_FIELDS, _plain_json, validate_ledger
 from .scenario import DOMAINS, ENTITY_KINDS, RELATIONS
 
@@ -14,7 +16,7 @@ REQUEST_FIELDS = {'id', 'worker_id', 'work_interface_id', 'target_id'}
 ENTITY_FIELDS = {'id', 'kind', 'domain', 'nominal_location_id', 'qualification_ids', 'tool_ids'}
 INTERFACE_FIELDS = {'id', 'domain_id', 'target_ids', 'qualification_id', 'tool_ids'}
 EDGE_FIELDS = {'id', 'from', 'to', 'kind', 'bidirectional', 'requires_qualification_ids'}
-CONSTRAINT_FIELDS = {'id', 'source_id', 'target_id', 'observable_id', 'location_id'}
+CONSTRAINT_FIELDS = {'id', 'source_id', 'target_id', 'observable_id', 'location_id', 'blocking_value'}
 SNAPSHOT_FIELDS = {'schema', 'ledger_id', 'facility_id', 'time_unit', 'as_of_s',
                    'static_knowledge', 'records', 'correlation_groups', 'provenance_issues',
                    'independence', 'conflicts', 'current_record_ids'}
@@ -115,8 +117,9 @@ def validate_nominal(document):
                          'Only access relations declare walking direction/qualification metadata')
     constraints = _registry(document['reported_constraints'], CONSTRAINT_FIELDS, 'Reported constraint')
     for row in constraints.values():
-        for name in CONSTRAINT_FIELDS:
+        for name in CONSTRAINT_FIELDS - {'blocking_value'}:
             _text(row[name], 'Constraint ' + name)
+        _require(type(row['blocking_value']) is bool, 'Declare restriction polarity as a JSON boolean')
         _require(row['target_id'] in entities and row['location_id'] in entities
                  and entities[row['location_id']]['kind'] == 'location', 'Unknown declared constraint target/location')
     return deepcopy(document)
@@ -252,7 +255,7 @@ def _assessment(frame, request):
             if record['id'] in current_ids and all(record[key] == constraint[key]
                     for key in ('source_id', 'target_id', 'observable_id')):
                 considered.add(record['id'])
-                if record['value'] is False:
+                if record['value'] is constraint['blocking_value']:
                     blocking.add(record['id'])
     if blocking:
         reasons.append('current_report_restricts_entry')
@@ -314,3 +317,56 @@ class DecisionGateway:
                      evidence=self._ledger.snapshot(now), requests=deepcopy(self._plan['requests']))
         self._index += 1
         return frame
+
+
+def load_gateway(nominal_path, ledger_path, plan_path):
+    """Evaluator loader only; this handle must not be handed to a dispatcher."""
+    documents = [strict_json(Path(path).read_text(encoding='utf-8'))
+                 for path in (nominal_path, ledger_path, plan_path)]
+    return DecisionGateway(*documents)
+
+
+def _offline_trace(gateway):
+    steps = []
+    while True:
+        try:
+            frame = gateway.next_frame()
+        except StopIteration:
+            break
+        # The consumer sees ONLY the current detached frame. The accumulating
+        # hindsight trace and evaluator gateway are not consumer arguments.
+        options = decision_options(frame)
+        steps.append(dict(frame=frame, options=options))
+    return dict(schema='aegisdc-private-preparation-trace-v1',
+                visibility='PRIVATE_EVALUATOR_ONLY_NOT_A_DISPATCH_INPUT', steps=steps,
+                registered_research_trials=0, model_calls=0, training_calls=0)
+
+
+def main():
+    """Offline engineering trace, distinct from the per-tick dispatch seam."""
+    import argparse
+    import json
+    import sys
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--nominal', type=Path, required=True)
+    parser.add_argument('--ledger', type=Path, required=True)
+    parser.add_argument('--plan', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        if args.output.exists():
+            raise ValueError('Output directory already exists; use a new evaluator directory')
+        trace = _offline_trace(load_gateway(args.nominal, args.ledger, args.plan))
+        encoded = json.dumps(trace, ensure_ascii=False, indent=2, allow_nan=False) + '\n'
+        args.output.mkdir(parents=True, exist_ok=False)
+        with (args.output / 'private-decision-trace.json').open('x', encoding='utf-8', newline='\n') as stream:
+            stream.write(encoded)
+        print(encoded, end='')
+        return 0
+    except (ValueError, OSError) as error:
+        print(str(error), file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

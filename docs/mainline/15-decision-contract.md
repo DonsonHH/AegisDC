@@ -31,6 +31,13 @@ IDs/quality; it is not promoted into actual-state truth. Otherwise dynamic
 access, current positions and resource occupation remain unverified. Actual
 M1 safety checks remain private and unchanged.
 
+Each reported constraint explicitly declares a boolean `blocking_value`. A
+permit-style channel normally declares `false`, while a restriction/alarm-style
+channel can declare `true`. The interface never guesses this meaning from an
+observable name or the private world. Any matching current reported value uses
+the declared conservative rule; unknown quality remains visible and no actual
+access state is certified.
+
 The deterministic demo chooses the first eligible public intention in its
 declared order. It is a tracer, not a dispatch algorithm or effect claim. No
 execution method exposes an instantaneous private rejection. Later execution
@@ -39,5 +46,10 @@ and pay the declared travel/wait/check costs before an observation is released.
 Records/observation generation and real execution remain with their own tickets.
 
 Own standalone entry point avoids changes to the shared command module:
-`python -m aegis_dc.decision_view ...`. All new fixtures are engineering data;
-registered research/model/training counters remain zero.
+`python -m aegis_dc.decision_view --nominal FILE --ledger FILE --plan FILE --output NEW_DIRECTORY`.
+It is an offline evaluator tracer. The accumulated hindsight trace is explicitly
+private and is rejected by the per-current-frame consumer interface. The driver
+passes only each current frame into the pure consumer before appending its
+result; a policy does not receive the completed trace or the loader/gateway.
+All new fixtures are engineering data; registered research/model/training
+counters remain zero.

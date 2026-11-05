@@ -1,0 +1,53 @@
+test_fixed_public_ticks_release_detached_current_plain_frames (test_decision_view.DecisionViewTests.test_fixed_public_ticks_release_detached_current_plain_frames) ... ok
+test_nominal_plan_admission_rejects_private_fields_bad_references_and_callbacks (test_decision_view.DecisionViewTests.test_nominal_plan_admission_rejects_private_fields_bad_references_and_callbacks) ... ok
+test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives (test_decision_view.DecisionViewTests.test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives) ... ERROR
+test_queries_reject_forged_future_metadata_and_backend_handles (test_decision_view.DecisionViewTests.test_queries_reject_forged_future_metadata_and_backend_handles) ... ok
+test_registry_presentation_order_does_not_change_public_frames (test_decision_view.DecisionViewTests.test_registry_presentation_order_does_not_change_public_frames) ... ok
+test_report_blocking_polarity_is_declared_not_inferred_from_a_name (test_decision_view.DecisionViewTests.test_report_blocking_polarity_is_declared_not_inferred_from_a_name) ... ERROR
+
+======================================================================
+ERROR: test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives (test_decision_view.DecisionViewTests.test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\tests\test_decision_view.py", line 100, in test_nontrivial_planning_mask_changes_only_after_a_declared_report_arrives
+    gateway = DecisionGateway(knowledge, ledger, plan)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 298, in __init__
+    knowledge = validate_nominal(nominal_knowledge)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 116, in validate_nominal
+    constraints = _registry(document['reported_constraints'], CONSTRAINT_FIELDS, 'Reported constraint')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 48, in _registry
+    _fields(row, fields, label)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 29, in _fields
+    _require(type(document) is dict and set(document) == fields,
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 25, in _require
+    raise ValueError(message)
+ValueError: Reported constraint fields do not match the closed contract
+
+======================================================================
+ERROR: test_report_blocking_polarity_is_declared_not_inferred_from_a_name (test_decision_view.DecisionViewTests.test_report_blocking_polarity_is_declared_not_inferred_from_a_name)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\tests\test_decision_view.py", line 235, in test_report_blocking_polarity_is_declared_not_inferred_from_a_name
+    gateway = DecisionGateway(knowledge, ledger, plan)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 298, in __init__
+    knowledge = validate_nominal(nominal_knowledge)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 116, in validate_nominal
+    constraints = _registry(document['reported_constraints'], CONSTRAINT_FIELDS, 'Reported constraint')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 48, in _registry
+    _fields(row, fields, label)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 29, in _fields
+    _require(type(document) is dict and set(document) == fields,
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-15\src\aegis_dc\decision_view.py", line 25, in _require
+    raise ValueError(message)
+ValueError: Reported constraint fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.033s
+
+FAILED (errors=2)
