@@ -1,0 +1,24 @@
+test_abort_at_completion_instant_prevents_measurement (test_inspection_execution.InspectionExecutionTests.test_abort_at_completion_instant_prevents_measurement) ... ok
+test_actual_signal_changes_during_work_and_only_completion_value_is_used (test_inspection_execution.InspectionExecutionTests.test_actual_signal_changes_during_work_and_only_completion_value_is_used) ... ERROR
+test_measurement_comes_from_actual_completion_not_dispatch (test_inspection_execution.InspectionExecutionTests.test_measurement_comes_from_actual_completion_not_dispatch) ... ok
+test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason (test_inspection_execution.InspectionExecutionTests.test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason) ... ok
+test_professional_threshold_confirmation_is_separate_from_arrival_and_reading (test_inspection_execution.InspectionExecutionTests.test_professional_threshold_confirmation_is_separate_from_arrival_and_reading) ... ok
+
+======================================================================
+ERROR: test_actual_signal_changes_during_work_and_only_completion_value_is_used (test_inspection_execution.InspectionExecutionTests.test_actual_signal_changes_during_work_and_only_completion_value_is_used)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\tests\test_inspection_execution.py", line 80, in test_actual_signal_changes_during_work_and_only_completion_value_is_used
+    run=simulate_scenario(scenario,duration_s=2,step_s=.01,work_program=work,inspection_program=inspection,boundary_events=[event])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\src\aegis_dc\plant.py", line 692, in simulate_scenario
+    timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\src\aegis_dc\plant.py", line 59, in _boundary_events
+    raise ValueError('Boundary event parameter is not an exogenous input')
+ValueError: Boundary event parameter is not an exogenous input
+
+----------------------------------------------------------------------
+Ran 5 tests in 8.216s
+
+FAILED (errors=1)

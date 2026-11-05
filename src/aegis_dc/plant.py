@@ -673,7 +673,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -713,6 +713,12 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             raise ValueError('Use legacy work_requests or a work_program, not both')
         from .workforce_dispatch import CrewWorkforce
         workforce = CrewWorkforce(scenario, plant.p, work_program, duration)
+    inspections = None
+    if inspection_program is not None:
+        if work_program is None:
+            raise ValueError('Real inspections require the actual crew work_program')
+        from .inspection_execution import InspectionSession
+        inspections = InspectionSession(scenario, work_program, inspection_program)
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
@@ -742,7 +748,10 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 raise ValueError('Reserve source/selector states did not settle at the current instant')
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
-        trace.append(plant.snapshot(time_s, point, workforce))
+        snapshot = plant.snapshot(time_s, point, workforce)
+        if inspections is not None:
+            inspections.process(time_s, workforce, snapshot)
+        trace.append(snapshot)
         if time_s >= duration:
             break
         next_input = timed_inputs[event_index]['time_s'] if event_index < len(timed_inputs) else duration
@@ -792,8 +801,13 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
             'time_coordinate_convention': deepcopy(TIME_COORDINATE_CONVENTION),
             **({'workforce_public_feedback': workforce.public_feedback(duration)} if work_program is not None else {}),
+            **({'inspection_public_snapshot': inspections.snapshot(duration),
+                'inspection_public_models': inspections.public_models(),
+                'inspection_public_feedback': inspections.public_feedback(duration),
+                'inspection_private_audit': inspections.private_audit()} if inspections is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
+                       **({'inspection_program': deepcopy(inspection_program)} if inspections is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 
