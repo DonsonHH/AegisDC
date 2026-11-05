@@ -1,0 +1,120 @@
+{
+  "schema": "aegisdc-closure-assessment-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "as_of_s": 6,
+  "questions": [
+    {
+      "question_id": "cooling",
+      "rule_id": "cooling-verification",
+      "as_of_s": 6,
+      "status": "VERIFIED_CLOSED",
+      "risk_closed": true,
+      "question_closed": true,
+      "physical_restoration_claim": false,
+      "scope": "DECLARED_FINITE_SAMPLED_CRITERIA_ONLY",
+      "supporting_record_ids": [
+        "service-review-4",
+        "service-review-5",
+        "verify-flow-4",
+        "verify-flow-5"
+      ],
+      "blocking_record_ids": [],
+      "review_evaluations": [],
+      "disposition_record_ids": [],
+      "checks": [
+        {
+          "check_id": "flow-restored",
+          "role": "condition",
+          "passed": true,
+          "supporting_record_ids": [
+            "verify-flow-4",
+            "verify-flow-5"
+          ],
+          "insufficient_record_ids": [],
+          "genuine_sample_count": 2,
+          "span_s": 1,
+          "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+        },
+        {
+          "check_id": "service-restored",
+          "role": "service",
+          "passed": true,
+          "supporting_record_ids": [
+            "service-review-4",
+            "service-review-5"
+          ],
+          "insufficient_record_ids": [],
+          "genuine_sample_count": 2,
+          "span_s": 1,
+          "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+        }
+      ],
+      "trace": [
+        {
+          "event": "ACTION_REPORT_AVAILABLE",
+          "observed_at_s": 3,
+          "arrived_at_s": 3.5,
+          "origin_id": "intervention:clean-filter",
+          "outcome": "APPLIED"
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "service-review-4",
+          "observed_at_s": 4,
+          "arrived_at_s": 4.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "service-review-4",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "verify-flow-4",
+          "observed_at_s": 4,
+          "arrived_at_s": 4.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "verify-flow-4",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "service-review-5",
+          "observed_at_s": 5,
+          "arrived_at_s": 5.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "service-review-5",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "verify-flow-5",
+          "observed_at_s": 5,
+          "arrived_at_s": 5.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "verify-flow-5",
+            "copied_from_record_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "unevaluated_question_ids": [
+    "access-and-leak",
+    "backup-support",
+    "control-uncertainty",
+    "it-dependence",
+    "people-and-tools",
+    "power",
+    "room-boundary"
+  ],
+  "execution_permission": false,
+  "physical_actions": [],
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED"
+}

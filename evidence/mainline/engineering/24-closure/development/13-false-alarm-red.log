@@ -1,0 +1,25 @@
+test_false_alarm_needs_explicit_authorized_evidence_bound_review (test_verified_closure.VerifiedClosureTests.test_false_alarm_needs_explicit_authorized_evidence_bound_review) ... ERROR
+
+======================================================================
+ERROR: test_false_alarm_needs_explicit_authorized_evidence_bound_review (test_verified_closure.VerifiedClosureTests.test_false_alarm_needs_explicit_authorized_evidence_bound_review)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 66, in test_false_alarm_needs_explicit_authorized_evidence_bound_review
+    result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\verified_closure.py", line 137, in assess_closure
+    rules=_profile(frame,program,risks);feedback=_feedback(frame,program);reviews=_reviews(frame,program,rules);questions=[]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\verified_closure.py", line 18, in _profile
+    profile=program['profile'];_fields(profile,PROFILE_FIELDS,'Closure profile')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Closure profile fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.040s
+
+FAILED (errors=1)

@@ -1,0 +1,28 @@
+test_action_completion_needs_post_action_condition_and_service_evidence (test_verified_closure.VerifiedClosureTests.test_action_completion_needs_post_action_condition_and_service_evidence) ... ERROR
+
+======================================================================
+ERROR: test_action_completion_needs_post_action_condition_and_service_evidence (test_verified_closure.VerifiedClosureTests.test_action_completion_needs_post_action_condition_and_service_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 47, in test_action_completion_needs_post_action_condition_and_service_evidence
+    result=assess_closure(frame,program);question=result['questions'][0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\verified_closure.py", line 94, in assess_closure
+    risks=assess_risks(frame,program['belief_model'],program['risk_catalog'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\risk_scenarios.py", line 266, in assess_risks
+    belief = infer_belief(frame, belief_model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\belief.py", line 263, in infer_belief
+    hypotheses, channels, independent, variants = _model_for_frame(model, frame)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\belief.py", line 49, in _model_for_frame
+    _require(scope['ledger_id'] == evidence['ledger_id'] and scope['nominal_knowledge_id'] == knowledge['id'],
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Belief scope differs from the public ledger or nominal knowledge identity
+
+----------------------------------------------------------------------
+Ran 1 test in 0.023s
+
+FAILED (errors=1)

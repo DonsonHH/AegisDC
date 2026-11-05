@@ -1,0 +1,25 @@
+test_authorized_risk_acceptance_is_not_verified_physical_restoration (test_verified_closure.VerifiedClosureTests.test_authorized_risk_acceptance_is_not_verified_physical_restoration) ... ERROR
+
+======================================================================
+ERROR: test_authorized_risk_acceptance_is_not_verified_physical_restoration (test_verified_closure.VerifiedClosureTests.test_authorized_risk_acceptance_is_not_verified_physical_restoration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 63, in test_authorized_risk_acceptance_is_not_verified_physical_restoration
+    result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\verified_closure.py", line 101, in assess_closure
+    rules=_profile(frame,program,risks);feedback=_feedback(frame,program);questions=[]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\verified_closure.py", line 16, in _profile
+    profile=program['profile'];_fields(profile,PROFILE_FIELDS,'Closure profile')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Closure profile fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.037s
+
+FAILED (errors=1)
