@@ -167,4 +167,40 @@ class InterventionExecutionTests(unittest.TestCase):
             self.assertEqual(declined.stdout,'')
             self.assertNotIn('Traceback',declined.stderr)
 
+    def test_same_public_proposal_stays_equal_until_costly_hidden_gate_feedback(self):
+        from aegis_dc.intervention_execution import prepare_intervention
+        scenario,work,actions=fixture()
+        task=work['submissions'][0]['task']
+        # An IT-qualified worker starts outside the protected zone in both worlds.
+        worker=next(e for e in scenario['entities'] if e['id']=='worker_it')
+        worker['location_id']='loc_control'
+        tool=next(e for e in scenario['entities'] if e['id']=='tool_it_diagnostic')
+        tool['location_id']='loc_control'
+        open_proposal=prepare_intervention(work['submissions'][0]['frame'],work['profile'],task,actions['profile'],actions['bindings'][0])
+        closed=deepcopy(scenario)
+        next(p for p in closed['parameters'] if p['id']=='it_access_permit')['value']=0
+        closed_proposal=prepare_intervention(work['submissions'][0]['frame'],work['profile'],task,actions['profile'],actions['bindings'][0])
+        self.assertEqual(open_proposal,closed_proposal)
+        self.assertTrue(open_proposal['legal_for_planning'])
+        early=simulate_scenario(closed,duration_s=1.5,step_s=.01,work_program=work,intervention_program=actions)
+        self.assertEqual(early['intervention_public_feedback'],[])
+        self.assertAlmostEqual(early['summary']['worker_travel_person_s'],1)
+        final=simulate_scenario(closed,duration_s=2,step_s=.01,work_program=work,intervention_program=actions)
+        self.assertFalse(any(e['outcome']=='APPLIED' for e in final['intervention_private_audit']['events']))
+        feedback=final['intervention_public_feedback'][0]
+        self.assertEqual((feedback['observed_at_s'],feedback['arrived_at_s']),(1.25,1.75))
+        self.assertEqual(feedback['outcome'],'NO_EFFECT')
+        self.assertFalse(feedback['risk_closed'])
+
+    def test_safety_abort_at_exact_completion_prevents_intervention_effect(self):
+        scenario,work,actions=fixture()
+        run=simulate_scenario(scenario,duration_s=2,step_s=.01,work_program=work,intervention_program=actions,
+            boundary_events=[dict(time_s=1.25,parameter_id='it_access_permit',value=0,
+                source_note='Declared safety restriction at proposed completion; not an observation input.')])
+        self.assertEqual(run['work_records'][0]['status'],'aborted')
+        self.assertFalse(any(e['outcome']=='APPLIED' for e in run['intervention_private_audit']['events']))
+        self.assertAlmostEqual(run['summary']['delivered_service_unit_s'],.5)
+        self.assertAlmostEqual(run['summary']['service_deficit_time_s'],1.5)
+        self.assertEqual(run['intervention_public_feedback'][0]['arrived_at_s'],1.75)
+
 if __name__=='__main__':unittest.main()
