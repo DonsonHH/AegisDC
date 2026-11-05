@@ -1,0 +1,31 @@
+..EE........
+======================================================================
+ERROR: test_cli_consumes_only_closed_frame_and_model_and_prints_detached_belief (test_belief.TestBeliefUpdates.test_cli_consumes_only_closed_frame_and_model_and_prints_detached_belief)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 252, in test_cli_consumes_only_closed_frame_and_model_and_prints_detached_belief
+    self.assertEqual(json.loads(completed.stdout), result)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_conflicting_roots_are_visible_and_deferred (test_belief.TestBeliefUpdates.test_conflicting_roots_are_visible_and_deferred)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 233, in test_conflicting_roots_are_visible_and_deferred
+    self.assertEqual(after['reported_conflicts'][0]['record_ids'], ['left', 'right'])
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'reported_conflicts'
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.245s
+
+FAILED (errors=2)

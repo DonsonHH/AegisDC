@@ -1,0 +1,36 @@
+.F.FF
+======================================================================
+FAIL: test_copy_before_root_never_counts_and_late_root_counts_once (test_belief.TestBeliefUpdates.test_copy_before_root_never_counts_and_late_root_counts_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 89, in test_copy_before_root_never_counts_and_late_root_counts_once
+    self.assertEqual(before['posterior']['cooling-limited'], .2)
+AssertionError: 0.38571428571428573 != 0.2
+
+======================================================================
+FAIL: test_late_visible_link_can_remove_a_previously_eligible_factor (test_belief.TestBeliefUpdates.test_late_visible_link_can_remove_a_previously_eligible_factor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 123, in test_late_visible_link_can_remove_a_previously_eligible_factor
+    self.assertAlmostEqual(before['posterior']['power-limited'], 171 / 412)
+AssertionError: 0.019230769230769232 != 0.41504854368932037 within 7 places (0.39581777445855115 difference)
+
+======================================================================
+FAIL: test_latest_representative_replaces_repeat_and_unmodeled_dependence_is_deferred (test_belief.TestBeliefUpdates.test_latest_representative_replaces_repeat_and_unmodeled_dependence_is_deferred)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 106, in test_latest_representative_replaces_repeat_and_unmodeled_dependence_is_deferred
+    self.assertEqual(before['information_updates'], ['early'])
+AssertionError: Lists differ: ['early', 'vibration'] != ['early']
+
+First list contains 1 additional elements.
+First extra element 1:
+'vibration'
+
+- ['early', 'vibration']
++ ['early']
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.064s
+
+FAILED (failures=3)

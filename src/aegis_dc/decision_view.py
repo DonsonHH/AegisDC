@@ -188,7 +188,8 @@ def _same_json(expected, actual):
     return type(expected) is type(actual) and expected == actual
 
 
-def _current_frame(frame):
+def validate_current_frame(frame):
+    """Validate and detach the public dispatch frame for evidence-only consumers."""
     _plain_json(frame)
     _fields(frame, FRAME_FIELDS, 'Current decision frame')
     _require(frame['schema'] == 'aegisdc-dispatch-frame-v1' and frame['time_unit'] == 's',
@@ -270,7 +271,7 @@ def _assessment(frame, request):
 
 def public_feasibility(frame, request_id):
     """Read-only preparation assessment, never a query to a physical executor."""
-    frame = _current_frame(frame)
+    frame = validate_current_frame(frame)
     request = next((row for row in frame['requests'] if row['id'] == request_id), None)
     _require(request is not None, 'Unknown public preparation request')
     return _assessment(frame, request)
@@ -278,7 +279,7 @@ def public_feasibility(frame, request_id):
 
 def decision_options(frame):
     """Non-optimizing tracer: first eligible intention in its declared order."""
-    frame = _current_frame(frame)
+    frame = validate_current_frame(frame)
     assessments = [_assessment(frame, request) for request in frame['requests']]
     return dict(schema='aegisdc-public-preparation-options-v1', as_of_s=frame['as_of_s'],
                 candidate_assessments=assessments,

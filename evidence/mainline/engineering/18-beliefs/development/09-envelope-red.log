@@ -1,0 +1,23 @@
+..E...E
+======================================================================
+ERROR: test_display_rounding_cannot_turn_positive_path_support_into_model_conflict (test_belief.TestBeliefUpdates.test_display_rounding_cannot_turn_positive_path_support_into_model_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 161, in test_display_rounding_cannot_turn_positive_path_support_into_model_conflict
+    self.assertIn('cooling-limited', result['positive_support_by_variant']['reference'])
+                                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'positive_support_by_variant'
+
+======================================================================
+ERROR: test_model_envelope_is_declared_sensitivity_and_conflict_is_explicit (test_belief.TestBeliefUpdates.test_model_envelope_is_declared_sensitivity_and_conflict_is_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 135, in test_model_envelope_is_declared_sensitivity_and_conflict_is_explicit
+    self.assertEqual(baseline['assumption_envelope']['cooling-limited'], [61 / 210, 27 / 70])
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'assumption_envelope'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.085s
+
+FAILED (errors=2)
