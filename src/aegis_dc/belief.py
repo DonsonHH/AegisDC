@@ -79,14 +79,13 @@ def _model_for_frame(model, frame):
             _require(positive_when in {'below', 'at_or_above'} and type(threshold) in (int, float),
                      'Numeric channels require a declared threshold and polarity')
             value_type = 'number'
-        if source_id in sources:
-            source = sources[source_id]
-            _require(target_id in source['target_ids'] and observable_id in source['observable_ids'],
-                     'Belief channel exceeds public source coverage')
-        if observable_id in observables:
-            observable = observables[observable_id]
-            _require(observable['value_type'] == value_type and observable['unit'] == channel['unit'],
-                     'Belief channel type or units differ from the public observable')
+        _require(source_id in sources and observable_id in observables,
+                 'Belief channel requires a registered public source and observable')
+        source, observable = sources[source_id], observables[observable_id]
+        _require(target_id in source['target_ids'] and observable_id in source['observable_ids'],
+                 'Belief channel exceeds public source coverage')
+        _require(observable['value_type'] == value_type and observable['unit'] == channel['unit'],
+                 'Belief channel type or units differ from the public observable')
     independent = set()
     _require(type(model['independent_pairs']) is list and len(model['independent_pairs']) <= 1,
              'Declare at most one conditionally independent channel pair in this model')

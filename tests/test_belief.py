@@ -264,6 +264,20 @@ class TestBeliefUpdates(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'at most one'):
             infer_belief(decision_frames[0], model)
 
+    def test_model_requires_registered_channel_bindings_even_without_readings(self):
+        from aegis_dc.belief import infer_belief
+
+        decision_frames, model = frames()
+        channel = model['channels'][1]
+        for changes in ({'source_id': 'unknown-source'}, {'observable_id': 'unknown-observable'},
+                        {'unit': 'banana'}, {'target_id': 'immersion'},
+                        {'source_id': 'unknown-source', 'observable_id': 'unknown-observable', 'unit': 'banana'}):
+            with self.subTest(changes=changes):
+                edited = deepcopy(model)
+                edited['channels'][1] = dict(channel, **changes)
+                with self.assertRaises(ValueError):
+                    infer_belief(decision_frames[0], edited)
+
 def record(identifier, source, target, observable, unit, value, *, observed, arrived,
            valid_until=None, origin=None, parent=None, error_bound=None, quality=None):
     status = quality or ('unknown' if value is None else 'bounded' if error_bound is not None else 'reported')
