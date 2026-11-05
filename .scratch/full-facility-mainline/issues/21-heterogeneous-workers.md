@@ -6,7 +6,7 @@
 
 **Blocked by:** 07, 14
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -23,3 +23,5 @@ Apply `docs/mainline/information-boundary.md` to access and task feasibility. Un
 ## Evidence
 
 Pending implementation and acceptance.
+
+Assigned independent ready slice: `/root/m4_21_workforce`, branch `donson/mainline-21-workforce`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline21-workforce/Renly`. Predecessors07/14 are accepted; current mainline primary remains19. This assignment does not accept M4 or start registered effects.
