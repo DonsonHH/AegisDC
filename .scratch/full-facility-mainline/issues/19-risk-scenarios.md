@@ -28,3 +28,5 @@ Assigned implementation: `/root/m3_19_risk`, branch `donson/mainline-19-risk`, i
 Author candidate: `docs/mainline/evidence/19.json`; public contract `docs/mainline/19-risk-scenarios.md`, original formal engineering source `1939cb2ff375f7a0632a0a05ada68ae98afbdc1a`, original data `7069f2bee86ef7cdfd8d4849bb98bb5dacbf59cc`. Read `evidence/mainline/engineering/19-risk-scenarios/README.md`. Fresh delivery, Root full regression and final independent closure remain pending; this ticket is not resolved.
 
 Independent numeric-domain finding at original1939 is retained; separate corrected runtime and targeted closure are indexed by `docs/mainline/evidence/19-correction.json`. Original author capture/index remain immutable. Current corrected-runtime Root verification and independent closure are pending; status stays claimed.
+
+Revision2 numeric closure: `docs/mainline/evidence/19-correction-v2.json`, current runtime99a2afea. Historical first Root448 PASS at7b9 is retained but not current acceptance after the independent full-horizon overflow finding. New review/fresh proof/full at the corrected runtime remain pending; ticket stays claimed.

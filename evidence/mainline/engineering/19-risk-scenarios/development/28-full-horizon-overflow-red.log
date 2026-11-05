@@ -1,0 +1,47 @@
+.F...EE..........
+======================================================================
+ERROR: test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions (test_risk_scenarios.TestRiskScenarios.test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions) (questions=8)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 248, in test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions
+    assess_risks(frame,belief,changed)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 307, in assess_risks
+    full_service = (_consequences(catalog['outcomes'],weights,catalog['demand'],
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 253, in _consequences
+    return {key:dict(value=float(value),unit='s' if key=='service_deficit_time_s' else 'normalized_service_unit*s')
+                           ^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\numbers.py", line 316, in __float__
+    return int(self.numerator) / int(self.denominator)
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+OverflowError: integer division result too large for a float
+
+======================================================================
+ERROR: test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions (test_risk_scenarios.TestRiskScenarios.test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions) (questions=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 248, in test_full_horizon_overflow_is_refused_even_for_short_or_absent_questions
+    assess_risks(frame,belief,changed)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 307, in assess_risks
+    full_service = (_consequences(catalog['outcomes'],weights,catalog['demand'],
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 253, in _consequences
+    return {key:dict(value=float(value),unit='s' if key=='service_deficit_time_s' else 'normalized_service_unit*s')
+                           ^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\numbers.py", line 316, in __float__
+    return int(self.numerator) / int(self.denominator)
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+OverflowError: integer division result too large for a float
+
+======================================================================
+FAIL: test_cli_declines_full_horizon_overflow_without_traceback (test_risk_scenarios.TestRiskScenarios.test_cli_declines_full_horizon_overflow_without_traceback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 261, in test_cli_declines_full_horizon_overflow_without_traceback
+    self.assertEqual(result.returncode,2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.348s
+
+FAILED (failures=1, errors=2)

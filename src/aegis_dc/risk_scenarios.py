@@ -74,9 +74,13 @@ def _catalog_for_frame(catalog, frame, belief_model):
     _require(set(components)==required and bool(required),'Declare the required joint service component set')
     horizon = _number(catalog['horizon_s'],'risk horizon')
     _require(horizon>0,'Risk horizon must be positive')
+    _outward_upper(horizon)
     _profile(catalog['demand'],horizon,{'start_s','end_s','rate'},'Common exogenous demand')
     for row in catalog['demand']:
         _number(row['rate'],'offered service rate')
+    full_offered = sum((Fraction(row['end_s'])-Fraction(row['start_s']))*Fraction(row['rate'])
+                       for row in catalog['demand'])
+    _outward_upper(full_offered)
     states = {row['id'] for row in belief_model['hypotheses']}
     outcomes = _registry(catalog['outcomes'],'joint risk outcome')
     _require(bool(outcomes),'Declare a finite joint outcome law')
@@ -250,6 +254,8 @@ def _consequences(outcomes, weights, demand, windows_by_outcome, components):
         values = _service(outcome, demand, windows_by_outcome.get(outcome['id'], []), components)
         for key in totals:
             totals[key] += weights[outcome['id']] * values[key]
+    for value in totals.values():
+        _outward_upper(value)
     return {key:dict(value=float(value),unit='s' if key=='service_deficit_time_s' else 'normalized_service_unit*s')
             for key,value in totals.items()}
 
