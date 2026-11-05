@@ -1,0 +1,23 @@
+E
+======================================================================
+ERROR: test_absence_of_evidence_predicts_nonzero_cause_probabilities (test_belief.TestBeliefUpdates.test_absence_of_evidence_predicts_nonzero_cause_probabilities)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 45, in test_absence_of_evidence_predicts_nonzero_cause_probabilities
+    decision_frames, model = frames(times=(0, 9.999, 10))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 37, in frames
+    gateway = DecisionGateway(nominal, ledger, plan)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\decision_view.py", line 305, in __init__
+    _binding_registry(knowledge, ledger)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\decision_view.py", line 159, in _binding_registry
+    _require(source is not None and observable is not None, 'Unregistered public restriction channel')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\decision_view.py", line 27, in _require
+    raise ValueError(message)
+ValueError: Unregistered public restriction channel
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (errors=1)

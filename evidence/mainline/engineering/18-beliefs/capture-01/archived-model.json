@@ -1,0 +1,232 @@
+{
+  "basis": "synthetic_assumption",
+  "channels": [
+    {
+      "id": "fixed-hot",
+      "observable_id": "coolant_hot_reported",
+      "positive_when": "true",
+      "source_id": "coolant-alarm-packet",
+      "target_id": "immersion",
+      "threshold": null,
+      "unit": "1"
+    },
+    {
+      "id": "fixed-low-power",
+      "observable_id": "rectifier_input_power",
+      "positive_when": "below",
+      "source_id": "rectifier-meter-record",
+      "target_id": "rectifier",
+      "threshold": 2000000,
+      "unit": "W"
+    },
+    {
+      "id": "handheld-hot",
+      "observable_id": "temperature",
+      "positive_when": "at_or_above",
+      "source_id": "handheld-thermometer",
+      "target_id": "immersion",
+      "threshold": 305,
+      "unit": "K"
+    },
+    {
+      "id": "manual-vibration",
+      "observable_id": "vibration_reported",
+      "positive_when": "true",
+      "source_id": "operator-report",
+      "target_id": "filter",
+      "threshold": null,
+      "unit": "1"
+    }
+  ],
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "hypotheses": [
+    {
+      "entity_ids": [
+        "immersion",
+        "rectifier"
+      ],
+      "id": "nominal",
+      "meaning": "No dominant impairment in the modeled heat-rejection and electrical-support question."
+    },
+    {
+      "entity_ids": [
+        "intake_pump",
+        "filter",
+        "plate_hx",
+        "immersion"
+      ],
+      "id": "cooling-limited",
+      "meaning": "Dominant loss of lake-side heat rejection along the intake pump, filter and plate exchanger path to immersion cooling."
+    },
+    {
+      "entity_ids": [
+        "grid",
+        "rectifier",
+        "intake_pump",
+        "immersion"
+      ],
+      "id": "power-limited",
+      "meaning": "Dominant electrical support impairment at the upstream supply or rectifier, affecting power or cooling support."
+    },
+    {
+      "entity_ids": [
+        "local_controller",
+        "immersion",
+        "rectifier"
+      ],
+      "id": "other",
+      "meaning": "Other, mixed, or observationally unresolved causes, including load, telemetry, and concurrent impairments."
+    }
+  ],
+  "id": "V6-heat-and-electrical-support-v1",
+  "independence_basis": "For the finite engineering generator, eligible coolant alarm and rectifier-meter readings have distinct acquisition draws conditional on the full latent state path. Physical coupling, clock/selection effects, unknown dependence, and all links in the public ledger constrain reuse.",
+  "independent_pairs": [
+    [
+      "fixed-hot",
+      "fixed-low-power"
+    ]
+  ],
+  "probability_unit": "1",
+  "schema": "aegisdc-belief-model-v1",
+  "scope": {
+    "epoch_count": 25,
+    "epoch_s": 10,
+    "id": "V6-belief-archived-public-replicate-01",
+    "ledger_id": "V6-belief-archived-public-01",
+    "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+    "starts_at_s": 0,
+    "time_unit": "s"
+  },
+  "unidentified": [
+    "Dominant cause is latent. Coolant heat alone cannot distinguish filter resistance, intake pump capacity, load or other heat sources.",
+    "Aggregate rectifier input cannot distinguish upstream supply loss, rectifier limitation, or low demand.",
+    "Other or concurrent causes are aggregated. Component parameters, loads, and severity remain unidentified.",
+    "Field priors, transitions, observation performance, and dependence remain pending calibration."
+  ],
+  "variants": [
+    {
+      "basis": "Hand-authored reference masses for exact finite engineering enumeration. Likelihoods describe reported bins conditional on state, not physical sensor calibration.",
+      "id": "reference",
+      "positive_likelihood": {
+        "fixed-hot": [
+          0.1,
+          0.8,
+          0.2,
+          0.4
+        ],
+        "fixed-low-power": [
+          0.1,
+          0.2,
+          0.9,
+          0.4
+        ],
+        "handheld-hot": [
+          0.1,
+          0.85,
+          0.2,
+          0.4
+        ],
+        "manual-vibration": [
+          0.2,
+          0.65,
+          0.2,
+          0.4
+        ]
+      },
+      "prior": [
+        0.6,
+        0.2,
+        0.1,
+        0.1
+      ],
+      "transition": [
+        [
+          0.7,
+          0.1,
+          0.1,
+          0.1
+        ],
+        [
+          0.2,
+          0.6,
+          0.1,
+          0.1
+        ],
+        [
+          0.2,
+          0.1,
+          0.6,
+          0.1
+        ],
+        [
+          0.3,
+          0.1,
+          0.1,
+          0.5
+        ]
+      ]
+    },
+    {
+      "basis": "Declared weaker diagnostic discrimination sensitivity. The envelope varies observation performance only, with fixed prior and transition assumptions.",
+      "id": "weaker-discrimination",
+      "positive_likelihood": {
+        "fixed-hot": [
+          0.2,
+          0.6,
+          0.3,
+          0.45
+        ],
+        "fixed-low-power": [
+          0.2,
+          0.3,
+          0.7,
+          0.45
+        ],
+        "handheld-hot": [
+          0.2,
+          0.65,
+          0.3,
+          0.45
+        ],
+        "manual-vibration": [
+          0.3,
+          0.55,
+          0.3,
+          0.45
+        ]
+      },
+      "prior": [
+        0.6,
+        0.2,
+        0.1,
+        0.1
+      ],
+      "transition": [
+        [
+          0.7,
+          0.1,
+          0.1,
+          0.1
+        ],
+        [
+          0.2,
+          0.6,
+          0.1,
+          0.1
+        ],
+        [
+          0.2,
+          0.1,
+          0.6,
+          0.1
+        ],
+        [
+          0.3,
+          0.1,
+          0.1,
+          0.5
+        ]
+      ]
+    }
+  ]
+}

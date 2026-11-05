@@ -1,0 +1,27 @@
+E
+======================================================================
+ERROR: test_absence_of_evidence_predicts_nonzero_cause_probabilities (test_belief.TestBeliefUpdates.test_absence_of_evidence_predicts_nonzero_cause_probabilities)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 47, in test_absence_of_evidence_predicts_nonzero_cause_probabilities
+    decision_frames, model = frames(times=(0, 9.999, 10))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\tests\test_belief.py", line 39, in frames
+    gateway = DecisionGateway(nominal, ledger, plan)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\decision_view.py", line 303, in __init__
+    ledger = validate_ledger(ledger_document)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\evidence_ledger.py", line 164, in validate_ledger
+    sources = _registry(document['sources'], 'source')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\evidence_ledger.py", line 87, in _registry
+    _require(identifier not in result, 'Duplicate ' + label + ' id')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-18\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Duplicate source id
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)
