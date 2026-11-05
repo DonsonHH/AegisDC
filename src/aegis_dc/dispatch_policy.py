@@ -54,7 +54,7 @@ def choose_work(frame,program,history):
         and program['basis']=='synthetic_assumption','Declare synthetic policy program')
     _text(program['id'],'Policy program id')
     _text(program['policy'],'Policy name')
-    _require(program['policy'] in ({'no_human','fifo','periodic','risk_condition_priority_adapted'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+    _require(program['policy'] in ({'no_human','fifo','periodic','risk_condition_priority_adapted','one_observation_lookahead'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
     if version2 and program['policy'] in {'no_human','fifo'}:_fields(program['options'],set(),'Policy options')
     candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
     for candidate in candidates.values():
@@ -108,6 +108,9 @@ def choose_work(frame,program,history):
     detail=dict(model_evaluations=dict(risk=0,action_value=0),unmodeled_question_ids=[])
     if program['policy']=='risk_condition_priority_adapted':
         from .risk_condition_policy import evaluate
+        selected,detail=evaluate(frame,program['options'],candidates,audits)
+    elif program['policy']=='one_observation_lookahead':
+        from .lookahead_policy import evaluate
         selected,detail=evaluate(frame,program['options'],candidates,audits)
     reason=detail.pop('reason',None)
     if reason is None:

@@ -49,6 +49,41 @@ def risk_fixture(time=0):
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_one_observation_lookahead_selects_only_the_first_predicted_action(self):
+        from aegis_dc.dispatch_policy import choose_work
+        from test_action_value import fixture as value_fixture
+        frame,belief,catalog,value_model=value_fixture()
+        _,policy,history,_,_,_=risk_fixture()
+        policy['candidates']=policy['candidates'][:2]
+        policy['candidates'][0]['task']['target_id']='filter'
+        policy.update(policy='one_observation_lookahead',options=dict(belief_model=belief,catalog=catalog,value_model=value_model,
+            preparation_requests=frame['requests'],unknown_inspection_policy='fifo',bindings=[dict(question_id='cooling',
+                inspection_candidate_id='cooling-check',intervention_candidate_id='filter-action',
+                source_note='Explicit finite planning-option to same-scope first work-intention mapping.')]))
+        before=deepcopy((frame,policy,history))
+        result=choose_work(frame,policy,history)
+        self.assertEqual(result['chosen_candidate_id'],'cooling-check')
+        self.assertEqual(result['reason'],'ONE_OBSERVATION_FIRST_ACTION_ONLY')
+        self.assertAlmostEqual(result['forecast_plans'][0]['best_expected_service_deficit_s'],12.5)
+        self.assertEqual(result['forecast_plans'][0]['best_alternative'],'inspect_then_act')
+        self.assertEqual(result['forecast_window_s'],[0,100])
+        self.assertEqual(result['model_evaluations'],dict(risk=0,action_value=1))
+        self.assertEqual((frame,policy,history),before)
+        self.assertEqual(result['work_intention']['id'],'cooling-inspection')
+        # Uninformative inspection should not force an extra check before action.
+        for variant in policy['options']['value_model']['question_models'][0]['variants']:
+            variant['positive_likelihood']={key:.5 for key in variant['positive_likelihood']}
+        direct=choose_work(frame,policy,history)
+        self.assertEqual(direct['chosen_candidate_id'],'filter-action')
+        self.assertEqual(direct['forecast_plans'][0]['best_alternative'],'direct_intervention')
+        self.assertAlmostEqual(direct['forecast_plans'][0]['best_expected_service_deficit_s'],20)
+        # With no useful state response the predeclared alternative may be defer.
+        for variant in policy['options']['value_model']['question_models'][0]['variants']:
+            variant['after_capacity']={key:{c:0 for c in catalog['service_component_ids']} for key in variant['after_capacity']}
+        deferred=choose_work(frame,policy,history)
+        self.assertIsNone(deferred['chosen_candidate_id'])
+        self.assertEqual(deferred['reason'],'MODEL_PREFERS_DEFER')
+
     def test_arrived_actual_inspection_drives_risk_policy_action_in_the_same_facility(self):
         inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
         _,policy,_,ledger,nominal,_=risk_fixture()
