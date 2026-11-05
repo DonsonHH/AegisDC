@@ -4,7 +4,7 @@
 
 **Blocked by:** 14
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -20,4 +20,17 @@ The user confirmed that fixed sensors exist but cannot cover every location beca
 
 ## Evidence
 
-Pending implementation and acceptance.
+Owner `/root/mainline_12_full_standards` now implements ticket 16 only (the
+earlier Standards reports remain historical reviews of other tickets).
+Branch `donson/mainline-16-sensors`, owned worktree `.work/worktrees/full-site-16`,
+verified clean base `6fe8313d5780bbda86c4c9bec51071a570f0fd72`.
+Root assigned this ready ticket after accepting 14; 15 and 17 have separate
+owners/worktrees. No ledger/schema, physical model, or other worktree changes.
+
+The authorized seams are a closed observation-profile loader, an evaluator-only
+saved-trace sampling adapter producing a detached legal ticket-14 ledger and
+separate private audit, a static public observation-model view, and an isolated
+CLI. Tests use literal private signals at that seam and one separately frozen
+full-V6 saved-trajectory capture. The sampling adapter does not run or alter the
+plant, infer risk, or create a policy trial. Source/tool and delivery acceptance
+remain pending independent root reviews.
