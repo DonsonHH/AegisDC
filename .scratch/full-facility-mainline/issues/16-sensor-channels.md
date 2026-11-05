@@ -34,3 +34,26 @@ CLI. Tests use literal private signals at that seam and one separately frozen
 full-V6 saved-trajectory capture. The sampling adapter does not run or alter the
 plant, infer risk, or create a policy trial. Source/tool and delivery acceptance
 remain pending independent root reviews.
+
+Recovery owner `/root/m3_16_continue` continued the existing tree after root
+confirmed the previous handle had disappeared and no active process used it.
+The complete implementation is frozen at `6e31403a`; the actual engineering
+adapter execution is `84209346` and retains the original physical producer
+`89f47b6f`. Its 1,134-record nominal/mismatch outputs, 652 polls per realization,
+ten snapshots and three data-driven SVGs are saved without a new physical run.
+
+The original full regression remains **FAIL** (390 run / 388 executed / one
+failure / one error / two explicit optional Torch skips): two legacy CLI children
+could not import `aegis_dc` because the outer command omitted `PYTHONPATH`.
+`capture-01` and its exact missing `source-guard.json` role are preserved; no
+receipt or failure was upgraded. The separately frozen additive environment
+closure `a732b376` runs only the two original real CLI tests and passes both,
+with actual child stderr saved. It is not a successful 390-test rerun.
+
+See `docs/mainline/evidence/16.json` and
+`evidence/mainline/engineering/16-sensors/README.md` for the original-source,
+delivery and fresh-checkout proofs. The observation component passes; status is
+**IMPLEMENTED_PENDING_ROOT_ACCEPTANCE_WITH_RECORDED_ENVIRONMENT_FAILURE**.
+Ticket lifecycle stays claimed pending root Standards/Spec reviews and the
+integrated correct-environment/Torch regression. M3, mechanism comparisons,
+agent/RSI eligibility and the complete-facility objective are not resolved.
