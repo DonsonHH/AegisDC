@@ -53,6 +53,25 @@ def reframe(frame,time,records=None):
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_positive_work_must_advance_the_actual_projected_binary64_measurement_clock(self):
+        for now,work in ((1,float.fromhex('0x0.0000000000001p-1022')),(1e16,1)):
+            frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'
+            records=deepcopy(frame['evidence']['records'])
+            records[0].update(observed_at_s=now,arrived_at_s=now,valid_until_s=now+10)
+            frame=reframe(frame,now,records)
+            scope=policy['options']['belief_model']['scope'];scope.update(starts_at_s=now,epoch_s=100)
+            local=policy['options']['value_model']['question_models'][0]
+            local['inspection'].update(travel_s=0,wait_s=0,work_s=work)
+            local['intervention']['work_s']=work
+            interface=policy['candidates'][0]['task']['work_interface_id']
+            policy['workforce_profile']['work_times_s'][interface]=work
+            policy['evidence_projection']['inspection_profile']['bindings'][0]['minimum_work_s']=work
+            choice=choose_work(frame,policy,history)
+            audit=choice['prospective_evidence_audit'][0]
+            self.assertEqual(audit['predicted_observed_at_s'],now)
+            self.assertEqual(audit['classification'],'UNMODELED')
+            self.assertIn('PROJECTED_MEASUREMENT_CLOCK_NOT_ADVANCING',audit['reasons'])
+
     def test_another_issued_inspection_with_no_arrived_result_is_not_an_empty_future_context(self):
         frame,policy,history=fixture();frame=reframe(frame,1);policy['policy']='evidence_consistent_contingent'
         other=deepcopy(policy['candidates'][0]);other.update(id='other-inspection');other['task']['id']='other-inspection-task'

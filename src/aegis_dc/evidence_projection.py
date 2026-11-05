@@ -104,15 +104,18 @@ def project_inspections(frame,options,candidates,projection,history):
     for mapping in options['bindings']:
         q=mapping['question_id'];local=locals[q];candidate=candidates[mapping['inspection_candidate_id']]
         binding=bindings.get(candidate['task']['id']);_require(binding is not None,'Projection task lacks declared inspection binding')
-        model=models[binding['model_id']];now=frame['as_of_s'];observed=now
-        for key in ('travel_s','wait_s','work_s'):observed+=local['inspection'][key]
+        model=models[binding['model_id']];now=frame['as_of_s'];work_started=now
+        for key in ('travel_s','wait_s'):work_started+=local['inspection'][key]
+        observed=work_started+local['inspection']['work_s']
         arrival=_arrival(observed,binding['arrival_latency_s']);valid_until=_arrival(observed,binding['validity_s'])
         reasons=[];classification='UNMODELED';covered=['positive','negative','threshold_straddled','missing'] if model['model']['kind']=='numeric' else []
-        audit=dict(question_id=q,classification=classification,predicted_observed_at_s=observed,predicted_arrived_at_s=arrival,
+        audit=dict(question_id=q,classification=classification,predicted_work_started_at_s=work_started,
+            predicted_observed_at_s=observed,predicted_arrived_at_s=arrival,
             predicted_valid_until_s=valid_until,covered_report_classes=covered,context_assumption=projection['context_assumption'],
             unchanged_factor_record_ids=[],marginalization=None,pending_inspection_task_ids=pending_tasks,
             proof='SUFFICIENT_STRUCTURAL_CONDITION_NOT_A_NECESSARY_INFORMATION_TEST')
         scope=belief_model['scope'];epoch=lambda t:(Fraction(t)-Fraction(scope['starts_at_s']))//Fraction(scope['epoch_s'])
+        if observed<=now or observed<=work_started:reasons.append('PROJECTED_MEASUREMENT_CLOCK_NOT_ADVANCING')
         if epoch(now)!=epoch(arrival):reasons.append('CROSS_EPOCH_PROJECTION_UNMODELED')
         if _pending_background(projection['background_sensor_profile'],now,arrival):reasons.append('BACKGROUND_ARRIVAL_JOINT_LAW_UNMODELED')
         if pending_tasks:reasons.append('PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED')
