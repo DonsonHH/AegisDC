@@ -1,0 +1,87 @@
+"""Transparent public work choices; execution and plant state remain separate."""
+from copy import deepcopy
+from .decision_view import validate_current_frame
+from .evidence_ledger import _fields,_plain_json,_registry,_require,_text,_finite
+from .workforce_dispatch import prepare_work,TASK_FIELDS
+
+PROGRAM_FIELDS={'schema','id','basis','policy','workforce_profile','candidates'}
+CANDIDATE_FIELDS={'id','task','available_at_s','question_id','source_note'}
+FEEDBACK_FIELDS={'task_id','source_id','observed_at_s','arrived_at_s','status','reason','location_id','origin_id','coverage','basis'}
+
+def _resources(frame,task):
+    interface=next(i for i in frame['nominal_knowledge']['work_interfaces'] if i['id']==task['work_interface_id'])
+    return {r['worker_id'] for r in task['crew']}|set(interface['tool_ids'])
+
+def _history(frame,history,candidates):
+    _require(type(history['issued']) is list and type(history['work_feedback']) is list,'Declare public policy history lists')
+    issued={};tasks={}
+    for row in history['issued']:
+        _fields(row,{'candidate_id','issued_at_s'},'Issued intention history');_text(row['candidate_id'],'Issued candidate id')
+        _finite(row['issued_at_s'],'Issued intention time')
+        _require(row['candidate_id'] in candidates and row['candidate_id'] not in issued,'Unknown/repeated issued candidate')
+        candidate=candidates[row['candidate_id']]
+        _require(candidate['available_at_s']<=row['issued_at_s']<=frame['as_of_s'],'Issued intention is not currently available history')
+        issued[row['candidate_id']]=row;tasks[candidate['task']['id']]=(candidate,row)
+    terminal={}
+    locations={e['id'] for e in frame['nominal_knowledge']['entities'] if e['kind']=='location'}
+    for row in history['work_feedback']:
+        _fields(row,FEEDBACK_FIELDS,'Arrived workforce feedback')
+        _require(row['task_id'] in tasks,'Feedback must bind an actually issued public task')
+        _require(row['source_id']=='workforce-execution-report' and row['origin_id']=='workforce:'+row['task_id']
+            and row['coverage']=='THIS_ISSUED_TASK_ONLY' and row['basis']=='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL','Unknown workforce feedback channel')
+        _require(row['status'] in {'completed','aborted','safety_stop_observed'},'Unknown public work status')
+        for key in ('observed_at_s','arrived_at_s'):_finite(row[key],'Work feedback '+key)
+        _require(tasks[row['task_id']][1]['issued_at_s']<=row['observed_at_s']<=row['arrived_at_s']<=frame['as_of_s'],
+            'Work feedback cannot contain pre-issue or future information')
+        _require(row['location_id'] is None or row['location_id'] in locations,'Unknown reported work location')
+        _require(row['reason'] is None or type(row['reason']) is str and bool(row['reason']),'Invalid reported work reason')
+        if row['status'] in {'completed','aborted'}:
+            _require(row['task_id'] not in terminal or terminal[row['task_id']]==row,'Contradictory terminal work reports')
+            terminal[row['task_id']]=row
+    occupied=set()
+    for candidate,row in tasks.values():
+        if candidate['task']['id'] not in terminal:occupied|=_resources(frame,candidate['task'])
+    return issued,occupied
+
+def choose_work(frame,program,history):
+    """Choose a declared intention from current public information only."""
+    frame=validate_current_frame(frame);_plain_json(program);_plain_json(history)
+    _fields(program,PROGRAM_FIELDS,'Dispatch policy program');_fields(history,{'issued','work_feedback'},'Public policy history')
+    _require(program['schema']=='aegisdc-dispatch-policy-program-v1' and program['basis']=='synthetic_assumption','Declare synthetic policy program')
+    _text(program['id'],'Policy program id')
+    _require(program['policy'] in {'no_human','fifo'},'Policy not implemented in this development slice')
+    candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
+    for candidate in candidates.values():
+        _fields(candidate,CANDIDATE_FIELDS,'Policy candidate')
+        for key in ('question_id','source_note'):_text(candidate[key],'Candidate '+key)
+        _finite(candidate['available_at_s'],'Candidate availability')
+        _require(candidate['available_at_s']>=0,'Negative candidate availability')
+        task=candidate['task'];_fields(task,TASK_FIELDS,'Declared policy task');_finite(task['deadline_s'],'Declared task deadline')
+        expired=task['deadline_s']<frame['as_of_s']
+        # Validate the remaining public capability contract at the current
+        # frame. This temporary validation deadline never becomes an intention.
+        validation_task=deepcopy(task)
+        if expired:validation_task['deadline_s']=frame['as_of_s']
+        assessment=prepare_work(frame,program['workforce_profile'],validation_task)
+        if expired:
+            assessment['public_reasons']=sorted(set(assessment['public_reasons'])|{'DECLARED_DEADLINE_PASSED'})
+            assessment['legal_for_planning']=False
+        _require(candidate['task']['id'] not in task_ids,'Duplicate declared policy task')
+        task_ids.add(candidate['task']['id']);reasons=list(assessment['public_reasons'])
+        if candidate['available_at_s']>frame['as_of_s']:reasons.append('NOT_YET_AVAILABLE')
+        audits.append(dict(candidate_id=candidate['id'],task_id=candidate['task']['id'],question_id=candidate['question_id'],
+            eligible=not reasons,reasons=sorted(set(reasons)),available_at_s=candidate['available_at_s'],
+            public_assessment=assessment))
+    audits.sort(key=lambda c:c['candidate_id'])
+    issued,occupied=_history(frame,history,candidates)
+    for audit in audits:
+        candidate=candidates[audit['candidate_id']]
+        if candidate['id'] in issued:audit['reasons'].append('ALREADY_ISSUED')
+        elif _resources(frame,candidate['task'])&occupied:audit['reasons'].append('PUBLIC_UNACKNOWLEDGED_RESOURCE_OCCUPATION')
+        audit['reasons']=sorted(set(audit['reasons']));audit['eligible']=not audit['reasons']
+    eligible=sorted((c for c in audits if c['eligible']),key=lambda c:(c['available_at_s'],c['candidate_id']))
+    selected=eligible[0]['candidate_id'] if program['policy']=='fifo' and eligible else None
+    return dict(schema='aegisdc-policy-choice-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],policy=program['policy'],
+        chosen_candidate_id=selected,work_intention=deepcopy(candidates[selected]['task']) if selected else None,
+        reason='POLICY_NO_HUMAN' if program['policy']=='no_human' else 'FIFO_EARLIEST_AVAILABLE' if selected else 'NO_PUBLICLY_ELIGIBLE_CANDIDATE',candidates=audits,
+        generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED')
