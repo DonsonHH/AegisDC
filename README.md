@@ -48,7 +48,7 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。当前分阶段资格以新的 M2 根记录为准，风险证据与策略闭环继续按固定主线推进。
 
-**M1 与有限 M2 已由根接受**：[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)和[M2 数值图、正确架构及复核包](evidence/mainline/engineering/M2-root-acceptance/README.md)保留各自执行身份。M2 实际根源 bcac 的359项全执行零跳过、11组有限见证及重放契约已核对；事件侧指标、raw差异和各自参考阶梯分列。[Q提交fresh交付证明](docs/mainline/evidence/M2-delivery.json)已完成。M3多源证据账14现已接受：[377项根结果、最新图与闭环评审](evidence/mainline/engineering/14-root-acceptance/README.md)。[14封装fresh交付证明](docs/mainline/evidence/14-delivery.json)已完成。当前primary15，15／16／17均ready且未分配；完整研究目标仍active。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录，见复核包；兼容默认保持原样。
+**M1 与有限 M2 已由根接受**：[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)和[M2 数值图、正确架构及复核包](evidence/mainline/engineering/M2-root-acceptance/README.md)保留各自执行身份。M2 实际根源 bcac 的359项全执行零跳过、11组有限见证及重放契约已核对；事件侧指标、raw差异和各自参考阶梯分列。[Q提交fresh交付证明](docs/mainline/evidence/M2-delivery.json)已完成。M3多源证据账14现已接受：[377项根结果、最新图与闭环评审](evidence/mainline/engineering/14-root-acceptance/README.md)。[14封装fresh交付证明](docs/mainline/evidence/14-delivery.json)已完成。当前primary15，15／16／17已在独立工作树并行实施；完整研究目标仍active。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录，见复核包；兼容默认保持原样。
 
 ```bash
 python -m aegis_dc scenario
@@ -80,4 +80,4 @@ python -m patrol_rsi verify --output runs/verification-new
 
 这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-结构／风险原型、M1八域基线与声明有限范围的M2数值／重放门槛已交付。当前M3证据账14已接受，下一primary15及ready16／17未分配；检查处置、独立比较及条件式AI/RSI仍在后续。详见[主线进度](docs/mainline/progress.json)，现场标定pending。原会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。
+结构／风险原型、M1八域基线与声明有限范围的M2数值／重放门槛已交付。当前M3证据账14已接受，当前primary15及16／17在独立工作树并行实施；检查处置、独立比较及条件式AI/RSI仍在后续。详见[主线进度](docs/mainline/progress.json)，现场标定pending。原会议笔记、浏览器缓存、依赖和重复导出不进入公开仓库；本地文件不删除。
