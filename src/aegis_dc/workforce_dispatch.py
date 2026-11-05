@@ -210,6 +210,9 @@ class CrewWorkforce(Workforce):
     def _advance_crews(self,time,blocked):
         for job in list(self.jobs.values()):
             record=job['record']
+            if any(job['index'][w]==len(job['moves'][w])
+                   and self.workers[w]['location_id'] in blocked for w in job['crew']):
+                self._finish(job,time,'aborted','onsite_safety_stop');continue
             if job['work_start'] is not None:
                 if job['target'] in blocked:self._finish(job,time,'aborted','onsite_safety_stop')
                 elif time>=record['scheduled_completion_at_s']:self._finish(job,time,'completed',None)

@@ -206,5 +206,21 @@ class DispatchWorkforceTests(unittest.TestCase):
             simulate_scenario(scenario,duration_s=.75,step_s=.01,
                 work_program=program(profile,(late,task('future',('worker_control',)))))
 
+    def test_waiting_crew_stops_when_its_occupied_zone_becomes_unsafe(self):
+        scenario,profile,gateway=fixture()
+        # Two specialists start in different safe zones. The IT worker is already at target.
+        intention=task('waiting-safety',('worker_cooling','worker_it'),'room')
+        intention['work_interface_id']='inspect_equipment_environment'
+        intention['crew'][1]['qualification_id']='qualified_it_inspection'
+        run=simulate_scenario(scenario,duration_s=1,step_s=.01,
+            work_program=program(profile,(gateway.next_frame(),intention)),
+            boundary_events=[dict(time_s=.5,parameter_id='it_access_permit',value=0,
+                source_note='Synthetic closure after onsite crew check; private safety only.')])
+        record=run['work_records'][0]
+        self.assertEqual(record['status'],'aborted')
+        self.assertEqual(record['finished_at_s'],.5)
+        self.assertEqual(record['reason'],'onsite_safety_stop')
+        self.assertEqual(run['workforce_public_feedback'][0]['arrived_at_s'],1)
+
 if __name__ == '__main__':
     unittest.main()
