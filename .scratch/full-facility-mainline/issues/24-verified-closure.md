@@ -4,13 +4,13 @@
 
 **Blocked by:** 22, 23
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M4
 
-- [ ] 处置结束不自动等于恢复和关闭。
-- [ ] 症状暂退、未确认、误报、升级/接受风险的状态清楚。
-- [ ] 闭环轨迹包含各事件时刻与所用证据，不补未来信息。
+- [x] 处置结束不自动等于恢复和关闭。
+- [x] 症状暂退、未确认、误报、升级/接受风险的状态清楚。
+- [x] 闭环轨迹包含各事件时刻与所用证据，不补未来信息。
 
 ## Context
 
@@ -21,3 +21,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Pending implementation and acceptance.
 
 Owner `/root`, branch `donson/mainline-24-closure`; reuse clean accepted23worktree.22/23 accepted at published41cb9eec. Public decision-frame/ledger and CLI seams remain authorized; closure must cite arrived post-action evidence, never private evaluator truth.
+
+Root acceptance: `docs/mainline/evidence/24-root.json`; source `2b8d224a6d6605b2898117438573d738dae28023`, 512 executed checks/zero skips, Spec1267 and Standards453 saved checks. Both formal captures and all original review failures preserved.

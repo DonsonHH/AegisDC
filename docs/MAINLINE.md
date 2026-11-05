@@ -46,7 +46,7 @@
 
 ## 当前起点与持续执行
 
-M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 当前权威](mainline/evidence/M2.json)与[数据图、四轴评审和复核包](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 统一回归源 bcac 为359项全执行零跳过；11个数值见证按5/4/2三类冻结阶梯解释，原NO-GO、失败和作者执行身份保留。下一阶段显式运行选择V6与最大步长.01；这不构成任意参数域或真轨迹绝对误差界。M3多源证据账14已由根接受：[377项原始结果、最新图及评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票风险情景已由根接受，第20票已接受，M3声明有限工程门槛通过，第22票已接受，第23票已接受，当前主票24。 [第19票数据图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [第18票数据图、架构与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景存在稀疏固定传感器，并允许历史、人工、工单和手持结果；后台真值保持私有。整个研究目标仍active。
+M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 当前权威](mainline/evidence/M2.json)与[数据图、四轴评审和复核包](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 统一回归源 bcac 为359项全执行零跳过；11个数值见证按5/4/2三类冻结阶梯解释，原NO-GO、失败和作者执行身份保留。下一阶段显式运行选择V6与最大步长.01；这不构成任意参数域或真轨迹绝对误差界。M3多源证据账14已由根接受：[377项原始结果、最新图及评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票风险情景已由根接受，第20票已接受，M3声明有限工程门槛通过，第22票已接受，第23票已接受，第24票已接受，当前主票25。 [第19票数据图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [第18票数据图、架构与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景存在稀疏固定传感器，并允许历史、人工、工单和手持结果；后台真值保持私有。整个研究目标仍active。
 
 - [详细规格](../.scratch/full-facility-mainline/spec.md)
 - [任务图](../.scratch/full-facility-mainline/map.md)
@@ -55,8 +55,10 @@ M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 
 
 完成任务时保存源提交、命令、结果、范围和剩余问题。主线到M6的完整独立结论、以及M7资格/相应结果前持续有效；规划、单个组件、演示和绿色CI不代替总目标完成。确需改动总目标或工程参照时形成显式新决策，不能静默缩为局部机柜研究或为得到正结果改变评价问题。
 
-M3证据、风险及价值的声明有限工程门槛已通过[M3根审计](mainline/evidence/M3.json)与[数据图／476项回归包](../evidence/mainline/engineering/20-root-acceptance/README.md)。第22票已接受，第23票已接受，当前主票24；实际干预23、恢复24及独立比较仍按主线推进，总目标active。
+M3证据、风险及价值的声明有限工程门槛已通过[M3根审计](mainline/evidence/M3.json)与[数据图／476项回归包](../evidence/mainline/engineering/20-root-acceptance/README.md)。第22票已接受，第23票已接受，第24票已接受，当前主票25；实际干预23、恢复24及独立比较仍按主线推进，总目标active。
 
 实际检查22通过[根验收、时序与架构图](../evidence/mainline/engineering/22-root-acceptance/README.md)。实际处置23和验证关闭24继续，整体目标active。
 
 实际处置23通过[根验收、数据图与信息边界架构](../evidence/mainline/engineering/23-root-acceptance/README.md)。当前24按可用恢复证据核验关闭，M4及整体研究目标仍active。
+
+证据核验关闭24通过[根验收、状态图与边界架构](../evidence/mainline/engineering/24-root-acceptance/README.md)。当前25准备透明策略对照，M4及整体研究目标仍active。
