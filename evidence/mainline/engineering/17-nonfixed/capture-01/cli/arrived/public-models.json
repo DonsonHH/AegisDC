@@ -1,0 +1,124 @@
+{
+  "schema": "aegisdc-nonfixed-public-models-v1",
+  "source_time_models": [
+    {
+      "source_id": "asset-register",
+      "source_kind": "asset_record",
+      "time_model": "HISTORICAL_CONTEXT_ONLY",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "handheld-offset-meter",
+      "source_kind": "handheld",
+      "time_model": "EFFECTIVE_COMPLETION_OBSERVATION",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "handheld-thermometer",
+      "source_kind": "handheld",
+      "time_model": "EFFECTIVE_COMPLETION_OBSERVATION",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "handheld-threshold-probe",
+      "source_kind": "handheld",
+      "time_model": "EFFECTIVE_COMPLETION_OBSERVATION",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "maintenance-log",
+      "source_kind": "maintenance_history",
+      "time_model": "HISTORICAL_CONTEXT_ONLY",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "operator-report",
+      "source_kind": "human_report",
+      "time_model": "DECLARED_UNCONFIRMED_CLAIM",
+      "independence": "NOT_ESTABLISHED"
+    },
+    {
+      "source_id": "work-order-inbox",
+      "source_kind": "work_order",
+      "time_model": "DECLARED_OR_COPIED_CLAIM",
+      "independence": "NOT_ESTABLISHED"
+    }
+  ],
+  "models": [
+    {
+      "source_id": "handheld-thermometer",
+      "target_id": "immersion",
+      "observable_id": "temperature",
+      "instrument_id": "declared-thermometer",
+      "model": {
+        "schema": "aegisdc-handheld-model-v1",
+        "id": "coolant-numeric",
+        "kind": "numeric",
+        "signal_id": "immersion.coolant_temperature",
+        "unit": "K",
+        "reported_error_bound": 0.5,
+        "quality_note": "Declared synthetic bound; per-sample error and field calibration are not certified.",
+        "basis": "synthetic_assumption",
+        "source_note": "Synthetic instrument model, not a site instrument specification."
+      }
+    },
+    {
+      "source_id": "handheld-thermometer",
+      "target_id": "immersion",
+      "observable_id": "temperature",
+      "instrument_id": "declared-indeterminate-probe",
+      "model": {
+        "schema": "aegisdc-handheld-model-v1",
+        "id": "coolant-indeterminate",
+        "kind": "unknown",
+        "signal_id": "immersion.coolant_temperature",
+        "unit": "K",
+        "quality_note": "Declared indeterminate inspection; value remains missing.",
+        "basis": "synthetic_assumption",
+        "source_note": "Synthetic instrument model, not a site instrument specification."
+      }
+    },
+    {
+      "source_id": "handheld-threshold-probe",
+      "target_id": "immersion",
+      "observable_id": "hot_reported",
+      "instrument_id": "declared-miss-probe",
+      "model": {
+        "schema": "aegisdc-handheld-model-v1",
+        "id": "threshold-miss",
+        "kind": "binary_detection",
+        "signal_id": "immersion.coolant_temperature",
+        "unit": "1",
+        "threshold": 290,
+        "threshold_unit": "K",
+        "sensitivity": 0,
+        "false_positive_rate": 0.1,
+        "quality_note": "Declared synthetic threshold detection performance; no per-sample truth certificate.",
+        "basis": "synthetic_assumption",
+        "source_note": "Deterministic endpoint fixture for sensitivity/FPR behavior, not an accuracy estimate."
+      }
+    },
+    {
+      "source_id": "handheld-threshold-probe",
+      "target_id": "immersion",
+      "observable_id": "hot_reported",
+      "instrument_id": "declared-false-alarm-probe",
+      "model": {
+        "schema": "aegisdc-handheld-model-v1",
+        "id": "threshold-false-alarm",
+        "kind": "binary_detection",
+        "signal_id": "immersion.coolant_temperature",
+        "unit": "1",
+        "threshold": 310,
+        "threshold_unit": "K",
+        "sensitivity": 0.8,
+        "false_positive_rate": 1,
+        "quality_note": "Declared synthetic threshold detection performance; no per-sample truth certificate.",
+        "basis": "synthetic_assumption",
+        "source_note": "Deterministic endpoint fixture for sensitivity/FPR behavior, not an accuracy estimate."
+      }
+    }
+  ],
+  "independence": "NOT_ESTABLISHED",
+  "arrival_coordinate": "First finite representable value not before decoded completion+latency"
+}
