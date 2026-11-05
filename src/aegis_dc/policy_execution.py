@@ -22,6 +22,9 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v3':
+            _require(program['policy_program']['intervention_declaration']==self.intervention_program,
+                'Policy and actual executor must share the same public intervention declaration')
         self.sensors=None
         if live and program['sensor_program'] is not None:
             from .live_sensor_execution import LiveSensorSession
@@ -83,7 +86,7 @@ class PolicySession:
         _require(time_s==self.times[self.index],'Policy decisions must use their exact declared public instant')
         frame=self._frame(time_s,inspections)
         history=dict(issued=deepcopy(self.issued),work_feedback=workforce.public_feedback(time_s))
-        choice=choose_work(frame,self.program['policy_program'],history)
+        choice=choose_work(frame,self.program['policy_program'],history,intervention_declaration=self.intervention_program)
         self.decisions.append(dict(frame=frame,history=history,choice=deepcopy(choice)))
         self.index+=1
         if choice['chosen_candidate_id'] is None:return False

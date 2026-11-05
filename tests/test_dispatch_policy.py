@@ -49,11 +49,59 @@ def risk_fixture(time=0):
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_current_public_intervention_authority_blocks_submission_before_paid_work(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
+        frame,policy,_=fixture()
+        policy['candidates']=policy['candidates'][:1]
+        actions=inputs['intervention_program'];actions['bindings'][0]['task_id']='work-first'
+        actions['profile']['authorizations'][0]['starts_at_s']=2
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        program=dict(schema='aegisdc-policy-run-program-v1',id='known-authority-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0],
+            inspection_program=None,intervention_program=actions)
+        result=simulate_scenario(inputs['model'],duration_s=1,step_s=.01,dispatch_program=program)
+        choice=result['policy_public_decisions'][0]['choice']
+        self.assertIsNone(choice['chosen_candidate_id'])
+        self.assertIn('declared_authorization_unavailable_at_issue',choice['candidates'][0]['reasons'])
+        self.assertEqual(result['work_records'],[])
+        self.assertEqual(result['summary']['worker_work_person_s'],0)
+
+    def test_decimal_completed_inspection_reports_its_full_declared_work(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/22-inspections/reference/input-v1.json').read_bytes())
+        inputs['work_program']['profile']['access_check_s']=.2
+        for entity in inputs['model']['entities']:
+            if entity['id'] in {'worker_control','tool_flow_meter'}:entity['location_id']='loc_hx'
+        result=simulate_scenario(inputs['model'],duration_s=2,step_s=.01,work_program=inputs['work_program'],inspection_program=inputs['inspection_program'])
+        self.assertEqual(result['work_records'][0]['completed_at_s'],1.2)
+        record=result['inspection_public_snapshot']['records'][0]
+        self.assertEqual((record['observed_at_s'],record['arrived_at_s']),(1.2,1.7))
+
+    def test_delayed_task_local_rejection_releases_only_its_public_reservation(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
+        frame,policy,_=fixture()
+        policy['candidates'][0]['task']['deadline_s']=.5
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        actions=inputs['intervention_program'];actions['bindings'][0]['task_id']='work-first'
+        actions['bindings'].append(dict(actions['bindings'][0],task_id='work-second',setting=.5))
+        program=dict(schema='aegisdc-policy-run-program-v1',id='rejected-intention-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0,.25,1],
+            inspection_program=None,intervention_program=actions)
+        result=simulate_scenario(inputs['model'],duration_s=3,step_s=.01,dispatch_program=program)
+        self.assertEqual([r['choice']['chosen_candidate_id'] for r in result['policy_public_decisions']],['a-first',None,'b-second'])
+        self.assertEqual([r['status'] for r in result['work_records']],['rejected','completed'])
+        self.assertEqual(result['policy_public_decisions'][1]['history']['work_feedback'],[])
+        report=result['policy_public_decisions'][2]['history']['work_feedback'][0]
+        self.assertEqual((report['status'],report['observed_at_s'],report['arrived_at_s']),('rejected',0,.5))
+        self.assertEqual(report['reason'],'DECLARED_TASK_ADMISSION_REFUSAL')
+        self.assertIsNone(report['location_id'])
+
     def test_common_budget_remains_spent_after_terminal_feedback_across_decisions(self):
         from aegis_dc.dispatch_policy import choose_work
         frame,policy,history=fixture()
         policy.update(schema='aegisdc-dispatch-policy-program-v3',options={},
-            resource_budget=dict(person_s=15,tool_s=15,cost=1,cost_unit='research_cost_unit'))
+            intervention_declaration=None,resource_budget=dict(person_s=15,tool_s=15,cost=1,cost_unit='research_cost_unit'))
         for candidate in policy['candidates']:
             candidate.update(kind='inspect',issue_cost=1)
         first=choose_work(frame,policy,history)
@@ -101,6 +149,14 @@ class DispatchPolicyTests(unittest.TestCase):
         self.assertEqual(choices[3]['frame']['evidence']['records'][0]['id'],at[0]['id'])
         self.assertNotIn('private_realization',json.dumps(choices))
         self.assertEqual(len(result['policy_sensor_private_audit']),2)
+        # The fifth .1-second epoch rounds to .5 in binary64; it still samples.
+        profile['measurements'][0]['period_s']=.1
+        program['decision_times_s']=[1]
+        decimal=simulate_scenario(inputs['model'],duration_s=1,step_s=.01,dispatch_program=program)
+        decimal_records=decimal['policy_public_decisions'][0]['frame']['evidence']['records']
+        fifth=next(r for r in decimal_records if r['id']=='power-transfer:5')
+        self.assertEqual((fifth['observed_at_s'],fifth['arrived_at_s']),(.5,1))
+        self.assertEqual(len(decimal_records),6)
 
     def test_one_observation_lookahead_selects_only_the_first_predicted_action(self):
         from aegis_dc.dispatch_policy import choose_work

@@ -81,8 +81,8 @@ class InspectionSession:
                 disposition='NOT_CONFIRMED_NO_MEASUREMENT')
             if task['status']!='completed':self.events.append(audit);continue
             require(task['completed_at_s']==time_s,'Measurement cannot be created from a historical or future completion')
-            duration=Fraction(time_s)-Fraction(task['work_started_at_s'])
-            if duration<Fraction(binding['minimum_work_s']):
+            # Match the actual crew scheduler's additive completion coordinate.
+            if time_s<task['work_started_at_s']+binding['minimum_work_s']:
                 self.events.append(dict(audit,disposition='WORK_INTERVAL_TOO_SHORT'));continue
             model=binding['binding']['model'];value=point['domains']
             for key in SIGNALS[model['signal_id']][2]:value=value[key]

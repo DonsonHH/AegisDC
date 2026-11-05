@@ -29,13 +29,16 @@ def _history(frame,history,candidates):
         _require(row['task_id'] in tasks,'Feedback must bind an actually issued public task')
         _require(row['source_id']=='workforce-execution-report' and row['origin_id']=='workforce:'+row['task_id']
             and row['coverage']=='THIS_ISSUED_TASK_ONLY' and row['basis']=='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL','Unknown workforce feedback channel')
-        _require(row['status'] in {'completed','aborted','safety_stop_observed'},'Unknown public work status')
+        _require(row['status'] in {'completed','aborted','rejected','safety_stop_observed'},'Unknown public work status')
         for key in ('observed_at_s','arrived_at_s'):_finite(row[key],'Work feedback '+key)
         _require(tasks[row['task_id']][1]['issued_at_s']<=row['observed_at_s']<=row['arrived_at_s']<=frame['as_of_s'],
             'Work feedback cannot contain pre-issue or future information')
         _require(row['location_id'] is None or row['location_id'] in locations,'Unknown reported work location')
         _require(row['reason'] is None or type(row['reason']) is str and bool(row['reason']),'Invalid reported work reason')
-        if row['status'] in {'completed','aborted'}:
+        if row['status']=='rejected':
+            _require(row['location_id'] is None and row['reason']=='DECLARED_TASK_ADMISSION_REFUSAL',
+                'Rejected task acknowledgment cannot disclose private location or refusal cause')
+        if row['status'] in {'completed','aborted','rejected'}:
             _require(row['task_id'] not in terminal or terminal[row['task_id']]==row,'Contradictory terminal work reports')
             terminal[row['task_id']]=row
     occupied=set()
@@ -43,14 +46,14 @@ def _history(frame,history,candidates):
         if candidate['task']['id'] not in terminal:occupied|=_resources(frame,candidate['task'])
     return issued,occupied
 
-def choose_work(frame,program,history):
+def choose_work(frame,program,history,*,intervention_declaration=None):
     """Choose a declared intention from current public information only."""
-    frame=validate_current_frame(frame);_plain_json(program);_plain_json(history)
+    frame=validate_current_frame(frame);_plain_json(program);_plain_json(history);_plain_json(intervention_declaration)
     _require(type(program) is dict,'Declare policy program object')
     _text(program.get('schema'),'Policy program schema')
     version3=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v3'
     version2=type(program) is dict and program.get('schema') in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
-    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget'} if version3 else set()),'Dispatch policy program')
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget','intervention_declaration'} if version3 else set()),'Dispatch policy program')
     _fields(history,{'issued','work_feedback'},'Public policy history')
     _text(program['schema'],'Policy program schema')
     _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
@@ -85,6 +88,32 @@ def choose_work(frame,program,history):
             eligible=not reasons,reasons=sorted(set(reasons)),available_at_s=candidate['available_at_s'],
             kind=candidate['kind'] if version2 else 'LEGACY_WORK_INTENTION',public_assessment=assessment))
     audits.sort(key=lambda c:c['candidate_id'])
+    if version3:
+        _require(intervention_declaration is None or intervention_declaration==program['intervention_declaration'],
+            'Selector and executor public intervention declarations differ')
+        intervention_declaration=program['intervention_declaration']
+    if intervention_declaration is not None:
+        from .intervention_execution import prepare_intervention,BIND_FIELDS
+        _fields(intervention_declaration,{'schema','profile','bindings'},'Public policy intervention declaration')
+        _require(intervention_declaration['schema']=='aegisdc-intervention-program-v1','Unknown public intervention declaration')
+        _require(type(intervention_declaration['bindings']) is list,'Declare public intervention bindings')
+        bindings={}
+        tasks={c['task']['id'] for c in candidates.values()}
+        for binding in intervention_declaration['bindings']:
+            _fields(binding,BIND_FIELDS,'Public intervention binding')
+            _require(binding['task_id'] in tasks and binding['task_id'] not in bindings,'Unknown/repeated public intervention task')
+            bindings[binding['task_id']]=binding
+        for audit in audits:
+            candidate=candidates[audit['candidate_id']];binding=bindings.get(candidate['task']['id'])
+            if version3:_require((candidate['kind']=='intervene')==(binding is not None),'Task kind and public intervention binding differ')
+            if binding is None:continue
+            task=deepcopy(candidate['task'])
+            if task['deadline_s']<frame['as_of_s']:task['deadline_s']=frame['as_of_s']
+            assessment=prepare_intervention(frame,program['workforce_profile'],task,intervention_declaration['profile'],binding)
+            audit['intervention_assessment']=assessment
+            audit['reasons']=sorted(set(audit['reasons'])|set(assessment['public_reasons']))
+            audit['eligible']=not audit['reasons']
+    elif version3:_require(all(c['kind']=='inspect' for c in candidates.values()),'Intervention intentions require a public authority declaration')
     due={}
     if program['policy']=='periodic':
         _fields(program['options'],{'schedule'},'Periodic reference options')

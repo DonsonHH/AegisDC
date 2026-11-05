@@ -305,7 +305,7 @@ def load_saved_trace(archive_path):
         raise ValueError('Invalid saved observation carrier structure') from error
 
 
-def sample_trace(profile, private_trace, realization):
+def sample_trace(profile, private_trace, realization, *, poll_indices=None):
     """Evaluator-only adapter; give dispatch a ledger snapshot, not this result."""
     profile = validate_channel_profile(profile)
     _private_inputs(profile, private_trace, realization)
@@ -316,6 +316,13 @@ def sample_trace(profile, private_trace, realization):
     for channel in profile['channels']:
         channels[channel['measurement_id']].append(channel)
     observables = {row['id']: row for row in ledger['observables']}
+    if poll_indices is not None:
+        _plain(poll_indices)
+        _require(type(poll_indices) is dict and set(poll_indices)==set(channels),
+                 'Explicit live polling must name every declared measurement')
+        for indices in poll_indices.values():
+            _require(type(indices) is list and all(type(i) is int and 0<=i<1000000 for i in indices)
+                     and all(a<b for a,b in zip(indices,indices[1:])), 'Live poll counters must be distinct increasing supported integers')
     audit = []
     for measurement in sorted(profile['measurements'], key=lambda row: row['id']):
         if not measurement['enabled']:
@@ -323,12 +330,13 @@ def sample_trace(profile, private_trace, realization):
         count = max(0, int((Fraction(times[-1]) - Fraction(measurement['phase_s'])) // Fraction(measurement['period_s'])) + 1)
         _require(count <= 1000000, 'Observation polling schedule exceeds the declared finite adapter budget')
         previous_poll = None
-        for counter in range(count):
+        for counter in range(count) if poll_indices is None else poll_indices[measurement['id']]:
             polled = _number(Fraction(measurement['phase_s']) + counter * Fraction(measurement['period_s']))
             _require(previous_poll is None or polled > previous_poll,
                      'Polling coordinates collapse at the supported numeric resolution')
             previous_poll = polled
             if polled > times[-1]:
+                _require(poll_indices is None,'Explicit live poll cannot use a future physical epoch')
                 break
             point_index = bisect_right(times, polled) - 1
             if point_index >= 0:
