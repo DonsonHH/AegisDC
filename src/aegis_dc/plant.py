@@ -673,7 +673,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, intervention_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -713,6 +713,12 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             raise ValueError('Use legacy work_requests or a work_program, not both')
         from .workforce_dispatch import CrewWorkforce
         workforce = CrewWorkforce(scenario, plant.p, work_program, duration)
+    interventions = None
+    if intervention_program is not None:
+        if work_program is None:
+            raise ValueError('Actual interventions require a crew work_program')
+        from .intervention_execution import InterventionSession
+        interventions = InterventionSession(scenario, work_program, intervention_program)
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
@@ -742,6 +748,12 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 raise ValueError('Reserve source/selector states did not settle at the current instant')
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
+        if interventions is not None:
+            effects = interventions.process(time_s, workforce, plant.p)
+            if effects:
+                plant.events.extend(dict(row,kind='completed_research_intervention') for row in effects)
+                point = plant.point()
+                plant.update_room_work_access(point)
         trace.append(plant.snapshot(time_s, point, workforce))
         if time_s >= duration:
             break
@@ -792,8 +804,11 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
             'time_coordinate_convention': deepcopy(TIME_COORDINATE_CONVENTION),
             **({'workforce_public_feedback': workforce.public_feedback(duration)} if work_program is not None else {}),
+            **({'intervention_public_feedback': interventions.public_feedback(duration),
+                'intervention_private_audit': interventions.private_audit()} if interventions is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
+                       **({'intervention_program': deepcopy(intervention_program)} if interventions is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 

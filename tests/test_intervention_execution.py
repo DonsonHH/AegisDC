@@ -1,6 +1,7 @@
 """Physical intervention behavior through the public full-facility run seam."""
 from copy import deepcopy
 import json
+import math
 from pathlib import Path
 import unittest
 from aegis_dc.decision_view import DecisionGateway
@@ -53,5 +54,96 @@ class InterventionExecutionTests(unittest.TestCase):
         before=simulate_scenario(scenario,duration_s=1,step_s=.01,work_program=work,intervention_program=actions)
         self.assertEqual(before['intervention_private_audit']['events'],[])
         self.assertEqual(before['intervention_public_feedback'],[])
+
+    def test_residual_and_failed_operations_preserve_elapsed_service_deficit(self):
+        scenario,work,actions=fixture(setting=.5)
+        result=simulate_scenario(scenario,duration_s=3,step_s=.01,work_program=work,intervention_program=actions)
+        self.assertAlmostEqual(result['summary']['delivered_service_unit_s'],19/16)
+        self.assertAlmostEqual(result['summary']['service_deficit_time_s'],29/16)
+        for mode in ('aborted','unfinished','expired','minimum-work'):
+            s,w,a=fixture()
+            kwargs={}
+            if mode=='aborted':kwargs['boundary_events']=[dict(time_s=.75,parameter_id='it_access_permit',value=0,source_note='Declared closure during actual work.')]
+            elif mode=='unfinished':w['profile']['work_times_s']['inspect_it_service']=4
+            elif mode=='expired':a['profile']['authorizations'][0]['expires_at_s']=1.25
+            else:a['profile']['operations'][0]['minimum_work_s']=2
+            if mode=='unfinished':
+                for parameter in s['parameters']:
+                    if parameter['id']=='inspection_time':parameter['value']=4
+                w['profile']['work_times_s']={key:4 for key in w['profile']['work_times_s']}
+            with self.subTest(mode=mode):
+                r=simulate_scenario(s,duration_s=3,step_s=.01,work_program=w,intervention_program=a,**kwargs)
+                self.assertAlmostEqual(r['summary']['delivered_service_unit_s'],3/4)
+                self.assertAlmostEqual(r['summary']['service_deficit_time_s'],9/4)
+                self.assertFalse(any(e['outcome']=='APPLIED' for e in r['intervention_private_audit']['events']))
+                self.assertTrue(all(not e['risk_closed'] for e in r['intervention_public_feedback']))
+
+    def test_filter_cleaning_applies_declared_residual_resistance_only_after_work(self):
+        scenario,work,actions=fixture('clean_filter',2)
+        for parameter in scenario['parameters']:
+            if parameter['id']=='filter_resistance_multiplier':parameter['value']=4
+        task=work['submissions'][0]['task'];task.update(target_id='filter',work_interface_id='inspect_facility_cooling',
+            crew=[dict(worker_id='worker_cooling',qualification_id='qualified_cooling_inspection')],tool_carrier_id='worker_cooling')
+        actions['profile']['operations'][0]['target_id']='filter'
+        actions['profile']['authorizations'][0]['target_ids']=['filter']
+        result=simulate_scenario(scenario,duration_s=4,step_s=.01,work_program=work,intervention_program=actions)
+        event=result['intervention_private_audit']['events'][0]
+        self.assertEqual((event['applied_at_s'],event['old_value'],event['new_value']),(3.25,4,2))
+        first=result['trace'][0]['domains']['facility_cooling']['lake_pump']['volume_flow_m3_s']
+        after=next(row for row in result['trace'] if row['time_s']==3.25)['domains']['facility_cooling']['lake_pump']['volume_flow_m3_s']
+        self.assertAlmostEqual(first,math.sqrt(1/340))
+        self.assertAlmostEqual(after,math.sqrt(1/180))
+        self.assertLess(after,.1) # Residual is not the nominal fully clean loop.
+        self.assertLessEqual(result['summary']['max_mass_residual_kg'],1e-9)
+
+    def test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand(self):
+        scenario,work,actions=fixture('adjust_compute_request',1000000)
+        for parameter in scenario['parameters']:
+            if parameter['id']=='network_service_capacity':parameter['value']=1
+        task=work['submissions'][0]['task'];task['target_id']='compute'
+        operation=actions['profile']['operations'][0];operation.update(target_id='compute',unit='W')
+        actions['profile']['authorizations'][0]['target_ids']=['compute']
+        result=simulate_scenario(scenario,duration_s=3,step_s=.01,work_program=work,intervention_program=actions)
+        event=result['intervention_private_audit']['events'][0]
+        self.assertEqual((event['applied_at_s'],event['old_value'],event['new_value']),(1.25,2000000,1000000))
+        before=result['trace'][0]['domains']['power']['actual_powers_W']['compute']
+        after=next(row for row in result['trace'] if row['time_s']==1.25)['domains']['power']['actual_powers_W']['compute']
+        self.assertEqual((before,after),(2000000,1000000))
+        self.assertEqual(result['summary']['demand_service_unit_s'],3)
+        self.assertAlmostEqual(result['summary']['delivered_service_unit_s'],17/8)
+        self.assertAlmostEqual(result['summary']['service_deficit_time_s'],7/8)
+        self.assertLess(abs(result['summary']['whole_run_energy_residual_J']),1e-4)
+
+    def test_backup_request_retains_paid_controller_sample_and_transfer_delay(self):
+        scenario,work,actions=fixture('request_backup_cooling',1)
+        task=work['submissions'][0]['task'];task.update(target_id='backup_tower',work_interface_id='inspect_backup',
+            crew=[dict(worker_id='worker_electrical',qualification_id='qualified_electrical_inspection')],tool_carrier_id='worker_electrical')
+        actions['profile']['operations'][0]['target_id']='backup_tower'
+        actions['profile']['authorizations'][0]['target_ids']=['backup_tower']
+        result=simulate_scenario(scenario,duration_s=6.25,step_s=.01,work_program=work,intervention_program=actions)
+        self.assertEqual(result['intervention_private_audit']['events'][0]['applied_at_s'],3.5)
+        points={r['time_s']:r for r in result['trace']}
+        self.assertEqual(points[3.5]['domains']['backup']['backup_tower_mode'],'primary')
+        state=points[4]['domains']['backup']['reserve_states']['cooling']
+        self.assertEqual((state['mode'],state['requested_at_s'],state['ready_at_s']),('switching',4,6))
+        self.assertEqual(points[6]['domains']['backup']['backup_tower_mode'],'active')
+        self.assertEqual(result['summary']['backup_fan_energy_J'],5000)
+        self.assertGreater(result['summary']['backup_water_heat_J'],0)
+        self.assertLess(abs(result['summary']['whole_run_energy_residual_J']),1e-4)
+
+    def test_public_proposal_refuses_static_setting_domains_before_any_physical_query(self):
+        from aegis_dc.intervention_execution import prepare_intervention
+        scenario,work,actions=fixture()
+        frame=work['submissions'][0]['frame'];task=work['submissions'][0]['task']
+        for setting in (-.1,3,float('inf'),True):
+            binding=deepcopy(actions['bindings'][0]);binding['setting']=setting
+            with self.subTest(setting=setting),self.assertRaises(ValueError):
+                prepare_intervention(frame,work['profile'],task,actions['profile'],binding)
+        changed=deepcopy(actions['profile']);changed['operations'][0]['minimum_work_s']=2
+        assessment=prepare_intervention(frame,work['profile'],task,changed,actions['bindings'][0])
+        self.assertFalse(assessment['legal_for_planning'])
+        self.assertIn('declared_professional_work_too_short',assessment['public_reasons'])
+        bad=deepcopy(actions['profile']);bad['authorizations'][0]['operation_ids']=[{}]
+        with self.assertRaises(ValueError):prepare_intervention(frame,work['profile'],task,bad,actions['bindings'][0])
 
 if __name__=='__main__':unittest.main()

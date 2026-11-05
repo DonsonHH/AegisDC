@@ -1,0 +1,26 @@
+test_filter_cleaning_applies_declared_residual_resistance_only_after_work (test_intervention_execution.InterventionExecutionTests.test_filter_cleaning_applies_declared_residual_resistance_only_after_work) ... ERROR
+
+======================================================================
+ERROR: test_filter_cleaning_applies_declared_residual_resistance_only_after_work (test_intervention_execution.InterventionExecutionTests.test_filter_cleaning_applies_declared_residual_resistance_only_after_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_intervention_execution.py", line 89, in test_filter_cleaning_applies_declared_residual_resistance_only_after_work
+    result=simulate_scenario(scenario,duration_s=4,step_s=.01,work_program=work,intervention_program=actions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\plant.py", line 721, in simulate_scenario
+    interventions = InterventionSession(scenario, work_program, intervention_program)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 99, in __init__
+    self.operations,self.grants=_profile(self.profile,nominal)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 52, in _profile
+    require(op['kind'] in OPERATIONS,'Unsupported named operation kind')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 23, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Unsupported named operation kind
+
+----------------------------------------------------------------------
+Ran 1 test in 0.035s
+
+FAILED (errors=1)
