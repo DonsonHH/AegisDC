@@ -203,4 +203,48 @@ class InterventionExecutionTests(unittest.TestCase):
         self.assertAlmostEqual(run['summary']['service_deficit_time_s'],1.5)
         self.assertEqual(run['intervention_public_feedback'][0]['arrived_at_s'],1.75)
 
+    def test_residual_filter_effect_is_seen_by_later_actual_inspection(self):
+        scenario,work,actions=fixture('clean_filter',2)
+        next(p for p in scenario['parameters'] if p['id']=='filter_resistance_multiplier')['value']=4
+        task=work['submissions'][0]['task']
+        task.update(target_id='filter',work_interface_id='inspect_facility_cooling',
+            crew=[dict(worker_id='worker_cooling',qualification_id='qualified_cooling_inspection')],
+            tool_carrier_id='worker_cooling')
+        actions['profile']['operations'][0]['target_id']='filter'
+        actions['profile']['authorizations'][0]['target_ids']=['filter']
+        later=deepcopy(work['submissions'][0]);later['frame']['as_of_s']=4
+        # Reconstruct the current frame through the public gateway, rather than editing metadata.
+        frame=work['submissions'][0]['frame']
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],
+            facility_id=frame['facility_id'],basis='synthetic_assumption',time_unit='s',
+            **frame['evidence']['static_knowledge'],records=[])
+        plan=dict(schema='aegisdc-public-preparation-plan-v1',id='post-clean-check',basis='synthetic_assumption',
+            time_unit='s',decision_times_s=[4],requests=[])
+        later['frame']=DecisionGateway(frame['nominal_knowledge'],ledger,plan).next_frame()
+        later['task'].update(id='verify-intake',target_id='intake_pump')
+        work['submissions'].append(later)
+        profile=json.loads((ROOT/'configs/full-facility-nonfixed-evidence-v1.json').read_bytes())
+        profile['registry']['id']='post-clean-measurement'
+        profile['registry']['sources'].append(dict(id='portable-intake-meter',kind='handheld',basis='synthetic_assumption',
+            target_ids=['intake_pump'],observable_ids=['flow'],dependency_group='portable-intake-chain',
+            source_note='Declared physical flow meter after actual filter cleaning.'))
+        profile['models'].append(dict(source_id='portable-intake-meter',target_id='intake_pump',observable_id='flow',
+            instrument_id='flow_meter',model=dict(schema='aegisdc-handheld-model-v1',id='intake-flow',kind='numeric',
+            signal_id='intake_pump.volume_flow',unit='m3/s',reported_error_bound=0,quality_note='Declared zero-error engineering witness.',
+            basis='synthetic_assumption',source_note='Exact finite hydraulic witness, not instrument calibration.')))
+        inspection=dict(schema='aegisdc-inspection-program-v1',profile=dict(schema='aegisdc-inspection-profile-v1',
+            id='post-filter-inspection',facility_id=scenario['id'],basis='synthetic_assumption',source_note='Timed post-action inspection.',
+            nonfixed_profile=profile,bindings=[dict(task_id='verify-intake',model_id='intake-flow',tool_id='tool_flow_meter',
+                qualification_id='qualified_cooling_inspection',minimum_work_s=1,condition_range=[0,1],confirmation_threshold=.08,
+                record_id='post-clean-flow',arrival_latency_s=.5,validity_s=5,
+                provenance=dict(origin_id='post-clean-flow',copied_from_record_id=None))]),
+            realizations={'verify-intake':dict(seed=23,bias=0,noise_half_width=0)})
+        result=simulate_scenario(scenario,duration_s=6,step_s=.01,work_program=work,
+            intervention_program=actions,inspection_program=inspection)
+        record=result['inspection_public_snapshot']['records'][0]
+        self.assertEqual((record['observed_at_s'],record['arrived_at_s']),(5.25,5.75))
+        self.assertAlmostEqual(record['value'],math.sqrt(1/180))
+        self.assertEqual(result['intervention_private_audit']['events'][0]['applied_at_s'],3.25)
+        self.assertFalse(result['intervention_public_feedback'][0]['risk_closed'])
+
 if __name__=='__main__':unittest.main()
