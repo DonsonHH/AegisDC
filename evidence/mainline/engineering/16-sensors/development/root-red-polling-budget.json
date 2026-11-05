@@ -1,0 +1,110 @@
+{
+  "scope": "Bounded independent polling schedule probe on immutable source799; no model/full and no original edits",
+  "pin": "799c55df3160bb367c25e3a2b3977ea5cc1a2694",
+  "source_sha256": "3603a622cc8b13de980cea1c5eb5d6ce41072da38132ad6ba77bc2103c08ac87",
+  "independent_exact_schedule_count": 1,
+  "period_s": 7.888609052210118e-31,
+  "phase_s": 1,
+  "trace_end_s": 1,
+  "outcome": "ROOT_SAFETY_STOP",
+  "observed": {
+    "counter": 3,
+    "polled": 1.0,
+    "generated_records": 3,
+    "message": "Root debugger stopped excessive polling after3iterations; no runaway process left"
+  },
+  "elapsed_s": 0.0,
+  "profile": {
+    "schema": "aegisdc-sparse-channels-v1",
+    "ledger": {
+      "schema": "aegisdc-evidence-ledger-v1",
+      "id": "declared-probe-ledger",
+      "facility_id": "literal-facility",
+      "basis": "synthetic_assumption",
+      "time_unit": "s",
+      "entity_ids": [
+        "immersion"
+      ],
+      "observables": [
+        {
+          "id": "coolant_temperature",
+          "quantity": "temperature",
+          "value_type": "number",
+          "unit": "K"
+        }
+      ],
+      "sources": [
+        {
+          "id": "temperature-probe",
+          "kind": "fixed_sensor",
+          "basis": "synthetic_assumption",
+          "target_ids": [
+            "immersion"
+          ],
+          "observable_ids": [
+            "coolant_temperature"
+          ],
+          "dependency_group": null,
+          "source_note": "Declared instrument model, not field calibration."
+        }
+      ],
+      "records": []
+    },
+    "measurements": [
+      {
+        "id": "temperature-measurement",
+        "signal": "coolant_temperature",
+        "target_id": "immersion",
+        "period_s": 7.888609052210118e-31,
+        "phase_s": 1,
+        "enabled": true,
+        "input_range": [
+          270,
+          350
+        ],
+        "declared_bias_bound": 1,
+        "declared_noise_bound": 0,
+        "quantization_bound": 1e-09,
+        "declared_dropout_probability": 0,
+        "calibration_group": null
+      }
+    ],
+    "channels": [
+      {
+        "id": "temperature-packet",
+        "measurement_id": "temperature-measurement",
+        "source_id": "temperature-probe",
+        "observable_id": "coolant_temperature",
+        "transform": "identity",
+        "threshold": null,
+        "delay_s": 2,
+        "validity_s": 5,
+        "quality_mode": "bounded"
+      }
+    ]
+  },
+  "trace": {
+    "schema": "aegisdc-observation-private-trace-v1",
+    "facility_id": "literal-facility",
+    "entity_ids": [
+      "immersion"
+    ],
+    "points": [
+      {
+        "time_s": 1,
+        "domains": {
+          "equipment_environment": {
+            "refrigerant": {
+              "temperature_K": 300
+            }
+          }
+        }
+      }
+    ],
+    "private_metadata": {
+      "fault_case": "must-never-enter-dispatch"
+    }
+  },
+  "model_runs": 0,
+  "full_runs": 0
+}

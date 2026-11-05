@@ -20,7 +20,12 @@ plus the static public model. The private production envelope, full future
 queue, seed, draw buckets, actual bias and diagnostics are not dispatch data.
 
 Polling epochs are decoded phase plus index times period, rounded once to the
-supported numeric coordinate. At each poll the adapter uses the latest saved
+supported numeric coordinate. The exact decoded plan determines a finite
+iteration count, with at most one million scheduled polls per measurement.
+Distinct plan times that collapse or reverse after numeric-coordinate rounding
+are refused; they are not emitted as extra independent samples. A single-tick
+plan cannot grow into a long loop because its next exact time rounds backward.
+At each poll the adapter uses the latest saved
 point **at or before** it; no forward peek or interpolation is performed.
 Fixed-signal observation time is the selected point's actual time. A reported
 controller value retains its own `sampled_at_s`. Polling cached data does not
@@ -28,6 +33,12 @@ refresh its observation time or validity. Arrival is poll time plus declared
 delay, rounded upward to a representable coordinate; exclusive expiry is
 similarly derived from observation time plus validity. Ticket 14 still applies
 its exact gate: even a one-ULP future arrival is unavailable.
+
+These are declared encoded adapter-clock coordinates, not a claim of continuous
+time precision or a hardware timer. Derived nonintegral times and observations
+use binary64; integral results retain integers. Unsupported finite-domain
+overflow is refused. Upward expiry is the declared exclusive encoded endpoint,
+never an arrival-based freshness extension.
 
 Separate transfer IDs use the channel and polling index. Transfers of the same
 measurement/actual observation coordinate retain a common origin. Noise and
@@ -56,3 +67,17 @@ same-V6 saved-trajectory engineering capture, source/delivery byte proofs and
 independent root reviews are required before ticket acceptance. Field
 calibration, registered mechanism comparisons, agent and RSI stages remain
 pending; source-level green tests do not complete M3 or the research goal.
+
+`load_saved_trace(zip_path)` verifies the four original `save_run` members and
+their recorded hashes/counts, retaining the original execution identity in
+private metadata. The adapter's execution is a new identity; reading a carrier
+does not rerun or reattribute its physical trajectory. Byte integrity alone is
+not a field-calibration or execution-authenticity claim; engineering capture
+also pins the trusted original delivery and its recorded source revisions.
+
+The standalone `python -m aegis_dc.sensor_channels model --profile FILE`
+returns only the empty-registry public model. `sample` accepts `--trace` for
+the private saved-signal JSON seam or `--archive` for the original saved run,
+plus `--realization` and a new `--output` directory. Its production file and
+summary are marked private; a separate `public-model.json` contains no pending
+records. Existing output directories are refused before sampling.

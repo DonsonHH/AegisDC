@@ -2,6 +2,12 @@
 from copy import deepcopy
 import json
 import math
+import hashlib
+import tempfile
+import zipfile
+import os
+import subprocess
+import sys
 from pathlib import Path
 import unittest
 
@@ -275,6 +281,136 @@ class SparseObservationChannelTests(unittest.TestCase):
         self.assertEqual(late['current_record_ids'], [])
         self.assertEqual(late['records'][0]['availability'], 'expired')
         self.assertEqual(late['records'][0]['age_s'], 1)
+
+    def test_sparse_mass_flow_and_power_signals_preserve_zero_without_reading_other_assets(self):
+        from aegis_dc.sensor_channels import sample_trace
+        from aegis_dc.evidence_ledger import EvidenceLedger
+        profile = example_profile()
+        profile['ledger']['entity_ids'] += ['intake_pump', 'rectifier', 'uncovered-asset']
+        realization = example_realization()
+        for name, signal, target, quantity, unit in [
+                ('flow', 'lake_mass_flow', 'intake_pump', 'mass_flow', 'kg/s'),
+                ('power', 'rectifier_input_power', 'rectifier', 'power', 'W')]:
+            profile['ledger']['observables'].append(dict(id=name, quantity=quantity, value_type='number', unit=unit))
+            profile['ledger']['sources'].append(dict(profile['ledger']['sources'][0], id=name + '-probe',
+                                                     target_ids=[target], observable_ids=[name]))
+            profile['measurements'].append(dict(profile['measurements'][0], id=name, signal=signal,
+                target_id=target, input_range=[0, 10000000], declared_bias_bound=0,
+                declared_noise_bound=0, quantization_bound=0))
+            profile['channels'].append(dict(profile['channels'][0], id=name + '-packet', measurement_id=name,
+                source_id=name + '-probe', observable_id=name, delay_s=0))
+            realization['biases'][name] = 0
+            realization['noise_bounds'][name] = 0
+            realization['dropout_probabilities'][name] = 0
+        trace = example_trace()
+        trace['entity_ids'] = list(reversed(profile['ledger']['entity_ids']))
+        for point, flow, power in zip(trace['points'], [0, 10, 20], [100, 0, 50]):
+            point['domains']['facility_cooling'] = {'lake_mass_flow_kg_s': flow}
+            point['domains']['power'] = {'rectifier_input_W': power}
+            point['domains']['uncovered-asset'] = {'private_health': 'failed-but-unmeasured'}
+        result = sample_trace(profile, trace, realization)
+        at_one = EvidenceLedger(result['ledger']).snapshot(1)
+        self.assertEqual([(row['observable_id'], row['value']) for row in at_one['records']],
+                         [('flow', 0), ('power', 100), ('flow', 10), ('power', 0)])
+        self.assertNotIn('uncovered-asset', {row['target_id'] for row in result['ledger']['records']})
+
+    def test_saved_run_loader_keeps_original_identity_and_refuses_changed_member(self):
+        from aegis_dc.sensor_channels import load_saved_trace, sample_trace
+        from patrol_rsi.contracts import digest
+        scenario = {'id': 'literal-facility', 'entities': [{'id': 'immersion'}]}
+        trace = example_trace()['points']
+        raw = {'scenario.json': (json.dumps(scenario) + '\n').encode(),
+               'private-state.jsonl': ''.join(json.dumps(row) + '\n' for row in trace).encode(),
+               'balances.jsonl': b'{"start_s":0,"end_s":1}\n{"start_s":1,"end_s":2}\n'}
+        manifest = dict(schema='aegisdc-engineering-facility-run-v1', status='ENGINEERING_FIXTURE_COMPLETED',
+            state_visibility='PRIVATE_PLANT_EVALUATOR_ONLY', scenario_sha256=digest(scenario),
+            code_identity={'git_commit': '0' * 40, 'files': {'literal-carrier': '0' * 64}},
+            inputs={'duration_s': 2, 'maximum_step_s': 1},
+            artifacts={name: dict(sha256=hashlib.sha256(data).hexdigest(),
+                                  **({'records': len(data.splitlines())} if name.endswith('.jsonl') else {}))
+                       for name, data in raw.items()})
+        raw['run.json'] = (json.dumps(manifest) + '\n').encode()
+        with tempfile.TemporaryDirectory(prefix='aegisdc-observation-loader-') as temporary:
+            directory = Path(temporary).resolve()
+            self.assertTrue(directory.is_relative_to(Path(tempfile.gettempdir()).resolve()))
+            good, bad = directory / 'literal-carrier.zip', directory / 'changed.zip'
+            with zipfile.ZipFile(good, 'x') as archive:
+                for name, data in raw.items():
+                    archive.writestr(name, data)
+            loaded = load_saved_trace(good)
+            self.assertEqual(loaded['private_metadata']['original_code_identity']['git_commit'], '0' * 40)
+            self.assertEqual(loaded['private_metadata']['original_archive_sha256'], hashlib.sha256(good.read_bytes()).hexdigest())
+            self.assertEqual(sample_trace(example_profile(), loaded, example_realization())['ledger']['records'][0]['value'], 300.5)
+            with zipfile.ZipFile(bad, 'x') as archive:
+                for name, data in raw.items():
+                    archive.writestr(name, data + b' ' if name == 'private-state.jsonl' else data)
+            with self.assertRaises(ValueError):
+                load_saved_trace(bad)
+
+    def test_exact_poll_budget_bounds_iterations_and_collapsed_clocks_are_refused(self):
+        # The original immutable-source799 red was stopped by root after three
+        # iterations of an exact one-tick plan. It is archived, not run here.
+        from aegis_dc.sensor_channels import sample_trace
+        profile = example_profile()
+        profile['measurements'][0].update(phase_s=1, period_s=2 ** -100)
+        trace = example_trace()
+        trace['points'] = [dict(time_s=1, domains={'equipment_environment': {
+            'refrigerant': {'temperature_K': 300}}})]
+        result = sample_trace(profile, trace, example_realization())
+        self.assertEqual(len(result['ledger']['records']), 1)
+        self.assertEqual(result['private_audit'][0]['poll_index'], 0)
+        self.assertEqual(result['ledger']['records'][0]['value'], 300.5)
+        profile['measurements'][0]['period_s'] = 2 ** -55
+        trace['points'].append(dict(time_s=math.nextafter(1, math.inf), domains=deepcopy(trace['points'][0]['domains'])))
+        with self.assertRaisesRegex(ValueError, 'coordinates.*collapse'):
+            sample_trace(profile, trace, example_realization())
+        profile['measurements'][0].update(phase_s=0, period_s=2 ** -100)
+        with self.assertRaisesRegex(ValueError, 'budget'):
+            sample_trace(profile, example_trace(), example_realization())
+
+    def test_actual_private_CLI_and_public_model_mode_refuse_existing_outputs(self):
+        root = Path(__file__).resolve().parents[1]
+        environment = dict(os.environ, PYTHONPATH=str(root / 'src'))
+        with tempfile.TemporaryDirectory(prefix='aegisdc-observation-cli-') as temporary:
+            folder = Path(temporary).resolve()
+            self.assertTrue(folder.is_relative_to(Path(tempfile.gettempdir()).resolve()))
+            for name, value in [('profile', example_profile()), ('trace', example_trace()), ('realization', example_realization())]:
+                (folder / (name + '.json')).write_text(json.dumps(value), encoding='utf-8')
+            output = folder / 'produced'
+            command = [sys.executable, '-X', 'utf8', '-m', 'aegis_dc.sensor_channels', 'sample',
+                       '--profile', str(folder / 'profile.json'), '--trace', str(folder / 'trace.json'),
+                       '--realization', str(folder / 'realization.json'), '--output', str(output)]
+            done = subprocess.run(command, cwd=root, env=environment, capture_output=True, text=True)
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertEqual(json.loads(done.stdout)['state_visibility'], 'PRIVATE_EVALUATOR_ONLY')
+            original = (output / 'production-private.json').read_bytes()
+            produced = json.loads(original)
+            self.assertEqual(produced['ledger']['records'][0]['value'], 300.5)
+            public = json.loads((output / 'public-model.json').read_text(encoding='utf-8'))
+            self.assertEqual(public['ledger']['records'], [])
+            model = subprocess.run([sys.executable, '-X', 'utf8', '-m', 'aegis_dc.sensor_channels',
+                                    'model', '--profile', str(folder / 'profile.json')], cwd=root,
+                                   env=environment, capture_output=True, text=True)
+            self.assertEqual(model.returncode, 0, model.stderr)
+            self.assertEqual(json.loads(model.stdout), public)
+            refused = subprocess.run(command, cwd=root, env=environment, capture_output=True, text=True)
+            self.assertEqual(refused.returncode, 2)
+            self.assertEqual((output / 'production-private.json').read_bytes(), original)
+
+    def test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels(self):
+        from aegis_dc.sensor_channels import load_channel_profile
+        root = Path(__file__).resolve().parents[1]
+        profile = load_channel_profile(root / 'configs/full-facility-sensor-channels-v1.json')
+        v6 = json.loads((root / 'configs/full-facility-mainline-reserve-v6.json').read_text(encoding='utf-8'))
+        self.assertEqual(profile['ledger']['facility_id'], v6['id'])
+        self.assertEqual(profile['ledger']['entity_ids'], [row['id'] for row in v6['entities']])
+        self.assertEqual(profile['ledger']['records'], [])
+        self.assertEqual(len(profile['measurements']), 4)
+        fixed = [row for row in profile['measurements'] if row['signal'] != 'controller_temperature']
+        self.assertEqual({row['target_id'] for row in fixed}, {'immersion', 'intake_pump', 'rectifier'})
+        self.assertTrue(all(row['enabled'] for row in fixed))
+        self.assertEqual({row['kind'] for row in profile['ledger']['sources']}, {'fixed_sensor', 'control_record'})
+        self.assertEqual(len(profile['channels']), 6)
 
 
 if __name__ == '__main__':

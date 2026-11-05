@@ -1,12 +1,16 @@
 """Private saved-signal sampling into the public ticket-14 record contract."""
+import argparse
 from bisect import bisect_right
 from copy import deepcopy
 from fractions import Fraction
 from hashlib import sha256
 import json
 import math
+from pathlib import Path
+import zipfile
 
 from .evidence_ledger import validate_ledger
+from patrol_rsi.contracts import digest, strict_json
 
 
 SIGNALS = {
@@ -14,6 +18,10 @@ SIGNALS = {
         path=('equipment_environment', 'refrigerant', 'temperature_K'), reported=False),
     'controller_temperature': dict(target='local_controller', quantity='temperature', unit='K',
         path=('control_monitoring', 'local_measurement', 'temperature_K'), reported=True),
+    'lake_mass_flow': dict(target='intake_pump', quantity='mass_flow', unit='kg/s',
+        path=('facility_cooling', 'lake_mass_flow_kg_s'), reported=False),
+    'rectifier_input_power': dict(target='rectifier', quantity='power', unit='W',
+        path=('power', 'rectifier_input_W'), reported=False),
 }
 
 MEASUREMENT_FIELDS = {'id', 'signal', 'target_id', 'period_s', 'phase_s', 'enabled',
@@ -171,6 +179,10 @@ def public_model(profile):
                 channels=deepcopy(profile['channels']))
 
 
+def load_channel_profile(path):
+    return validate_channel_profile(strict_json(Path(path).read_text(encoding='utf-8')))
+
+
 def _bucket(seed, measurement, observed, kind):
     key = ['aegisdc-keyed-observation-v1', seed, measurement, str(Fraction(observed)), kind]
     raw = json.dumps(key, ensure_ascii=True, separators=(',', ':'), allow_nan=False).encode('utf-8')
@@ -193,10 +205,10 @@ def _signal(point, measurement):
         _require(type(valid) is bool, 'Reported controller validity must be boolean')
         if observed > point['time_s']:
             raise ValueError('A controller sample cannot come from a future source point')
-    if value is None:
-        valid = False
-    else:
+    if value is not None:
         _finite(value, 'Private declared signal')
+    if not specification['reported']:
+        valid = (value is not None and measurement['input_range'][0] <= value <= measurement['input_range'][1])
     return value, observed, valid
 
 
@@ -234,6 +246,65 @@ def _private_inputs(profile, private_trace, realization):
             _require(name != 'dropout_probabilities' or value <= 1, 'Private dropout probability must be in [0,1]')
 
 
+def load_saved_trace(archive_path):
+    """Read a hashed save_run carrier; source identity remains the old execution.
+
+    Byte integrity is checked here. An experiment's trusted delivery/source
+    provenance and complete-facility qualification remain separate checks.
+    """
+    path = Path(archive_path)
+    with path.open('rb') as source:
+        original = sha256()
+        for block in iter(lambda: source.read(1024 * 1024), b''):
+            original.update(block)
+    try:
+        with zipfile.ZipFile(path) as archive:
+            _require(sorted(archive.namelist()) == ['balances.jsonl', 'private-state.jsonl', 'run.json', 'scenario.json'],
+                     'Saved observation input must contain the four original save_run files')
+            raw_manifest = archive.read('run.json')
+            manifest = strict_json(raw_manifest.decode('utf-8'))
+            _require(manifest['schema'] == 'aegisdc-engineering-facility-run-v1'
+                     and manifest['status'] == 'ENGINEERING_FIXTURE_COMPLETED'
+                     and manifest['state_visibility'] == 'PRIVATE_PLANT_EVALUATOR_ONLY',
+                     'Only the declared private engineering save_run format is supported')
+            _require(set(manifest['artifacts']) == {'scenario.json', 'private-state.jsonl', 'balances.jsonl'},
+                     'Saved manifest has unknown artifact roles')
+            points, scenario = [], None
+            for name, expected in manifest['artifacts'].items():
+                hashed, count = sha256(), 0
+                with archive.open(name) as source:
+                    if name == 'private-state.jsonl':
+                        for line in source:
+                            hashed.update(line)
+                            points.append(strict_json(line.decode('utf-8')))
+                            count += 1
+                    elif name == 'scenario.json':
+                        raw = source.read()
+                        hashed.update(raw)
+                        scenario = strict_json(raw.decode('utf-8'))
+                    else:
+                        for line in source:
+                            hashed.update(line)
+                            count += 1
+                _require(hashed.hexdigest() == expected['sha256'], 'Saved input member hash differs: ' + name)
+                if name.endswith('.jsonl'):
+                    _require(type(expected['records']) is int and count == expected['records'],
+                             'Saved input member count differs: ' + name)
+            _require(digest(scenario) == manifest['scenario_sha256'], 'Saved scenario identity differs')
+            _require(len(points) >= 2 and points[0]['time_s'] == 0
+                     and points[-1]['time_s'] == manifest['inputs']['duration_s'],
+                     'Saved input does not cover its declared run interval')
+            return dict(schema='aegisdc-observation-private-trace-v1', facility_id=scenario['id'],
+                        entity_ids=[row['id'] for row in scenario['entities']], points=points,
+                        private_metadata=dict(original_archive_sha256=original.hexdigest(),
+                            original_manifest_sha256=sha256(raw_manifest).hexdigest(),
+                            original_code_identity=deepcopy(manifest['code_identity']),
+                            original_duration_s=manifest['inputs']['duration_s'],
+                            original_maximum_step_s=manifest['inputs']['maximum_step_s']))
+    except (KeyError, TypeError, UnicodeError, zipfile.BadZipFile) as error:
+        raise ValueError('Invalid saved observation carrier structure') from error
+
+
 def sample_trace(profile, private_trace, realization):
     """Evaluator-only adapter; give dispatch a ledger snapshot, not this result."""
     profile = validate_channel_profile(profile)
@@ -251,9 +322,12 @@ def sample_trace(profile, private_trace, realization):
             continue
         count = max(0, int((Fraction(times[-1]) - Fraction(measurement['phase_s'])) // Fraction(measurement['period_s'])) + 1)
         _require(count <= 1000000, 'Observation polling schedule exceeds the declared finite adapter budget')
-        counter = 0
-        while True:
+        previous_poll = None
+        for counter in range(count):
             polled = _number(Fraction(measurement['phase_s']) + counter * Fraction(measurement['period_s']))
+            _require(previous_poll is None or polled > previous_poll,
+                     'Polling coordinates collapse at the supported numeric resolution')
+            previous_poll = polled
             if polled > times[-1]:
                 break
             point_index = bisect_right(times, polled) - 1
@@ -303,7 +377,51 @@ def sample_trace(profile, private_trace, realization):
                                   private_reading_dropout=dropout,
                                   declared_bound_violated=(abs(Fraction(measured) - Fraction(signal)) > Fraction(bound)
                                                            if measured is not None and usable and not dropout else None)))
-            counter += 1
     return dict(schema='aegisdc-private-observation-production-v1',
                 state_visibility='PRIVATE_EVALUATOR_ONLY', ledger=validate_ledger(ledger),
-                public_model=public_model(profile), private_audit=audit)
+                public_model=public_model(profile), private_audit=audit,
+                private_realization=deepcopy(realization))
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Sparse observation engineering adapter; no plant, policy or model execution')
+    sub = parser.add_subparsers(dest='command', required=True)
+    describe = sub.add_parser('model', help='Only the declared public static model')
+    describe.add_argument('--profile', type=Path, required=True)
+    sample = sub.add_parser('sample', help='Produce a PRIVATE evaluator ledger queue and audit')
+    sample.add_argument('--profile', type=Path, required=True)
+    data = sample.add_mutually_exclusive_group(required=True)
+    data.add_argument('--trace', type=Path, help='Declared private saved-signal JSON interface')
+    data.add_argument('--archive', type=Path, help='The four original hashed save_run files in a ZIP')
+    sample.add_argument('--realization', type=Path, required=True)
+    sample.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        profile = load_channel_profile(args.profile)
+        if args.command == 'model':
+            print(json.dumps(public_model(profile), ensure_ascii=False, indent=2, allow_nan=False))
+            return
+        if args.output.exists():
+            raise ValueError('Output directory already exists; use a fresh private observation directory')
+        if args.archive:
+            trace = load_saved_trace(args.archive)
+            identity = trace['private_metadata']
+        else:
+            raw = args.trace.read_bytes()
+            trace = strict_json(raw.decode('utf-8'))
+            identity = dict(kind='DECLARED_PRIVATE_TRACE_JSON', input_sha256=sha256(raw).hexdigest())
+        realization = strict_json(args.realization.read_text(encoding='utf-8'))
+        result = sample_trace(profile, trace, realization)
+        result['private_input_identity'] = identity
+        args.output.mkdir(parents=True, exist_ok=False)
+        for name, value in [('production-private.json', result), ('public-model.json', result['public_model'])]:
+            with (args.output / name).open('x', encoding='utf-8', newline='\n') as stream:
+                stream.write(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
+        print(json.dumps(dict(state_visibility='PRIVATE_EVALUATOR_ONLY', record_count=len(result['ledger']['records']),
+                              research_trials=0, model_calls=0, training_calls=0)))
+    except (ValueError, KeyError, OSError, OverflowError) as error:
+        parser.error(str(error))
+
+
+if __name__ == '__main__':
+    main()
