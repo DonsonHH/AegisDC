@@ -46,19 +46,15 @@
 
 ## 当前起点与持续执行
 
-M1 八域同场基线和 M2 有限数值／重放门槛现均由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 当前权威](mainline/evidence/M2.json)与[数据图、四轴评审和复核包](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 统一回归源 bcac 为359项全执行零跳过；11个数值见证按5/4/2三类冻结阶梯解释，原NO-GO、失败和作者执行身份保留。下一阶段显式运行选择V6与最大步长.01；这不构成任意参数域或真轨迹绝对误差界。M3多源证据账14已由根接受：[377项原始结果、最新图及评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票风险情景已由根接受，第20票已接受，M3声明有限工程门槛通过，第22票已接受，第23票已接受，第24票已接受，当前主票25。 [第19票数据图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [第18票数据图、架构与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景存在稀疏固定传感器，并允许历史、人工、工单和手持结果；后台真值保持私有。整个研究目标仍active。
+M0–M3已按声明的有限工程范围接受。M4中人员21、实际检查22、处置23和证据核验关闭24已接受；当前主票25实施透明策略与贴近问题的文献基线，26–28仍须完成候选方法、同场闭环与负例。M4尚未完成，整个研究目标持续active。
 
-- [详细规格](../.scratch/full-facility-mainline/spec.md)
-- [任务图](../.scratch/full-facility-mainline/map.md)
-- [当前进度与门槛](mainline/progress.json)
-- [工程来源](research/20261104/facility-cases/README.md)
+第24项实际集成源2b8d224a通过512项全执行回归，零失败、零错误、零跳过；20份历史原件与260个Python/JSON源身份通过守卫。独立Spec1267项和Standards453项保存复核通过。原15次证据评估、审查发现与单列修订15次均保留，累计30次，未重跑物理或升级为科学收益。
 
-完成任务时保存源提交、命令、结果、范围和剩余问题。主线到M6的完整独立结论、以及M7资格/相应结果前持续有效；规划、单个组件、演示和绿色CI不代替总目标完成。确需改动总目标或工程参照时形成显式新决策，不能静默缩为局部机柜研究或为得到正结果改变评价问题。
+- [M1原快照](mainline/evidence/M1.json)与[M2权威](mainline/evidence/M2.json)，[数值数据与四轴复核](../evidence/mainline/engineering/M2-root-acceptance/README.md)
+- [M3权威](mainline/evidence/M3.json)，[证据、风险与价值图](../evidence/mainline/engineering/20-root-acceptance/README.md)
+- [实际检查22](../evidence/mainline/engineering/22-root-acceptance/README.md)、[处置数据与架构23](../evidence/mainline/engineering/23-root-acceptance/README.md)、[关闭状态和边界24](../evidence/mainline/engineering/24-root-acceptance/README.md)
+- [详细规格](../.scratch/full-facility-mainline/spec.md)、[任务图](../.scratch/full-facility-mainline/map.md)、[当前进度与门槛](mainline/progress.json)、[工程来源](research/20261104/facility-cases/README.md)
 
-M3证据、风险及价值的声明有限工程门槛已通过[M3根审计](mainline/evidence/M3.json)与[数据图／476项回归包](../evidence/mainline/engineering/20-root-acceptance/README.md)。第22票已接受，第23票已接受，第24票已接受，当前主票25；实际干预23、恢复24及独立比较仍按主线推进，总目标active。
+全场运行显式采用V6与最大步长.01。M2的11个见证仍分别按5/4/2各自冻结阶梯解释，不构成任意参数域或真轨迹绝对误差界。主场景有稀疏固定测点，历史、人工、工单和手持结果按来源及时标进入；后台真值始终私有。
 
-实际检查22通过[根验收、时序与架构图](../evidence/mainline/engineering/22-root-acceptance/README.md)。实际处置23和验证关闭24继续，整体目标active。
-
-实际处置23通过[根验收、数据图与信息边界架构](../evidence/mainline/engineering/23-root-acceptance/README.md)。当前24按可用恢复证据核验关闭，M4及整体研究目标仍active。
-
-证据核验关闭24通过[根验收、状态图与边界架构](../evidence/mainline/engineering/24-root-acceptance/README.md)。当前25准备透明策略对照，M4及整体研究目标仍active。
+新研究效果比较须在30冻结协议与预算后执行；AI/RSI须经过38资格门槛。当前注册效果试验尚未开始，现场标定pending。每票保存源提交、命令、完整原件、失败和剩余范围；组件通过、演示和绿色CI均不替代完整研究目标的接受。

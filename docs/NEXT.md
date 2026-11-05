@@ -1,14 +1,10 @@
 # 当前执行：完整设施风险驱动检查与处置主线
 
-固定目标见[MAINLINE](MAINLINE.md)，实际门槛见[progress](mainline/progress.json)，任务依赖见[任务图](../.scratch/full-facility-mainline/map.md)。
+固定目标见[MAINLINE](MAINLINE.md)，实际门槛见[progress](mainline/progress.json)，依赖见[任务图](../.scratch/full-facility-mainline/map.md)。01–24已接受；当前25为透明策略、共同资源/信息接口与贴近问题的文献基线，仍属M4。26–28的候选方法、同场闭环和负例尚未接受。
 
-M1 和声明有限范围的 M2 已由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 根权威](mainline/evidence/M2.json)、[数值数据图／正确架构／四轴评审](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 根源 bcac 记录359项全执行零跳过、20历史原件与156 Python字节守卫。旧作者全检、NO-GO、失败及原 pending receipts 仍保留其原身份。
+最新[24根验收](../evidence/mainline/engineering/24-root-acceptance/README.md)保存512项全执行回归、260源身份与原始/修订证据。处置完成、局部症状退去、授权接受风险、误报复核和有限证据关闭已分开；这些工程门槛尚不证明策略收益。
 
-M3多源证据账14已由根接受：[14根权威](mainline/evidence/14-root.json)、[数据图／377项根日志／惰性评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票已由根接受，第20票已接受，第22票已接受，第23票已接受，第24票已接受，当前主票25。 [风险后果图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [认识更新数据图与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景有稀疏固定传感器，允许历史／人工／工单／手持数据；未覆盖位置不生成观测，后台真值不自动给调度。后续仍需风险认识、异质检查处置及恢复核验、独立效果对照和条件式AI/RSI资格。
-
-下一阶段数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和全新输出目录。11个见证仍按5/4/2各自冻结阶梯解释；五个旧案没有新增更细的.01参考，事件侧指标不是同钟raw或未保存真轨迹的保守界。详见M2包的只读复核路径。
-
-本次没有新注册研究、训练或LLM试验；不恢复会前确认集。现场标定pending，完整42任务研究目标保持active。
+新全场运行显式采用V6、最大步长.01和新输出目录。研究效果试验在30冻结后开始，AI/RSI在38资格审计后才进入；不恢复会前确认集。主场景存在稀疏固定传感器，并允许历史/人工/工单/手持证据；未覆盖位置不自动可见。现场标定pending，完整42票目标active。
 
 ---
 
