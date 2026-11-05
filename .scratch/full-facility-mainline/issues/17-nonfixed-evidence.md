@@ -19,3 +19,11 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+## Owner and public behavior slices
+
+Owner `/root/mainline_02_merge`, branch `donson/mainline-17-nonfixed`, sole worktree `.work/worktrees/full-site-17`. Base6fe and metadata integration9992 were re-read; live15/16/17 ownership and worktree state were confirmed before this claim. Root remains primary15; no global milestone is accepted here.
+
+Pre-agreed seams are the authorized nonfixed record producer into existing14 `ingest`/`snapshot`, and a typed producer-side completion gate with a private exact-saved-signal adapter. Tests use these public boundaries, never private plant/ledger methods. History/manual claims test declared source/time/quality/provenance and delayed/stale admission, not truth calibration. Completion/measurement slices test coverage, status/declared qualification, actual completion/latency and reproducible declared error models; they do not test the professional route/resource executor (21/22). The existing M1 completed work effect is NO_REPAIR_OR_EVIDENCE and is not a completion token.
+
+Implementation contract: `docs/mainline/17-nonfixed-evidence.md`. Root authorized these producer/adapter seams in the assignment; no additional permission gate is inferred from TDD. Red/green slices, frozen engineering capture and independent root review remain required.

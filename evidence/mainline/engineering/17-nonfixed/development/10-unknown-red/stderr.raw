@@ -1,0 +1,26 @@
+test_completion_status_and_availability_gate_precede_any_private_sample (test_nonfixed_evidence.NonfixedEvidenceTests.test_completion_status_and_availability_gate_precede_any_private_sample) ... ok
+test_declared_indeterminate_completion_records_null_without_reading_private_data (test_nonfixed_evidence.NonfixedEvidenceTests.test_declared_indeterminate_completion_records_null_without_reading_private_data) ... ERROR
+test_false_positive_and_false_negative_keep_the_same_declared_quality_and_origin (test_nonfixed_evidence.NonfixedEvidenceTests.test_false_positive_and_false_negative_keep_the_same_declared_quality_and_origin) ... ok
+test_late_history_keeps_its_old_time_and_expiry_in_the_real_ledger (test_nonfixed_evidence.NonfixedEvidenceTests.test_late_history_keeps_its_old_time_and_expiry_in_the_real_ledger) ... ok
+test_manual_negative_missing_and_unconfirmed_quality_are_not_truth_inference (test_nonfixed_evidence.NonfixedEvidenceTests.test_manual_negative_missing_and_unconfirmed_quality_are_not_truth_inference) ... ok
+test_same_V6_measurement_uses_completion_point_after_a_changing_interval (test_nonfixed_evidence.NonfixedEvidenceTests.test_same_V6_measurement_uses_completion_point_after_a_changing_interval) ... ok
+test_work_order_carries_a_future_alarm_root_without_private_chain_lookup (test_nonfixed_evidence.NonfixedEvidenceTests.test_work_order_carries_a_future_alarm_root_without_private_chain_lookup) ... ok
+
+======================================================================
+ERROR: test_declared_indeterminate_completion_records_null_without_reading_private_data (test_nonfixed_evidence.NonfixedEvidenceTests.test_declared_indeterminate_completion_records_null_without_reading_private_data)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 212, in test_declared_indeterminate_completion_records_null_without_reading_private_data
+    record = producer.publish_completion(completion(), model=model, private_signals=private,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 276, in publish_completion
+    model = _measurement_model(model, observable)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 188, in _measurement_model
+    raise ValueError('Declare a supported synthetic instrument model')
+ValueError: Declare a supported synthetic instrument model
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.076s
+
+FAILED (errors=1)

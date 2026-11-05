@@ -1,0 +1,432 @@
+{
+  "schema": "aegisdc-nonfixed-plan-v1",
+  "reported_records": [
+    {
+      "id": "asset-zero",
+      "source_id": "asset-register",
+      "target_id": "rectifier",
+      "observable_id": "nameplate_power",
+      "unit": "W",
+      "value": 0,
+      "observed_at_s": -100,
+      "arrived_at_s": -50,
+      "valid_until_s": null,
+      "quality": {
+        "status": "bounded",
+        "error_bound": 0,
+        "note": "Explicit synthetic zero rating, not missing data."
+      },
+      "provenance": {
+        "origin_id": "declared-asset-zero",
+        "copied_from_record_id": null
+      }
+    },
+    {
+      "id": "late-history",
+      "source_id": "maintenance-log",
+      "target_id": "filter",
+      "observable_id": "maintenance_reported",
+      "unit": "1",
+      "value": false,
+      "observed_at_s": -20,
+      "arrived_at_s": 10,
+      "valid_until_s": 0,
+      "quality": {
+        "status": "reported",
+        "error_bound": null,
+        "note": "Declared unconfirmed claim, not a backend fault label."
+      },
+      "provenance": {
+        "origin_id": "declared-late-history",
+        "copied_from_record_id": null
+      }
+    },
+    {
+      "id": "manual-negative",
+      "source_id": "operator-report",
+      "target_id": "filter",
+      "observable_id": "vibration_reported",
+      "unit": "1",
+      "value": false,
+      "observed_at_s": 1,
+      "arrived_at_s": 2,
+      "valid_until_s": 120,
+      "quality": {
+        "status": "reported",
+        "error_bound": null,
+        "note": "Declared unconfirmed claim, not a backend fault label."
+      },
+      "provenance": {
+        "origin_id": "declared-manual-negative",
+        "copied_from_record_id": null
+      }
+    },
+    {
+      "id": "manual-unknown",
+      "source_id": "operator-report",
+      "target_id": "filter",
+      "observable_id": "vibration_reported",
+      "unit": "1",
+      "value": null,
+      "observed_at_s": 3,
+      "arrived_at_s": 4,
+      "valid_until_s": 120,
+      "quality": {
+        "status": "unknown",
+        "error_bound": null,
+        "note": "Unconfirmed report has no usable value."
+      },
+      "provenance": {
+        "origin_id": "declared-manual-unknown",
+        "copied_from_record_id": null
+      }
+    },
+    {
+      "id": "copy-first",
+      "source_id": "work-order-inbox",
+      "target_id": "immersion",
+      "observable_id": "temperature",
+      "unit": "K",
+      "value": 310,
+      "observed_at_s": 20,
+      "arrived_at_s": 30,
+      "valid_until_s": 110,
+      "quality": {
+        "status": "bounded",
+        "error_bound": 0.5,
+        "note": "Copied declared bound; a second message is not an independent sample."
+      },
+      "provenance": {
+        "origin_id": "carried-shared-alarm-root",
+        "copied_from_record_id": "alarm-later"
+      }
+    }
+  ],
+  "external_records": [],
+  "completion_requests": [
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "completed-numeric",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": 97.5,
+        "status": "COMPLETED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "completed-indeterminate",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-indeterminate-probe",
+        "qualification_declared": true,
+        "planned_started_at_s": 49,
+        "planned_completed_at_s": 50,
+        "started_at_s": 49,
+        "completed_at_s": 50,
+        "status": "COMPLETED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.25,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-indeterminate",
+      "realization": null
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "detector-miss",
+        "source_id": "handheld-threshold-probe",
+        "target_id": "immersion",
+        "observable_id": "hot_reported",
+        "instrument_id": "declared-miss-probe",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": 97.5,
+        "status": "COMPLETED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "hot_reported"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "threshold-miss",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "detector-false-alarm",
+        "source_id": "handheld-threshold-probe",
+        "target_id": "immersion",
+        "observable_id": "hot_reported",
+        "instrument_id": "declared-false-alarm-probe",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": 97.5,
+        "status": "COMPLETED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "hot_reported"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "threshold-false-alarm",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "no-result-aborted",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": null,
+        "status": "ABORTED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "no-result-rejected",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": null,
+        "status": "REJECTED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "no-result-incomplete",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": null,
+        "status": "INCOMPLETE",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "no-result-unqualified",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": false,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": 97.5,
+        "status": "COMPLETED",
+        "coverage": [
+          {
+            "target_id": "immersion",
+            "observable_id": "temperature"
+          }
+        ],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    },
+    {
+      "completion": {
+        "schema": "aegisdc-producer-completion-v1",
+        "origin": "DECLARED_PRODUCER_FIXTURE",
+        "id": "no-result-uncovered",
+        "source_id": "handheld-thermometer",
+        "target_id": "immersion",
+        "observable_id": "temperature",
+        "instrument_id": "declared-thermometer",
+        "qualification_declared": true,
+        "planned_started_at_s": 65.5,
+        "planned_completed_at_s": 97.49999999999999,
+        "started_at_s": 65.5,
+        "completed_at_s": 97.5,
+        "status": "COMPLETED",
+        "coverage": [],
+        "arrival_latency_s": 0.5,
+        "valid_until_s": 120,
+        "provenance": {
+          "origin_id": "declared-inspection-session",
+          "copied_from_record_id": null
+        },
+        "basis": "synthetic_assumption",
+        "source_note": "Typed producer fixture only; travel/skills/resources and real execution await21/22."
+      },
+      "model_id": "coolant-numeric",
+      "realization": {
+        "seed": 913,
+        "bias": 0,
+        "noise_half_width": 0
+      }
+    }
+  ]
+}

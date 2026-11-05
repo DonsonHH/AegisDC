@@ -1,0 +1,136 @@
+{
+  "schema": "aegisdc-nonfixed-runbook-v1",
+  "classification": "ENGINEERING_NOT_RESEARCH",
+  "profile": "configs/full-facility-nonfixed-evidence-v1.json",
+  "private_plan": "configs/full-facility-nonfixed-private-plan-v1.json",
+  "private_saved_run": "evidence/mainline/engineering/13-replay/capture-04/combined-episode-CLI/trajectory",
+  "paired_private_runs": [
+    "evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/gate-before-arrival",
+    "evidence/mainline/engineering/13-replay/capture-04/normal-600s/trajectory"
+  ],
+  "saved_run_interpretation": {
+    "physical_source_commit": "cf9b33900d8f349b9a8145c042bbffe03503c858",
+    "historical_maximum_step_s": 1.0,
+    "historical_duration_s": 240.0,
+    "adapter_sampling": "EXACT_SAVED_POINT_AT_EFFECTIVE_COMPLETION",
+    "new_physics_execution": false,
+    "numerical_domain_qualification": false,
+    "professional_execution_connected": false
+  },
+  "snapshots": [
+    {
+      "id": "before-report",
+      "as_of_s": 1,
+      "current_record_ids": [
+        "asset-zero"
+      ]
+    },
+    {
+      "id": "negative-report",
+      "as_of_s": 2,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative"
+      ]
+    },
+    {
+      "id": "late-history",
+      "as_of_s": 10,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative"
+      ]
+    },
+    {
+      "id": "copy-first",
+      "as_of_s": 30,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative",
+        "copy-first"
+      ]
+    },
+    {
+      "id": "before-completion",
+      "as_of_s": 97.5,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative",
+        "copy-first",
+        "alarm-later"
+      ]
+    },
+    {
+      "id": "before-arrival",
+      "as_of_s": 97.99999999999999,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative",
+        "copy-first",
+        "alarm-later"
+      ]
+    },
+    {
+      "id": "arrived",
+      "as_of_s": 98,
+      "current_record_ids": [
+        "asset-zero",
+        "manual-negative",
+        "copy-first",
+        "alarm-later",
+        "completed-numeric",
+        "detector-false-alarm",
+        "detector-miss"
+      ]
+    },
+    {
+      "id": "expired",
+      "as_of_s": 120,
+      "current_record_ids": [
+        "asset-zero"
+      ]
+    }
+  ],
+  "literal_checks": {
+    "start_time_s": 65.5,
+    "start_temperature_K": 306.33863056744127,
+    "raw_planned_completion_s": 97.49999999999999,
+    "effective_completion_s": 97.5,
+    "completion_temperature_K": 299.80494269918245,
+    "arrival_time_s": 98,
+    "arrival_temperature_K": 299.7638719034682,
+    "late_history_age_at_10_s": 30,
+    "detector_miss": false,
+    "detector_false_alarm": true,
+    "registered_research_trials": 0
+  },
+  "CLI": [
+    {
+      "id": "arrived",
+      "expected_exit": 0
+    },
+    {
+      "id": "before-arrival",
+      "expected_exit": 0
+    },
+    {
+      "id": "no-fixed",
+      "expected_exit": 0
+    },
+    {
+      "id": "ungated-handheld",
+      "expected_exit": 1
+    },
+    {
+      "id": "overwrite",
+      "expected_exit": 2
+    }
+  ],
+  "deferred": [
+    "professional path/skills/tool/resource execution21/22",
+    "risk/posterior18",
+    "action effects23",
+    "registered comparison30+",
+    "AI/RSI eligibility38+"
+  ]
+}
