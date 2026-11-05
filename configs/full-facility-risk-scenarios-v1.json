@@ -1,0 +1,910 @@
+{
+  "schema": "aegisdc-risk-catalog-v1",
+  "id": "V6-risk-scenarios-v1",
+  "basis": "synthetic_assumption",
+  "source_note": "Finite conditional consequence law using independent literal joint-service examples. Not a physical forecast or site calibration.",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+  "belief_model_id": "V6-heat-and-electrical-support-v1",
+  "horizon_s": 2,
+  "time_unit": "s",
+  "service_id": "critical_service",
+  "service_component_ids": [
+    "compute",
+    "network",
+    "storage"
+  ],
+  "demand": [
+    {
+      "start_s": 0,
+      "end_s": 1,
+      "rate": 0.5
+    },
+    {
+      "start_s": 1,
+      "end_s": 2,
+      "rate": 2
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "nominal",
+      "meaning": "Declared two-second joint capacity consequence for nominal",
+      "conditional_probability": {
+        "nominal": 1,
+        "cooling-limited": 0,
+        "power-limited": 0,
+        "other": 0
+      },
+      "capacity_profile": [
+        {
+          "start_s": 0.0,
+          "end_s": 1.0,
+          "capacities": {
+            "compute": 2.0,
+            "network": 2.0,
+            "storage": 2.0
+          }
+        },
+        {
+          "start_s": 1.0,
+          "end_s": 2.0,
+          "capacities": {
+            "compute": 2.0,
+            "network": 2.0,
+            "storage": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "cooling-limited",
+      "meaning": "Declared two-second joint capacity consequence for cooling-limited",
+      "conditional_probability": {
+        "nominal": 0,
+        "cooling-limited": 1,
+        "power-limited": 0,
+        "other": 0
+      },
+      "capacity_profile": [
+        {
+          "start_s": 0.0,
+          "end_s": 1.0,
+          "capacities": {
+            "compute": 1.0,
+            "network": 2.0,
+            "storage": 2.0
+          }
+        },
+        {
+          "start_s": 1.0,
+          "end_s": 2.0,
+          "capacities": {
+            "compute": 1.0,
+            "network": 2.0,
+            "storage": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "power-limited",
+      "meaning": "Declared two-second joint capacity consequence for power-limited",
+      "conditional_probability": {
+        "nominal": 0,
+        "cooling-limited": 0,
+        "power-limited": 1,
+        "other": 0
+      },
+      "capacity_profile": [
+        {
+          "start_s": 0.0,
+          "end_s": 1.0,
+          "capacities": {
+            "compute": 0.25,
+            "network": 0.5,
+            "storage": 0.4
+          }
+        },
+        {
+          "start_s": 1.0,
+          "end_s": 2.0,
+          "capacities": {
+            "compute": 0.25,
+            "network": 0.5,
+            "storage": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "meaning": "Declared two-second joint capacity consequence for other",
+      "conditional_probability": {
+        "nominal": 0,
+        "cooling-limited": 0,
+        "power-limited": 0,
+        "other": 1
+      },
+      "capacity_profile": [
+        {
+          "start_s": 0.0,
+          "end_s": 0.5,
+          "capacities": {
+            "compute": 2.0,
+            "network": 0.4,
+            "storage": 2.0
+          }
+        },
+        {
+          "start_s": 0.5,
+          "end_s": 1.0,
+          "capacities": {
+            "compute": 2.0,
+            "network": 0.4,
+            "storage": 0.25
+          }
+        },
+        {
+          "start_s": 1.0,
+          "end_s": 1.5,
+          "capacities": {
+            "compute": 2.0,
+            "network": 0.4,
+            "storage": 0.25
+          }
+        },
+        {
+          "start_s": 1.5,
+          "end_s": 2.0,
+          "capacities": {
+            "compute": 2.0,
+            "network": 2.0,
+            "storage": 0.25
+          }
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "cooling",
+      "target_ids": [
+        "filter",
+        "intake_pump",
+        "plate_hx",
+        "immersion"
+      ],
+      "scenario": "Possible cooling impairment affects the shared critical service over the declared finite horizon.",
+      "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+      "dependency_edge_ids": [
+        "f12",
+        "f13",
+        "f14"
+      ],
+      "outcome_ids": [
+        "cooling-limited",
+        "other"
+      ],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "Distinguish aggregate causes and establish present capacity under load.",
+        "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Review flow and coolant records, confirm pump/filter/HX condition, then verify heat rejection and service recovery.",
+      "options": [
+        {
+          "id": "defer-cooling",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "isolate-cooling",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-cooling",
+          "target_id": "filter",
+          "qualification_id": "qualified_cooling_inspection",
+          "tool_ids": [
+            "tool_flow_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_cooling"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "inspect-cooling",
+          "kind": "inspect",
+          "request_id": "intent-filter-check",
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "unqualified-cooling",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-cooling",
+          "target_id": "filter",
+          "qualification_id": "qualified_cooling_inspection",
+          "tool_ids": [
+            "tool_flow_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_electrical"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "quantification": "FINITE_CONDITIONAL_LAW",
+      "domain_ids": [
+        "facility_cooling",
+        "equipment_environment"
+      ],
+      "impact_description": "Filter, pump or exchanger limitations can constrain heat rejection through internal water and immersion. Thermal inertia and existing protection alter when compute delivery is curtailed.",
+      "conditional_consequence": "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT"
+    },
+    {
+      "id": "power",
+      "target_ids": [
+        "rectifier",
+        "grid",
+        "load_distribution"
+      ],
+      "scenario": "Possible power impairment affects the shared critical service over the declared finite horizon.",
+      "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+      "dependency_edge_ids": [
+        "f12",
+        "f13",
+        "f14"
+      ],
+      "outcome_ids": [
+        "power-limited",
+        "other"
+      ],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "Distinguish aggregate causes and establish present capacity under load.",
+        "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Compare electrical measurements with offered demand and reserve status; authorize isolation or switching only through the operation executor.",
+      "options": [
+        {
+          "id": "defer-power",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-power",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-power",
+          "target_id": "rectifier",
+          "qualification_id": "qualified_electrical_inspection",
+          "tool_ids": [
+            "tool_electrical_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_electrical"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "quantification": "FINITE_CONDITIONAL_LAW",
+      "domain_ids": [
+        "power"
+      ],
+      "impact_description": "Rectifier or shared supply limitation constrains compute, network and storage jointly; UPS and diesel cover only their declared loads and switching path.",
+      "conditional_consequence": "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT"
+    },
+    {
+      "id": "backup-support",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "backup"
+      ],
+      "target_ids": [
+        "ups",
+        "generator",
+        "backup_tower"
+      ],
+      "scenario": "Reserve capacity, maintenance availability and switching can constrain shared supply or heat rejection.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [
+        "f8",
+        "f9",
+        "f10",
+        "f11",
+        "f_ups_internal_pump",
+        "f_common_distribution"
+      ],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Given reserve failure during an upstream loss, delivered critical service can fall to zero; duration depends on demand, protection, stored energy and start delay.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Electrical specialist checks reserve availability, capacity and switching evidence; cooling specialist verifies backup heat rejection. Record restoration under load.",
+      "options": [
+        {
+          "id": "defer-backup-support",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-backup-support",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-backup-support",
+          "target_id": "ups",
+          "qualification_id": "qualified_electrical_inspection",
+          "tool_ids": [
+            "tool_electrical_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_electrical"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "UPS supports controller and pumps; generator feeds the main switchboard; backup tower supports internal water. Maintenance, finite energy/capacity and switching can leave common distribution or cooling unsupported.",
+      "conditional_consequence": "Given reserve failure during an upstream loss, delivered critical service can fall to zero; duration depends on demand, protection, stored energy and start delay.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Given reserve failure during an upstream loss, delivered critical service can fall to zero; duration depends on demand, protection, stored energy and start delay.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT"
+    },
+    {
+      "id": "it-dependence",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "it_service"
+      ],
+      "target_ids": [
+        "compute",
+        "network",
+        "storage",
+        "critical_service"
+      ],
+      "scenario": "Joint compute, network and storage execution may constrain offered service.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [
+        "f12",
+        "f13",
+        "f14"
+      ],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "For positive demand, any required component at zero capacity stops joint service even if other components remain supplied.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "IT specialist checks delivered capacity, network and storage, separates paused execution from failed hardware and verifies unchanged offered-demand accounting.",
+      "options": [
+        {
+          "id": "defer-it-dependence",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-it-dependence",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-it-dependence",
+          "target_id": "compute",
+          "qualification_id": "qualified_it_inspection",
+          "tool_ids": [
+            "tool_it_diagnostic"
+          ],
+          "candidate_worker_ids": [
+            "worker_it"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "inspect-it-dependence",
+          "kind": "inspect",
+          "request_id": "intent-it-check",
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "Compute, network and storage are all required by critical_service. A single limiting component constrains joint delivery; coincident deficits are counted once.",
+      "conditional_consequence": "For positive demand, any required component at zero capacity stops joint service even if other components remain supplied.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "For positive demand, any required component at zero capacity stops joint service even if other components remain supplied.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT"
+    },
+    {
+      "id": "control-uncertainty",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "control_monitoring"
+      ],
+      "target_ids": [
+        "local_controller",
+        "bms"
+      ],
+      "scenario": "Local protection, communication loss and reported controls can alter actual service or available evidence.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [
+        "f15"
+      ],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Lost reports may increase epistemic uncertainty without physical loss; a genuine control/permission change may constrain service. These alternatives cannot be assigned one probability from current channels.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Control specialist inspects local logs, command/permit mode and report delivery; confirm actual restoration by independent service evidence.",
+      "options": [
+        {
+          "id": "defer-control-uncertainty",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-control-uncertainty",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-control-uncertainty",
+          "target_id": "local_controller",
+          "qualification_id": "qualified_control_inspection",
+          "tool_ids": [
+            "tool_control_reader"
+          ],
+          "candidate_worker_ids": [
+            "worker_control"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "Local controller commands pumps and compute; controller permission affects compute. BMS/point reports feed the evidence inbox. Local protection continues privately during communication loss.",
+      "conditional_consequence": "Lost reports may increase epistemic uncertainty without physical loss; a genuine control/permission change may constrain service. These alternatives cannot be assigned one probability from current channels.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Lost reports may increase epistemic uncertainty without physical loss; a genuine control/permission change may constrain service. These alternatives cannot be assigned one probability from current channels.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "ALTERNATIVE_PHYSICAL_AND_INFORMATION_EFFECTS"
+    },
+    {
+      "id": "access-and-leak",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "space_access"
+      ],
+      "target_ids": [
+        "drainage",
+        "it_access_gate",
+        "loc_it"
+      ],
+      "scenario": "Leakage, room restrictions and gate conditions can delay or prevent safe work.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [
+        "f16",
+        "f_it_access_gate",
+        "f_room_work_temperature"
+      ],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Blocked access can delay a beneficial action beyond the response window; any later service loss remains one joint-service consequence, not an added penalty per blocked worker.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Cooling/safety referral checks leak/drainage and entry conditions; IT access is granted only after authorized safe-entry evidence and execution checks.",
+      "options": [
+        {
+          "id": "defer-access-and-leak",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-access-and-leak",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-access-and-leak",
+          "target_id": "drainage",
+          "qualification_id": "qualified_cooling_inspection",
+          "tool_ids": [
+            "tool_flow_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_cooling"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "Drainage, gate and room-work conditions constrain loc_it access. Personnel may be unable to inspect or restore equipment although service initially continues.",
+      "conditional_consequence": "Blocked access can delay a beneficial action beyond the response window; any later service loss remains one joint-service consequence, not an added penalty per blocked worker.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "execution_access",
+          "description": "Blocked access can delay a beneficial action beyond the response window; any later service loss remains one joint-service consequence, not an added penalty per blocked worker.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "INDIRECT_VIA_ACTION_FEASIBILITY"
+    },
+    {
+      "id": "people-and-tools",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "people_tools_work"
+      ],
+      "target_ids": [
+        "worker_cooling",
+        "worker_it",
+        "tool_flow_meter"
+      ],
+      "scenario": "Qualification, tool occupation, travel and shifts can limit timely inspection and intervention.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Late or infeasible work changes achievable restoration time; absence of a feasible crew is not itself proof of a current plant fault.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Control/operations referral confirms crew qualifications, current positions, tool inventory, shifts and reserved resources through the workforce executor.",
+      "options": [
+        {
+          "id": "defer-people-and-tools",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-people-and-tools",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-people-and-tools",
+          "target_id": "worker_cooling",
+          "qualification_id": "qualified_control_inspection",
+          "tool_ids": [
+            "tool_control_reader"
+          ],
+          "candidate_worker_ids": [
+            "worker_control"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "Workers, compatible tools, qualifications, access routes and shift/resource occupation determine whether a task can start and finish. These are separate from power/fluid dependency graphs.",
+      "conditional_consequence": "Late or infeasible work changes achievable restoration time; absence of a feasible crew is not itself proof of a current plant fault.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Late or infeasible work changes achievable restoration time; absence of a feasible crew is not itself proof of a current plant fault.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "INDIRECT_VIA_ACTION_FEASIBILITY"
+    },
+    {
+      "id": "room-boundary",
+      "quantification": "UNMODELED",
+      "domain_ids": [
+        "equipment_environment"
+      ],
+      "target_ids": [
+        "room",
+        "immersion"
+      ],
+      "scenario": "Room conditions or omitted cooling mechanisms may alter thermal boundaries and access.",
+      "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+      "dependency_edge_ids": [
+        "f_room_work_temperature"
+      ],
+      "outcome_ids": [],
+      "window_s": [
+        0,
+        2
+      ],
+      "evidence_gaps": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Room-driven curtailment and access restriction may overlap with liquid-cooling limitations; their service loss must be deduplicated in a joint model.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ],
+      "closure_evidence": "Cooling specialist obtains room and coolant measurements, distinguishes air-boundary and liquid-side causes and verifies safe room conditions plus service recovery.",
+      "options": [
+        {
+          "id": "defer-room-boundary",
+          "kind": "defer",
+          "request_id": null,
+          "operation_id": null,
+          "target_id": null,
+          "qualification_id": null,
+          "tool_ids": [],
+          "candidate_worker_ids": [],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        },
+        {
+          "id": "intervene-room-boundary",
+          "kind": "intervene",
+          "request_id": null,
+          "operation_id": "make-safe-room-boundary",
+          "target_id": "room",
+          "qualification_id": "qualified_cooling_inspection",
+          "tool_ids": [
+            "tool_flow_meter"
+          ],
+          "candidate_worker_ids": [
+            "worker_cooling"
+          ],
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+        }
+      ],
+      "impact_description": "Room conditions influence equipment heat boundary and loc_it work temperature. Immersion thermal protection may curtail compute before personnel can intervene.",
+      "conditional_consequence": "Room-driven curtailment and access restriction may overlap with liquid-cooling limitations; their service loss must be deduplicated in a joint model.",
+      "consequence_bounds": {
+        "service_deficit_time_s": {
+          "interval": [
+            0,
+            2
+          ],
+          "unit": "s"
+        },
+        "unserved_service_unit_s": {
+          "interval": [
+            0,
+            2.5
+          ],
+          "unit": "normalized_service_unit*s"
+        },
+        "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+      },
+      "other_consequences": [
+        {
+          "id": "professional_response",
+          "description": "Room-driven curtailment and access restriction may overlap with liquid-cooling limitations; their service loss must be deduplicated in a joint model.",
+          "unit": "s",
+          "interval": null,
+          "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+        }
+      ],
+      "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT"
+    }
+  ],
+  "unidentified": [
+    "Conditional profiles are declared consequences given the current aggregate belief, not a prediction of future latent transitions.",
+    "Full-facility hidden causes and field-calibrated failure probabilities are not identified."
+  ]
+}

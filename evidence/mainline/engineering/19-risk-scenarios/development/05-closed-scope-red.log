@@ -1,0 +1,68 @@
+FFFFFF..E
+======================================================================
+ERROR: test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk (test_risk_scenarios.TestRiskScenarios.test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 58, in test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk
+    unsupported = [row for row in result['questions'] if row['quantification'] == 'UNMODELED']
+                                                         ~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'quantification'
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='private_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='bad_facility')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='bad_probability')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='trajectory_gap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='bad_dependency')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories (test_risk_scenarios.TestRiskScenarios.test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories) (change='bad_unit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 77, in test_closed_catalog_rejects_private_fields_bad_bindings_and_broken_trajectories
+    with self.subTest(change=change), self.assertRaises(ValueError):
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.115s
+
+FAILED (failures=6, errors=1)

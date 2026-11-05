@@ -1,0 +1,59 @@
+.EEE
+======================================================================
+ERROR: test_joint_portfolio_uses_union_of_question_windows_and_not_question_sum (test_risk_scenarios.TestRiskScenarios.test_joint_portfolio_uses_union_of_question_windows_and_not_question_sum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 39, in test_joint_portfolio_uses_union_of_question_windows_and_not_question_sum
+    result = assess_risks(frame, belief, model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 145, in assess_risks
+    catalog = _catalog_for_frame(catalog,frame,belief_model)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 83, in _catalog_for_frame
+    _strings(row[key],'Risk question ' + key)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 74, in _strings
+    _require(type(value) is list and bool(value), label + ' must be a nonempty list')
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Risk question outcome_ids must be a nonempty list
+
+======================================================================
+ERROR: test_open_question_has_window_evidence_gaps_and_separate_joint_service_risk (test_risk_scenarios.TestRiskScenarios.test_open_question_has_window_evidence_gaps_and_separate_joint_service_risk)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 23, in test_open_question_has_window_evidence_gaps_and_separate_joint_service_risk
+    result = assess_risks(frame, belief, model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 145, in assess_risks
+    catalog = _catalog_for_frame(catalog,frame,belief_model)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 83, in _catalog_for_frame
+    _strings(row[key],'Risk question ' + key)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 74, in _strings
+    _require(type(value) is list and bool(value), label + ' must be a nonempty list')
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Risk question outcome_ids must be a nonempty list
+
+======================================================================
+ERROR: test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk (test_risk_scenarios.TestRiskScenarios.test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 57, in test_unmodeled_domain_questions_remain_unknown_and_do_not_become_zero_risk
+    result = assess_risks(frame, belief, model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 145, in assess_risks
+    catalog = _catalog_for_frame(catalog,frame,belief_model)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\risk_scenarios.py", line 83, in _catalog_for_frame
+    _strings(row[key],'Risk question ' + key)
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 74, in _strings
+    _require(type(value) is list and bool(value), label + ' must be a nonempty list')
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Risk question outcome_ids must be a nonempty list
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.103s
+
+FAILED (errors=3)

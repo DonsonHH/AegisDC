@@ -1,0 +1,31 @@
+......E.E
+======================================================================
+ERROR: test_risk_cli_matches_public_function_and_rejects_private_fields (test_risk_scenarios.TestRiskScenarios.test_risk_cli_matches_public_function_and_rejects_private_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 156, in test_risk_cli_matches_public_function_and_rejects_private_fields
+    self.assertEqual(json.loads(result.stdout),assess_risks(frame,belief,model))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\json\decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_variant_envelope_is_a_model_range_and_missing_variants_withhold_it (test_risk_scenarios.TestRiskScenarios.test_variant_envelope_is_a_model_range_and_missing_variants_withhold_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline19-risk\Renly\tests\test_risk_scenarios.py", line 136, in test_variant_envelope_is_a_model_range_and_missing_variants_withhold_it
+    values = [row['service_deficit_time_s']['value'] for row in question['consequences_by_variant'].values()]
+                                                                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'consequences_by_variant'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.293s
+
+FAILED (errors=2)
