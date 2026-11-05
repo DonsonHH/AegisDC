@@ -1,0 +1,23 @@
+test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past (test_sensor_channels.SparseObservationChannelTests.test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past) ... ok
+test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works (test_sensor_channels.SparseObservationChannelTests.test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works) ... FAIL
+test_literal_signal_bias_and_delivery_delay_form_legal_evidence (test_sensor_channels.SparseObservationChannelTests.test_literal_signal_bias_and_delivery_delay_form_legal_evidence) ... ok
+
+======================================================================
+FAIL: test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works (test_sensor_channels.SparseObservationChannelTests.test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\tests\test_sensor_channels.py", line 100, in test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works
+    self.assertEqual([row['value'] for row in produced['ledger']['records']], [None, None, None])
+AssertionError: Lists differ: [300.5, 302.5, 304.5] != [None, None, None]
+
+First differing element 0:
+300.5
+None
+
+- [300.5, 302.5, 304.5]
++ [None, None, None]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.018s
+
+FAILED (failures=1)
