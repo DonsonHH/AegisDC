@@ -4,13 +4,13 @@
 
 **Blocked by:** 19
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M3
 
-- [ ] 检查价值包含持续时间、可用人员与处置效果，不能由信息本身扣减物理损失。
-- [ ] 内部预测基于认知与声明的模型，不用被评估世界的隐藏真值。
-- [ ] 相同信息/权限/预算下计算候选，记录模型误差与不确定性。
+- [x] 检查价值包含持续时间、可用人员与处置效果，不能由信息本身扣减物理损失。
+- [x] 内部预测基于认知与声明的模型，不用被评估世界的隐藏真值。
+- [x] 相同信息/权限/预算下计算候选，记录模型误差与不确定性。
 
 ## Context
 
@@ -23,3 +23,5 @@ Pending implementation and acceptance.
 Assigned `/root/m3_20_value`, branch `donson/mainline-20-value`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline20-action-value/Renly`. Ticket19 Root acceptance and fresh proof satisfy its blocker; no20effect or acceptance is implied.
 
 Implementation candidate: `docs/mainline/evidence/20.json`; original source83de/data2aea preserved, saved-only fresh proof and rendered figures added after owner continuity. Root integrated full and acceptance pending; this ticket remains claimed.
+
+Root acceptance: `docs/mainline/evidence/20-root.json`; actual source `08a7c6c05662434f8c8d9ae36a15c72040866990`,476executed/0skip and672separatepublic/saved assertions. Historical candidate pending receipt remains unchanged; Root authority resolves this ticket.
