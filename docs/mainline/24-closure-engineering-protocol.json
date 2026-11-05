@@ -1,0 +1,166 @@
+{
+  "schema": "aegisdc-closure-engineering-protocol-v1",
+  "ticket": "24",
+  "classification": "ENGINEERING_ONLY_EVIDENCE_CONSUMER",
+  "cases": [
+    {
+      "id": "verified",
+      "input": "evidence/mainline/engineering/24-closure/reference/verified.json",
+      "expected": {
+        "status": "VERIFIED_CLOSED",
+        "question_closed": true,
+        "risk_closed": true
+      }
+    },
+    {
+      "id": "action-only",
+      "input": "evidence/mainline/engineering/24-closure/reference/action-only.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "condition-only",
+      "input": "evidence/mainline/engineering/24-closure/reference/condition-only.json",
+      "expected": {
+        "status": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "expired",
+      "input": "evidence/mainline/engineering/24-closure/reference/expired.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "same-origin",
+      "input": "evidence/mainline/engineering/24-closure/reference/same-origin.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "cross-source-conflict",
+      "input": "evidence/mainline/engineering/24-closure/reference/cross-source-conflict.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "risk-accepted",
+      "input": "evidence/mainline/engineering/24-closure/reference/risk-accepted.json",
+      "expected": {
+        "status": "RISK_ACCEPTED",
+        "question_closed": true,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "risk-acceptance-expired",
+      "input": "evidence/mainline/engineering/24-closure/reference/risk-acceptance-expired.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "escalated",
+      "input": "evidence/mainline/engineering/24-closure/reference/escalated.json",
+      "expected": {
+        "status": "ESCALATED",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "false-alarm",
+      "input": "evidence/mainline/engineering/24-closure/reference/false-alarm.json",
+      "expected": {
+        "status": "FALSE_ALARM_REVIEWED",
+        "question_closed": true,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "false-alarm-adverse",
+      "input": "evidence/mainline/engineering/24-closure/reference/false-alarm-adverse.json",
+      "expected": {
+        "status": "OPEN_UNCONFIRMED",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    },
+    {
+      "id": "fresh-after-expiry",
+      "input": "evidence/mainline/engineering/24-closure/reference/fresh-after-expiry.json",
+      "expected": {
+        "status": "VERIFIED_CLOSED",
+        "question_closed": true,
+        "risk_closed": true
+      }
+    },
+    {
+      "id": "fabricated-operation",
+      "input": "evidence/mainline/engineering/24-closure/reference/fabricated-operation.json",
+      "expected": {
+        "status": "REJECTED",
+        "error_contains": "Closure action must bind a declared named task operation"
+      }
+    },
+    {
+      "id": "expired-action-grant",
+      "input": "evidence/mainline/engineering/24-closure/reference/expired-action-grant.json",
+      "expected": {
+        "status": "REJECTED",
+        "error_contains": "Applied action report contradicts its declared authorization interval"
+      }
+    },
+    {
+      "id": "actual23-inspection-incomplete",
+      "input": "evidence/mainline/engineering/24-closure/reference/actual23-inspection-incomplete.json",
+      "expected": {
+        "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+        "question_closed": false,
+        "risk_closed": false
+      }
+    }
+  ],
+  "declared_assessment_calls": 15,
+  "physical_runs": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "registered_research_trials": 0,
+  "authoring_tool": "scripts/closure_delivery.py",
+  "helper_tool": "scripts/inspection_delivery.py",
+  "input_preparation_tool": "scripts/prepare_closure_inputs.py",
+  "input_fixture": "tests/test_verified_closure.py",
+  "contract": "docs/mainline/24-closure-contract.md",
+  "retry_rule": "One assessment per frozen case. Start ledger before call; check saved output before next case. Preserve failure and stop. No automatic retries.",
+  "rejection_rule": "Expected invalid declarations must raise ValueError with the specified semantic reason, not a fixture registry/import error.",
+  "durable_root": [
+    "attempt.json",
+    "attempts.jsonl",
+    "checks.json",
+    "closure-lifecycle.svg",
+    "closure-boundary.svg"
+  ],
+  "durable_case": [
+    "result.json"
+  ],
+  "terminal_receipt": "receipt.json",
+  "full_regression": "ROOT_INTEGRATED_ONLY",
+  "field_calibration": "PENDING",
+  "scope": "Finite synthetic sampled evidence criteria and dispositions, no physical repair, continuous restoration, policy gain or field result. Actual23case reuses original actual handheld record without recapture."
+}
