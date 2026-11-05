@@ -1,0 +1,62 @@
+{
+  "schema": "independent-ticket21-wait-subcategory-annotation-v1",
+  "classification": "ENGINEERING_ONLY_BEFORE_FORMAL_SOURCE_FREEZE",
+  "original": "21-independent-gated-timing-witness-01.json",
+  "interpretation": "Access-checktimeisasubsetoftotalwait,notanadditionaloccupationcategory",
+  "per_worker": [
+    {
+      "worker": "worker_cooling",
+      "access_check_s": [
+        [
+          0,
+          1
+        ]
+      ],
+      "rendezvous_wait_s": [
+        [
+          1,
+          61
+        ]
+      ],
+      "work_s": [
+        [
+          61,
+          91
+        ]
+      ],
+      "travel_s": []
+    },
+    {
+      "worker": "worker_control",
+      "access_check_s": [
+        [
+          60,
+          61
+        ]
+      ],
+      "rendezvous_wait_s": [],
+      "travel_s": [
+        [
+          0,
+          60
+        ]
+      ],
+      "work_s": [
+        [
+          61,
+          91
+        ]
+      ]
+    }
+  ],
+  "expected": {
+    "access_check_person_s": 2,
+    "rendezvous_wait_person_s": 60,
+    "total_wait_person_s": 62,
+    "travel_person_s": 60,
+    "work_person_s": 60,
+    "total_active_person_s": 182
+  },
+  "identity": "2+60=62;62+60+60=182;2workers\u00d791s=182",
+  "no_new_execution": true
+}

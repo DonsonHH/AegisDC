@@ -6,13 +6,13 @@
 
 **Blocked by:** 07, 14
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M4
 
-- [ ] 资质不符、工具冲突或区域不可达不能执行。
-- [ ] 移动、等待和作业占用按时间记录，允许并行且避免重复分配。
-- [ ] 人员对象不等同于LLM智能体，普通调度可调用相同接口。
+- [x] 资质不符、工具冲突或区域不可达不能执行。
+- [x] 移动、等待和作业占用按时间记录，允许并行且避免重复分配。
+- [x] 人员对象不等同于LLM智能体，普通调度可调用相同接口。
 
 ## Context
 
@@ -25,3 +25,7 @@ Apply `docs/mainline/information-boundary.md` to access and task feasibility. Un
 Pending implementation and acceptance.
 
 Assigned independent ready slice: `/root/m4_21_workforce`, branch `donson/mainline-21-workforce`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline21-workforce/Renly`. Predecessors07/14 are accepted; current mainline primary remains19. This assignment does not accept M4 or start registered effects.
+
+Author candidate: docs/mainline/evidence/21.json; illustrated report and separately source-pinned normal/safety correction witnesses: evidence/mainline/engineering/21-workforce/README.md. Status remains claimed and acceptance checkboxes remain open pending independent review and Root integrated regression.
+
+Root acceptance: `docs/mainline/evidence/21-root.json`; actual source `6fb25fc0a7c7d8fa47dbe14a04f129cd887eab4c`, 464 tests all executed,27027 independentassertions. Original author indices and receipts remain historical.

@@ -1,0 +1,27 @@
+test_hidden_closed_gate_costs_travel_and_feedback_arrives_after_check (test_workforce_dispatch.DispatchWorkforceTests.test_hidden_closed_gate_costs_travel_and_feedback_arrives_after_check) ... ERROR
+
+======================================================================
+ERROR: test_hidden_closed_gate_costs_travel_and_feedback_arrives_after_check (test_workforce_dispatch.DispatchWorkforceTests.test_hidden_closed_gate_costs_travel_and_feedback_arrives_after_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline21-workforce\Renly\tests\test_workforce_dispatch.py", line 89, in test_hidden_closed_gate_costs_travel_and_feedback_arrives_after_check
+    open_run=simulate_scenario(scenario,duration_s=3.5,step_s=.01,work_program=program(profile,(frame,intention)))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline21-workforce\Renly\src\aegis_dc\plant.py", line 745, in simulate_scenario
+    trace.append(plant.snapshot(time_s, point, workforce))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline21-workforce\Renly\src\aegis_dc\plant.py", line 672, in snapshot
+    'people_tools_work': workforce.snapshot(),
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline21-workforce\Renly\src\aegis_dc\workforce_dispatch.py", line 256, in snapshot
+    result=super().snapshot();result['active_requests']=sorted(self.jobs);result['queued_requests']=[r['id'] for r in self.pending]
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline21-workforce\Renly\src\aegis_dc\workforce.py", line 208, in snapshot
+    tool['travel'] = deepcopy(workers[tool['carried_by']]['travel'])
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'travel'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.032s
+
+FAILED (errors=1)

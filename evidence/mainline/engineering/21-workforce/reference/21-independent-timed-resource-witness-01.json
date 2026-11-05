@@ -1,0 +1,83 @@
+{
+  "schema": "independent-ticket21-timed-resource-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "source_model": "configs/full-facility-mainline-reserve-v6.json",
+  "model_sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+  "basis": "Existing syntheticV6 worker locations,accessduration60s,inspectionduration30s and tools; collaborationfixture below is a declared extension, not site data",
+  "fixtures": [
+    {
+      "id": "two-qualified-shared-flow-meter",
+      "starting_locations": {
+        "worker_cooling": "loc_hx",
+        "worker_control": "loc_control",
+        "tool_flow_meter": "loc_hx"
+      },
+      "ordering": "FIFO identicaltime cooling then control; both coolingqualified,onephysicaltool",
+      "expected": [
+        {
+          "worker": "worker_cooling",
+          "travel_s": 0,
+          "wait_s": 0,
+          "work_interval_s": [
+            0,
+            30
+          ]
+        },
+        {
+          "worker": "worker_control",
+          "travel_interval_s": [
+            0,
+            60
+          ],
+          "wait_s": 0,
+          "work_interval_s": [
+            60,
+            90
+          ]
+        }
+      ],
+      "tool_work_occupation_s": 60,
+      "total_worker_travel_person_s": 60,
+      "total_worker_work_person_s": 60,
+      "note": "If tool isreserved throughout travel, its reservationaccount is different and must be declared. No doubleoccupancy permitted."
+    },
+    {
+      "id": "two-person-collaboration-barrier",
+      "starting_locations": {
+        "worker_cooling": "loc_hx",
+        "worker_control": "loc_control"
+      },
+      "request_at_s": 0,
+      "qualification": "both qualifiedcooling; taskexplicitlyrequires2workers",
+      "target_location": "loc_hx",
+      "joint_work_interval_s": [
+        60,
+        90
+      ],
+      "expected": {
+        "cooling_wait_s": 60,
+        "control_travel_s": 60,
+        "team_work_person_s": 60,
+        "team_elapsed_s": 90,
+        "tool_work_occupation_s": 30
+      },
+      "assertion": "No partnerstarts/completesalone; waitingheldworker cannotacceptotherjob"
+    },
+    {
+      "id": "known-electrical-qualification",
+      "request_worker": "worker_cooling",
+      "target_location": "loc_electrical",
+      "expected": "REFUSE_BEFORE_TRAVEL_STATIC_QUALIFICATION",
+      "expected_travel_s": 0
+    },
+    {
+      "id": "hidden-closure-safe-access",
+      "public_planning": "Identical publicinputs yield identical plan candidates despite distinct privateclosure",
+      "execution": "May travel to declaredsafeaccesspoint before blockage discovery; stop without unauthorizedentry",
+      "assertion": "Incurred travel/wait preserved, timedfeedbacknoearlierthansafeobservation; no free remoteactualmask"
+    }
+  ],
+  "time_semantics": "Half-open travel/wait/workintervals; completions release resources before equal-time newallocations if declared",
+  "registered_research_trials": 0,
+  "new_physical_runs": 0
+}

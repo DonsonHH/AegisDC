@@ -4,7 +4,7 @@
 
 **Blocked by:** 17, 21
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Assigned independent ready slice: `/root/m4_22_inspection`, branch `donson/mainline-22-inspection`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline22-inspection/Renly`. Predecessors17/21 accepted; primary remains20. Real completion/measurement integration requires its own acceptance.
