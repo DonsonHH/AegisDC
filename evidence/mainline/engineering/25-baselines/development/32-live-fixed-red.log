@@ -1,0 +1,25 @@
+test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency (test_dispatch_policy.DispatchPolicyTests.test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency) ... ERROR
+
+======================================================================
+ERROR: test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency (test_dispatch_policy.DispatchPolicyTests.test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 67, in test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency
+    result=simulate_scenario(inputs['model'],duration_s=1,step_s=.01,dispatch_program=program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\plant.py", line 714, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\policy_execution.py", line 13, in __init__
+    _plain_json(program);_fields(program,PROGRAM_FIELDS,'Policy facility run program')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy facility run program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+FAILED (errors=1)

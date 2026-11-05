@@ -49,6 +49,34 @@ def risk_fixture(time=0):
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_live_sparse_fixed_measurement_is_sampled_once_and_delivered_with_latency(self):
+        load=lambda name:json.loads((ROOT/name).read_bytes())
+        inputs=load('evidence/mainline/engineering/23-interventions/reference/network-full.json')
+        frame,policy,_=fixture('no_human')
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        profile=load('configs/full-facility-sensor-channels-v1.json')
+        profile['measurements']=[m for m in profile['measurements'] if m['id']=='rectifier-meter']
+        profile['channels']=[c for c in profile['channels'] if c['measurement_id']=='rectifier-meter']
+        m=profile['measurements'][0];m.update(period_s=1,declared_bias_bound=0,declared_noise_bound=0,quantization_bound=0,declared_dropout_probability=0)
+        realization=dict(schema='aegisdc-private-observation-realization-v1',seed=25,biases={'rectifier-meter':0},
+            noise_bounds={'rectifier-meter':0},dropout_probabilities={'rectifier-meter':0})
+        program=dict(schema='aegisdc-policy-run-program-v2',id='online-fixed-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0,.25,.5,1],
+            inspection_program=None,intervention_program=None,sensor_program=dict(profile=profile,realization=realization))
+        result=simulate_scenario(inputs['model'],duration_s=1,step_s=.01,dispatch_program=program)
+        choices=result['policy_public_decisions']
+        self.assertEqual(choices[0]['frame']['evidence']['records'],[])
+        self.assertEqual(choices[1]['frame']['evidence']['records'],[])
+        at=choices[2]['frame']['evidence']['records']
+        self.assertEqual(len(at),1)
+        self.assertEqual((at[0]['observed_at_s'],at[0]['arrived_at_s']),(0,.5))
+        self.assertEqual(at[0]['value'],result['trace'][0]['domains']['power']['rectifier_input_W'])
+        self.assertEqual(len(choices[3]['frame']['evidence']['records']),1)
+        self.assertEqual(choices[3]['frame']['evidence']['records'][0]['id'],at[0]['id'])
+        self.assertNotIn('private_realization',json.dumps(choices))
+        self.assertEqual(len(result['policy_sensor_private_audit']),2)
+
     def test_one_observation_lookahead_selects_only_the_first_predicted_action(self):
         from aegis_dc.dispatch_policy import choose_work
         from test_action_value import fixture as value_fixture

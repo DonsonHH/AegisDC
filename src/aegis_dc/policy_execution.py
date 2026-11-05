@@ -10,8 +10,10 @@ PROGRAM_FIELDS={'schema','id','policy_program','nominal_knowledge','evidence_led
 class PolicySession:
     """The selector receives only a validated frame and arrived public feedback."""
     def __init__(self,program,duration_s):
-        _plain_json(program);_fields(program,PROGRAM_FIELDS,'Policy facility run program')
-        _require(program['schema']=='aegisdc-policy-run-program-v1','Unknown policy facility run schema')
+        _plain_json(program)
+        live=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v2'
+        _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set()),'Policy facility run program')
+        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2'},'Unknown policy facility run schema')
         _text(program['id'],'Policy facility run id');self.program=deepcopy(program)
         self.times=program['decision_times_s']
         _require(type(self.times) is list and 1<=len(self.times)<=128,'Declare one to128 policy decision instants')
@@ -20,6 +22,21 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        self.sensors=None
+        if live and program['sensor_program'] is not None:
+            from .live_sensor_execution import LiveSensorSession
+            self.sensors=LiveSensorSession(program['sensor_program'],duration_s)
+            registry=self.sensors.profile['ledger']
+            _require(registry['facility_id']==self.ledger['facility_id'] and set(registry['entity_ids'])==set(self.ledger['entity_ids']),
+                'Fixed sensor and policy public facility identities differ')
+            for field in ('sources','observables'):
+                existing={r['id']:r for r in self.ledger[field]}
+                for row in registry[field]:
+                    _require(row['id'] not in existing or row==existing[row['id']],'Conflicting fixed sensor policy registry')
+                    if row['id'] not in existing:self.ledger[field].append(deepcopy(row));existing[row['id']]=row
+            fixed_sources={s['id'] for s in registry['sources']}
+            _require(not any(r['source_id'] in fixed_sources for r in self.ledger['records']),
+                'Declare historical records separately from live fixed sensor sources')
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v2':
             inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
             intervention_ids={b['task_id'] for b in self.intervention_program['bindings']} if self.intervention_program is not None else set()
@@ -49,6 +66,8 @@ class PolicySession:
 
     def _frame(self,time_s,inspections):
         ledger=EvidenceLedger(self.ledger)
+        if self.sensors is not None:
+            for row in self.sensors.ledger.snapshot(time_s)['records']:ledger.ingest({k:row[k] for k in RECORD_FIELDS})
         if inspections is not None:
             for row in inspections.snapshot(time_s)['records']:ledger.ingest({k:row[k] for k in RECORD_FIELDS})
         snapshot=ledger.snapshot(time_s)
@@ -75,4 +94,5 @@ class PolicySession:
         return True
 
     def next_event(self,time_s):
-        return self.times[self.index] if self.index<len(self.times) else math.inf
+        decision=self.times[self.index] if self.index<len(self.times) else math.inf
+        return min(decision,self.sensors.next_event() if self.sensors is not None else math.inf)

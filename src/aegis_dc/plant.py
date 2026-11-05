@@ -783,6 +783,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         snapshot = plant.snapshot(time_s, point, workforce)
         if inspections is not None:
             inspections.process(time_s, workforce, snapshot)
+        if dispatch is not None and dispatch.sensors is not None:
+            dispatch.sensors.process(time_s,snapshot)
         if dispatch is not None and dispatch.process(time_s,workforce,inspections,interventions):
             workforce.process(time_s,plant.blocked_locations())
             snapshot = plant.snapshot(time_s,point,workforce)
@@ -843,6 +845,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             **({'intervention_public_feedback': interventions.public_feedback(duration),
                 'intervention_private_audit': interventions.private_audit()} if interventions is not None else {}),
             **({'policy_public_decisions': deepcopy(dispatch.decisions)} if dispatch is not None else {}),
+            **({'policy_sensor_private_audit': deepcopy(dispatch.sensors.audit)} if dispatch is not None and dispatch.sensors is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
                        **({'dispatch_program': deepcopy(dispatch_program)} if dispatch is not None else {}),
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
