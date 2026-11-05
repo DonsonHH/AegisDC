@@ -16,4 +16,4 @@
 - [保存检查与实际汇总](capture-02/checks.json)、[复用索引](capture-02/reused-originals.json)、[新尝试账](capture-02/attempts.jsonl)
 - [策略接口与限制](../../../../docs/mainline/25-policy-execution.md)、[文献选择和适配差异](../../../../docs/research/20261105/baseline-selection.md)
 
-当前仍须独立保存复核与集成根验收；组件和图像通过不等于第25项或完整研究目标完成。
+第25项独立保存复核与[集成根验收](../25-root-acceptance/README.md)已通过。元数据更正及原字段分类见[单列说明](../../../../docs/mainline/25-policy-metadata-correction-01.md)；原538项完整检查与新两例元数据检查的执行源分开保留。第26项尚需实现，完整研究目标持续active。
