@@ -158,6 +158,9 @@ def capture(folder,protocol):
                     work_program=inputs['work_program'],intervention_program=inputs['intervention_program'],
                     inspection_program=inputs['inspection_program'],boundary_events=inputs['boundary_events'])
                 save_run(result,folder/case['id']);receipt['physical_completed']+=1
+                # A completed physical call can still violate its frozen oracle.
+                # Audit its saved original before spending the next attempt.
+                check_saved(folder,dict(protocol,cases=[case]))
                 append(folder/'attempts.jsonl',dict(case=case['id'],status='COMPLETED',execution_commit=source))
             except Exception as error:
                 append(folder/'attempts.jsonl',dict(case=case['id'],status='FAILED',error_type=type(error).__name__,error=str(error)));raise
