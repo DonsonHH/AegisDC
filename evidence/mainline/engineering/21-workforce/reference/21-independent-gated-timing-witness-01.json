@@ -1,0 +1,91 @@
+{
+  "schema": "independent-ticket21-gated-timing-witness-v1",
+  "classification": "ENGINEERING_ONLY_BEFORE_FORMAL_SOURCE_FREEZE",
+  "relationship": "Supplement to21-independent-timed-resource-witness-01,addingexplicitpositiveaccesscheck1sandfeedbacklatency2s; originalno-gateliteralretained",
+  "declared": {
+    "control_route": "loc_control to loc_hx",
+    "walk_s": 60,
+    "safe_gate_check_s": 1,
+    "work_s": 30,
+    "feedback_latency_s": 2,
+    "cooling_start": "loc_hx",
+    "control_start": "loc_control",
+    "crew_size": 2,
+    "tool": "tool_flow_meter"
+  },
+  "cases": [
+    {
+      "id": "open-gate-two-person",
+      "timeline": [
+        {
+          "worker": "worker_cooling",
+          "travel": [],
+          "wait_or_nonwork": [
+            [
+              0,
+              61
+            ]
+          ],
+          "work": [
+            [
+              61,
+              91
+            ]
+          ]
+        },
+        {
+          "worker": "worker_control",
+          "travel": [
+            [
+              0,
+              60
+            ]
+          ],
+          "safe_check": [
+            [
+              60,
+              61
+            ]
+          ],
+          "work": [
+            [
+              61,
+              91
+            ]
+          ]
+        }
+      ],
+      "expected": {
+        "work_started_at_s": 61,
+        "completed_at_s": 91,
+        "completion_feedback_available_at_s": 93,
+        "travel_person_s": 60,
+        "wait_including_safe_check_person_s": 62,
+        "work_person_s": 60,
+        "active_person_s": 182,
+        "tool_reserved_tool_s": 91,
+        "tool_work_tool_s": 30
+      }
+    },
+    {
+      "id": "hidden-closed-destination",
+      "public_before_discovery": "Samepublicframe/profile/task gives sameprepare_work result asopengate",
+      "timeline": "Controltravels0\u201360 thenchecks60\u201361atloc_controlsafeapproach; deniedentry. No inventedpresenceinclosedloc_hx.",
+      "first_blockage_feedback_available_at_s": 63,
+      "expected": {
+        "incurred_travel_person_s": 60,
+        "authorized_entry_into_closed_zone": false,
+        "no_early_public_feedback_before_s": 63
+      },
+      "scope": "Exactworkerwaitingandtoolreleasefollowdeclaredcrewabortpolicy;mustberecorded,noterased"
+    }
+  ],
+  "assertions": [
+    "Allpersonintervalsnonoverlapandpartitionbusytime",
+    "Accesscheckcostisoneexplicitcategory,orclearlyincludedwaitbutnotdoublecounted",
+    "Timelypublicfeedbackcannotreadprivateabortbeforedeclaredarrival",
+    "Safetycanstopentryimmediatelywithoutgivingplannerfreeinstantdiagnosis"
+  ],
+  "new_physical_runs": 0,
+  "registered_research_trials": 0
+}

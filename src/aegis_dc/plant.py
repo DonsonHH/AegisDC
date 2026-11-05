@@ -673,7 +673,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=()):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -706,7 +706,13 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     runtime = scenario['runtime']
     table = SaturationTable.from_file(ROOT / runtime['property_table'], expected_sha256=runtime['property_sha256'])
     plant = _Plant(scenario, table)
-    workforce = Workforce(scenario, plant.p, work_requests, duration)
+    if work_program is None:
+        workforce = Workforce(scenario, plant.p, work_requests, duration)
+    else:
+        if work_requests:
+            raise ValueError('Use legacy work_requests or a work_program, not both')
+        from .workforce_dispatch import CrewWorkforce
+        workforce = CrewWorkforce(scenario, plant.p, work_program, duration)
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
@@ -756,6 +762,9 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
     if plant.environment_model:
         summary.update({key: math.fsum(row[key] for row in balances) for key in
                         ('internal_hot_leaked_mass_kg', 'internal_hot_leak_energy_J')})
+    if work_program is not None:
+        summary.update({key: math.fsum(row[key] for row in balances) for key in
+                        ('worker_wait_person_s','access_check_person_s','rendezvous_wait_person_s','queue_wait_person_s','tool_work_tool_s')})
     if plant.reserve_model:
         summary.update({key: math.fsum(row[key] for row in balances) for key in
                         ('starter_output_energy_J', 'backup_water_heat_J', 'reserve_external_electric_heat_J',
@@ -782,7 +791,9 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'scenario_sha256': digest(scenario), 'source_config': scenario, 'code_identity': _code_identity(),
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
             'time_coordinate_convention': deepcopy(TIME_COORDINATE_CONVENTION),
-            'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': workforce.requests,
+            **({'workforce_public_feedback': workforce.public_feedback(duration)} if work_program is not None else {}),
+            'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
+                       **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 

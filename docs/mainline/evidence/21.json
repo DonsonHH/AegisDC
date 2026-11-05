@@ -1,0 +1,37 @@
+{
+  "schema": "aegisdc-ticket21-candidate-v1",
+  "ticket": "21",
+  "status": "IMPLEMENTED_PENDING_ROOT_ACCEPTANCE",
+  "implementation_owner": "/root/m4_21_workforce",
+  "branch": "donson/mainline-21-workforce",
+  "core_commits": [
+    "035d27dc",
+    "3f7c8bcd",
+    "65db38e4"
+  ],
+  "original_execution": "4b9caadec5f0ec91307f29d5619ce41648d6610c",
+  "original_delivery": "710538a6eda8cf02ae99313c5c51881da7ea745d",
+  "correction_execution": "65db38e45ebf6db44093b52f6ae72553b481c233",
+  "correction_delivery": "e39300451b6dc2a6cd39a6a7733e1e0b8bed8a0c",
+  "contract": "docs/mainline/21-workforce-contract.md",
+  "report": "evidence/mainline/engineering/21-workforce/README.md",
+  "normal_capture": "evidence/mainline/engineering/21-workforce/capture-01/receipt.json",
+  "correction_capture": "evidence/mainline/engineering/21-workforce/safety-closure-01/receipt.json",
+  "source_classification": "docs/mainline/evidence/21-source-classification.json",
+  "public_interfaces": [
+    "prepare_work(frame, profile, task)",
+    "simulate_scenario(...,work_program=program)",
+    "CrewWorkforce.submit(frame, task)"
+  ],
+  "public_cli": "python -m aegis_dc simulate --work-program program.json",
+  "targeted_tests": 14,
+  "author_full_regression_runs": 0,
+  "formal_engineering_attempts": 2,
+  "formal_engineering_failures": 0,
+  "global_regression_gate": "PENDING_ROOT_INTEGRATED_FULL",
+  "field_calibration": "PENDING",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "overall_goal": "ACTIVE"
+}
