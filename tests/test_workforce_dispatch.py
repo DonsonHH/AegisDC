@@ -217,10 +217,31 @@ class DispatchWorkforceTests(unittest.TestCase):
             boundary_events=[dict(time_s=.5,parameter_id='it_access_permit',value=0,
                 source_note='Synthetic closure after onsite crew check; private safety only.')])
         record=run['work_records'][0]
-        self.assertEqual(record['status'],'aborted')
-        self.assertEqual(record['finished_at_s'],.5)
-        self.assertEqual(record['reason'],'onsite_safety_stop')
+        self.assertEqual(record['status'],'cancelling')
+        self.assertEqual(record['cancel_requested_at_s'],.5)
+        self.assertNotIn('finished_at_s',record)
         self.assertEqual(run['workforce_public_feedback'][0]['arrived_at_s'],1)
+        moving=run['trace'][-1]['domains']['people_tools_work']['workers']['worker_cooling']
+        self.assertIsNone(moving['location_id'])
+        self.assertNotEqual(moving['status'],'idle')
+
+    def test_cancellation_finishes_current_walk_before_releasing_crew_and_tool(self):
+        scenario,profile,gateway=fixture()
+        intention=task('cancel',('worker_cooling','worker_it'),'room')
+        intention['work_interface_id']='inspect_equipment_environment'
+        intention['crew'][1]['qualification_id']='qualified_it_inspection'
+        run=simulate_scenario(scenario,duration_s=1.5,step_s=.01,
+            work_program=program(profile,(gateway.next_frame(),intention)),
+            boundary_events=[dict(time_s=.5,parameter_id='it_access_permit',value=0,
+                source_note='Synthetic closure during crew rendezvous.')])
+        record=run['work_records'][0]
+        self.assertEqual(record['status'],'aborted')
+        self.assertEqual(record['finished_at_s'],1.25)
+        self.assertAlmostEqual(run['summary']['worker_travel_person_s'],1)
+        self.assertAlmostEqual(run['summary']['tool_occupation_tool_s'],1.25)
+        final=run['trace'][-1]['domains']['people_tools_work']
+        self.assertEqual(final['workers']['worker_cooling']['location_id'],'loc_control')
+        self.assertEqual(final['tools']['tool_flow_meter']['location_id'],'loc_control')
 
 if __name__ == '__main__':
     unittest.main()

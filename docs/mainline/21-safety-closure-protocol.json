@@ -1,0 +1,33 @@
+{
+  "schema": "aegisdc-workforce-safety-closure-protocol-v1",
+  "classification": "ENGINEERING_ONLY_CORRECTION",
+  "original_execution": "4b9caadec5f0ec91307f29d5619ce41648d6610c",
+  "original_delivery": "710538a6eda8cf02ae99313c5c51881da7ea745d",
+  "input": "evidence/mainline/engineering/21-workforce/reference/safety-closure-input.json",
+  "duration_s": 2,
+  "maximum_step_s": 0.01,
+  "expected": {
+    "cancel_requested_at_s": 0.5,
+    "finished_at_s": 1.25,
+    "hazard_available_at_s": 1,
+    "terminal_available_at_s": 1.75,
+    "worker_travel_person_s": 1,
+    "tool_occupation_tool_s": 1.25
+  },
+  "durable_outputs": [
+    "attempt.json",
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl",
+    "checks.json"
+  ],
+  "terminal_receipt": "receipt.json",
+  "physical_runs": 1,
+  "full_regression": "ROOT_ONLY",
+  "retries": "Never overwrite; preserve original failed capture and revise protocol/source before a new attempt",
+  "scope": "Mid-rendezvous safety stops onsite work immediately; moving crew retains current-edge travel/check and reservations before release. This is not a rerun or upgrade of the original canonical capture.",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0
+}

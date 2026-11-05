@@ -145,6 +145,14 @@ class CrewWorkforce(Workforce):
             record.update(status='rejected',accepted=False,finished_at_s=self.last_time,reason='duplicate_open_work');return
         self.pending.append(record)
 
+    def _feedback(self,job,time,status,reason):
+        record=job['record']
+        self.feedback.append(dict(task_id=record['id'],source_id='workforce-execution-report',
+            observed_at_s=time,arrived_at_s=time+self.profile['feedback_latency_s'],
+            status=status,reason=reason,location_id=job['target'] if status=='completed' else None,
+            origin_id='workforce:'+record['id'],coverage='THIS_ISSUED_TASK_ONLY',
+            basis='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL'))
+
     def _finish(self,job,time,status,reason):
         record=job['record'];record.update(status=status,finished_at_s=time)
         if status=='completed':record['completed_at_s']=time
@@ -153,12 +161,35 @@ class CrewWorkforce(Workforce):
             self.workers[worker].update(status='idle',request_id=None)
         for identifier in job['tools']:
             self.tools[identifier].update(reserved_by=None,carried_by=None)
-        self.feedback.append(dict(task_id=record['id'],source_id='workforce-execution-report',
-            observed_at_s=time,arrived_at_s=time+self.profile['feedback_latency_s'],
-            status=status,reason=reason,location_id=job['target'] if status=='completed' else None,
-            origin_id='workforce:'+record['id'],coverage='THIS_ISSUED_TASK_ONLY',
-            basis='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL'))
+        self._feedback(job,time,status,reason)
         del self.jobs[record['id']]
+
+    def _cancel(self,job,time,reason):
+        if 'cancel' in job:return
+        job['record'].update(status='cancelling',cancel_requested_at_s=time,cancel_reason=reason)
+        job['cancel']={};job['work_start']=None
+        self._feedback(job,time,'safety_stop_observed',reason)
+        for worker in job['crew']:
+            index=job['index'][worker];moves=job['moves'][worker]
+            if index<len(moves):
+                job['cancel'][worker]=deepcopy(moves[index])
+                self.workers[worker]['status']='travelling' if time<moves[index]['gate_at_s'] else 'waiting'
+            else:
+                self.workers[worker]['status']='waiting'
+
+    def _advance_cancel(self,job,time,blocked):
+        for worker,move in list(job['cancel'].items()):
+            if time<move['arrives_at_s']:
+                self.workers[worker]['status']='travelling' if time<move['gate_at_s'] else 'waiting'
+                continue
+            # Complete only the already-started edge. A blocked endpoint remains outside the gate.
+            location=move['to_id'] if move['to_id'] not in blocked else move['from_id']
+            self.workers[worker]['location_id']=location
+            for tool in job['tools']:
+                if self.tools[tool]['carried_by']==worker:self.tools[tool]['location_id']=location
+            job['index'][worker]=len(job['moves'][worker]);self.workers[worker]['status']='waiting'
+            del job['cancel'][worker]
+        if not job['cancel']:self._finish(job,time,'aborted',job['record']['cancel_reason'])
 
     def _moves(self,worker,carrier,tools,target,time):
         location=self.workers[worker]['location_id'];moves=[]
@@ -210,11 +241,14 @@ class CrewWorkforce(Workforce):
     def _advance_crews(self,time,blocked):
         for job in list(self.jobs.values()):
             record=job['record']
+            if 'cancel' in job:
+                self._advance_cancel(job,time,blocked);continue
             if any(job['index'][w]==len(job['moves'][w])
                    and self.workers[w]['location_id'] in blocked for w in job['crew']):
-                self._finish(job,time,'aborted','onsite_safety_stop');continue
+                self._cancel(job,time,'onsite_safety_stop');self._advance_cancel(job,time,blocked);continue
             if job['work_start'] is not None:
-                if job['target'] in blocked:self._finish(job,time,'aborted','onsite_safety_stop')
+                if job['target'] in blocked:
+                    self._cancel(job,time,'onsite_safety_stop');self._advance_cancel(job,time,blocked)
                 elif time>=record['scheduled_completion_at_s']:self._finish(job,time,'completed',None)
                 continue
             failed=False
@@ -223,7 +257,7 @@ class CrewWorkforce(Workforce):
                 while index<len(moves) and moves[index]['arrives_at_s']<=time:
                     move=moves[index]
                     if move['to_id'] in blocked:
-                        self._finish(job,time,'aborted','access_check_blocked');failed=True;break
+                        self._cancel(job,time,'access_check_blocked');self._advance_cancel(job,time,blocked);failed=True;break
                     self.workers[w]['location_id']=move['to_id']
                     for t in job['tools']:
                         if self.tools[t]['carried_by']==w:self.tools[t]['location_id']=move['to_id']
@@ -249,7 +283,9 @@ class CrewWorkforce(Workforce):
             events.extend(self.profile['shifts'][r['worker_id']][0] for r in record['crew'])
             events.append(record['deadline_s'])
         for job in self.jobs.values():
-            if job['work_start'] is not None:events.append(job['record']['scheduled_completion_at_s'])
+            if 'cancel' in job:
+                for move in job['cancel'].values():events.extend([move['gate_at_s'],move['arrives_at_s']])
+            elif job['work_start'] is not None:events.append(job['record']['scheduled_completion_at_s'])
             else:
                 for w,moves in job['moves'].items():
                     i=job['index'][w]
