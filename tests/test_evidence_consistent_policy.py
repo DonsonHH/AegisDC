@@ -1,0 +1,67 @@
+"""One public discriminating witness for the declared candidate mechanism."""
+from copy import deepcopy
+import unittest
+
+from aegis_dc.decision_view import DecisionGateway
+from aegis_dc.dispatch_policy import choose_work
+from test_dispatch_policy import lookahead_run_fixture
+
+
+def fixture():
+    _,run=lookahead_run_fixture();policy=run['policy_program'];options=policy['options']
+    catalog=options['catalog'];catalog['horizon_s']=6;catalog['demand']=[dict(start_s=0,end_s=6,rate=1)]
+    for outcome in catalog['outcomes']:outcome['capacity_profile'][0]['end_s']=6
+    for question in catalog['questions']:
+        question['window_s']=[0,6]
+        for quantity in ('service_deficit_time_s','unserved_service_unit_s'):
+            question['consequence_bounds'][quantity]['interval']=[0,6]
+    for resource in options['value_model']['availability']:resource['window_s']=[0,6]
+    belief=options['belief_model']
+    for variant in belief['variants']:variant['positive_likelihood']['fixed-low-power']=[.5,.5,.5,.5]
+    ledger=deepcopy(run['evidence_ledger'])
+    ledger['records']=[dict(id='current-power',source_id='rectifier-meter-record',target_id='rectifier',
+        observable_id='rectifier_input_power',unit='W',value=3000000,observed_at_s=0,arrived_at_s=0,valid_until_s=10,
+        quality=dict(status='bounded',error_bound=0,note='Finite current public engineering record.'),
+        provenance=dict(origin_id='current-power-root',copied_from_record_id=None))]
+    plan=dict(schema='aegisdc-public-preparation-plan-v1',id='candidate26-first-witness',basis='synthetic_assumption',
+        time_unit='s',decision_times_s=[0],requests=options['preparation_requests'])
+    # Register the same public measurement sources which actual execution uses.
+    registry=run['inspection_program']['profile']['nonfixed_profile']['registry']
+    for field in ('sources','observables'):
+        ids={row['id'] for row in ledger[field]}
+        ledger[field].extend(deepcopy(row) for row in registry[field] if row['id'] not in ids)
+    frame=DecisionGateway(run['nominal_knowledge'],ledger,plan).next_frame()
+    policy.update(schema='aegisdc-dispatch-policy-program-v4',intervention_declaration=run['intervention_program'],
+        resource_budget=dict(person_s=100,tool_s=100,cost=2,cost_unit='research_cost_unit'),
+        evidence_projection=dict(schema='aegisdc-evidence-projection-v1',basis='synthetic_assumption',
+            source_note='Finite no-extra-arrival projection; no private realization or future value.',
+            inspection_profile=deepcopy(run['inspection_program']['profile']),background_sensor_profile=None,
+            context_assumption='NO_UNSCHEDULED_RECORD_ARRIVALS_UNTIL_PROJECTED_REPORT'))
+    for candidate in policy['candidates']:candidate['issue_cost']=1
+    local=options['value_model']['question_models'][0];local['inspection']['cost']=local['intervention']['cost']=1
+    return frame,policy,dict(issued=[],work_feedback=[])
+
+
+class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_result_independent_rejection_removes_false_contingent_credit_without_changing_report_law(self):
+        frame,policy,history=fixture();before=deepcopy((frame,policy,history))
+        baseline=choose_work(frame,policy,history)
+        self.assertEqual(baseline['chosen_candidate_id'],'first-inspection')
+        self.assertAlmostEqual(baseline['forecast_plans'][0]['best_expected_service_deficit_s'],39/40)
+        policy['policy']='evidence_consistent_contingent'
+        candidate=choose_work(frame,policy,history)
+        self.assertEqual(candidate['chosen_candidate_id'],'first-action')
+        alternatives={row['kind']:row for row in candidate['forecast_plans'][0]['alternatives']}
+        self.assertAlmostEqual(alternatives['direct_intervention']['expected_service_deficit_s'],17/16)
+        self.assertAlmostEqual(alternatives['inspect_then_act']['expected_service_deficit_s'],3/2)
+        audit=candidate['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'NON_ADAPTIVE_UNDER_DECLARED_UPDATER')
+        self.assertEqual(audit['covered_report_classes'],['positive','negative','threshold_straddled','missing'])
+        self.assertEqual(audit['unchanged_factor_record_ids'],['current-power'])
+        self.assertEqual(audit['marginalization'],'SUM_ORIGINAL_REPORT_MASS_PER_JOINT_OUTCOME_EQUALS_ONE')
+        self.assertFalse(candidate['forecast_is_actual_observation'])
+        self.assertEqual(policy['options']['value_model'],before[1]['options']['value_model'])
+        self.assertEqual((frame,history),(before[0],before[2]))
+
+
+if __name__=='__main__':unittest.main()

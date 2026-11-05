@@ -22,7 +22,7 @@ def validate_execution_bindings(policy,inspection_program):
             candidate=candidates[mapping[key]];task=candidate['task']
             _require(local[stage]['work_s']==policy['workforce_profile']['work_times_s'][task['work_interface_id']],
                 'Forecast professional work duration differs from the declared actual crew interface')
-            if policy['schema']=='aegisdc-dispatch-policy-program-v3':
+            if policy['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
                 _require(local[stage]['cost']==candidate['issue_cost'],'Forecast and common task issue costs differ')
         task=candidates[mapping['inspection_candidate_id']]['task'];binding=bindings.get(task['id'])
         _require(binding is not None,'Forecast first inspection must produce a declared actual observation')
@@ -37,14 +37,18 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None):
+def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
     model=deepcopy(options['value_model'])
     for local in model['question_models']:
         local['action_on_positive']=local['action_on_negative']='minimum_service_deficit'
-    values=assess_action_value(frame,options['belief_model'],options['catalog'],model)
+    information=None;projection_audit=[];projection_calls=0
+    if evidence_projection is not None:
+        from .evidence_projection import project_inspections
+        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection)
+    values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information)
     locals={row['question_id']:row for row in model['question_models']}
     requests={r['id']:r for r in frame['requests']}
     questions={q['id']:q for q in values['risk']['questions']}
@@ -126,8 +130,9 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         if audit['candidate_id'] not in bound_ids and audit['question_id'] not in unmodeled:
             audit['reasons'].append('NO_DECLARED_FINITE_VALUE_BINDING');audit['eligible']=False
         audit['forecast_selected']=audit['candidate_id']==selected
-    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=1),unmodeled_question_ids=sorted(unmodeled),
+    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=1,**({'prospective_belief':projection_calls} if evidence_projection is not None else {})),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
         forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,
-        adaptation='BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY')
+        adaptation='BOUNDED_EVIDENCE_CONSISTENT_FIRST_ACTION' if evidence_projection is not None else 'BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY',
+        **({'prospective_evidence_audit':projection_audit} if evidence_projection is not None else {}))
