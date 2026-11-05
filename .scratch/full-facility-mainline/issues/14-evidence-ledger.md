@@ -4,7 +4,7 @@
 
 **Blocked by:** 12, 13
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M3
 
@@ -42,3 +42,7 @@ hour-based foundation prototype and private V6 plant are preserved.
   closed the original visual issue. No browser visual verification is claimed.
 - No registered research trials, agent calls, training, posterior/risk mechanism,
   physical-core change, or completed M3/overall-goal claim.
+
+## Root acceptance 2026-11-05
+
+Accepted at actual source `65eddd6908510371a6fcc913742b6c4197114270`:377/377,0fail/error/skip,20old originals,166Python/HEAD guards. Root authority `docs/mainline/evidence/14-root.json`; evidence packet `evidence/mainline/engineering/14-root-acceptance/README.md`. Author14.json/captures/red/fresh and prior371/369 remain their original snapshots. Three numeric Spec issues, one link issue and one visual issue are separately closed with no new finding. M3 remains active; primary15 and ready15/16/17 are unassigned.
