@@ -24,7 +24,7 @@ def supplemental_cases(model,base,add):
     decimal['policy_program']['resource_budget'].update(person_s=19.4,tool_s=19.4)
     for candidate in decimal['policy_program']['candidates']:candidate['available_at_s']=.3
     add('exact-continuation-budget',deepcopy(model),decimal,.5,dict(forbidden_first='first-inspection',
-        forecast_block='COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',completed_at_s=[],effect_at_s=[],
+        chosen=['first-action'],forecast_block='COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',completed_at_s=[],effect_at_s=[],
         delivered_service_unit_s=.125,service_deficit_time_s=.375,demand_service_unit_s=.5))
     original=read('evidence/mainline/engineering/23-interventions/reference/network-full.json')
     frame,policy,_=fixture.fixture()
@@ -82,6 +82,9 @@ def main():
             handheld_records_per_decision=[0,0,1,1] if completed else [0,0,0,0],
             handheld_measurement=dict(observed_at_s=1.25,arrived_at_s=1.75,value_squared_ratio=[1,340]) if completed else None,
             final_spent_or_reserved=dict(zip(('person_s','tool_s','cost'),spent[name]))))
+        if name=='one-observation':cases[-1]['expected'].update(initial_forecast_deficit_s=.925,
+            arrived_posterior_cooling_ratio=[16,59],used_fixed_record_id='power-transfer:1',
+            handheld_update_disposition='dependence_not_modeled')
     # At4s the explicit periodic decision finally issues its due inspection;
     # finishing lies beyond this horizon, and no success/effect is credited.
     decimal=deepcopy(base);decimal['policy_program'].update(policy='no_human',options={})
@@ -92,11 +95,11 @@ def main():
     expiry['intervention_program']['profile']['authorizations'][0]['expires_at_s']=3
     expiry['policy_program']['intervention_declaration']=deepcopy(expiry['intervention_program'])
     add('future-authority',deepcopy(model),expiry,.5,dict(forbidden_first='first-inspection',forecast_block='FORECAST_ACTION_AUTHORITY_UNAVAILABLE_AT_COMPLETION',
-        completed_at_s=[],effect_at_s=[],delivered_service_unit_s=.125,service_deficit_time_s=.375,demand_service_unit_s=.5))
+        chosen=['first-action'],completed_at_s=[],effect_at_s=[],delivered_service_unit_s=.125,service_deficit_time_s=.375,demand_service_unit_s=.5))
     tight=deepcopy(base);tight['decision_times_s']=[0]
     tight['policy_program']['resource_budget'].update(person_s=15,tool_s=15)
     add('continuation-budget',deepcopy(model),tight,.5,dict(forbidden_first='first-inspection',forecast_block='COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',
-        completed_at_s=[],effect_at_s=[],delivered_service_unit_s=.125,service_deficit_time_s=.375,demand_service_unit_s=.5))
+        chosen=['first-action'],completed_at_s=[],effect_at_s=[],delivered_service_unit_s=.125,service_deficit_time_s=.375,demand_service_unit_s=.5))
     # Exercise the same closure consumer with actual arrived reports only. The
     # first pre-action reading and no service record cannot prove restoration.
     from test_verified_closure import fixture as closure_fixture

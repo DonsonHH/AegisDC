@@ -88,6 +88,13 @@ def check_case(folder,case,protocol):
                     close(record['value'],math.sqrt(numerator/denominator),'Independent initial filter flow')
                     require(record['provenance']['origin_id']=='post-clean-flow','Handheld origin differs')
         require(run['policy_public_resource_ledger']['spent_or_reserved']==expected['final_spent_or_reserved'],'Literal cumulative budget differs')
+    if 'initial_forecast_deficit_s' in expected:
+        close(decisions[0]['choice']['forecast_plans'][0]['best_expected_service_deficit_s'],expected['initial_forecast_deficit_s'],'Initial finite forecast')
+        belief=decisions[2]['choice']['forecast_belief'];numerator,denominator=expected['arrived_posterior_cooling_ratio']
+        close(belief['posterior']['cooling-limited'],numerator/denominator,'Power-conditioned posterior')
+        require(expected['used_fixed_record_id'] in belief['information_updates'],'Declared fixed update missing')
+        audit=next(r for r in belief['record_audit'] if r['record_id']=='post-clean-flow')
+        require(audit['disposition']==expected['handheld_update_disposition'],'Undeclared power/flow independence was invented')
     if 'closure_status' in expected:
         question=decisions[-1]['choice']['question_lifecycle']['questions'][0]
         require(question['status']==expected['closure_status'] and not question['risk_closed'],'Action completion fabricated verification')
