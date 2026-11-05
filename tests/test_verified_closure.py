@@ -32,6 +32,7 @@ def fixture(as_of_s=6):
             minimum_span_s=1,required_samples=2,checks=[
                 dict(id='flow-restored',role='condition',target_id='intake_pump',observable_id='flow',source_ids=['verify-flow'],accepted_interval=[.08,.12]),
                 dict(id='service-restored',role='service',target_id='critical_service',observable_id='service_delivery_ratio',source_ids=['service-review'],accepted_interval=[1,1])])])
+    profile.update(review_channels=[],authorizations=[],false_alarm_reviews=[])
     catalog=load('configs/full-facility-risk-scenarios-v1.json');profile['risk_catalog_id']=catalog['id']
     program=dict(schema='aegisdc-closure-program-v1',profile=profile,risk_catalog=catalog,belief_model=load('configs/full-facility-belief-model-v1.json'),
         intervention_feedback=[dict(task_id='clean-filter',operation_id='clean-filter-operation',source_id='intervention-execution-report',
@@ -44,6 +45,91 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_missing_stale_copied_or_ambiguous_evidence_keeps_question_open(self):
+        from aegis_dc.verified_closure import assess_closure
+        for mode in ('missing-service','expired','future','copied','same-origin','ambiguous','pre-action','no-effect','no-feedback'):
+            frame,program,ledger,nominal=fixture()
+            if mode=='missing-service':ledger['records']=[r for r in ledger['records'] if r['source_id']!='service-review']
+            elif mode=='expired':
+                for row in ledger['records']:row['valid_until_s']=6
+            elif mode=='future':
+                for row in ledger['records']:row['arrived_at_s']=7
+            elif mode in {'copied','same-origin'}:
+                for row in ledger['records']:
+                    if row['source_id']=='verify-flow' and row['observed_at_s']==5:
+                        row['provenance']['origin_id']='verify-flow-4'
+                        if mode=='copied':row['provenance']['copied_from_record_id']='verify-flow-4'
+            elif mode=='ambiguous':
+                for row in ledger['records']:
+                    if row['source_id']=='verify-flow':row['quality']['error_bound']=.02
+            elif mode=='pre-action':
+                for index,row in enumerate(ledger['records']):row.update(observed_at_s=1+index/10,arrived_at_s=2)
+            elif mode=='no-effect':program['intervention_feedback'][0].update(outcome='NO_EFFECT',reason='actual_work_not_completed')
+            else:program['intervention_feedback']=[]
+            with self.subTest(mode=mode):
+                result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+                self.assertFalse(result['risk_closed'])
+                self.assertFalse(result['question_closed'])
+                self.assertNotIn(result['status'],{'FALSE_ALARM_REVIEWED','RISK_ACCEPTED'})
+        frame,program,_,_=fixture()
+        program['intervention_feedback'][0]['arrived_at_s']=7
+        with self.assertRaises(ValueError):assess_closure(frame,program)
+
+    def test_false_alarm_needs_explicit_authorized_evidence_bound_review(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,ledger,nominal=fixture()
+        program['intervention_feedback']=[]
+        ledger['observables'].append(dict(id='cooling-review',quantity='category',value_type='text',unit='1'))
+        ledger['sources'].append(dict(id='authorized-reviewer',kind='human_report',basis='synthetic_assumption',
+            target_ids=['intake_pump'],observable_ids=['cooling-review'],dependency_group=None,source_note='Declared research review channel.'))
+        ledger['records'].append(dict(id='false-alarm-review',source_id='authorized-reviewer',target_id='intake_pump',observable_id='cooling-review',unit='1',
+            value='FALSE_ALARM',observed_at_s=5.5,arrived_at_s=5.75,valid_until_s=10,
+            quality=dict(status='reported',error_bound=None,note='Reviewed original report; finite synthetic supporting record dossier.'),
+            provenance=dict(origin_id='review-fa',copied_from_record_id=None)))
+        program['profile']['review_channels']=[dict(id='cooling-disposition',question_id='cooling',source_id='authorized-reviewer',
+            target_id='intake_pump',observable_id='cooling-review',authorization_id='risk-owner')]
+        program['profile']['authorizations']=[dict(id='risk-owner',source_id='authorized-reviewer',question_ids=['cooling'],dispositions=['FALSE_ALARM'],
+            starts_at_s=0,expires_at_s=10,basis='synthetic_assumption',source_note='Explicit synthetic review authority.')]
+        program['profile']['false_alarm_reviews']=[dict(review_record_id='false-alarm-review',question_id='cooling',
+            supporting_record_ids=['service-review-4','service-review-5','verify-flow-4','verify-flow-5'],
+            rationale='Reviewer checked the originating suspicion against the listed finite records; no claim from normality alone.')]
+        result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertEqual(result['status'],'FALSE_ALARM_REVIEWED')
+        self.assertTrue(result['question_closed'])
+        self.assertFalse(result['risk_closed'])
+        self.assertFalse(result['physical_restoration_claim'])
+        self.assertEqual(result['disposition_record_ids'],['false-alarm-review'])
+        self.assertEqual(sorted(e['record_id'] for e in result['trace'] if e['event']=='VERIFICATION_RECORD_AVAILABLE'),
+            ['service-review-4','service-review-5','verify-flow-4','verify-flow-5'])
+        incomplete=deepcopy(program);incomplete['profile']['false_alarm_reviews'][0]['supporting_record_ids']=['verify-flow-4']
+        pending=assess_closure(reframe(ledger,nominal,6),incomplete)['questions'][0]
+        self.assertFalse(pending['question_closed'])
+        self.assertNotEqual(pending['status'],'FALSE_ALARM_REVIEWED')
+
+    def test_authorized_risk_acceptance_is_not_verified_physical_restoration(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,ledger,nominal=fixture()
+        ledger['records']=[]
+        ledger['observables'].append(dict(id='cooling-review',quantity='category',value_type='text',unit='1'))
+        ledger['sources'].append(dict(id='authorized-reviewer',kind='human_report',basis='synthetic_assumption',
+            target_ids=['intake_pump'],observable_ids=['cooling-review'],dependency_group=None,source_note='Declared research authority channel.'))
+        ledger['records'].append(dict(id='risk-acceptance',source_id='authorized-reviewer',target_id='intake_pump',observable_id='cooling-review',unit='1',
+            value='ACCEPT_RISK',observed_at_s=4,arrived_at_s=4.5,valid_until_s=8,
+            quality=dict(status='reported',error_bound=None,note='Authorized synthetic management disposition.'),
+            provenance=dict(origin_id='accept-risk-1',copied_from_record_id=None)))
+        program['profile']['review_channels']=[dict(id='cooling-disposition',question_id='cooling',source_id='authorized-reviewer',
+            target_id='intake_pump',observable_id='cooling-review',authorization_id='risk-owner')]
+        program['profile']['authorizations']=[dict(id='risk-owner',source_id='authorized-reviewer',question_ids=['cooling'],
+            dispositions=['ACCEPT_RISK','ESCALATE'],starts_at_s=0,expires_at_s=8,basis='synthetic_assumption',source_note='Finite synthetic authority, not field authorization.')]
+        result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertEqual(result['status'],'RISK_ACCEPTED')
+        self.assertTrue(result['question_closed'])
+        self.assertFalse(result['risk_closed'])
+        self.assertFalse(result['physical_restoration_claim'])
+        expired=assess_closure(reframe(ledger,nominal,8),program)['questions'][0]
+        self.assertFalse(expired['question_closed'])
+        self.assertNotEqual(expired['status'],'RISK_ACCEPTED')
+
     def test_genuine_verification_samples_need_distinct_observation_times(self):
         from aegis_dc.verified_closure import assess_closure
         frame,program,ledger,nominal=fixture()

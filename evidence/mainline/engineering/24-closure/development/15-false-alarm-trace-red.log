@@ -1,0 +1,21 @@
+test_false_alarm_needs_explicit_authorized_evidence_bound_review (test_verified_closure.VerifiedClosureTests.test_false_alarm_needs_explicit_authorized_evidence_bound_review) ... FAIL
+
+======================================================================
+FAIL: test_false_alarm_needs_explicit_authorized_evidence_bound_review (test_verified_closure.VerifiedClosureTests.test_false_alarm_needs_explicit_authorized_evidence_bound_review)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_verified_closure.py", line 72, in test_false_alarm_needs_explicit_authorized_evidence_bound_review
+    self.assertEqual(sorted(e['record_id'] for e in result['trace'] if e['event']=='VERIFICATION_RECORD_AVAILABLE'),
+AssertionError: Lists differ: [] != ['service-review-4', 'service-review-5', 'verify-flow-4', 'verify-flow-5']
+
+Second list contains 4 additional elements.
+First extra element 0:
+'service-review-4'
+
+- []
++ ['service-review-4', 'service-review-5', 'verify-flow-4', 'verify-flow-5']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.039s
+
+FAILED (failures=1)

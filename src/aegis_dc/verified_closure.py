@@ -7,10 +7,12 @@ from .evidence_ledger import _fields,_plain_json,_registry,_require,_strings,_te
 from .risk_scenarios import assess_risks
 
 PROGRAM_FIELDS={'schema','profile','risk_catalog','belief_model','intervention_feedback'}
-PROFILE_FIELDS={'schema','id','facility_id','nominal_knowledge_id','risk_catalog_id','basis','time_unit','source_note','rules'}
+PROFILE_FIELDS={'schema','id','facility_id','nominal_knowledge_id','risk_catalog_id','basis','time_unit','source_note','rules','review_channels','authorizations','false_alarm_reviews'}
 RULE_FIELDS={'id','question_id','opened_at_s','task_id','operation_id','minimum_span_s','required_samples','checks'}
 CHECK_FIELDS={'id','role','target_id','observable_id','source_ids','accepted_interval'}
 FEEDBACK_FIELDS={'task_id','operation_id','source_id','observed_at_s','arrived_at_s','outcome','reason','origin_id','coverage','risk_closed'}
+REVIEW_FIELDS={'id','question_id','source_id','target_id','observable_id','authorization_id'}
+GRANT_FIELDS={'id','source_id','question_ids','dispositions','starts_at_s','expires_at_s','basis','source_note'}
 
 def _profile(frame,program,risks):
     profile=program['profile'];_fields(profile,PROFILE_FIELDS,'Closure profile')
@@ -49,6 +51,51 @@ def _profile(frame,program,risks):
             _require(bounds[0]<=bounds[1],'Reversed accepted interval')
         _require(roles=={'condition','service'},'Require both physical condition and service verification')
     return rules
+
+def _reviews(frame,program,rules):
+    profile=program['profile'];grants=_registry(profile['authorizations'],'Review authorization')
+    channels=_registry(profile['review_channels'],'Review channel')
+    sources={s['id']:s for s in frame['evidence']['static_knowledge']['sources']}
+    observables={o['id']:o for o in frame['evidence']['static_knowledge']['observables']}
+    questions={r['question_id']:r for r in rules.values()}
+    for grant in grants.values():
+        _fields(grant,GRANT_FIELDS,'Review authorization')
+        _text(grant['source_note'],'Review authority provenance')
+        _strings(grant['question_ids'],'Authorized questions');_strings(grant['dispositions'],'Authorized dispositions')
+        _require(grant['source_id'] in sources and set(grant['question_ids'])<=set(questions)
+            and set(grant['dispositions'])<={'ACCEPT_RISK','ESCALATE','FALSE_ALARM'} and grant['basis']=='synthetic_assumption','Unknown review authority scope')
+        _finite(grant['starts_at_s'],'Authority start');_finite(grant['expires_at_s'],'Authority expiry')
+        _require(0<=grant['starts_at_s']<grant['expires_at_s'],'Invalid review authorization interval')
+    result={q:[] for q in questions}
+    for channel in channels.values():
+        _fields(channel,REVIEW_FIELDS,'Review channel')
+        _require(channel['question_id'] in questions and channel['source_id'] in sources
+            and channel['authorization_id'] in grants,'Unknown review binding')
+        source=sources[channel['source_id']];observable=observables.get(channel['observable_id'])
+        _require(channel['target_id'] in source['target_ids'] and channel['observable_id'] in source['observable_ids']
+            and observable is not None and observable['value_type']=='text','Review channel exceeds categorical source coverage')
+        grant=grants[channel['authorization_id']]
+        _require(grant['source_id']==source['id'] and channel['question_id'] in grant['question_ids'],'Review source/authority mismatch')
+        rule=questions[channel['question_id']]
+        for row in frame['evidence']['records']:
+            if any(row[key]!=channel[key] for key in ('source_id','target_id','observable_id')):continue
+            if row['observed_at_s']<rule['opened_at_s'] or row['availability']!='current' or row['quality']['status']!='reported':continue
+            if row['provenance']['copied_from_record_id'] is not None:continue
+            if row['value'] not in grant['dispositions']:continue
+            if not grant['starts_at_s']<=row['observed_at_s']<grant['expires_at_s'] or not grant['starts_at_s']<=frame['as_of_s']<grant['expires_at_s']:continue
+            result[channel['question_id']].append(row)
+    return result
+
+def _false_alarm_dossiers(program,rules):
+    rows=program['profile']['false_alarm_reviews'];_require(type(rows) is list,'Declare false-alarm review dossiers')
+    result={};questions={r['question_id'] for r in rules.values()}
+    for row in rows:
+        _fields(row,{'review_record_id','question_id','supporting_record_ids','rationale'},'False-alarm dossier')
+        _text(row['review_record_id'],'Review record identity');_text(row['rationale'],'Explicit false-alarm review rationale')
+        _strings(row['supporting_record_ids'],'False-alarm supporting records')
+        _require(row['question_id'] in questions and row['review_record_id'] not in result,'Unknown/repeated false-alarm review')
+        result[row['review_record_id']]=row
+    return result
 
 def _feedback(frame,program):
     _require(type(program['intervention_feedback']) is list,'Declare arrived intervention feedback list')
@@ -98,7 +145,8 @@ def assess_closure(frame,program):
     frame=validate_current_frame(frame);_plain_json(program);_fields(program,PROGRAM_FIELDS,'Closure program')
     _require(program['schema']=='aegisdc-closure-program-v1','Unknown closure program schema')
     risks=assess_risks(frame,program['belief_model'],program['risk_catalog'])
-    rules=_profile(frame,program,risks);feedback=_feedback(frame,program);questions=[]
+    rules=_profile(frame,program,risks);feedback=_feedback(frame,program);reviews=_reviews(frame,program,rules)
+    dossiers=_false_alarm_dossiers(program,rules);questions=[]
     for rule in rules.values():
         action=feedback.get(rule['task_id']);checks=[];trace=[]
         if action is None:status='OPEN_UNCONFIRMED'
@@ -114,10 +162,37 @@ def assess_closure(frame,program):
         for row in frame['evidence']['records']:
             if row['id'] in supported:trace.append(dict(event='VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
                 observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
+        dispositions=reviews[rule['question_id']]
+        verified_reviews=[]
+        for review in dispositions:
+            if review['value']!='FALSE_ALARM':continue
+            dossier=dossiers.get(review['id'])
+            if dossier is None or dossier['question_id']!=rule['question_id']:continue
+            ids=set(dossier['supporting_record_ids'])
+            # The reviewer could only use records available by their review time.
+            prior=deepcopy(frame)
+            prior['evidence']['records']=[r for r in frame['evidence']['records'] if r['id'] in ids
+                and r['observed_at_s']<=review['observed_at_s'] and r['arrived_at_s']<=review['observed_at_s']]
+            if len(prior['evidence']['records'])!=len(ids):continue
+            prior_ids={r['id'] for r in prior['evidence']['records']}
+            prior['evidence']['conflicts']=[c for c in frame['evidence']['conflicts'] if set(c['record_ids'])<=prior_ids]
+            evidence_checks=[_check(prior,rule,c,rule['opened_at_s']) for c in rule['checks']]
+            if all(c['passed'] for c in evidence_checks):
+                verified_reviews.append(review);supported=sorted(set(supported)|ids)
+        if any(r['value']=='ESCALATE' for r in dispositions):status='ESCALATED'
+        elif any(r['value']=='ACCEPT_RISK' for r in dispositions):status='RISK_ACCEPTED'
+        elif verified_reviews:status='FALSE_ALARM_REVIEWED'
+        traced={e['record_id'] for e in trace if e.get('event')=='VERIFICATION_RECORD_AVAILABLE'}
+        for row in frame['evidence']['records']:
+            if row['id'] in set(supported)-traced:trace.append(dict(event='VERIFICATION_RECORD_AVAILABLE',record_id=row['id'],
+                observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
+        for row in dispositions:trace.append(dict(event='AUTHORIZED_REVIEW_AVAILABLE',record_id=row['id'],disposition=row['value'],
+            observed_at_s=row['observed_at_s'],arrived_at_s=row['arrived_at_s'],valid_until_s=row['valid_until_s'],provenance=deepcopy(row['provenance'])))
         trace.sort(key=lambda e:(e['arrived_at_s'],e.get('record_id','')))
         questions.append(dict(question_id=rule['question_id'],rule_id=rule['id'],as_of_s=frame['as_of_s'],status=status,
-            risk_closed=status=='VERIFIED_CLOSED',physical_restoration_claim=False,scope='DECLARED_FINITE_SAMPLED_CRITERIA_ONLY',
-            supporting_record_ids=supported,checks=checks,trace=trace))
+            risk_closed=status=='VERIFIED_CLOSED',question_closed=status in {'VERIFIED_CLOSED','RISK_ACCEPTED','FALSE_ALARM_REVIEWED'},
+            physical_restoration_claim=False,scope='DECLARED_FINITE_SAMPLED_CRITERIA_ONLY',
+            supporting_record_ids=supported,disposition_record_ids=sorted(r['id'] for r in dispositions),checks=checks,trace=trace))
     return dict(schema='aegisdc-closure-assessment-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],questions=questions,
         unevaluated_question_ids=sorted(q['id'] for q in risks['questions'] if q['id'] not in {r['question_id'] for r in rules.values()}),
         execution_permission=False,physical_actions=[],field_calibration='PENDING',research_gain_claim='NOT_ESTABLISHED')
