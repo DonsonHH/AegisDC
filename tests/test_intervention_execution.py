@@ -44,6 +44,19 @@ def fixture(kind='restore_network_capacity',setting=1):
     return scenario,work,interventions
 
 class InterventionExecutionTests(unittest.TestCase):
+    def test_decimal_start_preserves_full_professional_work_at_completion(self):
+        scenario,work,actions=fixture()
+        work['profile']['access_check_s']=.2
+        result=simulate_scenario(scenario,duration_s=3,step_s=.01,
+                                 work_program=work,intervention_program=actions)
+        event=result['intervention_private_audit']['events'][0]
+        self.assertEqual(event['task_status'],'completed')
+        self.assertEqual(event['outcome'],'APPLIED')
+        self.assertEqual(event['applied_at_s'],1.2)
+        self.assertAlmostEqual(result['summary']['delivered_service_unit_s'],2.1)
+        self.assertAlmostEqual(result['summary']['service_deficit_time_s'],.9)
+        self.assertEqual(result['intervention_public_feedback'][0]['arrived_at_s'],1.7)
+
     def test_actual_completion_restores_capacity_after_costly_work(self):
         scenario,work,actions=fixture()
         result=simulate_scenario(scenario,duration_s=3,step_s=.01,work_program=work,intervention_program=actions)

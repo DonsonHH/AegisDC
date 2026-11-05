@@ -1,6 +1,5 @@
 """Named, authorized research interventions after actual timed crew completion."""
 from copy import deepcopy
-from fractions import Fraction
 
 from .decision_view import validate_current_frame
 from .evidence_ledger import _plain_json
@@ -141,7 +140,10 @@ class InterventionSession:
             if task['status']!='completed':reason='actual_work_not_completed'
             elif task['completed_at_s']!=time:raise ValueError('Effects require current actual completion, not a saved or future token')
             elif not self.assessments[task['id']]['legal_for_planning']:reason='public_proposal_not_eligible'
-            elif Fraction(time)-Fraction(task['work_started_at_s'])<Fraction(op['minimum_work_s']):reason='professional_work_too_short'
+            # Compare the same additive clock used to schedule crew completion.
+            # Subtracting binary timestamps can turn a full declared second into
+            # a value just below one (for example, a .2 start and 1.2 finish).
+            elif time<task['work_started_at_s']+op['minimum_work_s']:reason='professional_work_too_short'
             elif not _authorization(op,self.grants[binding['authorization_id']],time):reason='authorization_unavailable_at_completion'
             audit=dict(task_id=task['id'],operation_id=op['id'],observed_at_s=time,task_status=task['status'],
                 outcome='NO_EFFECT' if reason else 'APPLIED',reason=reason)
