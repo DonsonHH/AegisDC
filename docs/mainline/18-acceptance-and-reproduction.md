@@ -4,10 +4,10 @@
 
 ## 当前复算命令
 
-在包含本页的新检出中使用：
+在封存交付提交`783092b25f956bdcedef9e49c0af627f34cefae7`的全新检出中使用以下命令。核验器同时检查该交付时的主票19状态，因此后续主线推进后仍应检出这个明确版本，而不是用未来进度替代历史交付：
 
 ```powershell
-python -B -X utf8 scripts/verify_belief_root_delivery.py --delivery-commit <当前检出的完整提交SHA> --output <检出目录之外的新JSON路径>
+python -B -X utf8 scripts/verify_belief_root_delivery.py --delivery-commit 783092b25f956bdcedef9e49c0af627f34cefae7 --output <检出目录之外的新JSON路径>
 ```
 
 此命令核对16个根产物、147份ZIP成员、10份作者捕获原件、229个已执行源文件的Git身份，以及图像、接受权威和阶段状态。不重新执行推断、全量回归或物理仿真。它接受13个明确旧配置路径的精确Git文本检出换行转换；其余字节差异仍失败。
