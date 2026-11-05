@@ -285,4 +285,6 @@ class CrewWorkforce(Workforce):
 
     def public_feedback(self,as_of_s):
         """Only declared arrived task-local reports; private job records stay private."""
+        require(type(as_of_s) in (int,float) and 0<=as_of_s<=self.last_time,
+                'Feedback view cannot query a future or negative plant instant')
         return deepcopy([row for row in self.feedback if row['arrived_at_s']<=as_of_s])

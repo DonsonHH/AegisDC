@@ -196,5 +196,15 @@ class DispatchWorkforceTests(unittest.TestCase):
         run=simulate_scenario(scenario,duration_s=4,step_s=.01,work_program=program(profile,(frame,team)))
         self.assertEqual(run['work_records'][0]['completed_at_s'],3.5)
 
+    def test_future_submission_is_not_admitted_before_its_issue_frame(self):
+        scenario,profile,gateway=fixture((0,1))
+        early=gateway.next_frame();late=gateway.next_frame()
+        run=simulate_scenario(scenario,duration_s=.75,step_s=.01,
+            work_program=program(profile,(early,task('early',('worker_cooling',)))))
+        self.assertEqual([r['id'] for r in run['work_records']],['early'])
+        with self.assertRaisesRegex(ValueError,'Issue time outside'):
+            simulate_scenario(scenario,duration_s=.75,step_s=.01,
+                work_program=program(profile,(late,task('future',('worker_control',)))))
+
 if __name__ == '__main__':
     unittest.main()

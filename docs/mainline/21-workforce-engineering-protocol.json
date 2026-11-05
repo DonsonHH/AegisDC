@@ -1,0 +1,48 @@
+{
+  "schema": "aegisdc-workforce-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "21",
+  "model": "configs/full-facility-mainline-reserve-v6.json",
+  "program": "evidence/mainline/engineering/21-workforce/reference/program-v1.json",
+  "profile": "evidence/mainline/engineering/21-workforce/reference/profile-v1.json",
+  "witness": "evidence/mainline/engineering/21-workforce/reference/21-independent-gated-timing-witness-01.json",
+  "wait_annotation": "evidence/mainline/engineering/21-workforce/reference/21-independent-wait-subcategory-annotation-01.json",
+  "duration_s": 95,
+  "maximum_step_s": 0.01,
+  "formal_physical_runs": 1,
+  "formal_cli_runs": 0,
+  "expected": {
+    "work_started_at_s": 61,
+    "completed_at_s": 91,
+    "feedback_arrived_at_s": 93,
+    "worker_travel_person_s": 60,
+    "worker_wait_person_s": 62,
+    "access_check_person_s": 2,
+    "rendezvous_wait_person_s": 60,
+    "queue_wait_person_s": 0,
+    "worker_work_person_s": 60,
+    "tool_occupation_tool_s": 91,
+    "tool_work_tool_s": 30
+  },
+  "absolute_time_tolerance_s": 1e-09,
+  "durable_outputs": [
+    "attempt.json",
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl",
+    "checks.json",
+    "crew-timing.svg",
+    "workforce-boundary.svg"
+  ],
+  "terminal_receipt": "receipt.json",
+  "authoring_tools": [
+    "scripts/workforce_delivery.py"
+  ],
+  "full_regression": "ROOT_INTEGRATED_ONLY_NOT_AUTHOR",
+  "retries": "No overwrite. A failed original and terminal receipt are retained; any correction uses a fresh protocol/source/unique directory.",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING"
+}
