@@ -1,0 +1,35 @@
+test_abort_at_completion_instant_prevents_measurement (test_inspection_execution.InspectionExecutionTests.test_abort_at_completion_instant_prevents_measurement) ... ok
+test_actual_signal_changes_during_work_and_only_completion_value_is_used (test_inspection_execution.InspectionExecutionTests.test_actual_signal_changes_during_work_and_only_completion_value_is_used) ... ok
+test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality (test_inspection_execution.InspectionExecutionTests.test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality) ... FAIL
+test_measurement_comes_from_actual_completion_not_dispatch (test_inspection_execution.InspectionExecutionTests.test_measurement_comes_from_actual_completion_not_dispatch) ... ok
+test_operator_cli_uses_real_completion_and_refuses_fixture_tokens (test_inspection_execution.InspectionExecutionTests.test_operator_cli_uses_real_completion_and_refuses_fixture_tokens) ... ok
+test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason (test_inspection_execution.InspectionExecutionTests.test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason) ... ok
+test_professional_threshold_confirmation_is_separate_from_arrival_and_reading (test_inspection_execution.InspectionExecutionTests.test_professional_threshold_confirmation_is_separate_from_arrival_and_reading) ... ok
+test_public_metadata_carries_professional_timing_and_finite_confirmation_definition (test_inspection_execution.InspectionExecutionTests.test_public_metadata_carries_professional_timing_and_finite_confirmation_definition) ... FAIL
+test_qualification_wrong_tool_and_unmeasured_target_cannot_make_readings (test_inspection_execution.InspectionExecutionTests.test_qualification_wrong_tool_and_unmeasured_target_cannot_make_readings) ... ok
+test_too_short_work_is_not_a_measurement_and_late_validity_is_not_refreshed (test_inspection_execution.InspectionExecutionTests.test_too_short_work_is_not_a_measurement_and_late_validity_is_not_refreshed) ... ok
+
+======================================================================
+FAIL: test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality (test_inspection_execution.InspectionExecutionTests.test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\tests\test_inspection_execution.py", line 156, in test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_public_metadata_carries_professional_timing_and_finite_confirmation_definition (test_inspection_execution.InspectionExecutionTests.test_public_metadata_carries_professional_timing_and_finite_confirmation_definition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\tests\test_inspection_execution.py", line 163, in test_public_metadata_carries_professional_timing_and_finite_confirmation_definition
+    self.assertEqual(models['schema'],'aegisdc-inspection-public-models-v1')
+AssertionError: 'aegisdc-nonfixed-profile-v1' != 'aegisdc-inspection-public-models-v1'
+- aegisdc-nonfixed-profile-v1
++ aegisdc-inspection-public-models-v1
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 14.088s
+
+FAILED (failures=2)

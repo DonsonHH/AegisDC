@@ -1,0 +1,64 @@
+{
+  "schema": "independent-ticket22-completion-observation-witness-v1",
+  "classification": "ENGINEERING_ONLY_PREIMPLEMENTATION_LITERAL",
+  "scope": "Analyticcompletion/arrival and boundedmeasurementlaw;notresearchgainorfieldcalibration",
+  "declared_timing": {
+    "issue_s": 0,
+    "travel_s": 1,
+    "access_check_s": 0.25,
+    "inspection_work_s": 1,
+    "completion_s": 2.25,
+    "measurement_latency_s": 0.5,
+    "record_arrival_s": 2.75
+  },
+  "cases": [
+    {
+      "id": "completed-reading",
+      "expected": {
+        "no_measurement_before_s": 2.25,
+        "observed_at_s": 2.25,
+        "arrived_at_s": 2.75
+      },
+      "signal": "Whitelistedcurrentstateat2.25,notissued0orarrival2.75state",
+      "assertion": "Successfulmeasurementrequiresqualifiedcarrier/tool/targetandminimumworkactualcompletion"
+    },
+    {
+      "id": "aborted-before-completion",
+      "event": "Localaccess/safetyabortat2.0duringinspection",
+      "expected": "Nosuccessfulmeasurementat2.25or2.75;retainincurredtravel/check/workandabortfeedbacktiming"
+    },
+    {
+      "id": "unfinished-horizon",
+      "horizon_s": 2.0,
+      "expected": "Nomadeupcompletion/noobservation"
+    },
+    {
+      "id": "arrival-boundary",
+      "decision_times_s": [
+        "nextafter(2.75,-inf)",
+        2.75
+      ],
+      "expected_public_record_counts": [
+        0,
+        1
+      ],
+      "assertion": "Evidence14strictarrivalgate,notphysical8ULPtolerance"
+    },
+    {
+      "id": "same-measurement-copy",
+      "expected": "Oneobservationeventperactualcompletedjob,bothrepeatedsnapshotandcopydonotresampleprivateerror"
+    },
+    {
+      "id": "quality-provenance",
+      "expected": "Publicquality/note/origin/IDsdeclaredindependentofprivateTP/FP truthclassification"
+    }
+  ],
+  "measurement_assumption": {
+    "kind": "Boundednumeric",
+    "bound_unit": "sameSIasauthorizedobservable",
+    "quality": "Samepublicdeclaredboundacrossrealizations",
+    "sampling": "Currentexacteffectivecompletionstateafterdeclaredsameinstantphysicaleventorder"
+  },
+  "registered_research_trials": 0,
+  "new_physical_runs": 0
+}

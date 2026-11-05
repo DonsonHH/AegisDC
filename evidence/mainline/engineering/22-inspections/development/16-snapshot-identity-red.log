@@ -1,0 +1,26 @@
+test_abort_at_completion_instant_prevents_measurement (test_inspection_execution.InspectionExecutionTests.test_abort_at_completion_instant_prevents_measurement) ... ok
+test_actual_signal_changes_during_work_and_only_completion_value_is_used (test_inspection_execution.InspectionExecutionTests.test_actual_signal_changes_during_work_and_only_completion_value_is_used) ... ok
+test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality (test_inspection_execution.InspectionExecutionTests.test_binary_private_realization_cannot_bypass_numeric_model_or_change_public_quality) ... ok
+test_live_session_repeated_snapshots_do_not_resample_and_reject_future (test_inspection_execution.InspectionExecutionTests.test_live_session_repeated_snapshots_do_not_resample_and_reject_future) ... ok
+test_measurement_comes_from_actual_completion_not_dispatch (test_inspection_execution.InspectionExecutionTests.test_measurement_comes_from_actual_completion_not_dispatch) ... ok
+test_no_record_identity_is_claimed_for_insufficient_observation (test_inspection_execution.InspectionExecutionTests.test_no_record_identity_is_claimed_for_insufficient_observation) ... FAIL
+test_operator_cli_uses_real_completion_and_refuses_fixture_tokens (test_inspection_execution.InspectionExecutionTests.test_operator_cli_uses_real_completion_and_refuses_fixture_tokens) ... ok
+test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason (test_inspection_execution.InspectionExecutionTests.test_out_of_condition_is_timed_unconfirmed_not_a_success_or_private_reason) ... ok
+test_professional_threshold_confirmation_is_separate_from_arrival_and_reading (test_inspection_execution.InspectionExecutionTests.test_professional_threshold_confirmation_is_separate_from_arrival_and_reading) ... ok
+test_public_metadata_carries_professional_timing_and_finite_confirmation_definition (test_inspection_execution.InspectionExecutionTests.test_public_metadata_carries_professional_timing_and_finite_confirmation_definition) ... ok
+test_qualification_wrong_tool_and_unmeasured_target_cannot_make_readings (test_inspection_execution.InspectionExecutionTests.test_qualification_wrong_tool_and_unmeasured_target_cannot_make_readings) ... ok
+test_threshold_reports_keep_declared_quality_and_numeric_error_is_not_truth (test_inspection_execution.InspectionExecutionTests.test_threshold_reports_keep_declared_quality_and_numeric_error_is_not_truth) ... ok
+test_too_short_work_is_not_a_measurement_and_late_validity_is_not_refreshed (test_inspection_execution.InspectionExecutionTests.test_too_short_work_is_not_a_measurement_and_late_validity_is_not_refreshed) ... ok
+
+======================================================================
+FAIL: test_no_record_identity_is_claimed_for_insufficient_observation (test_inspection_execution.InspectionExecutionTests.test_no_record_identity_is_claimed_for_insufficient_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline22-inspection\Renly\tests\test_inspection_execution.py", line 219, in test_no_record_identity_is_claimed_for_insufficient_observation
+    self.assertIsNone(result['inspection_private_audit']['attempts'][0]['measurement_record_id'])
+AssertionError: 'flow-inspection-22' is not None
+
+----------------------------------------------------------------------
+Ran 13 tests in 17.828s
+
+FAILED (failures=1)
