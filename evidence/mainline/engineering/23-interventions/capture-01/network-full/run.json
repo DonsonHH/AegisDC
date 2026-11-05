@@ -1,0 +1,2018 @@
+{
+  "schema": "aegisdc-engineering-facility-run-v1",
+  "status": "ENGINEERING_FIXTURE_COMPLETED",
+  "basis": "zhengzhou_inspired_synthetic",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "engineering_fixture": true,
+  "state_visibility": "PRIVATE_PLANT_EVALUATOR_ONLY",
+  "dispatch_interface": "NOT_IMPLEMENTED",
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED",
+  "research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "scenario_sha256": "96911e5c6e5b98d7ce69b384eb655c5ce67b965788898e8247461e9a0406c170",
+  "code_identity": {
+    "git_commit": "15a940c0fec6c5d2f3ba6758b2a4d685f872b9b3",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "50b5343fd7de1f2abe48515eec7a3ca1716f678d24e2c7558bc18f639934d6e6",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "389ffce366eb3962108bb11fcace8701ef7331b4276313a6fe65f1f4f7314624",
+      "src/aegis_dc/action_value.py": "6a0735701c1ad5d61925073cc8848dab2d2d68ec04edb4b26dc1a7fd39be558e",
+      "src/aegis_dc/belief.py": "0e5c69d1a1d310fb15851894fb6019bc0f331c61910d73eebbcecce96642438d",
+      "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+      "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+      "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+      "src/aegis_dc/inspection_execution.py": "dda138473283999b29a2a2ab412e23b9ae58b725f6cb9452979474dd121fafdd",
+      "src/aegis_dc/intervention_execution.py": "68aa7be668b3ef2623adb3996a864423c6a6838e28c1ec5af3e8375d4f79a980",
+      "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+      "src/aegis_dc/nonfixed_evidence.py": "5dec6424e5cd75f113a3658a69b45a9f212f20bbd397a9698c9679b21a179a92",
+      "src/aegis_dc/plant.py": "e72a5931af942cdb0e67e751a42ac76c3ad310c77e842073a887d4d685d8657b",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+      "src/aegis_dc/replay.py": "b58a28e7ac5878753dbaa88b77419112c89bef106706f0d2155579b4830dd480",
+      "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+      "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+      "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+      "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+      "src/aegis_dc/sensor_channels.py": "2157016d01a2e375087c8ed0ff86d189e791f69d45b28cbf7386cbc011c2d846",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/aegis_dc/workforce_dispatch.py": "5248a41ecd2f2b581a1cac52ce0d200683040f69f6a01e42536f4daeb95f4d90",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "property_reference": {
+    "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+    "source": {
+      "library": "CoolProp",
+      "version": "8.0.0",
+      "gitrevision": "ae81610e7d23efc57f9d051c8e70a4d66e87537f",
+      "backend": "HEOS",
+      "fluid": "R134a",
+      "reference_state_requested": "DEF",
+      "reference_anchor": {
+        "T_K": 273.15,
+        "p_Pa": 292803.1823394906,
+        "quality": 0,
+        "h_J_kg": 199999.98852614488,
+        "u_J_kg": 199773.8467444586,
+        "s_J_kg_K": 1000.0000369551423
+      },
+      "wheel_filename": "coolprop-8.0.0-cp312-abi3-win_amd64.whl",
+      "wheel_sha256": "f1f78a2ee9ce703c496a42a68cde9bd6f22b2b964375c2abba39d6dc879918d3",
+      "wheel_url": "https://files.pythonhosted.org/packages/3b/8b/e3741cc791868ade376a7c3b46965ce2b4b5cd1fa73550632be74f801e1d/coolprop-8.0.0-cp312-abi3-win_amd64.whl",
+      "official_docs": "https://coolprop.org/coolprop/HighLevelAPI.html",
+      "fluid_docs": "https://coolprop.org/fluid_properties/fluids/R134a.html",
+      "pypi_release": "https://pypi.org/project/CoolProp/8.0.0/",
+      "equation_of_state_doi": "10.1063/1.555958"
+    },
+    "validity": {
+      "pure_single_substance": true,
+      "noncondensable_gas_included": false,
+      "equilibrium_saturation_only": true,
+      "p_min_Pa": 100000.0,
+      "p_max_Pa": 3000000.0,
+      "no_extrapolation": true,
+      "point_count": 512,
+      "grid": "uniform in ln(p)",
+      "constants": {
+        "critical_pressure_Pa": 4059276.3737910665,
+        "critical_temperature_K": 374.2119665849513,
+        "triple_pressure_Pa": 389.56378856198955,
+        "triple_temperature_K": 169.85,
+        "molar_mass_kg_mol": 0.102032
+      },
+      "notes": "Subcritical table; no claims about dryout/superheated/subcooled states, pressure transients or real-site calibration."
+    }
+  },
+  "time_coordinate_convention": {
+    "version": "aegisdc-binary64-time-v1",
+    "coincidence_ulps": 8,
+    "clock": "PLC epoch n*fixed_period anchored at zero; one sample per epoch",
+    "event_anchor": "current processing time, fixed while processing due events; never a rolling adjacent-event chain",
+    "requested_time": "raw binary64 time_s retained; applied_at_s records processing time",
+    "scope": "numerical time coordinates only; not physical state clipping or real equipment clock resolution"
+  },
+  "workforce_public_feedback": [
+    {
+      "task_id": "restore-network",
+      "source_id": "workforce-execution-report",
+      "observed_at_s": 1.25,
+      "arrived_at_s": 1.75,
+      "status": "completed",
+      "reason": null,
+      "location_id": "loc_it",
+      "origin_id": "workforce:restore-network",
+      "coverage": "THIS_ISSUED_TASK_ONLY",
+      "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+    }
+  ],
+  "intervention_public_feedback": [
+    {
+      "task_id": "restore-network",
+      "operation_id": "network-restore",
+      "source_id": "intervention-execution-report",
+      "observed_at_s": 1.25,
+      "arrived_at_s": 1.75,
+      "outcome": "APPLIED",
+      "reason": null,
+      "origin_id": "intervention:restore-network",
+      "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+      "risk_closed": false
+    }
+  ],
+  "intervention_private_audit": {
+    "classification": "PRIVATE_PLANT_EVALUATOR_ONLY",
+    "events": [
+      {
+        "task_id": "restore-network",
+        "operation_id": "network-restore",
+        "observed_at_s": 1.25,
+        "task_status": "completed",
+        "outcome": "APPLIED",
+        "reason": null,
+        "applied_at_s": 1.25,
+        "parameter_id": "network_service_capacity",
+        "old_value": 0.25,
+        "new_value": 1,
+        "effect_scope": "DECLARED_LOW_ORDER_PARAMETER_RESPONSE_NOT_VERIFIED_REPAIR"
+      }
+    ]
+  },
+  "inputs": {
+    "duration_s": 3.0,
+    "maximum_step_s": 0.01,
+    "work_requests": [],
+    "work_program": {
+      "schema": "aegisdc-work-program-v1",
+      "id": "23-work",
+      "profile": {
+        "schema": "aegisdc-workforce-profile-v1",
+        "id": "23-scaled-engineering",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+        "basis": "synthetic_assumption",
+        "source_note": "Positive legal scaled engineering timing; no site calibration.",
+        "time_unit": "s",
+        "access_check_s": 0.25,
+        "feedback_latency_s": 0.5,
+        "walk_times_s": {
+          "a1": 1,
+          "a2": 1,
+          "a3": 2,
+          "a4": 1,
+          "a5": 1
+        },
+        "work_times_s": {
+          "inspect_power": 1,
+          "inspect_backup": 1,
+          "inspect_facility_cooling": 1,
+          "inspect_equipment_environment": 1,
+          "inspect_it_service": 1,
+          "inspect_control_monitoring": 1,
+          "inspect_space_access": 1,
+          "inspect_people_tools_work": 1
+        },
+        "shifts": {
+          "worker_electrical": [
+            0,
+            3600
+          ],
+          "worker_cooling": [
+            0,
+            3600
+          ],
+          "worker_control": [
+            0,
+            3600
+          ],
+          "worker_it": [
+            0,
+            3600
+          ]
+        }
+      },
+      "submissions": [
+        {
+          "frame": {
+            "schema": "aegisdc-dispatch-frame-v1",
+            "plan_id": "intervention23",
+            "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+            "time_unit": "s",
+            "as_of_s": 0,
+            "nominal_knowledge": {
+              "schema": "aegisdc-public-nominal-v1",
+              "id": "V6-canonical-public-nominal-v1",
+              "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+              "basis": "synthetic_assumption",
+              "source_note": "Nominal identities, relation directions and personnel capabilities from the canonical public V6 profile; no current state or parameter values.",
+              "domain_ids": [
+                "power",
+                "backup",
+                "facility_cooling",
+                "equipment_environment",
+                "it_service",
+                "control_monitoring",
+                "space_access",
+                "people_tools_work"
+              ],
+              "entities": [
+                {
+                  "id": "loc_entry",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "loc_electrical",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "loc_lake",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "loc_hx",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "loc_it",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "loc_control",
+                  "kind": "location",
+                  "domain": "space_access",
+                  "nominal_location_id": null,
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "grid",
+                  "kind": "asset",
+                  "domain": "power",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "main_switchboard",
+                  "kind": "asset",
+                  "domain": "power",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "rectifier",
+                  "kind": "asset",
+                  "domain": "power",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "ups",
+                  "kind": "asset",
+                  "domain": "backup",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "generator",
+                  "kind": "asset",
+                  "domain": "backup",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "lake",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_lake",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "intake_pump",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_lake",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "filter",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_lake",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "plate_hx",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "internal_water",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "backup_tower",
+                  "kind": "asset",
+                  "domain": "backup",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "immersion",
+                  "kind": "asset",
+                  "domain": "equipment_environment",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "room",
+                  "kind": "asset",
+                  "domain": "equipment_environment",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "compute",
+                  "kind": "asset",
+                  "domain": "it_service",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "network",
+                  "kind": "asset",
+                  "domain": "it_service",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "storage",
+                  "kind": "asset",
+                  "domain": "it_service",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "critical_service",
+                  "kind": "service",
+                  "domain": "it_service",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "local_controller",
+                  "kind": "asset",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "bms",
+                  "kind": "asset",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "drainage",
+                  "kind": "asset",
+                  "domain": "space_access",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "point_flow",
+                  "kind": "point",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_lake",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "point_temperature",
+                  "kind": "point",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "point_power",
+                  "kind": "point",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "evidence_inbox",
+                  "kind": "point",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "tool_electrical_meter",
+                  "kind": "tool",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "worker_electrical",
+                  "kind": "worker",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [
+                    "qualified_electrical_inspection"
+                  ],
+                  "tool_ids": [
+                    "tool_electrical_meter"
+                  ]
+                },
+                {
+                  "id": "tool_flow_meter",
+                  "kind": "tool",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "worker_cooling",
+                  "kind": "worker",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [
+                    "qualified_cooling_inspection"
+                  ],
+                  "tool_ids": [
+                    "tool_flow_meter"
+                  ]
+                },
+                {
+                  "id": "tool_control_reader",
+                  "kind": "tool",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "worker_control",
+                  "kind": "worker",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [
+                    "qualified_control_inspection",
+                    "qualified_cooling_inspection"
+                  ],
+                  "tool_ids": [
+                    "tool_control_reader",
+                    "tool_flow_meter"
+                  ]
+                },
+                {
+                  "id": "tool_it_diagnostic",
+                  "kind": "tool",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "worker_it",
+                  "kind": "worker",
+                  "domain": "people_tools_work",
+                  "nominal_location_id": "loc_it",
+                  "qualification_ids": [
+                    "qualified_it_inspection"
+                  ],
+                  "tool_ids": [
+                    "tool_it_diagnostic"
+                  ]
+                },
+                {
+                  "id": "internal_pump",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "point_internal_flow",
+                  "kind": "point",
+                  "domain": "control_monitoring",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "lake_valve_group",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_lake",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "internal_valve_group",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "it_access_gate",
+                  "kind": "asset",
+                  "domain": "space_access",
+                  "nominal_location_id": "loc_control",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "load_distribution",
+                  "kind": "asset",
+                  "domain": "power",
+                  "nominal_location_id": "loc_electrical",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                },
+                {
+                  "id": "reserve_external_air",
+                  "kind": "asset",
+                  "domain": "facility_cooling",
+                  "nominal_location_id": "loc_hx",
+                  "qualification_ids": [],
+                  "tool_ids": []
+                }
+              ],
+              "qualification_ids": [
+                "qualified_electrical_inspection",
+                "qualified_cooling_inspection",
+                "qualified_control_inspection",
+                "qualified_it_inspection"
+              ],
+              "work_interfaces": [
+                {
+                  "id": "inspect_power",
+                  "domain_id": "power",
+                  "target_ids": [
+                    "main_switchboard",
+                    "rectifier"
+                  ],
+                  "qualification_id": "qualified_electrical_inspection",
+                  "tool_ids": [
+                    "tool_electrical_meter"
+                  ]
+                },
+                {
+                  "id": "inspect_backup",
+                  "domain_id": "backup",
+                  "target_ids": [
+                    "ups",
+                    "generator",
+                    "backup_tower"
+                  ],
+                  "qualification_id": "qualified_electrical_inspection",
+                  "tool_ids": [
+                    "tool_electrical_meter"
+                  ]
+                },
+                {
+                  "id": "inspect_facility_cooling",
+                  "domain_id": "facility_cooling",
+                  "target_ids": [
+                    "intake_pump",
+                    "filter",
+                    "plate_hx",
+                    "internal_water",
+                    "internal_pump",
+                    "lake_valve_group",
+                    "internal_valve_group"
+                  ],
+                  "qualification_id": "qualified_cooling_inspection",
+                  "tool_ids": [
+                    "tool_flow_meter"
+                  ]
+                },
+                {
+                  "id": "inspect_equipment_environment",
+                  "domain_id": "equipment_environment",
+                  "target_ids": [
+                    "immersion",
+                    "room"
+                  ],
+                  "qualification_id": "qualified_cooling_inspection",
+                  "tool_ids": [
+                    "tool_flow_meter"
+                  ]
+                },
+                {
+                  "id": "inspect_it_service",
+                  "domain_id": "it_service",
+                  "target_ids": [
+                    "compute",
+                    "network",
+                    "storage",
+                    "critical_service"
+                  ],
+                  "qualification_id": "qualified_it_inspection",
+                  "tool_ids": [
+                    "tool_it_diagnostic"
+                  ]
+                },
+                {
+                  "id": "inspect_control_monitoring",
+                  "domain_id": "control_monitoring",
+                  "target_ids": [
+                    "local_controller",
+                    "bms",
+                    "point_flow",
+                    "point_temperature",
+                    "point_power",
+                    "evidence_inbox",
+                    "point_internal_flow"
+                  ],
+                  "qualification_id": "qualified_control_inspection",
+                  "tool_ids": [
+                    "tool_control_reader"
+                  ]
+                },
+                {
+                  "id": "inspect_space_access",
+                  "domain_id": "space_access",
+                  "target_ids": [
+                    "loc_entry",
+                    "loc_electrical",
+                    "loc_lake",
+                    "loc_hx",
+                    "loc_it",
+                    "loc_control",
+                    "drainage",
+                    "it_access_gate"
+                  ],
+                  "qualification_id": "qualified_cooling_inspection",
+                  "tool_ids": [
+                    "tool_flow_meter"
+                  ]
+                },
+                {
+                  "id": "inspect_people_tools_work",
+                  "domain_id": "people_tools_work",
+                  "target_ids": [
+                    "worker_electrical",
+                    "worker_cooling",
+                    "worker_control",
+                    "worker_it",
+                    "tool_electrical_meter",
+                    "tool_flow_meter",
+                    "tool_control_reader",
+                    "tool_it_diagnostic"
+                  ],
+                  "qualification_id": "qualified_control_inspection",
+                  "tool_ids": [
+                    "tool_control_reader"
+                  ]
+                }
+              ],
+              "graphs": {
+                "physical": [
+                  {
+                    "id": "p_grid",
+                    "from": "grid",
+                    "to": "main_switchboard",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_rectifier",
+                    "from": "load_distribution",
+                    "to": "rectifier",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_compute",
+                    "from": "rectifier",
+                    "to": "compute",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_network",
+                    "from": "rectifier",
+                    "to": "network",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_storage",
+                    "from": "rectifier",
+                    "to": "storage",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_pump",
+                    "from": "load_distribution",
+                    "to": "intake_pump",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_control",
+                    "from": "load_distribution",
+                    "to": "local_controller",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_room",
+                    "from": "load_distribution",
+                    "to": "room",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_ups",
+                    "from": "load_distribution",
+                    "to": "ups",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_intake",
+                    "from": "lake",
+                    "to": "intake_pump",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_filter",
+                    "from": "intake_pump",
+                    "to": "filter",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_hx",
+                    "from": "lake_valve_group",
+                    "to": "plate_hx",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_return",
+                    "from": "plate_hx",
+                    "to": "lake",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_internal_hot",
+                    "from": "internal_water",
+                    "to": "internal_pump",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_internal_cold",
+                    "from": "plate_hx",
+                    "to": "internal_water",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_compute",
+                    "from": "compute",
+                    "to": "immersion",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_condenser",
+                    "from": "immersion",
+                    "to": "internal_water",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_internal_hx",
+                    "from": "internal_water",
+                    "to": "plate_hx",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_to_lake",
+                    "from": "plate_hx",
+                    "to": "lake",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_network_air",
+                    "from": "network",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_storage_water",
+                    "from": "storage",
+                    "to": "internal_water",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_internal_pump",
+                    "from": "load_distribution",
+                    "to": "internal_pump",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_ups_controller",
+                    "from": "load_distribution",
+                    "to": "local_controller",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_ups_intake",
+                    "from": "load_distribution",
+                    "to": "intake_pump",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_ups_internal",
+                    "from": "load_distribution",
+                    "to": "internal_pump",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_generator",
+                    "from": "generator",
+                    "to": "main_switchboard",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_rectifier_room",
+                    "from": "rectifier",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_ups_room",
+                    "from": "ups",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_internal_pump_water",
+                    "from": "internal_pump",
+                    "to": "internal_water",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_internal_pump_room",
+                    "from": "internal_pump",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_intake_pump_room",
+                    "from": "intake_pump",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_controller_room",
+                    "from": "local_controller",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_compute_air",
+                    "from": "compute",
+                    "to": "room",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_lake_valve_feed",
+                    "from": "filter",
+                    "to": "lake_valve_group",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_internal_pump_valve",
+                    "from": "internal_pump",
+                    "to": "internal_valve_group",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_internal_valve_hx",
+                    "from": "internal_valve_group",
+                    "to": "plate_hx",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "w_hot_leak_to_floor",
+                    "from": "internal_water",
+                    "to": "drainage",
+                    "kind": "fluid",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_normal_distribution",
+                    "from": "main_switchboard",
+                    "to": "load_distribution",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_protected_distribution",
+                    "from": "ups",
+                    "to": "load_distribution",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_generator_control",
+                    "from": "load_distribution",
+                    "to": "generator",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "p_backup_fan",
+                    "from": "load_distribution",
+                    "to": "backup_tower",
+                    "kind": "electric",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_backup_water",
+                    "from": "internal_water",
+                    "to": "backup_tower",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "q_backup_air",
+                    "from": "backup_tower",
+                    "to": "reserve_external_air",
+                    "kind": "heat",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  }
+                ],
+                "functional": [
+                  {
+                    "id": "f1",
+                    "from": "grid",
+                    "to": "main_switchboard",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f2",
+                    "from": "main_switchboard",
+                    "to": "rectifier",
+                    "kind": "capacity",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f3",
+                    "from": "rectifier",
+                    "to": "compute",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f4",
+                    "from": "rectifier",
+                    "to": "network",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f5",
+                    "from": "rectifier",
+                    "to": "storage",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f6",
+                    "from": "internal_water",
+                    "to": "immersion",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f7",
+                    "from": "plate_hx",
+                    "to": "internal_water",
+                    "kind": "capacity",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f8",
+                    "from": "ups",
+                    "to": "local_controller",
+                    "kind": "backup",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f9",
+                    "from": "ups",
+                    "to": "intake_pump",
+                    "kind": "backup",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f10",
+                    "from": "generator",
+                    "to": "main_switchboard",
+                    "kind": "backup",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f11",
+                    "from": "backup_tower",
+                    "to": "internal_water",
+                    "kind": "backup",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f12",
+                    "from": "compute",
+                    "to": "critical_service",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f13",
+                    "from": "network",
+                    "to": "critical_service",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f14",
+                    "from": "storage",
+                    "to": "critical_service",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f15",
+                    "from": "local_controller",
+                    "to": "compute",
+                    "kind": "control_permit",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f16",
+                    "from": "drainage",
+                    "to": "loc_it",
+                    "kind": "access_condition",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_internal_pump",
+                    "from": "internal_pump",
+                    "to": "internal_water",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_ups_internal_pump",
+                    "from": "ups",
+                    "to": "internal_pump",
+                    "kind": "backup",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_lake_valve_group",
+                    "from": "lake_valve_group",
+                    "to": "plate_hx",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_internal_valve_group",
+                    "from": "internal_valve_group",
+                    "to": "internal_water",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_it_access_gate",
+                    "from": "it_access_gate",
+                    "to": "loc_it",
+                    "kind": "access_condition",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_room_work_temperature",
+                    "from": "room",
+                    "to": "loc_it",
+                    "kind": "access_condition",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "f_common_distribution",
+                    "from": "load_distribution",
+                    "to": "critical_service",
+                    "kind": "requires",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  }
+                ],
+                "control_information": [
+                  {
+                    "id": "c1",
+                    "from": "intake_pump",
+                    "to": "point_flow",
+                    "kind": "measurement",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c2",
+                    "from": "immersion",
+                    "to": "point_temperature",
+                    "kind": "measurement",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c3",
+                    "from": "rectifier",
+                    "to": "point_power",
+                    "kind": "measurement",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c4",
+                    "from": "point_flow",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c5",
+                    "from": "point_temperature",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c6",
+                    "from": "local_controller",
+                    "to": "intake_pump",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c7",
+                    "from": "local_controller",
+                    "to": "compute",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c8",
+                    "from": "point_flow",
+                    "to": "evidence_inbox",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c9",
+                    "from": "point_temperature",
+                    "to": "evidence_inbox",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c10",
+                    "from": "point_power",
+                    "to": "evidence_inbox",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c11",
+                    "from": "bms",
+                    "to": "evidence_inbox",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_internal_measurement",
+                    "from": "internal_pump",
+                    "to": "point_internal_flow",
+                    "kind": "measurement",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_internal_local_report",
+                    "from": "point_internal_flow",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_internal_command",
+                    "from": "local_controller",
+                    "to": "internal_pump",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_lake_valve_group_status",
+                    "from": "lake_valve_group",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_lake_valve_group_interlock",
+                    "from": "local_controller",
+                    "to": "intake_pump",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_internal_valve_group_status",
+                    "from": "internal_valve_group",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_internal_valve_group_interlock",
+                    "from": "local_controller",
+                    "to": "internal_pump",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_it_access_permission",
+                    "from": "it_access_gate",
+                    "to": "local_controller",
+                    "kind": "report",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "c_backup_selector",
+                    "from": "local_controller",
+                    "to": "backup_tower",
+                    "kind": "command",
+                    "bidirectional": false,
+                    "requires_qualification_ids": []
+                  }
+                ],
+                "access": [
+                  {
+                    "id": "a1",
+                    "from": "loc_entry",
+                    "to": "loc_control",
+                    "kind": "walk",
+                    "bidirectional": true,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "a2",
+                    "from": "loc_control",
+                    "to": "loc_hx",
+                    "kind": "walk",
+                    "bidirectional": true,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "a3",
+                    "from": "loc_hx",
+                    "to": "loc_lake",
+                    "kind": "walk",
+                    "bidirectional": true,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "a4",
+                    "from": "loc_control",
+                    "to": "loc_it",
+                    "kind": "walk",
+                    "bidirectional": true,
+                    "requires_qualification_ids": []
+                  },
+                  {
+                    "id": "a5",
+                    "from": "loc_control",
+                    "to": "loc_electrical",
+                    "kind": "walk",
+                    "bidirectional": true,
+                    "requires_qualification_ids": [
+                      "qualified_electrical_inspection"
+                    ]
+                  }
+                ]
+              },
+              "reported_constraints": [
+                {
+                  "id": "reported-it-entry-restriction",
+                  "source_id": "declared-it-access-report",
+                  "target_id": "loc_it",
+                  "observable_id": "it-entry-permitted-reported",
+                  "location_id": "loc_it",
+                  "blocking_value": false
+                }
+              ]
+            },
+            "evidence": {
+              "schema": "aegisdc-evidence-snapshot-v1",
+              "ledger_id": "V6-public-decision-evidence-v1",
+              "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+              "time_unit": "s",
+              "as_of_s": 0,
+              "static_knowledge": {
+                "entity_ids": [
+                  "loc_entry",
+                  "loc_electrical",
+                  "loc_lake",
+                  "loc_hx",
+                  "loc_it",
+                  "loc_control",
+                  "grid",
+                  "main_switchboard",
+                  "rectifier",
+                  "ups",
+                  "generator",
+                  "lake",
+                  "intake_pump",
+                  "filter",
+                  "plate_hx",
+                  "internal_water",
+                  "backup_tower",
+                  "immersion",
+                  "room",
+                  "compute",
+                  "network",
+                  "storage",
+                  "critical_service",
+                  "local_controller",
+                  "bms",
+                  "drainage",
+                  "point_flow",
+                  "point_temperature",
+                  "point_power",
+                  "evidence_inbox",
+                  "tool_electrical_meter",
+                  "worker_electrical",
+                  "tool_flow_meter",
+                  "worker_cooling",
+                  "tool_control_reader",
+                  "worker_control",
+                  "tool_it_diagnostic",
+                  "worker_it",
+                  "internal_pump",
+                  "point_internal_flow",
+                  "lake_valve_group",
+                  "internal_valve_group",
+                  "it_access_gate",
+                  "load_distribution",
+                  "reserve_external_air"
+                ],
+                "observables": [
+                  {
+                    "id": "flow",
+                    "quantity": "volume_flow",
+                    "value_type": "number",
+                    "unit": "m3/s"
+                  },
+                  {
+                    "id": "input_power",
+                    "quantity": "power",
+                    "value_type": "number",
+                    "unit": "W"
+                  },
+                  {
+                    "id": "it-entry-permitted-reported",
+                    "quantity": "binary",
+                    "value_type": "boolean",
+                    "unit": "1"
+                  },
+                  {
+                    "id": "maintenance_reported",
+                    "quantity": "binary",
+                    "value_type": "boolean",
+                    "unit": "1"
+                  },
+                  {
+                    "id": "nameplate_power",
+                    "quantity": "power",
+                    "value_type": "number",
+                    "unit": "W"
+                  },
+                  {
+                    "id": "supervisory_online_reported",
+                    "quantity": "binary",
+                    "value_type": "boolean",
+                    "unit": "1"
+                  },
+                  {
+                    "id": "temperature",
+                    "quantity": "temperature",
+                    "value_type": "number",
+                    "unit": "K"
+                  },
+                  {
+                    "id": "temperature_offset",
+                    "quantity": "temperature_offset",
+                    "value_type": "number",
+                    "unit": "K"
+                  },
+                  {
+                    "id": "vibration_reported",
+                    "quantity": "binary",
+                    "value_type": "boolean",
+                    "unit": "1"
+                  }
+                ],
+                "sources": [
+                  {
+                    "id": "asset-register",
+                    "kind": "asset_record",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "rectifier"
+                    ],
+                    "observable_ids": [
+                      "nameplate_power"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "declared-it-access-report",
+                    "kind": "control_record",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "loc_it"
+                    ],
+                    "observable_ids": [
+                      "it-entry-permitted-reported"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Declared sparse remote permit-status channel; values here are hand-authored engineering inputs, not generated from a private run."
+                  },
+                  {
+                    "id": "handheld-offset-meter",
+                    "kind": "handheld",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "plate_hx"
+                    ],
+                    "observable_ids": [
+                      "temperature_offset"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "handheld-thermometer",
+                    "kind": "handheld",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "immersion"
+                    ],
+                    "observable_ids": [
+                      "temperature"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "local-controller-log",
+                    "kind": "control_record",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "local_controller"
+                    ],
+                    "observable_ids": [
+                      "supervisory_online_reported"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "maintenance-log",
+                    "kind": "maintenance_history",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "filter"
+                    ],
+                    "observable_ids": [
+                      "maintenance_reported"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "operator-report",
+                    "kind": "human_report",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "filter"
+                    ],
+                    "observable_ids": [
+                      "vibration_reported"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "point_flow",
+                    "kind": "fixed_sensor",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "intake_pump"
+                    ],
+                    "observable_ids": [
+                      "flow"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "point_power",
+                    "kind": "fixed_sensor",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "rectifier"
+                    ],
+                    "observable_ids": [
+                      "input_power"
+                    ],
+                    "dependency_group": null,
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "point_temperature",
+                    "kind": "fixed_sensor",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "immersion"
+                    ],
+                    "observable_ids": [
+                      "temperature"
+                    ],
+                    "dependency_group": "temperature-signal-chain",
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  },
+                  {
+                    "id": "work-order-inbox",
+                    "kind": "work_order",
+                    "basis": "synthetic_assumption",
+                    "target_ids": [
+                      "immersion"
+                    ],
+                    "observable_ids": [
+                      "temperature"
+                    ],
+                    "dependency_group": "temperature-signal-chain",
+                    "source_note": "Static engineering input, not generated by a plant, worker execution, or real site telemetry."
+                  }
+                ]
+              },
+              "records": [
+                {
+                  "id": "design-rating",
+                  "source_id": "asset-register",
+                  "target_id": "rectifier",
+                  "observable_id": "nameplate_power",
+                  "unit": "W",
+                  "value": 600000,
+                  "observed_at_s": -86400,
+                  "arrived_at_s": -3600,
+                  "valid_until_s": null,
+                  "quality": {
+                    "status": "bounded",
+                    "error_bound": 0,
+                    "note": "Declared fixture quality only; unknown remains unknown; no field calibration."
+                  },
+                  "provenance": {
+                    "origin_id": "origin-design-rating",
+                    "copied_from_record_id": null
+                  },
+                  "age_s": 86400,
+                  "availability": "current"
+                },
+                {
+                  "id": "maintenance-history",
+                  "source_id": "maintenance-log",
+                  "target_id": "filter",
+                  "observable_id": "maintenance_reported",
+                  "unit": "1",
+                  "value": true,
+                  "observed_at_s": -600,
+                  "arrived_at_s": -300,
+                  "valid_until_s": 600,
+                  "quality": {
+                    "status": "reported",
+                    "error_bound": null,
+                    "note": "Declared fixture quality only; unknown remains unknown; no field calibration."
+                  },
+                  "provenance": {
+                    "origin_id": "origin-maintenance-history",
+                    "copied_from_record_id": null
+                  },
+                  "age_s": 600,
+                  "availability": "current"
+                }
+              ],
+              "correlation_groups": [],
+              "provenance_issues": [],
+              "independence": "NOT_ESTABLISHED",
+              "conflicts": [],
+              "current_record_ids": [
+                "design-rating",
+                "maintenance-history"
+              ]
+            },
+            "requests": []
+          },
+          "task": {
+            "id": "restore-network",
+            "work_interface_id": "inspect_it_service",
+            "target_id": "network",
+            "crew": [
+              {
+                "worker_id": "worker_it",
+                "qualification_id": "qualified_it_inspection"
+              }
+            ],
+            "tool_carrier_id": "worker_it",
+            "deadline_s": 10,
+            "source_note": "Explicit synthetic authorized repair work, not field certification."
+          }
+        }
+      ]
+    },
+    "intervention_program": {
+      "schema": "aegisdc-intervention-program-v1",
+      "profile": {
+        "schema": "aegisdc-intervention-profile-v1",
+        "id": "23-intervention",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+        "basis": "synthetic_assumption",
+        "source_note": "Bounded named-operation research authority.",
+        "time_unit": "s",
+        "feedback_latency_s": 0.5,
+        "operations": [
+          {
+            "id": "network-restore",
+            "kind": "restore_network_capacity",
+            "target_id": "network",
+            "unit": "1",
+            "minimum_work_s": 1,
+            "source_note": "Declared service-capacity repair with a residual ceiling; not a job success oracle."
+          }
+        ],
+        "authorizations": [
+          {
+            "id": "research-grant",
+            "operation_ids": [
+              "network-restore"
+            ],
+            "target_ids": [
+              "network"
+            ],
+            "starts_at_s": 0,
+            "expires_at_s": 10,
+            "basis": "synthetic_assumption",
+            "source_note": "Research authority only; not authority over real equipment."
+          }
+        ]
+      },
+      "bindings": [
+        {
+          "task_id": "restore-network",
+          "operation_id": "network-restore",
+          "setting": 1,
+          "authorization_id": "research-grant"
+        }
+      ]
+    },
+    "boundary_events": []
+  },
+  "summary": {
+    "boundary_input_J": 6847689.941089838,
+    "boundary_output_J": 6943654.730921241,
+    "grid_energy_J": 6847689.941089838,
+    "lake_heat_J": 6421885.714285732,
+    "room_heat_J": 521739.01663550874,
+    "ups_output_energy_J": 0.0,
+    "ups_loss_energy_J": 0.0,
+    "generator_output_energy_J": 0.0,
+    "generator_waste_energy_J": 0.0,
+    "floor_water_inlet_mass_kg": 0.0,
+    "floor_water_drained_mass_kg": 0.0,
+    "floor_inlet_energy_J": 0.0,
+    "floor_drain_energy_J": 0.0,
+    "worker_travel_person_s": 0.0,
+    "worker_work_person_s": 1.0,
+    "tool_occupation_tool_s": 1.25,
+    "demand_service_unit_s": 3.0,
+    "delivered_service_unit_s": 2.0625,
+    "service_deficit_time_s": 0.9375,
+    "internal_hot_leaked_mass_kg": 0.0,
+    "internal_hot_leak_energy_J": 0.0,
+    "worker_wait_person_s": 0.25,
+    "access_check_person_s": 0.25,
+    "rendezvous_wait_person_s": 0.0,
+    "queue_wait_person_s": 0.0,
+    "tool_work_tool_s": 1.0,
+    "starter_output_energy_J": 0.0,
+    "backup_water_heat_J": 0.0,
+    "reserve_external_electric_heat_J": 30.0,
+    "reserve_room_control_heat_J": 300.0,
+    "backup_fan_energy_J": 0.0,
+    "duration_s": 3.0,
+    "integration_steps": 301,
+    "initial_stored_energy_J": 29279777887.74015,
+    "final_stored_energy_J": 29279681922.950317,
+    "whole_run_energy_residual_J": -1.6652047634124756e-06,
+    "max_energy_residual_J": 3.4975812468474032e-06,
+    "max_mass_residual_kg": 0.0,
+    "minimum_capacity_slack_W": {
+      "grid": 7685220.191458026,
+      "switchboard": 7685220.191458026,
+      "rectifier": 2731958.762886598,
+      "generator": 4000000.0,
+      "ups": 0.0
+    },
+    "work_rejections": {}
+  },
+  "events": [
+    {
+      "time_s": 0.0,
+      "kind": "reserve_transition",
+      "actor": "ups",
+      "mode": "bypass",
+      "request_actor": "UPS_INTERNAL_CONTROL",
+      "requested_at_s": null,
+      "ready_at_s": null
+    },
+    {
+      "time_s": 0.0,
+      "kind": "reserve_transition",
+      "actor": "generator",
+      "mode": "off",
+      "request_actor": "GENERATOR_INTERNAL_CONTROL",
+      "requested_at_s": null,
+      "ready_at_s": null
+    },
+    {
+      "time_s": 0.0,
+      "kind": "reserve_transition",
+      "actor": "cooling",
+      "mode": "primary",
+      "request_actor": "POWERED_MAIN_PLC_SAMPLE",
+      "requested_at_s": null,
+      "ready_at_s": null
+    },
+    {
+      "task_id": "restore-network",
+      "operation_id": "network-restore",
+      "observed_at_s": 1.25,
+      "task_status": "completed",
+      "outcome": "APPLIED",
+      "reason": null,
+      "applied_at_s": 1.25,
+      "parameter_id": "network_service_capacity",
+      "old_value": 0.25,
+      "new_value": 1,
+      "effect_scope": "DECLARED_LOW_ORDER_PARAMETER_RESPONSE_NOT_VERIFIED_REPAIR",
+      "kind": "completed_research_intervention"
+    }
+  ],
+  "work_records": [
+    {
+      "id": "restore-network",
+      "work_interface_id": "inspect_it_service",
+      "target_id": "network",
+      "crew": [
+        {
+          "worker_id": "worker_it",
+          "qualification_id": "qualified_it_inspection"
+        }
+      ],
+      "tool_carrier_id": "worker_it",
+      "deadline_s": 10,
+      "source_note": "Explicit synthetic authorized repair work, not field certification.",
+      "issued_at_s": 0.0,
+      "accepted": true,
+      "status": "completed",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "restore-network",
+        "as_of_s": 0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "effect": "ENGINEERING_WORK_RECORD_ONLY_NO_REPAIR_OR_EVIDENCE",
+      "started_at_s": 0.0,
+      "planned_work_start_s": 0.25,
+      "scheduled_completion_at_s": 1.25,
+      "paths": {
+        "worker_it": [
+          {
+            "from_id": "loc_it",
+            "to_id": "loc_it",
+            "departs_at_s": 0.0,
+            "gate_at_s": 0.0,
+            "arrives_at_s": 0.25
+          }
+        ]
+      },
+      "queue_wait_s": 0.0,
+      "work_started_at_s": 0.25,
+      "arrived_at_s": 0.25,
+      "finished_at_s": 1.25,
+      "completed_at_s": 1.25
+    }
+  ],
+  "artifacts": {
+    "scenario.json": {
+      "sha256": "920f170cfcd64e9c4dcceb642002d2d24a70863abdef0ed54a0aff969dbb8305",
+      "records": 1
+    },
+    "private-state.jsonl": {
+      "sha256": "93a07ed406fdf8e16bd17d3d1429c29d4fba069d24cf5826417822accaafda94",
+      "records": 302
+    },
+    "balances.jsonl": {
+      "sha256": "2b16f822d6f55e5163a494b3564f768cc4b5684320a5be68d0ee11e3fba2b77d",
+      "records": 301
+    }
+  }
+}
