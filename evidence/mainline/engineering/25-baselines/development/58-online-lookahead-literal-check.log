@@ -1,0 +1,25 @@
+test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record (test_dispatch_policy.DispatchPolicyTests.test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record) ... FAIL
+
+======================================================================
+FAIL: test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record (test_dispatch_policy.DispatchPolicyTests.test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_dispatch_policy.py", line 96, in test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record
+    self.assertEqual([r['choice']['chosen_candidate_id'] for r in decisions],['first-inspection',None,'first-action',None])
+AssertionError: Lists differ: ['first-inspection', None, None, 'first-action'] != ['first-inspection', None, 'first-action', None]
+
+First differing element 2:
+None
+'first-action'
+
+- ['first-inspection', None, None, 'first-action']
+?                           ------
+
++ ['first-inspection', None, 'first-action', None]
+?                                          ++++++
+
+
+----------------------------------------------------------------------
+Ran 1 test in 2.066s
+
+FAILED (failures=1)

@@ -52,7 +52,100 @@ def risk_fixture(time=0):
                 target_id='intake_pump',observable_id='flow',accepted_interval=[0,.05],not_before_s=0)]))
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
+def lookahead_run_fixture():
+    from test_action_value import fixture as value_fixture
+    frame,belief,catalog,value=value_fixture()
+    inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/filter-later-inspection.json').read_bytes())
+    catalog['horizon_s']=5;catalog['demand']=[dict(start_s=0,end_s=5,rate=1)]
+    for outcome in catalog['outcomes']:outcome['capacity_profile'][0]['end_s']=5
+    for question in catalog['questions']:
+        question['window_s']=[0,5]
+        question['consequence_bounds']['service_deficit_time_s']['interval']=[0,5]
+        question['consequence_bounds']['unserved_service_unit_s']['interval']=[0,5]
+    for resource in value['availability']:resource['window_s']=[0,5]
+    _,policy,_,ledger,nominal,_=risk_fixture()
+    # This finite witness declares a co-located initial actor/tool in both the
+    # public design and actual fixture. Other tests retain costly travel.
+    nominal['id']='V6-policy25-colocated-engineering'
+    for entity in nominal['entities']:
+        if entity['id'] in {'worker_cooling','tool_flow_meter'}:entity['nominal_location_id']='loc_lake'
+    for entity in inputs['model']['entities']:
+        if entity['id'] in {'worker_cooling','tool_flow_meter'}:entity['location_id']='loc_lake'
+    policy['workforce_profile']=inputs['work_program']['profile']
+    policy['workforce_profile']['nominal_knowledge_id']=nominal['id']
+    catalog['nominal_knowledge_id']=nominal['id'];belief['scope']['nominal_knowledge_id']=nominal['id'];value['nominal_knowledge_id']=nominal['id']
+    inspection=deepcopy(inputs['work_program']['submissions'][1]['task']);inspection['id']='lookahead-inspect'
+    action=deepcopy(inputs['work_program']['submissions'][0]['task']);action['id']='lookahead-action'
+    policy['candidates']=[dict(id='first-inspection',kind='inspect',task=inspection,available_at_s=0,question_id='cooling',source_note='First actual paid check.'),
+        dict(id='first-action',kind='intervene',task=action,available_at_s=0,question_id='cooling',source_note='First authorized actual action.')]
+    requests=deepcopy(frame['requests'])
+    next(r for r in requests if r['id']=='intent-filter-check')['target_id']='intake_pump'
+    actual=deepcopy(inputs['inspection_program']);binding=actual['profile']['bindings'][0];binding['task_id']=inspection['id']
+    actual['realizations']={inspection['id']:dict(seed=25,bias=0,noise_half_width=0)}
+    source=next(m for m in actual['profile']['nonfixed_profile']['models'] if m['model']['id']==binding['model_id'])
+    belief['channels'].append(dict(id='lookahead-flow-channel',source_id=source['source_id'],target_id=source['target_id'],
+        observable_id=source['observable_id'],unit='m3/s',positive_when='below',threshold=.07))
+    for variant in belief['variants']:variant['positive_likelihood']['lookahead-flow-channel']=[.1,.8,.1,.1]
+    local=value['question_models'][0]
+    local['inspection'].update(travel_s=0,wait_s=.25,work_s=1,report_latency_s=.5,cost=0)
+    local['intervention'].update(travel_s=0,wait_s=.25,work_s=1,cost=0)
+    actions=deepcopy(inputs['intervention_program']);actions['bindings'][0]['task_id']=action['id']
+    actions['profile']['nominal_knowledge_id']=nominal['id']
+    policy.update(policy='one_observation_lookahead',options=dict(belief_model=belief,catalog=catalog,value_model=value,
+        preparation_requests=requests,unknown_inspection_policy='fifo',bindings=[dict(question_id='cooling',inspection_candidate_id='first-inspection',
+            intervention_candidate_id='first-action',source_note='Explicit reference model/first-work mapping with declared actual measurement channel.')]))
+    program=dict(schema='aegisdc-policy-run-program-v1',id='online-lookahead-engineering',policy_program=policy,nominal_knowledge=nominal,
+        evidence_ledger=ledger,decision_times_s=[0,1.5,1.75,4],inspection_program=actual,intervention_program=actions)
+    return inputs['model'],program
+
 class DispatchPolicyTests(unittest.TestCase):
+    def test_question_closure_uses_same_public_evidence_and_blocks_only_declared_closed_question(self):
+        from aegis_dc.dispatch_policy import choose_work
+        from test_verified_closure import fixture as closure_fixture
+        frame,closure,_,_=closure_fixture()
+        _,policy,history,_,_,_=risk_fixture(time=6)
+        policy['policy']='fifo';policy['options']={}
+        policy['candidates']=policy['candidates'][:1]
+        result=choose_work(frame,policy,history,closure_program=closure)
+        self.assertIsNone(result['chosen_candidate_id'])
+        self.assertIn('DECLARED_QUESTION_CLOSED',result['candidates'][0]['reasons'])
+        self.assertEqual(result['question_lifecycle']['questions'][0]['status'],'VERIFIED_CLOSED')
+        self.assertTrue(result['question_lifecycle']['unevaluated_question_ids'])
+        closure['intervention_feedback']=[]
+        unverified=choose_work(frame,policy,history,closure_program=closure)
+        self.assertEqual(unverified['chosen_candidate_id'],'cooling-check')
+        self.assertEqual(unverified['question_lifecycle']['questions'][0]['status'],'OPEN_UNCONFIRMED')
+
+    def test_lookahead_runs_one_first_check_then_updates_from_its_actual_arrived_record(self):
+        model,program=lookahead_run_fixture()
+        policy=program['policy_program']
+        policy.update(schema='aegisdc-dispatch-policy-program-v3',intervention_declaration=program['intervention_program'],
+            resource_budget=dict(person_s=100,tool_s=100,cost=2,cost_unit='research_cost_unit'))
+        for candidate in policy['candidates']:candidate['issue_cost']=1
+        local=policy['options']['value_model']['question_models'][0]
+        local['inspection']['cost']=local['intervention']['cost']=1
+        result=simulate_scenario(model,duration_s=4,step_s=.01,dispatch_program=program)
+        decisions=result['policy_public_decisions']
+        self.assertEqual([r['choice']['chosen_candidate_id'] for r in decisions],['first-inspection',None,'first-action',None])
+        self.assertEqual(decisions[0]['choice']['forecast_plans'][0]['best_alternative'],'inspect_then_act')
+        self.assertAlmostEqual(decisions[0]['choice']['forecast_plans'][0]['best_expected_service_deficit_s'],.925)
+        self.assertEqual(decisions[1]['frame']['evidence']['records'],[])
+        record=decisions[2]['frame']['evidence']['records'][0]
+        self.assertEqual((record['observed_at_s'],record['arrived_at_s']),(1.25,1.75))
+        self.assertAlmostEqual(decisions[2]['choice']['forecast_belief']['posterior']['cooling-limited'],8/11)
+        self.assertEqual(result['intervention_private_audit']['events'][0]['applied_at_s'],3)
+        self.assertFalse(result['intervention_public_feedback'][0]['risk_closed'])
+        self.assertEqual(result['policy_public_resource_ledger']['spent_or_reserved'],dict(person_s=20,tool_s=20,cost=2))
+        self.assertEqual(result['summary']['worker_work_person_s'],2)
+        self.assertEqual(len(result['policy_computation_audit']),4)
+
+    def test_online_forecast_cannot_replace_known_work_duration_with_unrelated_timing(self):
+        model,program=lookahead_run_fixture()
+        program['decision_times_s']=[0]
+        program['policy_program']['options']['value_model']['question_models'][0]['inspection']['work_s']=99
+        with self.assertRaisesRegex(ValueError,'Forecast professional work duration differs'):
+            simulate_scenario(model,duration_s=1,step_s=.01,dispatch_program=program)
+
     def test_public_binding_identity_refuses_container_values_as_invalid_json_contract(self):
         from aegis_dc.dispatch_policy import choose_work
         frame,policy,history=fixture()

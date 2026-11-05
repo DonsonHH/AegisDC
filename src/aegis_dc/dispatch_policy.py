@@ -47,7 +47,7 @@ def _history(frame,history,candidates):
         if candidate['task']['id'] not in terminal:occupied|=_resources(frame,candidate['task'])
     return issued,occupied
 
-def choose_work(frame,program,history,*,intervention_declaration=None):
+def choose_work(frame,program,history,*,intervention_declaration=None,closure_program=None):
     """Choose a declared intention from current public information only."""
     frame=validate_current_frame(frame);_plain_json(program);_plain_json(history);_plain_json(intervention_declaration)
     _require(type(program) is dict,'Declare policy program object')
@@ -116,6 +116,14 @@ def choose_work(frame,program,history,*,intervention_declaration=None):
             audit['reasons']=sorted(set(audit['reasons'])|set(assessment['public_reasons']))
             audit['eligible']=not audit['reasons']
     elif version3:_require(all(c['kind']=='inspect' for c in candidates.values()),'Intervention intentions require a public authority declaration')
+    lifecycle=None
+    if closure_program is not None:
+        from .verified_closure import assess_closure
+        lifecycle=assess_closure(frame,closure_program)
+        closed={q['question_id'] for q in lifecycle['questions'] if q['question_closed']}
+        for audit in audits:
+            if audit['question_id'] in closed and program['policy']!='periodic':
+                audit['reasons'].append('DECLARED_QUESTION_CLOSED');audit['eligible']=False
     due={}
     if program['policy']=='periodic':
         _fields(program['options'],{'schedule'},'Periodic reference options')
@@ -163,4 +171,5 @@ def choose_work(frame,program,history,*,intervention_declaration=None):
         chosen_candidate_id=selected,work_intention=deepcopy(candidates[selected]['task']) if selected else None,
         reason=reason,candidates=audits,
         generated_tour=False,execution_permission=False,scope='PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED',
-        **({'resource_ledger':ledger} if version3 else {}),**detail)
+        **({'resource_ledger':ledger} if version3 else {}),
+        **({'question_lifecycle':lifecycle,'closure_model_evaluations':1} if lifecycle is not None else {}),**detail)

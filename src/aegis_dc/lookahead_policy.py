@@ -1,10 +1,41 @@
 """Bounded one-observation planning adaptation, never an actual-state oracle."""
 from copy import deepcopy
+from fractions import Fraction
 from .action_value import assess_action_value
 from .evidence_ledger import _fields,_require,_text
 
 OPTION_FIELDS={'belief_model','catalog','preparation_requests','value_model','bindings','unknown_inspection_policy'}
 BIND_FIELDS={'question_id','inspection_candidate_id','intervention_candidate_id','source_note'}
+
+def validate_execution_bindings(policy,inspection_program):
+    """Bind known work/report timing and reference report law to actual interfaces."""
+    options=policy['options'];candidates={c['id']:c for c in policy['candidates']}
+    locals={q['question_id']:q for q in options['value_model']['question_models']}
+    _require(inspection_program is not None,'Lookahead inspection plans need actual declared measurement bindings')
+    bindings={b['task_id']:b for b in inspection_program['profile']['bindings']}
+    models={m['model']['id']:m for m in inspection_program['profile']['nonfixed_profile']['models']}
+    belief=options['belief_model'];reference_belief=belief['variants'][0]
+    outcomes=options['catalog']['outcomes']
+    for mapping in options['bindings']:
+        local=locals[mapping['question_id']]
+        for stage,key in (('inspection','inspection_candidate_id'),('intervention','intervention_candidate_id')):
+            candidate=candidates[mapping[key]];task=candidate['task']
+            _require(local[stage]['work_s']==policy['workforce_profile']['work_times_s'][task['work_interface_id']],
+                'Forecast professional work duration differs from the declared actual crew interface')
+            if policy['schema']=='aegisdc-dispatch-policy-program-v3':
+                _require(local[stage]['cost']==candidate['issue_cost'],'Forecast and common task issue costs differ')
+        task=candidates[mapping['inspection_candidate_id']]['task'];binding=bindings.get(task['id'])
+        _require(binding is not None,'Forecast first inspection must produce a declared actual observation')
+        _require(local['inspection']['report_latency_s']==binding['arrival_latency_s'],
+            'Forecast report latency differs from its actual observation channel')
+        measured=models[binding['model_id']]
+        channels=[c for c in belief['channels'] if all(c[k]==measured[k] for k in ('source_id','target_id','observable_id'))]
+        _require(len(channels)==1,'Actual lookahead inspection requires one declared belief update channel')
+        channel=channels[0];reference_value=local['variants'][0]
+        expected=[sum(Fraction(str(o['conditional_probability'][h['id']]))*Fraction(str(reference_value['positive_likelihood'][o['id']]))
+            for o in outcomes) for h in belief['hypotheses']]
+        actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
+        _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
 def evaluate(frame,options,candidates,audits):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
@@ -82,4 +113,5 @@ def evaluate(frame,options,candidates,audits):
     return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=1),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
-        forecast_is_actual_observation=False,adaptation='BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY')
+        forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,
+        adaptation='BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY')

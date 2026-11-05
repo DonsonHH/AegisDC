@@ -1,6 +1,7 @@
 """Private orchestration of public policy choices in one advancing facility."""
 from copy import deepcopy
 import math
+from time import perf_counter_ns
 from .decision_view import DecisionGateway
 from .dispatch_policy import choose_work
 from .evidence_ledger import EvidenceLedger,RECORD_FIELDS,_fields,_plain_json,_require,_text,_finite
@@ -11,9 +12,10 @@ class PolicySession:
     """The selector receives only a validated frame and arrived public feedback."""
     def __init__(self,program,duration_s):
         _plain_json(program)
-        live=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v2'
-        _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set()),'Policy facility run program')
-        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2'},'Unknown policy facility run schema')
+        lifecycle=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v3'
+        live=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3'}
+        _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set()),'Policy facility run program')
+        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3'},'Unknown policy facility run schema')
         _text(program['id'],'Policy facility run id');self.program=deepcopy(program)
         self.times=program['decision_times_s']
         _require(type(self.times) is list and 1<=len(self.times)<=128,'Declare one to128 policy decision instants')
@@ -22,6 +24,12 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        self.closure_template=deepcopy(program['closure_program']) if lifecycle else None
+        if self.closure_template is not None:
+            _require(type(self.closure_template) is dict and self.closure_template.get('intervention_feedback')==[],
+                'Declare an empty closure feedback channel; actual arrived reports are supplied by the executor')
+            _require(self.closure_template.get('intervention_declaration')==self.intervention_program,
+                'Closure and execution must share the same public action declaration')
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v3':
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Policy and actual executor must share the same public intervention declaration')
@@ -65,7 +73,10 @@ class PolicySession:
             initial_frame=initial,submissions=[])
         self.catalog_program=dict(schema='aegisdc-work-program-v1',id=program['id']+'-declared-bindings',profile=deepcopy(profile),
             submissions=[dict(frame=deepcopy(initial),task=deepcopy(c['task'])) for c in program['policy_program']['candidates']])
-        self.issued=[];self.decisions=[];self.index=0
+        if program['policy_program']['policy']=='one_observation_lookahead':
+            from .lookahead_policy import validate_execution_bindings
+            validate_execution_bindings(program['policy_program'],self.inspection_program)
+        self.issued=[];self.decisions=[];self.computation_audit=[];self.index=0
 
     def _frame(self,time_s,inspections):
         ledger=EvidenceLedger(self.ledger)
@@ -78,7 +89,8 @@ class PolicySession:
             basis='synthetic_assumption',time_unit='s',**snapshot['static_knowledge'],
             records=[{k:r[k] for k in RECORD_FIELDS} for r in snapshot['records']])
         plan=dict(schema='aegisdc-public-preparation-plan-v1',id=self.program['id'],basis='synthetic_assumption',time_unit='s',
-            decision_times_s=[time_s],requests=deepcopy(self.program['policy_program'].get('options',{}).get('preparation_requests',[])))
+            decision_times_s=[time_s],requests=deepcopy(self.program.get('preparation_requests',
+                self.program['policy_program'].get('options',{}).get('preparation_requests',[]))))
         return DecisionGateway(self.nominal,document,plan).next_frame()
 
     def process(self,time_s,workforce,inspections,interventions):
@@ -86,7 +98,14 @@ class PolicySession:
         _require(time_s==self.times[self.index],'Policy decisions must use their exact declared public instant')
         frame=self._frame(time_s,inspections)
         history=dict(issued=deepcopy(self.issued),work_feedback=workforce.public_feedback(time_s))
-        choice=choose_work(frame,self.program['policy_program'],history,intervention_declaration=self.intervention_program)
+        closure=deepcopy(self.closure_template)
+        if closure is not None:closure['intervention_feedback']=interventions.public_feedback(time_s) if interventions is not None else []
+        started=perf_counter_ns()
+        choice=choose_work(frame,self.program['policy_program'],history,intervention_declaration=self.intervention_program,closure_program=closure)
+        self.computation_audit.append(dict(decision_at_s=time_s,elapsed_ns=perf_counter_ns()-started,
+            model_evaluations=deepcopy(choice['model_evaluations']),candidate_count=len(choice['candidates']),
+            forecast_branch_count=choice.get('forecast_branch_count',0),
+            scope='DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT'))
         self.decisions.append(dict(frame=frame,history=history,choice=deepcopy(choice)))
         self.index+=1
         if choice['chosen_candidate_id'] is None:return False

@@ -845,6 +845,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             **({'intervention_public_feedback': interventions.public_feedback(duration),
                 'intervention_private_audit': interventions.private_audit()} if interventions is not None else {}),
             **({'policy_public_decisions': deepcopy(dispatch.decisions)} if dispatch is not None else {}),
+            **({'policy_computation_audit': deepcopy(dispatch.computation_audit)} if dispatch is not None else {}),
             **({'policy_public_resource_ledger': dispatch.resource_ledger(duration,workforce,inspections)}
                 if dispatch is not None and dispatch.program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v3' else {}),
             **({'policy_sensor_private_audit': deepcopy(dispatch.sensors.audit)} if dispatch is not None and dispatch.sensors is not None else {}),
