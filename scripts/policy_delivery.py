@@ -176,7 +176,9 @@ def capture(folder,protocol):
         receipt.update(status='FAIL',failures=1,error_type=type(error).__name__,error=str(error));raise
     finally:
         receipt['source_head_and_bytes_unchanged']=unchanged(source,identities)
-        if not receipt['source_head_and_bytes_unchanged']:receipt.update(status='FAIL',failures=1,error_type='SourceGuardError',error='Source changed during capture')
+        if not receipt['source_head_and_bytes_unchanged']:
+            receipt.update(status='FAIL',failures=1,source_guard_error='Source changed during capture')
+            receipt.setdefault('error_type','SourceGuardError');receipt.setdefault('error','Source changed during capture')
         receipt['artifacts']={n:digest((folder/n).read_bytes()) for n in sorted(durable(folder))};write(folder/'receipt.json',receipt)
     require(receipt['source_head_and_bytes_unchanged'],'Source changed during capture')
     return dict(status=receipt['status'],execution=source,physical_runs=receipt['physical_attempts'],simulated_duration_s=receipt['simulated_duration_attempted_s'],artifacts=len(receipt['artifacts']))
