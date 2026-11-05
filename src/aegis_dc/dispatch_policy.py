@@ -161,8 +161,6 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
         options=deepcopy(program['options'])
         if ledger is not None:
             _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
-            for key,value in ledger['remaining'].items():
-                options['value_model']['resource_budget'][key]=min(options['value_model']['resource_budget'][key],value)
         selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration)
     reason=detail.pop('reason',None)
     if reason is None:
