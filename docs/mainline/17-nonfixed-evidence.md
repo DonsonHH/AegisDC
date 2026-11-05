@@ -15,3 +15,7 @@ Bounded numeric or threshold/binary detection performance is a declared syntheti
 ## Verification and delivery
 
 Proceed one red/green public behavior slice at a time. A same-V6 private saved dynamic fixture will demonstrate actual state change during the declared observation interval and completion-bound sampling without a new physics run. It is engineering preparation, not professional execution, a registered study or a policy/AI gain. Source/model/unit/basis identities will remain explicit. Fresh output declarations precede hashing; cache types are excluded initially. Frozen source/tools/inputs, actual failures, one necessary author full and separate committed-data fresh proof will be recorded. Current17 and M3 remain unaccepted until root review.
+
+## Early numeric producer pin
+
+Implemented: declared reports keep original timestamps/quality/provenance and publish only after observation and arrival; existing14 decides expiry/correlation. A lazy private adapter reads only a whitelisted exact completion point and verifies saved scenario/trace/balance bytes. The numeric realization has a private keyed seed/bias/noise, while public quality is the unchanged claimed model bound/note, not the actual error. Raw planned completion/effective completion/source sample time and the original private source identity are audit-only. Current five public behavior tests pass; this pin is partial and does not yet claim binary/unknown models, full CLI or final delivery.

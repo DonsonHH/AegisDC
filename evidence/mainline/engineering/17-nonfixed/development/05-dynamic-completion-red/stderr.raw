@@ -1,0 +1,19 @@
+test_completion_status_and_availability_gate_precede_any_private_sample (test_nonfixed_evidence.NonfixedEvidenceTests.test_completion_status_and_availability_gate_precede_any_private_sample) ... ok
+test_late_history_keeps_its_old_time_and_expiry_in_the_real_ledger (test_nonfixed_evidence.NonfixedEvidenceTests.test_late_history_keeps_its_old_time_and_expiry_in_the_real_ledger) ... ok
+test_same_V6_measurement_uses_completion_point_after_a_changing_interval (test_nonfixed_evidence.NonfixedEvidenceTests.test_same_V6_measurement_uses_completion_point_after_a_changing_interval) ... ERROR
+
+======================================================================
+ERROR: test_same_V6_measurement_uses_completion_point_after_a_changing_interval (test_nonfixed_evidence.NonfixedEvidenceTests.test_same_V6_measurement_uses_completion_point_after_a_changing_interval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\tests\test_nonfixed_evidence.py", line 97, in test_same_V6_measurement_uses_completion_point_after_a_changing_interval
+    record = producer.publish_completion(token, model=numeric_model(), private_signals=private,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-17\src\aegis_dc\nonfixed_evidence.py", line 145, in publish_completion
+    raise NotImplementedError('Completion sampling behavior is the next public slice')
+NotImplementedError: Completion sampling behavior is the next public slice
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (errors=1)
