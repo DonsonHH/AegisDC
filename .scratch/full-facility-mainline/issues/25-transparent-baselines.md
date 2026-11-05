@@ -4,7 +4,7 @@
 
 **Blocked by:** 24
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -20,3 +20,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner `/root`, branch `donson/mainline-25-baselines`; accepted24source2b8d/512checks and publicationd487. Public current evidence/action/CLI seams remain the implementation boundary. No policy effect experiments before30.
