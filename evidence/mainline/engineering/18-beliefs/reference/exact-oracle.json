@@ -1,0 +1,127 @@
+{
+  "scope": "Independent 64-atom exact engineering oracle under the declared synthetic witness law",
+  "input_sha256": "ab77c97cd33d4c2888c5323c7f918600f4e853e1fca73c45c372d6dfb4e7d1cf",
+  "atoms": 64,
+  "exact_total_probability": "1",
+  "brier": "Probability-weighted sum across all four squared class errors, not divided by class count.",
+  "outcome_partitions": {
+    "no-reports": {
+      "rows": [
+        {
+          "reports": [],
+          "probability": "1",
+          "exact_frequencies": {
+            "nominal": "51/100",
+            "cooling-limited": "1/5",
+            "power-limited": "3/20",
+            "other": "7/50"
+          }
+        }
+      ],
+      "weighted_multiclass_brier": "3289/5000",
+      "weighted_multiclass_brier_decimal": 0.6578
+    },
+    "arrived-hot-only": {
+      "rows": [
+        {
+          "reports": [
+            false
+          ],
+          "probability": "18/25",
+          "exact_frequencies": {
+            "nominal": "7/12",
+            "cooling-limited": "23/180",
+            "power-limited": "7/45",
+            "other": "2/15"
+          }
+        },
+        {
+          "reports": [
+            true
+          ],
+          "probability": "7/25",
+          "exact_frequencies": {
+            "nominal": "9/28",
+            "cooling-limited": "27/70",
+            "power-limited": "19/140",
+            "other": "11/70"
+          }
+        }
+      ],
+      "weighted_multiclass_brier": "39713/63000",
+      "weighted_multiclass_brier_decimal": 0.6303650793650794
+    },
+    "both-arrived": {
+      "rows": [
+        {
+          "reports": [
+            false,
+            false
+          ],
+          "probability": "1301/2500",
+          "exact_frequencies": {
+            "nominal": "945/1301",
+            "cooling-limited": "184/1301",
+            "power-limited": "28/1301",
+            "other": "144/1301"
+          }
+        },
+        {
+          "reports": [
+            false,
+            true
+          ],
+          "probability": "499/2500",
+          "exact_frequencies": {
+            "nominal": "105/499",
+            "cooling-limited": "46/499",
+            "power-limited": "252/499",
+            "other": "96/499"
+          }
+        },
+        {
+          "reports": [
+            true,
+            false
+          ],
+          "probability": "247/1250",
+          "exact_frequencies": {
+            "nominal": "405/988",
+            "cooling-limited": "108/247",
+            "power-limited": "1/52",
+            "other": "33/247"
+          }
+        },
+        {
+          "reports": [
+            true,
+            true
+          ],
+          "probability": "103/1250",
+          "exact_frequencies": {
+            "nominal": "45/412",
+            "cooling-limited": "27/103",
+            "power-limited": "171/412",
+            "other": "22/103"
+          }
+        }
+      ],
+      "weighted_multiclass_brier": "1785083095759/3303254351800",
+      "weighted_multiclass_brier_decimal": 0.5404013453539469
+    }
+  },
+  "negative_comparators": {
+    "late-hot-at-current": {
+      "weighted_multiclass_brier": "14731456687360460513608109/26109107050116575532031250",
+      "weighted_multiclass_brier_decimal": 0.5642267527220808
+    },
+    "duplicate-hot-as-independent": {
+      "weighted_multiclass_brier": "319708290027100502147527/581949631091536282968750",
+      "weighted_multiclass_brier_decimal": 0.5493745041601595
+    }
+  },
+  "limitation": "Exact finite expectations support a comparison against inference output. Empirical facility calibration requires separate observations.",
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}

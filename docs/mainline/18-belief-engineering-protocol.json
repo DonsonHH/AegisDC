@@ -1,0 +1,103 @@
+{
+  "schema": "aegisdc-belief-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "18",
+  "interpretation": "Exact finite self-calibration under a separately specified law and public-archive integration, with no efficacy or field claim.",
+  "reference_model": "configs/full-facility-belief-model-v1.json",
+  "finite_generator": "evidence/mainline/engineering/18-beliefs/reference/finite-generator.json",
+  "calibration_oracle": "evidence/mainline/engineering/18-beliefs/reference/exact-oracle.json",
+  "archived_public_snapshots": "evidence/mainline/engineering/16-sensors/capture-01/snapshots.json",
+  "archived_snapshot_key": "last-delivery",
+  "public_nominal": "configs/full-facility-decision-v1/public-nominal.json",
+  "public_plan": "configs/full-facility-decision-v1/public-plan.json",
+  "common_registry": "configs/full-facility-decision-v1/common-ledger.json",
+  "fixed_profile": "configs/full-facility-sensor-channels-v1.json",
+  "nonfixed_profile": "configs/full-facility-nonfixed-evidence-v1.json",
+  "archive_scope": {
+    "id": "V6-belief-archived-public-replicate-01",
+    "ledger_id": "V6-belief-archived-public-01"
+  },
+  "archived_as_of_s": [
+    0,
+    0.5,
+    1,
+    5,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    65.5,
+    70.49999999999999,
+    70.5,
+    80,
+    90,
+    95.5,
+    100.49999999999999,
+    100.5,
+    110,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    242
+  ],
+  "archived_arrival_expectations": [
+    {
+      "as_of_s": 70.49999999999999,
+      "rectifier_record": "power-transfer:13"
+    },
+    {
+      "as_of_s": 70.5,
+      "rectifier_record": "power-transfer:14"
+    },
+    {
+      "as_of_s": 100.49999999999999,
+      "rectifier_record": "power-transfer:19"
+    },
+    {
+      "as_of_s": 100.5,
+      "rectifier_record": "power-transfer:20"
+    }
+  ],
+  "calibration_as_of_s": [
+    10,
+    11,
+    12
+  ],
+  "calibration_scope_description": "Hot report observed at 1 s and arrives at 11 s. Its carried copy is visible at 10 s. Rectifier report observed at 10 s and arrives at 12 s.",
+  "absolute_numeric_tolerance": 1e-14,
+  "expected_calibration_rows": 7,
+  "original_archive_record_count": 1133,
+  "full_regression": "Deferred to the root integrated checkout with explicit PYTHONPATH and Torch. This author capture does not repeat the full gate.",
+  "durable_outputs": [
+    "attempt.json",
+    "archived-model.json",
+    "archived-trajectory.json",
+    "calibration.json",
+    "cli-frame.json",
+    "cli-stdout.raw",
+    "cli-stderr.raw",
+    "archived-posterior.svg",
+    "finite-calibration.svg"
+  ],
+  "terminal_receipt": "receipt.json",
+  "runtime_source_rule": "Pin all tracked Python source files under src at execution, including shared patrol_rsi contracts. Check HEAD and all pinned bytes before and after capture. Runtime caches are excluded from durable evidence.",
+  "authoring_verification_tools": [
+    "scripts/belief_engineering_checks.py",
+    "scripts/belief_engineering_oracle.py",
+    "scripts/belief_delivery.py",
+    "scripts/plot_belief_engineering.py"
+  ],
+  "retries": "No overwrite. Record attempt before checks and retain failed originals with separate scope and outputs for any correction.",
+  "frozen_input_authority": "Independent witness and oracle produced by root separately before author capture. The archived observation source is the ticket-16 public snapshots artifact.",
+  "registered_research_trials": 0,
+  "new_physical_runs": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING"
+}
