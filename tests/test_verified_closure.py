@@ -54,6 +54,18 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_current_same_signal_contradiction_blocks_even_outside_selected_sources(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,ledger,nominal=fixture()
+        ledger['sources'].append(dict(id='sparse-fixed-flow',kind='fixed_sensor',basis='synthetic_assumption',target_ids=['intake_pump'],
+            observable_ids=['flow'],dependency_group=None,source_note='Separate sparse fixed source in the same actual public signal scope.'))
+        bad=deepcopy(next(r for r in ledger['records'] if r['id']=='verify-flow-5'))
+        bad.update(id='fixed-flow-contradiction',source_id='sparse-fixed-flow',value=.01)
+        bad['provenance']['origin_id']='fixed-flow-origin';ledger['records'].append(bad)
+        result=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertFalse(result['risk_closed'])
+        self.assertIn('fixed-flow-contradiction',result['checks'][0]['insufficient_record_ids'])
+
     def test_rule_operation_must_bind_a_declared_intervention_task(self):
         from aegis_dc.verified_closure import assess_closure
         frame,program,_,_=fixture()
@@ -173,6 +185,15 @@ class VerifiedClosureTests(unittest.TestCase):
         raised=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
         self.assertEqual(raised['status'],'ESCALATED')
         self.assertFalse(raised['question_closed'])
+        # A forged original which another visible copy identifies inconsistently
+        # cannot become authority merely because it has no parent itself.
+        ledger['records']=ledger['records'][:1]
+        badcopy=deepcopy(ledger['records'][0]);badcopy['id']='mismatched-review-copy'
+        badcopy['provenance']=dict(origin_id='different-review-origin',copied_from_record_id='risk-acceptance')
+        ledger['records'].append(badcopy)
+        tainted=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertFalse(tainted['question_closed'])
+        self.assertNotEqual(tainted['status'],'RISK_ACCEPTED')
 
     def test_genuine_verification_samples_need_distinct_observation_times(self):
         from aegis_dc.verified_closure import assess_closure

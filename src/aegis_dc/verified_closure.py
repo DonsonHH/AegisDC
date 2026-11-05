@@ -68,6 +68,11 @@ def _reviews(frame,program,rules):
         _finite(grant['starts_at_s'],'Authority start');_finite(grant['expires_at_s'],'Authority expiry')
         _require(0<=grant['starts_at_s']<grant['expires_at_s'],'Invalid review authorization interval')
     result={q:[] for q in questions}
+    current_ids=set(frame['evidence']['current_record_ids'])
+    disputed={identifier for issue in frame['evidence']['provenance_issues']
+        if set(issue['record_ids'])&current_ids for identifier in issue['record_ids']}
+    disputed|={identifier for issue in frame['evidence']['conflicts']
+        if set(issue['record_ids'])<=current_ids for identifier in issue['record_ids']}
     for channel in channels.values():
         _fields(channel,REVIEW_FIELDS,'Review channel')
         _require(channel['question_id'] in questions and channel['source_id'] in sources
@@ -81,6 +86,7 @@ def _reviews(frame,program,rules):
         for row in frame['evidence']['records']:
             if any(row[key]!=channel[key] for key in ('source_id','target_id','observable_id')):continue
             if row['observed_at_s']<rule['opened_at_s'] or row['availability']!='current' or row['quality']['status']!='reported':continue
+            if row['id'] in disputed:continue
             if row['provenance']['copied_from_record_id'] is not None:continue
             if row['value'] not in grant['dispositions']:continue
             if not grant['starts_at_s']<=row['observed_at_s']<grant['expires_at_s'] or not grant['starts_at_s']<=frame['as_of_s']<grant['expires_at_s']:continue
@@ -142,7 +148,7 @@ def _action_declaration(frame,program,rules):
 
 def _check(frame,rule,check,after):
     rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
-        and r['observable_id']==check['observable_id'] and r['source_id'] in check['source_ids']
+        and r['observable_id']==check['observable_id']
         and r['observed_at_s']>=after]
     eligible=[];issues=[];seen=set();seen_times=set()
     current_ids={r['id'] for r in rows if r['availability']=='current'}
@@ -152,6 +158,12 @@ def _check(frame,rule,check,after):
         if set(issue['record_ids'])&current_ids for identifier in issue['record_ids']}
     for row in sorted(rows,key=lambda r:(r['observed_at_s'],r['id'])):
         origin=row['provenance']['origin_id']
+        if row['source_id'] not in check['source_ids']:
+            if row['availability']=='current' and row['id'] in conflict_ids|provenance_ids:issues.append(row['id'])
+            elif row['availability']=='current' and row['quality']['status']=='bounded':
+                low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
+                if high<Fraction(check['accepted_interval'][0]) or low>Fraction(check['accepted_interval'][1]):issues.append(row['id'])
+            continue
         if row['availability']!='current' or row['quality']['status']!='bounded':issues.append(row['id']);continue
         if row['id'] in conflict_ids|provenance_ids:issues.append(row['id']);continue
         low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
