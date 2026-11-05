@@ -1,0 +1,90 @@
+{
+  "schema": "aegisdc-decision-existing-proof-observation-v1",
+  "status": "EXISTING_PROOF_PRESENT_AND_FRESH_CHECKOUT_CURRENTLY_CLEAN",
+  "observed_utc": "2026-11-05T01:43:43.660802+00:00",
+  "proof_path": "evidence/mainline/engineering/15-truth/delivery-9cef63f3-fresh-cli-01.json",
+  "proof_sha256": "fe1926bd99025ca820fa7e0d4cf7f9cb03e7baa46c190e02a2663db16d398b05",
+  "original_capture_receipt_sha256": "4b628f4c99bf98cee0ec6faba76f17cdeb7aff311d22940fc1a6dcbea2f362b1",
+  "original_capture_declaration_sha256": "4953e3eb51e84c03c45cb65fd35e7ada3a0550bc7df72508c9ba4d85a7e23e48",
+  "historical_verifier_invocation_provenance": "Existing proof file plus prior owner report of CLI fresh PASS; original actual argv/cwd/elapsed were not durably supplied. This record does not reconstruct them.",
+  "current_read_only_git_observations": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-15\\.work\\decision15-fresh-9cef63f3-cli-01",
+      "exit_code": 0,
+      "stdout": "9cef63f3a72ebfc1196a3bd4a3509e54266dbd4c\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-15\\.work\\decision15-fresh-9cef63f3-cli-01",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "symbolic-ref",
+        "-q",
+        "HEAD"
+      ],
+      "cwd": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-15\\.work\\decision15-fresh-9cef63f3-cli-01",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "original_app_worktree_request": {
+    "tool": "mcp__codex_app__create_worktree",
+    "single_request_reported_by_root": true,
+    "status": "OUTCOME_UNKNOWN",
+    "returned_usable_path": false,
+    "returned_operation_id": false,
+    "service_creation_confirmed": false,
+    "repeated_request": false,
+    "service_cancellation_claimed": false
+  },
+  "independent_git_fresh_checkout": {
+    "path": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-15\\.work\\decision15-fresh-9cef63f3-cli-01",
+    "observed_head": "9cef63f3a72ebfc1196a3bd4a3509e54266dbd4c",
+    "detached": true,
+    "tracked_and_nonignored_untracked_clean": true,
+    "creation_provenance": "Previously created independent CLI checkout reported by prior owner; creation argv is not reconstructed here."
+  },
+  "reproduction_template_only_non_executed": {
+    "argv": [
+      "C:\\Users\\Donson\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "scripts/verify_decision_delivery.py",
+      "--root",
+      "FRESH_CHECKOUT",
+      "--directory",
+      "FRESH_CHECKOUT/evidence/mainline/engineering/15-truth/capture-01",
+      "--delivery-commit",
+      "9cef63f3a72ebfc1196a3bd4a3509e54266dbd4c",
+      "--output",
+      "OUTSIDE_FRESH_CHECKOUT.json"
+    ],
+    "environment": {
+      "PYTHONPATH": "FRESH_CHECKOUT/src"
+    }
+  },
+  "verifier_rerun_in_this_observation": false,
+  "physics_rerun": false,
+  "full_regression_rerun": false,
+  "original_receipt_rewritten": false,
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0
+}
