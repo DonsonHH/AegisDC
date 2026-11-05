@@ -1,7 +1,11 @@
 """Question lifecycle from public arrived records, never evaluator truth."""
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 
 from aegis_dc.decision_view import DecisionGateway
@@ -45,6 +49,21 @@ def reframe(ledger,nominal,time):
     return DecisionGateway(nominal,ledger,plan).next_frame()
 
 class VerifiedClosureTests(unittest.TestCase):
+    def test_cli_assesses_only_the_declared_public_frame_and_closed_program(self):
+        from aegis_dc.verified_closure import assess_closure
+        frame,program,_,_=fixture()
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);(root/'frame.json').write_text(json.dumps(frame),encoding='utf-8')
+            (root/'program.json').write_text(json.dumps(program),encoding='utf-8')
+            result=subprocess.run([sys.executable,'-B','-X','utf8','-m','aegis_dc.verified_closure',
+                '--frame',str(root/'frame.json'),'--program',str(root/'program.json'),'--output',str(root/'out.json')],
+                cwd=ROOT,capture_output=True,text=True,encoding='utf-8',env=dict(os.environ,PYTHONPATH=str(ROOT/'src')))
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertTrue((root/'out.json').exists())
+            self.assertEqual(json.loads((root/'out.json').read_bytes()),assess_closure(frame,program))
+            private=deepcopy(program);private['actual_state']={'filter':1}
+            with self.assertRaises(ValueError):assess_closure(frame,private)
+
     def test_missing_stale_copied_or_ambiguous_evidence_keeps_question_open(self):
         from aegis_dc.verified_closure import assess_closure
         for mode in ('missing-service','expired','future','copied','same-origin','ambiguous','pre-action','no-effect','no-feedback'):
@@ -105,6 +124,13 @@ class VerifiedClosureTests(unittest.TestCase):
         pending=assess_closure(reframe(ledger,nominal,6),incomplete)['questions'][0]
         self.assertFalse(pending['question_closed'])
         self.assertNotEqual(pending['status'],'FALSE_ALARM_REVIEWED')
+        adverse=deepcopy(next(r for r in ledger['records'] if r['id']=='verify-flow-5'))
+        adverse.update(id='visible-adverse-flow',value=.01,observed_at_s=5.25,arrived_at_s=5.5)
+        adverse['provenance']['origin_id']='adverse-flow-origin'
+        ledger['records'].append(adverse)
+        challenged=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertFalse(challenged['question_closed'])
+        self.assertNotEqual(challenged['status'],'FALSE_ALARM_REVIEWED')
 
     def test_authorized_risk_acceptance_is_not_verified_physical_restoration(self):
         from aegis_dc.verified_closure import assess_closure

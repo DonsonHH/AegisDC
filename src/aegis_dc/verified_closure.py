@@ -177,7 +177,8 @@ def assess_closure(frame,program):
             prior_ids={r['id'] for r in prior['evidence']['records']}
             prior['evidence']['conflicts']=[c for c in frame['evidence']['conflicts'] if set(c['record_ids'])<=prior_ids]
             evidence_checks=[_check(prior,rule,c,rule['opened_at_s']) for c in rule['checks']]
-            if all(c['passed'] for c in evidence_checks):
+            current_checks=[_check(frame,rule,c,rule['opened_at_s']) for c in rule['checks']]
+            if all(c['passed'] for c in evidence_checks) and all(c['passed'] for c in current_checks):
                 verified_reviews.append(review);supported=sorted(set(supported)|ids)
         if any(r['value']=='ESCALATE' for r in dispositions):status='ESCALATED'
         elif any(r['value']=='ACCEPT_RISK' for r in dispositions):status='RISK_ACCEPTED'
@@ -196,3 +197,21 @@ def assess_closure(frame,program):
     return dict(schema='aegisdc-closure-assessment-v1',facility_id=frame['facility_id'],as_of_s=frame['as_of_s'],questions=questions,
         unevaluated_question_ids=sorted(q['id'] for q in risks['questions'] if q['id'] not in {r['question_id'] for r in rules.values()}),
         execution_permission=False,physical_actions=[],field_calibration='PENDING',research_gain_claim='NOT_ESTABLISHED')
+
+def main():
+    import argparse
+    import json
+    from pathlib import Path
+    from patrol_rsi.contracts import strict_json
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--frame',type=Path,required=True);parser.add_argument('--program',type=Path,required=True)
+    parser.add_argument('--output',type=Path);args=parser.parse_args()
+    try:
+        result=assess_closure(strict_json(args.frame.read_text(encoding='utf-8')),strict_json(args.program.read_text(encoding='utf-8')))
+        content=json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n'
+        if args.output:
+            with args.output.open('x',encoding='utf-8',newline='\n') as stream:stream.write(content)
+    except (ValueError,KeyError,OSError) as error:parser.error(str(error))
+    print(content,end='')
+
+if __name__=='__main__':main()
