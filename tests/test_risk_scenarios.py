@@ -46,8 +46,13 @@ class TestRiskScenarios(unittest.TestCase):
         question_sum = sum(q['consequences']['service_deficit_time_s']['value'] for q in result['questions']
                            if q['quantification']=='FINITE_CONDITIONAL_LAW')
         self.assertGreater(question_sum, result['portfolio']['consequences']['service_deficit_time_s']['value'])
-        model['questions'] = [dict(model['questions'][0],window_s=[.5,1.5]),
-                              dict(model['questions'][0],id='same-question-other-window',window_s=[1,2])]
+        model['questions'] = [dict(deepcopy(model['questions'][0]),window_s=[.5,1.5]),
+                              dict(deepcopy(model['questions'][0]),id='same-question-other-window',window_s=[1,2])]
+        model['questions'][0]['consequence_bounds']['service_deficit_time_s']['interval']=[0,1]
+        model['questions'][0]['consequence_bounds']['unserved_service_unit_s']['interval']=[0,1.25]
+        model['questions'][1]['consequence_bounds']=deepcopy(model['questions'][1]['consequence_bounds'])
+        model['questions'][1]['consequence_bounds']['service_deficit_time_s']['interval']=[0,1]
+        model['questions'][1]['consequence_bounds']['unserved_service_unit_s']['interval']=[0,2]
         result = assess_risks(frame, belief, model)
         self.assertEqual(result['portfolio']['outcome_windows_s']['other'], [[.5,2]])
         self.assertEqual(result['portfolio']['outcome_windows_s']['cooling-limited'], [[.5,2]])
@@ -95,6 +100,11 @@ class TestRiskScenarios(unittest.TestCase):
         self.assertFalse(options['unqualified-cooling']['legal_for_planning'])
         self.assertIn('nominal_qualification_mismatch',options['unqualified-cooling']['public_reasons'])
         self.assertEqual(result['physical_actions'],[])
+        self.assertEqual(options['isolate-cooling']['capability_interface_id'],'inspect_facility_cooling')
+        changed = deepcopy(model)
+        changed['questions'][0]['options'][1]['qualification_id'] = 'qualified_it_inspection'
+        with self.assertRaises(ValueError):
+            assess_risks(frame,belief,changed)
 
     def test_reference_model_conflict_is_unresolved_not_zero_risk(self):
         from aegis_dc.risk_scenarios import assess_risks
@@ -159,6 +169,42 @@ class TestRiskScenarios(unittest.TestCase):
             result = subprocess.run(command,cwd=ROOT,capture_output=True,text=True)
             self.assertNotEqual(result.returncode,0)
             self.assertEqual(result.stdout,'')
+
+    def test_inspection_referral_cannot_target_an_unrelated_question_asset(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        frame,belief,model = inputs()
+        inspection = next(row for row in model['questions'][0]['options'] if row['kind']=='inspect')
+        inspection['request_id']='intent-it-check'
+        with self.assertRaises(ValueError):
+            assess_risks(frame,belief,model)
+
+    def test_claimed_conditional_bounds_cannot_exclude_declared_joint_consequences(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        frame,belief,model = inputs()
+        model['questions'][0]['consequence_bounds']['service_deficit_time_s']['interval']=[0,.1]
+        with self.assertRaises(ValueError):
+            assess_risks(frame,belief,model)
+
+    def test_independent_joint_event_witness_deduplicates_shared_compound_outcome(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        from aegis_dc.decision_view import DecisionGateway
+        frame,belief,model = inputs()
+        static=frame['evidence']['static_knowledge']
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],
+            facility_id=frame['facility_id'],basis='synthetic_assumption',time_unit='s',**static,records=[])
+        plan=dict(schema='aegisdc-public-preparation-plan-v1',id='joint-hand-witness',basis='synthetic_assumption',
+                  time_unit='s',decision_times_s=[0],requests=frame['requests'])
+        frame=DecisionGateway(frame['nominal_knowledge'],ledger,plan).next_frame()
+        model['demand']=[dict(start_s=0,end_s=2,rate=1)]
+        for outcome,capacity in zip(model['outcomes'],(2,.6,.5,.3125)):
+            outcome['capacity_profile']=[dict(start_s=0,end_s=2,capacities={key:capacity for key in model['service_component_ids']})]
+        model['questions']=model['questions'][:2]
+        for q in model['questions']:q['consequence_bounds']['unserved_service_unit_s']['interval']=[0,2]
+        result=assess_risks(frame,belief,model)
+        self.assertAlmostEqual(result['questions'][0]['consequences']['service_deficit_time_s']['value'],119/400)
+        self.assertAlmostEqual(result['questions'][1]['consequences']['service_deficit_time_s']['value'],19/80)
+        self.assertAlmostEqual(result['portfolio']['consequences']['service_deficit_time_s']['value'],159/400)
+        self.assertNotAlmostEqual(result['portfolio']['consequences']['service_deficit_time_s']['value'],107/200)
 
 if __name__ == '__main__':
     unittest.main()

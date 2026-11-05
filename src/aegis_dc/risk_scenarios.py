@@ -20,7 +20,7 @@ QUESTION_FIELDS = {'id','quantification','domain_ids','target_ids','scenario','b
     'immediate_service_effect'}
 QUANTITIES = ('offered_service_unit_s','delivered_service_unit_s','unserved_service_unit_s','service_deficit_time_s')
 OPTION_FIELDS = {'id','kind','request_id','operation_id','target_id','qualification_id',
-                 'tool_ids','candidate_worker_ids','source_note'}
+                 'tool_ids','candidate_worker_ids','source_note','capability_interface_id'}
 
 
 def _number(value, label, *, maximum=None):
@@ -113,6 +113,11 @@ def _catalog_for_frame(catalog, frame, belief_model):
                      and len(bounds[key]['interval'])==2,'Declare conditional bound units')
             lower,upper = (_number(value,'conditional bound') for value in bounds[key]['interval'])
             _require(lower<=upper,'Conditional bound endpoints are reversed')
+            offered = sum((min(end,Fraction(item['end_s']))-max(start,Fraction(item['start_s'])))*Fraction(item['rate'])
+                for item in catalog['demand'] if max(start,Fraction(item['start_s']))<min(end,Fraction(item['end_s'])))
+            universal_upper = end-start if key=='service_deficit_time_s' else offered
+            _require(lower==0 and upper==universal_upper,
+                'Conservative uncalibrated consequence bounds must include zero and the full nonnegative-capacity limit')
         _require(type(row['other_consequences']) is list,'Other consequence dimensions must be separate records')
         for dimension in _registry(row['other_consequences'],'consequence dimension').values():
             _fields(dimension,{'id','description','unit','interval','basis'},'Other consequence dimension')
@@ -131,11 +136,12 @@ def _catalog_for_frame(catalog, frame, belief_model):
             _text(option['source_note'],'Option basis')
             _require(option['kind'] in {'defer','inspect','intervene'},'Unknown risk option kind')
             if option['kind']=='defer':
-                _require(all(option[key] is None for key in ('request_id','operation_id','target_id','qualification_id'))
+                _require(all(option[key] is None for key in ('request_id','operation_id','target_id','qualification_id','capability_interface_id'))
                          and option['tool_ids']==option['candidate_worker_ids']==[],'Deferral has no equipment operation')
             elif option['kind']=='inspect':
-                _require(option['request_id'] in {r['id'] for r in frame['requests']}
-                         and all(option[key] is None for key in ('operation_id','target_id','qualification_id'))
+                request = next((r for r in frame['requests'] if r['id']==option['request_id']),None)
+                _require(request is not None and request['target_id'] in row['target_ids']
+                         and all(option[key] is None for key in ('operation_id','target_id','qualification_id','capability_interface_id'))
                          and option['tool_ids']==option['candidate_worker_ids']==[],'Inspection must bind an existing public preparation request')
             else:
                 _text(option['operation_id'],'Declared intervention operation')
@@ -146,6 +152,11 @@ def _catalog_for_frame(catalog, frame, belief_model):
                 _require(all(key in entities and entities[key]['kind']=='tool' for key in option['tool_ids'])
                          and all(key in entities and entities[key]['kind']=='worker' for key in option['candidate_worker_ids']),
                          'Intervention capability must reference declared tools and personnel')
+                interface = next((item for item in knowledge['work_interfaces'] if item['id']==option['capability_interface_id']),None)
+                _require(interface is not None and option['target_id'] in interface['target_ids']
+                         and option['qualification_id']==interface['qualification_id']
+                         and set(option['tool_ids'])==set(interface['tool_ids']),
+                         'Intervention referral must match an existing nominal target capability; operation authorization remains separate')
     _strings(catalog['unidentified'],'Unidentified risk item')
     _require(bool(catalog['unidentified']),'Declare remaining risk model gaps')
     return catalog
@@ -285,6 +296,8 @@ def assess_risks(frame, belief_model, catalog):
         {key:[[Fraction(0),Fraction(catalog['horizon_s'])]] for key in weights},catalog['service_component_ids'])
         if weights is not None else {key:dict(value=None,unit=value['unit']) for key,value in portfolio.items()})
     return dict(schema='aegisdc-risk-result-v1',facility_id=frame['facility_id'],
+        catalog_id=catalog['id'],catalog_basis=catalog['basis'],catalog_source_note=catalog['source_note'],
+        unidentified=deepcopy(catalog['unidentified']),time_unit='s',
         domain_ids=frame['nominal_knowledge']['domain_ids'],as_of_s=frame['as_of_s'],
         status=belief['status'],covered_domain_ids=sorted({domain for row in questions for domain in row['domain_ids']}),
         full_horizon_service=full_service,envelope_basis='DECLARED_MODEL_VARIANT_RANGE_NOT_CONFIDENCE_INTERVAL',

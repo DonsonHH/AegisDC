@@ -1,0 +1,44 @@
+{
+  "schema": "aegisdc-risk-engineering-protocol-v1",
+  "classification": "ENGINEERING_ONLY",
+  "ticket": "19",
+  "interpretation": "Finite conditional consequence arithmetic and public planning boundary; not physical forecast, method gain or field calibration.",
+  "frame": "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json",
+  "belief_model": "configs/full-facility-belief-model-v1.json",
+  "risk_catalog": "configs/full-facility-risk-scenarios-v1.json",
+  "expected_witness": "evidence/mainline/engineering/19-risk-scenarios/reference/expected-consequence-witness.json",
+  "window_witness": "evidence/mainline/engineering/19-risk-scenarios/reference/service-window-witness.json",
+  "joint_witness": "evidence/mainline/engineering/19-risk-scenarios/reference/joint-portfolio-witness.json",
+  "as_of_s": [
+    0,
+    10,
+    11,
+    12
+  ],
+  "absolute_numeric_tolerance": 1e-14,
+  "durable_outputs": [
+    "attempt.json",
+    "check-results.json",
+    "cli-stdout.raw",
+    "cli-stderr.raw",
+    "consequence-accounting.svg",
+    "domain-risk-map.svg"
+  ],
+  "terminal_receipt": "receipt.json",
+  "tools": [
+    "scripts/risk_engineering_checks.py",
+    "scripts/risk_delivery.py",
+    "scripts/plot_risk_engineering.py"
+  ],
+  "frozen_documents": [
+    "docs/mainline/19-risk-scenarios.md",
+    "docs/mainline/research/19-source-applicability.md"
+  ],
+  "full_regression": "Root integrated only; no author full rerun.",
+  "retries": "No overwrite. Every formal failure retained with its source; any corrected attempt uses a unique new directory.",
+  "new_physical_runs": 0,
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING"
+}

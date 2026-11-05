@@ -206,7 +206,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "isolate-cooling",
@@ -221,7 +222,8 @@
           "candidate_worker_ids": [
             "worker_cooling"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_facility_cooling"
         },
         {
           "id": "inspect-cooling",
@@ -232,7 +234,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "unqualified-cooling",
@@ -247,7 +250,8 @@
           "candidate_worker_ids": [
             "worker_electrical"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_facility_cooling"
         }
       ],
       "quantification": "FINITE_CONDITIONAL_LAW",
@@ -323,7 +327,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-power",
@@ -338,7 +343,8 @@
           "candidate_worker_ids": [
             "worker_electrical"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_power"
         }
       ],
       "quantification": "FINITE_CONDITIONAL_LAW",
@@ -417,7 +423,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-backup-support",
@@ -432,7 +439,8 @@
           "candidate_worker_ids": [
             "worker_electrical"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_backup"
         }
       ],
       "impact_description": "UPS supports controller and pumps; generator feeds the main switchboard; backup tower supports internal water. Maintenance, finite energy/capacity and switching can leave common distribution or cooling unsupported.",
@@ -505,7 +513,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-it-dependence",
@@ -520,7 +529,8 @@
           "candidate_worker_ids": [
             "worker_it"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_it_service"
         },
         {
           "id": "inspect-it-dependence",
@@ -531,7 +541,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         }
       ],
       "impact_description": "Compute, network and storage are all required by critical_service. A single limiting component constrains joint delivery; coincident deficits are counted once.",
@@ -600,7 +611,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-control-uncertainty",
@@ -615,7 +627,8 @@
           "candidate_worker_ids": [
             "worker_control"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_control_monitoring"
         }
       ],
       "impact_description": "Local controller commands pumps and compute; controller permission affects compute. BMS/point reports feed the evidence inbox. Local protection continues privately during communication loss.",
@@ -687,7 +700,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-access-and-leak",
@@ -702,7 +716,8 @@
           "candidate_worker_ids": [
             "worker_cooling"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_space_access"
         }
       ],
       "impact_description": "Drainage, gate and room-work conditions constrain loc_it access. Personnel may be unable to inspect or restore equipment although service initially continues.",
@@ -770,7 +785,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-people-and-tools",
@@ -785,7 +801,8 @@
           "candidate_worker_ids": [
             "worker_control"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_people_tools_work"
         }
       ],
       "impact_description": "Workers, compatible tools, qualifications, access routes and shift/resource occupation determine whether a task can start and finish. These are separate from power/fluid dependency graphs.",
@@ -854,7 +871,8 @@
           "qualification_id": null,
           "tool_ids": [],
           "candidate_worker_ids": [],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": null
         },
         {
           "id": "intervene-room-boundary",
@@ -869,7 +887,8 @@
           "candidate_worker_ids": [
             "worker_cooling"
           ],
-          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor."
+          "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+          "capability_interface_id": "inspect_equipment_environment"
         }
       ],
       "impact_description": "Room conditions influence equipment heat boundary and loc_it work temperature. Immersion thermal protection may curtail compute before personnel can intervene.",
