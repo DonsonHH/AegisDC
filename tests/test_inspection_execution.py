@@ -233,7 +233,7 @@ class InspectionExecutionTests(unittest.TestCase):
         fixed=json.loads((ROOT/'configs/full-facility-sensor-channels-v1.json').read_bytes())
         for field in ('sources','observables'):
             known={r['id'] for r in profile['registry'][field]}
-            profile['registry'][field].extend(r for r in fixed['registry'][field] if r['id'] not in known)
+            profile['registry'][field].extend(r for r in fixed['ledger'][field] if r['id'] not in known)
         run=simulate_scenario(scenario,duration_s=4,step_s=.01,work_program=work,inspection_program=inspection)
         reading=run['inspection_public_snapshot']['records'][0]
         ledger=deepcopy(profile['registry']);ledger['records']=[{k:reading[k] for k in RECORD_FIELDS}]
