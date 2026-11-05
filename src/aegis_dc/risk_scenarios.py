@@ -3,6 +3,7 @@ from copy import deepcopy
 from fractions import Fraction
 import argparse
 import json
+import math
 from pathlib import Path
 
 from patrol_rsi.contracts import strict_json
@@ -27,6 +28,17 @@ def _number(value, label, *, maximum=None):
     _require(type(value) in (int,float) and value >= 0
              and (maximum is None or value <= maximum), 'Declare finite nonnegative ' + label)
     return Fraction(value)
+
+
+def _outward_upper(exact):
+    try:
+        upper = float(exact)
+    except OverflowError as error:
+        raise ValueError('Universal consequence bound exceeds finite binary64 output range') from error
+    if math.isfinite(upper) and Fraction(upper) < exact:
+        upper = math.nextafter(upper, math.inf)
+    _require(math.isfinite(upper), 'Universal consequence bound exceeds finite binary64 output range')
+    return Fraction(upper)
 
 
 def _profile(rows, horizon, fields, label):
@@ -116,8 +128,8 @@ def _catalog_for_frame(catalog, frame, belief_model):
             offered = sum((min(end,Fraction(item['end_s']))-max(start,Fraction(item['start_s'])))*Fraction(item['rate'])
                 for item in catalog['demand'] if max(start,Fraction(item['start_s']))<min(end,Fraction(item['end_s'])))
             universal_upper = end-start if key=='service_deficit_time_s' else offered
-            _require(lower==0 and upper==universal_upper,
-                'Conservative uncalibrated consequence bounds must include zero and the full nonnegative-capacity limit')
+            _require(lower==0 and upper==_outward_upper(universal_upper),
+                'Conservative bounds require zero and the minimal outward finite binary64 upper of the nonnegative-capacity limit')
         _require(type(row['other_consequences']) is list,'Other consequence dimensions must be separate records')
         for dimension in _registry(row['other_consequences'],'consequence dimension').values():
             _fields(dimension,{'id','description','unit','interval','basis'},'Other consequence dimension')

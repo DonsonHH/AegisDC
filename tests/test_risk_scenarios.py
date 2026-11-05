@@ -206,5 +206,33 @@ class TestRiskScenarios(unittest.TestCase):
         self.assertAlmostEqual(result['portfolio']['consequences']['service_deficit_time_s']['value'],159/400)
         self.assertNotAlmostEqual(result['portfolio']['consequences']['service_deficit_time_s']['value'],107/200)
 
+    def test_nonrepresentable_universal_bound_uses_minimal_outward_binary64(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        frame,belief,model = inputs()
+        model['demand']=[dict(start_s=0,end_s=1,rate=.1),dict(start_s=1,end_s=2,rate=.2)]
+        for question in model['questions']:
+            question['consequence_bounds']['unserved_service_unit_s']['interval']=[0,.30000000000000004]
+        result=assess_risks(frame,belief,model)
+        self.assertEqual(result['questions'][0]['consequence_bounds']['unserved_service_unit_s']['interval'],[0,.30000000000000004])
+        for upper in (.3,.3000000000000001):
+            changed=deepcopy(model)
+            changed['questions'][0]['consequence_bounds']['unserved_service_unit_s']['interval']=[0,upper]
+            with self.subTest(upper=upper), self.assertRaises(ValueError):
+                assess_risks(frame,belief,changed)
+
+    def test_large_finite_universal_work_bound_is_allowed_and_overflow_is_explicit(self):
+        from aegis_dc.risk_scenarios import assess_risks
+        frame,belief,model = inputs()
+        model['demand']=[dict(start_s=0,end_s=2,rate=5e307)]
+        for question in model['questions']:
+            question['consequence_bounds']['unserved_service_unit_s']['interval']=[0,1e308]
+        result=assess_risks(frame,belief,model)
+        self.assertEqual(result['full_horizon_service']['offered_service_unit_s']['value'],1e308)
+        model['demand'][0]['rate']=1e308
+        for question in model['questions']:
+            question['consequence_bounds']['unserved_service_unit_s']['interval']=[0,sys.float_info.max]
+        with self.assertRaisesRegex(ValueError,'finite binary64 output range'):
+            assess_risks(frame,belief,model)
+
 if __name__ == '__main__':
     unittest.main()
