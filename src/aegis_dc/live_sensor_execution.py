@@ -16,11 +16,15 @@ class LiveSensorSession:
         for measurement in self.profile['measurements']:
             if not measurement['enabled']:continue
             phase,period=Fraction(measurement['phase_s']),Fraction(measurement['period_s'])
-            count=max(0,int((Fraction(duration_s)-phase)//period)+1)
-            _require(count<=10000,'Live finite sensor schedule exceeds10000 polls per instrument')
+            # Include the adjacent rational counter, then gate on its actual
+            # binary64 coordinate. A rational time just beyond the horizon can
+            # round to that horizon and must match a longer run's same prefix.
+            count=max(0,int((Fraction(duration_s)-phase)//period)+1)+1
             previous=None
             for index in range(count):
                 instant=_number(phase+index*period)
+                if instant>duration_s:break
+                _require(index<10000,'Live finite sensor schedule exceeds10000 polls per instrument')
                 _require(previous is None or instant>previous,'Live sensor polling coordinates collapse')
                 previous=instant;epochs.add(instant)
                 self.polls.setdefault(instant,{}).setdefault(measurement['id'],[]).append(index)

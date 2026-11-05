@@ -1,6 +1,6 @@
 """Declared risk/condition priority adaptation using arrived evidence only."""
 from fractions import Fraction
-from .evidence_ledger import _fields,_require,_finite,_strings
+from .evidence_ledger import _fields,_require,_finite,_strings,_text
 from .risk_scenarios import assess_risks
 
 OPTION_FIELDS={'belief_model','catalog','preparation_requests','minimum_service_deficit_s','unknown_inspection_policy','conditions'}
@@ -39,6 +39,7 @@ def evaluate(frame,options,candidates,audits):
     observables={o['id']:o for o in frame['evidence']['static_knowledge']['observables']}
     for condition in options['conditions']:
         _fields(condition,CONDITION_FIELDS,'Condition-maintenance binding');key=condition['candidate_id']
+        _text(key,'Condition candidate identity');_text(condition['target_id'],'Condition target');_text(condition['observable_id'],'Condition observable')
         _require(key in candidates and candidates[key]['kind']=='intervene' and key not in conditions,'Unknown/repeated condition-action binding')
         q=questions.get(candidates[key]['question_id'])
         _require(q is not None and condition['target_id'] in q['target_ids'],'Condition outside the declared risk question')

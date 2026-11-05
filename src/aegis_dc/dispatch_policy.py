@@ -26,6 +26,7 @@ def _history(frame,history,candidates):
     locations={e['id'] for e in frame['nominal_knowledge']['entities'] if e['kind']=='location'}
     for row in history['work_feedback']:
         _fields(row,FEEDBACK_FIELDS,'Arrived workforce feedback')
+        _text(row['task_id'],'Work feedback task identity');_text(row['status'],'Work feedback status')
         _require(row['task_id'] in tasks,'Feedback must bind an actually issued public task')
         _require(row['source_id']=='workforce-execution-report' and row['origin_id']=='workforce:'+row['task_id']
             and row['coverage']=='THIS_ISSUED_TASK_ONLY' and row['basis']=='SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL','Unknown workforce feedback channel')
@@ -101,6 +102,7 @@ def choose_work(frame,program,history,*,intervention_declaration=None):
         tasks={c['task']['id'] for c in candidates.values()}
         for binding in intervention_declaration['bindings']:
             _fields(binding,BIND_FIELDS,'Public intervention binding')
+            _text(binding['task_id'],'Public intervention task identity')
             _require(binding['task_id'] in tasks and binding['task_id'] not in bindings,'Unknown/repeated public intervention task')
             bindings[binding['task_id']]=binding
         for audit in audits:

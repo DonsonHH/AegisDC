@@ -21,6 +21,7 @@ def evaluate(frame,options,candidates,audits):
     bindings={};bound_ids=set()
     for binding in options['bindings']:
         _fields(binding,BIND_FIELDS,'Forecast-to-work binding');q=binding['question_id']
+        for key in ('question_id','inspection_candidate_id','intervention_candidate_id'):_text(binding[key],'Forecast binding '+key)
         _text(binding['source_note'],'Forecast binding provenance')
         _require(q in locals and q not in bindings,'Unknown/repeated value question binding')
         local=locals[q];qa=questions[q]

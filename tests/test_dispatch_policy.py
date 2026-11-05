@@ -1,7 +1,11 @@
 """Transparent choices through the evidence-only public decision-frame seam."""
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 from aegis_dc.decision_view import DecisionGateway
 from aegis_dc.plant import simulate_scenario
@@ -49,6 +53,34 @@ def risk_fixture(time=0):
     return frame,program,history,ledger,accepted['nominal_knowledge'],plan
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_public_binding_identity_refuses_container_values_as_invalid_json_contract(self):
+        from aegis_dc.dispatch_policy import choose_work
+        frame,policy,history=fixture()
+        declaration=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())['intervention_program']
+        declaration['bindings'][0]['task_id']=[]
+        with self.assertRaises(ValueError):choose_work(frame,policy,history,intervention_declaration=declaration)
+
+    def test_simulate_cli_runs_the_declared_policy_program_without_implicit_work(self):
+        inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
+        frame,policy,_=fixture('no_human')
+        ledger=dict(schema='aegisdc-evidence-ledger-v1',id=frame['evidence']['ledger_id'],facility_id=frame['facility_id'],
+            basis='synthetic_assumption',time_unit='s',**frame['evidence']['static_knowledge'],records=[])
+        program=dict(schema='aegisdc-policy-run-program-v1',id='cli-policy-engineering',policy_program=policy,
+            nominal_knowledge=frame['nominal_knowledge'],evidence_ledger=ledger,decision_times_s=[0],inspection_program=None,intervention_program=None)
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);model=root/'model.json';declared=root/'policy.json';out=root/'run'
+            model.write_text(json.dumps(inputs['model']),encoding='utf-8');declared.write_text(json.dumps(program),encoding='utf-8')
+            command=[sys.executable,'-B','-X','utf8','-m','aegis_dc','simulate','--model',str(model),'--duration','.5','--step','.01',
+                '--dispatch-program',str(declared),'--output',str(out)]
+            result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8',env=dict(os.environ,PYTHONPATH=str(ROOT/'src')))
+            self.assertEqual(result.returncode,0,result.stderr)
+            saved=json.loads((out/'run.json').read_bytes())
+            self.assertEqual(saved['work_records'],[])
+            self.assertIsNone(saved['policy_public_decisions'][0]['choice']['work_intention'])
+            self.assertAlmostEqual(saved['summary']['delivered_service_unit_s'],.125)
+            again=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8',env=dict(os.environ,PYTHONPATH=str(ROOT/'src')))
+            self.assertNotEqual(again.returncode,0)
+
     def test_current_public_intervention_authority_blocks_submission_before_paid_work(self):
         inputs=json.loads((ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json').read_bytes())
         frame,policy,_=fixture()
@@ -157,6 +189,11 @@ class DispatchPolicyTests(unittest.TestCase):
         fifth=next(r for r in decimal_records if r['id']=='power-transfer:5')
         self.assertEqual((fifth['observed_at_s'],fifth['arrived_at_s']),(.5,1))
         self.assertEqual(len(decimal_records),6)
+        program['decision_times_s']=[.5]
+        prefix=simulate_scenario(inputs['model'],duration_s=.5,step_s=.01,dispatch_program=program)
+        self.assertEqual(len(prefix['policy_sensor_private_audit']),6)
+        self.assertEqual(prefix['policy_sensor_private_audit'][-1]['poll_index'],5)
+        self.assertEqual(prefix['policy_sensor_private_audit'][-1]['polled_at_s'],.5)
 
     def test_one_observation_lookahead_selects_only_the_first_predicted_action(self):
         from aegis_dc.dispatch_policy import choose_work
