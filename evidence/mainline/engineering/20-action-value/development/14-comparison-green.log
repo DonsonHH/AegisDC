@@ -1,0 +1,27 @@
+.....E..
+======================================================================
+ERROR: test_information_value_is_a_separate_service_resource_comparison_not_a_mixed_score (test_action_value.ActionValueTests.test_information_value_is_a_separate_service_resource_comparison_not_a_mixed_score)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 177, in test_information_value_is_a_separate_service_resource_comparison_not_a_mixed_score
+    selected=assess_action_value(frame,belief,catalog,model)['question_values'][0]['comparison']['minimum_deficit_alternative']
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\action_value.py", line 166, in assess_action_value
+    risk=assess_risks(frame,belief_model,catalog)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\risk_scenarios.py", line 266, in assess_risks
+    belief = infer_belief(frame, belief_model)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\belief.py", line 263, in infer_belief
+    hypotheses, channels, independent, variants = _model_for_frame(model, frame)
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\belief.py", line 111, in _model_for_frame
+    _require(prior[other] > 0 and all(row[other] > 0 for row in transition),
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Keep the other hypothesis viable in the prior and evolution
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.482s
+
+FAILED (errors=1)

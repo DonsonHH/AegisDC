@@ -4,7 +4,7 @@
 
 **Blocked by:** 20, 21
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -21,3 +21,5 @@ Apply `docs/mainline/information-boundary.md` to proposal validation and executi
 ## Evidence
 
 Pending implementation and acceptance.
+
+Assigned independent ready slice: `/root/m4_23_intervention`, branch `donson/mainline-23-intervention`, managedworktree `C:/Users/Donson/.codex/worktrees/mainline23-intervention/Renly`. Blockers20/21 accepted; primary22 unchanged. Physical effects require separate Root acceptance.

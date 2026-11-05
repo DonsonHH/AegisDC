@@ -4,7 +4,7 @@
 
 M1 和声明有限范围的 M2 已由根接受：[M1 原快照](mainline/evidence/M1.json)、[M2 根权威](mainline/evidence/M2.json)、[数值数据图／正确架构／四轴评审](../evidence/mainline/engineering/M2-root-acceptance/README.md)。实际 M2 根源 bcac 记录359项全执行零跳过、20历史原件与156 Python字节守卫。旧作者全检、NO-GO、失败及原 pending receipts 仍保留其原身份。
 
-M3多源证据账14已由根接受：[14根权威](mainline/evidence/14-root.json)、[数据图／377项根日志／惰性评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票已由根接受，当前主票20。 [风险后果图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [认识更新数据图与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景有稀疏固定传感器，允许历史／人工／工单／手持数据；未覆盖位置不生成观测，后台真值不自动给调度。后续仍需风险认识、异质检查处置及恢复核验、独立效果对照和条件式AI/RSI资格。
+M3多源证据账14已由根接受：[14根权威](mainline/evidence/14-root.json)、[数据图／377项根日志／惰性评审包](../evidence/mainline/engineering/14-root-acceptance/README.md)。第18票已通过根验收，第19票已由根接受，第20票已接受，当前主票22。 [风险后果图及复核包](../evidence/mainline/engineering/19-root-acceptance/README.md)。 [认识更新数据图与当前复算](mainline/18-acceptance-and-reproduction.md)。 [验收与图表](../evidence/mainline/engineering/15-17-root-acceptance/README.md)。主场景有稀疏固定传感器，允许历史／人工／工单／手持数据；未覆盖位置不生成观测，后台真值不自动给调度。后续仍需风险认识、异质检查处置及恢复核验、独立效果对照和条件式AI/RSI资格。
 
 下一阶段数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和全新输出目录。11个见证仍按5/4/2各自冻结阶梯解释；五个旧案没有新增更细的.01参考，事件侧指标不是同钟raw或未保存真轨迹的保守界。详见M2包的只读复核路径。
 
@@ -61,3 +61,5 @@ M3多源证据账14已由根接受：[14根权威](mainline/evidence/14-root.jso
 第18票根验收包的新检出换行分类更正见[精确记录](mainline/evidence/18-delivery-correction.json)；原包、首次失败及434项原始回归保留，便携核验使用`scripts/verify_belief_root_delivery.py`，不重跑测试。
 
 第21票人员持续执行已通过[根验收与计时图](../evidence/mainline/engineering/21-root-acceptance/README.md)，主票20继续；22具备依赖但须单独实现和验收。
+
+M3证据、风险及价值的声明有限工程门槛已通过[M3根审计](mainline/evidence/M3.json)与[数据图／476项回归包](../evidence/mainline/engineering/20-root-acceptance/README.md)。当前主票22；实际干预23、恢复24及独立比较仍按主线推进，总目标active。

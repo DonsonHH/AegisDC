@@ -1,0 +1,80 @@
+FFEFFFFF.
+======================================================================
+ERROR: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='wrong_question')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\src\aegis_dc\action_value.py", line 56, in assess_action_value
+    inspect=options[local['inspection_option_id']];action=options[local['intervention_option_id']]
+            ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'inspect-cooling'
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='private')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='wrong_scope')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='wrong_inspector')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='bad_probability')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='bad_capacity')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='negative_delay')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs (test_action_value.ActionValueTests.test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs) (name='unknown_resource')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline20-action-value\Renly\tests\test_action_value.py", line 72, in test_closed_public_model_and_action_bindings_refuse_private_or_unrelated_inputs
+    with self.subTest(name=name),self.assertRaises(ValueError):assess_action_value(frame,belief,catalog,local)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.190s
+
+FAILED (failures=7, errors=1)
