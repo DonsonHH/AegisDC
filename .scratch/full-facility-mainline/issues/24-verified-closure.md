@@ -4,7 +4,7 @@
 
 **Blocked by:** 22, 23
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner `/root`, branch `donson/mainline-24-closure`; reuse clean accepted23worktree.22/23 accepted at published41cb9eec. Public decision-frame/ledger and CLI seams remain authorized; closure must cite arrived post-action evidence, never private evaluator truth.
