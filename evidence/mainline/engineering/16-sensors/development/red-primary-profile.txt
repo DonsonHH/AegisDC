@@ -1,0 +1,36 @@
+test_actual_private_CLI_and_public_model_mode_refuse_existing_outputs (test_sensor_channels.SparseObservationChannelTests.test_actual_private_CLI_and_public_model_mode_refuse_existing_outputs) ... ok
+test_arrival_rounds_up_and_expired_cached_reading_is_not_refreshed (test_sensor_channels.SparseObservationChannelTests.test_arrival_rounds_up_and_expired_cached_reading_is_not_refreshed) ... ok
+test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past (test_sensor_channels.SparseObservationChannelTests.test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past) ... ok
+test_closed_profile_refuses_invalid_clocks_coverage_units_and_private_parameters (test_sensor_channels.SparseObservationChannelTests.test_closed_profile_refuses_invalid_clocks_coverage_units_and_private_parameters) ... ok
+test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works (test_sensor_channels.SparseObservationChannelTests.test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works) ... ok
+test_exact_poll_budget_bounds_iterations_and_collapsed_clocks_are_refused (test_sensor_channels.SparseObservationChannelTests.test_exact_poll_budget_bounds_iterations_and_collapsed_clocks_are_refused) ... ok
+test_literal_signal_bias_and_delivery_delay_form_legal_evidence (test_sensor_channels.SparseObservationChannelTests.test_literal_signal_bias_and_delivery_delay_form_legal_evidence) ... ok
+test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels (test_sensor_channels.SparseObservationChannelTests.test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels) ... ERROR
+test_public_model_requires_empty_registry_and_does_not_expose_or_share_private_data (test_sensor_channels.SparseObservationChannelTests.test_public_model_requires_empty_registry_and_does_not_expose_or_share_private_data) ... ok
+test_reported_control_cache_keeps_its_sample_time_noise_and_shared_origin (test_sensor_channels.SparseObservationChannelTests.test_reported_control_cache_keeps_its_sample_time_noise_and_shared_origin) ... ok
+test_saved_run_loader_keeps_original_identity_and_refuses_changed_member (test_sensor_channels.SparseObservationChannelTests.test_saved_run_loader_keeps_original_identity_and_refuses_changed_member) ... ok
+test_sparse_mass_flow_and_power_signals_preserve_zero_without_reading_other_assets (test_sensor_channels.SparseObservationChannelTests.test_sparse_mass_flow_and_power_signals_preserve_zero_without_reading_other_assets) ... ok
+test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality (test_sensor_channels.SparseObservationChannelTests.test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality) ... ok
+
+======================================================================
+ERROR: test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels (test_sensor_channels.SparseObservationChannelTests.test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\tests\test_sensor_channels.py", line 403, in test_primary_V6_profile_declares_sparse_fixed_and_reported_control_channels
+    profile = load_channel_profile(root / 'configs/full-facility-sensor-channels-v1.json')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\src\aegis_dc\sensor_channels.py", line 183, in load_channel_profile
+    return validate_channel_profile(strict_json(Path(path).read_text(encoding='utf-8')))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Donson\\Documents\\ChatGPT\\Renly\\.work\\worktrees\\full-site-16\\configs\\full-facility-sensor-channels-v1.json'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.255s
+
+FAILED (errors=1)

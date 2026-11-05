@@ -1,0 +1,28 @@
+test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past (test_sensor_channels.SparseObservationChannelTests.test_cached_poll_does_not_redraw_noise_and_future_signal_does_not_change_past) ... ok
+test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works (test_sensor_channels.SparseObservationChannelTests.test_disabled_or_dropped_fixed_input_never_becomes_zero_and_history_still_works) ... ok
+test_literal_signal_bias_and_delivery_delay_form_legal_evidence (test_sensor_channels.SparseObservationChannelTests.test_literal_signal_bias_and_delivery_delay_form_legal_evidence) ... ok
+test_reported_control_cache_keeps_its_sample_time_noise_and_shared_origin (test_sensor_channels.SparseObservationChannelTests.test_reported_control_cache_keeps_its_sample_time_noise_and_shared_origin) ... ok
+test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality (test_sensor_channels.SparseObservationChannelTests.test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality) ... ERROR
+
+======================================================================
+ERROR: test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality (test_sensor_channels.SparseObservationChannelTests.test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\tests\test_sensor_channels.py", line 175, in test_threshold_packets_share_measurement_root_and_private_bias_does_not_relabel_quality
+    false_positive = sample_trace(profile, example_trace(), realization)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\src\aegis_dc\sensor_channels.py", line 124, in sample_trace
+    state_visibility='PRIVATE_EVALUATOR_ONLY', ledger=validate_ledger(ledger),
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\src\aegis_dc\evidence_ledger.py", line 181, in validate_ledger
+    _record(row, sources, observables)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\src\aegis_dc\evidence_ledger.py", line 114, in _record
+    _require(type(value) is bool, 'Binary observations require JSON true/false, not numeric substitutes')
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\.work\worktrees\full-site-16\src\aegis_dc\evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Binary observations require JSON true/false, not numeric substitutes
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.021s
+
+FAILED (errors=1)

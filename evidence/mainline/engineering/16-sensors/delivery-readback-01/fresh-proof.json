@@ -1,0 +1,76 @@
+{
+  "schema": "aegisdc-sensor-retained-capture-fresh-proof-v1",
+  "status": "PASS_SAVED_DATA_AND_NARROW_CLOSURE_ONLY",
+  "delivery_commit": "d032d2a7d88ec19d46f69a8ed6085512b6b1138f",
+  "observation_execution_commit": "842093460248167c0b8e4d9e37e74aebc9da034a",
+  "closure_execution_commit": "a732b376578d690bc0883c69eebc985b8d3a39c6",
+  "original_capture_status": "FAIL",
+  "original_full_tests": {
+    "run": 390,
+    "executed": 388,
+    "failures": 1,
+    "errors": 1,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "FAIL"
+  },
+  "original_missing_declared": [
+    "source-guard.json"
+  ],
+  "original_durable_files": 33,
+  "closure_durable_files": 11,
+  "observation_component": "PASS_FROM_ORIGINAL_SAVED_DATA",
+  "independent_checks": {
+    "status": "PASS",
+    "same_V6_entity_ids": 45,
+    "produced_records": 1134,
+    "measurement_polls": 652,
+    "configured_targets": [
+      "immersion",
+      "intake_pump",
+      "rectifier",
+      "local_controller"
+    ],
+    "original_private_signal_dynamic": true,
+    "actual_zero_preserved_in_private_reference": true,
+    "missing_not_zero": true,
+    "reported_controller_invalid_samples": 4,
+    "public_model_and_quality_independent_of_realized_bias": true,
+    "shared_noise_and_availability_replayed": true,
+    "one_ULP_future_hidden": true,
+    "private_future_payload_noninterference": true,
+    "snapshots": 10,
+    "public_static_model_and_snapshots_exclude_private_metadata": true,
+    "registered_research_trials": 0,
+    "model_calls": 0,
+    "training_calls": 0
+  },
+  "narrow_tests": {
+    "run": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "global_regression_gate": "PENDING_ROOT_INTEGRATED_FULL_WITH_CORRECT_PYTHONPATH_AND_TORCH",
+  "old_physical_execution": "89f47b6fdc61c14e8c9367fadfe33966e40f0926",
+  "full_regression_rerun": false,
+  "observation_adapter_rerun": false,
+  "physics_rerun": false,
+  "original_receipt_rewritten": false,
+  "runtime_caches_required": 0,
+  "registered_research_trials": 0,
+  "model_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED"
+}

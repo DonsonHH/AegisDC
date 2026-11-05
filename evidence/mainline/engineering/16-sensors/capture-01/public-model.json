@@ -1,0 +1,302 @@
+{
+  "schema": "aegisdc-public-observation-model-v1",
+  "ledger": {
+    "schema": "aegisdc-evidence-ledger-v1",
+    "id": "V6-sparse-fixed-evidence-v1",
+    "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "basis": "synthetic_assumption",
+    "time_unit": "s",
+    "entity_ids": [
+      "loc_entry",
+      "loc_electrical",
+      "loc_lake",
+      "loc_hx",
+      "loc_it",
+      "loc_control",
+      "grid",
+      "main_switchboard",
+      "rectifier",
+      "ups",
+      "generator",
+      "lake",
+      "intake_pump",
+      "filter",
+      "plate_hx",
+      "internal_water",
+      "backup_tower",
+      "immersion",
+      "room",
+      "compute",
+      "network",
+      "storage",
+      "critical_service",
+      "local_controller",
+      "bms",
+      "drainage",
+      "point_flow",
+      "point_temperature",
+      "point_power",
+      "evidence_inbox",
+      "tool_electrical_meter",
+      "worker_electrical",
+      "tool_flow_meter",
+      "worker_cooling",
+      "tool_control_reader",
+      "worker_control",
+      "tool_it_diagnostic",
+      "worker_it",
+      "internal_pump",
+      "point_internal_flow",
+      "lake_valve_group",
+      "internal_valve_group",
+      "it_access_gate",
+      "load_distribution",
+      "reserve_external_air"
+    ],
+    "observables": [
+      {
+        "id": "coolant_temperature",
+        "quantity": "temperature",
+        "value_type": "number",
+        "unit": "K"
+      },
+      {
+        "id": "coolant_hot_reported",
+        "quantity": "binary",
+        "value_type": "boolean",
+        "unit": "1"
+      },
+      {
+        "id": "lake_mass_flow",
+        "quantity": "mass_flow",
+        "value_type": "number",
+        "unit": "kg/s"
+      },
+      {
+        "id": "rectifier_input_power",
+        "quantity": "power",
+        "value_type": "number",
+        "unit": "W"
+      },
+      {
+        "id": "controller_reported_temperature",
+        "quantity": "temperature",
+        "value_type": "number",
+        "unit": "K"
+      },
+      {
+        "id": "controller_reported_validity",
+        "quantity": "binary",
+        "value_type": "boolean",
+        "unit": "1"
+      }
+    ],
+    "sources": [
+      {
+        "id": "coolant-probe-record",
+        "kind": "fixed_sensor",
+        "basis": "synthetic_assumption",
+        "target_ids": [
+          "immersion"
+        ],
+        "observable_ids": [
+          "coolant_temperature"
+        ],
+        "dependency_group": "coolant-calibration",
+        "source_note": "Static declared observation performance; realized errors and private state are not calibration claims."
+      },
+      {
+        "id": "coolant-alarm-packet",
+        "kind": "fixed_sensor",
+        "basis": "synthetic_assumption",
+        "target_ids": [
+          "immersion"
+        ],
+        "observable_ids": [
+          "coolant_hot_reported"
+        ],
+        "dependency_group": "coolant-calibration",
+        "source_note": "Static declared observation performance; realized errors and private state are not calibration claims."
+      },
+      {
+        "id": "intake-flow-record",
+        "kind": "fixed_sensor",
+        "basis": "synthetic_assumption",
+        "target_ids": [
+          "intake_pump"
+        ],
+        "observable_ids": [
+          "lake_mass_flow"
+        ],
+        "dependency_group": null,
+        "source_note": "Static declared observation performance; realized errors and private state are not calibration claims."
+      },
+      {
+        "id": "rectifier-meter-record",
+        "kind": "fixed_sensor",
+        "basis": "synthetic_assumption",
+        "target_ids": [
+          "rectifier"
+        ],
+        "observable_ids": [
+          "rectifier_input_power"
+        ],
+        "dependency_group": null,
+        "source_note": "Static declared observation performance; realized errors and private state are not calibration claims."
+      },
+      {
+        "id": "controller-log-record",
+        "kind": "control_record",
+        "basis": "synthetic_assumption",
+        "target_ids": [
+          "local_controller"
+        ],
+        "observable_ids": [
+          "controller_reported_temperature",
+          "controller_reported_validity"
+        ],
+        "dependency_group": null,
+        "source_note": "Static declared observation performance; realized errors and private state are not calibration claims."
+      }
+    ],
+    "records": []
+  },
+  "measurements": [
+    {
+      "id": "coolant-probe",
+      "signal": "coolant_temperature",
+      "target_id": "immersion",
+      "period_s": 1,
+      "phase_s": 0,
+      "enabled": true,
+      "input_range": [
+        270,
+        350
+      ],
+      "declared_bias_bound": 0.5,
+      "declared_noise_bound": 0.25,
+      "quantization_bound": 1e-09,
+      "declared_dropout_probability": 0.05,
+      "calibration_group": "coolant-calibration"
+    },
+    {
+      "id": "lake-flow",
+      "signal": "lake_mass_flow",
+      "target_id": "intake_pump",
+      "period_s": 2,
+      "phase_s": 0,
+      "enabled": true,
+      "input_range": [
+        0,
+        1000
+      ],
+      "declared_bias_bound": 0.02,
+      "declared_noise_bound": 0.05,
+      "quantization_bound": 1e-09,
+      "declared_dropout_probability": 0.1,
+      "calibration_group": null
+    },
+    {
+      "id": "rectifier-meter",
+      "signal": "rectifier_input_power",
+      "target_id": "rectifier",
+      "period_s": 5,
+      "phase_s": 0,
+      "enabled": true,
+      "input_range": [
+        0,
+        10000000
+      ],
+      "declared_bias_bound": 50,
+      "declared_noise_bound": 100,
+      "quantization_bound": 1e-06,
+      "declared_dropout_probability": 0,
+      "calibration_group": null
+    },
+    {
+      "id": "local-temperature-report",
+      "signal": "controller_temperature",
+      "target_id": "local_controller",
+      "period_s": 1,
+      "phase_s": 0,
+      "enabled": true,
+      "input_range": [
+        250,
+        360
+      ],
+      "declared_bias_bound": 0,
+      "declared_noise_bound": 0,
+      "quantization_bound": 0,
+      "declared_dropout_probability": 0,
+      "calibration_group": null
+    }
+  ],
+  "channels": [
+    {
+      "id": "coolant-transfer",
+      "measurement_id": "coolant-probe",
+      "source_id": "coolant-probe-record",
+      "observable_id": "coolant_temperature",
+      "transform": "identity",
+      "threshold": null,
+      "delay_s": 2,
+      "validity_s": 4,
+      "quality_mode": "bounded"
+    },
+    {
+      "id": "coolant-alarm-transfer",
+      "measurement_id": "coolant-probe",
+      "source_id": "coolant-alarm-packet",
+      "observable_id": "coolant_hot_reported",
+      "transform": "above",
+      "threshold": 305,
+      "delay_s": 1,
+      "validity_s": 4,
+      "quality_mode": "reported"
+    },
+    {
+      "id": "flow-transfer",
+      "measurement_id": "lake-flow",
+      "source_id": "intake-flow-record",
+      "observable_id": "lake_mass_flow",
+      "transform": "identity",
+      "threshold": null,
+      "delay_s": 3,
+      "validity_s": 5,
+      "quality_mode": "bounded"
+    },
+    {
+      "id": "power-transfer",
+      "measurement_id": "rectifier-meter",
+      "source_id": "rectifier-meter-record",
+      "observable_id": "rectifier_input_power",
+      "transform": "identity",
+      "threshold": null,
+      "delay_s": 0.5,
+      "validity_s": 6,
+      "quality_mode": "bounded"
+    },
+    {
+      "id": "controller-temperature-transfer",
+      "measurement_id": "local-temperature-report",
+      "source_id": "controller-log-record",
+      "observable_id": "controller_reported_temperature",
+      "transform": "identity",
+      "threshold": null,
+      "delay_s": 0.5,
+      "validity_s": 2,
+      "quality_mode": "unknown"
+    },
+    {
+      "id": "controller-validity-transfer",
+      "measurement_id": "local-temperature-report",
+      "source_id": "controller-log-record",
+      "observable_id": "controller_reported_validity",
+      "transform": "validity",
+      "threshold": null,
+      "delay_s": 0.5,
+      "validity_s": 2,
+      "quality_mode": "reported"
+    }
+  ]
+}
