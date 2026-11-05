@@ -4,7 +4,7 @@
 
 **Blocked by:** 19
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M3
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Assigned `/root/m3_20_value`, branch `donson/mainline-20-value`, managed worktree `C:/Users/Donson/.codex/worktrees/mainline20-action-value/Renly`. Ticket19 Root acceptance and fresh proof satisfy its blocker; no20effect or acceptance is implied.
