@@ -1,0 +1,98 @@
+{
+  "schema": "aegisdc-closure-assessment-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "as_of_s": 6,
+  "questions": [
+    {
+      "question_id": "cooling",
+      "rule_id": "cooling-verification",
+      "as_of_s": 6,
+      "status": "FALSE_ALARM_REVIEWED",
+      "risk_closed": false,
+      "question_closed": true,
+      "physical_restoration_claim": false,
+      "scope": "DECLARED_FINITE_SAMPLED_CRITERIA_ONLY",
+      "supporting_record_ids": [
+        "service-review-4",
+        "service-review-5",
+        "verify-flow-4",
+        "verify-flow-5"
+      ],
+      "disposition_record_ids": [
+        "review-disposition"
+      ],
+      "checks": [],
+      "trace": [
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "service-review-4",
+          "observed_at_s": 4,
+          "arrived_at_s": 4.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "service-review-4",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "verify-flow-4",
+          "observed_at_s": 4,
+          "arrived_at_s": 4.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "verify-flow-4",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "service-review-5",
+          "observed_at_s": 5,
+          "arrived_at_s": 5.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "service-review-5",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "VERIFICATION_RECORD_AVAILABLE",
+          "record_id": "verify-flow-5",
+          "observed_at_s": 5,
+          "arrived_at_s": 5.5,
+          "valid_until_s": 10,
+          "provenance": {
+            "origin_id": "verify-flow-5",
+            "copied_from_record_id": null
+          }
+        },
+        {
+          "event": "AUTHORIZED_REVIEW_AVAILABLE",
+          "record_id": "review-disposition",
+          "disposition": "FALSE_ALARM",
+          "observed_at_s": 5.5,
+          "arrived_at_s": 5.75,
+          "valid_until_s": 8,
+          "provenance": {
+            "origin_id": "review-origin",
+            "copied_from_record_id": null
+          }
+        }
+      ]
+    }
+  ],
+  "unevaluated_question_ids": [
+    "access-and-leak",
+    "backup-support",
+    "control-uncertainty",
+    "it-dependence",
+    "people-and-tools",
+    "power",
+    "room-boundary"
+  ],
+  "execution_permission": false,
+  "physical_actions": [],
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED"
+}

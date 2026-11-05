@@ -1,0 +1,63 @@
+{
+  "schema": "aegisdc-closure-assessment-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "as_of_s": 10,
+  "questions": [
+    {
+      "question_id": "cooling",
+      "rule_id": "cooling-verification",
+      "as_of_s": 10,
+      "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+      "risk_closed": false,
+      "question_closed": false,
+      "physical_restoration_claim": false,
+      "scope": "DECLARED_FINITE_SAMPLED_CRITERIA_ONLY",
+      "supporting_record_ids": [],
+      "disposition_record_ids": [],
+      "checks": [
+        {
+          "check_id": "flow-restored",
+          "role": "condition",
+          "passed": false,
+          "supporting_record_ids": [],
+          "insufficient_record_ids": [],
+          "genuine_sample_count": 0,
+          "span_s": null,
+          "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+        },
+        {
+          "check_id": "service-restored",
+          "role": "service",
+          "passed": false,
+          "supporting_record_ids": [],
+          "insufficient_record_ids": [],
+          "genuine_sample_count": 0,
+          "span_s": null,
+          "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+        }
+      ],
+      "trace": [
+        {
+          "event": "ACTION_REPORT_AVAILABLE",
+          "observed_at_s": 3,
+          "arrived_at_s": 3.5,
+          "origin_id": "intervention:clean-filter",
+          "outcome": "APPLIED"
+        }
+      ]
+    }
+  ],
+  "unevaluated_question_ids": [
+    "access-and-leak",
+    "backup-support",
+    "control-uncertainty",
+    "it-dependence",
+    "people-and-tools",
+    "power",
+    "room-boundary"
+  ],
+  "execution_permission": false,
+  "physical_actions": [],
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
