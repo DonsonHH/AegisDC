@@ -194,6 +194,12 @@ class VerifiedClosureTests(unittest.TestCase):
         tainted=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
         self.assertFalse(tainted['question_closed'])
         self.assertNotEqual(tainted['status'],'RISK_ACCEPTED')
+        ledger['records']=ledger['records'][:1]
+        keep=deepcopy(ledger['records'][0]);keep.update(id='keep-open-review',value='KEEP_OPEN')
+        keep['provenance']['origin_id']='keep-open-origin';ledger['records'].append(keep)
+        conflicted=assess_closure(reframe(ledger,nominal,6),program)['questions'][0]
+        self.assertFalse(conflicted['question_closed'])
+        self.assertNotEqual(conflicted['status'],'RISK_ACCEPTED')
 
     def test_genuine_verification_samples_need_distinct_observation_times(self):
         from aegis_dc.verified_closure import assess_closure
