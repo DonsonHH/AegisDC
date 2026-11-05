@@ -37,7 +37,7 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits):
+def evaluate(frame,options,candidates,audits,*,resource_ledger=None,intervention_declaration=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
@@ -85,11 +85,29 @@ def evaluate(frame,options,candidates,audits):
             allowed=alternative['eligible_for_planning'] is True and (candidate_id is None or by_id[candidate_id]['eligible'])
             # A branch plan cannot reserve a continuation which the shared public
             # resource book already knows to be unavailable at this decision.
-            if kind=='inspect_then_act' and any(b['action']=='intervene' and b['probability']>0 for b in alternative['branches']):
+            continuation=kind=='inspect_then_act' and any(b['action']=='intervene' and b['probability']>0 for b in alternative['branches'])
+            reasons=list(alternative['planning_reasons'])
+            if continuation:
                 allowed=allowed and by_id[binding['intervention_candidate_id']]['eligible']
+                if resource_ledger is not None:
+                    first=by_id[binding['inspection_candidate_id']]['declared_resource_reservation']
+                    second=by_id[binding['intervention_candidate_id']]['declared_resource_reservation']
+                    if any(Fraction(first[k])+Fraction(second[k])>Fraction(resource_ledger['remaining'][k]) for k in first):
+                        allowed=False;reasons.append('COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET')
+            if intervention_declaration is not None and (kind=='direct_intervention' or continuation):
+                task_id=candidates[binding['intervention_candidate_id']]['task']['id']
+                declared=next(b for b in intervention_declaration['bindings'] if b['task_id']==task_id)
+                grant=next(g for g in intervention_declaration['profile']['authorizations'] if g['id']==declared['authorization_id'])
+                local=locals[q];start=frame['as_of_s']
+                if kind=='inspect_then_act':
+                    for key in ('travel_s','wait_s','work_s','report_latency_s'):start+=local['inspection'][key]
+                finish=start
+                for key in ('travel_s','wait_s','work_s'):finish+=local['intervention'][key]
+                if not (grant['starts_at_s']<=start<grant['expires_at_s'] and grant['starts_at_s']<=finish<grant['expires_at_s']):
+                    allowed=False;reasons.append('FORECAST_ACTION_AUTHORITY_UNAVAILABLE_AT_COMPLETION')
             score=alternative['expected']['service_deficit_time_s']['value']
             alternatives.append(dict(kind=kind,candidate_id=candidate_id,eligible=allowed,
-                expected_service_deficit_s=score,planning_reasons=alternative['planning_reasons']))
+                expected_service_deficit_s=score,planning_reasons=sorted(set(reasons))))
             if allowed and score is not None:
                 row=(score,alternative['expected']['person_s']['value'],alternative['expected']['cost']['value'],kind,q,candidate_id)
                 choices.append(row)

@@ -99,6 +99,56 @@ def lookahead_run_fixture():
     return inputs['model'],program
 
 class DispatchPolicyTests(unittest.TestCase):
+    def test_forecast_does_not_credit_actions_completed_at_or_after_known_authority_expiry(self):
+        model,program=lookahead_run_fixture();program['decision_times_s']=[0]
+        grant=program['intervention_program']['profile']['authorizations'][0]
+        grant['expires_at_s']=3
+        result=simulate_scenario(model,duration_s=.5,step_s=.01,dispatch_program=program)
+        choice=result['policy_public_decisions'][0]['choice']
+        plan=next(a for a in choice['forecast_plans'][0]['alternatives'] if a['kind']=='inspect_then_act')
+        self.assertFalse(plan['eligible'])
+        self.assertIn('FORECAST_ACTION_AUTHORITY_UNAVAILABLE_AT_COMPLETION',plan['planning_reasons'])
+        self.assertNotEqual(choice['chosen_candidate_id'],'first-inspection')
+
+    def test_lookahead_rejects_a_continuation_exceeding_the_common_admission_envelopes(self):
+        model,program=lookahead_run_fixture();program['decision_times_s']=[0]
+        policy=program['policy_program']
+        policy.update(schema='aegisdc-dispatch-policy-program-v3',intervention_declaration=program['intervention_program'],
+            resource_budget=dict(person_s=15,tool_s=15,cost=2,cost_unit='research_cost_unit'))
+        for candidate in policy['candidates']:candidate['issue_cost']=1
+        local=policy['options']['value_model']['question_models'][0];local['inspection']['cost']=local['intervention']['cost']=1
+        result=simulate_scenario(model,duration_s=.5,step_s=.01,dispatch_program=program)
+        choice=result['policy_public_decisions'][0]['choice']
+        plan=next(a for a in choice['forecast_plans'][0]['alternatives'] if a['kind']=='inspect_then_act')
+        self.assertFalse(plan['eligible'])
+        self.assertIn('COMMON_CONTINUATION_ENVELOPE_EXCEEDS_BUDGET',plan['planning_reasons'])
+        self.assertNotEqual(choice['chosen_candidate_id'],'first-inspection')
+
+    def test_online_closure_consumes_actual_arrived_action_reports_without_auto_closing(self):
+        from test_verified_closure import fixture as closure_fixture
+        model,program=lookahead_run_fixture();_,closure,closure_ledger,_=closure_fixture()
+        closure['intervention_feedback']=[];closure['intervention_declaration']=program['intervention_program']
+        closure['profile']['nominal_knowledge_id']=program['nominal_knowledge']['id']
+        closure['risk_catalog']['nominal_knowledge_id']=program['nominal_knowledge']['id']
+        closure['belief_model']['scope']['nominal_knowledge_id']=program['nominal_knowledge']['id']
+        rule=closure['profile']['rules'][0];rule.update(task_id='lookahead-action',operation_id=program['intervention_program']['bindings'][0]['operation_id'])
+        rule['checks'][0]['source_ids']=['portable-intake-meter']
+        rule['checks'][0]['accepted_interval']=[.07,.08]
+        static=program['evidence_ledger']
+        for field in ('sources','observables'):
+            ids={r['id'] for r in static[field]}
+            static[field].extend(deepcopy(r) for r in closure_ledger[field] if r['id'] not in ids)
+        program.update(schema='aegisdc-policy-run-program-v3',sensor_program=None,closure_program=closure,
+            preparation_requests=program['policy_program']['options']['preparation_requests'])
+        result=simulate_scenario(model,duration_s=4,step_s=.01,dispatch_program=program)
+        before=result['policy_public_decisions'][0]['choice']['question_lifecycle']['questions'][0]
+        after=result['policy_public_decisions'][-1]['choice']['question_lifecycle']['questions'][0]
+        self.assertEqual(before['status'],'OPEN_UNCONFIRMED')
+        self.assertEqual(after['status'],'ACTION_COMPLETED_PENDING_VERIFICATION')
+        self.assertFalse(after['question_closed'])
+        action=next(e for e in after['trace'] if e['event']=='ACTION_REPORT_AVAILABLE')
+        self.assertEqual((action['observed_at_s'],action['arrived_at_s']),(3,3.5))
+
     def test_question_closure_uses_same_public_evidence_and_blocks_only_declared_closed_question(self):
         from aegis_dc.dispatch_policy import choose_work
         from test_verified_closure import fixture as closure_fixture
