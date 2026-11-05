@@ -1,0 +1,26 @@
+test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand (test_intervention_execution.InterventionExecutionTests.test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand) ... ERROR
+
+======================================================================
+ERROR: test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand (test_intervention_execution.InterventionExecutionTests.test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_intervention_execution.py", line 106, in test_compute_request_adjustment_changes_actual_power_heat_and_service_not_demand
+    result=simulate_scenario(scenario,duration_s=3,step_s=.01,work_program=work,intervention_program=actions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\plant.py", line 721, in simulate_scenario
+    interventions = InterventionSession(scenario, work_program, intervention_program)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 100, in __init__
+    self.operations,self.grants=_profile(self.profile,nominal)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 53, in _profile
+    require(op['kind'] in OPERATIONS,'Unsupported named operation kind')
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\intervention_execution.py", line 24, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Unsupported named operation kind
+
+----------------------------------------------------------------------
+Ran 1 test in 0.036s
+
+FAILED (errors=1)

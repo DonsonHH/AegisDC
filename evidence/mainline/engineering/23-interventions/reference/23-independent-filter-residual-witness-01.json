@@ -1,0 +1,36 @@
+{
+  "schema": "independent-ticket23-filter-residual-witness-v1",
+  "classification": "ENGINEERING_ONLY_PRE_FORMAL_PROTOCOL_LITERAL",
+  "model_sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+  "declared": {
+    "head_Pa": "150000",
+    "passive_Pa_s2_m6": "12000000",
+    "valve_Pa_s2_m6": "3000000",
+    "pump_speed": "1",
+    "opening": "1",
+    "work_completion_s": "13/4"
+  },
+  "law": "Q\u00b2=H/(Rpassive\u00d7filter_multiplier+Rvalve/opening\u00b2), fullypaidpumpandlocalcommand1",
+  "cases": [
+    {
+      "resistance_multiplier": 4,
+      "flow_squared_m6_s2": "1/340"
+    },
+    {
+      "resistance_multiplier": 2,
+      "flow_squared_m6_s2": "1/180"
+    },
+    {
+      "resistance_multiplier": 1,
+      "flow_squared_m6_s2": "1/100"
+    }
+  ],
+  "assertions": [
+    "Multiplier4\u21922afteractualcompletion raisesflow butremainsbelowfullycleanmultiplier1",
+    "Curveinstantaneousflowchangeisnotstoredmass/energyreset",
+    "Mass/energyboundaryresidualsremaincheckedbyactualV6run",
+    "Publicsignalnotavailablebeforedeclaredobservationorfeedback"
+  ],
+  "new_physical_runs": 0,
+  "registered_research_trials": 0
+}

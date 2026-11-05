@@ -673,7 +673,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -719,6 +719,12 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             raise ValueError('Real inspections require the actual crew work_program')
         from .inspection_execution import InspectionSession
         inspections = InspectionSession(scenario, work_program, inspection_program)
+    interventions = None
+    if intervention_program is not None:
+        if work_program is None:
+            raise ValueError('Actual interventions require a crew work_program')
+        from .intervention_execution import InterventionSession
+        interventions = InterventionSession(scenario, work_program, intervention_program)
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
@@ -748,6 +754,23 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 raise ValueError('Reserve source/selector states did not settle at the current instant')
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
+        if interventions is not None:
+            effects = interventions.process(time_s, workforce, plant.p)
+            if effects:
+                plant.events.extend(dict(row,kind='completed_research_intervention') for row in effects)
+                point = plant.point()
+                if plant.reserve_model:
+                    # A completed command does not create an extra PLC sample.
+                    # Autonomous reserve safety/power settles at this same instant.
+                    for _ in range(4):
+                        changed = plant.update_reserves(time_s, point, sampled=False)
+                        point = plant.point()
+                        if not changed:
+                            break
+                    else:
+                        raise ValueError('Post-intervention reserve states did not settle')
+                plant.update_room_work_access(point)
+                workforce.process(time_s, plant.blocked_locations())
         snapshot = plant.snapshot(time_s, point, workforce)
         if inspections is not None:
             inspections.process(time_s, workforce, snapshot)
@@ -805,9 +828,12 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 'inspection_public_models': inspections.public_models(),
                 'inspection_public_feedback': inspections.public_feedback(duration),
                 'inspection_private_audit': inspections.private_audit()} if inspections is not None else {}),
+            **({'intervention_public_feedback': interventions.public_feedback(duration),
+                'intervention_private_audit': interventions.private_audit()} if interventions is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
                        **({'inspection_program': deepcopy(inspection_program)} if inspections is not None else {}),
+                       **({'intervention_program': deepcopy(intervention_program)} if interventions is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
 
