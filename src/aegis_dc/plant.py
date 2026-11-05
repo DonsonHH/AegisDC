@@ -831,7 +831,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                                   for reason in sorted({row['reason'] for row in workforce.records if row['status'] == 'rejected'})}
     return {'schema': 'aegisdc-engineering-facility-run-v1', 'status': 'ENGINEERING_FIXTURE_COMPLETED',
             'basis': scenario['basis'], 'facility_id': scenario['id'], 'engineering_fixture': True,
-            'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'NOT_IMPLEMENTED',
+            'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'PUBLIC_SELECTION_WITH_PRIVATE_EXECUTION' if dispatch is not None else 'DISABLED_FOR_THIS_RUN',
             'field_calibration': 'PENDING', 'research_gain_claim': 'NOT_ESTABLISHED',
             'research_trials': 0, 'model_calls': 0, 'training_calls': 0,
             'scenario_sha256': digest(scenario), 'source_config': scenario, 'code_identity': _code_identity(),

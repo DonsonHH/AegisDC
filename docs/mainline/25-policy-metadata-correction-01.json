@@ -1,0 +1,48 @@
+{
+  "schema": "aegisdc-policy-metadata-engineering-v1",
+  "classification": "METADATA_ENGINEERING_ONLY_NOT_POLICY_RERUN_OR_EFFECT_TRIAL",
+  "physical_runs": 2,
+  "total_simulated_duration_s": 0.02,
+  "maximum_step_s": 0.01,
+  "input": "evidence/mainline/engineering/25-baselines/reference/no-human.json",
+  "prior_runtime_source": "6a9e3ca8dfd38bf529bec51cd3e10ad66af320d9",
+  "root_full_source": "9d5aeceb5c653f0bd5b5e7b850a1afdf4e086af1",
+  "original_metadata_line": "            'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'NOT_IMPLEMENTED',\n",
+  "corrected_metadata_line": "            'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'PUBLIC_SELECTION_WITH_PRIVATE_EXECUTION' if dispatch is not None else 'DISABLED_FOR_THIS_RUN',\n",
+  "runtime_changed_path": "src/aegis_dc/plant.py",
+  "sidecar": "evidence/mainline/engineering/25-baselines/dispatch-metadata-correction-01.json",
+  "revision_note": "docs/mainline/25-policy-metadata-correction-01.md",
+  "authoring_tool": "scripts/policy_metadata_delivery.py",
+  "cases": [
+    {
+      "id": "default",
+      "dispatch": false,
+      "expected_interface": "DISABLED_FOR_THIS_RUN"
+    },
+    {
+      "id": "no-human",
+      "dispatch": true,
+      "expected_interface": "PUBLIC_SELECTION_WITH_PRIVATE_EXECUTION"
+    }
+  ],
+  "expected_summary": {
+    "demand_service_unit_s": 0.01,
+    "delivered_service_unit_s": 0.0025,
+    "service_deficit_time_s": 0.0075
+  },
+  "absolute_tolerance": 1e-09,
+  "durable_root": [
+    "attempt.json",
+    "attempts.jsonl",
+    "checks.json"
+  ],
+  "durable_case": [
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl"
+  ],
+  "terminal_receipt": "receipt.json",
+  "retry_rule": "Each of two metadata cases once; STARTED before call, save and validate before next. Stop on failure; no automatic retry.",
+  "registered_research_trials": 0
+}
