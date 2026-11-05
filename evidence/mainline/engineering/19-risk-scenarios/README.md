@@ -37,3 +37,9 @@
 新`correction-01`单独记录1次尝试、0次失败：7个定点检查通过，原4帧输出逐项相等；没有重跑旧捕获或作者完整回归。新源、2个工具和10个输入执行前后守卫通过。原`capture-01`、1939执行身份和原pending索引均保留；Root后续必须针对新运行源完成独立闭环、交付核对和统一回归。
 
 Root已分别在干净管理检出中通过[原捕获交付证明](../../../../docs/mainline/evidence/19-original-delivery.json)及[数值修正交付证明](../../../../docs/mainline/evidence/19-correction-delivery.json)，未重跑推断或全回归。原证明仅对应1939源码，修正证明对应9c0；当前复核入口见[运行身份说明](../../../../docs/mainline/19-current-runtime-and-reproduction.md)。统一Root回归和最终接受仍待完成。
+
+## 完整时段输出更正（第二版）
+
+首次根回归7b9虽448项全执行通过，后续独立边界检查发现：2秒需求1e308、短问题窗或无问题时，完整时段输出仍可溢出。该历史PASS保留，不作为当前接受。运行源`99a2afeabf25f2d3d31f3ddbb1819ef15dbc153f`先校验全时段时长及共同需求积分，并在每个数值输出转换前再次校验有限范围；API给ValueError，CLI正常退出2且无堆栈。
+
+[第二版协议](../../../../docs/mainline/19-bound-correction-protocol-v2.json)在新`correction-02`执行1次、失败0次，4个新API/CLI检查、7个先前检查及原4帧相等。新[第二版候选](../../../../docs/mainline/evidence/19-correction-v2.json)单独记录身份与待Root门槛；原capture-01、correction-01和首次根回归均不改写、不重跑。

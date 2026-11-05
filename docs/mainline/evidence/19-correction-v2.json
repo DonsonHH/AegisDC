@@ -1,0 +1,65 @@
+{
+  "schema": "aegisdc-ticket19-correction-candidate-v2",
+  "revision": 2,
+  "ticket": "19",
+  "status": "IMPLEMENTED_PENDING_NEW_ROOT_RUNTIME_ACCEPTANCE",
+  "original_candidate_index": "docs/mainline/evidence/19.json",
+  "previous_correction_index": "docs/mainline/evidence/19-correction.json",
+  "original_execution": "1939cb2ff375f7a0632a0a05ada68ae98afbdc1a",
+  "original_capture_delivery": "7069f2bee86ef7cdfd8d4849bb98bb5dacbf59cc",
+  "previous_correction_execution": "9c0efc4dbd198d3fbf35c459cd5710c058a60569",
+  "previous_correction_delivery": "83583f18669794142159e20e58016fff5b0c4fe2",
+  "historical_root_regression": {
+    "source": "7b9ac97383ecd82adc6bc720a83e71160bfec322",
+    "executed": 448,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "status": "HISTORICAL_PASS_NOT_CURRENT_ACCEPTANCE",
+    "reason": "Later independent complete-horizon overflow gap is outside the original cases."
+  },
+  "corrected_runtime_execution": "99a2afeabf25f2d3d31f3ddbb1819ef15dbc153f",
+  "correction_data_delivery": "0b542f7e70b49d763b5cf46377fd9213966fb3bb",
+  "protocol": "docs/mainline/19-bound-correction-protocol-v2.json",
+  "contract_correction": "docs/mainline/19-full-horizon-correction.md",
+  "receipt": "evidence/mainline/engineering/19-risk-scenarios/correction-02/receipt.json",
+  "results": "evidence/mainline/engineering/19-risk-scenarios/correction-02/correction-results.json",
+  "correction": "Validate full horizon and common offered-work output before questions, and every exact output total before float conversion. Overflow yields ValueError; CLI exits2 without traceback.",
+  "public_tests": 16,
+  "revision2_cases": 4,
+  "prior_cases_rechecked": 7,
+  "original_saved_frames_equal": 4,
+  "closure_public_calls": 15,
+  "original_capture": {
+    "attempts": 1,
+    "failures": 0,
+    "status": "PRESERVED"
+  },
+  "correction01": {
+    "attempts": 1,
+    "failures": 0,
+    "status": "PRESERVED"
+  },
+  "correction02": {
+    "attempts": 1,
+    "failures": 0,
+    "status": "PASS"
+  },
+  "pinned_paths": {
+    "runtime_sources": 55,
+    "authoring_tools": 3,
+    "frozen_inputs": 10
+  },
+  "source_head_and_bytes_unchanged": true,
+  "fresh_gate": "PENDING_ROOT_REVISION2_SAVED_OUTPUT_PROOF",
+  "independent_review_gate": "PENDING_REVISION2_CLOSURE",
+  "root_regression_gate": "PENDING_NEW_ROOT_RUNTIME_FULL",
+  "author_full_regressions": 0,
+  "new_physical_runs": 0,
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "rsi_gain": "NOT_ESTABLISHED",
+  "overall_goal": "ACTIVE"
+}
