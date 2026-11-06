@@ -1,6 +1,6 @@
 # 当前执行：完整设施风险驱动检查与处置主线
 
-固定目标见[MAINLINE](MAINLINE.md)，实际门槛见[progress](mainline/progress.json)，依赖见[任务图](../.scratch/full-facility-mainline/map.md)。01–25已接受；当前26实现可证伪的联合核查处置候选，仍属M4。26–28的候选方法、同场闭环和负例尚未接受。
+固定目标见[MAINLINE](MAINLINE.md)，实际门槛见[progress](mainline/progress.json)，依赖见[任务图](../.scratch/full-facility-mainline/map.md)。01–26已在声明的有限工程范围接受；当前27重放完整设施的跨系统闭环，仍属M4。27–28的同场闭环和完整负例尚未接受。
 
 最新[24根验收](../evidence/mainline/engineering/24-root-acceptance/README.md)保存512项全执行回归、260源身份与原始/修订证据。处置完成、局部症状退去、授权接受风险、误报复核和有限证据关闭已分开；这些工程门槛尚不证明策略收益。
 
@@ -67,3 +67,5 @@ M3证据、风险及价值的声明有限工程门槛已通过[M3根审计](main
 证据核验关闭24通过[根验收、状态图与边界架构](../evidence/mainline/engineering/24-root-acceptance/README.md)。当前25准备透明策略对照，M4及整体研究目标仍active。
 
 透明策略25通过[根验收、真实决策数据和公开/私有架构](../evidence/mainline/engineering/25-root-acceptance/README.md)。当前主票26准备可证伪候选；M4及完整研究目标仍active。
+
+最新[26候选根验收](mainline/26-root-acceptance.md)保存564项全执行回归、10次公开选择、6次各6秒的同场运行和三张图。首次根回归中断及所有旧失败保持；这项工程接受不等于策略收益。下一票27按依赖推进。

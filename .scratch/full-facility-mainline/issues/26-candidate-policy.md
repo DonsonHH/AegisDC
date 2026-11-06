@@ -4,13 +4,13 @@
 
 **Blocked by:** 20, 25
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M4
 
-- [ ] 一次只检验明确机制，避免同时加入未独立控制的额外优先级/预测器。
-- [ ] 策略允许不检查和直接处置，并保留计算/决策成本。
-- [ ] 同源证据和人员专业知识的作用能被后续消融。
+- [x] 一次只检验明确机制，避免同时加入未独立控制的额外优先级/预测器。
+- [x] 策略允许不检查和直接处置，并保留计算/决策成本。
+- [x] 同源证据和人员专业知识的作用能被后续消融。
 
 ## Context
 
@@ -18,7 +18,7 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Accepted 2026-11-07 in the declared finite engineering scope. Authority: `docs/mainline/evidence/26-root.json`; fresh committed proof: `26-root-delivery.json`. The development entries below are historical snapshots and retain their original unfinished/failed statements.
 
 First development slice: `docs/mainline/26-evidence-consistent-candidate.md` defines the shared public v4 projection and its sufficient same-factor exclusion proof. `tests/test_evidence_consistent_policy.py` contains a new six-second public-selector witness; original report law and outcome weights remain unchanged. RED01/ GREEN02 and compatibility03 preserve failures and13 passing public candidate/action-value checks. No plant, online candidate, frozen capture, full regression, effect trial or acceptance has run for26. Online v4 inheritance, informative and unmodeled cases, adversarial boundaries and final gates remain required.
 
@@ -31,3 +31,5 @@ Shared numerical continuation4713c365 adds projection-v3's explicit exact mass b
 D development13e9725a–a08dc371 implements actual run-v3/policy-v4 execution with continued sparse fixed polling, real handheld work/arrival, named action, public ledger, common-profile equality and inherited declaration/kind gates. Logs34–47 retain the first ledger assertion failure, profile/declaration mismatches, pending-background direct choice, actual missing observation, direct/defer cases and closest-baseline closure oracle correction. CLI46 was transport-interrupted with unobserved outcome; separate new47 passes without overwriting existing output. The declared durable development-originals-20261107-01 package preserves30 attempt directories/529ZIP members,16 known integrations,12 error terminals,1overwrite refusal and1unknown, plus2010 exact runtime hashes and26 explicit historical input/tool gaps. This is development evidence only; no26 formal capture, independent D acceptance or root/full/effect result is yet established. Final gates and overall research goal remain active.
 
 Owner `/root/m4_26_candidate`, branch `donson/mainline-26-candidate`, reused worktree `C:/Users/Donson/.codex/worktrees/mainline23-intervention/Renly`, base accepted25 publication48d223db. One candidate mechanism under design: explicitly account for prospective observation admissibility under the existing public evidence/provenance/dependence rules, keeping the declared loss/physical/execution models and resource rules fixed. A proposal is not an accepted algorithm or gain; first establish a falsifiable public behavior and a bounded prediction contract. Do not reuse any policy engineering result as a registered effect trial.
+
+Root acceptance: actual integrated source `443747aea866d35376dad51a186994bb963eb7f5`, 564 executed regression methods with zero failures/errors/skips; 278 guarded sources and20 historical originals. V2 execution35193647/data53f09ff4 preserves10 pure selections,6 actual6s runs and21 online decisions. Three PNGs actually viewed;14 positive review packets retained. First root full interruption/18 fixture directories and oldV1/no-run/development gaps remain preserved. No registered effect study or field calibration is claimed;27 is the next dependency frontier.
