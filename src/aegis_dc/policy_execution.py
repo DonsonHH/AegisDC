@@ -24,13 +24,22 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v4':
+            projection=program['policy_program'].get('evidence_projection')
+            _require(type(projection) is dict and type(self.inspection_program) is dict and 'profile' in self.inspection_program,
+                'Declare v4 public projection and actual inspection profiles')
+            background=program.get('sensor_program')
+            _require(background is None or type(background) is dict and 'profile' in background,'Declare the actual public background sensor profile')
+            _require(projection.get('inspection_profile')==self.inspection_program['profile']
+                and projection.get('background_sensor_profile')==(background['profile'] if background is not None else None),
+                'Projection public profiles must match the actual execution declarations')
         self.closure_template=deepcopy(program['closure_program']) if lifecycle else None
         if self.closure_template is not None:
             _require(type(self.closure_template) is dict and self.closure_template.get('intervention_feedback')==[],
                 'Declare an empty closure feedback channel; actual arrived reports are supplied by the executor')
             _require(self.closure_template.get('intervention_declaration')==self.intervention_program,
                 'Closure and execution must share the same public action declaration')
-        if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v3':
+        if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Policy and actual executor must share the same public intervention declaration')
         self.sensors=None
@@ -48,7 +57,7 @@ class PolicySession:
             fixed_sources={s['id'] for s in registry['sources']}
             _require(not any(r['source_id'] in fixed_sources for r in self.ledger['records']),
                 'Declare historical records separately from live fixed sensor sources')
-        if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}:
+        if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
             intervention_ids={b['task_id'] for b in self.intervention_program['bindings']} if self.intervention_program is not None else set()
             _require(not inspection_ids&intervention_ids,'One task cannot combine inspection and physical intervention')
@@ -73,7 +82,7 @@ class PolicySession:
             initial_frame=initial,submissions=[])
         self.catalog_program=dict(schema='aegisdc-work-program-v1',id=program['id']+'-declared-bindings',profile=deepcopy(profile),
             submissions=[dict(frame=deepcopy(initial),task=deepcopy(c['task'])) for c in program['policy_program']['candidates']])
-        if program['policy_program']['policy']=='one_observation_lookahead':
+        if program['policy_program']['policy']=='one_observation_lookahead' and program['policy_program']['schema']!='aegisdc-dispatch-policy-program-v4':
             from .lookahead_policy import validate_execution_bindings
             validate_execution_bindings(program['policy_program'],self.inspection_program)
         self.issued=[];self.decisions=[];self.computation_audit=[];self.index=0
