@@ -6,6 +6,7 @@ import json
 import math
 import os
 from pathlib import Path
+import subprocess
 import sys
 from time import perf_counter_ns
 
@@ -13,7 +14,7 @@ from inspection_delivery import git, hashes, require, read, digest, write, durab
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = 'evidence/mainline/engineering/26-candidate'
-PROTOCOL = 'docs/mainline/26-candidate-engineering-protocol.json'
+PROTOCOL = 'docs/mainline/26-candidate-engineering-protocol-v2.json'
 
 
 def pins(protocol, revision):
@@ -29,7 +30,8 @@ def pins(protocol, revision):
     return {role: hashes(revision, paths) for role, paths in dict(
         runtime=[name for name in names if name.startswith('src/') and name.endswith('.py')],
         tools=tools, inputs=inputs,
-        historical_development=[name for name in names if name.startswith(PACKAGE + '/development-originals-')]).items()}
+        historical_development=[name for name in names if name.startswith((PACKAGE + '/development-originals-',
+            PACKAGE + '/pre-capture-v1-preservation/'))]).items()}
 
 
 def declared(protocol):
@@ -72,8 +74,18 @@ def check_decision(folder, case, protocol):
         require(audit['classification'] == expected['classification'], 'Projection classification differs')
         if 'reason' in expected:
             require(expected['reason'] in audit['reasons'], 'Unknown value lost its reason')
-        for index, item in enumerate(audit.get('compatibility_by_assumption', [])):
-            if 'exact_current' in expected and index == 0:
+        comparisons = audit.get('compatibility_by_assumption', [])
+        quantitative = {'exact_current', 'positive', 'negative', 'projected_positive', 'original_positive'} & set(expected)
+        belief_variants = document['policy_program']['options']['belief_model']['variants']
+        if quantitative:
+            local = next(row for row in document['policy_program']['options']['value_model']['question_models']
+                if row['question_id'] == audit['question_id'])
+            required_pairs = {(belief['id'], value['id']) for belief in belief_variants for value in local['variants']}
+            require(type(comparisons) is list and len(comparisons) == len(required_pairs) and
+                {(row['belief_variant_id'], row['value_variant_id']) for row in comparisons} == required_pairs,
+                'Compatibility audit must cover every declared belief/value variant exactly once')
+        for item in comparisons:
+            if 'exact_current' in expected and item['belief_variant_id'] == belief_variants[0]['id']:
                 require(item['exact_current_outcome_mass']['cooling-limited'] == expected['exact_current'], 'Exact current mass differs')
             for branch in ('positive', 'negative'):
                 if expected.get(branch):
@@ -86,6 +98,8 @@ def check_decision(folder, case, protocol):
             require(audit['marginalization'] == 'SUM_ORIGINAL_REPORT_MASS_PER_JOINT_OUTCOME_EQUALS_ONE', 'Original outcome/report mass changed')
     if 'common_exact' in expected:
         require(choice['valuation_mass_basis'] == 'EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1', 'Shared exact basis differs')
+        require(set(choice['valuation_current_outcome_mass_by_belief_variant']) == {
+            row['id'] for row in document['policy_program']['options']['belief_model']['variants']}, 'Shared exact current mass coverage differs')
         require(all(value['cooling-limited'] == expected['common_exact'] for value in
             choice['valuation_current_outcome_mass_by_belief_variant'].values()), 'Common current world mass differs')
         require(choice['model_evaluations']['valuation_exact_belief_context'] == 2, 'Exact valuation reads not accounted')
@@ -339,9 +353,14 @@ def capture(folder, protocol):
         receipt.update(status='FAIL', failures=1, error_type=type(error).__name__, error=str(error))
         raise
     finally:
-        receipt['source_head_and_bytes_unchanged'] = unchanged(source, identities)
+        try:
+            receipt['source_head_and_bytes_unchanged'] = unchanged(source, identities)
+        except (OSError, subprocess.SubprocessError) as error:
+            receipt['source_head_and_bytes_unchanged'] = False
+            receipt['source_guard_error'] = dict(error_type=type(error).__name__, error=str(error))
         if not receipt['source_head_and_bytes_unchanged']:
-            receipt.update(status='FAIL', failures=1, source_guard_error='Source changed during capture')
+            receipt.update(status='FAIL', failures=1)
+            receipt.setdefault('source_guard_error', 'Source changed during capture')
         receipt['artifacts'] = {name: digest((folder / name).read_bytes()) for name in sorted(durable(folder))}
         write(folder / protocol['terminal_receipt'], receipt)
     require(receipt['status'] == 'PASS', 'Frozen capture source/receipt failed')

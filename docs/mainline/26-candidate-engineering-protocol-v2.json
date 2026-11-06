@@ -1,0 +1,530 @@
+{
+  "schema": "aegisdc-candidate-engineering-protocol-v2",
+  "ticket": "26",
+  "status": "FROZEN_ON_COMMIT_BEFORE_CAPTURE",
+  "classification": "FINITE_ENGINEERING_INTERFACES_NOT_EFFECT_COMPARISON",
+  "pure_cases": [
+    {
+      "id": "nonadaptive-baseline",
+      "input": "evidence/mainline/engineering/26-candidate/reference/nonadaptive-baseline.json",
+      "expected": {
+        "chosen": "first-inspection",
+        "values": {
+          "inspect_then_act": [
+            39,
+            40
+          ],
+          "direct_intervention": [
+            17,
+            16
+          ],
+          "defer": [
+            3,
+            2
+          ]
+        },
+        "classification": null
+      }
+    },
+    {
+      "id": "nonadaptive-candidate",
+      "input": "evidence/mainline/engineering/26-candidate/reference/nonadaptive-candidate.json",
+      "expected": {
+        "chosen": "first-action",
+        "values": {
+          "inspect_then_act": [
+            3,
+            2
+          ],
+          "direct_intervention": [
+            17,
+            16
+          ],
+          "defer": [
+            3,
+            2
+          ]
+        },
+        "classification": "NON_ADAPTIVE_UNDER_DECLARED_UPDATER"
+      }
+    },
+    {
+      "id": "informative-candidate",
+      "input": "evidence/mainline/engineering/26-candidate/reference/informative-candidate.json",
+      "expected": {
+        "chosen": "first-inspection",
+        "values": {
+          "inspect_then_act": [
+            39,
+            40
+          ],
+          "direct_intervention": [
+            17,
+            16
+          ],
+          "defer": [
+            3,
+            2
+          ]
+        },
+        "classification": "INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER",
+        "positive": [
+          8,
+          11
+        ],
+        "negative": [
+          2,
+          29
+        ]
+      }
+    },
+    {
+      "id": "neutral-expiry-boundary",
+      "input": "evidence/mainline/engineering/26-candidate/reference/neutral-expiry-boundary.json",
+      "expected": {
+        "chosen": "first-inspection",
+        "values": {
+          "inspect_then_act": [
+            39,
+            40
+          ]
+        },
+        "classification": "INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER",
+        "positive": [
+          8,
+          11
+        ],
+        "negative": [
+          2,
+          29
+        ]
+      }
+    },
+    {
+      "id": "coarse-outcome-mismatch",
+      "input": "evidence/mainline/engineering/26-candidate/reference/coarse-outcome-mismatch.json",
+      "expected": {
+        "chosen": "first-action",
+        "values": {
+          "inspect_then_act": null
+        },
+        "classification": "UNMODELED",
+        "reason": "IMPLEMENTATION_CONTEXT_OUTCOME_MASS_UNSUPPORTED",
+        "projected_positive": [
+          16,
+          25
+        ],
+        "original_positive": [
+          8,
+          9
+        ]
+      }
+    },
+    {
+      "id": "legacy-representation-boundary",
+      "input": "evidence/mainline/engineering/26-candidate/reference/legacy-representation-boundary.json",
+      "expected": {
+        "chosen": "first-action",
+        "values": {
+          "inspect_then_act": null
+        },
+        "classification": "UNMODELED",
+        "reason": "VALUATION_REPRESENTATION_UNSUPPORTED",
+        "exact_current": [
+          16,
+          59
+        ]
+      }
+    },
+    {
+      "id": "exact-baseline",
+      "input": "evidence/mainline/engineering/26-candidate/reference/exact-baseline.json",
+      "expected": {
+        "chosen": "first-inspection",
+        "values": {
+          "inspect_then_act": [
+            619,
+            590
+          ],
+          "direct_intervention": [
+            63,
+            59
+          ],
+          "defer": [
+            96,
+            59
+          ]
+        },
+        "classification": null,
+        "common_exact": [
+          16,
+          59
+        ],
+        "positive": null,
+        "negative": null
+      }
+    },
+    {
+      "id": "exact-candidate",
+      "input": "evidence/mainline/engineering/26-candidate/reference/exact-candidate.json",
+      "expected": {
+        "chosen": "first-inspection",
+        "values": {
+          "inspect_then_act": [
+            619,
+            590
+          ],
+          "direct_intervention": [
+            63,
+            59
+          ],
+          "defer": [
+            96,
+            59
+          ]
+        },
+        "classification": "INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER",
+        "common_exact": [
+          16,
+          59
+        ],
+        "positive": [
+          128,
+          171
+        ],
+        "negative": [
+          32,
+          419
+        ]
+      }
+    },
+    {
+      "id": "nonneutral-expiry-context",
+      "input": "evidence/mainline/engineering/26-candidate/reference/nonneutral-expiry-context.json",
+      "expected": {
+        "chosen": "first-action",
+        "values": {
+          "inspect_then_act": null
+        },
+        "classification": "UNMODELED",
+        "reason": "IMPLEMENTATION_CONTEXT_OUTCOME_MASS_UNSUPPORTED",
+        "projected_positive": [
+          8,
+          11
+        ],
+        "original_positive": [
+          128,
+          171
+        ]
+      }
+    },
+    {
+      "id": "pending-issued-inspection",
+      "input": "evidence/mainline/engineering/26-candidate/reference/pending-issued-inspection.json",
+      "expected": {
+        "chosen": null,
+        "values": {
+          "inspect_then_act": null
+        },
+        "classification": "UNMODELED",
+        "reason": "PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED"
+      }
+    }
+  ],
+  "physical_cases": [
+    {
+      "id": "online-candidate-inspect",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-candidate-inspect.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          2.25,
+          4
+        ],
+        "work_started_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          4
+        ],
+        "polls": [
+          0
+        ],
+        "work_person_s": 2,
+        "spent": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "handheld": "bounded",
+        "closure_pending": true,
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    },
+    {
+      "id": "online-baseline-inspect",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-baseline-inspect.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          2.25,
+          4
+        ],
+        "work_started_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          4
+        ],
+        "polls": [
+          0
+        ],
+        "work_person_s": 2,
+        "spent": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "handheld": "bounded",
+        "closure_pending": true,
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    },
+    {
+      "id": "online-candidate-direct",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-candidate-direct.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          "first-action",
+          null,
+          null,
+          null
+        ],
+        "completed_at_s": [
+          2.25
+        ],
+        "work_started_at_s": [
+          1.25
+        ],
+        "effect_at_s": [
+          2.25
+        ],
+        "polls": [
+          0
+        ],
+        "work_person_s": 1,
+        "spent": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "handheld": null,
+        "inspection_prediction": [
+          3,
+          2
+        ],
+        "direct_prediction": [
+          17,
+          16
+        ],
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    },
+    {
+      "id": "online-candidate-defer",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-candidate-defer.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "completed_at_s": [],
+        "work_started_at_s": [],
+        "effect_at_s": [],
+        "polls": [
+          0
+        ],
+        "work_person_s": 0,
+        "spent": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "handheld": null,
+        "interpretation": "Zero modeled impairment; actual service remains impaired. This is not a healthy-world claim.",
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    },
+    {
+      "id": "online-known-fixed-arrival",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-known-fixed-arrival.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          "first-action"
+        ],
+        "completed_at_s": [
+          2.25
+        ],
+        "work_started_at_s": [
+          1.25
+        ],
+        "effect_at_s": [
+          2.25
+        ],
+        "polls": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "work_person_s": 1,
+        "spent": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "handheld": null,
+        "first_reason": "BACKGROUND_ARRIVAL_JOINT_LAW_UNMODELED",
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    },
+    {
+      "id": "online-actual-indeterminate",
+      "input": "evidence/mainline/engineering/26-candidate/reference/online-actual-indeterminate.json",
+      "duration_s": 6,
+      "expected": {
+        "chosen": [
+          "first-inspection",
+          null,
+          "first-action",
+          null
+        ],
+        "completed_at_s": [
+          2.25,
+          4
+        ],
+        "work_started_at_s": [
+          1.25,
+          3
+        ],
+        "effect_at_s": [
+          4
+        ],
+        "polls": [
+          0
+        ],
+        "work_person_s": 2,
+        "spent": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "handheld": "missing",
+        "demand_service_unit_s": 6,
+        "delivered_service_unit_s": 1.5,
+        "service_deficit_time_s": 4.5
+      }
+    }
+  ],
+  "pure_selector_calls": 10,
+  "physical_runs": 6,
+  "total_simulated_duration_s": 36,
+  "maximum_step_s": 0.01,
+  "scheduled_online_decision_calls": 21,
+  "authoring_tool": "scripts/candidate_delivery.py",
+  "helper_tool": "scripts/inspection_delivery.py",
+  "input_preparation_tool": "scripts/prepare_candidate_inputs.py",
+  "contracts": [
+    "docs/mainline/26-evidence-consistent-candidate.md",
+    "docs/mainline/26-projection-law-next-slice.md",
+    "docs/mainline/26-exact-valuation-basis-proposal.md",
+    "docs/mainline/26-online-policy-bridge-plan.md",
+    "docs/mainline/26-finite-engineering-delivery.md",
+    "docs/mainline/26-pre-capture-tool-correction-01.md"
+  ],
+  "same_public_pair": [
+    "nonadaptive-baseline",
+    "nonadaptive-candidate"
+  ],
+  "same_exact_pair": [
+    "exact-baseline",
+    "exact-candidate"
+  ],
+  "same_online_pair": [
+    "online-baseline-inspect",
+    "online-candidate-inspect"
+  ],
+  "durable_root": [
+    "attempt.json",
+    "attempts.jsonl",
+    "checks.json",
+    "actual-online.svg",
+    "decision-values.svg",
+    "candidate-boundary.svg"
+  ],
+  "durable_pure": [
+    "decision.json",
+    "computation.json"
+  ],
+  "durable_physical": [
+    "run.json",
+    "scenario.json",
+    "private-state.jsonl",
+    "balances.jsonl"
+  ],
+  "terminal_receipt": "receipt.json",
+  "absolute_tolerance": 1e-09,
+  "energy_tolerance_J": 0.0001,
+  "mass_tolerance_kg": 1e-09,
+  "retry_rule": "One call per declared case; fsynced STARTED before invocation. Save original and check before next case. Any failure stops. No automatic retry or overwriting; correction requires a new explicit frozen protocol/source/output and complete attempt accounting.",
+  "durable_classification": "Declared durable inputs, tools and outputs only. __pycache__, .pyc and .pyo are runtime caches and are not delivery evidence.",
+  "expected_source_rule": "Execution at a clean committed revision, exact runtime/tool/input blob guards before and after all calls; saved verification checks original execution identity and delivery Git blobs.",
+  "registered_research_trials": 0,
+  "llm_calls": 0,
+  "training_calls": 0,
+  "field_calibration": "PENDING",
+  "full_regression": "ONE_ROOT_INTEGRATED_RUN_AFTER_REVIEW",
+  "scope": "One synthetic eight-domain V6 world, sparse fixed sensor continuing to poll, real crew/tool/measurement/action. Public declaration and actual information timing, constant-report/direct/defer and forecast-support counterexamples. Identical paired inputs except policy name. No policy superiority, field calibration, AI/RSI or complete M4 claim.",
+  "forecast_scope": "Each catalog horizon is relative to the decision. Actual physical horizon is six seconds; network capacity0.25 limits all six worlds, so demand6/delivery1.5/deficit4.5 independently of filter cleaning.",
+  "oracle_scope": "Literal independent Fraction, timing, hydraulic and service witnesses were prepared before capture. Expectations are not filled from captured outputs.",
+  "revision_of": {
+    "source": "93b7ad992fe233068521c10decc3c85756c806d1",
+    "protocol": "docs/mainline/26-candidate-engineering-protocol.json",
+    "executed_selector_calls": 0,
+    "executed_physical_calls": 0
+  },
+  "correction_record": "docs/mainline/26-pre-capture-tool-correction-01.md",
+  "output_directory": "evidence/mainline/engineering/26-candidate/capture-20261107-02"
+}

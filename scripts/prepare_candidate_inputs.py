@@ -11,7 +11,7 @@ from test_evidence_consistent_execution import online_fixture
 from test_verified_closure import fixture as closure_fixture
 
 PACKAGE = 'evidence/mainline/engineering/26-candidate'
-PROTOCOL = 'docs/mainline/26-candidate-engineering-protocol.json'
+PROTOCOL = 'docs/mainline/26-candidate-engineering-protocol-v2.json'
 
 
 def write(path, value):
@@ -145,7 +145,7 @@ def main():
         provenance=dict(origin_id='other-result', copied_from_record_id=None))
     policy['evidence_projection']['inspection_profile']['bindings'].append(binding)
     history['issued'] = [dict(candidate_id=other['id'], issued_at_s=0)]
-    decision('pending-issued-inspection', frame, policy, history, dict(chosen='first-action',
+    decision('pending-issued-inspection', frame, policy, history, dict(chosen=None,
         values=dict(inspect_then_act=None), classification='UNMODELED', reason='PENDING_INSPECTION_RECORD_JOINT_LAW_UNMODELED'))
 
     for label, name in (('candidate', 'evidence_consistent_contingent'), ('baseline', 'one_observation_lookahead')):
@@ -187,7 +187,11 @@ def main():
         completed_at_s=[2.25, 4], work_started_at_s=[1.25, 3], effect_at_s=[4], polls=[0], work_person_s=2,
         spent=dict(person_s=20, tool_s=20, cost=2), handheld='missing'))
 
-    protocol = dict(schema='aegisdc-candidate-engineering-protocol-v1', ticket='26', status='FROZEN_ON_COMMIT_BEFORE_CAPTURE',
+    protocol = dict(schema='aegisdc-candidate-engineering-protocol-v2', ticket='26', status='FROZEN_ON_COMMIT_BEFORE_CAPTURE',
+        revision_of=dict(source='93b7ad992fe233068521c10decc3c85756c806d1',
+            protocol='docs/mainline/26-candidate-engineering-protocol.json', executed_selector_calls=0, executed_physical_calls=0),
+        correction_record='docs/mainline/26-pre-capture-tool-correction-01.md',
+        output_directory='evidence/mainline/engineering/26-candidate/capture-20261107-02',
         classification='FINITE_ENGINEERING_INTERFACES_NOT_EFFECT_COMPARISON',
         pure_cases=pure, physical_cases=physical, pure_selector_calls=len(pure), physical_runs=len(physical),
         total_simulated_duration_s=sum(case['duration_s'] for case in physical), maximum_step_s=.01,
@@ -196,7 +200,7 @@ def main():
         input_preparation_tool='scripts/prepare_candidate_inputs.py',
         contracts=['docs/mainline/26-evidence-consistent-candidate.md', 'docs/mainline/26-projection-law-next-slice.md',
             'docs/mainline/26-exact-valuation-basis-proposal.md', 'docs/mainline/26-online-policy-bridge-plan.md',
-            'docs/mainline/26-finite-engineering-delivery.md'],
+            'docs/mainline/26-finite-engineering-delivery.md', 'docs/mainline/26-pre-capture-tool-correction-01.md'],
         same_public_pair=['nonadaptive-baseline', 'nonadaptive-candidate'],
         same_exact_pair=['exact-baseline', 'exact-candidate'],
         same_online_pair=['online-baseline-inspect', 'online-candidate-inspect'],
