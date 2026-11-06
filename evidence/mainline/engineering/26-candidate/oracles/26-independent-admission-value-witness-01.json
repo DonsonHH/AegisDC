@@ -1,0 +1,64 @@
+{
+  "schema": "aegisdc-independent-literal-value-witness-v1",
+  "classification": "PRE_IMPLEMENTATION_PURE_ARITHMETIC_NOT_POLICY_EFFECT_EVIDENCE",
+  "assumptions": [
+    "Six-second horizon with unit demand; impairment prior1/4, otherwise healthy.",
+    "The same positive-report law:4/5 given impairment and1/10 otherwise.",
+    "Inspection completion5/4, report7/4; direct action1/4..5/4, delayed action2..3.",
+    "Intervention removes all service capacity during one second of work, then fully restores it.",
+    "Prospective report cannot change the declared updater or continuation in the non-adaptive projection.",
+    "No future background arrivals and no belief-epoch crossing in this finite projection."
+  ],
+  "expected_service_deficit_s": {
+    "defer": {
+      "numerator": 3,
+      "denominator": 2,
+      "value": 1.5
+    },
+    "direct_intervention": {
+      "numerator": 17,
+      "denominator": 16,
+      "value": 1.0625
+    },
+    "closest_baseline_informative_inspection": {
+      "numerator": 39,
+      "denominator": 40,
+      "value": 0.975
+    },
+    "nonadaptive_inspection_then_defer": {
+      "numerator": 3,
+      "denominator": 2,
+      "value": 1.5
+    },
+    "nonadaptive_inspection_then_intervene": {
+      "numerator": 3,
+      "denominator": 2,
+      "value": 1.5
+    }
+  },
+  "original_report_marginal_by_state": {
+    "bad": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "good": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    }
+  },
+  "expected_selection": {
+    "closest_baseline": "inspect",
+    "candidate": "direct_intervention"
+  },
+  "interpretation": "Marginalization keeps the original state weights; it does not replace likelihoods, forge a report, or establish physical gain.",
+  "contract_at_observation_sha256": "be41d2ae502cad3575db1393ccea9bc40d6665453d8a55c5b25549eb47f86159",
+  "script_sha256": "b88afaf0310ed7cae488c7fd472cb3f7b346a868a3ac54a0ba327c8b26a9970c",
+  "new_application_calls": 0,
+  "new_simulate_calls": 0,
+  "new_tests": 0,
+  "new_inference": 0,
+  "new_training": 0,
+  "registered_research_trials": 0
+}

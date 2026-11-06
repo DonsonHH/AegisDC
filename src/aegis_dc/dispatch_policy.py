@@ -52,16 +52,20 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
     frame=validate_current_frame(frame);_plain_json(program);_plain_json(history);_plain_json(intervention_declaration)
     _require(type(program) is dict,'Declare policy program object')
     _text(program.get('schema'),'Policy program schema')
-    version3=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v3'
-    version2=type(program) is dict and program.get('schema') in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
-    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget','intervention_declaration'} if version3 else set()),'Dispatch policy program')
+    version4=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v4'
+    version3=type(program) is dict and program.get('schema') in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}
+    version2=type(program) is dict and program.get('schema') in {'aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget','intervention_declaration'} if version3 else set())|({'evidence_projection'} if version4 else set()),'Dispatch policy program')
     _fields(history,{'issued','work_feedback'},'Public policy history')
     _text(program['schema'],'Policy program schema')
-    _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3'}
+    _require(program['schema'] in {'aegisdc-dispatch-policy-program-v1','aegisdc-dispatch-policy-program-v2','aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}
         and program['basis']=='synthetic_assumption','Declare synthetic policy program')
     _text(program['id'],'Policy program id')
     _text(program['policy'],'Policy name')
-    _require(program['policy'] in ({'no_human','fifo','periodic','risk_condition_priority_adapted','one_observation_lookahead'} if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+    _require(program['policy'] in (({'no_human','fifo','periodic','risk_condition_priority_adapted','one_observation_lookahead'}|({'evidence_consistent_contingent'} if version4 else set())) if version2 else {'no_human','fifo'}),'Policy not implemented in this development slice')
+    if version4:
+        from .evidence_projection import validate_projection
+        validate_projection(frame,program['evidence_projection'])
     if version2 and program['policy'] in {'no_human','fifo'}:_fields(program['options'],set(),'Policy options')
     candidates=_registry(program['candidates'],'Policy candidate');audits=[];task_ids=set()
     for candidate in candidates.values():
@@ -156,12 +160,12 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
     if program['policy']=='risk_condition_priority_adapted':
         from .risk_condition_policy import evaluate
         selected,detail=evaluate(frame,program['options'],candidates,audits)
-    elif program['policy']=='one_observation_lookahead':
+    elif program['policy'] in {'one_observation_lookahead','evidence_consistent_contingent'}:
         from .lookahead_policy import evaluate
         options=deepcopy(program['options'])
-        if ledger is not None:
-            _require(options['value_model']['cost_unit']==ledger['cost_unit'],'Shared policy and value-model cost units differ')
-        selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration)
+        projection=program['evidence_projection'] if program['policy']=='evidence_consistent_contingent' else None
+        selected,detail=evaluate(frame,options,candidates,audits,admission_budget=admission_budget,intervention_declaration=intervention_declaration,evidence_projection=projection,
+            policy_declaration=program if version4 else None,history=history)
     reason=detail.pop('reason',None)
     if reason is None:
         reason=('POLICY_NO_HUMAN' if program['policy']=='no_human' else

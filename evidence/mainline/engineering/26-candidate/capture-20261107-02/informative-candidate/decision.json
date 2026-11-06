@@ -1,0 +1,779 @@
+{
+  "schema": "aegisdc-policy-choice-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "as_of_s": 0,
+  "policy": "evidence_consistent_contingent",
+  "chosen_candidate_id": "first-inspection",
+  "work_intention": {
+    "id": "lookahead-inspect",
+    "work_interface_id": "inspect_facility_cooling",
+    "target_id": "intake_pump",
+    "crew": [
+      {
+        "worker_id": "worker_cooling",
+        "qualification_id": "qualified_cooling_inspection"
+      }
+    ],
+    "tool_carrier_id": "worker_cooling",
+    "deadline_s": 10,
+    "source_note": "Explicit synthetic authorized repair work, not field certification."
+  },
+  "reason": "ONE_OBSERVATION_FIRST_ACTION_ONLY",
+  "candidates": [
+    {
+      "candidate_id": "first-action",
+      "task_id": "lookahead-action",
+      "question_id": "cooling",
+      "eligible": true,
+      "reasons": [],
+      "available_at_s": 0,
+      "kind": "intervene",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "lookahead-action",
+        "as_of_s": 0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "intervention_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "lookahead-action",
+        "as_of_s": 0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY",
+        "operation_id": "network-restore",
+        "authorization_id": "research-grant",
+        "physical_effect": "NOT_EXECUTED",
+        "effect_gate": "ACTUAL_CREW_COMPLETION_CURRENT_AUTHORITY_AND_PHYSICAL_DOMAIN"
+      },
+      "declared_resource_reservation": {
+        "person_s": 10,
+        "tool_s": 10,
+        "cost": 1
+      },
+      "forecast_selected": false
+    },
+    {
+      "candidate_id": "first-inspection",
+      "task_id": "lookahead-inspect",
+      "question_id": "cooling",
+      "eligible": true,
+      "reasons": [],
+      "available_at_s": 0,
+      "kind": "inspect",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "lookahead-inspect",
+        "as_of_s": 0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "declared_resource_reservation": {
+        "person_s": 10,
+        "tool_s": 10,
+        "cost": 1
+      },
+      "forecast_selected": true
+    }
+  ],
+  "generated_tour": false,
+  "execution_permission": false,
+  "scope": "PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED",
+  "resource_ledger": {
+    "spent_or_reserved": {
+      "person_s": 0,
+      "tool_s": 0,
+      "cost": 0
+    },
+    "remaining": {
+      "person_s": 100,
+      "tool_s": 100,
+      "cost": 2
+    },
+    "cost_unit": "research_cost_unit",
+    "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+    "terminal_report_refund": false,
+    "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+  },
+  "model_evaluations": {
+    "risk": 0,
+    "action_value": 2,
+    "prospective_belief": 2,
+    "exact_belief_context": 3
+  },
+  "unmodeled_question_ids": [
+    "access-and-leak",
+    "backup-support",
+    "control-uncertainty",
+    "it-dependence",
+    "people-and-tools",
+    "room-boundary"
+  ],
+  "forecast_plans": [
+    {
+      "question_id": "cooling",
+      "best_alternative": "inspect_then_act",
+      "best_expected_service_deficit_s": 0.975,
+      "alternatives": [
+        {
+          "kind": "defer",
+          "candidate_id": null,
+          "eligible": true,
+          "expected_service_deficit_s": 1.5,
+          "planning_reasons": []
+        },
+        {
+          "kind": "direct_intervention",
+          "candidate_id": "first-action",
+          "eligible": true,
+          "expected_service_deficit_s": 1.0625,
+          "planning_reasons": []
+        },
+        {
+          "kind": "inspect_then_act",
+          "candidate_id": "first-inspection",
+          "eligible": true,
+          "expected_service_deficit_s": 0.975,
+          "planning_reasons": []
+        }
+      ]
+    }
+  ],
+  "forecast_branch_count": 4,
+  "forecast_window_s": [
+    0,
+    6
+  ],
+  "forecast_scope": "SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION",
+  "forecast_belief": {
+    "schema": "aegisdc-belief-result-v1",
+    "model_id": "V6-heat-and-electrical-support-v1",
+    "scope_id": "V6-belief-engineering-replicate-01",
+    "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "domain_ids": [
+      "power",
+      "backup",
+      "facility_cooling",
+      "equipment_environment",
+      "it_service",
+      "control_monitoring",
+      "space_access",
+      "people_tools_work"
+    ],
+    "as_of_s": 0,
+    "epoch": 0,
+    "time_unit": "s",
+    "probability_unit": "1",
+    "status": "UPDATED",
+    "posterior": {
+      "nominal": 0.5,
+      "cooling-limited": 0.25,
+      "power-limited": 0.125,
+      "other": 0.125
+    },
+    "reference_variant_id": "reference",
+    "posterior_by_variant": {
+      "reference": {
+        "nominal": 0.5,
+        "cooling-limited": 0.25,
+        "power-limited": 0.125,
+        "other": 0.125
+      },
+      "weaker-discrimination": {
+        "nominal": 0.5,
+        "cooling-limited": 0.25,
+        "power-limited": 0.125,
+        "other": 0.125
+      }
+    },
+    "positive_support_by_variant": {
+      "reference": [
+        "nominal",
+        "cooling-limited",
+        "power-limited",
+        "other"
+      ],
+      "weaker-discrimination": [
+        "nominal",
+        "cooling-limited",
+        "power-limited",
+        "other"
+      ]
+    },
+    "impossible_observation_epoch_by_variant": {},
+    "assumption_envelope": {
+      "nominal": [
+        0.5,
+        0.5
+      ],
+      "cooling-limited": [
+        0.25,
+        0.25
+      ],
+      "power-limited": [
+        0.125,
+        0.125
+      ],
+      "other": [
+        0.125,
+        0.125
+      ]
+    },
+    "envelope_basis": "MIN_MAX_ACROSS_DECLARED_MODEL_VARIANTS",
+    "information_updates": [
+      "current-power"
+    ],
+    "record_audit": [
+      {
+        "record_id": "current-power",
+        "source_id": "rectifier-meter-record",
+        "origin_id": "current-power-root",
+        "copied_from_record_id": null,
+        "observed_at_s": 0,
+        "arrived_at_s": 0,
+        "valid_until_s": 10,
+        "availability": "current",
+        "observation_epoch": 0,
+        "channel_id": "fixed-low-power",
+        "positive": false,
+        "disposition": "used"
+      }
+    ],
+    "reported_conflicts": [],
+    "provenance_issues": [],
+    "physical_actions": [],
+    "unidentified": [
+      "Dominant cause is latent. Coolant heat alone cannot distinguish filter resistance, intake pump capacity, load or other heat sources.",
+      "Aggregate rectifier input cannot distinguish upstream supply loss, rectifier limitation, or low demand.",
+      "Other or concurrent causes are aggregated. Component parameters, loads, and severity remain unidentified.",
+      "Field priors, transitions, observation performance, and dependence remain pending calibration."
+    ]
+  },
+  "forecast_is_actual_observation": false,
+  "adaptation": "BOUNDED_EVIDENCE_CONSISTENT_FIRST_ACTION",
+  "prospective_evidence_audit": [
+    {
+      "question_id": "cooling",
+      "classification": "INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER",
+      "predicted_work_started_at_s": 0.25,
+      "predicted_observed_at_s": 1.25,
+      "predicted_arrived_at_s": 1.75,
+      "predicted_valid_until_s": 6.25,
+      "covered_report_classes": [
+        "positive",
+        "negative",
+        "threshold_straddled",
+        "missing"
+      ],
+      "context_assumption": "NO_UNSCHEDULED_RECORD_ARRIVALS_UNTIL_PROJECTED_REPORT",
+      "unchanged_factor_record_ids": [],
+      "marginalization": null,
+      "pending_inspection_task_ids": [],
+      "proof": "SUFFICIENT_STRUCTURAL_CONDITION_NOT_A_NECESSARY_INFORMATION_TEST",
+      "forecast_assumption": "EVERY_MODELED_OUTCOME_COMPLETES_SUITABLY_AT_DECLARED_TIME_WITH_DECISIVE_BINARY_REPORT",
+      "zero_forecast_mass_report_classes": [
+        "threshold_straddled",
+        "missing"
+      ],
+      "compatibility_by_assumption": [
+        {
+          "belief_variant_id": "reference",
+          "value_variant_id": "reference",
+          "status": "MATCHED",
+          "branches": {
+            "positive": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                11,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  true
+                ]
+              ]
+            },
+            "negative": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                29,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  false
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "belief_variant_id": "reference",
+          "value_variant_id": "weaker-test-and-residual",
+          "status": "MATCHED",
+          "branches": {
+            "positive": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                11,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  true
+                ]
+              ]
+            },
+            "negative": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                29,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  false
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "belief_variant_id": "weaker-discrimination",
+          "value_variant_id": "reference",
+          "status": "MATCHED",
+          "branches": {
+            "positive": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                11,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  true
+                ]
+              ]
+            },
+            "negative": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                29,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  false
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "belief_variant_id": "weaker-discrimination",
+          "value_variant_id": "weaker-test-and-residual",
+          "status": "MATCHED",
+          "branches": {
+            "positive": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                11,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  2,
+                  11
+                ],
+                "cooling-limited": [
+                  8,
+                  11
+                ],
+                "power-limited": [
+                  1,
+                  22
+                ],
+                "other": [
+                  1,
+                  22
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  true
+                ]
+              ]
+            },
+            "negative": {
+              "status": "MATCHED",
+              "original_report_probability": [
+                29,
+                40
+              ],
+              "projected_outcome_mass": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "original_joint_report_posterior": {
+                "nominal": [
+                  18,
+                  29
+                ],
+                "cooling-limited": [
+                  2,
+                  29
+                ],
+                "power-limited": [
+                  9,
+                  58
+                ],
+                "other": [
+                  9,
+                  58
+                ]
+              },
+              "projected_factor_signature": [
+                [
+                  "current-power",
+                  0,
+                  "fixed-low-power",
+                  false
+                ],
+                [
+                  "post-clean-flow",
+                  0,
+                  "lookahead-flow-channel",
+                  false
+                ]
+              ]
+            }
+          }
+        }
+      ],
+      "reasons": []
+    }
+  ]
+}

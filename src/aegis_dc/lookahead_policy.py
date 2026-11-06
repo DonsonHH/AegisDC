@@ -1,13 +1,13 @@
 """Bounded one-observation planning adaptation, never an actual-state oracle."""
 from copy import deepcopy
 from fractions import Fraction
-from .action_value import assess_action_value
+from .action_value import assess_action_value,SERIALIZED_MASS_BASIS,EXACT_MASS_BASIS
 from .evidence_ledger import _fields,_require,_text
 
 OPTION_FIELDS={'belief_model','catalog','preparation_requests','value_model','bindings','unknown_inspection_policy'}
 BIND_FIELDS={'question_id','inspection_candidate_id','intervention_candidate_id','source_note'}
 
-def validate_execution_bindings(policy,inspection_program):
+def validate_execution_bindings(policy,inspection_program,*,frame=None):
     """Bind known work/report timing and reference report law to actual interfaces."""
     options=policy['options'];candidates={c['id']:c for c in policy['candidates']}
     locals={q['question_id']:q for q in options['value_model']['question_models']}
@@ -22,13 +22,20 @@ def validate_execution_bindings(policy,inspection_program):
             candidate=candidates[mapping[key]];task=candidate['task']
             _require(local[stage]['work_s']==policy['workforce_profile']['work_times_s'][task['work_interface_id']],
                 'Forecast professional work duration differs from the declared actual crew interface')
-            if policy['schema']=='aegisdc-dispatch-policy-program-v3':
+            if policy['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
                 _require(local[stage]['cost']==candidate['issue_cost'],'Forecast and common task issue costs differ')
         task=candidates[mapping['inspection_candidate_id']]['task'];binding=bindings.get(task['id'])
         _require(binding is not None,'Forecast first inspection must produce a declared actual observation')
         _require(local['inspection']['report_latency_s']==binding['arrival_latency_s'],
             'Forecast report latency differs from its actual observation channel')
         measured=models[binding['model_id']]
+        if frame is not None:
+            interface=next(i for i in frame['nominal_knowledge']['work_interfaces'] if i['id']==task['work_interface_id'])
+            entities={e['id']:e for e in frame['nominal_knowledge']['entities']}
+            _require(measured['target_id']==task['target_id'],'Inspection model target differs from the public work target')
+            _require(binding['tool_id'] in interface['tool_ids'] and binding['tool_id'] in entities
+                and entities[binding['tool_id']]['kind']=='tool','Inspection tool must be occupied by the declared public work interface')
+            _require(binding['qualification_id']==interface['qualification_id'],'Inspection qualification differs from the public work interface')
         channels=[c for c in belief['channels'] if all(c[k]==measured[k] for k in ('source_id','target_id','observable_id'))]
         _require(len(channels)==1,'Actual lookahead inspection requires one declared belief update channel')
         channel=channels[0];reference_value=local['variants'][0]
@@ -37,14 +44,22 @@ def validate_execution_bindings(policy,inspection_program):
         actual=list(map(lambda x:Fraction(str(x)),reference_belief['positive_likelihood'][channel['id']]))
         _require(expected==actual,'Prospective reference report law differs from the arrived-evidence belief channel')
 
-def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None):
+def evaluate(frame,options,candidates,audits,*,admission_budget=None,intervention_declaration=None,evidence_projection=None,policy_declaration=None,history=None):
     _fields(options,OPTION_FIELDS,'One-observation policy options')
     _require(frame['requests']==options['preparation_requests'],'Use the same public planning requests')
     _require(options['unknown_inspection_policy']=='fifo','Declare the shared unknown-inspection fallback')
+    # v4 adds an early execution/projection consumer. Validate the complete
+    # existing value/risk/belief model before that consumer indexes any child.
+    # This is a real extra assessment and is reported separately in call counts.
+    mass_basis=policy_declaration['evidence_projection'].get('valuation_mass_basis',SERIALIZED_MASS_BASIS) if policy_declaration is not None else SERIALIZED_MASS_BASIS
+    values=assess_action_value(frame,options['belief_model'],options['catalog'],options['value_model'],valuation_mass_basis=mass_basis) if policy_declaration is not None else None
+    valuation_exact_calls=values.get('valuation_model_evaluations',{}).get('exact_belief_context',0) if values is not None else 0
     model=deepcopy(options['value_model'])
     for local in model['question_models']:
         local['action_on_positive']=local['action_on_negative']='minimum_service_deficit'
-    values=assess_action_value(frame,options['belief_model'],options['catalog'],model)
+    if values is None:values=assess_action_value(frame,options['belief_model'],options['catalog'],model)
+    if admission_budget is not None:
+        _require(model['cost_unit']==admission_budget.cost_unit,'Shared policy and value-model cost units differ')
     locals={row['question_id']:row for row in model['question_models']}
     requests={r['id']:r for r in frame['requests']}
     questions={q['id']:q for q in values['risk']['questions']}
@@ -75,6 +90,17 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
             bound_ids.add(candidate['id'])
         bindings[q]=binding
     _require(set(bindings)==set(locals),'Bind every declared finite value question')
+    if policy_declaration is not None:
+        from .evidence_projection import validate_value_projection_bindings
+        validate_value_projection_bindings(options,candidates,policy_declaration['evidence_projection'])
+        validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']),frame=frame)
+    information=None;projection_audit=[];projection_calls={}
+    if evidence_projection is not None:
+        from .evidence_projection import project_inspections
+        information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection,history)
+    if policy_declaration is not None:
+        values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information,valuation_mass_basis=mass_basis)
+        valuation_exact_calls+=values.get('valuation_model_evaluations',{}).get('exact_belief_context',0)
     by_id={r['candidate_id']:r for r in audits};plans=[];choices=[];branches=0
     for value in values['question_values']:
         q=value['question_id'];binding=bindings[q];alternatives=[]
@@ -126,8 +152,11 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         if audit['candidate_id'] not in bound_ids and audit['question_id'] not in unmodeled:
             audit['reasons'].append('NO_DECLARED_FINITE_VALUE_BINDING');audit['eligible']=False
         audit['forecast_selected']=audit['candidate_id']==selected
-    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=1),unmodeled_question_ids=sorted(unmodeled),
+    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,
+            **(dict(valuation_exact_belief_context=valuation_exact_calls) if mass_basis==EXACT_MASS_BASIS else {}),**projection_calls),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
         forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,
-        adaptation='BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY')
+        adaptation='BOUNDED_EVIDENCE_CONSISTENT_FIRST_ACTION' if evidence_projection is not None else 'BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY',
+        **({key:values[key] for key in ('valuation_mass_basis','valuation_current_outcome_mass_by_belief_variant')} if mass_basis==EXACT_MASS_BASIS else {}),
+        **({'prospective_evidence_audit':projection_audit} if evidence_projection is not None else {}))

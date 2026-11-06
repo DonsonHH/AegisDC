@@ -1,0 +1,36 @@
+development_original C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\.work\26-online-development\inherited-action-0983bd37394c432196e7715c272d8bcd
+test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates (test_evidence_consistent_execution.EvidenceConsistentExecutionTests.test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates) ... 
+  test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates (test_evidence_consistent_execution.EvidenceConsistentExecutionTests.test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates) (mismatch='action') ... FAIL
+development_original C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\.work\26-online-development\inherited-kind-ca7b757e542548d7a19e99fc7bcf0712
+  test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates (test_evidence_consistent_execution.EvidenceConsistentExecutionTests.test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates) (mismatch='kind') ... FAIL
+
+======================================================================
+FAIL: test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates (test_evidence_consistent_execution.EvidenceConsistentExecutionTests.test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates) (mismatch='action')
+----------------------------------------------------------------------
+ValueError: Selector and executor public intervention declarations differ
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_execution.py", line 72, in test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates
+    with self.subTest(mismatch=mismatch),self.assertRaisesRegex(ValueError,reason):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "Policy and actual executor must share the same public intervention declaration" does not match "Selector and executor public intervention declarations differ"
+
+======================================================================
+FAIL: test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates (test_evidence_consistent_execution.EvidenceConsistentExecutionTests.test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates) (mismatch='kind')
+----------------------------------------------------------------------
+ValueError: Task kind and public intervention binding differ
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_execution.py", line 72, in test_online_v4_inherits_the_public_action_declaration_and_task_kind_gates
+    with self.subTest(mismatch=mismatch),self.assertRaisesRegex(ValueError,reason):
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "Declared policy intention kind differs from its execution binding" does not match "Task kind and public intervention binding differ"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.446s
+
+FAILED (failures=2)

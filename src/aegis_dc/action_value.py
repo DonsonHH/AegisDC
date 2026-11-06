@@ -18,6 +18,8 @@ LOCAL_FIELDS={'id','question_id','inspection_option_id','intervention_option_id'
     'intervenor_id','inspection','intervention','action_on_positive','action_on_negative','variants'}
 SERVICE=('offered_service_unit_s','delivered_service_unit_s','unserved_service_unit_s','service_deficit_time_s')
 RESOURCE=('travel_person_s','wait_person_s','work_person_s','person_s','tool_s','cost')
+SERIALIZED_MASS_BASIS='SERIALIZED_PUBLIC_POSTERIOR_V1'
+EXACT_MASS_BASIS='EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1'
 
 
 def _number(value,label,maximum=None,positive=False):
@@ -189,10 +191,30 @@ def _comparison(alternatives):
         scope='DECLARED_SINGLE_NEXT_DECISION_TREE_NOT_GLOBAL_POLICY_OR_VERIFIED_GAIN')
 
 
-def assess_action_value(frame,belief_model,catalog,model):
+def assess_action_value(frame,belief_model,catalog,model,*,inspection_information=None,valuation_mass_basis=SERIALIZED_MASS_BASIS):
     """Compare a finite single-question decision tree, without executing actions."""
+    _text(valuation_mass_basis,'Valuation mass basis')
+    _require(valuation_mass_basis in {SERIALIZED_MASS_BASIS,EXACT_MASS_BASIS},'Unsupported public valuation mass basis')
     risk=assess_risks(frame,belief_model,catalog)
     availability=_validate(model,frame,catalog,risk)
+    exact_context=None
+    if valuation_mass_basis==EXACT_MASS_BASIS:
+        from .belief import exact_belief_context
+        exact_context=exact_belief_context(frame,belief_model)
+    world_masses={}
+    for identifier,posterior in risk['belief']['posterior_by_variant'].items():
+        if exact_context is not None:
+            ratios=exact_context['posterior_mass_by_variant'][identifier]
+            masses=None if ratios is None else {h:Fraction(*ratio) for h,ratio in ratios.items()}
+        else:masses=None if posterior is None else {h:Fraction(str(p)) for h,p in posterior.items()}
+        total=sum(masses.values()) if masses is not None else None
+        world_masses[identifier]=None if masses is None else {o['id']:sum(p/total*Fraction(str(o['conditional_probability'][h]))
+            for h,p in masses.items()) for o in catalog['outcomes']}
+    if inspection_information is not None:
+        _plain_json(inspection_information)
+        _require(type(inspection_information) is dict and set(inspection_information)=={q['question_id'] for q in model['question_models']}
+            and all(type(v) is str and v in {'NON_ADAPTIVE_UNDER_DECLARED_UPDATER','INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER','UNMODELED'} for v in inspection_information.values()),
+            'Declare one supported prospective information classification per modeled question')
     horizon=Fraction(catalog['horizon_s']);questions={q['id']:q for q in risk['questions']}
     requests={r['id']:r for r in frame['requests']};interfaces={r['id']:r for r in frame['nominal_knowledge']['work_interfaces']}
     values=[]
@@ -203,21 +225,27 @@ def assess_action_value(frame,belief_model,catalog,model):
         records=[]
         for belief_variant,posterior in risk['belief']['posterior_by_variant'].items():
             for variant in local['variants']:
-                if posterior is None:
+                if world_masses[belief_variant] is None:
                     records.append(dict(belief_variant_id=belief_variant,value_variant_id=variant['id'],alternatives=None))
                     continue
-                mass=sum(Fraction(str(p)) for p in posterior.values())
-                weights={o['id']:sum(Fraction(str(p))/mass*Fraction(str(o['conditional_probability'][s])) for s,p in posterior.items()) for o in catalog['outcomes']}
+                weights=world_masses[belief_variant]
                 it=local['inspection'];act=local['intervention']
                 inspect_finish=sum(_time(it).values());report_at=inspect_finish+Fraction(it['report_latency_s'])
                 alternatives=[]
                 for kind in ('defer','direct_intervention','inspect_then_act'):
+                    information=inspection_information.get(local['question_id']) if inspection_information is not None else None
+                    if kind=='inspect_then_act' and information=='UNMODELED':
+                        alternatives.append(dict(kind=kind,expected={key:dict(value=None,unit=_unit(key,model)) for key in (*SERVICE,*RESOURCE)},
+                            branches=[],information_updates_physical_state=False,eligible_for_planning=None,
+                            planning_reasons=['prospective_information_law_unmodeled'],execution_permission=False))
+                        continue
+                    nonadaptive=kind=='inspect_then_act' and information=='NON_ADAPTIVE_UNDER_DECLARED_UPDATER'
                     expected=dict.fromkeys((*SERVICE,*RESOURCE),Fraction(0));branches=[];eligibility=[];planning_reasons=[]
-                    for positive in ((True,False) if kind=='inspect_then_act' and report_at<horizon else (None,)):
+                    for positive in ((True,False) if kind=='inspect_then_act' and not nonadaptive and report_at<horizon else (None,)):
                         joint={key:p*(Fraction(str(variant['positive_likelihood'][key])) if positive else 1-Fraction(str(variant['positive_likelihood'][key]))) for key,p in weights.items()} if positive is not None else weights
                         probability=sum(joint.values());policy=local['action_on_positive' if positive else 'action_on_negative']
                         do_action=kind=='direct_intervention' or (kind=='inspect_then_act' and positive is not None and policy=='intervene')
-                        if kind=='inspect_then_act' and positive is not None and probability and policy=='minimum_service_deficit':
+                        if kind=='inspect_then_act' and (positive is not None or nonadaptive and report_at<horizon) and probability and policy=='minimum_service_deficit':
                             do_action=_continuation_action(catalog,joint,variant,local,model,availability,inspection_tools,
                                 action_tools,inspect_finish,report_at,horizon,action['legal_for_planning'])
                         start=report_at if kind=='inspect_then_act' else Fraction(0)
@@ -243,7 +271,8 @@ def assess_action_value(frame,belief_model,catalog,model):
                         for value in (*required.values(),*costs.values()):_outward_upper(value)
                         if probability:eligibility.append(permitted);planning_reasons.extend(reasons)
                         for key,v in costs.items():expected[key]+=probability*v
-                        branches.append(dict(report=('unavailable_within_horizon' if kind=='inspect_then_act' and positive is None else None) if positive is None else ('positive' if positive else 'negative'),probability=float(probability),status='ZERO_SUPPORT_REPORT' if not probability else 'PREDICTED',action='intervene' if do_action else 'defer',posterior_outcomes={k:float(v/probability) for k,v in joint.items()} if probability else None,action_started_at_s=float(action_start) if action_start is not None and action_start<horizon else None,action_completed_at_s=float(action_end) if action_end is not None and action_end<=horizon else None,required_resources={k:float(v) for k,v in required.items()},action_status='NOT_SELECTED' if not do_action else 'NOT_STARTED_WITHIN_HORIZON' if action_start>=horizon else 'UNFINISHED_WITHIN_HORIZON' if action_end>horizon else 'COMPLETED_PREDICTED'))
+                        report_label='marginalized_original_report_mass' if nonadaptive else ('unavailable_within_horizon' if kind=='inspect_then_act' else None)
+                        branches.append(dict(report=report_label if positive is None else ('positive' if positive else 'negative'),probability=float(probability),status='ZERO_SUPPORT_REPORT' if not probability else 'PREDICTED',action='intervene' if do_action else 'defer',posterior_outcomes={k:float(v/probability) for k,v in joint.items()} if probability else None,action_started_at_s=float(action_start) if action_start is not None and action_start<horizon else None,action_completed_at_s=float(action_end) if action_end is not None and action_end<=horizon else None,required_resources={k:float(v) for k,v in required.items()},action_status='NOT_SELECTED' if not do_action else 'NOT_STARTED_WITHIN_HORIZON' if action_start>=horizon else 'UNFINISHED_WITHIN_HORIZON' if action_end>horizon else 'COMPLETED_PREDICTED'))
                     for value in expected.values():_outward_upper(value)
                     alternatives.append(dict(kind=kind,expected={key:dict(value=float(v),unit=_unit(key,model)) for key,v in expected.items()},branches=branches,information_updates_physical_state=False,
                         eligible_for_planning=False if False in eligibility else None if None in eligibility else True,
@@ -256,7 +285,7 @@ def assess_action_value(frame,belief_model,catalog,model):
                 planning_reasons=['reference_belief_model_conflict'],execution_permission=False)
                 for kind in ('defer','direct_intervention','inspect_then_act')]
         envelope=None
-        if all(row['alternatives'] is not None for row in records):
+        if all(row['alternatives'] is not None and all(a['expected']['service_deficit_time_s']['value'] is not None for a in row['alternatives']) for row in records):
             envelope={kind:{key:[min(row['alternatives'][index]['expected'][key]['value'] for row in records),
                 max(row['alternatives'][index]['expected'][key]['value'] for row in records)] for key in (*SERVICE,*RESOURCE)}
                 for index,kind in enumerate(('defer','direct_intervention','inspect_then_act'))}
@@ -266,7 +295,11 @@ def assess_action_value(frame,belief_model,catalog,model):
         unmodeled_questions=[dict(question_id=q['id'],value=None,reason='UNIDENTIFIED_PROBABILITY_AND_CONSEQUENCE',
             evidence_gaps=q['evidence_gaps'],impact_description=q['impact_description']) for q in risk['questions'] if q['quantification']=='UNMODELED'],
         scope='SINGLE_NEXT_QUESTION_ALTERNATIVES_NOT_ADDITIVE_GLOBAL_GAIN',field_calibration='PENDING',
-        physical_actions=[],execution_permission=False,risk=risk)
+        physical_actions=[],execution_permission=False,risk=risk,
+        **(dict(valuation_mass_basis=valuation_mass_basis,
+            valuation_current_outcome_mass_by_belief_variant={identifier:None if masses is None else
+                {outcome:[mass.numerator,mass.denominator] for outcome,mass in masses.items()} for identifier,masses in world_masses.items()},
+            valuation_model_evaluations=dict(exact_belief_context=1)) if exact_context is not None else {}))
 
 
 def _unit(key,model):

@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-independent-online-candidate-witness-v1",
+  "status": "PROPOSED_LITERAL_WITNESS_NOT_FROZEN_EXECUTABLE_PROTOCOL",
+  "classification": "ENGINEERING_INTERFACE_EXPECTATIONS_NOT_EFFECT_COMPARISON",
+  "scope": "One complete eight-domain synthetic V6 world with actual sparse fixed sensor and paid handheld/crew/action; no actual state to dispatch.",
+  "exact_timing": {
+    "decisions_s": [
+      1,
+      2.5,
+      2.75,
+      4.5
+    ],
+    "inspection_issue_s": 1,
+    "inspection_work_started_s": 1.25,
+    "inspection_completed_s": 2.25,
+    "inspection_observed_s": 2.25,
+    "inspection_arrived_s": 2.75,
+    "action_issue_s": 2.75,
+    "action_work_started_s": 3,
+    "action_completed_and_effect_s": 4,
+    "action_feedback_arrived_s": 4.5,
+    "physical_horizon_s": 6,
+    "fixed_poll_s": [
+      0
+    ],
+    "fixed_record_observed_s": 0,
+    "fixed_record_arrived_s": 0.5,
+    "next_fixed_poll_s": 10,
+    "next_fixed_arrival_s": 10.5
+  },
+  "expected_choice_sequence": [
+    "first-inspection",
+    null,
+    "first-action",
+    null
+  ],
+  "physical_service_integrals": {
+    "demand_service_unit_s": 6,
+    "delivered_service_unit_s": 1.5,
+    "service_deficit_time_s": 4.5
+  },
+  "unchanged_service_ceiling": "Network capacity0.25 stays limiting; filter intervention does not restore that service bottleneck.",
+  "expected_named_effect": {
+    "parameter_id": "filter_resistance_multiplier",
+    "old_value": 4,
+    "new_value": 2,
+    "effect_at_s": 4
+  },
+  "hydraulic_law_witness": {
+    "head_Pa": 150000,
+    "passive_resistance": 12000000,
+    "valve_resistance": 3000000,
+    "before_flow_squared_ratio": [
+      1,
+      340
+    ],
+    "after_flow_squared_ratio": [
+      1,
+      180
+    ],
+    "equation": "Q_squared=150000/(12000000*filter_multiplier+3000000)"
+  },
+  "expected_actual_work_person_s": 2,
+  "expected_admission_envelopes": {
+    "person_s": 20,
+    "tool_s": 20,
+    "cost": 2
+  },
+  "forecast_scope_note": "Service horizon in the value catalog is relative to each decision. It is a prediction window, not the same object as the6s physical engineering capture horizon.",
+  "fixed_sensor_note": "period10 phase0 latency0.5, continued polling; actual no second poll before6 is a declared schedule, not disabled sensors.",
+  "safety_identity_note": "Public nominal/actual engineering colocated worker/tool bindings must be identical and explicitly labeled.",
+  "actual_failure_note": "Forecast success/support assumption is not enforced on plant. Any unsuitable/indeterminate/aborted result remains genuine and can invalidate prediction.",
+  "freeze_gate": "Only after online implementation review should an immutable protocol pin exact inputs/source/tools, case budget, output set and failure rule.",
+  "new_project_calls": 0,
+  "new_tests": 0,
+  "new_simulate_calls": 0,
+  "registered_research_trials": 0
+}
