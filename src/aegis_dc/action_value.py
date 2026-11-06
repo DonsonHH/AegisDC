@@ -196,7 +196,7 @@ def assess_action_value(frame,belief_model,catalog,model,*,inspection_informatio
     if inspection_information is not None:
         _plain_json(inspection_information)
         _require(type(inspection_information) is dict and set(inspection_information)=={q['question_id'] for q in model['question_models']}
-            and all(type(v) is str and v in {'NON_ADAPTIVE_UNDER_DECLARED_UPDATER','UNMODELED'} for v in inspection_information.values()),
+            and all(type(v) is str and v in {'NON_ADAPTIVE_UNDER_DECLARED_UPDATER','INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER','UNMODELED'} for v in inspection_information.values()),
             'Declare one supported prospective information classification per modeled question')
     horizon=Fraction(catalog['horizon_s']);questions={q['id']:q for q in risk['questions']}
     requests={r['id']:r for r in frame['requests']};interfaces={r['id']:r for r in frame['nominal_knowledge']['work_interfaces']}

@@ -301,6 +301,61 @@ def infer_belief(frame, model):
                 physical_actions=[], unidentified=list(model['unidentified']))
 
 
+def exact_belief_context(frame,model,*,symbolic_report=None,positive=None):
+    """Exact finite readback, optionally admitting a value-free report token.
+
+    A symbolic token is an assumed report class in a counterfactual context.
+    It has no measured value or quality and cannot be ingested as an observation.
+    Its fresh identity and strictly later sample time exclude value-dependent
+    conflicts with existing records; other context arrivals are a caller model.
+    """
+    frame=validate_current_frame(frame)
+    hypotheses,channels,independent,variants=_model_for_frame(model,frame)
+    scope=model['scope'];epoch=_epoch(frame['as_of_s'],scope)
+    _require(0<=epoch<scope['epoch_count'],'Exact context time is outside the declared belief scope')
+    audit,candidates=_eligible_records(frame,channels,scope);evidence=frame['evidence']
+    if symbolic_report is not None:
+        _plain_json(symbolic_report)
+        _fields(symbolic_report,{'schema','id','source_id','target_id','observable_id','unit','observed_at_s',
+            'arrived_at_s','valid_until_s','provenance'},'Counterfactual report token')
+        _require(symbolic_report['schema']=='aegisdc-symbolic-report-token-v1' and type(positive) is bool,
+            'Declare a value-free counterfactual report class')
+        for key in ('id','source_id','target_id','observable_id','unit'):_text(symbolic_report[key],'Symbolic report '+key)
+        for key in ('observed_at_s','arrived_at_s','valid_until_s'):
+            _require(type(symbolic_report[key]) in (int,float),'Symbolic report times must be decoded numbers')
+        token=dict(symbolic_report)
+        _require(token['observed_at_s']<=token['arrived_at_s']<=frame['as_of_s']<token['valid_until_s'],
+            'Symbolic informative report must be arrived and current in its projected context')
+        _require(all(token['observed_at_s']>r['observed_at_s'] for r in evidence['records']),
+            'Symbolic report sample must strictly follow every currently supplied record')
+        _fields(token['provenance'],{'origin_id','copied_from_record_id'},'Symbolic report provenance')
+        _text(token['provenance']['origin_id'],'Symbolic report origin')
+        _require(token['provenance']['copied_from_record_id'] is None and all(r['id']!=token['id']
+            and r['provenance']['origin_id']!=token['provenance']['origin_id']
+            and r['provenance']['copied_from_record_id']!=token['id'] for r in evidence['records']),
+            'Symbolic report requires a fresh noncopy origin')
+        channel=next((c for c in channels.values() if _binding(c)==_binding(token)),None)
+        _require(channel is not None and token['unit']==channel['unit'],'Symbolic report channel differs from the belief model')
+        sources={s['id']:s for s in evidence['static_knowledge']['sources']};group=sources[token['source_id']]['dependency_group']
+        _require(group is None or all(sources[r['source_id']]['dependency_group']!=group for r in evidence['records']),
+            'Symbolic report cannot silently change an existing provenance component')
+        evidence=dict(evidence,records=[*evidence['records'],dict(token,availability='current')])
+        item=dict(record_id=token['id'],channel_id=channel['id'],observation_epoch=_epoch(token['observed_at_s'],scope),
+            positive=positive,symbolic_report_class=True)
+        candidates.append((evidence['records'][-1],item,channel))
+    factors={};selected=_choose_records(evidence,candidates,channels,independent)
+    signature=[]
+    for row,item,channel in selected:
+        factors.setdefault(item['observation_epoch'],[]).append((channel['id'],item['positive']))
+        signature.append([row['id'],item['observation_epoch'],channel['id'],item['positive']])
+    exact={}
+    for identifier,(prior,transition,likelihood) in variants.items():
+        masses,_=_filter(prior,transition,likelihood,epoch,factors)
+        exact[identifier]=None if masses is None else {h:[m.numerator,m.denominator] for h,m in zip(hypotheses,masses)}
+    return dict(schema='aegisdc-exact-belief-context-v1',classification='COUNTERFACTUAL_SYMBOLIC_CLASS' if symbolic_report is not None else 'CURRENT_PUBLIC_CONTEXT',
+        posterior_mass_by_variant=exact,factor_signature=sorted(signature),physical_actions=[],execution_permission=False)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--frame', type=Path, required=True, help='One validated ticket-15 decision frame')

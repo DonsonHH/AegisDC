@@ -1,6 +1,6 @@
 # Proposed next projection-law slice
 
-Status: design supplement only, after the four first-review boundary corrections. No new report law or informative candidate behavior is implemented by this note. The existing v1 projection remains closed and unchanged.
+Status: explicit finite-domain v2 with a first public-selector informative development slice after the four first-review boundary corrections. The existing v1 projection remains closed and unchanged. Expiry, unsupported mixtures, online execution and final acceptance are not established by the first slice.
 
 ## The remaining input gap
 
@@ -24,3 +24,7 @@ Compatibility for directly reusing the existing action-value continuation is a s
 ## Retained limits
 
 This next slice would add a forecast support assumption, not a sensor or plant intervention. It must bind to the public inspection model/target/tool/qualification/work/latency/validity/provenance declaration. It does not assume live fixed polling stops; known intervening arrivals without a joint law still make the plan unmodeled. Online v4 execution, equality of public inputs, no-problem/direct/defer alternatives, exact budgets/authority and actual failure feedback remain later required slices. No effect trial, tuning comparison or candidate acceptance follows from these two planned unit witnesses.
+
+The first implemented v2 witness is preserved as RED18/GREEN19. It proves the declared independent-current-fixed example through `choose_work`: all four belief/value variant combinations match exact outcome masses for both positive and negative branches; impairment ratios are8/11 and2/29, and candidate inspection value is39/40. No prospective numeric value or quality is generated: `exact_belief_context` admits a value-free symbolic class into a detached counterfactual context, reusing the existing factor choice and exact finite filter. Neither that token nor its projected belief enters the real ledger. Extra ordinary and exact-context model calls are reported separately.
+
+Exact Bayes masses and the accepted valuation's float-to-decimal-to-Fraction representation are compared separately. If those world weights differ solely through representation, the audit says `VALUATION_REPRESENTATION_UNSUPPORTED`; it does not use an epsilon, alter likelihoods, describe this as missing data, or claim arbitrary nonbinary posteriors are solved. The first dyadic-prior witness has no such mismatch. Broader numerical support remains a separate shared-path decision for baseline and candidate.

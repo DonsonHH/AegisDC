@@ -54,7 +54,38 @@ def reframe(frame,time,records=None):
     return DecisionGateway(frame['nominal_knowledge'],ledger,plan).next_frame()
 
 
+def informative_fixture():
+    frame,policy,history=fixture()
+    policy['options']['belief_model']['independent_pairs']=[['fixed-low-power','lookahead-flow-channel']]
+    projection=policy['evidence_projection'];projection['schema']='aegisdc-evidence-projection-v2'
+    projection['report_class_support']=[dict(question_id='cooling',inspection_task_id='lookahead-inspect',record_id='post-clean-flow',
+        assumption='EVERY_MODELED_OUTCOME_COMPLETES_SUITABLY_AT_DECLARED_TIME_WITH_DECISIVE_BINARY_REPORT',
+        source_note='Uncalibrated finite-domain forecast assumption applied to every enumerated world; actual producer unchanged.')]
+    return frame,policy,history
+
+
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_explicit_certain_report_domain_allows_compatible_independent_information(self):
+        frame,policy,history=informative_fixture();before=deepcopy(policy)
+        baseline=choose_work(frame,policy,history)
+        self.assertEqual(baseline['chosen_candidate_id'],'first-inspection')
+        policy['policy']='evidence_consistent_contingent'
+        choice=choose_work(frame,policy,history)
+        self.assertEqual(choice['chosen_candidate_id'],'first-inspection')
+        self.assertAlmostEqual(choice['forecast_plans'][0]['best_expected_service_deficit_s'],39/40)
+        audit=choice['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER')
+        self.assertEqual(audit['forecast_assumption'],before['evidence_projection']['report_class_support'][0]['assumption'])
+        self.assertEqual(audit['zero_forecast_mass_report_classes'],['threshold_straddled','missing'])
+        self.assertEqual(len(audit['compatibility_by_assumption']),4)
+        for row in audit['compatibility_by_assumption']:
+            self.assertEqual(row['status'],'MATCHED')
+            positive=row['branches']['positive'];negative=row['branches']['negative']
+            self.assertEqual(positive['projected_outcome_mass']['cooling-limited'],[8,11])
+            self.assertEqual(negative['projected_outcome_mass']['cooling-limited'],[2,29])
+        self.assertEqual(policy['options']['value_model'],before['options']['value_model'])
+        self.assertEqual(policy['options']['catalog'],before['options']['catalog'])
+
     def test_work_below_measurement_minimum_is_legal_work_with_unknown_information_value(self):
         frame,policy,history=fixture();policy['policy']='evidence_consistent_contingent'
         policy['evidence_projection']['inspection_profile']['bindings'][0]['minimum_work_s']=2

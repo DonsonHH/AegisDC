@@ -90,7 +90,7 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
     _require(set(bindings)==set(locals),'Bind every declared finite value question')
     if policy_declaration is not None:
         validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']),frame=frame)
-    information=None;projection_audit=[];projection_calls=0
+    information=None;projection_audit=[];projection_calls={}
     if evidence_projection is not None:
         from .evidence_projection import project_inspections
         information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection,history)
@@ -147,7 +147,7 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         if audit['candidate_id'] not in bound_ids and audit['question_id'] not in unmodeled:
             audit['reasons'].append('NO_DECLARED_FINITE_VALUE_BINDING');audit['eligible']=False
         audit['forecast_selected']=audit['candidate_id']==selected
-    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,**({'prospective_belief':projection_calls} if evidence_projection is not None else {})),unmodeled_question_ids=sorted(unmodeled),
+    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,**projection_calls),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
         forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,
