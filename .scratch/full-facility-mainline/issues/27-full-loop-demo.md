@@ -4,7 +4,7 @@
 
 **Blocked by:** 26, 13
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner `/root/m4_27_loop`, branch `donson/mainline-27-full-loop`, worktree `C:/Users/Donson/.codex/worktrees/mainline27-full-loop/Renly`, initial accepted26 base8c1fd54b. Live root confirmed27unassigned; this branch owns its lifecycle until reviewed integration. First work is a full same-facility timeline contract and one public behavior slice, not a formal run or accepted ticket.
