@@ -18,6 +18,8 @@ LOCAL_FIELDS={'id','question_id','inspection_option_id','intervention_option_id'
     'intervenor_id','inspection','intervention','action_on_positive','action_on_negative','variants'}
 SERVICE=('offered_service_unit_s','delivered_service_unit_s','unserved_service_unit_s','service_deficit_time_s')
 RESOURCE=('travel_person_s','wait_person_s','work_person_s','person_s','tool_s','cost')
+SERIALIZED_MASS_BASIS='SERIALIZED_PUBLIC_POSTERIOR_V1'
+EXACT_MASS_BASIS='EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1'
 
 
 def _number(value,label,maximum=None,positive=False):
@@ -189,10 +191,25 @@ def _comparison(alternatives):
         scope='DECLARED_SINGLE_NEXT_DECISION_TREE_NOT_GLOBAL_POLICY_OR_VERIFIED_GAIN')
 
 
-def assess_action_value(frame,belief_model,catalog,model,*,inspection_information=None):
+def assess_action_value(frame,belief_model,catalog,model,*,inspection_information=None,valuation_mass_basis=SERIALIZED_MASS_BASIS):
     """Compare a finite single-question decision tree, without executing actions."""
+    _text(valuation_mass_basis,'Valuation mass basis')
+    _require(valuation_mass_basis in {SERIALIZED_MASS_BASIS,EXACT_MASS_BASIS},'Unsupported public valuation mass basis')
     risk=assess_risks(frame,belief_model,catalog)
     availability=_validate(model,frame,catalog,risk)
+    exact_context=None
+    if valuation_mass_basis==EXACT_MASS_BASIS:
+        from .belief import exact_belief_context
+        exact_context=exact_belief_context(frame,belief_model)
+    world_masses={}
+    for identifier,posterior in risk['belief']['posterior_by_variant'].items():
+        if exact_context is not None:
+            ratios=exact_context['posterior_mass_by_variant'][identifier]
+            masses=None if ratios is None else {h:Fraction(*ratio) for h,ratio in ratios.items()}
+        else:masses=None if posterior is None else {h:Fraction(str(p)) for h,p in posterior.items()}
+        total=sum(masses.values()) if masses is not None else None
+        world_masses[identifier]=None if masses is None else {o['id']:sum(p/total*Fraction(str(o['conditional_probability'][h]))
+            for h,p in masses.items()) for o in catalog['outcomes']}
     if inspection_information is not None:
         _plain_json(inspection_information)
         _require(type(inspection_information) is dict and set(inspection_information)=={q['question_id'] for q in model['question_models']}
@@ -208,11 +225,10 @@ def assess_action_value(frame,belief_model,catalog,model,*,inspection_informatio
         records=[]
         for belief_variant,posterior in risk['belief']['posterior_by_variant'].items():
             for variant in local['variants']:
-                if posterior is None:
+                if world_masses[belief_variant] is None:
                     records.append(dict(belief_variant_id=belief_variant,value_variant_id=variant['id'],alternatives=None))
                     continue
-                mass=sum(Fraction(str(p)) for p in posterior.values())
-                weights={o['id']:sum(Fraction(str(p))/mass*Fraction(str(o['conditional_probability'][s])) for s,p in posterior.items()) for o in catalog['outcomes']}
+                weights=world_masses[belief_variant]
                 it=local['inspection'];act=local['intervention']
                 inspect_finish=sum(_time(it).values());report_at=inspect_finish+Fraction(it['report_latency_s'])
                 alternatives=[]
@@ -279,7 +295,11 @@ def assess_action_value(frame,belief_model,catalog,model,*,inspection_informatio
         unmodeled_questions=[dict(question_id=q['id'],value=None,reason='UNIDENTIFIED_PROBABILITY_AND_CONSEQUENCE',
             evidence_gaps=q['evidence_gaps'],impact_description=q['impact_description']) for q in risk['questions'] if q['quantification']=='UNMODELED'],
         scope='SINGLE_NEXT_QUESTION_ALTERNATIVES_NOT_ADDITIVE_GLOBAL_GAIN',field_calibration='PENDING',
-        physical_actions=[],execution_permission=False,risk=risk)
+        physical_actions=[],execution_permission=False,risk=risk,
+        **(dict(valuation_mass_basis=valuation_mass_basis,
+            valuation_current_outcome_mass_by_belief_variant={identifier:None if masses is None else
+                {outcome:[mass.numerator,mass.denominator] for outcome,mass in masses.items()} for identifier,masses in world_masses.items()},
+            valuation_model_evaluations=dict(exact_belief_context=1)) if exact_context is not None else {}))
 
 
 def _unit(key,model):

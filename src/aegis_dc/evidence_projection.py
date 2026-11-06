@@ -8,6 +8,7 @@ from .evidence_ledger import _fields,_require,_text,_finite,RECORD_FIELDS
 from .inspection_execution import PROFILE_FIELDS,BINDING_FIELDS
 from .nonfixed_evidence import validate_nonfixed_profile,_arrival
 from .sensor_channels import validate_channel_profile,_number
+from .action_value import SERIALIZED_MASS_BASIS,EXACT_MASS_BASIS
 
 FIELDS={'schema','basis','source_note','inspection_profile','background_sensor_profile','context_assumption'}
 SUPPORT_FIELDS={'question_id','inspection_task_id','record_id','assumption','source_note'}
@@ -24,12 +25,16 @@ def _shared_registry(frame,registry,label):
 
 
 def validate_projection(frame,projection):
-    version2=type(projection) is dict and projection.get('schema')=='aegisdc-evidence-projection-v2'
-    _fields(projection,FIELDS|({'report_class_support'} if version2 else set()),'Public evidence projection')
+    version3=type(projection) is dict and projection.get('schema')=='aegisdc-evidence-projection-v3'
+    version2=type(projection) is dict and projection.get('schema') in ('aegisdc-evidence-projection-v2','aegisdc-evidence-projection-v3')
+    _fields(projection,FIELDS|({'report_class_support'} if version2 else set())|({'valuation_mass_basis'} if version3 else set()),'Public evidence projection')
     _text(projection['schema'],'Projection schema')
-    _require(projection['schema'] in {'aegisdc-evidence-projection-v1','aegisdc-evidence-projection-v2'} and projection['basis']=='synthetic_assumption'
+    _require(projection['schema'] in {'aegisdc-evidence-projection-v1','aegisdc-evidence-projection-v2','aegisdc-evidence-projection-v3'} and projection['basis']=='synthetic_assumption'
         and projection['context_assumption']=='NO_UNSCHEDULED_RECORD_ARRIVALS_UNTIL_PROJECTED_REPORT','Declare the finite projection context assumption')
     _text(projection['source_note'],'Projection assumption provenance')
+    if version3:
+        _text(projection['valuation_mass_basis'],'Projection valuation mass basis')
+        _require(projection['valuation_mass_basis']==EXACT_MASS_BASIS,'Projection-v3 requires the shared exact public valuation mass basis')
     profile=projection['inspection_profile'];_fields(profile,PROFILE_FIELDS,'Projection public inspection profile')
     _require(profile['schema']=='aegisdc-inspection-profile-v1' and profile['basis']=='synthetic_assumption'
         and profile['facility_id']==frame['facility_id'],'Projection inspection identity differs')
@@ -138,7 +143,7 @@ def _ratios(masses):
     return None if masses is None else {key:[value.numerator,value.denominator] for key,value in masses.items()}
 
 
-def _informative_compatibility(frame,future,belief_model,current,catalog,local,binding,model,observed,arrival,valid_until):
+def _informative_compatibility(frame,future,belief_model,current,catalog,local,binding,model,observed,arrival,valid_until,mass_basis):
     """Prove the finite updater and existing valuation use the same branch worlds."""
     initial=exact_belief_context(frame,belief_model)
     token=dict(schema='aegisdc-symbolic-report-token-v1',id=binding['record_id'],source_id=model['source_id'],target_id=model['target_id'],
@@ -156,12 +161,15 @@ def _informative_compatibility(frame,future,belief_model,current,catalog,local,b
             exact_world=_outcomes(exact_hypotheses,catalog)
             total=sum(Fraction(str(p)) for p in serialized.values())
             represented_world=_outcomes({h:Fraction(str(p))/total for h,p in serialized.items()},catalog)
-            if represented_world!=exact_world:
+            valuation_world=exact_world if mass_basis==EXACT_MASS_BASIS else represented_world
+            if valuation_world!=exact_world:
                 row.update(status='UNMODELED',reason='VALUATION_REPRESENTATION_UNSUPPORTED',exact_current_outcome_mass=_ratios(exact_world),
-                    valuation_current_outcome_mass=_ratios(represented_world));all_matched=False;rows.append(row);continue
+                    valuation_current_outcome_mass=_ratios(valuation_world));all_matched=False;rows.append(row);continue
+            if mass_basis==EXACT_MASS_BASIS:row.update(valuation_mass_basis=mass_basis,exact_current_outcome_mass=_ratios(exact_world),
+                valuation_current_outcome_mass=_ratios(valuation_world))
             for name,positive in (('positive',True),('negative',False)):
                 joint={o:p*(Fraction(str(variant['positive_likelihood'][o])) if positive else 1-Fraction(str(variant['positive_likelihood'][o])))
-                    for o,p in represented_world.items()}
+                    for o,p in valuation_world.items()}
                 probability=sum(joint.values());projected_hypotheses=_fractions(branches[name]['posterior_mass_by_variant'][belief_id])
                 expected={o:p/probability for o,p in joint.items()} if probability else None
                 projected=_outcomes(projected_hypotheses,catalog) if projected_hypotheses is not None else None
@@ -245,7 +253,7 @@ def project_inspections(frame,options,candidates,projection,history):
             else:reasons.append('PROJECTED_BACKGROUND_FACTORS_CHANGED')
             if classification=='UNMODELED' and declared_support is not None and arrival<valid_until:
                 compatible,rows,count=_informative_compatibility(frame,_projected_frame(frame,arrival),belief_model,current,
-                    options['catalog'],local,binding,model,observed,arrival,valid_until)
+                    options['catalog'],local,binding,model,observed,arrival,valid_until,projection.get('valuation_mass_basis',SERIALIZED_MASS_BASIS))
                 exact_calls+=count;audit['compatibility_by_assumption']=rows
                 if compatible:
                     classification='INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER';reasons=[]

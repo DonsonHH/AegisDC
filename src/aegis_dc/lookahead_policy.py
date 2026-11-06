@@ -1,7 +1,7 @@
 """Bounded one-observation planning adaptation, never an actual-state oracle."""
 from copy import deepcopy
 from fractions import Fraction
-from .action_value import assess_action_value
+from .action_value import assess_action_value,SERIALIZED_MASS_BASIS,EXACT_MASS_BASIS
 from .evidence_ledger import _fields,_require,_text
 
 OPTION_FIELDS={'belief_model','catalog','preparation_requests','value_model','bindings','unknown_inspection_policy'}
@@ -51,7 +51,9 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
     # v4 adds an early execution/projection consumer. Validate the complete
     # existing value/risk/belief model before that consumer indexes any child.
     # This is a real extra assessment and is reported separately in call counts.
-    values=assess_action_value(frame,options['belief_model'],options['catalog'],options['value_model']) if policy_declaration is not None else None
+    mass_basis=policy_declaration['evidence_projection'].get('valuation_mass_basis',SERIALIZED_MASS_BASIS) if policy_declaration is not None else SERIALIZED_MASS_BASIS
+    values=assess_action_value(frame,options['belief_model'],options['catalog'],options['value_model'],valuation_mass_basis=mass_basis) if policy_declaration is not None else None
+    valuation_exact_calls=values.get('valuation_model_evaluations',{}).get('exact_belief_context',0) if values is not None else 0
     model=deepcopy(options['value_model'])
     for local in model['question_models']:
         local['action_on_positive']=local['action_on_negative']='minimum_service_deficit'
@@ -97,7 +99,8 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         from .evidence_projection import project_inspections
         information,projection_audit,projection_calls=project_inspections(frame,options,candidates,evidence_projection,history)
     if policy_declaration is not None:
-        values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information)
+        values=assess_action_value(frame,options['belief_model'],options['catalog'],model,inspection_information=information,valuation_mass_basis=mass_basis)
+        valuation_exact_calls+=values.get('valuation_model_evaluations',{}).get('exact_belief_context',0)
     by_id={r['candidate_id']:r for r in audits};plans=[];choices=[];branches=0
     for value in values['question_values']:
         q=value['question_id'];binding=bindings[q];alternatives=[]
@@ -149,9 +152,11 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         if audit['candidate_id'] not in bound_ids and audit['question_id'] not in unmodeled:
             audit['reasons'].append('NO_DECLARED_FINITE_VALUE_BINDING');audit['eligible']=False
         audit['forecast_selected']=audit['candidate_id']==selected
-    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,**projection_calls),unmodeled_question_ids=sorted(unmodeled),
+    return selected,dict(reason=reason,model_evaluations=dict(risk=0,action_value=2 if policy_declaration is not None else 1,
+            **(dict(valuation_exact_belief_context=valuation_exact_calls) if mass_basis==EXACT_MASS_BASIS else {}),**projection_calls),unmodeled_question_ids=sorted(unmodeled),
         forecast_plans=plans,forecast_branch_count=branches,forecast_window_s=[frame['as_of_s'],frame['as_of_s']+options['catalog']['horizon_s']],
         forecast_scope='SAME_CATALOG_DEMAND_JOINT_OUTCOME_AND_HORIZON_SINGLE_FIRST_ACTION_NO_ADDITION',
         forecast_belief=values['risk']['belief'],forecast_is_actual_observation=False,
         adaptation='BOUNDED_EVIDENCE_CONSISTENT_FIRST_ACTION' if evidence_projection is not None else 'BOUNDED_ONE_OBSERVATION_LOOKAHEAD_NOT_LIFECYCLE_OPTIMALITY',
+        **({key:values[key] for key in ('valuation_mass_basis','valuation_current_outcome_mass_by_belief_variant')} if mass_basis==EXACT_MASS_BASIS else {}),
         **({'prospective_evidence_audit':projection_audit} if evidence_projection is not None else {}))

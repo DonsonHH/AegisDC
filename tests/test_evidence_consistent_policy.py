@@ -7,6 +7,7 @@ import unittest
 from aegis_dc.decision_view import DecisionGateway
 from aegis_dc.dispatch_policy import choose_work
 from aegis_dc.evidence_ledger import RECORD_FIELDS
+from aegis_dc.action_value import assess_action_value
 from test_dispatch_policy import lookahead_run_fixture
 
 
@@ -65,6 +66,86 @@ def informative_fixture():
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_valuation_default_and_older_projection_keep_the_serialized_contract(self):
+        frame,policy,history=informative_fixture();options=policy['options']
+        for variant in options['belief_model']['variants']:
+            variant['positive_likelihood']['fixed-low-power']=[.1,.2,.9,.4]
+        arguments=(frame,options['belief_model'],options['catalog'],options['value_model'])
+        default=assess_action_value(*arguments)
+        explicit=assess_action_value(*arguments,valuation_mass_basis='SERIALIZED_PUBLIC_POSTERIOR_V1')
+        self.assertEqual(default,explicit)
+        self.assertNotIn('valuation_mass_basis',default)
+        self.assertNotIn('valuation_current_outcome_mass_by_belief_variant',default)
+        self.assertNotIn('valuation_model_evaluations',default)
+        policy['policy']='evidence_consistent_contingent';legacy=choose_work(frame,policy,history)
+        self.assertIn('VALUATION_REPRESENTATION_UNSUPPORTED',legacy['prospective_evidence_audit'][0]['reasons'])
+        self.assertNotIn('valuation_mass_basis',legacy)
+        self.assertNotIn('valuation_exact_belief_context',legacy['model_evaluations'])
+        for supplied in ([],{'cooling-limited':[1,4]},'UNREGISTERED_OR_SUPPLIED_MASS'):
+            with self.subTest(basis=supplied),self.assertRaises(ValueError):
+                assess_action_value(*arguments,valuation_mass_basis=supplied)
+
+    def test_projection_v3_exact_basis_is_closed_and_identical_for_both_value_policies(self):
+        for name in ('one_observation_lookahead','evidence_consistent_contingent'):
+            for mismatch in ('missing','container','unknown','forged-masses','v2-extra-field'):
+                frame,policy,history=informative_fixture();policy['policy']=name
+                projection=policy['evidence_projection'];projection.update(schema='aegisdc-evidence-projection-v3',
+                    valuation_mass_basis='EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1')
+                if mismatch=='missing':del projection['valuation_mass_basis']
+                elif mismatch=='container':projection['valuation_mass_basis']={}
+                elif mismatch=='unknown':projection['valuation_mass_basis']='CALLER_SUPPLIED_TRUTH'
+                elif mismatch=='forged-masses':projection['exact_current_masses']={'cooling-limited':[1,4]}
+                else:projection['schema']='aegisdc-evidence-projection-v2'
+                with self.subTest(policy=name,mismatch=mismatch),self.assertRaises(ValueError):choose_work(frame,policy,history)
+
+    def test_exact_basis_does_not_replace_current_world_mass_with_nonneutral_expired_context(self):
+        frame,policy,history=informative_fixture();policy['policy']='evidence_consistent_contingent'
+        for variant in policy['options']['belief_model']['variants']:
+            variant['positive_likelihood']['fixed-low-power']=[.1,.2,.9,.4]
+        policy['options']['belief_model']['independent_pairs']=[]
+        policy['evidence_projection'].update(schema='aegisdc-evidence-projection-v3',
+            valuation_mass_basis='EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1')
+        records=deepcopy(frame['evidence']['records']);records[0]['valid_until_s']=1.5;frame=reframe(frame,0,records)
+        choice=choose_work(frame,policy,history)
+        self.assertEqual(choice['chosen_candidate_id'],'first-action')
+        audit=choice['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'UNMODELED')
+        self.assertIn('IMPLEMENTATION_CONTEXT_OUTCOME_MASS_UNSUPPORTED',audit['reasons'])
+        for pair in audit['compatibility_by_assumption']:
+            branch=pair['branches']['positive']
+            self.assertEqual(branch['projected_outcome_mass']['cooling-limited'],[8,11])
+            self.assertEqual(branch['original_joint_report_posterior']['cooling-limited'],[128,171])
+        plan=next(r for r in choice['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')
+        self.assertIsNone(plan['expected_service_deficit_s'])
+
+    def test_new_shared_exact_basis_supports_nondyadic_worlds_for_baseline_and_candidate(self):
+        frame,policy,history=informative_fixture()
+        for variant in policy['options']['belief_model']['variants']:
+            variant['positive_likelihood']['fixed-low-power']=[.1,.2,.9,.4]
+        policy['evidence_projection'].update(schema='aegisdc-evidence-projection-v3',
+            valuation_mass_basis='EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1')
+        before=deepcopy(policy)
+        for name in ('one_observation_lookahead','evidence_consistent_contingent'):
+            policy['policy']=name;choice=choose_work(frame,policy,history)
+            self.assertEqual(choice['chosen_candidate_id'],'first-inspection')
+            self.assertEqual(choice['valuation_mass_basis'],'EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1')
+            for masses in choice['valuation_current_outcome_mass_by_belief_variant'].values():
+                self.assertEqual(masses['cooling-limited'],[16,59])
+            alternatives={r['kind']:r for r in choice['forecast_plans'][0]['alternatives']}
+            self.assertAlmostEqual(alternatives['inspect_then_act']['expected_service_deficit_s'],619/590)
+            self.assertAlmostEqual(alternatives['direct_intervention']['expected_service_deficit_s'],63/59)
+            self.assertAlmostEqual(alternatives['defer']['expected_service_deficit_s'],96/59)
+            self.assertEqual(choice['model_evaluations']['valuation_exact_belief_context'],2)
+            if name=='evidence_consistent_contingent':
+                self.assertEqual(choice['model_evaluations']['exact_belief_context'],3)
+                audit=choice['prospective_evidence_audit'][0]
+                for pair in audit['compatibility_by_assumption']:
+                    self.assertEqual(pair['branches']['positive']['original_report_probability'],[171,590])
+                    self.assertEqual(pair['branches']['negative']['original_report_probability'],[419,590])
+                    self.assertEqual(pair['branches']['positive']['projected_outcome_mass']['cooling-limited'],[128,171])
+                    self.assertEqual(pair['branches']['negative']['projected_outcome_mass']['cooling-limited'],[32,419])
+            self.assertEqual(policy['options'],before['options'])
+
     def test_projection_schema_type_is_rejected_at_the_shared_public_contract(self):
         for name in ('one_observation_lookahead','evidence_consistent_contingent'):
             frame,policy,history=fixture();policy['policy']=name;policy['evidence_projection']['schema']=[]

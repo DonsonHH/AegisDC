@@ -1,6 +1,6 @@
-# Shared exact valuation basis: proposed revision
+# Shared exact valuation basis: explicit revision
 
-Status: proposal only at the A/B review boundary7798ce9d. No shared numerical-path implementation, test, online run or acceptance follows from this document. The original representation-unsupported RED24/GREEN25 and all v1/v2 outputs remain unchanged.
+Status: implemented public numerical-path development after the A/B review boundary7798ce9d. Online execution and acceptance remain pending. The original representation-unsupported RED24/GREEN25 and all recorded v1/v2 outputs remain unchanged.
 
 ## Problem and invariant
 
@@ -10,15 +10,15 @@ The smallest proposed correction gives the closest baseline and candidate the sa
 
 ## Versioned common input
 
-Propose `aegisdc-evidence-projection-v3`: all v2 fields plus the closed field `valuation_mass_basis`, whose initial value is `EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1`. Existing projection-v1/v2 schemas stay closed and retain the accepted serialized valuation basis. Both new-v4 policy methods receive the same v3 declaration; other transparent rules can receive the same accessible public model declaration without becoming value planners.
+The explicit `aegisdc-evidence-projection-v3` has all v2 fields plus the closed field `valuation_mass_basis`, whose initial value is `EXACT_FINITE_PUBLIC_BELIEF_CONTEXT_V1`. Existing projection-v1/v2 schemas stay closed and retain the accepted serialized valuation basis. Both new-v4 policy methods receive the same v3 declaration; other transparent rules can receive the same accessible public model declaration without becoming value planners.
 
-The public action-value function could accept an explicit keyword mass basis, defaulting to `SERIALIZED_PUBLIC_POSTERIOR_V1`. Only the explicit exact basis reads the same public finite model through `exact_belief_context` and uses its rational hypothesis masses for the existing catalog/outcome and service/resource calculations. It must retain every belief/value variant and current world weight. Defaults and recorded historical outputs do not silently change.
+The public action-value function accepts the explicit keyword `valuation_mass_basis`, defaulting to `SERIALIZED_PUBLIC_POSTERIOR_V1`. Only the explicit exact basis reads the same public finite model through `exact_belief_context` and uses its rational hypothesis masses for the existing catalog/outcome and service/resource calculations. It retains every belief/value variant and current world weight. Defaults and recorded historical outputs do not silently change. Caller-supplied mass dictionaries, unknown basis labels and extra projection fields are contract errors; arbitrary external rational masses are never trusted as the belief model's result.
 
 The candidate's compatibility check must then compare projected exact outcome masses with those very same exact valuation masses. Direct intervention, defer and inspection alternatives all use the declared shared basis; the candidate does not get a special precise world model while its baseline keeps the old approximation. No comparison tolerance, rounded-posterior equality or likelihood modification is introduced. Existing float presentation of final predictions and deterministic ranking remains shared and must not be described as an exact optimizer.
 
 ## Audit and cost
 
-The result should expose the declared mass basis and exact current outcome ratios by belief variant. Model-call diagnostics should distinguish ordinary value/risk assessments, exact contexts used for valuation, and extra counterfactual contexts. If the existing v4 validation/final-evaluation path performs two exact valuation reads, both are counted; no hidden preflight computation is removed from cost accounting. Reuse is allowed only as an explicit immutable public-input identity optimization, not an invisible world cache.
+Only an explicit exact-basis result adds the declared mass basis and exact current outcome ratios by belief variant. Default serialized responses keep the previous shape as well as the numerical path; no exact-basis metadata is added unconditionally to earlier responses. Model-call diagnostics distinguish ordinary value/risk assessments, exact contexts used for valuation, and extra counterfactual contexts. The current v4 validation/final-evaluation path performs two exact valuation reads and records `valuation_exact_belief_context=2` for both value policies; the candidate additionally records its ordinary prospective belief calls and three exact context calls used by the branch compatibility check. No hidden preflight computation is removed from cost accounting. This development path does not add a world-state cache.
 
 Incompatible per-assumption contextual updates remain unknown. Exact numerical weights do not solve a missing background law, random support, stale nonneutral record replacement, cross-epoch dynamics, provenance ambiguity or a coarse catalog's report-conditioned outcome mismatch.
 
@@ -28,4 +28,4 @@ The root's pure-Fraction nondyadic witness was prepared before this proposed imp
 
 The negative adjacent case lets nonneutral fixed evidence expire: the future handheld-only updater yields8/11, not the current-world-conditioned128/171. That remains an implementation-context-unsupported/null inspection plan even after numerical correction. A per-assumption failure must not be hidden by a numeric envelope, deleted variant or changed catalog.
 
-Implementation would start with these public RED/GREEN behaviors and appropriate value/belief compatibility checks, then independent review. No full regression, formal engineering capture or registered effect trial is authorized by the proposal itself; those remain separate ticket gates under the existing mainline authorization.
+RED29 preserves the first failure of the unrecognized v3 declaration; GREEN30 passes the shared16/59 public witness for both policies using the original independently specified619/590,63/59,96/59 deficits and128/171,32/419 report posteriors. Boundary check31 keeps the nonneutral-expiry mismatch unknown. Check32 verifies the default response equals explicit serialized-basis output without new exact fields, older projection-v2 still has its recorded representation restriction, invalid/supplied bases fail, and the new projection contract is closed for both policies. These are public value/selection development checks, with no new plant simulation, formal engineering capture, full regression or registered effect trial. Online execution and final ticket gates remain separate.
