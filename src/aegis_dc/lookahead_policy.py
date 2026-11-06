@@ -89,6 +89,8 @@ def evaluate(frame,options,candidates,audits,*,admission_budget=None,interventio
         bindings[q]=binding
     _require(set(bindings)==set(locals),'Bind every declared finite value question')
     if policy_declaration is not None:
+        from .evidence_projection import validate_value_projection_bindings
+        validate_value_projection_bindings(options,candidates,policy_declaration['evidence_projection'])
         validate_execution_bindings(policy_declaration,dict(profile=policy_declaration['evidence_projection']['inspection_profile']),frame=frame)
     information=None;projection_audit=[];projection_calls={}
     if evidence_projection is not None:

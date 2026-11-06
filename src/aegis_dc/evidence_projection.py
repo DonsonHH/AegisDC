@@ -26,6 +26,7 @@ def _shared_registry(frame,registry,label):
 def validate_projection(frame,projection):
     version2=type(projection) is dict and projection.get('schema')=='aegisdc-evidence-projection-v2'
     _fields(projection,FIELDS|({'report_class_support'} if version2 else set()),'Public evidence projection')
+    _text(projection['schema'],'Projection schema')
     _require(projection['schema'] in {'aegisdc-evidence-projection-v1','aegisdc-evidence-projection-v2'} and projection['basis']=='synthetic_assumption'
         and projection['context_assumption']=='NO_UNSCHEDULED_RECORD_ARRIVALS_UNTIL_PROJECTED_REPORT','Declare the finite projection context assumption')
     _text(projection['source_note'],'Projection assumption provenance')
@@ -75,6 +76,18 @@ def _projected_frame(frame,arrival):
     plan=dict(schema='aegisdc-public-preparation-plan-v1',id=frame['plan_id']+'-counterfactual-context',basis='synthetic_assumption',
         time_unit='s',decision_times_s=[arrival],requests=deepcopy(frame['requests']))
     return DecisionGateway(frame['nominal_knowledge'],ledger,plan).next_frame()
+
+
+def validate_value_projection_bindings(options,candidates,projection):
+    """The baseline and candidate validate the same public support-to-value map."""
+    mappings={m['question_id']:m for m in options['bindings']}
+    profile_bindings={b['task_id']:b for b in projection['inspection_profile']['bindings']}
+    for row in projection.get('report_class_support',[]):
+        _require(row['question_id'] in mappings,'Report support references an unknown value question')
+        task=candidates[mappings[row['question_id']]['inspection_candidate_id']]['task']
+        _require(row['inspection_task_id']==task['id'] and task['id'] in profile_bindings
+            and row['record_id']==profile_bindings[task['id']]['record_id'],
+            'Report support differs from the public value-to-work binding')
 
 
 def _pending_background(profile,now,arrival):
@@ -144,7 +157,8 @@ def _informative_compatibility(frame,future,belief_model,current,catalog,local,b
             total=sum(Fraction(str(p)) for p in serialized.values())
             represented_world=_outcomes({h:Fraction(str(p))/total for h,p in serialized.items()},catalog)
             if represented_world!=exact_world:
-                row.update(status='UNMODELED',reason='VALUATION_REPRESENTATION_UNSUPPORTED');all_matched=False;rows.append(row);continue
+                row.update(status='UNMODELED',reason='VALUATION_REPRESENTATION_UNSUPPORTED',exact_current_outcome_mass=_ratios(exact_world),
+                    valuation_current_outcome_mass=_ratios(represented_world));all_matched=False;rows.append(row);continue
             for name,positive in (('positive',True),('negative',False)):
                 joint={o:p*(Fraction(str(variant['positive_likelihood'][o])) if positive else 1-Fraction(str(variant['positive_likelihood'][o])))
                     for o,p in represented_world.items()}

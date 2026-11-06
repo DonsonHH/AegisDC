@@ -65,6 +65,77 @@ def informative_fixture():
 
 
 class EvidenceConsistentPolicyTests(unittest.TestCase):
+    def test_projection_schema_type_is_rejected_at_the_shared_public_contract(self):
+        for name in ('one_observation_lookahead','evidence_consistent_contingent'):
+            frame,policy,history=fixture();policy['policy']=name;policy['evidence_projection']['schema']=[]
+            with self.subTest(policy=name),self.assertRaises(ValueError):choose_work(frame,policy,history)
+
+    def test_roundtrip_valuation_representation_difference_is_audited_separately_from_missing_law(self):
+        frame,policy,history=informative_fixture();policy['policy']='evidence_consistent_contingent'
+        policy['options']['belief_model']['variants'][0]['positive_likelihood']['fixed-low-power']=[.1,.2,.9,.4]
+        choice=choose_work(frame,policy,history);audit=choice['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'UNMODELED')
+        self.assertIn('VALUATION_REPRESENTATION_UNSUPPORTED',audit['reasons'])
+        first=audit['compatibility_by_assumption'][0]
+        self.assertEqual(first['exact_current_outcome_mass']['cooling-limited'],[16,59])
+        self.assertNotEqual(first['valuation_current_outcome_mass']['cooling-limited'],[16,59])
+        plan=next(r for r in choice['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')
+        self.assertIsNone(plan['expected_service_deficit_s'])
+
+    def test_shared_report_support_rejects_unknown_questions_and_wrong_bindings_in_both_policies(self):
+        for name in ('one_observation_lookahead','evidence_consistent_contingent'):
+            for mismatch in ('question','task','record','assumption','duplicate','v1-extra-field'):
+                frame,policy,history=informative_fixture();policy['policy']=name
+                projection=policy['evidence_projection'];row=projection['report_class_support'][0]
+                if mismatch=='question':row['question_id']='undeclared-value-question'
+                elif mismatch=='task':row['inspection_task_id']='undeclared-task'
+                elif mismatch=='record':row['record_id']='undeclared-record'
+                elif mismatch=='assumption':row['assumption']='CONDITION_ON_UNKNOWN_SUCCESS_WITHOUT_A_LAW'
+                elif mismatch=='duplicate':projection['report_class_support'].append(deepcopy(row))
+                else:projection['schema']='aegisdc-evidence-projection-v1'
+                with self.subTest(policy=name,mismatch=mismatch),self.assertRaises(ValueError):choose_work(frame,policy,history)
+
+    def test_coarse_hypothesis_update_cannot_claim_incompatible_report_conditioned_outcome_value(self):
+        frame,policy,history=informative_fixture();belief=policy['options']['belief_model']
+        for variant in belief['variants']:
+            variant['prior']=[.5,0,0,.5]
+            variant['positive_likelihood']['lookahead-flow-channel']=[.66,.24,.24,.24]
+        catalog=policy['options']['catalog']
+        for outcome in catalog['outcomes']:
+            if outcome['id']=='cooling-limited':outcome['conditional_probability']=dict(nominal=.8,**{'cooling-limited':.2,'power-limited':.2,'other':.2})
+            elif outcome['id']=='nominal':outcome['conditional_probability']=dict(nominal=.2,**{'cooling-limited':.8,'power-limited':.8,'other':.8})
+            else:outcome['conditional_probability']=dict.fromkeys(('nominal','cooling-limited','power-limited','other'),0)
+        baseline=choose_work(frame,policy,history)
+        self.assertIsNotNone(next(r for r in baseline['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')['expected_service_deficit_s'])
+        policy['policy']='evidence_consistent_contingent';choice=choose_work(frame,policy,history)
+        plan=next(r for r in choice['forecast_plans'][0]['alternatives'] if r['kind']=='inspect_then_act')
+        self.assertIsNone(plan['expected_service_deficit_s'])
+        audit=choice['prospective_evidence_audit'][0]
+        self.assertEqual(audit['classification'],'UNMODELED')
+        self.assertIn('IMPLEMENTATION_CONTEXT_OUTCOME_MASS_UNSUPPORTED',audit['reasons'])
+        for pair in audit['compatibility_by_assumption']:
+            self.assertEqual(pair['branches']['positive']['projected_outcome_mass']['cooling-limited'],[16,25])
+            self.assertEqual(pair['branches']['positive']['original_joint_report_posterior']['cooling-limited'],[8,9])
+        self.assertEqual(choice['chosen_candidate_id'],'first-action')
+
+    def test_neutral_fixed_expiry_rebuilds_current_priority_at_the_exact_projected_arrival(self):
+        for expiry,classification,selection in ((1.5,'INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER','first-inspection'),
+            (1.75,'INFORMATIVE_COMPATIBLE_WITH_DECLARED_UPDATER','first-inspection'),
+            (2,'NON_ADAPTIVE_UNDER_DECLARED_UPDATER','first-action')):
+            frame,policy,history=informative_fixture();policy['policy']='evidence_consistent_contingent'
+            policy['options']['belief_model']['independent_pairs']=[]
+            records=deepcopy(frame['evidence']['records']);records[0]['valid_until_s']=expiry;frame=reframe(frame,0,records)
+            choice=choose_work(frame,policy,history);audit=choice['prospective_evidence_audit'][0]
+            self.assertEqual(audit['classification'],classification)
+            self.assertEqual(choice['chosen_candidate_id'],selection)
+            self.assertEqual(audit['predicted_arrived_at_s'],1.75)
+            if selection=='first-inspection':
+                self.assertAlmostEqual(choice['forecast_plans'][0]['best_expected_service_deficit_s'],39/40)
+                for pair in audit['compatibility_by_assumption']:
+                    for branch in pair['branches'].values():
+                        self.assertEqual([r[0] for r in branch['projected_factor_signature']],['post-clean-flow'])
+            self.assertEqual(frame['evidence']['records'][0]['availability'],'current')
+
     def test_explicit_certain_report_domain_allows_compatible_independent_information(self):
         frame,policy,history=informative_fixture();before=deepcopy(policy)
         baseline=choose_work(frame,policy,history)

@@ -1,0 +1,36 @@
+test_projection_schema_type_is_rejected_at_the_shared_public_contract (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_projection_schema_type_is_rejected_at_the_shared_public_contract) ... 
+  test_projection_schema_type_is_rejected_at_the_shared_public_contract (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_projection_schema_type_is_rejected_at_the_shared_public_contract) (policy='one_observation_lookahead') ... ERROR
+  test_projection_schema_type_is_rejected_at_the_shared_public_contract (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_projection_schema_type_is_rejected_at_the_shared_public_contract) (policy='evidence_consistent_contingent') ... ERROR
+
+======================================================================
+ERROR: test_projection_schema_type_is_rejected_at_the_shared_public_contract (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_projection_schema_type_is_rejected_at_the_shared_public_contract) (policy='one_observation_lookahead')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 71, in test_projection_schema_type_is_rejected_at_the_shared_public_contract
+    with self.subTest(policy=name),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 68, in choose_work
+    validate_projection(frame,program['evidence_projection'])
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_projection.py", line 29, in validate_projection
+    _require(projection['schema'] in {'aegisdc-evidence-projection-v1','aegisdc-evidence-projection-v2'} and projection['basis']=='synthetic_assumption'
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_projection_schema_type_is_rejected_at_the_shared_public_contract (test_evidence_consistent_policy.EvidenceConsistentPolicyTests.test_projection_schema_type_is_rejected_at_the_shared_public_contract) (policy='evidence_consistent_contingent')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\tests\test_evidence_consistent_policy.py", line 71, in test_projection_schema_type_is_rejected_at_the_shared_public_contract
+    with self.subTest(policy=name),self.assertRaises(ValueError):choose_work(frame,policy,history)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\dispatch_policy.py", line 68, in choose_work
+    validate_projection(frame,program['evidence_projection'])
+  File "C:\Users\Donson\.codex\worktrees\mainline23-intervention\Renly\src\aegis_dc\evidence_projection.py", line 29, in validate_projection
+    _require(projection['schema'] in {'aegisdc-evidence-projection-v1','aegisdc-evidence-projection-v2'} and projection['basis']=='synthetic_assumption'
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.088s
+
+FAILED (errors=2)
