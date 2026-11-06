@@ -1,0 +1,133 @@
+{
+  "schema": "aegisdc-full-loop-independent-literals-v1",
+  "status": "PROPOSED_BEFORE_ANY_PROJECT_CALL_NOT_FROZEN_RUN_PROTOCOL",
+  "classification": "PURE_ARITHMETIC_AND_DECLARED_EVENT_EXPECTATIONS_NOT_EFFECT_EVIDENCE",
+  "physical": {
+    "duration_s": 10,
+    "offered_demand_integral": [
+      39,
+      4
+    ],
+    "delivered_integral": [
+      31,
+      4
+    ],
+    "unserved_integral": [
+      2,
+      1
+    ],
+    "normalized_deficit_time_s": [
+      2,
+      1
+    ],
+    "condition": "Existing local protection resets at4seconds only if its actual temperature/flow gates hold; otherwise this literal fails and the run stops.",
+    "load_requested_W_before": 1000000,
+    "load_requested_W_after": 2000000,
+    "grid_outage_s": [
+      2,
+      3.4
+    ],
+    "compute_permission_expected_off_s": [
+      2,
+      4
+    ],
+    "ups_maintenance_from_s": 1,
+    "diesel_start_delay_s": 30,
+    "head_Pa": 150000,
+    "passive_resistance": 12000000,
+    "valve_resistance": 3000000,
+    "clean_flow_squared": [
+      1,
+      100
+    ],
+    "degraded_flow_squared": [
+      1,
+      340
+    ],
+    "clean_mass_flow_kg_s": [
+      499,
+      5
+    ]
+  },
+  "public_model": {
+    "prior_bad": [
+      1,
+      100
+    ],
+    "work_order_positive_bad": [
+      3,
+      4
+    ],
+    "work_order_positive_good": [
+      3,
+      100
+    ],
+    "bad_after_arrived_work_order": [
+      25,
+      124
+    ],
+    "positive_report_mass": [
+      299,
+      1240
+    ],
+    "positive_bad": [
+      200,
+      299
+    ],
+    "negative_bad": [
+      50,
+      941
+    ],
+    "defer_deficit_s": [
+      75,
+      62
+    ],
+    "direct_deficit_s": [
+      521,
+      496
+    ],
+    "inspect_deficit_s": [
+      999,
+      1240
+    ],
+    "before_work_order_defer_deficit_s": [
+      3,
+      50
+    ],
+    "actual_horizon_s": 10,
+    "model_horizon_s": 6,
+    "model_horizon_interpretation": "Relative to each public decision"
+  },
+  "expected_times_s": {
+    "work_order_observed": 1.5,
+    "work_order_arrived": 3,
+    "inspection_issued": 3,
+    "inspection_started": 3.25,
+    "inspection_completed": 4.25,
+    "handheld_record_arrived": 4.75,
+    "action_issued": 4.75,
+    "action_started": 5,
+    "action_completed": 6,
+    "action_report_arrived": 6.5,
+    "postaction_sample_times": [
+      7,
+      8
+    ],
+    "postaction_arrival_times": [
+      7.5,
+      8.5
+    ],
+    "first_possible_verified_closure": 8.5
+  },
+  "attribution": {
+    "service_recovery": "Local automatic reset after external mains restoration; not a human repair effect.",
+    "filter_recovery": "Authorized paid clean_filter at6seconds; increases cooling margin, does not erase previous service deficit.",
+    "closure": "At least2post-action current flow and actual service samples spanning1second, using accepted24rules."
+  },
+  "new_selector_calls": 0,
+  "new_physical_calls": 0,
+  "new_full_regressions": 0,
+  "registered_research_trials": 0,
+  "field_calibration": "PENDING",
+  "overall_goal": "ACTIVE"
+}
