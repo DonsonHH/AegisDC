@@ -120,7 +120,7 @@ class PolicySession:
         return min(decision,self.sensors.next_event() if self.sensors is not None else math.inf)
 
     def resource_ledger(self,time_s,workforce,inspections):
-        if self.program['policy_program']['schema']!='aegisdc-dispatch-policy-program-v3':return None
+        if self.program['policy_program']['schema'] not in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:return None
         from .policy_budget import account
         program=self.program['policy_program'];frame=self._frame(time_s,inspections)
         return account(frame,program,dict(issued=self.issued,work_feedback=workforce.public_feedback(time_s)),
