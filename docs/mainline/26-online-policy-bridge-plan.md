@@ -1,6 +1,6 @@
 # Online bridge for v4 policy declarations
 
-Status: planned next stage after the A/B review. Current pure selection support is not evidence that the candidate runs online. No runtime change or new physical run is made by this plan.
+Status: implemented D-stage development after the shared numerical path, with actual same-facility and CLI runs. Frozen finite engineering capture, independent D review, fresh delivery and root acceptance remain pending. Earlier planning text below records the intended boundary; actual outcomes and preservation are listed at the end.
 
 ## Schema boundary
 
@@ -24,4 +24,24 @@ A paired context with a known pending fixed arrival must produce an unknown cont
 
 ## Delivery gates
 
-Work one public behavior at a time, retaining failed logs and exact source identity. The final finite engineering protocol, source, tools, declared durable set and budget are frozen before capture in a new dated output directory. These planned cases have not been frozen or run. Independent saved-result review, actual rendered physical-data and architecture figures, fresh-checkout verification, root integrated checks and publication are still required. Ticket26 remains claimed and the complete research goal active.
+Work one public behavior at a time, retaining failed logs and exact source identity. The final finite engineering protocol, source, tools, declared durable set and budget are frozen before capture in a new dated output directory. These development cases do not constitute a frozen formal protocol. Independent saved-result review, actual rendered physical-data and architecture figures, fresh-checkout verification, root integrated checks and publication are still required. Ticket26 remains claimed and the complete research goal active.
+
+## D-stage development outcomes
+
+RED34 completed the actual inspection/action trajectory but failed its public final-ledger assertion because the plant output included that ledger only for v3. GREEN35 adds the v4 ledger path and verifies the one-facility timing,6/1.5/4.5 service integrals,2 actual work person-s and20/20/2 admission envelopes. Fixed polling continues; the physical6s horizon and per-decision relative forecast6s window remain different objects. The first decision's forecast window is1–7s, not an implied extension of the saved physical run.
+
+RED36/GREEN37 require exact matching public inspection/background profiles (including null) for both value policies before any online decision. RED38/GREEN39 inherit the v3 action-declaration and task-kind constructor gates; v4 uses the full shared closed model validation at its actual decision instant instead of calling an incomplete early value-binding consumer to generate a future or preflight choice. No private observation realization or future measured value enters selection.
+
+Existing behavior boundaries40–43 pass without manufactured failures: known pending fixed arrivals give a null contingent value but still allow actual direct work; an actual unsuitable measurement remains a missing/unknown record with `UNCONFIRMED` feedback; a state-constant report likelihood can be admitted yet favor direct intervention because it offers no modeled benefit; and zero modeled impairment can produce deferral with no generated tour. That last case is a limited/mistaken modeled belief, not an actual healthy plant: the same real network bottleneck still produces4.5s deficit.
+
+The closest baseline with optional actual-arrived closure feedback completed the expected trajectory in44, but the test incorrectly expected `ACTION_NOT_AVAILABLE` at the pre-action decision. The real closure contract reports `OPEN_UNCONFIRMED`. The failed assertion and completed physical original are unchanged;45 checks that same saved run under the corrected literal, including `ACTION_COMPLETED_PENDING_VERIFICATION` after the actual action report, without a physical retry. The test source's expected literal was corrected for future runs.
+
+The CLI attempt46 was interrupted by tool transport. Its original log is0bytes, process is no longer live, and no terminal receipt or saved output exists. That is an unobserved outcome, not proven success, failure or proof that physics never started. A separate observation record preserves those facts. New attempt47 uses a new UUID, completes the actual CLI run, and invokes the CLI again against the existing output; the second invocation is rejected before simulation and every original output hash remains unchanged. It is a separately accounted development attempt, not an invisible retry or a repeat of a sealed protocol trial.
+
+## Durable development preservation and gaps
+
+The [2026-11-07 D original package](../../evidence/mainline/engineering/26-candidate/development-originals-20261107-01/receipt.json) declares six durable files and529 ZIP members, including original attempts/terminals, all saved scenario/run/private-state/balance files, captured runtime/test-tool snapshots, explicit hash-matched source recovery, and the independent interruption observation. It covers30 public attempt directories:16 known completed integrations,12 original error terminals without a completed run, one pre-simulation overwrite refusal and one unobserved interruption. Known completed durations sum to approximately48.08s; the unknown call is not silently treated as0s. Completion of physics is not acceptance of a test assertion:34 and44 remain failed test logs.
+
+All2010 recorded runtime-file hashes are accounted for, including a labelled exact inverse-patch reconstruction of early dirty bridge source where it matches the original attempt hash. Such recovery is not represented as an original pre-call snapshot. Twenty-six cases have explicitly recorded historical input or authoring-tool capture gaps; early refused-call inputs without authoritative originals are not fabricated. Completed-run inputs can be recovered as the actual declared scenario/program from their original save-run files, without claiming original preflight input bytes. Newer calls capture exact input JSON and runtime/test tools before execution. Automatic caches are excluded.
+
+`scripts/verify_candidate_development.py` only reads saved bytes and Git blobs; it reports `PASS_WITH_DECLARED_HISTORICAL_DEVELOPMENT_GAPS`, not ticket acceptance. No formal engineering case or scientific gain is proved by this development archive. The later frozen protocol must capture complete inputs, tools, source and attempt outcomes before new calls.
