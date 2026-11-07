@@ -210,3 +210,118 @@ class RegisteredComparisonTests(unittest.TestCase):
                 cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
             self.assertNotEqual(result.returncode,0)
             self.assertIn('accepted ticket 30',result.stderr.lower())
+
+
+    def test_confirmation_can_prepare_before_32_but_execute_only_its_reviewed_source(self):
+        from hashlib import sha256
+        import ast
+        import shutil
+
+        gate=ROOT/'scripts/comparison_release.py'
+        source=ast.parse(gate.read_text(encoding='utf-8'))
+        keys={'PINS','PROTOCOL','LOCK','AUTHORITY','FROZEN_STATUS','HELD'}
+        cli={}
+        for statement in source.body:
+            if isinstance(statement,ast.Assign) and isinstance(statement.targets[0],ast.Name):
+                name=statement.targets[0].id
+                if name in keys:
+                    cli[name]=(['docs/mainline/30-comparison-protocol-v1.json',*[
+                        ast.literal_eval(node) for node in statement.value.elts[1:]]] if name=='PINS'
+                        else ast.literal_eval(statement.value))
+        digest=lambda data: sha256(data).hexdigest()
+        protocol_file=cli['PROTOCOL']
+        lock_file=cli['LOCK']
+        authority_file=cli['AUTHORITY']
+        with TemporaryDirectory() as folder:
+            base=Path(folder)
+            repo=base/'synthetic-repo'
+            repo.mkdir()
+
+            def git(*args):
+                return subprocess.check_output(['git','-c','core.autocrlf=false','-c','user.name=Fixture',
+                    '-c','user.email=fixture@example.invalid',*args],cwd=repo,encoding='utf-8').strip()
+
+            def write(path,value):
+                out=repo/path
+                out.parent.mkdir(parents=True,exist_ok=True)
+                out.write_bytes(json.dumps(value,indent=2).encode()+b'\n')
+
+            def commit(message):
+                git('add','--','.')
+                git('commit','-qm',message)
+                return git('rev-parse','HEAD')
+
+            def audit(stage):
+                return subprocess.run([sys.executable,'-B','-X','utf8',str(repo/'scripts/comparison_release.py'),
+                    'audit-release','--phase','confirmation','--stage',stage,'--lock',str(repo/lock_file),
+                    '--nonce',str(nonce),'--input-directory',str(input_dir),'--output',str(base/'unused-output')],
+                    cwd=repo,capture_output=True,text=True,encoding='utf-8',check=False)
+
+            git('init','-q')
+            for name in cli['PINS']:
+                out=repo/name
+                out.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(ROOT/name,out)
+            runtime='src/aegis_dc/fixture.py'
+            (repo/runtime).parent.mkdir()
+            (repo/runtime).write_bytes(b'# static gate fixture, never executed\n')
+            plan=json.loads((repo/protocol_file).read_bytes())
+            plan['status']=cli['FROZEN_STATUS']
+            write(protocol_file,plan)
+            design=commit('Frozen draft')
+            nonces={name:bytes([i])*32 for i,name in enumerate(cli['HELD'],1)}
+            nonce=base/'test-only-confirmation.bin'
+            nonce.write_bytes(nonces['confirmation'])
+            pins={name:digest((repo/name).read_bytes()) for name in (*cli['PINS'],runtime)}
+            write(lock_file,dict(schema='aegisdc-comparison-source-lock-v1',status='FROZEN_INPUT_DESIGN',
+                protocol_id=plan['id'],design_commit=design,pins=pins,
+                commitments_sha256={phase:digest(raw) for phase,raw in nonces.items()},
+                held_inputs_materialized=0,registered_research_trials=0))
+            lock_sha=digest((repo/lock_file).read_bytes())
+            write(authority_file,dict(status='ACCEPTED',ticket='30',design_commit=design,
+                protocol_lock=lock_file,protocol_lock_sha256=lock_sha))
+            write('docs/mainline/evidence/31-root.json',dict(status='ACCEPTED',ticket='31'))
+            commit('Accepted 30 and 31')
+            input_dir=base/'synthetic-byte-fixtures'
+            result=audit('prepare')
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(json.loads(result.stdout)['held_inputs_materialized'],0)
+            result=audit('execute')
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('Requires accepted ticket 32',result.stderr)
+
+            runner=repo/'scripts/fixture_runner.py'
+            runner.write_bytes(b'# Frozen runner identity only\n')
+            execution=commit('Frozen execution source')
+            phase=plan['phases']['confirmation']
+            inputs={}
+            for world in phase['worlds']:
+                for arm in phase['arms']:
+                    name=world['id']+'/'+arm+'.json'
+                    path=input_dir/name
+                    path.parent.mkdir(parents=True,exist_ok=True)
+                    raw=json.dumps({'fixture_byte_identity_only':name}).encode()
+                    path.write_bytes(raw)
+                    inputs[name]=digest(raw)
+            code={name:digest((repo/name).read_bytes())
+                  for role in ('src','scripts','configs')
+                  for name in git('ls-files','--',role).splitlines() if name.endswith(('.py','.json'))}
+            execution_lock='docs/mainline/evidence/30-confirmation-execution-lock.json'
+            write(execution_lock,dict(schema='aegisdc-comparison-execution-lock-v1',
+                status='REVIEWED_FOR_EXECUTION',phase='confirmation',design_lock_sha256=lock_sha,
+                execution_source=execution,execution_pins=code,interpreter_sha256=digest(Path(sys.executable).read_bytes()),
+                input_hashes=inputs,budget=phase['budget']))
+            write('docs/mainline/evidence/32-root.json',dict(status='ACCEPTED',ticket='32',
+                execution_lock=execution_lock,execution_lock_sha256=digest((repo/execution_lock).read_bytes())))
+            governance=commit('Accepted 32, no executable changes')
+            result=audit('execute')
+            self.assertEqual(result.returncode,0,result.stderr)
+            verdict=json.loads(result.stdout)
+            self.assertEqual(verdict['execution_source'],execution)
+            self.assertEqual(verdict['checked_commit'],governance)
+            self.assertEqual(verdict['facility_calls'],0)
+            runner.write_bytes(b'# Unauthorized code change\n')
+            commit('Change executable after freeze')
+            result=audit('execute')
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('Executable files differ',result.stderr)
