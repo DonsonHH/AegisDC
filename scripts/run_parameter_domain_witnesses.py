@@ -225,6 +225,7 @@ if __name__ == '__main__':
     declaration = read(ROOT / protocol['declaration'])
     _require_protocol(protocol,declaration)
     folder = ROOT / PACKAGE
+    directory_key = 'prepared_directory' if args.mode == 'prepare' else 'capture_directory'
     result = (_verify(folder,protocol,declaration,args.delivery) if args.mode == 'verify'
-              else _run(args.mode,folder / protocol[f'{args.mode}_directory'],protocol,declaration))
+              else _run(args.mode,folder / protocol[directory_key],protocol,declaration))
     print(json.dumps(result,ensure_ascii=False,allow_nan=False))
