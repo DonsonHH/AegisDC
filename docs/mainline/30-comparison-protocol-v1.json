@@ -186,7 +186,7 @@
         "simulated_charge_s": 960,
         "scheduled_decisions": 960
       },
-      "release": "AFTER_TICKET_32_EXECUTION_FREEZE"
+      "release": "PREPARE_AT_32_AFTER_31_EXECUTE_AT_33_AFTER_32"
     },
     "ablation": {
       "ticket": "35",
@@ -504,7 +504,7 @@
     "development_rule": "Public seed for each development world: 300000 + slot.",
     "sealed_rule": "One private 256-bit nonce per non-development phase, committed by SHA-256. Use the pinned held-blueprint HMAC assignment and channel seed rules. Both levels of a robustness block share its seed key. No held world inputs are materialized for development.",
     "common_observation_rule": "Fix equal seeds, signal laws and event keys across matched methods. Equal channel/origin/epoch gives equal draw; policy-dependent observations at different epochs need not match.",
-    "release_rules": "A held phase is released only through its dependency gate and verified immutable execution reference. Public summaries never serialize unreleased nonce or held input bytes."
+    "release_rules": "Input preparation: after accepted30, confirmation may be materialized by ticket32 after accepted31; no selector or facility calls. Physical execution requires accepted32 exact source/input freeze. Ablation and robustness prepare after34 and require their own exact input/source audits before a run. Never serialize unreleased nonce into public frames."
   },
   "attempt_policy": {
     "ids": "Unique protocol, split, world and arm; record STARTED and budget charge before plant invocation.",
