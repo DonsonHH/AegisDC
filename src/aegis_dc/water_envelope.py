@@ -31,14 +31,14 @@ def _epochs(events, rows, horizon):
         if not isinstance(event['source_note'],str) or not event['source_note'].strip():
             raise ValueError('Water event requires a source note')
         ordered.append((time,name,value))
-    grouped = []
+    grouped, latest = [], {}
     for time, name, value in sorted(ordered):
+        if name in latest and same_time(time,latest[name]):
+            raise ValueError('Conflicting water inputs at one processing epoch')
+        latest[name] = time
         if not grouped or not same_time(time,grouped[-1][0]):
             grouped.append((time,{}))
-        current = grouped[-1][1]
-        if name in current:
-            raise ValueError('Conflicting water inputs at one processing epoch')
-        current[name] = value
+        grouped[-1][1][name] = value
     return grouped
 
 
