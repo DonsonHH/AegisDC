@@ -127,6 +127,70 @@ def audit_plan(path):
         facility_calls=0,selector_calls=0,research_trials=0)
 
 
+RECIPE_FIELDS = {'kernel','network_cap','filter_multiplier','context_valid_until_s','background','crew','events'}
+BLUEPRINT_FIELDS = RECIPE_FIELDS | {'variant'}
+
+
+def _recipe(recipe):
+    require(type(recipe) is dict and set(recipe)==BLUEPRINT_FIELDS, 'Unknown held recipe fields')
+    require(type(recipe['variant']) is str and recipe['variant'].strip(), 'Unnamed held blueprint')
+    require(recipe['kernel'] in ('network-fallback','masked-cooling')
+            and recipe['background'] in ('late','early')
+            and recipe['crew'] in ('solo','it-with-cooling'), 'Unknown held mode')
+    for field,low,high in (('network_cap',0,2),('filter_multiplier',.25,100),('context_valid_until_s',0,10)):
+        value=recipe[field]
+        require(type(value) in (int,float) and low<=value<=high, f'Invalid recipe coordinate: {field}')
+    require(type(recipe['events']) is list, 'Declare the held exogenous events')
+    seen=set()
+    for event in recipe['events']:
+        require(type(event) is dict and set(event)=={'time_s','parameter_id','value','source_note'}
+                and type(event['time_s']) in (int,float) and 0<=event['time_s']<=10,
+                'Invalid held event fields or time')
+        key=(event['time_s'],event['parameter_id'])
+        require(key not in seen and type(event['source_note']) is str and bool(event['source_note'].strip()),
+                'Repeated or unattributed held event')
+        seen.add(key)
+
+
+def audit_blueprints(protocol_path,blueprint_path):
+    audit_plan(protocol_path)
+    plan,held=read(protocol_path),read(blueprint_path)
+    canonical(held)
+    require(type(held) is dict and set(held)=={'schema','status','scope','confirmation','ablation','masks','robustness','sealing'}
+            and held['schema']=='aegisdc-held-comparison-blueprints-v1'
+            and held['status']=='DESIGN_BLUEPRINTS_NO_RELEASE','Unknown blueprint catalog')
+    count={}
+    seen=set()
+    for phase,per_family in (('confirmation',4),('ablation',2)):
+        require(set(held[phase])==CASE_FAMILIES, f'Blueprint family coverage differs: {phase}')
+        count[phase]=0
+        for family,recipes in held[phase].items():
+            require(type(recipes) is list and len(recipes)==per_family, f'Family denominator differs: {phase}/{family}')
+            for recipe in recipes:
+                _recipe(recipe)
+                require(recipe['variant'] not in seen,'Reused blueprint identifier')
+                seen.add(recipe['variant'])
+                count[phase]+=1
+        require(count[phase]==len(plan['phases'][phase]['worlds']), 'Held world denominator differs')
+    require(set(held['masks'])==set(ABLATION_ARMS)-{'full'}, 'Ablation transform coverage differs')
+    require(set(held['robustness'])==ROBUSTNESS_AXES, 'Robustness axes differ')
+    for i,axis in enumerate(('load-level','sensor-coverage','reserve-path','model-error'),1):
+        block=held['robustness'][axis]
+        require(set(block)=={'shared','role','reference','perturbed','allowed_deltas','key'}
+                and block['key']==f'R{i}' and block['reference']!=block['perturbed']
+                and len(block['allowed_deltas'])==len(set(block['allowed_deltas']))
+                and type(block['role']) is str and bool(block['role'].strip()),
+                'Unknown or vacuous robustness contrast')
+        _recipe(block['shared'])
+        require(block['shared']['variant'] not in seen,'Reused blueprint identifier')
+        seen.add(block['shared']['variant'])
+    require(type(held['sealing']) is dict and all(type(v) is str and bool(v.strip()) for v in held['sealing'].values()),
+            'Incomplete sealing recipe')
+    return dict(status='PASS_PUBLIC_BLUEPRINT_AUDIT',confirmation_blueprints=count['confirmation'],
+        ablation_blueprints=count['ablation'],robustness_blocks=len(held['robustness']),
+        held_inputs_materialized=0,secret_material_reads=0,facility_calls=0,selector_calls=0,research_trials=0)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     command = parser.add_subparsers(dest='command',required=True)
@@ -135,10 +199,17 @@ def main():
     pair.add_argument('candidate',type=Path)
     plan = command.add_parser('audit-plan', help='Check the finite roster and attempt budget')
     plan.add_argument('protocol',type=Path)
+    blueprints = command.add_parser('audit-blueprints', help='Check public held rules without creating a held input')
+    blueprints.add_argument('protocol',type=Path)
+    blueprints.add_argument('blueprints',type=Path)
     args = parser.parse_args()
     try:
-        receipt = (audit_pair((args.baseline,args.candidate)) if args.command=='audit-pair'
-                   else audit_plan(args.protocol))
+        if args.command=='audit-pair':
+            receipt=audit_pair((args.baseline,args.candidate))
+        elif args.command=='audit-plan':
+            receipt=audit_plan(args.protocol)
+        else:
+            receipt=audit_blueprints(args.protocol,args.blueprints)
     except (OSError,ValueError,KeyError,TypeError) as error:
         parser.exit(2,f'{error}\n')
     print(json.dumps(receipt,allow_nan=False))
