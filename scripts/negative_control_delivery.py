@@ -13,7 +13,7 @@ from inspection_delivery import ROOT, digest, durable, git, hashes, read, requir
 from negative_control_checks import check_case, paired
 from negative_control_history import check_history, lineage
 
-PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v3.json'
+PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v4.json'
 
 
 def append(path, value):
@@ -43,7 +43,7 @@ def pins(protocol, source):
     for name, sha in preparation['outputs'].items():
         require(digest((ROOT / protocol['input']).parent.joinpath(name).read_bytes()) == sha,
                 'Prepared output differs from its author receipt')
-    require(preparation['authoring_tool_sha256'] == result['tools']['scripts/prepare_negative_control_inputs_v4.py'],
+    require(preparation['authoring_tool_sha256'] == result['tools']['scripts/prepare_negative_control_inputs_v6.py'],
             'Physical-case authoring tool differs')
     for name, sha in idle['source_inputs'].items():
         require(result['inputs'][name] == sha, 'Idle-crew preparation source differs')
@@ -86,7 +86,8 @@ def reviews(source, files):
         require(manifest_path is not None, 'Review has no immutable artifact manifest')
         seal = read(manifest_path)
         names = set(seal['artifacts'])
-        require(file.name in names, 'Review verdict is not sealed')
+        require(file.name in names and durable(file.parent) == names | {manifest_path.name},
+                'Independent review manifest must seal its verdict and entire durable set')
         for name, expected in seal['artifacts'].items():
             raw = file.parent.joinpath(name).read_bytes()
             require(digest(raw) == expected['sha256'] and len(raw) == expected['bytes'], 'Independent review file changed')
@@ -164,8 +165,12 @@ def execute(case, folder, counters, protocol):
             program = deepcopy(case['closure_program'])
             program['intervention_feedback'] = [deepcopy(report) for report in run['intervention_public_feedback']
                 if report['arrived_at_s'] <= frame['as_of_s']]
+            epoch = str(frame['as_of_s'])
+            write(folder / f'closure-input-{epoch}.json', dict(frame=frame, intervention_feedback=program['intervention_feedback']))
             counters['late_closure_assessments'] += 1
-            assessments.append(assess_closure(frame, program))
+            assessment = assess_closure(frame, program)
+            write(folder / f'closure-result-{epoch}.json', assessment)
+            assessments.append(assessment)
         write(folder / 'public-preparation.json', dict(frames=frames, proposal=proposal))
         write(folder / 'closure.json', assessments)
     return run
@@ -203,32 +208,38 @@ def capture(protocol, review_files):
     folder = ROOT / protocol['output']
     require(not folder.exists(), 'Attempt directory exists; never retry or overwrite')
     folder.mkdir(parents=True)
-    write(folder / 'capture.json', dict(status='STARTED', source=source, pins=identities,
-        reviews=reviewed, retained_history=history, declared_artifacts=sorted(declared(protocol)), terminal='receipt.json',
-        utc=datetime.now(timezone.utc).isoformat(), executable=sys.executable, python=sys.version,
-        executable_sha256=digest(Path(sys.executable).read_bytes()), registered_research_trials=0))
-    with zipfile.ZipFile(folder / 'reviews.zip', 'x', compression=zipfile.ZIP_DEFLATED) as archive:
-        for name, raw in sorted(review_bytes.items()):
-            archive.writestr(name, raw)
-    cases = read(ROOT / protocol['input'])['cases']
-    oracle = read(ROOT / protocol['literals'])
-    counters = dict(attempted_integrations=0, completed_integrations=0, validated_cases=0,
+    packet_log = folder / 'packet-lifecycle.jsonl'
+    append(packet_log, dict(scope='PACKET',status='STARTED',stage='INITIALIZATION',source=source,
+        utc=datetime.now(timezone.utc).isoformat()))
+    counters = dict(started_cases=0, attempted_integrations=0, completed_integrations=0, validated_cases=0,
         late_preparation_frames=0, late_preparation_assessments=0, late_closure_assessments=0, protection_initial_frames=0,
         attempted_simulated_seconds=0)
     receipt = dict(status='FAIL', source=source, pins=identities, counters=counters,
         retained_history=history, error=None, source_guard=False, registered_research_trials=0)
+    stage = 'INITIALIZATION'
     try:
+        write(folder / 'capture.json', dict(status='STARTED', source=source, pins=identities,
+            reviews=reviewed, retained_history=history, declared_artifacts=sorted(declared(protocol)), terminal='receipt.json',
+            utc=datetime.now(timezone.utc).isoformat(), executable=sys.executable, python=sys.version,
+            executable_sha256=digest(Path(sys.executable).read_bytes()), registered_research_trials=0))
+        with zipfile.ZipFile(folder / 'reviews.zip', 'x', compression=zipfile.ZIP_DEFLATED) as archive:
+            for name, raw in sorted(review_bytes.items()):
+                archive.writestr(name, raw)
+        cases = read(ROOT / protocol['input'])['cases']
+        oracle = read(ROOT / protocol['literals'])
         checks = {}
         sys.path.insert(0, str(ROOT / 'src'))
         for name in protocol['cases']:
+            stage = 'CASE:' + name
             case = cases[name]
             path = folder / name
-            path.mkdir()
-            write(path / 'input.json', case)
             append(folder / 'attempts.jsonl', dict(case=name, status='STARTED', source=source, kind=case['kind'],
                 duration_s=case['duration_s'], utc=datetime.now(timezone.utc).isoformat()))
+            counters['started_cases'] += 1
             counters['attempted_simulated_seconds'] += case['duration_s']
             try:
+                path.mkdir()
+                write(path / 'input.json', case)
                 execute(case, path, counters, protocol)
                 checks[name] = check_case(path, name, case, oracle, protocol, source, identities)
                 write(path / 'validation.json', checks[name])
@@ -239,13 +250,14 @@ def capture(protocol, review_files):
                 append(folder / 'attempts.jsonl', dict(case=name, status='FAILED', source=source,
                     error_type=type(error).__name__, error=str(error), utc=datetime.now(timezone.utc).isoformat()))
                 raise
+        stage = 'PACKET_VALIDATION'
         checks['paired_normal_false_report'] = paired(folder)
         require(counters == protocol['expected_counters'], 'Frozen physical/public evaluation budget differs')
         write(folder / 'checks.json', checks)
         require(durable(folder) == declared(protocol), 'Frozen durable output set differs')
         receipt['status'] = 'PASS'
     except Exception as error:
-        receipt.update(error=dict(type=type(error).__name__, message=str(error)))
+        receipt.update(error=dict(type=type(error).__name__, message=str(error), stage=stage))
     finally:
         try:
             receipt['source_guard'] = unchanged(source, identities)
@@ -253,6 +265,12 @@ def capture(protocol, review_files):
             receipt.update(source_guard=False, source_guard_error=str(error))
         if not receipt['source_guard']:
             receipt['status'] = 'FAIL'
+            if receipt['error'] is None:
+                receipt['error'] = dict(type='SourceGuardFailure', message='Exact execution source changed', stage='SOURCE_GUARD')
+        packet_success = receipt['status'] == 'PASS'
+        append(packet_log,dict(scope='PACKET', status='COMPLETED' if packet_success else 'FAILED',
+            stage='PACKET_VALIDATION' if packet_success else receipt['error']['stage'], source=source,
+            error=receipt['error'], utc=datetime.now(timezone.utc).isoformat()))
         receipt['artifacts'] = {name: digest((folder / name).read_bytes()) for name in sorted(durable(folder))}
         write(folder / 'receipt.json', receipt)
     require(receipt['status'] == 'PASS', 'Frozen negative engineering capture failed; retain records and stop')
@@ -283,6 +301,10 @@ def verify(protocol, delivery):
     for row in capture['reviews'].values():
         require(row['source'] == source, 'Independent review is not bound to the execution source')
     check_review_archive(folder, capture['reviews'])
+    packet = [json.loads(line) for line in (folder / 'packet-lifecycle.jsonl').read_bytes().splitlines()]
+    require([(row['scope'],row['status'],row['stage'],row['source']) for row in packet] ==
+            [('PACKET','STARTED','INITIALIZATION',source),('PACKET','COMPLETED','PACKET_VALIDATION',source)]
+            and packet[-1]['error'] is None and receipt['error'] is None, 'Packet lifecycle differs')
     ledger = [json.loads(line) for line in (folder / 'attempts.jsonl').read_bytes().splitlines()]
     require([(row['case'],row['status'],row['source']) for row in ledger] ==
             [(name,status,source) for name in protocol['cases'] for status in ('STARTED','COMPLETED')],

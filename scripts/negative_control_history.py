@@ -2,6 +2,8 @@
 import json
 
 from inspection_delivery import ROOT, digest, durable, git, hashes, read, require
+from prepare_negative_control_inputs_v5 import neutralize
+from prepare_negative_control_inputs_v6 import neutralize_authority
 
 
 def lineage(protocol, execution_source):
@@ -36,7 +38,7 @@ def check_history(protocol, runtime):
                 [('normal', 'STARTED', original_source), ('normal', 'FAILED', original_source)]
             and 'Conservative bounds require' in failure['error']['message'], 'Original failed attempt relabeled')
     require(failure['pins']['runtime'] == runtime, 'Original failed call used different runtime bytes')
-    for role in ('failed_capture', 'failed_public_preflight', 'passed_public_preflight'):
+    for role in ('failed_capture', 'failed_public_preflight', 'passed_public_preflight', 'public_evidence_preflight'):
         path = folder(role)
         receipt = read(path / 'receipt.json')
         require(durable(path) == set(receipt['artifacts']) | {'receipt.json'}, f'Original terminal roles differ: {role}')
@@ -70,14 +72,39 @@ def check_history(protocol, runtime):
             require(group == hashes(receipt['source'], group),
                     'Original public-preflight inputs/tools differ from their actual execution revision')
         require(receipt['pins']['runtime'] == runtime, 'Public-preflight runtime differs from physical runtime')
-    require(second['pins']['inputs'][protocol['input']] == digest((ROOT / protocol['input']).read_bytes()),
-            'Reviewed physical input is not the input that passed the public preflight')
-    cases = read(ROOT / protocol['input'])['cases']
+    validated_input = protocol['validated_input_before_neutralization']
+    require(second['pins']['inputs'][validated_input] == digest((ROOT / validated_input).read_bytes()),
+            'Original input that passed public preflight changed')
+    document = read(ROOT / protocol['input'])
+    public_input = protocol['public_evidence_preflight_input']
+    neutral = read(ROOT / public_input)
+    require(neutralize(read(ROOT / validated_input)) == neutral and neutralize_authority(neutral) == document,
+            'Physical input differs from validated input beyond declared public label neutralization')
+    cases = document['cases']
     for name, case in cases.items():
         require(read(passed / 'scenarios' / (name + '.json')) == case['model'], 'Validated model differs: ' + name)
     require(set(read(passed / 'risks.json')) == {'normal', 'false_report', 'too_late'}, 'Preflight risk cases differ')
     require(read(passed / 'frames/too_late.json')['requests'] == cases['too_late']['public_preparation']['requests'],
             'Late preflight public declarations differ')
+    evidence = folder('public_evidence_preflight')
+    proof = read(evidence / 'receipt.json')
+    require(proof['status'] == 'PASS_PUBLIC_EVIDENCE_ONLY' and proof['source_guard'] and proof['error'] is None
+            and proof['source'] == protocol['public_evidence_preflight_source']
+            and proof['pins']['runtime'] == runtime
+            and proof['counters'] == dict(public_frames=6,public_choice_calls=4,standalone_closure_calls=1,physical_calls=0)
+            and proof['pins']['inputs'][public_input] == digest((ROOT / public_input).read_bytes()),
+            'Public record boundary proof does not use the declared prior input')
+    for group in proof['pins'].values():
+        require(group == hashes(proof['source'], group), 'Public evidence fixture source roles changed')
+    early = read(evidence / 'frame-normal-1.json')
+    require(early == read(evidence / 'frame-false_report-1.json'), 'Before-arrival public frame parity differs')
+    for name, choice in (('normal-1',None),('normal-3',None),('false_report-1',None),('false_report-3','first-inspection')):
+        observed = read(evidence / ('choice-' + name + '.json'))
+        require(observed['chosen_candidate_id'] == choice and not observed['execution_permission'],
+                'Public decision fixture differs')
+    q, = read(evidence / 'closure-false-report-no-measurements.json')['questions']
+    require(q['status'] == 'OPEN_UNCONFIRMED' and not q['question_closed'] and not q['risk_closed'],
+            'Authorized opinion without arrived measurements closed a question')
     budgets = protocol['cumulative_attempt_budget']
     require(budgets == dict(previous_attempts=1, previous_charged_seconds=7.25, previous_completed=0,
         new_attempt_limit=4, new_charged_seconds_limit=21.5, cumulative_attempt_limit=5,
@@ -85,4 +112,5 @@ def check_history(protocol, runtime):
     return dict(retained_failure_attempts=1, retained_failure_charged_seconds=7.25,
         retained_failure_completed=0, public_preflight_phase_attempts=2,
         public_preflight_final='PASS_PUBLIC_INPUT_VALIDATION_ONLY',
+        public_evidence_preflight='PASS_PUBLIC_EVIDENCE_ONLY',
         cumulative_attempt_limit=5, cumulative_charged_seconds_limit=28.75)

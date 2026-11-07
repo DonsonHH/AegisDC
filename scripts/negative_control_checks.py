@@ -124,8 +124,13 @@ def online(folder, case, run, trace, protocol, name):
         if name == 'false_report':
             require(('delayed-lake-work-order' in records) == (now >= 3)
                     and ('actual-lake-flow-before-action' in records) == (now >= 4.75)
-                    and ('false-alarm-review-28' in records) == (now >= 7),
+                    and ('cooling-review-record-28' in records) == (now >= 7),
                     'False report, actual measurement or authorized review arrived early')
+            if now >= 3:
+                reported = records['delayed-lake-work-order']
+                require(reported['quality']['note'] == protocol['neutral_work_order_note']
+                        and reported['provenance']['origin_id'] == 'operator-lake-suspicion-28',
+                        'Public work order exposes the evaluator label')
     if name == 'normal':
         require(run['work_records'] == [] and run['inspection_public_snapshot']['records'] == []
                 and all(value['status'] == 'OPEN_UNCONFIRMED' for value in q.values()), 'Normal state generated work or fake closure')
@@ -214,8 +219,13 @@ def too_late(folder, case, run, trace):
             and all(not q['questions'][0]['question_closed'] and not q['questions'][0]['risk_closed'] for q in assessments),
             'Missing/failed action report was converted to closure')
     for frame, assessment in zip(frames[-2:], assessments):
-        require(assessment['as_of_s'] == frame['as_of_s'] and frame['evidence']['records']
-                and all(r['arrived_at_s'] <= frame['as_of_s'] for r in frame['evidence']['records']), 'Late closure assessment clock differs')
+        epoch = frame['as_of_s']
+        require(assessment['as_of_s'] == epoch and frame['evidence']['records']
+                and all(r['arrived_at_s'] <= epoch for r in frame['evidence']['records']), 'Late closure assessment clock differs')
+        evidence = [feedback] if feedback['arrived_at_s'] <= epoch else []
+        require(read(folder / f'closure-input-{epoch}.json') == dict(frame=frame, intervention_feedback=evidence)
+                and read(folder / f'closure-result-{epoch}.json') == assessment,
+                'Late closure did not retain the exact available input and returned output')
     return dict(status='PASS', earliest_completion_s=3.25, safety_abort_s=3, feedback_arrival_s=3.5,
                 closure=[q['questions'][0]['status'] for q in assessments], public_preparation_frames=4)
 
