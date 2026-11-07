@@ -1,0 +1,41 @@
+{
+  "schema": "aegisdc-frozen-admission-amendment-v1",
+  "classification": "PHYSICAL_ADMISSION_ONLY_BEFORE_CONFIRMATION",
+  "original_blueprint": "configs/full-facility-comparison-held-blueprints-v1.json",
+  "original_sha256": "a0e0af2a58c8ad4d3d8bd2fb03bb969d8eb256715b7ec912e7767a102dfb446e",
+  "corrected_blueprint": "configs/full-facility-comparison-held-blueprints-admission-v1.json",
+  "corrected_sha256": "fad95139072f24ea5215a3d29e8fbac2710461d00f9ef65420f92c2b8457503e",
+  "changes": [
+    {
+      "phase": "confirmation",
+      "family": "misleading-report",
+      "variant": "mr-a",
+      "field": "filter_multiplier",
+      "old": 0.875,
+      "new": 1
+    },
+    {
+      "phase": "ablation",
+      "family": "misleading-report",
+      "variant": "am-a",
+      "field": "filter_multiplier",
+      "old": 0.9375,
+      "new": 1
+    }
+  ],
+  "reason": "Two public low-resistance full-speed coordinates exceed the accepted V6 intake flow capacity. Set them to the minimum admitted baseline resistance, preserving healthy-path family semantics.",
+  "unchanged": [
+    "16 confirmatory and8 ablation slots",
+    "all4 robustness blocks",
+    "source facility and topology",
+    "methods",
+    "primary outcome and cost thresholds",
+    "attempt and duration budget",
+    "existing nonce commitments and HMAC keys",
+    "all other public coordinates"
+  ],
+  "physical_calls": 0,
+  "held_inputs_materialized": 0,
+  "nonce_reads": 0,
+  "registered_development_runs_already_completed": 36
+}
