@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\scripts\full_loop_delivery.py", line 329, in <module>
+    print(json.dumps(capture(folder, protocol) if args.mode == 'capture' else verify(folder, protocol, args.delivery), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\scripts\full_loop_delivery.py", line 269, in capture
+    checks[case] = check_case(folder, case, protocol, doc, source, identity)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\scripts\full_loop_delivery.py", line 123, in check_case
+    require(at[maintenance_at]['backup']['reserve_states']['ups']['mode'] == 'maintenance' and
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\scripts\inspection_delivery.py", line 16, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Maintenance/reserve gating differs
