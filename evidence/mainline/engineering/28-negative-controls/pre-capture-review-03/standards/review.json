@@ -1,0 +1,137 @@
+{
+  "schema": "aegisdc-independent-fixed-source-review-v1",
+  "axis": "Standards",
+  "source": "d0ecdd2e6e870936e329ebfc1f4ff20d3adfac68",
+  "base": "815294edb4befd6717a412c9fe48deac84157b4a",
+  "status": "FAIL_STATIC_PRECAPTURE_STANDARDS",
+  "checks": 1350,
+  "hard_findings": 2,
+  "heuristic_findings": 1,
+  "unresolved": [
+    {
+      "id": "STD-28-02",
+      "severity": "blocking",
+      "rule": "docs/mainline/28-negative-engineering-protocol-v3.json:98",
+      "files": [
+        "scripts/negative_control_delivery.py:205",
+        "scripts/negative_control_delivery.py:223",
+        "scripts/negative_control_delivery.py:242",
+        "scripts/negative_control_delivery.py:249"
+      ],
+      "finding": "The frozen rule requires a FAILED row for preparation, save and validation failures. The case directory/input is created before its STARTED row and before the case failure handler. Packet-wide pairing, counter/role validation and checks.json save can fail after all cases log COMPLETED, leaving only a FAIL receipt. Capture/review startup writes are outside that receipt handler, and source-guard failure also emits no FAILED row.",
+      "required_correction": "Record packet STARTED/FAILED independently of case charges; record case STARTED before case preparation, FAILED on case exceptions, and packet FAILED on aggregate/save/source-guard failures. Preserve frozen v3 unexecuted."
+    },
+    {
+      "id": "STD-28-03",
+      "severity": "blocking",
+      "rule": "AGENTS.md:11",
+      "files": [
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:9425",
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:19156",
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:19159",
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:20020",
+        "src/aegis_dc/policy_execution.py:110"
+      ],
+      "finding": "Static closure dossiers call the suspicion false and reveal the named future disposition before evidence arrives; the selector receives this closure template on every tick. The arriving work order then says the physical state remains healthy and labels its origin a false suspicion. These inputs expose evaluator truth even if the current selector ignores free text.",
+      "required_correction": "Use neutral dossier/review IDs, rationale and report origin/quality descriptions. Keep the declared public observation values, supporting samples, time and provenance relations, and acceptance outcomes."
+    }
+  ],
+  "heuristics": [
+    {
+      "label": "Possible Duplicated Code",
+      "location": "scripts/negative_control_delivery.py:65,201,279",
+      "note": "The unchanged-history verification runs inside pins() and again to obtain the summary at each call site. A future revision can compute both once; this is a judgement, not a gate. Separate executed preflight and authoring versions intentionally preserve their provenance."
+    }
+  ],
+  "standards_sources": [
+    "AGENTS.md",
+    "GLOSSARY.md",
+    "docs/MAINLINE.md",
+    "docs/mainline/progress.json",
+    "docs/agents/domain.md",
+    "docs/agents/issue-tracker.md",
+    "docs/agents/triage-labels.md",
+    "docs/adr/0003-complete-facility-mainline.md",
+    ".scratch/full-facility-mainline/spec.md",
+    ".scratch/full-facility-mainline/issues/28-negative-controls.md",
+    "docs/mainline/28-negative-controls-contract.md",
+    "docs/mainline/28-physical-continuation.md",
+    "docs/mainline/28-runtime-input-correction.md",
+    "docs/mainline/28-negative-engineering-protocol-v2.json",
+    "docs/mainline/28-negative-engineering-protocol-v3.json",
+    ".github/workflows/acceptance.yml",
+    "pyproject.toml"
+  ],
+  "baseline_smells_reviewed": [
+    "Mysterious Name",
+    "Duplicated Code",
+    "Feature Envy",
+    "Data Clumps",
+    "Primitive Obsession",
+    "Repeated Switches",
+    "Shotgun Surgery",
+    "Divergent Change",
+    "Speculative Generality",
+    "Message Chains",
+    "Middle Man",
+    "Refused Bequest"
+  ],
+  "method": "Read-only Git blob, JSON, Fraction and AST review with Python standard library; zero application, authoring, project verifier, plant, selector, closure or test calls.",
+  "git_comparison": {
+    "merge_base": "815294edb4befd6717a412c9fe48deac84157b4a",
+    "command": "git diff --no-ext-diff 815294edb4befd6717a412c9fe48deac84157b4a...d0ecdd2e6e870936e329ebfc1f4ff20d3adfac68",
+    "bytes": 6187696,
+    "sha256": "69132c8c84df43eb71201243303c3cbf119aa43ace4400b89159c1ecc47d774e",
+    "commits": [
+      "d0ecdd2e Freeze ticket 28 physical continuation with validated public inputs and retained failure budget",
+      "918e403c Seal successful public validation of all four negative-control model declarations",
+      "eb18a6b1 Unify late-case public model identity and preserve every preflight result as returned",
+      "d192a1b9 Preserve public input preflight refusal of the late-case stale nominal identity",
+      "1b0a5701 Freeze public input validation after preserving the first negative-control startup failure",
+      "f1d41ea3 Retain first ticket 28 startup failure and exact launch records without retry"
+    ]
+  },
+  "check_breakdown": {
+    "fixed_source": 6,
+    "frozen_budget": 13,
+    "input_delta": 71,
+    "facility": 468,
+    "evidence_boundary": 21,
+    "source_roles": 121,
+    "history": 354,
+    "preflight": 24,
+    "ast": 29,
+    "original_review_seal": 230,
+    "failure_finding_proof": 7,
+    "privacy_finding_proof": 6
+  },
+  "role_counts": {
+    "runtime": 67,
+    "tools": 13,
+    "inputs": 20,
+    "retained_draft": 4,
+    "retained_review": 4,
+    "failed_capture": 5,
+    "failed_launch": 7,
+    "failed_public_preflight": 5,
+    "passed_public_preflight": 19
+  },
+  "v3_output_roles_excluding_terminal": 32,
+  "history_summary": {
+    "failed_physical_attempts": 1,
+    "charged_upper_seconds": 7.25,
+    "completed_returns": 0,
+    "other_original_cases_started": 0,
+    "successful_public_saved_artifacts": 19,
+    "new_physical_calls": 0,
+    "public_preflight_physical_calls": 0,
+    "public_preflight_selector_calls": 0,
+    "public_preflight_closure_calls": 0,
+    "new_case_attempt_limit": 4,
+    "cumulative_attempt_limit": 5,
+    "cumulative_charged_upper_seconds": 28.75
+  },
+  "review_tool_accounting": "The initial worktree check was clean. While reviewing, the root began an unexecuted successor revision, so the audit deliberately switched to immutable d0 Git blobs, checking retained checkout bytes only for unchanged historical scopes. No source, acceptance or hash criterion was waived.",
+  "scope_limit": "Standards gate for unexecuted frozen d0 only. Prior original startup refusal and public validation records retain their separate meanings. No physical trajectory, ticket 28, M4, registered effect, or overall research acceptance.",
+  "manifest": "delivery-manifest.json"
+}

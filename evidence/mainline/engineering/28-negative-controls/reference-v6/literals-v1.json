@@ -1,0 +1,163 @@
+{
+  "schema": "aegisdc-negative-control-independent-literals-v1",
+  "source": "Fraction-only inventory/service/timing arithmetic before execution",
+  "normal": {
+    "demand_service_unit_s": {
+      "numerator": 29,
+      "denominator": 8
+    },
+    "delivered_service_unit_s": {
+      "numerator": 29,
+      "denominator": 8
+    },
+    "normalized_deficit_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "work_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "access_check_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "travel_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    }
+  },
+  "false_report": {
+    "demand_service_unit_s": {
+      "numerator": 29,
+      "denominator": 8
+    },
+    "delivered_service_unit_s": {
+      "numerator": 29,
+      "denominator": 8
+    },
+    "normalized_deficit_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "work_person_s": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "access_check_person_s": {
+      "numerator": 1,
+      "denominator": 4
+    },
+    "travel_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "cooling_probability_after_report": {
+      "numerator": 25,
+      "denominator": 124
+    },
+    "cooling_probability_after_negative_handheld": {
+      "numerator": 50,
+      "denominator": 941
+    },
+    "inspection_completed_s": {
+      "numerator": 17,
+      "denominator": 4
+    },
+    "inspection_arrived_s": {
+      "numerator": 19,
+      "denominator": 4
+    }
+  },
+  "local_protection": {
+    "demand_service_unit_s": {
+      "numerator": 9,
+      "denominator": 4
+    },
+    "delivered_service_unit_s": {
+      "numerator": 3,
+      "denominator": 2
+    },
+    "normalized_deficit_s": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "work_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "access_check_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "travel_person_s": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "protection_sample_s": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "conditional_reset_s": {
+      "numerator": 2,
+      "denominator": 1
+    }
+  },
+  "too_late": {
+    "demand_service_unit_s": {
+      "numerator": 4,
+      "denominator": 1
+    },
+    "delivered_service_unit_s": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "normalized_deficit_s": {
+      "numerator": 3,
+      "denominator": 1
+    },
+    "travel_person_s": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "access_check_person_s": {
+      "numerator": 1,
+      "denominator": 4
+    },
+    "work_person_s": {
+      "numerator": 3,
+      "denominator": 4
+    },
+    "theoretical_earliest_completion_s": {
+      "numerator": 13,
+      "denominator": 4
+    },
+    "safety_abort_s": {
+      "numerator": 3,
+      "denominator": 1
+    },
+    "terminal_feedback_arrives_s": {
+      "numerator": 7,
+      "denominator": 2
+    }
+  },
+  "fixed_head_flows": {
+    "clean_volume_flow_squared_m6_s2": {
+      "numerator": 1,
+      "denominator": 100
+    },
+    "clean_mass_flow_kg_s": {
+      "numerator": 499,
+      "denominator": 5
+    }
+  },
+  "total_integrations": 4,
+  "total_simulated_duration_s": {
+    "numerator": 43,
+    "denominator": 2
+  },
+  "public_online_decisions": 14,
+  "late_preparation_frames": 4,
+  "late_closure_assessments": 2,
+  "caveat": "Demand and timing arithmetic is analytic. Thermodynamic admissibility and the conditional local reset must be checked against actual independent saved trajectories; no global bound is claimed."
+}

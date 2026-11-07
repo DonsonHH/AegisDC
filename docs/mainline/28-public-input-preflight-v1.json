@@ -1,0 +1,39 @@
+{
+  "schema": "aegisdc-public-input-validation-protocol-v1",
+  "date": "2026-11-07",
+  "classification": "ENGINEERING_PUBLIC_DECLARATION_VALIDATION_ONLY_NOT_PHYSICAL_OR_EFFECT_TRIAL",
+  "input": "evidence/mainline/engineering/28-negative-controls/reference-v3/cases-v1.json",
+  "context": "docs/mainline/28-runtime-input-correction.md",
+  "output": "evidence/mainline/engineering/28-negative-controls/public-preflight-20261107-01",
+  "tools": [
+    "scripts/negative_control_public_preflight.py",
+    "scripts/inspection_delivery.py"
+  ],
+  "expected_counters": {
+    "validate_scenario_calls": 4,
+    "initial_public_frames": 3,
+    "assess_risks_calls": 5,
+    "physical_calls": 0,
+    "selector_calls": 0,
+    "closure_calls": 0
+  },
+  "forbidden_calls": [
+    "simulate_scenario",
+    "run_recorded",
+    "replay_attempt",
+    "choose_work",
+    "assess_closure",
+    "ML_training_or_LLM"
+  ],
+  "durable_outputs": [
+    "declaration.json",
+    "attempt.json",
+    "attempts.jsonl",
+    "validated-scenarios.json",
+    "frames.json",
+    "risks.json"
+  ],
+  "terminal": "receipt.json",
+  "failure_rule": "Stop on first refusal; preserve original outputs and terminal. No overwrite or automatic retry.",
+  "interpretation": "Validates these static public input contracts, not actual dynamics, candidate choice, restoration, closure, M4 acceptance or scientific gain."
+}

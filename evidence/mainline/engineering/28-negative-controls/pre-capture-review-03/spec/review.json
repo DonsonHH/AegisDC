@@ -1,0 +1,59 @@
+{
+  "schema": "aegisdc-independent-fixed-source-review-v1",
+  "axis": "Spec",
+  "source": "d0ecdd2e6e870936e329ebfc1f4ff20d3adfac68",
+  "base": "815294edb4befd6717a412c9fe48deac84157b4a",
+  "status": "FAIL",
+  "checks": 205,
+  "check_groups": {
+    "fixed_scope": 21,
+    "frozen_delta": 64,
+    "history": 38,
+    "oracle": 32,
+    "source_contract": 43,
+    "privacy_witness": 7
+  },
+  "unresolved": [
+    {
+      "id": "SPEC-28-PRIVATE-TRUTH",
+      "priority": "blocking",
+      "title": "Remove hidden plant truth from the public false-report work order",
+      "requirement": ".scratch/full-facility-mainline/spec.md:27,59; AGENTS.md:11; docs/mainline/28-negative-controls-contract.md:8,12,14",
+      "evidence": [
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:19156 declares the operator suspicion erroneous and the current physical state healthy.",
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:19159 labels the public provenance ID false-suspicion.",
+        "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json:9425 and :20020 label the underlying suspicion false in the closure dossier shared with choose_work before the disposition is published.",
+        "src/aegis_dc/evidence_ledger.py:267,269 filters by arrival and preserves record fields; src/aegis_dc/policy_execution.py:99, src/aegis_dc/decision_view.py:318, src/aegis_dc/policy_execution.py:113 pass them to the selector unchanged."
+      ],
+      "effect": "At t=3 the dispatcher receives an evaluator verdict on true plant health, 1.75 seconds before the first real handheld measurement arrives. Ignoring the text in the current numeric selector does not make the public boundary evidence-only. The initial public preflight at t=0 cannot cover an unreleased record.",
+      "minimal_correction": "Use a neutral report note and opaque origin ID; use neutral dossier rationale and reviewer record identity before arrival. Keep the reported Boolean, provenance relations, all times, later FALSE_ALARM disposition, actual verification samples, physical inputs, costs, and independent acceptance numbers. Preserve these sealed inputs and freeze/review the new bytes before any further physical attempt."
+    }
+  ],
+  "fixed_diff": "git diff 815294edb4befd6717a412c9fe48deac84157b4a...d0ecdd2e6e870936e329ebfc1f4ff20d3adfac68",
+  "fixed_log": [
+    "d0ecdd2e Freeze ticket 28 physical continuation with validated public inputs and retained failure budget",
+    "918e403c Seal successful public validation of all four negative-control model declarations",
+    "eb18a6b1 Unify late-case public model identity and preserve every preflight result as returned",
+    "d192a1b9 Preserve public input preflight refusal of the late-case stale nominal identity",
+    "1b0a5701 Freeze public input validation after preserving the first negative-control startup failure",
+    "f1d41ea3 Retain first ticket 28 startup failure and exact launch records without retry"
+  ],
+  "scope": "Static source and saved-artifact review of frozen engineering continuation. Zero new project imports or author, verifier, preflight, selector, closure, facility, test, or research calls.",
+  "confirmed": {
+    "input_delta": "32 exact 6 to 3 service-amount upper bounds in four catalogs, two static request bindings plus existing network request declaration, one stale late nominal ID. Physical models, time horizons, steps, literals, and one real late submission unchanged.",
+    "late_wiring": "scripts/negative_control_delivery.py:133 binds the exact successful preflight request list; scripts/negative_control_delivery.py:150 submits one actual task.",
+    "saved_checks": "Independent service, Bayes and labor arithmetic; source and saved interfaces for false alarm, sampled local protection and failed task; private state remains evaluator-side except the specific public metadata leak reported here.",
+    "history": "Retained first normal failure: one attempt, 0 returns, 7.25 seconds charged; first public preflight 4 completed validates and 4 of 5 completed risks; second public preflight 4/3/5 actual public-only results; new frozen physical 4/21.5 limits would imply total 5/28.75. No accepted ticket 28 trajectory."
+  },
+  "calls": {
+    "project_imports": 0,
+    "plant": 0,
+    "selector": 0,
+    "closure": 0,
+    "public_preflight": 0,
+    "author": 0,
+    "verifier": 0,
+    "tests": 0
+  },
+  "stage": "Ticket 28 and M4 remain open. This is a spec review failure, with no new engineering or research attempt."
+}
