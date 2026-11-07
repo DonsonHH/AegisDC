@@ -6,9 +6,12 @@
 
 ## 当前主线
 
-截至第32项验收，01–32已接受：八域设施、证据认识和异质检查处置闭环已通过各自有限工程核验；36次开发评估没有显示候选的平均服务优势。独立确认输入已冻结，当前执行第33项。本轮在第35项后集中交付成果，供用户检查研究方向；36–42仍待推进。
+截至2026年11月8日，01–35已接受，按用户要求停在第35项做方向复核。八域设施、多源证据和异质检查处置闭环已建立；164次注册运行完成。16个独立确认工况中，候选平均改善服务缺额0.03515625秒，未达到预定0.25秒门槛，主结论为 **NO_PRACTICAL_GAIN**；人工成本平均减少0.96875人秒。第36项尚未启动，36–42及完整研究目标未完成。
 
-- [第31项开发结果、两张数据图与原始账](evidence/mainline/research/31-development/README.md)：六个工况、六种方法，主配对平均改善−0.0417秒。
+- **[第35项阶段报告：原目标、架构、数据与结论](docs/mainline/checkpoint35.md)** · **[离线HTML（9张图、4份CSV）](evidence/mainline/research/checkpoint35/AegisDC-35-阶段研究成果.html)**。HTML需下载后用浏览器打开，支持手机、大屏、图表放大和打印。
+- [独立确认结果、三张数据图与原件](evidence/mainline/research/34-paired-analysis/README.md)：16个工况、六种方法，包含全部正值、反向值、零差异与无人工参照。
+- [机制消融、两张数据图与原件](evidence/mainline/research/35-ablation/README.md)：8个独立工况、四个规划视图，分别报告线索、依赖后果和团队选项的服务作用及代价。
+- [第31项开发结果、两张数据图与原始账](evidence/mainline/research/31-development/README.md)：六个工况、六种方法，主配对平均改善−0.0417秒；开发与确认分开统计。
 - [完整设施闭环数据和八域架构图](evidence/mainline/engineering/27-root-acceptance/README.md)：服务恢复、人员处置完成和证据核验关闭分别记录。
 - [第32项独立确认冻结及失败记录](docs/mainline/32-confirmation-freeze.md)：16个独立工况、96份输入，方法、指标、成本门槛和执行源固定。
 
@@ -86,4 +89,4 @@ python -m patrol_rsi verify --output runs/verification-new
 
 这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-当前处于独立比较阶段，研究结论以冻结协议和保存原件为准。现场标定待完成，AI／RSI仍须通过第38项资格门槛。[主线进度](docs/mainline/progress.json)
+当前停在第35项供用户复核方向，研究结论以冻结协议和保存原件为准。现场标定待完成，AI／RSI仍须通过第38项资格门槛。[主线进度](docs/mainline/progress.json)
