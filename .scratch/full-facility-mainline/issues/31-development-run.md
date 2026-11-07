@@ -4,14 +4,14 @@
 
 **Blocked by:** 30
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M5
 
-- [ ] 只使用开发条件，测试/确认资料未泄漏给规则选择。
-- [ ] 失败和修复保留，重试按协议记预算。
-- [ ] 候选和透明基线均按相同资源/外生条件执行。
-- [ ] 记录有多个合法候选的决策点、资源竞争与策略动作差异；若几乎没有选择空间或轨迹相同，先明确评价条件的识别能力，不将其误报为某个信息/智能体机制无效。
+- [x] 只使用开发条件，测试/确认资料未泄漏给规则选择。
+- [x] 失败和修复保留，重试按协议记预算。
+- [x] 候选和透明基线均按相同资源/外生条件执行。
+- [x] 记录有多个合法候选的决策点、资源竞争与策略动作差异；若几乎没有选择空间或轨迹相同，先明确评价条件的识别能力，不将其误报为某个信息/智能体机制无效。
 
 ## Context
 
@@ -22,3 +22,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 Pending implementation and acceptance.
 
 Owner /root, branch donson/mainline-31-development, accepted dependency 8894c809. Liveness and source checked. No registered attempt started.
+
+
+Accepted36 original runs/360s/360decisions, zero failed or retried. Independent saved Spec/Standards and exact fresh proof passed. Main pair mean -1/24 s,5 discriminating shared-history worlds/3families; no candidate superiority inferred. [Report](../../../evidence/mainline/research/31-development/README.md), [authority](../../../docs/mainline/evidence/31-root.json). Next32; held inputs not read.
