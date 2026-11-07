@@ -21,6 +21,7 @@ from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, b
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v1'
+ONLINE_INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v2'
 
 
 class AttemptReadError(ValueError):
@@ -77,13 +78,18 @@ def execution_source_identity():
 
 def _inputs(value):
     fields = {'schema', 'seed', 'exogenous_events', 'action_commands', 'work_requests'}
-    if not isinstance(value, dict) or set(value) != fields or value['schema'] != INPUT_SCHEMA:
+    if not isinstance(value, dict) or value.get('schema') not in (INPUT_SCHEMA, ONLINE_INPUT_SCHEMA):
+        raise ValueError('Use the closed versioned facility replay inputs contract')
+    online = value['schema'] == ONLINE_INPUT_SCHEMA
+    if set(value) != fields | ({'dispatch_program'} if online else set()):
         raise ValueError('Use the closed versioned facility replay inputs contract')
     if value['seed'] is not None and type(value['seed']) is not int:
         raise ValueError('Seed must be an explicit integer or null for a frozen event schedule')
     for field in fields - {'schema', 'seed'}:
         if not isinstance(value[field], list):
             raise ValueError('Declare a frozen list for ' + field)
+    if online and (not isinstance(value['dispatch_program'], dict) or value['work_requests']):
+        raise ValueError('Online replay requires a dispatch program and empty legacy work requests')
     result = deepcopy(value)
     for row in result['exogenous_events']:
         if not isinstance(row, dict) or row.get('parameter_id') in ENGINEERING_COMMAND_PARAMETERS:
@@ -227,17 +233,19 @@ def _run_recorded(scenario, directory, *, inputs, duration_s=None, step_s=None,
         frozen = _inputs(inputs)
         _write_json(directory / 'frozen-inputs.json', frozen)
         parameters = {row['id']: row['value'] for row in scenario['parameters']}
+        online_options = {'dispatch_program': frozen['dispatch_program']} if frozen['schema'] == ONLINE_INPUT_SCHEMA else {}
         record.update(seed=frozen['seed'], scenario_sha256=digest(scenario),
                       inputs_sha256=digest(frozen),
                       duration_s=parameters['duration'] if duration_s is None else duration_s,
                       maximum_step_s=parameters['step_time'] if step_s is None else step_s,
-                      randomness='NONE; seed is recorded, event schedule is fully frozen')
+                      randomness=('DECLARED_PRODUCER_REALIZATIONS_FROZEN_IN_DISPATCH_PROGRAM' if online_options else
+                                  'NONE; seed is recorded, event schedule is fully frozen'))
         stage = 'simulate_scenario'
         record['execution_kind'] = 'ENGINEERING_FIXTURE'
         result = simulate_scenario(scenario, duration_s=duration_s, step_s=step_s,
                                    boundary_events=frozen['exogenous_events'],
                                    action_commands=frozen['action_commands'],
-                                   work_requests=frozen['work_requests'])
+                                   work_requests=frozen['work_requests'], **online_options)
         stage = 'verify_execution_source'
         after = execution_source_identity()
         if after != record['source_identity'] or result['code_identity']['files'] != after['files']:
@@ -350,6 +358,12 @@ def _read_attempt(directory):
                 or run['inputs']['duration_s'] != record['duration_s'] \
                 or run['inputs']['maximum_step_s'] != record['maximum_step_s']:
             raise ValueError('Private trajectory input identity differs from the frozen attempt')
+        actual_inputs = run['inputs']
+        if ('dispatch_program' in actual_inputs) != ('dispatch_program' in frozen) or (
+            'dispatch_program' in frozen and digest(actual_inputs['dispatch_program']) != digest(frozen['dispatch_program'])
+        ):
+            raise AttemptReadError('trajectory_dispatch_program', 'trajectory/run.json',
+                                   'Private trajectory dispatch program differs from the frozen attempt')
     return dict(record=record, record_sha256=_file_sha(directory / 'attempt.json'),
                 scenario=scenario, inputs=frozen, submitted_inputs=submitted,
                 request=request, execution_inputs=execution_inputs, run=run)
