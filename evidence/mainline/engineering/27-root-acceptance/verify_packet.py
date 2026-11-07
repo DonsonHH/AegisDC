@@ -249,11 +249,11 @@ def verify(root, delivery):
     fixtures = verify_fixtures(packet, attempt, inventory['root_fixture_cases'], inventory['archives']['root-fixtures.zip'], guard)
 
     pinned = {}
-    for version, names in (
+    for version, scopes in (
         (ORIGINAL_DATA, ('capture-20261107-02', 'capture-02-launch')),
         (AUTHOR_DATA, ('capture-20261107-03', 'capture-03-launch')),
     ):
-        paths = tracked(root, version, *(f'{AUTHOR}/{name}' for name in names))
+        paths = tracked(root, version, *(f'{AUTHOR}/{name}' for name in scopes))
         require(len(paths) == (21 if version == ORIGINAL_DATA else 25), 'Frozen capture role count differs')
         for name, raw in blobs(root, version, paths).items():
             require((root / name).read_bytes() == raw, f'Frozen capture checkout changed: {name}')
