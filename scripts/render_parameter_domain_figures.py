@@ -61,8 +61,8 @@ def phase_figure(prepared):
     ax.plot(p,lower,color=TEAL,lw=2,label='饱和蒸气侧质量下界')
     positions = {
         'cooler-light-demand':(-57,-33),
-        'nominal':(-39,18),
-        'warm-restricted-intake':(27,16),
+        'nominal':(-66,33),
+        'warm-restricted-intake':(53,1),
     }
     for case,offset in positions.items():
         phase = prepared[case]['initialization']['phase']
