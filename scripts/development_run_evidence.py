@@ -30,6 +30,8 @@ def _registry(rows,key):
 
 
 def _records(program,run,frame,at):
+    from aegis_dc.decision_view import validate_current_frame
+    validate_current_frame(frame)
     require(frame['as_of_s']==at and frame['nominal_knowledge']==program['nominal_knowledge']
             and frame['requests']==program['preparation_requests'],'Decision frame exceeds its public input role')
     evidence=frame['evidence']
@@ -109,7 +111,9 @@ def _decisions(model,program,run,arm):
     issued=[]
     opportunities=[]
     for decision,at in zip(decisions,program['decision_times_s'],strict=True):
+        require(set(decision)=={'frame','history','choice'},'Unexpected private decision record fields')
         frame,history,choice=(decision[key] for key in ('frame','history','choice'))
+        require(set(history)=={'issued','work_feedback'},'Unexpected private policy history fields')
         _records(program,run,frame,at)
         require(history['issued']==issued
                 and history['work_feedback']==[row for row in run['workforce_public_feedback'] if row['arrived_at_s']<=at],
@@ -184,6 +188,11 @@ def _effects(program,run,tasks,trace):
                     'Unauthorized actual effect or effect under blocked access')
         else:
             require(audit['outcome']=='NO_EFFECT' and 'applied_at_s' not in audit,'Unclassified actual effect')
+    applied=[row for row in effects.values() if row['outcome']=='APPLIED']
+    event_effects=[{k:v for k,v in row.items() if k!='kind'} for row in run['events']
+                  if row['kind']=='completed_research_intervention']
+    require(event_effects==applied and not any(row['kind']=='engineering_control_command' for row in run['events']),
+            'Actual physical changes differ from the authorized effect audit')
     require(all(row['risk_closed'] is False for row in run['intervention_public_feedback']),
             'Completion feedback claimed verified risk closure')
     return [row for row in effects.values() if row['outcome']=='APPLIED']

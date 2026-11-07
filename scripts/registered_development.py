@@ -1,9 +1,7 @@
 """Run only the registered development phase, from the exact precompiled originals."""
 
 import argparse
-from datetime import datetime, timezone
 import json
-import os
 from pathlib import Path
 import subprocess
 import sys
@@ -13,6 +11,7 @@ from comparison_release import AUTHORITY, LOCK, PROTOCOL, audit_lock
 from inspection_delivery import ROOT, digest, durable, git, hashes, require, write
 from registered_comparison import read
 from verify_comparison_delivery import _verified_input_originals
+from development_journal import append as journal_append, write_record as journal_write, reconcile as reconcile_journal
 
 PREP='evidence/mainline/engineering/30-comparison-preparation'
 MEMBER_PREFIX='input-preparation/30-development-inputs-02'
@@ -80,21 +79,13 @@ NATIVE=('scenario.json','run.json','private-state.jsonl','balances.jsonl')
 def _execution_pins(source,lock):
     names=set(lock['pins'])|{AUTHORITY,LOCK,RUNBOOK,
         'scripts/registered_development.py','scripts/development_run_evidence.py',
-        'tests/test_registered_development.py'}
+        'tests/test_registered_development.py','scripts/development_journal.py'}
     return hashes(source,names)
 
 
 def _guard(source,pins):
     require(head()==source and all(digest((ROOT/name).read_bytes())==sha for name,sha in pins.items()),
             'Live executable, input or HEAD differs from the frozen registered source')
-
-
-def _append(path,row):
-    row=dict(row,recorded_at_utc=datetime.now(timezone.utc).isoformat())
-    with path.open('a',encoding='utf-8',newline='\n') as stream:
-        stream.write(json.dumps(row,allow_nan=False,ensure_ascii=False)+'\n')
-        stream.flush()
-        os.fsync(stream.fileno())
 
 
 def _begin(folder,stage,source,protocol,slots):
@@ -158,71 +149,75 @@ def capture(source,folder,stage):
     protocol,slots,originals=load_roster()
     pins=_begin(folder,stage,source,protocol,slots)
     ledger=folder/'attempts.jsonl'
-    total=dict(started=0,completed=0,failed=0,interrupted=0,unrun=0,
-               charged_simulated_s=0,charged_scheduled_decisions=0,returned_decisions=0)
-    attempted=set()
     stop=None
     status='PASS'
+    attempted=set()
+    invoked=returned=0
     try:
         sys.path.insert(0,str(ROOT/'src'))
         from aegis_dc.plant import simulate_scenario
 
         for slot in slots:
-            _guard(source,pins)
+            try:
+                _guard(source,pins)
+            except BaseException as exc:
+                stop=dict(index=slot['index'],kind='SOURCE_GUARD_FAILURE',reason=str(exc))
+                status='STOPPED'
+                break
             index=slot['index']
             folder_slot=folder/f"{index:02}-{slot['world_id']}-{slot['arm']}"
             folder_slot.mkdir()
             program=json.loads(originals[slot['input_member']])
-            next_seconds=total['charged_simulated_s']+slot['duration_s']
-            next_decisions=total['charged_scheduled_decisions']+slot['scheduled_decisions']
-            budget=protocol['phases'][PHASE]['budget']
-            require(index==total['started']+1 and index<=budget['attempts']
-                    and next_seconds<=budget['simulated_charge_s']
-                    and next_decisions<=budget['scheduled_decisions'],'Registered phase budget exhausted')
+            require(index==len(attempted)+1 and index<=protocol['phases'][PHASE]['budget']['attempts'],
+                    'Registered phase attempt budget exhausted')
             start=dict(slot,status='STARTED',source=source,charged_simulated_s=slot['duration_s'],
                        charged_scheduled_decisions=slot['scheduled_decisions'])
-            write(folder_slot/'start.json',start)
-            _append(ledger,start)
+            # The fsynced journal append is the charge commit point. If any
+            # recorder operation is uncertain, stop without UNRUN synthesis.
+            journal_append(ledger,start)
+            journal_write(folder_slot/'start.json',start)
             attempted.add(index)
-            total['started']+=1
-            total['charged_simulated_s']=next_seconds
-            total['charged_scheduled_decisions']=next_decisions
             terminal=dict(slot,status='FAILED',source=source,physical_call_started=False,physical_returned=False)
             try:
                 terminal['physical_call_started']=True
+                invoked+=1
                 result=simulate_scenario(program['model'],duration_s=program['duration_s'],
                     step_s=program['maximum_step_s'],boundary_events=program['boundary_events'],
                     dispatch_program=program['dispatch_program'])
                 terminal['physical_returned']=True
+                returned+=1
                 terminal['returned_decisions']=len(result['policy_public_decisions'])
-                total['returned_decisions']+=terminal['returned_decisions']
                 decisions=_save_native(stage/f'{index:02}',folder_slot,program,result,source)
                 require(decisions==slot['scheduled_decisions'],'Actual decision count differs from frozen slot')
                 _guard(source,pins)
                 terminal['status']='COMPLETED'
-                total['completed']+=1
             except BaseException as exc:
                 interrupted=isinstance(exc,KeyboardInterrupt)
                 terminal.update(status='INTERRUPTED' if interrupted else 'FAILED',
                     error_type=type(exc).__name__,error=str(exc))
-                total['interrupted' if interrupted else 'failed']+=1
                 stop=dict(index=index,kind='INTERRUPTED' if interrupted else 'UNCLASSIFIED_OR_CONTRACT_FAILURE',
                           reason=str(exc))
                 status='STOPPED'
             terminal['artifacts']={name:digest((folder_slot/name).read_bytes()) for name in sorted(durable(folder_slot))}
-            write(folder_slot/'terminal.json',terminal)
-            _append(ledger,terminal)
+            journal_write(folder_slot/'terminal.json',terminal)
+            journal_append(ledger,terminal)
             if stop is not None:
                 break
+        for slot in slots:
+            if slot['index'] not in attempted:
+                journal_append(ledger,dict(slot,status='UNRUN',source=source,reason='BATCH_STOPPED_WITHOUT_NEW_ATTEMPT'))
+        total=reconcile_journal(folder,slots,source)
     except BaseException as exc:
-        status='STOPPED'
-        stop=dict(index=None,kind='BATCH_GUARD_OR_IMPORT_FAILURE',error_type=type(exc).__name__,reason=str(exc))
-    for slot in slots:
-        if slot['index'] not in attempted:
-            total['unrun']+=1
-            _append(ledger,dict(slot,status='UNRUN',source=source,reason='BATCH_STOPPED_WITHOUT_NEW_ATTEMPT'))
-    require(total['started']==total['completed']+total['failed']+total['interrupted']
-            and total['started']+total['unrun']==len(slots),'Attempt totals do not reconcile')
+        # This is explicitly not an authoritative reconciled attempt receipt.
+        # Original partial writes remain intact for a later accounting audit.
+        unknown=dict(status='RECORDER_INCOMPLETE',phase=PHASE,execution_commit=source,
+            error_type=type(exc).__name__,error=str(exc),authoritative_totals=None,
+            in_memory_physical_invocations=invoked,in_memory_returned_runs=returned,
+            automatic_retries=0,held_inputs_read=0,held_seed_reads=0,
+            observed_files={name:digest((folder/name).read_bytes()) for name in sorted(durable(folder))})
+        write(folder/'recorder-incomplete.json',unknown)
+        print(json.dumps({k:v for k,v in unknown.items() if k!='observed_files'},ensure_ascii=False))
+        return 4
     try:
         _guard(source,pins)
         source_unchanged=True
@@ -237,7 +232,6 @@ def capture(source,folder,stage):
     write(folder/'receipt.json',receipt)
     print(json.dumps({k:receipt[k] for k in ('status','phase','execution_commit','total','stop')},ensure_ascii=False))
     return 0 if status=='PASS' else 3
-
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
