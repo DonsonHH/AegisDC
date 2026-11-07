@@ -1,0 +1,18 @@
+development_original C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\.work\27-replay-development\record-502e181d6df74d85a708350099614480
+test_recorded_online_dispatch_reexecutes_the_named_effect_and_arrived_records (test_full_loop_replay.FullLoopReplayTests.test_recorded_online_dispatch_reexecutes_the_named_effect_and_arrived_records) ... FAIL
+
+======================================================================
+FAIL: test_recorded_online_dispatch_reexecutes_the_named_effect_and_arrived_records (test_full_loop_replay.FullLoopReplayTests.test_recorded_online_dispatch_reexecutes_the_named_effect_and_arrived_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\tests\test_full_loop_replay.py", line 61, in test_recorded_online_dispatch_reexecutes_the_named_effect_and_arrived_records
+    self.assertEqual(attempt['status'], 'COMPLETED', attempt.get('failure'))
+AssertionError: 'FAILED' != 'COMPLETED'
+- FAILED
++ COMPLETED
+ : {'stage': 'validate_inputs', 'type': 'ValueError', 'message': 'Use the closed versioned facility replay inputs contract'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.319s
+
+FAILED (failures=1)

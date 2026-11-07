@@ -4,7 +4,7 @@
 
 **Blocked by:** 26, 13
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M4
 
@@ -19,3 +19,13 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner `/root/m4_27_loop`, branch `donson/mainline-27-full-loop`, worktree `C:/Users/Donson/.codex/worktrees/mainline27-full-loop/Renly`, initial accepted26 base8c1fd54b. Live root confirmed27unassigned; this branch owns its lifecycle until reviewed integration. First work is a full same-facility timeline contract and one public behavior slice, not a formal run or accepted ticket.
+
+First contract: `docs/mainline/27-cross-system-loop-contract.md` fixes a proposed same V6 ten-second timeline and separates automatic service restoration, actual filter intervention and later multi-sample verification. `reference/independent-literals-v1.json` under27-full-loop contains pure Fraction flow/service/value expectations. The4second PLC/thermal recovery is explicitly conditional and remains to be independently checked. Two genuine interface gaps are identified: sampled actual delivered-service channel and versioned recorded online-dispatch transport/replay. No selector/plant/full/effect run has been called; contract review precedes the first public RED/GREEN slice.
+
+Continuation ownership: `/root` takes the first service observation slice after the original owner is absent from the live agent list, with clean `7779696d` and no matching process. The original contract and assignment above remain historical. Fixed contract reviews passed (Spec78, Standards708), with no application call or acceptance.
+
+First service observation slice: `docs/mainline/27-service-observation-development.md`. Two recorded development calls: one refused the previously unregistered signal, one completed1.25s of physics with a failed initial service oracle. Saved-only correction of that oracle verified actual delivered-rate values1/4 and1, strict arrival, and an out-of-range actual0 retained as missing. Three malformed public declarations were refused separately. The original logs/inputs/sources and tool packaging failure remain in the declared development package. Recorded dispatch transport and the full loop are still pending; no formal capture or research trial has run.
+
+Recorded online replay slice: `docs/mainline/27-online-replay-development.md`. RED05 preserves unsupported V2; GREEN06 records one1.75s online run and one exact reexecution, including actual paid clean-filter effect at1.25 and feedback1.75. Only diagnostic elapsed_ns is excluded from deterministic equality. Log07 preserves three input refusals, four legacy saved-origin reads and a hash-consistent wrong-program refusal without physical execution. The six directories and adversarial reader fixture are preserved under the declared replay development package. Full 27 cross-system scenario, independent final reviews and acceptance remain pending.

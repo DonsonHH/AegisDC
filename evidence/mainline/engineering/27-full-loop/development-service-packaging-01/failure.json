@@ -1,0 +1,60 @@
+{
+  "status": "FAILED_TOOL_CHECK_NOT_PHYSICAL_FAILURE",
+  "error_type": "ValueError",
+  "error": "Actual saved input differs",
+  "cause": "First verifier sorted equal-time exogenous inputs by parameter id, but the saved caller boundary list intentionally uses stable time-only ordering. Runtime internal event ordering is separate.",
+  "failed_package": "evidence/mainline/engineering/27-full-loop/development-service-20261107-01",
+  "retained_package_members": {
+    "declaration.json": "fdc5f7108264d4c79c7e715a27ad6485e21ecbda757a928eb44393b91898da5d",
+    "members.json": "99a863d7934988742e1e138288f43a3e0f2aeab9cbd4260c1b8a4bb1f1517beb",
+    "originals.zip": "a47186881f84498fe1e071b2127c892eb3cd86f94fecc78ddcfc398150d0578d",
+    "receipt.json": "e07159e2e34da9d353bfe14b7cd5873bb7c3f3763b34d86f07e4aa391db55365"
+  },
+  "first_tool_sha256": "bb9fffcf84950aed812f99dc9501a2f860f8cada92bdccdc9e08a9669296aa1a",
+  "comparison": {
+    "dispatch_equal": true,
+    "model_equal": true,
+    "boundary_original": [
+      {
+        "time_s": 0.5,
+        "parameter_id": "service_demand",
+        "value": 1,
+        "source_note": "Short independent service-meter fixture."
+      },
+      {
+        "time_s": 0.5,
+        "parameter_id": "compute_demand_power",
+        "value": 2000000,
+        "source_note": "Short independent service-meter fixture."
+      },
+      {
+        "time_s": 1,
+        "parameter_id": "network_service_capacity",
+        "value": 0,
+        "source_note": "Short independent service-meter fixture."
+      }
+    ],
+    "boundary_saved": [
+      {
+        "time_s": 0.5,
+        "parameter_id": "service_demand",
+        "value": 1.0,
+        "source_note": "Short independent service-meter fixture."
+      },
+      {
+        "time_s": 0.5,
+        "parameter_id": "compute_demand_power",
+        "value": 2000000.0,
+        "source_note": "Short independent service-meter fixture."
+      },
+      {
+        "time_s": 1.0,
+        "parameter_id": "network_service_capacity",
+        "value": 0.0,
+        "source_note": "Short independent service-meter fixture."
+      }
+    ]
+  },
+  "new_simulation_calls": 0,
+  "new_selector_calls": 0
+}
