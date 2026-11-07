@@ -22,6 +22,9 @@ SIGNALS = {
         path=('facility_cooling', 'lake_mass_flow_kg_s'), reported=False),
     'rectifier_input_power': dict(target='rectifier', quantity='power', unit='W',
         path=('power', 'rectifier_input_W'), reported=False),
+    # Instantaneous normalized delivered rate, independent of the offered-demand ratio.
+    'joint_service_delivered': dict(target='critical_service', quantity='service_capacity', unit='1',
+        path=('it_service', 'delivered'), reported=False),
 }
 
 MEASUREMENT_FIELDS = {'id', 'signal', 'target_id', 'period_s', 'phase_s', 'enabled',

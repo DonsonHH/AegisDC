@@ -1,0 +1,32 @@
+development_original C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\.work\27-development\service-2952ee711b4d49b7b971663e91663ac9
+test_actual_delivered_rate_arrives_later_and_out_of_range_is_missing (test_full_loop_service.FullLoopServiceTests.test_actual_delivered_rate_arrives_later_and_out_of_range_is_missing) ... ERROR
+
+======================================================================
+ERROR: test_actual_delivered_rate_arrives_later_and_out_of_range_is_missing (test_full_loop_service.FullLoopServiceTests.test_actual_delivered_rate_arrives_later_and_out_of_range_is_missing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\tests\test_full_loop_service.py", line 108, in test_actual_delivered_rate_arrives_later_and_out_of_range_is_missing
+    result = captured_service_run(*service_fixture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\tests\test_full_loop_service.py", line 82, in captured_service_run
+    result = simulate_scenario(model, duration_s=1.25, step_s=.01, boundary_events=events,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\src\aegis_dc\plant.py", line 714, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\src\aegis_dc\policy_execution.py", line 48, in __init__
+    self.sensors=LiveSensorSession(program['sensor_program'],duration_s)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\src\aegis_dc\live_sensor_execution.py", line 11, in __init__
+    self.profile=validate_channel_profile(program['profile']);self.realization=deepcopy(program['realization'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\src\aegis_dc\sensor_channels.py", line 101, in validate_channel_profile
+    _require(row['signal'] in SIGNALS, 'Signal is not in the declared measurable whitelist')
+  File "C:\Users\Donson\.codex\worktrees\mainline27-full-loop\Renly\src\aegis_dc\sensor_channels.py", line 36, in _require
+    raise ValueError(message)
+ValueError: Signal is not in the declared measurable whitelist
+
+----------------------------------------------------------------------
+Ran 1 test in 1.036s
+
+FAILED (errors=1)
