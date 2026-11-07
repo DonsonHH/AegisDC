@@ -13,11 +13,12 @@ sys.path.insert(0,str(ROOT/'src'))
 PROTOCOL = ROOT/'docs/mainline/30-comparison-protocol-v1.json'
 REFERENCE = ROOT/'evidence/mainline/engineering/26-candidate/reference/online-baseline-inspect.json'
 NETWORK_ACTION = ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json'
+RECIPES = ROOT/'configs/full-facility-comparison-development-v1.json'
 BASELINE = ROOT/'configs/full-facility-mainline-reserve-v6.json'
 MODES = ('healthy-clear','healthy-restricted','network-clear','network-restricted')
 
 
-def _clock_and_context(program, world, plan):
+def _clock_and_context(program, world, plan, recipe, shared):
     program['id'] = 'V6-M5-comparison'
     program['decision_times_s'] = plan['decision_times_s']
     program['closure_program'] = None
@@ -26,19 +27,23 @@ def _clock_and_context(program, world, plan):
     policy['resource_budget'] = deepcopy(plan['comparison']['common_admission_budget'])
     private_seed = 300000 + world['slot']
     inspection = program['inspection_program']
-    inspection['realizations']['lookahead-inspect'] = dict(seed=private_seed,bias=0,noise_half_width=.002)
+    inspection['realizations']['lookahead-inspect'] = dict(seed=private_seed,bias=0,noise_half_width=shared['portable_flow_noise_m3_s'])
     profile = inspection['profile']
     for row in profile['nonfixed_profile']['models']:
         if row['model']['id']=='intake-flow':
-            row['model'].update(reported_error_bound=.002001,
+            row['model'].update(reported_error_bound=shared['declared_flow_bound_m3_s'],
                 quality_note='Synthetic bounded portable flow error, in cubic metres per second.')
     policy['evidence_projection']['inspection_profile'] = deepcopy(profile)
-    program['sensor_program']['realization']['seed'] = private_seed
+    sensor = program['sensor_program']
+    sensor['realization']['seed'] = private_seed
+    if recipe['background']=='early':
+        sensor['profile']['measurements'][0]['period_s'] = 1
+    policy['evidence_projection']['background_sensor_profile'] = deepcopy(sensor['profile'])
     # A reported symptom is a hypothesis cue; it does not disclose the fault.
     ledger = program['evidence_ledger']
     ledger['records'] = [dict(id='shared-operator-symptom',source_id='operator-report',
         target_id='filter',observable_id='vibration_reported',unit='1',value=True,observed_at_s=0,
-        arrived_at_s=0,valid_until_s=8,quality=dict(status='reported',error_bound=None,
+        arrived_at_s=0,valid_until_s=recipe['context_valid_until_s'],quality=dict(status='reported',error_bound=None,
             note='Unconfirmed reported symptom, common to physically different study worlds.'),
         provenance=dict(origin_id='reported-symptom-acquisition',copied_from_record_id=None))]
     return policy
@@ -102,13 +107,9 @@ def _question(options, duration, operation, fallback):
             basis='Prospective bounded fallback setting; no immediate change while qualified work is underway.')
 
 
-def _network_world(template, world, plan):
+def _network_action(template, duration, recipe):
     program = template['dispatch_program']
-    policy = _clock_and_context(program,world,plan)
-    parameters = {row['id']:row for row in template['model']['parameters']}
-    for name,value in (('network_service_capacity',.25),('filter_resistance_multiplier',1),('pump_min_speed',1)):
-        parameters[name].update(value=value,basis='synthetic_assumption',source_refs=['R0'],
-            source_note='Named synthetic development condition; no site measurement.')
+    policy = program['policy_program']
     sample = read(NETWORK_ACTION)
     action = deepcopy(sample['intervention_program'])
     action['profile']['nominal_knowledge_id'] = program['nominal_knowledge']['id']
@@ -116,14 +117,58 @@ def _network_world(template, world, plan):
     action['bindings'][0].update(task_id='lookahead-action',setting=.75)
     program['intervention_program'] = action
     policy['intervention_declaration'] = deepcopy(action)
-    check, repair = policy['candidates']
-    check['task']['deadline_s'] = 6
+    repair = policy['candidates'][1]
     repair['task'] = deepcopy(sample['work_program']['submissions'][0]['task'])
     repair['task'].update(id='lookahead-action',deadline_s=9)
+    if recipe['crew']=='it-with-cooling':
+        repair['task']['crew'].append(dict(worker_id='worker_cooling',qualification_id='qualified_cooling_inspection'))
     operation = action['bindings'][0]['operation_id']
-    _question(policy['options'],world['duration_s'],operation,.75)
+    _question(policy['options'],duration,operation,.75)
+    if recipe['crew']=='it-with-cooling':
+        # Lake to IT uses the 2 s, 1 s and 1 s declared access edges.
+        # The finite value model prices lead time; actual paid crew time is separate.
+        policy['options']['value_model']['question_models'][0]['intervention']['travel_s'] = 4
+
+
+def _masked_cooling(template, duration):
+    program=template['dispatch_program']
+    policy=program['policy_program']
+    options=policy['options']
+    catalog=options['catalog']
+    catalog.update(horizon_s=duration,demand=[dict(start_s=0,end_s=duration,rate=1)])
+    for outcome in catalog['outcomes']:
+        outcome['capacity_profile'][0]['end_s']=duration
+    for question in catalog['questions']:
+        question['window_s']=[0,duration]
+        for key in ('service_deficit_time_s','unserved_service_unit_s'):
+            question['consequence_bounds'][key]['interval']=[0,duration]
+    for item in options['value_model']['availability']:
+        item['window_s']=[0,duration]
+    action=program['intervention_program']
+    action['profile']['operations'][0].update(id='masked-filter-clean',source_note='Partial filter cleanup; no network restoration.')
+    action['profile']['authorizations'][0]['operation_ids']=['masked-filter-clean']
+    action['bindings'][0]['operation_id']='masked-filter-clean'
+    policy['intervention_declaration']=deepcopy(action)
+    policy['candidates'][1]['task']['deadline_s']=9
+
+
+def _world(template, world, plan, recipe, shared):
+    program=template['dispatch_program']
+    policy=_clock_and_context(program,world,plan,recipe,shared)
+    parameters={row['id']:row for row in template['model']['parameters']}
+    for name,value in (('network_service_capacity',recipe['network_cap']),
+        ('filter_resistance_multiplier',recipe['filter_multiplier']),
+        ('pump_min_speed',shared['pump_min_speed']),('walk_short',shared['walk_short_s']),
+        ('walk_long',shared['walk_long_s']),('inspection_time',shared['professional_work_s'])):
+        parameters[name].update(value=value,basis='synthetic_assumption',source_refs=['R0'],
+            source_note='Named synthetic development condition; no site measurement.')
+    policy['candidates'][0]['task']['deadline_s']=6
+    if recipe['kernel']=='network-fallback':
+        _network_action(template,world['duration_s'],recipe)
+    else:
+        _masked_cooling(template,world['duration_s'])
     template.update(classification='REGISTERED_STUDY_INPUT_PENDING_GATES',duration_s=world['duration_s'],
-        maximum_step_s=plan['maximum_step_s'],boundary_events=[])
+        maximum_step_s=plan['maximum_step_s'],boundary_events=deepcopy(recipe['events']))
     return template
 
 
@@ -139,7 +184,9 @@ def _apply_method(program, method):
         policy['options'] = {key:options[key] for key in ('belief_model','catalog','preparation_requests')}
         policy['options'].update(minimum_service_deficit_s=.25,unknown_inspection_policy='fifo',
             conditions=[dict(candidate_id='first-action',source_ids=['portable-intake-meter'],
-                target_id='intake_pump',observable_id='flow',accepted_interval=[.075,.15],not_before_s=0)])
+                target_id='intake_pump',observable_id='flow',accepted_interval=(
+                    [.075,.15] if program['intervention_program']['bindings'][0]['setting']==.75 else [0,.069]),
+                not_before_s=0)])
 
 
 def _admit(document, method):
@@ -152,7 +199,7 @@ def _admit(document, method):
     from aegis_dc.policy_budget import AdmissionBudget
     from aegis_dc.policy_execution import PolicySession
     from aegis_dc.refrigerant_initialization import assess_refrigerant_initialization
-    from aegis_dc.water_envelope import assess_water_envelope
+    from aegis_dc.water_envelope import WATER_EVENT_PARAMETERS, assess_water_envelope
     from aegis_dc.workforce_dispatch import CrewWorkforce, prepare_work
 
     model, program = (document[k] for k in ('model','dispatch_program'))
@@ -162,7 +209,8 @@ def _admit(document, method):
     duration = document['duration_s']
     validate_boundary_events(model,document['boundary_events'],duration_s=duration)
     assess_refrigerant_initialization(model)
-    assess_water_envelope(model,horizon_s=duration)
+    assess_water_envelope(model,horizon_s=duration,
+        events=[row for row in document['boundary_events'] if row['parameter_id'] in WATER_EVENT_PARAMETERS])
     session = PolicySession(program,duration)
     frame = session.work_program['initial_frame']
     policy = program['policy_program']
@@ -197,8 +245,15 @@ def prepare(world_id, method):
     development = {row['id']:row for row in plan['phases']['development']['worlds']}
     require(world_id in development,'Held phase is not released; only declared development inputs may be materialized here')
     require(method in REFERENCE_ARMS+METHODS,'Unknown planned comparison method')
-    require(world_id=='development-01','This preparation slice currently admits development-01 only')
-    document = _network_world(read(REFERENCE),development[world_id],plan)
+    recipes=read(RECIPES)
+    require(recipes['schema']=='aegisdc-development-world-recipes-v1'
+            and set(recipes['worlds'])==set(development),'Development recipe identities differ')
+    recipe=recipes['worlds'][world_id]
+    require(set(recipe)=={'kernel','network_cap','filter_multiplier','context_valid_until_s','background','crew','events'}
+            and recipe['kernel'] in ('network-fallback','masked-cooling')
+            and recipe['background'] in ('late','early') and recipe['crew'] in ('solo','it-with-cooling'),
+            'Unknown development case recipe')
+    document = _world(read(REFERENCE),development[world_id],plan,recipe,recipes['shared'])
     _apply_method(document['dispatch_program'],method)
     return document,_admit(document,method)
 
