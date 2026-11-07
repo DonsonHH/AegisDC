@@ -4,7 +4,7 @@
 
 **Blocked by:** 30
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M5
 
@@ -20,3 +20,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner /root, branch donson/mainline-31-development, accepted dependency 8894c809. Liveness and source checked. No registered attempt started.

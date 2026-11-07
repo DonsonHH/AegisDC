@@ -1,0 +1,35 @@
+{
+  "schema": "aegisdc-development-execution-v1",
+  "classification": "REGISTERED_DEVELOPMENT_NOT_CONFIRMATION",
+  "phase": "development",
+  "protocol": "docs/mainline/30-comparison-protocol-v1.json",
+  "protocol_lock": "docs/mainline/evidence/30-protocol-lock.json",
+  "budget": {
+    "attempts": 36,
+    "simulated_charge_s": 360,
+    "scheduled_decisions": 360
+  },
+  "capture_directory": "capture-01",
+  "native_staging_directory": "31-development-native-01",
+  "durable_native_members": [
+    "scenario.json",
+    "run.json",
+    "private-state.jsonl",
+    "balances.jsonl"
+  ],
+  "automatic_retries": 0,
+  "artifact_roles": {
+    "batch": "Fixed roster, source identity and budget",
+    "ledger": "Durable STARTED and terminal rows with all UNRUN slots",
+    "per_slot": [
+      "start.json",
+      "originals.zip",
+      "originals.json",
+      "audit.json",
+      "terminal.json"
+    ],
+    "receipt": "Final counts and exact durable file digests"
+  },
+  "stop_rule": "Every unclassified, numerical, contract or source failure stops further starts for this batch. Retain the returned bytes before checking. Already-started attempts charge their full declared window and decision slots. Any continuation needs a recorded decision and a new unique delivery; no automatic retries.",
+  "scope": "Ticket31 only. No confirmation, ablation, robustness, field claims, model training or LLM calls."
+}

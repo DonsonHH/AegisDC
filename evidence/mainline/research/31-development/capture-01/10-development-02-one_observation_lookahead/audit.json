@@ -1,0 +1,131 @@
+{
+  "status": "PASS_RETURNED_DEVELOPMENT_EVIDENCE",
+  "arm": "one_observation_lookahead",
+  "trace_points": 1009,
+  "balance_intervals": 1008,
+  "totals": {
+    "demand_service_unit_s": 10.0,
+    "delivered_service_unit_s": 5.0,
+    "service_deficit_time_s": 5.0,
+    "worker_travel_person_s": 0.0,
+    "worker_work_person_s": 1.0,
+    "worker_wait_person_s": 0.25,
+    "access_check_person_s": 0.25,
+    "rendezvous_wait_person_s": 0.0,
+    "queue_wait_person_s": 0.0,
+    "tool_occupation_tool_s": 1.25,
+    "unserved_service_unit_s": 5.0,
+    "paid_person_s": 1.25
+  },
+  "opportunities": [
+    {
+      "time_s": 0,
+      "common_preference_eligible": [
+        "first-action",
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": "first-action",
+      "reason": "ONE_OBSERVATION_FIRST_ACTION_ONLY"
+    },
+    {
+      "time_s": 1,
+      "common_preference_eligible": [],
+      "resource_contention": [
+        "first-inspection"
+      ],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 2,
+      "common_preference_eligible": [
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 3,
+      "common_preference_eligible": [
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 4,
+      "common_preference_eligible": [
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 5,
+      "common_preference_eligible": [
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 6,
+      "common_preference_eligible": [
+        "first-inspection"
+      ],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 7,
+      "common_preference_eligible": [],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 8,
+      "common_preference_eligible": [],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    },
+    {
+      "time_s": 9,
+      "common_preference_eligible": [],
+      "resource_contention": [],
+      "chosen": null,
+      "reason": "MODEL_PREFERS_DEFER"
+    }
+  ],
+  "common_two_or_more": 1,
+  "resource_contention_frames": 1,
+  "completed_inspections": 0,
+  "completed_interventions": 1,
+  "task_dispositions": {
+    "lookahead-action": "completed"
+  },
+  "applied_effects": [
+    {
+      "task_id": "lookahead-action",
+      "operation_id": "masked-filter-clean",
+      "observed_at_s": 1.25,
+      "task_status": "completed",
+      "outcome": "APPLIED",
+      "reason": null,
+      "applied_at_s": 1.25,
+      "parameter_id": "filter_resistance_multiplier",
+      "old_value": 4,
+      "new_value": 2,
+      "effect_scope": "DECLARED_LOW_ORDER_PARAMETER_RESPONSE_NOT_VERIFIED_REPAIR"
+    }
+  ],
+  "verified_closure": "NOT_EVALUATED_WITHOUT_POST_ACTION_PROTOCOL",
+  "hard_violations": []
+}
