@@ -68,3 +68,38 @@ class RegisteredComparisonTests(unittest.TestCase):
             result = audit(altered)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('budget differs', result.stderr)
+
+
+    def test_development_materializes_a_shared_real_action_without_releasing_held_inputs(self):
+        compiler = ROOT / 'scripts/prepare_comparison_worlds.py'
+        with TemporaryDirectory() as folder:
+            def build(world, method, name):
+                target = Path(folder) / name
+                run = subprocess.run([sys.executable,'-B','-X','utf8',str(compiler),
+                    '--world',world,'--method',method,'--output',str(target)],
+                    cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+                return run,target
+
+            first,left = build('development-01','one_observation_lookahead','base.json')
+            second,right = build('development-01','evidence_consistent_contingent','candidate.json')
+            self.assertEqual(first.returncode,0,first.stderr)
+            self.assertEqual(second.returncode,0,second.stderr)
+            admitted = json.loads(first.stdout)
+            self.assertEqual(admitted['facility_calls'],0)
+            self.assertEqual(admitted['selector_calls'],0)
+            self.assertEqual(admitted['public_initial_eligible_paid_tasks'],2)
+            pair = subprocess.run([sys.executable,'-B','-X','utf8',str(CLI),'audit-pair',str(left),str(right)],
+                cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+            self.assertEqual(pair.returncode,0,pair.stderr)
+            document = json.loads(left.read_bytes())
+            params = {p['id']:p['value'] for p in document['model']['parameters']}
+            self.assertEqual(params['network_service_capacity'],.25)
+            self.assertEqual(params['service_demand'],1)
+            intervention = document['dispatch_program']['intervention_program']
+            self.assertEqual(intervention['profile']['operations'][0]['kind'],'restore_network_capacity')
+            self.assertEqual(intervention['bindings'][0]['setting'],.75)
+            self.assertNotIn('network_service_capacity', json.dumps(document['dispatch_program']))
+            held,path = build('confirmation-01','one_observation_lookahead','held.json')
+            self.assertNotEqual(held.returncode,0)
+            self.assertIn('Held phase is not released',held.stderr)
+            self.assertFalse(path.exists())
