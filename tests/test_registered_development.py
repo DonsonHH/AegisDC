@@ -29,3 +29,36 @@ class RegisteredDevelopmentTests(unittest.TestCase):
              ('development-03','fifo'),('development-04','risk_condition_priority_adapted'),
              ('development-05','one_observation_lookahead'),('development-06','evidence_consistent_contingent')])
         self.assertTrue(all(len(row['input_sha256'])==64 and row['duration_s']==10 for row in rows))
+
+
+    def test_journal_rejects_a_started_slot_relabelled_unrun_or_partial_tail(self):
+        from tempfile import TemporaryDirectory
+
+        journal=ROOT/'scripts/development_journal.py'
+        source='1'*40
+        slots=[dict(index=i,world_id=f'development-{i:02}',arm='fifo',duration_s=10,scheduled_decisions=10)
+               for i in (1,2)]
+        with TemporaryDirectory() as tmp:
+            folder=Path(tmp)
+            (folder/'batch.json').write_text(json.dumps(dict(slots=slots,execution_commit=source)),encoding='utf-8')
+            one=folder/'01-development-01-fifo'
+            one.mkdir()
+            start=dict(slots[0],status='STARTED',source=source,charged_simulated_s=10,charged_scheduled_decisions=10)
+            finish=dict(slots[0],status='FAILED',source=source,physical_call_started=True,physical_returned=False)
+            unrun=dict(slots[1],status='UNRUN',source=source)
+            (one/'start.json').write_text(json.dumps(start),encoding='utf-8')
+            (one/'terminal.json').write_text(json.dumps(finish),encoding='utf-8')
+
+            def check(rows,tail=b''):
+                raw=b''.join((json.dumps(dict(row,recorded_at_utc='fixture'))+'\n').encode() for row in rows)+tail
+                (folder/'attempts.jsonl').write_bytes(raw)
+                return subprocess.run([sys.executable,'-B','-X','utf8',str(journal),str(folder)],cwd=ROOT,
+                    capture_output=True,text=True,encoding='utf-8',check=False)
+
+            result=check([start,finish,unrun])
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(json.loads(result.stdout)['total']['started'],1)
+            self.assertEqual(json.loads(result.stdout)['total']['charged_simulated_s'],10)
+            self.assertEqual(json.loads(result.stdout)['total']['unrun'],1)
+            self.assertNotEqual(check([start,dict(slots[0],status='UNRUN',source=source),unrun]).returncode,0)
+            self.assertNotEqual(check([start,finish,unrun],b'{"partial":').returncode,0)
