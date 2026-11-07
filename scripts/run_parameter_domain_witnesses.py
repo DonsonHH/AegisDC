@@ -51,11 +51,13 @@ def _pins(source, protocol, declaration, mode):
               '.gitattributes', 'docs/mainline/29-uncertainty-domain-contract.md',
               'docs/mainline/29-public-evidence-scope.md',
               f'{PACKAGE}/reference/v6-parameter-inventory-v1.json',
-              f'{PACKAGE}/development/development-originals.zip', f'{PACKAGE}/development/manifest.json']
+              f'{PACKAGE}/development/development-originals.zip', f'{PACKAGE}/development/manifest.json',
+              f'{PACKAGE}/development/prepare-cli-refusal-01.zip', f'{PACKAGE}/development/prepare-cli-refusal-01.json']
     if mode == 'capture':
         inputs.extend(f"{PACKAGE}/{protocol['prepared_directory']}/{name}"
                       for name in protocol_paths(protocol, 'prepare'))
-    return {'runtime':hashes(source,runtime), 'tools':hashes(source,TOOLS), 'inputs':hashes(source,inputs)}
+    return {'runtime':hashes(source,runtime), 'bootstrap':hashes(source,['src/patrol_rsi/__init__.py']),
+            'tools':hashes(source,TOOLS), 'inputs':hashes(source,inputs)}
 
 
 def _file_shas(folder, files):
@@ -92,7 +94,7 @@ def _check_lifecycle(folder, protocol, receipt, mode):
         a,b = rows[2*i:2*i+2]
         require(a['status'] == 'STARTED' and b['status'] == 'PASS'
                 and a['case_id'] == b['case_id'] == case['id']
-                and a['attempt'] == b['attempt'] == i+1
+                and a['attempt'] == b['attempt'] == i+1 and b['returned'] is True
                 and a['simulated_charge_s'] == (case['seconds'] if mode == 'capture' else 0),
                 'Attempt order or charge differs')
     require(receipt['started'] == receipt['passed'] == len(cases)
@@ -126,6 +128,8 @@ def _run(mode, folder, protocol, declaration):
     require(not git('status','--porcelain'), 'Run from the clean frozen checkout')
     require(Path(os.environ.get('PYTHONPATH','')).resolve() == ROOT / 'src' and sys.dont_write_bytecode,
             'Use the isolated repository PYTHONPATH and -B')
+    require(sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),
+            'Set an unused PYTHONPYCACHEPREFIX before launching Python')
     pins = _pins(source, protocol, declaration, mode)
     require(unchanged(source,pins), 'Execution bytes do not match the frozen source')
     prep = folder.parent / protocol['prepared_directory']
@@ -138,6 +142,7 @@ def _run(mode, folder, protocol, declaration):
     receipt = dict(schema='aegisdc-domain-witness-receipt-v1', mode=mode, status='FAIL',
         execution_commit=source, pinned=pins, started=0, passed=0, charged_simulated_s=0,
         field_calibration='PENDING', python=sys.version, executable=sys.executable,
+        unused_pycache_prefix=sys.pycache_prefix,
         executable_sha256=digest(Path(sys.executable).read_bytes()), argv=sys.argv,
         **{key:0 for key in NON_CALLS})
     results = {}
