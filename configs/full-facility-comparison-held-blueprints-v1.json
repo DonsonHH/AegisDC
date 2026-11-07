@@ -333,19 +333,25 @@
       "unchanged": "Actual facility, observations, crew, action and budgets."
     },
     "without_dependency_context": {
-      "field": "dispatch_program.nominal_knowledge.graphs.functional",
+      "scope": "Component dependency consequence knowledge in planner only.",
       "remove_edge_ids": [
         "f12",
         "f13",
         "f14"
       ],
-      "also_restrict": "Remove the same IDs from the public question dependency listings and suppress component-specific consequence knowledge in both the action value and matching risk catalog via a neutral joint aggregate with an explicitly declared assumption. Do not remove them from the plant. An exact transform must be reviewed before the ablation is released.",
-      "unchanged": "Actual functional and other graphs, real signals, execution actions and crew."
+      "nominal": "Remove exactly these three edges from dispatch_program.nominal_knowledge.graphs.functional; remove the same IDs from every question.dependency_edge_ids.",
+      "capacity_transform": "For every catalog outcome capacity_profile segment and every value model variant during_capacity and after_capacity entry: save old compute=c; replace compute,network,storage values by c. Do not inspect the plant. This deliberately uses compute-only aggregation, which omits serial network and storage limits.",
+      "invariants": "All model (private plant) bytes, event list, workload, access graph, actual workers/tasks/tools, inspection profile, real interventions, evidence records and budgets remain identical. Source and public visibility are declared.",
+      "interpretation": "Ablates modeled serial dependency consequences plus their public edge declarations as one bundled knowledge factor. It does not isolate graphical edges alone."
     },
     "without_joint_crew_planning": {
-      "field": "planner_choice_eligibility",
-      "mask": "Suppress choosing tasks that require more than one worker before comparing alternatives; keep the catalog, actual capabilities, all shared resources and physical execution constraints. Record which eligible task was removed. Singleton jobs remain as declared.",
-      "unchanged": "Actual crew roles, qualification and ability to execute an authorized joint intention."
+      "scope": "Available team-mode choice, with the shared physical executor still capable of teamwork.",
+      "candidate_transform": "In the planner policy_program only, remove all candidates with len(task.crew)>1. Retain the actual catalog_program/execution task definitions and qualification/tool/authorization rules.",
+      "value_transform": "Remove options.bindings and value_model.question_models for questions whose intervention_candidate_id was removed; do not replace their unknown incremental value by zero.",
+      "risk_transform": "For the same question IDs, change options.catalog.questions quantification to UNMODELED and outcome_ids to [], retaining consequence bounds and a documented evidence gap. Keep singleton inspection candidates for the shared unknown-inspection FIFO fallback.",
+      "binding_scope": "Public intervention declarations and projection report support are restricted to the remaining planner candidates; the private executor declaration is unchanged. The adapter must keep two explicit validated planner and execution views. Current equality gates need a separately reviewed extension before this mask can run.",
+      "invariants": "Plant, actual worker qualifications, access, tools, physical observations, original intervention permission, time and budget remain unchanged.",
+      "interpretation": "Availability of coordinated choices. Current scalar value model does not price heterogeneous team assignment itself, so no optimal multi-crew scheduling claim."
     }
   },
   "robustness": {
@@ -459,11 +465,12 @@
     }
   },
   "sealing": {
-    "confirmation_order": "Within each family assign all four blueprints without replacement by ranking HMAC-SHA256 of phase namespace, family and variant ID. Held slots in their declared order consume that ranking.",
-    "ablation_order": "Use the same assignment rule for the two distinct ablation blueprints per family and an independently committed phase nonce.",
+    "confirmation_order": "For each family sort variants by tuple (hex HMAC-SHA256(nonce, canonical_json([\"assignment\", protocol_id, namespace, family, variant_id])), variant_id). Use ascending byte-order hexadecimal and UTF-8 variant ID as the deterministic tie break. Slots for the family consume the resulting order.",
+    "ablation_order": "Use that exact family ranking formula with the independently committed ablation nonce and namespace, with two variants per family.",
     "robustness_pairing": "A reference and perturbed level share the comparison key R1–R4 as their seed key, one contrast block rather than two independent draws.",
-    "seed_derivation": "Compute HMAC-SHA256 with phase nonce over UTF-8 canonical JSON [protocol ID, phase namespace, seed key, channel label]. Use the first 128 digest bits as a nonnegative integer. Channel labels portable and fixed; the same planned draw key is used across methods.",
+    "seed_derivation": "For channel label in {\"portable\",\"fixed\"} compute HMAC-SHA256(nonce, canonical_json([\"seed\", protocol_id, namespace, seed_key, channel_label])). Use int.from_bytes(first 16 digest bytes,\"big\"). seed_key is world ID for confirmation/ablation and the shared R1-R4 block key for robustness. canonical_json is ensure_ascii=False, sort_keys=True, separators=(\",\",\":\"), allow_nan=False, UTF-8 with no terminal newline.",
     "commitment": "SHA-256 of each raw 32-byte nonce. Keep nonce outside the repository in a phase-specific restricted work area. Published commitment is procedural separation; do not claim secrecy from someone with host filesystem access.",
-    "release": "No held inputs are compiled by the development CLI. A future release tool must verify the exact frozen commit, expected dependency, commitment, and unique destination; do not leak any unreleased nonce or generated payload into a public frame."
+    "release": "A separate release action must verify accepted ticket30, accepted predecessor gate 32 for confirmation or34 for ablation/robustness, source_lock identities, phase commitment, exact remaining phase budget, and a new output directory. It may then derive only that phase; development CLI cannot accept nonce or held phase.",
+    "source_lock": "The commitment receipt binds SHA-256 of raw protocol/blueprint/development recipe bytes and a Git revision containing those bytes; sealed execution source and frozen per-arm input hashes are additionally required by ticket32. Verify every path against recorded Git blobs before release."
   }
 }

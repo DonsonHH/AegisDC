@@ -364,7 +364,14 @@
     "identification": {
       "minimum_shared_frame_different_first_actions": 4,
       "minimum_distinct_strata": 2,
-      "minimum_common_eligible_paid_candidates": 2
+      "minimum_common_eligible_paid_candidates": 2,
+      "unit": "One world counted at most once, at the earliest differing intended action while all earlier choices and observed histories are identical.",
+      "shared_frame": "At that decision instant both methods have byte-equal canonical allowed public frames (including nominal knowledge, request plan, arrived record contents and availability), and the same issued/work feedback history. Method-specific scores/audits and processing timers are excluded.",
+      "common_eligibility": "Immediately before applying either method preference, assess the exact same candidates with current public prepare_work/prepare_intervention, shared issued history, current deadline and common remaining admission envelope. Count a paid candidate only when both see the same admissible task and resources.",
+      "intent": "Compare chosen_candidate_id, where None is the explicit defer symbol. A different method reason or score with the same chosen ID is not a differing action.",
+      "terminal_handling": "Future rejections or aborts do not retroactively remove a valid public opportunity; they are actual outcomes. Failed/missing terminal pairs are incomplete. A pair with fewer than two jointly eligible paid candidates at its first difference does not meet the identification count.",
+      "criterion": "Count at least four confirmation worlds in at least two declared families. Keep every planned world in all service/cost means regardless of this diagnostic.",
+      "post_divergence": "Do not compare later policy-specific public states as though they were the same-history decision. No counterfactual selector calls are part of this protocol budget."
     },
     "partial_outcomes": "An unavailable service-deficit value lies in [0,T]. Combine per-pair sharp bounds over the original fixed denominator; report all failures, no imputation.",
     "sensitivity": "Report every paired difference and stratum mean, with leave-one-stratum-out min/max. These are finite design diagnostics; no superpopulation interval or site estimate.",
@@ -378,7 +385,7 @@
       "STRATUM_SENSITIVE",
       "NO_PRACTICAL_GAIN"
     ],
-    "rule": "Safety/contract validity precedes success; any missing primary outcome is incomplete. With adequate discrimination, classify gain only for mean >= .25 s, all leave-one-stratum-out means >= 0, and all cost bounds met. Harm is mean <= -.25 s irrespective of cost; report both if applicable.",
+    "rule": "Apply outcome_rules in order; maintain independent flags and raw statistics for every other material cost, missing or safety condition. These exploratory values are study decisions, not site criteria.",
     "required_actual_constraints": [
       "no_unqualified_work",
       "no_work_under_blocked_access",
@@ -404,7 +411,88 @@
       "unconfirmed_or_aborted_work",
       "selector_and_model_evaluations",
       "wall_compute_time"
-    ]
+    ],
+    "metric_definition": {
+      "service_deficit_s": "For each half-open balance interval [start,end), add (demand-delivered)/demand*(end-start); add zero if demand=0. Compare over [0,10].",
+      "delta_service": "D_baseline - D_candidate; greater is better.",
+      "paid_person_s": "worker_travel_person_s + worker_work_person_s + worker_wait_person_s. The worker_wait value already includes access check, rendezvous and queue wait. Do not add those subcomponents again.",
+      "delta_cost": "candidate actual metric minus baseline actual metric for each pair, arithmetic mean over all 16 planned confirmation worlds. Negative means lower cost.",
+      "cost_quantities": {
+        "paid_person_s": [
+          "worker_travel_person_s",
+          "worker_work_person_s",
+          "worker_wait_person_s"
+        ],
+        "travel_person_s": [
+          "worker_travel_person_s"
+        ],
+        "tool_occupation_s": [
+          "tool_occupation_tool_s"
+        ]
+      },
+      "sum_rule": "Use math.fsum over original balance contributions. Decisions never replace actual execution metrics.",
+      "numerical_tolerances": {
+        "s": 1e-08,
+        "person_s": 1e-08,
+        "tool_s": 1e-08,
+        "W": 1e-06
+      },
+      "threshold_rule": "Use 1e-8 absolute slack only in equality/order checks at a declared threshold. Report unrounded raw means. No rounding into a category."
+    },
+    "partial_outcome_details": {
+      "per_arm": "If a returned and fully verified outcome exists use [D,D]. Otherwise use [0,10], including aborted run, invalid evidence or a missing run. UNRUN is not a completed zero.",
+      "per_pair": "[baseline_low-candidate_high, baseline_high-candidate_low]. Preserve pair ID and missing side(s).",
+      "aggregate": "Sum lower endpoints/16 and sum upper endpoints/16, retaining four equal-weight strata. No complete-case substitution.",
+      "costs": "For each absent cost retain null and flag incomplete. No cost-benefit success category can be awarded with a missing primary side.",
+      "uncertainty": "These are deterministic sharp missing-outcome limits, not probabilistic confidence intervals."
+    },
+    "outcome_rules": [
+      {
+        "label": "UNSAFE_OR_INVALID",
+        "when": "Any recorded actual hard constraint breach, private/future input use, protocol/source mismatch, or manipulated budget/output lifecycle. Take precedence and stop further batch starts."
+      },
+      {
+        "label": "INCOMPLETE",
+        "when": "At least one of the 32 primary-arm outcomes for the 16 worlds is absent, failed or unverifiable. Report deterministic missing-outcome bounds."
+      },
+      {
+        "label": "NOT_IDENTIFIED",
+        "when": "Fewer than four first shared-history divergent worlds with >=2 common eligible paid tasks, or those worlds cover fewer than two families. Service/cost deltas still reported descriptively."
+      },
+      {
+        "label": "PRACTICAL_HARM",
+        "when": "Mean service delta <= -.25 s. Report accompanying cost failure independently."
+      },
+      {
+        "label": "COST_LIMIT_EXCEEDED",
+        "when": "Any mean extra paid time > .5 person-s, extra travel > .25 person-s, or extra tool occupation > .5 tool-s."
+      },
+      {
+        "label": "PRACTICAL_GAIN",
+        "when": "Mean service delta >= .25 s, all four leave-one-family-out means >=0, every cost limit met and no earlier category applies."
+      },
+      {
+        "label": "STRATUM_SENSITIVE",
+        "when": "Mean service delta >= .25 s with all cost limits met, but at least one leave-one-family-out mean <0, and no earlier category applies."
+      },
+      {
+        "label": "NO_PRACTICAL_GAIN",
+        "when": "All remaining complete, valid and identified cases."
+      }
+    ],
+    "contribution_claims": {
+      "existing": "FIFO, fixed checking, risk prioritization, finite Bayesian updating and short-horizon inspection/repair value are existing families.",
+      "candidate_increment": "Evidence-consistent prospective report interpretation at the existing V4 selection boundary.",
+      "facility_extension": "Eight-domain coupled physical/operational synthetic facility, four identity-sharing graphs, delayed/provenance-bound evidence, heterogeneous crews and actual qualified effects.",
+      "comparison_limits": "Not a reproduction of original POMDP/DRL frameworks, not proof of a new optimization algorithm or general superiority; the nearest shared-interface finite baseline is the primary contrast.",
+      "unestablished": [
+        "field calibration",
+        "causal external validation",
+        "LLM increment",
+        "multi-AI coordination increment",
+        "RSI increment"
+      ]
+    }
   },
   "seed_policy": {
     "namespaces": {
@@ -439,5 +527,13 @@
   },
   "scope": "Finite synthetic V6 matched conditions; no site calibration, policy superiority before outcomes, or AI/RSI.",
   "development_recipes": "configs/full-facility-comparison-development-v1.json",
-  "held_blueprints": "configs/full-facility-comparison-held-blueprints-v1.json"
+  "held_blueprints": "configs/full-facility-comparison-held-blueprints-v1.json",
+  "registration_limits": {
+    "development": "No methods or public model values are selected from confirmation/ablation/robustness output. Changes after first development outcomes require frozen revision and complete budget accounting before another run.",
+    "confirmatory": "The primary estimand concerns the exact 16 selected synthetic worlds, not a population estimate; phase-nonce assignment permutes four predeclared recipes per family without replacement.",
+    "information_budget": "Only selection methods see allowed frame/static declarations. Evaluator truths, held assignment, nonce and instrument private realizations stay outside public frames.",
+    "temporal_scope": "Ten-second compressed synthetic engineering windows use positive 1 s professional work and 1/2 s routes; no transfer to real inspection durations.",
+    "source_pins": "Before authoring run inputs commit exact protocol, blueprint, compiler and accepted property/topology identities. Ticket32 seals the post-development source and every executable input; it cannot silently revise protocol.",
+    "release": "Missing or false gate receipts stop release. Inputs prepared for development are never confirmation inputs even if the policy actions happen to coincide."
+  }
 }
