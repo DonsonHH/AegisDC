@@ -168,8 +168,8 @@ def check_case(folder, name, protocol, doc, source, identity):
         (4.25, 4.75, 'portable-intake-meter', 'bounded') and
         math.isclose(handheld['value'] ** 2, 1/340, rel_tol=0, abs_tol=tol), 'Actual handheld sampling/value differs')
     polls = run['policy_sensor_private_audit']
-    for instrument, epochs in (('rectifier-meter', [0, 10]), ('lake-flow', [7, 8, 9, 10]), ('joint-service-meter', [7, 8, 9, 10])):
-        require([r['polled_at_s'] for r in polls if r['measurement_id'] == instrument] == epochs, 'Declared sparse instrument schedule differs')
+    for instrument, poll_epochs in (('rectifier-meter', [0, 10]), ('lake-flow', [7, 8, 9, 10]), ('joint-service-meter', [7, 8, 9, 10])):
+        require([r['polled_at_s'] for r in polls if r['measurement_id'] == instrument] == poll_epochs, 'Declared sparse instrument schedule differs')
     closure_checks = closures[-1]['checks']
     require(len(closure_checks) == 2 and {(row['check_id'], row['role']) for row in closure_checks} ==
         {('flow-restored', 'condition'), ('service-restored', 'service')}, 'Verification role set differs')
