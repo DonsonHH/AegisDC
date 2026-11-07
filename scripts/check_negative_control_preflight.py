@@ -9,7 +9,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v1.json'
+PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v2.json'
 
 
 def read(path):
@@ -97,7 +97,7 @@ def inspect():
     runtime = sorted(p.relative_to(ROOT).as_posix() for p in (ROOT / 'src').rglob('*.py') if '__pycache__' not in p.parts)
     inputs = {PROTOCOL, protocol['contract'], protocol['input'], protocol['literals'], protocol['preparation'],
               protocol['protection_workforce_input'], protocol['protection_workforce_preparation'],
-              *protocol['retained_unexecuted_draft']}
+              *protocol['retained_unexecuted_draft'], *protocol['retained_context'], *protocol['retained_failed_reviews']}
     return dict(status='PASS_STATIC_DECLARATIONS_ONLY', source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         classification='INPUT_AND_TOOL_PREFLIGHT_NOT_RUNTIME_ACCEPTANCE',
         source_tree_has_uncommitted_changes=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT)),

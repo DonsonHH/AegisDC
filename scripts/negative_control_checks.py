@@ -199,8 +199,10 @@ def too_late(folder, case, run, trace):
             (1, 2.25, 3.25, 3, 'aborted'), 'Actual task was not stopped before its earliest completion')
     effect, = run['intervention_private_audit']['events']
     feedback, = run['intervention_public_feedback']
-    require(effect['outcome'] == 'NO_EFFECT' and effect['applied_at_s'] is None
-            and feedback['outcome'] == 'NO_EFFECT' and feedback['observed_at_s'] == 3
+    require(effect['outcome'] == 'NO_EFFECT' and effect['reason'] == 'actual_work_not_completed'
+            and effect['task_status'] == 'aborted' and effect['observed_at_s'] == 3
+            and not {'applied_at_s','parameter_id','old_value','new_value','effect_scope'} & set(effect)
+            and feedback['outcome'] == 'NO_EFFECT' and feedback['reason'] == effect['reason'] and feedback['observed_at_s'] == 3
             and feedback['arrived_at_s'] == 3.5 and not feedback['risk_closed'], 'Aborted intervention gained an effect or early feedback')
     require(all(row['domains']['it_service']['delivered'] == .25 for row in trace)
             and all(row['kind'] != 'completed_research_intervention' for row in run['events']),

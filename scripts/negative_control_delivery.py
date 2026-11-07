@@ -12,7 +12,7 @@ import zipfile
 from inspection_delivery import ROOT, digest, durable, git, hashes, read, require, unchanged, write
 from negative_control_checks import check_case, paired
 
-PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v1.json'
+PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v2.json'
 
 
 def append(path, value):
@@ -30,8 +30,8 @@ def pins(protocol, source):
     roles = dict(runtime=[p for p in tracked if p.endswith('.py') and '__pycache__' not in p],
         tools=protocol['tools'], inputs=[PROTOCOL, protocol['contract'], protocol['input'],
             protocol['literals'], protocol['preparation'], protocol['protection_workforce_input'],
-            protocol['protection_workforce_preparation'], *properties, *preparation['source_inputs']],
-        retained_draft=protocol['retained_unexecuted_draft'])
+            protocol['protection_workforce_preparation'], *protocol['retained_context'], *properties, *preparation['source_inputs']],
+        retained_draft=protocol['retained_unexecuted_draft'], retained_review=protocol['retained_failed_reviews'])
     result = {role: hashes(source, paths) for role, paths in roles.items()}
     require(all(digest((ROOT / name).read_bytes()) == sha for group in result.values() for name,sha in group.items()),
             'Working inputs or tools differ from exact committed source')
@@ -46,6 +46,17 @@ def pins(protocol, source):
     require(idle['artifacts'] == {'idle-crew.json': result['inputs'][protocol['protection_workforce_input']]}
             and idle['authoring_tool_sha256'] == result['tools']['scripts/prepare_negative_control_workforce.py'],
             'Idle-crew tool or input differs')
+    from preserve_negative_control_reviews import verify as verify_preserved_reviews
+    old_review = verify_preserved_reviews()
+    review_paths = [ROOT / name for name in protocol['retained_failed_reviews']]
+    parents = {path.parent for path in review_paths}
+    require(len(parents) == 1 and durable(review_paths[0].parent) == {path.name for path in review_paths},
+            'Retained review package has unlisted durable files')
+    with zipfile.ZipFile(review_paths[0].parent / 'originals.zip') as archive:
+        for name, sha in protocol['retained_review_seal_sha256'].items():
+            require(digest(archive.read(name)) == sha, 'Original failed review seal changed')
+    require(old_review['source'] == protocol['supersedes_unexecuted_source']
+            and old_review['members'] == 222, 'Original failed pre-capture reviews changed')
     return result
 
 
