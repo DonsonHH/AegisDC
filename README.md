@@ -6,6 +6,12 @@
 
 ## 当前主线
 
+截至第32项验收，01–32已接受：八域设施、证据认识和异质检查处置闭环已通过各自有限工程核验；36次开发评估没有显示候选的平均服务优势。独立确认输入已冻结，当前执行第33项。本轮在第35项后集中交付成果，供用户检查研究方向；36–42仍待推进。
+
+- [第31项开发结果、两张数据图与原始账](evidence/mainline/research/31-development/README.md)：六个工况、六种方法，主配对平均改善−0.0417秒。
+- [完整设施闭环数据和八域架构图](evidence/mainline/engineering/27-root-acceptance/README.md)：服务恢复、人员处置完成和证据核验关闭分别记录。
+- [第32项独立确认冻结及失败记录](docs/mainline/32-confirmation-freeze.md)：16个独立工况、96份输入，方法、指标、成本门槛和执行源固定。
+
 用户已确认以完整设施持续推进。[固定总目标与阶段门槛](docs/MAINLINE.md)、[42项依赖任务](.scratch/full-facility-mainline/map.md)和[当前执行状态](docs/mainline/progress.json)共同承载主线：以郑州工程为参照建立可运行合成设施，接入多源证据和异质检查处置，以独立比较形成机制结论，再按资格推进智能体/RSI。
 
 **设施建模 → FEMA框架参照下的情景与风险量化 → 按需检查/处置闭环 → 独立评价 → 智能体与RSI。**
@@ -48,7 +54,7 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。当前分阶段资格以新的 M2 根记录为准，风险证据与策略闭环继续按固定主线推进。
 
-**M1 与有限 M2 已由根接受**：[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)和[M2 数值图、正确架构及复核包](evidence/mainline/engineering/M2-root-acceptance/README.md)保留各自执行身份。M2 实际根源 bcac 的359项全执行零跳过、11组有限见证及重放契约已核对；事件侧指标、raw差异和各自参考阶梯分列。[Q提交fresh交付证明](docs/mainline/evidence/M2-delivery.json)已完成。M3多源证据账14现已接受：[377项根结果、最新图与闭环评审](evidence/mainline/engineering/14-root-acceptance/README.md)。[14封装fresh交付证明](docs/mainline/evidence/14-delivery.json)已完成。第15–17票已通过统一验收，当前主票为18，研究主线继续。 [验收与图表](evidence/mainline/engineering/15-17-root-acceptance/README.md)。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录，见复核包；兼容默认保持原样。
+**M0–M4 已按各自有限工程范围接受**。[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)、[M2 数值见证](evidence/mainline/engineering/M2-root-acceptance/README.md)、[M3 证据、风险与价值](evidence/mainline/engineering/20-root-acceptance/README.md)及[M4 正常与负例](evidence/mainline/engineering/28-root-acceptance/README.md)保留各自执行身份、原始失败和验收范围。[第29项联合工况](docs/mainline/29-root-acceptance.md)限定本轮模型工作域；[第30项注册协议](docs/mainline/30-registered-comparison.md)随后固定方法、独立单位和180次总预算。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录；兼容默认保持原样。
 
 ```bash
 python -m aegis_dc scenario
@@ -80,4 +86,4 @@ python -m patrol_rsi verify --output runs/verification-new
 
 这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-结构与风险原型、M1 八域基线、M2 有限数值验证与重放、M3 的证据账及观测接口均已交付。当前第 18 票研究证据推断，后续依次进入检查处置、独立比较与 AI／RSI 资格评估。现场标定待完成。[主线进度](docs/mainline/progress.json)
+当前处于独立比较阶段，研究结论以冻结协议和保存原件为准。现场标定待完成，AI／RSI仍须通过第38项资格门槛。[主线进度](docs/mainline/progress.json)
