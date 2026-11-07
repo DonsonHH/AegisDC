@@ -34,3 +34,29 @@ class WaterEnvelopeTests(unittest.TestCase):
         self.assertEqual(result['status'], 'STATIC_WATER_ENVELOPE_ONLY')
         with self.assertRaisesRegex(ValueError, 'hot-water inventory.*below'):
             assess_water_envelope(scenario, horizon_s=2, events=[event(1, 'internal_hot_leak_mass_flow', 1.5)])
+
+
+    def test_valve_reopening_restores_the_pump_heat_requirement(self):
+        from aegis_dc.water_envelope import assess_water_envelope
+
+        scenario = case(internal_valve_opening=0, pump_fluid_heat_fraction=.74)
+        result = assess_water_envelope(scenario, horizon_s=2)
+        regime, = result['regimes']
+        pumps = regime['maximum_command_requested_pumps']
+        self.assertTrue(pumps['internal']['closed_valve_interlock'])
+        self.assertEqual(pumps['internal']['hydraulic_power_W'], 0)
+        self.assertAlmostEqual(pumps['lake']['volume_flow_m3_s'], .1, delta=1e-12)
+        self.assertAlmostEqual(pumps['lake']['hydraulic_power_W'], 15_000, delta=1e-8)
+        with self.assertRaisesRegex(ValueError, 'internal fluid heat excludes'):
+            assess_water_envelope(scenario, horizon_s=2, events=[event(1, 'internal_valve_opening', 1)])
+
+    def test_nearby_duplicate_parameter_updates_are_refused_across_batch_anchors(self):
+        import math
+        from aegis_dc.water_envelope import assess_water_envelope
+
+        near = 8 * math.ulp(1.)
+        events = [event(1, 'lake_valve_opening', 1),
+                  event(1+near, 'internal_valve_opening', .8),
+                  event(1+2*near, 'internal_valve_opening', 1)]
+        with self.assertRaisesRegex(ValueError, 'Conflicting water inputs'):
+            assess_water_envelope(case(), horizon_s=2, events=events)
