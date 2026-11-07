@@ -1,0 +1,160 @@
+{
+  "schema": "aegisdc-negative-engineering-protocol-v3",
+  "status": "FROZEN_ENGINEERING_REQUIRES_INDEPENDENT_FIXED_SOURCE_REVIEW",
+  "date": "2026-11-07",
+  "classification": "FINITE_ENGINEERING_NOT_COMPARATIVE_EFFECT_STUDY",
+  "contract": "docs/mainline/28-negative-controls-contract.md",
+  "input": "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json",
+  "literals": "evidence/mainline/engineering/28-negative-controls/reference-v4/literals-v1.json",
+  "preparation": "evidence/mainline/engineering/28-negative-controls/reference-v4/preparation.json",
+  "protection_workforce_input": "evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+  "protection_workforce_preparation": "evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+  "cases": [
+    "normal",
+    "false_report",
+    "local_protection",
+    "too_late"
+  ],
+  "output": "evidence/mainline/engineering/28-negative-controls/capture-20261107-03",
+  "tools": [
+    "scripts/negative_control_delivery.py",
+    "scripts/negative_control_checks.py",
+    "scripts/prepare_negative_control_inputs.py",
+    "scripts/prepare_negative_control_inputs_v2.py",
+    "scripts/prepare_negative_control_workforce.py",
+    "scripts/inspection_delivery.py",
+    "scripts/check_negative_control_preflight.py",
+    "scripts/preserve_negative_control_reviews.py",
+    "scripts/negative_control_history.py",
+    "scripts/prepare_negative_control_inputs_v3.py",
+    "scripts/prepare_negative_control_inputs_v4.py",
+    "scripts/negative_control_public_preflight.py",
+    "scripts/negative_control_public_preflight_v2.py"
+  ],
+  "retained_unexecuted_draft": [
+    "evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+    "evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+    "evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+    "evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json"
+  ],
+  "total_integrations": 4,
+  "total_simulated_duration_s": 21.5,
+  "maximum_step_s": 0.01,
+  "online_decisions_s": [
+    1,
+    3,
+    4.5,
+    4.75,
+    5.5,
+    6.5,
+    7
+  ],
+  "expected_counters": {
+    "attempted_integrations": 4,
+    "completed_integrations": 4,
+    "validated_cases": 4,
+    "late_preparation_frames": 4,
+    "late_preparation_assessments": 1,
+    "late_closure_assessments": 2,
+    "protection_initial_frames": 1,
+    "attempted_simulated_seconds": 21.5
+  },
+  "diagnostic_scope": "14 actual online policy calls, including their counted finite model evaluations. Not LLM/ML/RSI calls. One additional initial idle-crew frame and four late-case public frames; one late prepare_intervention and two evidence-only closure evaluations.",
+  "literal_absolute_tolerance": 1e-10,
+  "energy_tolerance_J": 0.0001,
+  "mass_tolerance_kg": 1e-09,
+  "durable_root": [
+    "capture.json",
+    "reviews.zip",
+    "attempts.jsonl",
+    "checks.json"
+  ],
+  "durable_case": [
+    "input.json",
+    "trajectory/run.json",
+    "trajectory/scenario.json",
+    "trajectory/private-state.jsonl",
+    "trajectory/balances.jsonl",
+    "validation.json"
+  ],
+  "durable_case_extra": {
+    "local_protection": [
+      "idle-crew-frame.json"
+    ],
+    "too_late": [
+      "pre-call-preparation.json",
+      "public-preparation.json",
+      "closure.json"
+    ]
+  },
+  "terminal": "receipt.json",
+  "excluded_runtime_caches": [
+    "__pycache__",
+    "*.pyc",
+    "*.pyo"
+  ],
+  "source_guard": "Start at a clean fixed Git commit; pin all runtime Python, declared authoring/check helpers, current inputs and retained unexecuted draft. Bind each actual run to execution files and that source. A separate committed fresh checkout verifies declared bytes and original source without model calls.",
+  "review_gate": "Both independent review.json files must be sealed, PASS, source-bound to this exact frozen HEAD, with nonempty checks and zero unresolved findings. Original review manifest members copied exactly to reviews.zip. Usage-limited or partial reviews are not passes.",
+  "failure_rule": "Append STARTED before each physical case. Any preparation, integration, save or validation failure retains all produced files, appends FAILED and stops the entire packet. No automatic retry, extra original or criterion change. Further work requires a new immutable protocol/output. Completion and validation are separately counted. The historical failed call remains charged. New captures stop at first case failure; a completed physical return with failed saved validation is preserved and cannot be automatically repeated. Per-case validation bytes are saved as each case passes.",
+  "interpretation": "Specific synthetic normal, false-report, sampled-protection and too-late safety-stop witnesses only. No distributional gain, method superiority, field calibration, AI or RSI result.",
+  "research_trials": 0,
+  "supersedes_unexecuted_source": "105a1cf53e72abccb047e2f1a5a1cf141d8980ae",
+  "retained_context": [
+    "docs/mainline/28-negative-engineering-protocol-v1.json",
+    "docs/mainline/28-pre-capture-correction.md",
+    "docs/mainline/28-negative-engineering-protocol-v2.json",
+    "docs/mainline/28-runtime-input-correction.md",
+    "docs/mainline/28-public-input-preflight-v1.json",
+    "docs/mainline/28-public-input-preflight-v2.json",
+    "docs/mainline/28-physical-continuation.md",
+    "evidence/mainline/engineering/28-negative-controls/reference-v3/preparation.json",
+    "evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json"
+  ],
+  "retained_failed_reviews": [
+    "evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+    "evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+    "evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+    "evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json"
+  ],
+  "correction": "Retain failed normal attempt and original public-preflight refusal. Correct 32 derived service amount bounds, the late nominal risk catalog identity and two existing static request bindings. No changes to plant, durations, exogenous conditions, costs, literal acceptance outcomes, or number of actual late network tasks.",
+  "retained_review_seal_sha256": {
+    "Spec/manifest.json": "c4f6e3395814af69ecfe8762190c01c5ea7efc96071c2c25e0089748b6b8d40a",
+    "Standards/delivery-manifest.json": "7e1e436d1ea78dcd3408f334ce30cc46ca395c3a96ed222e2521cbff66495e59"
+  },
+  "retained_execution_records": {
+    "failed_capture": {
+      "folder": "evidence/mainline/engineering/28-negative-controls/capture-20261107-02",
+      "delivery": "f1d41ea3e1a096d39ee7e312571c441a1a916065",
+      "files": 5
+    },
+    "failed_launch": {
+      "folder": "evidence/mainline/engineering/28-negative-controls/capture-02-launch",
+      "delivery": "f1d41ea3e1a096d39ee7e312571c441a1a916065",
+      "files": 7
+    },
+    "failed_public_preflight": {
+      "folder": "evidence/mainline/engineering/28-negative-controls/public-preflight-20261107-01",
+      "delivery": "d192a1b9238d965ba947a953e031a81886ad901b",
+      "files": 5
+    },
+    "passed_public_preflight": {
+      "folder": "evidence/mainline/engineering/28-negative-controls/public-preflight-20261107-02",
+      "delivery": "918e403c6c3d9e68347b9d22151f64e559ee06dd",
+      "files": 19
+    }
+  },
+  "retained_failed_source": "815294edb4befd6717a412c9fe48deac84157b4a",
+  "public_preflight_sources": [
+    "1b0a5701a578fcfc83ffa058989dc8723777a5ba",
+    "eb18a6b1ea4da02143ea550c2365e2ad7e3c6d4b"
+  ],
+  "cumulative_attempt_budget": {
+    "previous_attempts": 1,
+    "previous_charged_seconds": 7.25,
+    "previous_completed": 0,
+    "new_attempt_limit": 4,
+    "new_charged_seconds_limit": 21.5,
+    "cumulative_attempt_limit": 5,
+    "cumulative_charged_seconds_limit": 28.75
+  }
+}

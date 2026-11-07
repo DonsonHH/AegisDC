@@ -11,8 +11,9 @@ import zipfile
 
 from inspection_delivery import ROOT, digest, durable, git, hashes, read, require, unchanged, write
 from negative_control_checks import check_case, paired
+from negative_control_history import check_history, lineage
 
-PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v2.json'
+PROTOCOL = 'docs/mainline/28-negative-engineering-protocol-v3.json'
 
 
 def append(path, value):
@@ -27,10 +28,12 @@ def pins(protocol, source):
     reference = read(ROOT / protocol['input'])
     properties = {case['model']['runtime']['property_table'] for case in reference['cases'].values()}
     preparation = read(ROOT / protocol['preparation'])
+    idle = read(ROOT / protocol['protection_workforce_preparation'])
     roles = dict(runtime=[p for p in tracked if p.endswith('.py') and '__pycache__' not in p],
         tools=protocol['tools'], inputs=[PROTOCOL, protocol['contract'], protocol['input'],
             protocol['literals'], protocol['preparation'], protocol['protection_workforce_input'],
-            protocol['protection_workforce_preparation'], *protocol['retained_context'], *properties, *preparation['source_inputs']],
+            protocol['protection_workforce_preparation'], *protocol['retained_context'], *properties,
+            *preparation['source_inputs'], *idle['source_inputs']],
         retained_draft=protocol['retained_unexecuted_draft'], retained_review=protocol['retained_failed_reviews'])
     result = {role: hashes(source, paths) for role, paths in roles.items()}
     require(all(digest((ROOT / name).read_bytes()) == sha for group in result.values() for name,sha in group.items()),
@@ -40,7 +43,8 @@ def pins(protocol, source):
     for name, sha in preparation['outputs'].items():
         require(digest((ROOT / protocol['input']).parent.joinpath(name).read_bytes()) == sha,
                 'Prepared output differs from its author receipt')
-    idle = read(ROOT / protocol['protection_workforce_preparation'])
+    require(preparation['authoring_tool_sha256'] == result['tools']['scripts/prepare_negative_control_inputs_v4.py'],
+            'Physical-case authoring tool differs')
     for name, sha in idle['source_inputs'].items():
         require(result['inputs'][name] == sha, 'Idle-crew preparation source differs')
     require(idle['artifacts'] == {'idle-crew.json': result['inputs'][protocol['protection_workforce_input']]}
@@ -57,6 +61,8 @@ def pins(protocol, source):
             require(digest(archive.read(name)) == sha, 'Original failed review seal changed')
     require(old_review['source'] == protocol['supersedes_unexecuted_source']
             and old_review['members'] == 222, 'Original failed pre-capture reviews changed')
+    result.update(lineage(protocol, source))
+    check_history(protocol, result['runtime'])
     return result
 
 
@@ -124,8 +130,7 @@ def execute(case, folder, counters, protocol):
         task = declaration['task']
         plan = dict(schema='aegisdc-public-preparation-plan-v1', id='ticket28-late-public-clock',
             basis='synthetic_assumption', time_unit='s', decision_times_s=declaration['decision_times_s'],
-            requests=[dict(id='network-check-request-28', target_id=task['target_id'],
-                           work_interface_id=task['work_interface_id'], worker_id=task['tool_carrier_id'])])
+            requests=deepcopy(declaration['requests']))
         gateway = DecisionGateway(declaration['nominal_knowledge'], declaration['evidence_ledger'], plan)
         for _ in range(2):
             counters['late_preparation_frames'] += 1
@@ -193,12 +198,13 @@ def capture(protocol, review_files):
     require(protocol['status'] == 'FROZEN_ENGINEERING_REQUIRES_INDEPENDENT_FIXED_SOURCE_REVIEW',
             'No frozen engineering protocol')
     identities = pins(protocol, source)
+    history = check_history(protocol, identities['runtime'])
     reviewed, review_bytes = reviews(source, review_files)
     folder = ROOT / protocol['output']
     require(not folder.exists(), 'Attempt directory exists; never retry or overwrite')
     folder.mkdir(parents=True)
     write(folder / 'capture.json', dict(status='STARTED', source=source, pins=identities,
-        reviews=reviewed, declared_artifacts=sorted(declared(protocol)), terminal='receipt.json',
+        reviews=reviewed, retained_history=history, declared_artifacts=sorted(declared(protocol)), terminal='receipt.json',
         utc=datetime.now(timezone.utc).isoformat(), executable=sys.executable, python=sys.version,
         executable_sha256=digest(Path(sys.executable).read_bytes()), registered_research_trials=0))
     with zipfile.ZipFile(folder / 'reviews.zip', 'x', compression=zipfile.ZIP_DEFLATED) as archive:
@@ -210,7 +216,7 @@ def capture(protocol, review_files):
         late_preparation_frames=0, late_preparation_assessments=0, late_closure_assessments=0, protection_initial_frames=0,
         attempted_simulated_seconds=0)
     receipt = dict(status='FAIL', source=source, pins=identities, counters=counters,
-        error=None, source_guard=False, registered_research_trials=0)
+        retained_history=history, error=None, source_guard=False, registered_research_trials=0)
     try:
         checks = {}
         sys.path.insert(0, str(ROOT / 'src'))
@@ -225,6 +231,7 @@ def capture(protocol, review_files):
             try:
                 execute(case, path, counters, protocol)
                 checks[name] = check_case(path, name, case, oracle, protocol, source, identities)
+                write(path / 'validation.json', checks[name])
                 counters['validated_cases'] += 1
                 append(folder / 'attempts.jsonl', dict(case=name, status='COMPLETED', source=source,
                     utc=datetime.now(timezone.utc).isoformat()))
@@ -269,6 +276,8 @@ def verify(protocol, delivery):
     require(all(digest((ROOT / name).read_bytes()) == sha for name,sha in hashes(delivery, paths).items()),
             'Committed delivery differs from original durable bytes')
     require(pins(protocol, source) == receipt['pins'], 'Author tool/input/runtime identity differs')
+    history = check_history(protocol, receipt['pins']['runtime'])
+    require(history == capture['retained_history'] == receipt['retained_history'], 'Retained attempt accounting differs')
     for group in receipt['pins'].values():
         require(group == hashes(delivery, group), 'Delivery source/tool/input set differs from execution revision')
     for row in capture['reviews'].values():
@@ -282,13 +291,15 @@ def verify(protocol, delivery):
     cases = read(ROOT / protocol['input'])['cases']
     oracle = read(ROOT / protocol['literals'])
     checks = {name: check_case(folder / name, name, cases[name], oracle, protocol, source, receipt['pins']) for name in protocol['cases']}
+    require(all(read(folder / name / 'validation.json') == checks[name] for name in protocol['cases']),
+            'A saved per-case check differs from original data')
     checks['paired_normal_false_report'] = paired(folder)
     require(read(folder / 'checks.json') == checks, 'Saved checks do not recompute from originals')
     return dict(status='PASS', execution_source=source, delivery=delivery, artifacts=len(names),
         completed_integrations=4, simulated_seconds=21.5, public_online_decisions=14,
         late_preparation_frames=4, late_closure_assessments=2, protection_initial_frames=1,
         pins={role: len(group) for role,group in receipt['pins'].items()},
-        new_physics=0, new_selector_calls=0, new_closure_calls=0, registered_research_trials=0)
+        retained_history=history, new_physics=0, new_selector_calls=0, new_closure_calls=0, registered_research_trials=0)
 
 
 if __name__ == '__main__':

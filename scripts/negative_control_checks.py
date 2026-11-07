@@ -189,6 +189,8 @@ def too_late(folder, case, run, trace):
             and run['inputs']['intervention_program'] == case['intervention_program']
             and [(e['time_s'],e['parameter_id'],e['value']) for e in run['inputs']['boundary_events']]
                 == [(3,'it_access_permit',0)], 'Late executed public/task inputs differ from declarations')
+    require(all(frame['requests'] == case['public_preparation']['requests'] for frame in frames),
+            'Static catalog preparation requests were not supplied at every declared frame')
     require([frame['as_of_s'] for frame in frames] == [0, 1, 3.25, 4]
             and all('delayed-network-work-order-28' not in {r['id'] for r in f['evidence']['records']}
                     for f in frames if f['as_of_s'] < 1), 'Late report entered an earlier frame')
