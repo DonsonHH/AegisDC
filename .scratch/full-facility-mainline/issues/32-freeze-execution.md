@@ -4,13 +4,13 @@
 
 **Blocked by:** 31
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 **Milestone:** M5
 
-- [ ] 缓存只能复用完整且SHA吻合的成功生命周期，失败不伪装成功。
-- [ ] 输出不可覆盖，模型/规则/参数哈希与实际执行一致。
-- [ ] 预算与已完成/失败/未运行数量可对账。
+- [x] 缓存只能复用完整且SHA吻合的成功生命周期，失败不伪装成功。
+- [x] 输出不可覆盖，模型/规则/参数哈希与实际执行一致。
+- [x] 预算与已完成/失败/未运行数量可对账。
 
 ## Context
 
@@ -18,4 +18,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Accepted: docs/mainline/evidence/32-root.json; exact96 inputs and269 execution pins; no physical calls. One input-only failure, both review findings and all corrections retained.
+
+Owner /root, unique worktree mainline32-confirmation-freeze, accepted31 at ef790a2e; no conflicting owner. Input-only stage, no confirmation execution.
