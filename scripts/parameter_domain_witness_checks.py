@@ -62,31 +62,55 @@ def _read_rows(path):
     return [json.loads(line) for line in path.read_bytes().splitlines()]
 
 
-def _snapshot(trace, time, tolerance):
-    candidates = [row for row in trace if abs(row['time_s']-time) <= tolerance]
-    require(len(candidates) == 1, f'Missing or ambiguous selected physical event point: {time}')
+def _snapshot(trace, time):
+    candidates = [row for row in trace if row['time_s'] == time]
+    require(len(candidates) == 1, f'Missing or duplicate exact physical event point: {time}')
     return candidates[0]['domains']
+
+
+def _boundary_time(run, parameter_id, requested, tolerance):
+    events = [event for event in run['events']
+              if event['kind'] == 'exogenous_boundary_input'
+              and event['parameter_id'] == parameter_id and event['time_s'] == requested]
+    require(len(events) == 1, f'Missing or duplicate applied boundary: {parameter_id} at {requested}')
+    actual = events[0]['applied_at_s']
+    near(actual, requested, tolerance, 'Boundary applied away from its declared epoch')
+    return actual
+
+
+def _local_sample(trace, expected, tolerance):
+    # A neighboring integration point may have almost the same clock. Only
+    # a row with a new local measurement at that exact processing time qualifies.
+    times = [row['time_s'] for row in trace
+             if abs(row['time_s'] - expected) <= tolerance
+             and row['domains']['control_monitoring']['local_measurement']['sampled_at_s'] == row['time_s']]
+    require(len(times) == 1, f'Missing or duplicate controller sample at {expected}')
+    return times[0], _snapshot(trace,times[0])
 
 
 def _check_boundaries(case, trace, run, limits):
     t_tol = limits['time_tolerance_s']
-    duration = case['seconds']
     observed = {}
     if 'flow_squared_over_realized_speed_squared' in case:
         actual = []
-        for t, coefficient in case['flow_squared_over_realized_speed_squared']:
-            pump = _snapshot(trace, t, t_tol)['facility_cooling']['lake_pump']
+        parameter_ids = (None,'filter_resistance_multiplier','lake_valve_opening')
+        for parameter_id, (t, coefficient) in zip(parameter_ids,case['flow_squared_over_realized_speed_squared'],strict=True):
+            applied = _boundary_time(run,parameter_id,t,t_tol) if parameter_id is not None else 0
+            pump = _snapshot(trace,applied)['facility_cooling']['lake_pump']
             require(pump['speed'] > 0, 'Hydraulic witness requires positive realized speed')
             normalized = (pump['volume_flow_m3_s']/pump['speed'])**2
             near(normalized, coefficient, 1e-12, 'Independent filter and valve law differs')
-            actual.append(dict(time_s=t, flow_m3_s=pump['volume_flow_m3_s'], speed=pump['speed']))
+            actual.append(dict(time_s=applied, flow_m3_s=pump['volume_flow_m3_s'], speed=pump['speed']))
         observed['lake_intake_stages'] = actual
     if 'common_loss_s' in case:
-        start, end = case['common_loss_s']
+        start, end = (_boundary_time(run,'shared_distribution_available',t,t_tol) for t in case['common_loss_s'])
+        _snapshot(trace,start)
+        _snapshot(trace,end)
         lost = [row['domains'] for row in trace if start <= row['time_s'] < end]
         require(lost and all(row['power']['grid_draw_W'] == row['power']['ups_protected_output_W'] ==
                 row['it_service']['delivered'] == 0 for row in lost), 'A cut common path delivered protected service')
         observed['common_cut_samples'] = len(lost)
+        observed['common_cut_applied_s'] = [start,end]
     if 'floor' in case:
         floor = case['floor']
         switches = [row for row in run['events'] if row['kind'] == 'floor_access_closed']
@@ -102,11 +126,12 @@ def _check_boundaries(case, trace, run, limits):
         observed['final_floor_mass_kg'] = final['space_access']['floor_water_mass_kg']
     if 'local_trip_s' in case:
         start, reset = case['local_trip_s']
-        pre = _snapshot(trace, 0, t_tol)
-        autonomous = _snapshot(trace, start, t_tol)
-        waiting = _snapshot(trace, 2.25, t_tol)
-        recovered = _snapshot(trace, reset, t_tol)
-        reconnect = _snapshot(trace, duration, t_tol)
+        pre = trace[0]['domains']
+        trip_at, autonomous = _local_sample(trace,start,t_tol)
+        valid_at = _boundary_time(run,'local_internal_flow_sensor_valid',2.25,t_tol)
+        waiting = _snapshot(trace,valid_at)
+        reset_at, recovered = _local_sample(trace,reset,t_tol)
+        reconnect = trace[-1]['domains']
         require(pre['control_monitoring']['compute_permitted']
                 and autonomous['control_monitoring']['supervisory_mode'] == 'autonomous'
                 and autonomous['control_monitoring']['mode'] == 'sensor_invalid_fail_safe'
@@ -115,7 +140,7 @@ def _check_boundaries(case, trace, run, limits):
                 and recovered['control_monitoring']['supervisory_mode'] == 'autonomous'
                 and reconnect['control_monitoring']['supervisory_mode'] == 'connected',
                 'Local sample, supervisory autonomy or reset gate differs')
-        observed['local_compute_trip_s'] = [start, reset]
+        observed['local_compute_trip_s'] = [trip_at,reset_at]
     if case['id'] == 'coupled-adverse':
         require('loc_it' in trace[0]['domains']['space_access']['blocked_location_ids'],
                 'Adverse wet access begins closed')
