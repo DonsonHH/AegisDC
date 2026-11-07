@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "35",
+  "current_ticket": "36",
   "current_milestone": "M6",
   "milestones": [
     {
@@ -95,9 +95,10 @@
       "id": "M6",
       "status": "in_progress",
       "acceptance_evidence": [
-        "docs/mainline/evidence/34-root.json"
+        "docs/mainline/evidence/34-root.json",
+        "docs/mainline/evidence/35-root.json"
       ],
-      "progress_scope": "34 primary result accepted;35 ablation next;36,37 pending."
+      "progress_scope": "34 primary analysis and35 independent masks accepted.36robustness and37baseline closeout pending; user review checkpoint35."
     },
     {
       "id": "M7",
@@ -106,11 +107,11 @@
     }
   ],
   "research_trials": {
-    "status": "confirmation_analyzed_no_practical_gain",
+    "status": "ablation_completed_pending_robustness",
     "protocol": "docs/mainline/30-comparison-protocol-v1.json",
-    "attempts": 132,
+    "attempts": 164,
     "failure_records": 0,
-    "completed": 132,
+    "completed": 164,
     "development": {
       "attempts": 36,
       "completed": 36,
@@ -130,14 +131,27 @@
       "charged_s": 960,
       "scheduled_decisions": 960
     },
-    "charged_s": 1320,
+    "charged_s": 1640,
     "primary_confirmation_status": "NO_PRACTICAL_GAIN",
     "primary_mean_service_delta_s": 0.03515625,
     "ablation": {
-      "attempts": 0,
+      "attempts": 32,
       "materialized": true,
       "worlds": 8,
-      "inputs": 32
+      "inputs": 32,
+      "completed": 32,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_s": 320,
+      "scheduled_decisions": 320
+    },
+    "planned_attempts": 180,
+    "remaining_registered_attempts": 16,
+    "robustness": {
+      "attempts": 0,
+      "materialized": false,
+      "planned_attempts": 16
     }
   },
   "agent_stage": "deferred_until_eligibility_gate",
@@ -152,19 +166,23 @@
       "stage_effect": "reference ready; no facility milestone completed"
     }
   ],
-  "active_implementations": [
-    {
-      "ticket": "35",
-      "owner": "/root",
-      "worktree": "C:/Users/Donson/.codex/worktrees/mainline35-ablation/Renly",
-      "state": "authorized_unique32slot_capture"
-    }
-  ],
+  "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-08:35 exact32 inputs/274 files and fresh delivery passed both independent review axes; authorized one original32slot capture,0attempts before launch.",
+  "liveness_refresh": "2026-11-08:35accepted after all original data, both review axes, actual plots, focused integration and fresh delivery. No36owner or run; checkpoint delivery finishing.",
   "user_review_checkpoint": {
     "ticket": "35",
-    "status": "pending",
-    "purpose": "Review results, costs, failures and alignment before continuing beyond this checkpoint."
-  }
+    "status": "ready_for_user_review",
+    "purpose": "Review results, costs, failures and alignment before continuing beyond this checkpoint.",
+    "accepted_through": "35",
+    "remaining_tickets": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42"
+    ]
+  },
+  "research_execution_status": "awaiting_user_review_at_checkpoint35"
 }
