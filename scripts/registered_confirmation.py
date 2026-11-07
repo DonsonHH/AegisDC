@@ -148,7 +148,7 @@ def capture(source,folder,stage):
         unknown=dict(status='RECORDER_INCOMPLETE',phase=PHASE,execution_commit=source,
             error_type=type(exc).__name__,error=str(exc),authoritative_totals=None,
             in_memory_physical_invocations=invoked,in_memory_returned_runs=returned,
-            automatic_retries=0,held_inputs_read=0,held_seed_reads=0,
+            automatic_retries=0,held_inputs_read=len(originals),held_seed_reads=1,
             observed_files={name:digest((folder/name).read_bytes()) for name in sorted(durable(folder))})
         write(folder/'recorder-incomplete.json',unknown)
         print(json.dumps({k:v for k,v in unknown.items() if k!='observed_files'},ensure_ascii=False))
@@ -162,7 +162,7 @@ def capture(source,folder,stage):
     artifacts={name:digest((folder/name).read_bytes()) for name in sorted(durable(folder))}
     receipt=dict(status=status,phase=PHASE,execution_commit=source,source_unchanged=source_unchanged,
         total=total,stop=stop,artifacts=artifacts,registered_research_trials=total['started'],
-        held_inputs_read=0,held_seed_reads=0,llm_calls=0,training_calls=0,automatic_retries=0,
+        held_inputs_read=len(originals),held_seed_reads=1,llm_calls=0,training_calls=0,automatic_retries=0,
         field_calibration='PENDING')
     write(folder/'receipt.json',receipt)
     print(json.dumps({k:receipt[k] for k in ('status','phase','execution_commit','total','stop')},ensure_ascii=False))
