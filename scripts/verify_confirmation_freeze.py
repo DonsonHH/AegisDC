@@ -34,7 +34,8 @@ def verify():
             and execution['phase']=='confirmation'
             and execution['design_lock_sha256']==digest((ROOT/LOCK).read_bytes())
             and set(execution['execution_pins'])==_execution_files(source)==_execution_files(current)
-            and execution['execution_pins']==hashes(source,execution['execution_pins'])==hashes(current,execution['execution_pins']),
+            and execution['execution_pins']==hashes(source,execution['execution_pins'])==hashes(current,execution['execution_pins'])
+            and all(digest((ROOT/name).read_bytes())==sha for name,sha in execution['execution_pins'].items()),
             'Frozen executable membership or bytes differ')
     slots=plan['phases']['confirmation']['worlds']
     arms=plan['phases']['confirmation']['arms']

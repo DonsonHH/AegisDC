@@ -25,6 +25,8 @@ def analyze(folder):
             'Confirmation saved artifacts differ')
     total=reconcile(folder,batch['slots'],source)
     require(total==receipt['total'],'Confirmation ledger does not reconcile')
+    require(total['failed']==total['interrupted']==0,
+            'Failed or interrupted confirmation requires an explicit failure audit before classification')
     require(batch['pins']==hashes(source,batch['pins'])
             and all(digest((ROOT/name).read_bytes())==sha for name,sha in batch['pins'].items()),'Frozen confirmation sources differ')
     native_runtime={n:h for n,h in batch['pins'].items() if n.startswith('src/aegis_dc/') and n.endswith('.py')
