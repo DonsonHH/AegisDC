@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REFERENCE = ROOT / 'evidence/mainline/engineering/26-candidate/reference/online-candidate-inspect.json'
 FIXED_TEMPLATE = ROOT / 'configs/full-facility-sensor-channels-v1.json'
-OUTPUT = ROOT / 'evidence/mainline/engineering/27-full-loop/reference/online-loop-v1.json'
+OUTPUT = ROOT / 'evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json'
 NOMINAL = 'V6-27-lake-side-crew-engineering'
 
 
@@ -53,6 +53,9 @@ def cooling_model(program):
     handheld = next(row for row in model['channels'] if row['id'] == 'lookahead-flow-channel')
     model['channels'] = [work_order_channel, handheld]
     model['independent_pairs'] = [['lake-work-order', handheld['id']]]
+    model['independence_basis'] = ('Synthetic finite-model assumption: the delayed work-order report and later handheld flow '
+        'report are conditionally independent given the declared hypothesis. The fixed power record is not a factor in '
+        'this model. This assumption is not established for the site or for copied or shared-origin records.')
     for variant in model['variants']:
         variant['prior'] = [.74, .01, .125, .125]
         variant['positive_likelihood'] = {'lake-work-order': [.03, .75, .03, .03],
