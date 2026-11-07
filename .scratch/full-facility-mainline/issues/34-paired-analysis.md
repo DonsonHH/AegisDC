@@ -4,7 +4,7 @@
 
 **Blocked by:** 33
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M6
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner /root at integration after accepted33 (483f4bb8); saved-only analysis, no new physical or selector calls.
