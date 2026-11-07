@@ -14,7 +14,7 @@ from development_journal import append as journal_append,write_record as journal
 from registered_development import _guard,_save_native
 
 PHASE='confirmation'
-FREEZE='evidence/mainline/research/32-confirmation-freeze/prepared-01'
+FREEZE='evidence/mainline/research/32-confirmation-freeze/prepared-02'
 PACKAGE='evidence/mainline/research/33-confirmation'
 RUNBOOK='docs/mainline/33-confirmation-execution.json'
 

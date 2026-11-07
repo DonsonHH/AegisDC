@@ -1,0 +1,23 @@
+{
+  "schema": "aegisdc-seed-interface-amendment-v1",
+  "classification": "INTERFACE_COMPATIBILITY_BEFORE_ANY_CONFIRMATION_OUTCOME",
+  "original_rule": "Derive the first128 HMAC-SHA256 bits for both channels.",
+  "fixed_channel_rule": "Use the most significant64 bits of the already-derived128-bit fixed channel value: fixed_seed = derived128 >> 64.",
+  "portable_channel_rule": "Keep the preregistered128-bit portable seed unchanged.",
+  "justification": "Accepted live fixed-sensor interface requires unsigned64-bit seeds. No fixed sensor stochastic error is configured in this study: declared noise, bias, quantization and dropout are zero. There is no resampling or draw-based selection.",
+  "unchanged": [
+    "phase nonce commitments",
+    "HMAC namespace and world assignment",
+    "portable seed law",
+    "all physical conditions",
+    "all observation timing and deterministic fixed-error laws",
+    "methods",
+    "budgets",
+    "outcome and cost rules"
+  ],
+  "retained_failure": "evidence/mainline/research/32-confirmation-freeze/prepared-01/receipt.json",
+  "original_preparation_source": "fbc4b0da247e7bbcbad9a59649a35b9f294eaee9",
+  "failed_before_input_write": true,
+  "confirmation_physical_runs": 0,
+  "confirmation_selector_calls": 0
+}

@@ -13,7 +13,7 @@ from development_run_evidence import check_run
 from analyze_registered_development import _same_history_divergence
 from summarize_comparison_facts import summarize
 
-PREP='evidence/mainline/research/32-confirmation-freeze/prepared-01'
+PREP='evidence/mainline/research/32-confirmation-freeze/prepared-02'
 
 
 def analyze(folder):

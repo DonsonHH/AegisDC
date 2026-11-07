@@ -16,6 +16,8 @@ from development_journal import append, write_record
 
 AMENDMENT='docs/mainline/32-hydraulic-admission-amendment.json'
 CORRECTED='configs/full-facility-comparison-held-blueprints-admission-v1.json'
+SEED_AMENDMENT='docs/mainline/32-seed-interface-amendment.json'
+PREPARED='prepared-02'
 PACKAGE='evidence/mainline/research/32-confirmation-freeze'
 
 
@@ -60,10 +62,14 @@ def admission_blueprints():
 
 def prepare(source,nonce_path,folder):
     require(head()==source and not git('status','--porcelain'),'Use a clean immutable preparation source')
-    require(folder.resolve()==ROOT/PACKAGE/'prepared-01' and not folder.exists(),'Use the single new preparation directory')
+    require(folder.resolve()==ROOT/PACKAGE/PREPARED and not folder.exists(),'Use the single new preparation directory')
     require(sys.dont_write_bytecode and sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),
             'Use -B and a fresh unused cache prefix')
     blueprints,screened=admission_blueprints()
+    seed_amendment=read(ROOT/SEED_AMENDMENT)
+    require(seed_amendment['schema']=='aegisdc-seed-interface-amendment-v1'
+            and seed_amendment['classification']=='INTERFACE_COMPATIBILITY_BEFORE_ANY_CONFIRMATION_OUTCOME',
+            'Missing explicit fixed-seed compatibility amendment')
     gate=audit_release('confirmation','prepare',ROOT/LOCK,nonce_path,None,folder)
     lock=read(ROOT/LOCK)
     nonce=_read_nonce(nonce_path,lock['commitments_sha256']['confirmation'])
@@ -76,9 +82,9 @@ def prepare(source,nonce_path,folder):
         selected[family]=sorted(variants,key=lambda row:assignment_key(nonce,plan['id'],namespace,family,row['variant']))
     folder.mkdir(parents=True)
     (folder/'inputs').mkdir()
-    pins=hashes(source,_execution_files(source)|{PROTOCOL,LOCK,AMENDMENT,
+    pins=hashes(source,_execution_files(source)|{PROTOCOL,LOCK,AMENDMENT,SEED_AMENDMENT,
         'docs/mainline/evidence/30-root.json','docs/mainline/evidence/31-root.json'})
-    receipt=dict(status='FAIL',schema='aegisdc-confirmation-preparation-v1',source=source,pins=pins,gate=gate,
+    receipt=dict(status='FAIL',schema='aegisdc-confirmation-preparation-v1',source=source,pins=pins,gate=gate,seed_interface_amendment=SEED_AMENDMENT,
         assigned_worlds=[],prepared_inputs=0,input_hashes={},physical_calls=0,selector_calls=0,
         nonce_commitment=lock['commitments_sha256']['confirmation'],registered_research_trials=0)
     consumed={family:0 for family in selected}
@@ -95,7 +101,7 @@ def prepare(source,nonce_path,folder):
             program=document['dispatch_program']
             program['inspection_program']['realizations']['lookahead-inspect']['seed']=observation_seed(
                 nonce,plan['id'],namespace,world['id'],'portable')
-            program['sensor_program']['realization']['seed']=observation_seed(nonce,plan['id'],namespace,world['id'],'fixed')
+            program['sensor_program']['realization']['seed']=observation_seed(nonce,plan['id'],namespace,world['id'],'fixed') >> 64
             for arm in phase['arms']:
                 item=deepcopy(document)
                 _apply_method(item['dispatch_program'],arm)
