@@ -128,3 +128,39 @@ class RegisteredComparisonTests(unittest.TestCase):
             result = audit(edited)
             self.assertNotEqual(result.returncode,0)
             self.assertIn('Reused blueprint',result.stderr)
+
+
+    def test_outcome_arithmetic_keeps_the_original_denominator_and_counts_wait_once(self):
+        protocol = json.loads((ROOT/'docs/mainline/30-comparison-protocol-v1.json').read_bytes())
+        rows = []
+        for world in protocol['phases']['confirmation']['worlds']:
+            baseline = {'service_deficit_time_s':2,'worker_travel_person_s':1,'worker_work_person_s':1,
+                        'worker_wait_person_s':.25,'access_check_person_s':.25,'tool_occupation_tool_s':1.25}
+            candidate = dict(baseline,service_deficit_time_s=1,worker_work_person_s=1.5,
+                             access_check_person_s=.75,tool_occupation_tool_s=1.75)
+            rows.append({'world_id':world['id'],'baseline':baseline,'candidate':candidate,
+                         'identified_first_difference':True,'hard_violations':[]})
+        analyzer = ROOT/'scripts/summarize_comparison_facts.py'
+        with TemporaryDirectory() as folder:
+            facts = Path(folder)/'facts.json'
+
+            def run():
+                facts.write_text(json.dumps({'schema':'aegisdc-comparison-analysis-facts-v1','pairs':rows}),
+                                 encoding='utf-8')
+                result = subprocess.run([sys.executable,'-B','-X','utf8',str(analyzer),
+                    str(ROOT/'docs/mainline/30-comparison-protocol-v1.json'),str(facts)],
+                    cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+                self.assertEqual(result.returncode,0,result.stderr)
+                return json.loads(result.stdout)
+
+            result = run()
+            self.assertEqual(result['status'],'PRACTICAL_GAIN')
+            self.assertEqual(result['mean_extra_paid_person_s'],.5)
+            self.assertEqual(result['mean_service_delta_s'],1)
+            rows[-1]['candidate'] = None
+            result = run()
+            self.assertEqual(result['status'],'INCOMPLETE')
+            self.assertEqual(result['planned_denominator'],16)
+            self.assertEqual(result['mean_service_delta_bounds_s'],[.4375,1.0625])
+            self.assertEqual(result['completed_primary_pairs'],15)
+            self.assertEqual(result['source_verification'],'REQUIRED_SEPARATELY')
