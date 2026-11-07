@@ -1,0 +1,152 @@
+{
+  "schema": "aegisdc-parameter-domain-engineering-protocol-v1",
+  "classification": "FINITE_SYNTHETIC_ENGINEERING_ONLY",
+  "declaration": "configs/full-facility-parameter-domain-v1.json",
+  "prepared_directory": "prepared-01",
+  "capture_directory": "capture-01",
+  "budget": {
+    "initialization_calls": 8,
+    "plant_calls": 8,
+    "simulated_duration_s": 33,
+    "registered_research_trials": 0,
+    "dispatch_calls": 0,
+    "model_calls": 0,
+    "training_calls": 0
+  },
+  "execution": "Prepare the named cases once and commit those exact input bytes before the first plant call. Run cases once in order, stop on first failure, retain attempted and returned artifacts; no retries under this protocol.",
+  "limits": {
+    "maximum_step_s": 0.01,
+    "time_tolerance_s": 2e-10,
+    "service_tolerance_unit_s": 1e-9,
+    "whole_energy_residual_J": 0.0002,
+    "step_energy_residual_J": 0.00001,
+    "mass_residual_kg": 1e-9,
+    "capacity_slack_tolerance_W": 0.000001
+  },
+  "cases": [
+    {
+      "id": "nominal",
+      "seconds": 4,
+      "offered": 4,
+      "delivered": [
+        4,
+        4
+      ],
+      "reason": "A steady V6 anchor with demanded service 1 and capacity 1."
+    },
+    {
+      "id": "cooler-light-demand",
+      "seconds": 4,
+      "offered": 2,
+      "delivered": [
+        2,
+        2
+      ],
+      "reason": "A full capacity path and demand 1/2 over four seconds."
+    },
+    {
+      "id": "warm-restricted-intake",
+      "seconds": 4.5,
+      "offered": 5.625,
+      "delivered": [
+        4.5,
+        4.5
+      ],
+      "flow_squared_over_realized_speed_squared": [
+        [
+          0,
+          0.01
+        ],
+        [
+          1.5,
+          0.0029411764705882353
+        ],
+        [
+          2.5,
+          0.0028125
+        ]
+      ],
+      "reason": "Nameplate caps service at 1. At positive pump speed n, q²/n² = 150000/(12000000·filter+3000000/opening²)."
+    },
+    {
+      "id": "shared-path-loss",
+      "seconds": 4,
+      "offered": 4,
+      "delivered": [
+        1,
+        2.5
+      ],
+      "common_loss_s": [
+        1,
+        2.5
+      ],
+      "reason": "Both grid and protected UPS depend on the common distribution path. Independent local control backup is allowed. Service is zero during the cut; recovery timing is retained."
+    },
+    {
+      "id": "capacity-limited",
+      "seconds": 3,
+      "offered": 3,
+      "delivered": [
+        0,
+        0.525
+      ],
+      "reason": "350 kW/2 MW bounds compute service at .175 before other demand and losses; the protected UPS path does not supply compute."
+    },
+    {
+      "id": "wet-access-slow-work",
+      "seconds": 4.5,
+      "offered": 4.5,
+      "delivered": [
+        4.5,
+        4.5
+      ],
+      "floor": {
+        "open_until_s": 2.5,
+        "terminal_mass_kg": 10.2,
+        "leaked_kg": 0.9
+      },
+      "reason": "From 9.75 kg with 0.2 kg/s leakage and 0.1 kg/s drainage, the threshold is crossed at 2.5 s; hot inventory falls by 0.9 kg. No crew work is requested."
+    },
+    {
+      "id": "local-sensor-loss",
+      "seconds": 4,
+      "offered": 4,
+      "delivered": [
+        2,
+        2
+      ],
+      "local_trip_s": [
+        1,
+        3
+      ],
+      "reason": "The next local sample at t=1 s is invalid; supervision cannot disable the latch. Valid input returns at 2.25 s; the next qualified local sample at 3 s restores compute."
+    },
+    {
+      "id": "coupled-adverse",
+      "seconds": 5,
+      "offered": 6.25,
+      "delivered": [
+        0,
+        2.325
+      ],
+      "reason": "Network caps first 1.5 s at .5; after grid drops to .9 MW compute caps the remaining 3.5 s at .45. Wet access starts blocked; disabled public channels create no records."
+    }
+  ],
+  "outputs": {
+    "prepare": [
+      "attempts.jsonl",
+      "cases/{id}.json",
+      "receipt.json"
+    ],
+    "capture": [
+      "attempts.jsonl",
+      "{id}/scenario.json",
+      "{id}/run.json",
+      "{id}/private-state.jsonl",
+      "{id}/balances.jsonl",
+      "checks.json",
+      "receipt.json"
+    ]
+  },
+  "scope": "One complete synthetic V6; no statistical distribution, parameter interpolation, field calibration, policy/effect comparison, sensor delivery, or workforce performance inference."
+}

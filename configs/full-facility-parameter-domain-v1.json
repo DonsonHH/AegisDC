@@ -1,0 +1,231 @@
+{
+  "schema": "aegisdc-finite-parameter-domain-v1",
+  "id": "V6-29-joint-engineering-v1",
+  "baseline": "configs/full-facility-mainline-reserve-v6.json",
+  "fixed_sensor_reference": "configs/full-facility-sensor-channels-v1.json",
+  "public_nominal_reference": "configs/full-facility-decision-v1/public-nominal.json",
+  "references_sha256": {
+    "configs/full-facility-mainline-reserve-v6.json": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+    "configs/full-facility-sensor-channels-v1.json": "91c63bc818008b33cc654aad96c6268a38ae7c6d41586a558a9831300852f9ee",
+    "configs/full-facility-decision-v1/public-nominal.json": "abaec2544a7b16339cd9bcb4cf5c12deaf99695f43c3bc0e9b4df9c18c9d5c34"
+  },
+  "maximum_step_s": 0.01,
+  "field_calibration": "PENDING",
+  "scope": "Named coupled initialization candidates for the same synthetic V6. No probability distribution, interpolation or arbitrary Cartesian combinations.",
+  "cases": [
+    {
+      "id": "nominal",
+      "duration_s": 4,
+      "axes": [
+        "anchor",
+        "full_declared_instrument_set"
+      ],
+      "initial_overrides": {},
+      "phase": null,
+      "boundary_events": [],
+      "enabled_fixed_measurements": [
+        "coolant-probe",
+        "lake-flow",
+        "rectifier-meter",
+        "local-temperature-report"
+      ]
+    },
+    {
+      "id": "cooler-light-demand",
+      "duration_s": 4,
+      "axes": [
+        "cooler_charge",
+        "light_load",
+        "sparse_fixed_records"
+      ],
+      "initial_overrides": {
+        "service_demand": 0.5,
+        "lake_temperature": 291.15
+      },
+      "phase": {
+        "mass_kg": 1600,
+        "pressure_Pa": 726797.0868499
+      },
+      "boundary_events": [],
+      "enabled_fixed_measurements": [
+        "lake-flow"
+      ]
+    },
+    {
+      "id": "warm-restricted-intake",
+      "duration_s": 4.5,
+      "axes": [
+        "warmer_charge",
+        "high_load",
+        "cooling_restriction"
+      ],
+      "initial_overrides": {
+        "service_demand": 1.25,
+        "lake_temperature": 296.15
+      },
+      "phase": {
+        "mass_kg": 2200,
+        "pressure_Pa": 841409.554654894
+      },
+      "boundary_events": [
+        {
+          "time_s": 1.5,
+          "parameter_id": "filter_resistance_multiplier",
+          "value": 4,
+          "source_note": "Intake filter resistance rises. Declared synthetic engineering input."
+        },
+        {
+          "time_s": 2.5,
+          "parameter_id": "lake_valve_opening",
+          "value": 0.75,
+          "source_note": "Lake valve moves to a bounded intermediate opening. Declared synthetic engineering input."
+        }
+      ],
+      "enabled_fixed_measurements": [
+        "coolant-probe",
+        "lake-flow"
+      ]
+    },
+    {
+      "id": "shared-path-loss",
+      "duration_s": 4,
+      "axes": [
+        "shared_supply_cut",
+        "reserve_dependency"
+      ],
+      "initial_overrides": {},
+      "phase": null,
+      "boundary_events": [
+        {
+          "time_s": 1,
+          "parameter_id": "shared_distribution_available",
+          "value": 0,
+          "source_note": "Shared distribution path is unavailable. Declared synthetic engineering input."
+        },
+        {
+          "time_s": 2.5,
+          "parameter_id": "shared_distribution_available",
+          "value": 1,
+          "source_note": "Shared path becomes available again. Declared synthetic engineering input."
+        }
+      ],
+      "enabled_fixed_measurements": [
+        "coolant-probe",
+        "lake-flow",
+        "rectifier-meter",
+        "local-temperature-report"
+      ]
+    },
+    {
+      "id": "capacity-limited",
+      "duration_s": 3,
+      "axes": [
+        "electrical_capacity",
+        "service_shortfall"
+      ],
+      "initial_overrides": {
+        "grid_capacity": 350000
+      },
+      "phase": null,
+      "boundary_events": [],
+      "enabled_fixed_measurements": [
+        "lake-flow",
+        "rectifier-meter"
+      ]
+    },
+    {
+      "id": "wet-access-slow-work",
+      "duration_s": 4.5,
+      "axes": [
+        "water_inventory",
+        "access_constraint",
+        "crew_timing"
+      ],
+      "initial_overrides": {
+        "initial_floor_water_mass": 9.75,
+        "internal_hot_leak_mass_flow": 0.2,
+        "drainage_mass_flow": 0.1,
+        "walk_short": 75,
+        "walk_long": 150,
+        "inspection_time": 45,
+        "shift_end_time": 600
+      },
+      "phase": null,
+      "boundary_events": [],
+      "enabled_fixed_measurements": [
+        "lake-flow",
+        "local-temperature-report"
+      ]
+    },
+    {
+      "id": "local-sensor-loss",
+      "duration_s": 4,
+      "axes": [
+        "local_control_validity",
+        "supervisory_autonomy",
+        "sparse_fixed_records"
+      ],
+      "initial_overrides": {},
+      "phase": null,
+      "boundary_events": [
+        {
+          "time_s": 0.5,
+          "parameter_id": "supervisory_link_available",
+          "value": 0,
+          "source_note": "Supervisory link is lost. Declared synthetic engineering input."
+        },
+        {
+          "time_s": 1,
+          "parameter_id": "local_internal_flow_sensor_valid",
+          "value": 0,
+          "source_note": "Local flow record becomes invalid. Declared synthetic engineering input."
+        },
+        {
+          "time_s": 2.25,
+          "parameter_id": "local_internal_flow_sensor_valid",
+          "value": 1,
+          "source_note": "Local flow record becomes valid. Declared synthetic engineering input."
+        },
+        {
+          "time_s": 3.5,
+          "parameter_id": "supervisory_link_available",
+          "value": 1,
+          "source_note": "Supervisory link returns. Declared synthetic engineering input."
+        }
+      ],
+      "enabled_fixed_measurements": [
+        "local-temperature-report"
+      ]
+    },
+    {
+      "id": "coupled-adverse",
+      "duration_s": 5,
+      "axes": [
+        "combined_stress",
+        "network_bottleneck",
+        "unavailable_fixed_records"
+      ],
+      "initial_overrides": {
+        "network_service_capacity": 0.5,
+        "service_demand": 1.25,
+        "initial_floor_water_mass": 10.25,
+        "ups_in_service": 0,
+        "filter_resistance_multiplier": 2.5,
+        "lake_temperature": 296.15
+      },
+      "phase": {
+        "mass_kg": 2200,
+        "pressure_Pa": 841409.554654894
+      },
+      "boundary_events": [
+        {
+          "time_s": 1.5,
+          "parameter_id": "grid_capacity",
+          "value": 900000,
+          "source_note": "Available grid capacity decreases. Declared synthetic engineering input."
+        }
+      ],
+      "enabled_fixed_measurements": []
+    }
+  ]
+}
