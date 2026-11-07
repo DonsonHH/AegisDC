@@ -4,7 +4,7 @@
 
 **Blocked by:** 29
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M5
 
@@ -20,3 +20,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+
+Owner /root; isolated branch donson/mainline-30-protocol based on accepted 29 commit 3feccbb1. Worktree and live agent checks found no other owner. [Comparison design draft](../../../docs/mainline/30-comparison-design.md) fixes the initial interface mapping and evidence boundaries; no protocol or study run has started.

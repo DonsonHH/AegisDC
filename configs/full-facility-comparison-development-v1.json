@@ -1,0 +1,91 @@
+{
+  "schema": "aegisdc-development-world-recipes-v1",
+  "scope": "Named engineering-based input recipes for protocol preparation. No outcome or execution permission.",
+  "shared": {
+    "duration_s": 10,
+    "walk_short_s": 1,
+    "walk_long_s": 2,
+    "professional_work_s": 1,
+    "access_check_s": 0.25,
+    "feedback_latency_s": 0.5,
+    "portable_flow_noise_m3_s": 0.002,
+    "declared_flow_bound_m3_s": 0.002001,
+    "pump_min_speed": 1
+  },
+  "worlds": {
+    "development-01": {
+      "kernel": "network-fallback",
+      "network_cap": 0.25,
+      "filter_multiplier": 1,
+      "context_valid_until_s": 8,
+      "background": "late",
+      "crew": "solo",
+      "events": []
+    },
+    "development-02": {
+      "kernel": "masked-cooling",
+      "network_cap": 0.5,
+      "filter_multiplier": 4,
+      "context_valid_until_s": 8,
+      "background": "late",
+      "crew": "solo",
+      "events": []
+    },
+    "development-03": {
+      "kernel": "network-fallback",
+      "network_cap": 1,
+      "filter_multiplier": 1,
+      "context_valid_until_s": 8,
+      "background": "late",
+      "crew": "solo",
+      "events": []
+    },
+    "development-04": {
+      "kernel": "network-fallback",
+      "network_cap": 1,
+      "filter_multiplier": 1,
+      "context_valid_until_s": 8,
+      "background": "late",
+      "crew": "solo",
+      "events": [
+        {
+          "time_s": 1,
+          "parameter_id": "shared_distribution_available",
+          "value": 0,
+          "source_note": "Private synthetic common path interruption."
+        },
+        {
+          "time_s": 2.5,
+          "parameter_id": "shared_distribution_available",
+          "value": 1,
+          "source_note": "Private synthetic restoration of common path; local protection remains active."
+        }
+      ]
+    },
+    "development-05": {
+      "kernel": "network-fallback",
+      "network_cap": 0.5,
+      "filter_multiplier": 4,
+      "context_valid_until_s": 1.75,
+      "background": "early",
+      "crew": "it-with-cooling",
+      "events": []
+    },
+    "development-06": {
+      "kernel": "network-fallback",
+      "network_cap": 0.25,
+      "filter_multiplier": 1,
+      "context_valid_until_s": 8,
+      "background": "late",
+      "crew": "solo",
+      "events": [
+        {
+          "time_s": 0.5,
+          "parameter_id": "it_access_permit",
+          "value": 0,
+          "source_note": "Private synthetic access restriction becomes active before initial professional work can finish."
+        }
+      ]
+    }
+  }
+}

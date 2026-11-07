@@ -1,0 +1,476 @@
+{
+  "schema": "aegisdc-held-comparison-blueprints-v1",
+  "status": "DESIGN_BLUEPRINTS_NO_RELEASE",
+  "scope": "Public prospective finite recipes. Per-slot private assignment, observation realizations and execution inputs have not been materialized.",
+  "confirmation": {
+    "network-restorable": [
+      {
+        "variant": "nr-a",
+        "kernel": "network-fallback",
+        "network_cap": 0.3125,
+        "filter_multiplier": 1,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "nr-b",
+        "kernel": "network-fallback",
+        "network_cap": 0.4375,
+        "filter_multiplier": 1,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "nr-c",
+        "kernel": "network-fallback",
+        "network_cap": 0.5625,
+        "filter_multiplier": 4,
+        "context_valid_until_s": 7,
+        "background": "early",
+        "crew": "it-with-cooling",
+        "events": []
+      },
+      {
+        "variant": "nr-d",
+        "kernel": "network-fallback",
+        "network_cap": 0.625,
+        "filter_multiplier": 3,
+        "context_valid_until_s": 2.25,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      }
+    ],
+    "cooling-masked": [
+      {
+        "variant": "cm-a",
+        "kernel": "masked-cooling",
+        "network_cap": 0.3125,
+        "filter_multiplier": 3,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "cm-b",
+        "kernel": "masked-cooling",
+        "network_cap": 0.4375,
+        "filter_multiplier": 4,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "cm-c",
+        "kernel": "masked-cooling",
+        "network_cap": 0.5625,
+        "filter_multiplier": 5,
+        "context_valid_until_s": 7,
+        "background": "early",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "cm-d",
+        "kernel": "masked-cooling",
+        "network_cap": 0.625,
+        "filter_multiplier": 6,
+        "context_valid_until_s": 2.25,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      }
+    ],
+    "misleading-report": [
+      {
+        "variant": "mr-a",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 0.875,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "mr-b",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1.125,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "mr-c",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1.25,
+        "context_valid_until_s": 7,
+        "background": "early",
+        "crew": "it-with-cooling",
+        "events": []
+      },
+      {
+        "variant": "mr-d",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1.5,
+        "context_valid_until_s": 2.25,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      }
+    ],
+    "protection-or-access": [
+      {
+        "variant": "pa-a",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": [
+          {
+            "time_s": 0.5,
+            "parameter_id": "shared_distribution_available",
+            "value": 0,
+            "source_note": "Private synthetic disruption at the declared boundary."
+          },
+          {
+            "time_s": 3.25,
+            "parameter_id": "shared_distribution_available",
+            "value": 1,
+            "source_note": "Private synthetic boundary restoration; actual local protection remains in force."
+          }
+        ]
+      },
+      {
+        "variant": "pa-b",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1.25,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": [
+          {
+            "time_s": 1.25,
+            "parameter_id": "shared_distribution_available",
+            "value": 0,
+            "source_note": "Private synthetic disruption at the declared boundary."
+          },
+          {
+            "time_s": 4.5,
+            "parameter_id": "shared_distribution_available",
+            "value": 1,
+            "source_note": "Private synthetic boundary restoration; actual local protection remains in force."
+          }
+        ]
+      },
+      {
+        "variant": "pa-c",
+        "kernel": "network-fallback",
+        "network_cap": 0.3125,
+        "filter_multiplier": 1,
+        "context_valid_until_s": 7,
+        "background": "early",
+        "crew": "solo",
+        "events": [
+          {
+            "time_s": 0.75,
+            "parameter_id": "it_access_permit",
+            "value": 0,
+            "source_note": "Private access gate closes; no new safe-entry authorization."
+          }
+        ]
+      },
+      {
+        "variant": "pa-d",
+        "kernel": "network-fallback",
+        "network_cap": 0.4375,
+        "filter_multiplier": 4,
+        "context_valid_until_s": 2.25,
+        "background": "late",
+        "crew": "it-with-cooling",
+        "events": [
+          {
+            "time_s": 1,
+            "parameter_id": "it_access_permit",
+            "value": 0,
+            "source_note": "Private access gate closes; no new safe-entry authorization."
+          }
+        ]
+      }
+    ]
+  },
+  "ablation": {
+    "network-restorable": [
+      {
+        "variant": "an-a",
+        "kernel": "network-fallback",
+        "network_cap": 0.34375,
+        "filter_multiplier": 1.125,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "it-with-cooling",
+        "events": []
+      },
+      {
+        "variant": "an-b",
+        "kernel": "network-fallback",
+        "network_cap": 0.46875,
+        "filter_multiplier": 3,
+        "context_valid_until_s": 2.75,
+        "background": "late",
+        "crew": "it-with-cooling",
+        "events": []
+      }
+    ],
+    "cooling-masked": [
+      {
+        "variant": "ac-a",
+        "kernel": "masked-cooling",
+        "network_cap": 0.34375,
+        "filter_multiplier": 4.5,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      {
+        "variant": "ac-b",
+        "kernel": "masked-cooling",
+        "network_cap": 0.46875,
+        "filter_multiplier": 5.5,
+        "context_valid_until_s": 2.75,
+        "background": "early",
+        "crew": "solo",
+        "events": []
+      }
+    ],
+    "misleading-report": [
+      {
+        "variant": "am-a",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 0.9375,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "it-with-cooling",
+        "events": []
+      },
+      {
+        "variant": "am-b",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1.375,
+        "context_valid_until_s": 2.75,
+        "background": "late",
+        "crew": "it-with-cooling",
+        "events": []
+      }
+    ],
+    "protection-or-access": [
+      {
+        "variant": "ap-a",
+        "kernel": "network-fallback",
+        "network_cap": 1,
+        "filter_multiplier": 1,
+        "context_valid_until_s": 1.5,
+        "background": "late",
+        "crew": "solo",
+        "events": [
+          {
+            "time_s": 0.75,
+            "parameter_id": "shared_distribution_available",
+            "value": 0,
+            "source_note": "Private synthetic disruption at the declared boundary."
+          },
+          {
+            "time_s": 3.75,
+            "parameter_id": "shared_distribution_available",
+            "value": 1,
+            "source_note": "Private synthetic boundary restoration; actual local protection remains in force."
+          }
+        ]
+      },
+      {
+        "variant": "ap-b",
+        "kernel": "network-fallback",
+        "network_cap": 0.34375,
+        "filter_multiplier": 4,
+        "context_valid_until_s": 2.75,
+        "background": "early",
+        "crew": "it-with-cooling",
+        "events": [
+          {
+            "time_s": 1.25,
+            "parameter_id": "it_access_permit",
+            "value": 0,
+            "source_note": "Private access gate closes; no new safe-entry authorization."
+          }
+        ]
+      }
+    ]
+  },
+  "masks": {
+    "without_nonfixed_context": {
+      "field": "dispatch_program.evidence_ledger.records",
+      "keep_registry": true,
+      "remove_source_ids": [
+        "operator-report"
+      ],
+      "remove_copied_descendants": true,
+      "unchanged": "Actual facility, observations, crew, action and budgets."
+    },
+    "without_dependency_context": {
+      "scope": "Component dependency consequence knowledge in planner only.",
+      "remove_edge_ids": [
+        "f12",
+        "f13",
+        "f14"
+      ],
+      "nominal": "Remove exactly these three edges from dispatch_program.nominal_knowledge.graphs.functional; remove the same IDs from every question.dependency_edge_ids.",
+      "capacity_transform": "For every catalog outcome capacity_profile segment and every value model variant during_capacity and after_capacity entry: save old compute=c; replace compute,network,storage values by c. Do not inspect the plant. This deliberately uses compute-only aggregation, which omits serial network and storage limits.",
+      "invariants": "All model (private plant) bytes, event list, workload, access graph, actual workers/tasks/tools, inspection profile, real interventions, evidence records and budgets remain identical. Source and public visibility are declared.",
+      "interpretation": "Ablates modeled serial dependency consequences plus their public edge declarations as one bundled knowledge factor. It does not isolate graphical edges alone."
+    },
+    "without_joint_crew_planning": {
+      "scope": "Available team-mode choice, with the shared physical executor still capable of teamwork.",
+      "candidate_transform": "In the planner policy_program only, remove all candidates with len(task.crew)>1. Retain the actual catalog_program/execution task definitions and qualification/tool/authorization rules.",
+      "value_transform": "Remove options.bindings and value_model.question_models for questions whose intervention_candidate_id was removed; do not replace their unknown incremental value by zero.",
+      "risk_transform": "For the same question IDs, change options.catalog.questions quantification to UNMODELED and outcome_ids to [], retaining consequence bounds and a documented evidence gap. Keep singleton inspection candidates for the shared unknown-inspection FIFO fallback.",
+      "binding_scope": "Public intervention declarations and projection report support are restricted to the remaining planner candidates; the private executor declaration is unchanged. The adapter must keep two explicit validated planner and execution views. Current equality gates need a separately reviewed extension before this mask can run.",
+      "invariants": "Plant, actual worker qualifications, access, tools, physical observations, original intervention permission, time and budget remain unchanged.",
+      "interpretation": "Availability of coordinated choices. Current scalar value model does not price heterogeneous team assignment itself, so no optimal multi-crew scheduling claim."
+    }
+  },
+  "robustness": {
+    "load-level": {
+      "shared": {
+        "variant": "rl",
+        "kernel": "network-fallback",
+        "network_cap": 0.375,
+        "filter_multiplier": 1.25,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      "role": "Known external workload",
+      "reference": {
+        "offered_demand": 0.75
+      },
+      "perturbed": {
+        "offered_demand": 1.25
+      },
+      "allowed_deltas": [
+        "model.parameters.service_demand",
+        "public_risk_catalog.demand",
+        "public_consequence_bounds"
+      ],
+      "key": "R1"
+    },
+    "sensor-coverage": {
+      "shared": {
+        "variant": "rs",
+        "kernel": "network-fallback",
+        "network_cap": 0.375,
+        "filter_multiplier": 3.5,
+        "context_valid_until_s": 2.75,
+        "background": "early",
+        "crew": "solo",
+        "events": []
+      },
+      "role": "One declared fixed instrument compared to no enabled fixed instrument; nonfixed context remains",
+      "reference": {
+        "rectifier_meter_enabled": true
+      },
+      "perturbed": {
+        "rectifier_meter_enabled": false
+      },
+      "allowed_deltas": [
+        "sensor_program.profile.measurements.rectifier-meter.enabled",
+        "public_projection.background_sensor_profile"
+      ],
+      "key": "R2"
+    },
+    "reserve-path": {
+      "shared": {
+        "variant": "rp",
+        "kernel": "network-fallback",
+        "network_cap": 0.375,
+        "filter_multiplier": 1.125,
+        "context_valid_until_s": 7,
+        "background": "late",
+        "crew": "solo",
+        "events": [
+          {
+            "time_s": 1,
+            "parameter_id": "grid_capacity",
+            "value": 0,
+            "source_note": "Private synthetic disruption at the declared boundary."
+          },
+          {
+            "time_s": 3.25,
+            "parameter_id": "grid_capacity",
+            "value": 10000000,
+            "source_note": "Private synthetic boundary restoration; actual local protection remains in force."
+          }
+        ]
+      },
+      "role": "Real effective reserve structure; UPS available or under maintenance with identical mains outage",
+      "reference": {
+        "ups_in_service": 1
+      },
+      "perturbed": {
+        "ups_in_service": 0
+      },
+      "allowed_deltas": [
+        "model.parameters.ups_in_service"
+      ],
+      "key": "R3"
+    },
+    "model-error": {
+      "shared": {
+        "variant": "rm",
+        "kernel": "network-fallback",
+        "network_cap": 0.375,
+        "filter_multiplier": 4.25,
+        "context_valid_until_s": 2.75,
+        "background": "late",
+        "crew": "solo",
+        "events": []
+      },
+      "role": "Misstated post-action network capacity in the shared forecast only",
+      "reference": {
+        "declared_fallback_capacity": 0.75
+      },
+      "perturbed": {
+        "declared_fallback_capacity": 1
+      },
+      "allowed_deltas": [
+        "public_action_value_model.after_capacity.network"
+      ],
+      "key": "R4"
+    }
+  },
+  "sealing": {
+    "confirmation_order": "For each family sort variants by tuple (hex HMAC-SHA256(nonce, canonical_json([\"assignment\", protocol_id, namespace, family, variant_id])), variant_id). Use ascending byte-order hexadecimal and UTF-8 variant ID as the deterministic tie break. Slots for the family consume the resulting order.",
+    "ablation_order": "Use that exact family ranking formula with the independently committed ablation nonce and namespace, with two variants per family.",
+    "robustness_pairing": "A reference and perturbed level share the comparison key R1–R4 as their seed key, one contrast block rather than two independent draws.",
+    "seed_derivation": "For channel label in {\"portable\",\"fixed\"} compute HMAC-SHA256(nonce, canonical_json([\"seed\", protocol_id, namespace, seed_key, channel_label])). Use int.from_bytes(first 16 digest bytes,\"big\"). seed_key is world ID for confirmation/ablation and the shared R1-R4 block key for robustness. canonical_json is ensure_ascii=False, sort_keys=True, separators=(\",\",\":\"), allow_nan=False, UTF-8 with no terminal newline.",
+    "commitment": "SHA-256 of each raw 32-byte nonce. Keep nonce outside the repository in a phase-specific restricted work area. Published commitment is procedural separation; do not claim secrecy from someone with host filesystem access.",
+    "release": "Confirmatory input-only preparation in32 requires accepted30 and31 with unchanged locked protocol, one commitment and a unique destination; actual execution in33 also requires accepted32 and exact execution/input hashes. Ablation/robustness input preparation requires accepted34; execution additionally requires their accepted input/source audit. No selector or plant call during preparation.",
+    "source_lock": "The commitment receipt binds SHA-256 of raw protocol/blueprint/development recipe bytes and a Git revision containing those bytes; sealed execution source and frozen per-arm input hashes are additionally required by ticket32. Verify every path against recorded Git blobs before release."
+  }
+}

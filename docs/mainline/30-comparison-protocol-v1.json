@@ -1,0 +1,543 @@
+{
+  "schema": "aegisdc-registered-comparison-v1",
+  "status": "FROZEN_NO_EXECUTION_UNTIL_TICKET_30_ACCEPTED",
+  "id": "V6-M5-evidence-consistent-comparison-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "baseline_acceptance": "docs/mainline/evidence/29-root.json",
+  "maximum_step_s": 0.01,
+  "decision_times_s": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "phases": {
+    "development": {
+      "ticket": "31",
+      "arms": [
+        "no_human",
+        "periodic",
+        "fifo",
+        "risk_condition_priority_adapted",
+        "one_observation_lookahead",
+        "evidence_consistent_contingent"
+      ],
+      "worlds": [
+        {
+          "id": "development-01",
+          "family": "network-restorable",
+          "slot": 1,
+          "duration_s": 10
+        },
+        {
+          "id": "development-02",
+          "family": "cooling-masked",
+          "slot": 2,
+          "duration_s": 10
+        },
+        {
+          "id": "development-03",
+          "family": "misleading-report",
+          "slot": 3,
+          "duration_s": 10
+        },
+        {
+          "id": "development-04",
+          "family": "protection-or-access",
+          "slot": 4,
+          "duration_s": 10
+        },
+        {
+          "id": "development-05",
+          "family": "network-restorable",
+          "slot": 5,
+          "duration_s": 10
+        },
+        {
+          "id": "development-06",
+          "family": "protection-or-access",
+          "slot": 6,
+          "duration_s": 10
+        }
+      ],
+      "budget": {
+        "attempts": 36,
+        "simulated_charge_s": 360,
+        "scheduled_decisions": 360
+      },
+      "release": "ONLY_DEVELOPMENT_INPUTS"
+    },
+    "confirmation": {
+      "ticket": "33",
+      "arms": [
+        "no_human",
+        "periodic",
+        "fifo",
+        "risk_condition_priority_adapted",
+        "one_observation_lookahead",
+        "evidence_consistent_contingent"
+      ],
+      "worlds": [
+        {
+          "id": "confirmation-01",
+          "family": "network-restorable",
+          "slot": 1,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-02",
+          "family": "network-restorable",
+          "slot": 2,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-03",
+          "family": "network-restorable",
+          "slot": 3,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-04",
+          "family": "network-restorable",
+          "slot": 4,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-05",
+          "family": "cooling-masked",
+          "slot": 5,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-06",
+          "family": "cooling-masked",
+          "slot": 6,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-07",
+          "family": "cooling-masked",
+          "slot": 7,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-08",
+          "family": "cooling-masked",
+          "slot": 8,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-09",
+          "family": "misleading-report",
+          "slot": 9,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-10",
+          "family": "misleading-report",
+          "slot": 10,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-11",
+          "family": "misleading-report",
+          "slot": 11,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-12",
+          "family": "misleading-report",
+          "slot": 12,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-13",
+          "family": "protection-or-access",
+          "slot": 13,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-14",
+          "family": "protection-or-access",
+          "slot": 14,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-15",
+          "family": "protection-or-access",
+          "slot": 15,
+          "duration_s": 10
+        },
+        {
+          "id": "confirmation-16",
+          "family": "protection-or-access",
+          "slot": 16,
+          "duration_s": 10
+        }
+      ],
+      "budget": {
+        "attempts": 96,
+        "simulated_charge_s": 960,
+        "scheduled_decisions": 960
+      },
+      "release": "PREPARE_AT_32_AFTER_31_EXECUTE_AT_33_AFTER_32"
+    },
+    "ablation": {
+      "ticket": "35",
+      "arms": [
+        "full",
+        "without_nonfixed_context",
+        "without_dependency_context",
+        "without_joint_crew_planning"
+      ],
+      "worlds": [
+        {
+          "id": "ablation-01",
+          "family": "network-restorable",
+          "slot": 1,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-02",
+          "family": "cooling-masked",
+          "slot": 2,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-03",
+          "family": "misleading-report",
+          "slot": 3,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-04",
+          "family": "protection-or-access",
+          "slot": 4,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-05",
+          "family": "network-restorable",
+          "slot": 5,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-06",
+          "family": "cooling-masked",
+          "slot": 6,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-07",
+          "family": "misleading-report",
+          "slot": 7,
+          "duration_s": 10
+        },
+        {
+          "id": "ablation-08",
+          "family": "protection-or-access",
+          "slot": 8,
+          "duration_s": 10
+        }
+      ],
+      "budget": {
+        "attempts": 32,
+        "simulated_charge_s": 320,
+        "scheduled_decisions": 320
+      },
+      "release": "AFTER_TICKET_34_AND_ABLATION_INPUT_AUDIT"
+    },
+    "robustness": {
+      "ticket": "36",
+      "arms": [
+        "one_observation_lookahead",
+        "evidence_consistent_contingent"
+      ],
+      "worlds": [
+        {
+          "id": "robustness-01",
+          "family": "load-level",
+          "slot": 1,
+          "duration_s": 10,
+          "level": "reference",
+          "comparison": "R1"
+        },
+        {
+          "id": "robustness-02",
+          "family": "load-level",
+          "slot": 2,
+          "duration_s": 10,
+          "level": "perturbed",
+          "comparison": "R1"
+        },
+        {
+          "id": "robustness-03",
+          "family": "sensor-coverage",
+          "slot": 3,
+          "duration_s": 10,
+          "level": "reference",
+          "comparison": "R2"
+        },
+        {
+          "id": "robustness-04",
+          "family": "sensor-coverage",
+          "slot": 4,
+          "duration_s": 10,
+          "level": "perturbed",
+          "comparison": "R2"
+        },
+        {
+          "id": "robustness-05",
+          "family": "reserve-path",
+          "slot": 5,
+          "duration_s": 10,
+          "level": "reference",
+          "comparison": "R3"
+        },
+        {
+          "id": "robustness-06",
+          "family": "reserve-path",
+          "slot": 6,
+          "duration_s": 10,
+          "level": "perturbed",
+          "comparison": "R3"
+        },
+        {
+          "id": "robustness-07",
+          "family": "model-error",
+          "slot": 7,
+          "duration_s": 10,
+          "level": "reference",
+          "comparison": "R4"
+        },
+        {
+          "id": "robustness-08",
+          "family": "model-error",
+          "slot": 8,
+          "duration_s": 10,
+          "level": "perturbed",
+          "comparison": "R4"
+        }
+      ],
+      "budget": {
+        "attempts": 16,
+        "simulated_charge_s": 160,
+        "scheduled_decisions": 160
+      },
+      "release": "AFTER_TICKET_34_AND_ROBUSTNESS_INPUT_AUDIT"
+    }
+  },
+  "global_budget": {
+    "attempts": 180,
+    "simulated_charge_s": 1800,
+    "scheduled_decisions": 1800,
+    "llm_calls": 0,
+    "training_calls": 0,
+    "automatic_retries": 0
+  },
+  "comparison": {
+    "primary": [
+      "one_observation_lookahead",
+      "evidence_consistent_contingent"
+    ],
+    "only_primary_input_difference": "dispatch_program.policy_program.policy",
+    "estimand": "Arithmetic mean of baseline minus candidate normalized service deficit time over all 16 planned confirmation worlds; each stratum contributes four equally weighted worlds.",
+    "independence_unit": "One sealed exogenous world and its private observation realization; all methods are matched on that same unit.",
+    "minimum_worthwhile_gain_s": 0.25,
+    "cost_bounds": {
+      "extra_mean_paid_person_s": 0.5,
+      "extra_mean_travel_person_s": 0.25,
+      "extra_mean_tool_occupation_s": 0.5
+    },
+    "common_admission_budget": {
+      "person_s": 24,
+      "tool_s": 20,
+      "cost": 2,
+      "cost_unit": "research_cost_unit"
+    },
+    "identification": {
+      "minimum_shared_frame_different_first_actions": 4,
+      "minimum_distinct_strata": 2,
+      "minimum_common_eligible_paid_candidates": 2,
+      "unit": "One world counted at most once, at the earliest differing intended action while all earlier choices and observed histories are identical.",
+      "shared_frame": "At that decision instant both methods have byte-equal canonical allowed public frames (including nominal knowledge, request plan, arrived record contents and availability), and the same issued/work feedback history. Method-specific scores/audits and processing timers are excluded.",
+      "common_eligibility": "Immediately before applying either method preference, assess the exact same candidates with current public prepare_work/prepare_intervention, shared issued history, current deadline and common remaining admission envelope. Count a paid candidate only when both see the same admissible task and resources.",
+      "intent": "Compare chosen_candidate_id, where None is the explicit defer symbol. A different method reason or score with the same chosen ID is not a differing action.",
+      "terminal_handling": "Future rejections or aborts do not retroactively remove a valid public opportunity; they are actual outcomes. Failed/missing terminal pairs are incomplete. A pair with fewer than two jointly eligible paid candidates at its first difference does not meet the identification count.",
+      "criterion": "Count at least four confirmation worlds in at least two declared families. Keep every planned world in all service/cost means regardless of this diagnostic.",
+      "post_divergence": "Do not compare later policy-specific public states as though they were the same-history decision. No counterfactual selector calls are part of this protocol budget."
+    },
+    "partial_outcomes": "An unavailable service-deficit value lies in [0,T]. Combine per-pair sharp bounds over the original fixed denominator; report all failures, no imputation.",
+    "sensitivity": "Report every paired difference and stratum mean, with leave-one-stratum-out min/max. These are finite design diagnostics; no superpopulation interval or site estimate.",
+    "outcome_order": [
+      "UNSAFE_OR_INVALID",
+      "INCOMPLETE",
+      "NOT_IDENTIFIED",
+      "PRACTICAL_HARM",
+      "COST_LIMIT_EXCEEDED",
+      "PRACTICAL_GAIN",
+      "STRATUM_SENSITIVE",
+      "NO_PRACTICAL_GAIN"
+    ],
+    "rule": "Apply outcome_rules in order; maintain independent flags and raw statistics for every other material cost, missing or safety condition. These exploratory values are study decisions, not site criteria.",
+    "required_actual_constraints": [
+      "no_unqualified_work",
+      "no_work_under_blocked_access",
+      "no_tool_or_worker_double_booking",
+      "no_unauthorized_effect",
+      "no_override_of_local_protection",
+      "no_future_or_private_input",
+      "no_admission_budget_overrun"
+    ],
+    "zero_baseline_rule": "Use absolute difference in each declared SI cost metric, including when baseline is zero. No conversion to distance or percentage of completed inspections.",
+    "report_separately": [
+      "offered_service_unit_s",
+      "delivered_service_unit_s",
+      "unserved_service_unit_s",
+      "service_deficit_time_s",
+      "worker_travel_person_s",
+      "worker_work_person_s",
+      "worker_wait_person_s",
+      "access_check_person_s",
+      "tool_occupation_tool_s",
+      "completed_inspections",
+      "completed_interventions",
+      "unconfirmed_or_aborted_work",
+      "selector_and_model_evaluations",
+      "wall_compute_time",
+      "provenance_valid_confirmation",
+      "misleading_reports_by_declared_world_truth",
+      "missed_distinguishable_reports",
+      "actual_effect_vs_public_verified_closure"
+    ],
+    "metric_definition": {
+      "service_deficit_s": "For each half-open balance interval [start,end), add (demand-delivered)/demand*(end-start); add zero if demand=0. Compare over [0,10].",
+      "delta_service": "D_baseline - D_candidate; greater is better.",
+      "paid_person_s": "worker_travel_person_s + worker_work_person_s + worker_wait_person_s. The worker_wait value already includes access check, rendezvous and queue wait. Do not add those subcomponents again.",
+      "delta_cost": "candidate actual metric minus baseline actual metric for each pair, arithmetic mean over all 16 planned confirmation worlds. Negative means lower cost.",
+      "cost_quantities": {
+        "paid_person_s": [
+          "worker_travel_person_s",
+          "worker_work_person_s",
+          "worker_wait_person_s"
+        ],
+        "travel_person_s": [
+          "worker_travel_person_s"
+        ],
+        "tool_occupation_s": [
+          "tool_occupation_tool_s"
+        ]
+      },
+      "sum_rule": "Use math.fsum over original balance contributions. Decisions never replace actual execution metrics.",
+      "numerical_tolerances": {
+        "s": 1e-08,
+        "person_s": 1e-08,
+        "tool_s": 1e-08,
+        "W": 1e-06
+      },
+      "threshold_rule": "Use 1e-8 absolute slack only in equality/order checks at a declared threshold. Report unrounded raw means. No rounding into a category."
+    },
+    "partial_outcome_details": {
+      "per_arm": "If a returned and fully verified outcome exists use [D,D]. Otherwise use [0,10], including aborted run, invalid evidence or a missing run. UNRUN is not a completed zero.",
+      "per_pair": "[baseline_low-candidate_high, baseline_high-candidate_low]. Preserve pair ID and missing side(s).",
+      "aggregate": "Sum lower endpoints/16 and sum upper endpoints/16, retaining four equal-weight strata. No complete-case substitution.",
+      "costs": "For each absent cost retain null and flag incomplete. No cost-benefit success category can be awarded with a missing primary side.",
+      "uncertainty": "These are deterministic sharp missing-outcome limits, not probabilistic confidence intervals."
+    },
+    "outcome_rules": [
+      {
+        "label": "UNSAFE_OR_INVALID",
+        "when": "Any recorded actual hard constraint breach, private/future input use, protocol/source mismatch, or manipulated budget/output lifecycle. Take precedence and stop further batch starts."
+      },
+      {
+        "label": "INCOMPLETE",
+        "when": "At least one of the 32 primary-arm outcomes for the 16 worlds is absent, failed or unverifiable. Report deterministic missing-outcome bounds."
+      },
+      {
+        "label": "NOT_IDENTIFIED",
+        "when": "Fewer than four first shared-history divergent worlds with >=2 common eligible paid tasks, or those worlds cover fewer than two families. Service/cost deltas still reported descriptively."
+      },
+      {
+        "label": "PRACTICAL_HARM",
+        "when": "Mean service delta <= -.25 s. Report accompanying cost failure independently."
+      },
+      {
+        "label": "COST_LIMIT_EXCEEDED",
+        "when": "Any mean extra paid time > .5 person-s, extra travel > .25 person-s, or extra tool occupation > .5 tool-s."
+      },
+      {
+        "label": "PRACTICAL_GAIN",
+        "when": "Mean service delta >= .25 s, all four leave-one-family-out means >=0, every cost limit met and no earlier category applies."
+      },
+      {
+        "label": "STRATUM_SENSITIVE",
+        "when": "Mean service delta >= .25 s with all cost limits met, but at least one leave-one-family-out mean <0, and no earlier category applies."
+      },
+      {
+        "label": "NO_PRACTICAL_GAIN",
+        "when": "All remaining complete, valid and identified cases."
+      }
+    ],
+    "contribution_claims": {
+      "existing": "FIFO, fixed checking, risk prioritization, finite Bayesian updating and short-horizon inspection/repair value are existing families.",
+      "candidate_increment": "Evidence-consistent prospective report interpretation at the existing V4 selection boundary.",
+      "facility_extension": "Eight-domain coupled physical/operational synthetic facility, four identity-sharing graphs, delayed/provenance-bound evidence, heterogeneous crews and actual qualified effects.",
+      "comparison_limits": "Not a reproduction of original POMDP/DRL frameworks, not proof of a new optimization algorithm or general superiority; the nearest shared-interface finite baseline is the primary contrast. Action completion or flow recovery does not imply verified closure. This run compares service and work under shared rules; without a post-action verification protocol, record closure as not evaluated.",
+      "unestablished": [
+        "field calibration",
+        "causal external validation",
+        "LLM increment",
+        "multi-AI coordination increment",
+        "RSI increment"
+      ]
+    }
+  },
+  "seed_policy": {
+    "namespaces": {
+      "development": "V6-M5-dev-v1",
+      "confirmation": "V6-M5-confirm-v1",
+      "ablation": "V6-M5-ablate-v1",
+      "robustness": "V6-M5-robust-v1"
+    },
+    "development_rule": "Public seed for each development world: 300000 + slot.",
+    "sealed_rule": "One private 256-bit nonce per non-development phase, committed by SHA-256. Use the pinned held-blueprint HMAC assignment and channel seed rules. Both levels of a robustness block share its seed key. No held world inputs are materialized for development.",
+    "common_observation_rule": "Fix equal seeds, signal laws and event keys across matched methods. Equal channel/origin/epoch gives equal draw; policy-dependent observations at different epochs need not match.",
+    "release_rules": "Input preparation: after accepted30, confirmation may be materialized by ticket32 after accepted31; no selector or facility calls. Physical execution requires accepted32 exact source/input freeze. Ablation and robustness prepare after34 and require their own exact input/source audits before a run. Never serialize unreleased nonce into public frames."
+  },
+  "attempt_policy": {
+    "ids": "Unique protocol, split, world and arm; record STARTED and budget charge before plant invocation. Visit world slots in ascending phase order and rotate the phase arm list left by (slot-1) modulo arm count for each world. No outcome changes this order.",
+    "terminal_states": [
+      "COMPLETED",
+      "FAILED",
+      "INTERRUPTED",
+      "UNRUN"
+    ],
+    "repeated_attempts": "No automatic retries or resampling. Retain attempted failures and unrun slots. Any retry or change to design, versions or budget requires a separate frozen amendment before new attempts. Ordinary already-declared domain or input failures retain the terminal and may proceed to the next planned slot only if identity, safety, privacy and budget still hold. An unclassified failure stops new starts pending an explicit decision; no retry is implied.",
+    "stop_conditions": [
+      "mismatched execution identity",
+      "invalid shared pair",
+      "unexpected truth leak",
+      "hard safety or resource breach",
+      "output or budget collision"
+    ],
+    "successful_cache_only": "May verify saved completed originals with exact manifest and source; does not create an attempt or a second statistical unit.",
+    "zero_effect_before_acceptance": true
+  },
+  "scope": "Finite synthetic V6 matched conditions; no site calibration, policy superiority before outcomes, or AI/RSI.",
+  "development_recipes": "configs/full-facility-comparison-development-v1.json",
+  "held_blueprints": "configs/full-facility-comparison-held-blueprints-v1.json",
+  "registration_limits": {
+    "development": "No methods or public model values are selected from confirmation/ablation/robustness output. Changes after first development outcomes require frozen revision and complete budget accounting before another run.",
+    "confirmatory": "The primary estimand concerns the exact 16 selected synthetic worlds, not a population estimate; phase-nonce assignment permutes four predeclared recipes per family without replacement. Four non-primary methods are descriptive contrasts on the same units. No secondary ranking replaces the primary pair.",
+    "information_budget": "Only selection methods see allowed frame/static declarations. Evaluator truths, held assignment, nonce and instrument private realizations stay outside public frames.",
+    "temporal_scope": "Ten-second compressed synthetic engineering windows use positive 1 s professional work and 1/2 s routes; no transfer to real inspection durations.",
+    "source_pins": "Before authoring run inputs commit exact protocol, blueprint, compiler and accepted property/topology identities. Ticket32 seals the post-development source and every executable input; it cannot silently revise protocol. Governance receipts are committed after and refer to the frozen source as an ancestor; exact source and config byte hashes must match the checkout.",
+    "release": "Missing or false gate receipts stop release. Inputs prepared for development are never confirmation inputs even if the policy actions happen to coincide. Gate audit is not an execution command; executable evidence, attempt ledger and current dependencies must all pass independently."
+  }
+}
