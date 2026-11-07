@@ -1,0 +1,62 @@
+{
+  "schema": "aegisdc-public-input-validation-protocol-v2",
+  "date": "2026-11-07",
+  "classification": "ENGINEERING_PUBLIC_DECLARATION_VALIDATION_ONLY_NOT_PHYSICAL_OR_EFFECT_TRIAL",
+  "input": "evidence/mainline/engineering/28-negative-controls/reference-v4/cases-v1.json",
+  "context": "docs/mainline/28-runtime-input-correction.md",
+  "output": "evidence/mainline/engineering/28-negative-controls/public-preflight-20261107-02",
+  "tools": [
+    "scripts/negative_control_public_preflight_v2.py",
+    "scripts/inspection_delivery.py"
+  ],
+  "expected_counters": {
+    "validate_scenario_calls": 4,
+    "initial_public_frames": 3,
+    "assess_risks_calls": 5,
+    "physical_calls": 0,
+    "selector_calls": 0,
+    "closure_calls": 0
+  },
+  "forbidden_calls": [
+    "simulate_scenario",
+    "run_recorded",
+    "replay_attempt",
+    "choose_work",
+    "assess_closure",
+    "ML_training_or_LLM"
+  ],
+  "durable_outputs": [
+    "declaration.json",
+    "attempt.json",
+    "attempts.jsonl",
+    "validated-scenarios.json",
+    "frames.json",
+    "risks.json",
+    "scenarios/normal.json",
+    "scenarios/false_report.json",
+    "scenarios/local_protection.json",
+    "scenarios/too_late.json",
+    "frames/normal.json",
+    "frames/false_report.json",
+    "frames/too_late.json",
+    "risks/normal-policy.json",
+    "risks/normal-closure.json",
+    "risks/false_report-policy.json",
+    "risks/false_report-closure.json",
+    "risks/too_late-closure.json"
+  ],
+  "terminal": "receipt.json",
+  "failure_rule": "Stop on first refusal; preserve original outputs and terminal. No overwrite or automatic retry.",
+  "interpretation": "Validates these static public input contracts, not actual dynamics, candidate choice, restoration, closure, M4 acceptance or scientific gain.",
+  "retained_failed_preflight": "evidence/mainline/engineering/28-negative-controls/public-preflight-20261107-01",
+  "correction": "Unify the late catalog nominal identity only. Save each returned scenario, frame and risk result immediately; preserve prior failure unchanged.",
+  "risk_evaluation_detail": "Each valid-frame assess_risks also invokes infer_belief once:5internal finite belief evaluations on a full successful phase, noML/LLM.",
+  "cumulative_public_phase_max": {
+    "validate_scenario_calls": 8,
+    "initial_public_frames": 6,
+    "assess_risks_calls": 10,
+    "physical_calls": 0,
+    "selector_calls": 0,
+    "closure_calls": 0
+  }
+}
