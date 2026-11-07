@@ -15,7 +15,7 @@ REFERENCE = ROOT/'evidence/mainline/engineering/26-candidate/reference/online-ba
 NETWORK_ACTION = ROOT/'evidence/mainline/engineering/23-interventions/reference/network-full.json'
 RECIPES = ROOT/'configs/full-facility-comparison-development-v1.json'
 BASELINE = ROOT/'configs/full-facility-mainline-reserve-v6.json'
-MODES = ('healthy-clear','healthy-restricted','network-clear','network-restricted')
+MODES = ('healthy-clear','healthy-restricted','network-clear','network-restricted','other')
 
 
 def _clock_and_context(program, world, plan, recipe, shared):
@@ -61,20 +61,21 @@ def _question(options, duration, operation, fallback):
             'Restricted intake flow; network remains healthy.',
             'Adequate intake flow with a limited network path.',
             'Restricted intake and limited network path together.',
+            'Residual ambiguous condition; not a diagnosis of a specific physical cause.',
         ),strict=True)
     ]
     belief['independent_pairs'] = [['manual-vibration','lookahead-flow-channel']]
-    belief['independence_basis'] = 'Model-only conditional independence given the four joint hypotheses; no site evidence.'
+    belief['independence_basis'] = 'Model-only conditional independence given the declared joint hypotheses; no site evidence.'
     belief['unidentified'] = ['The pump signal does not identify network capacity on its own.',
-        'The four joint states and conditional likelihoods are study assumptions, not calibrated frequencies.']
-    likelihood = dict(zip(MODES,(0,1,0,1),strict=True))
+        'The four named joint states, residual state and likelihoods are study assumptions, not calibrated frequencies.']
+    likelihood = dict(zip(MODES,(0,1,0,1,.5),strict=True))
     for index, variant in enumerate(belief['variants']):
-        variant.update(prior=[.125,.375,.375,.125],
+        variant.update(prior=[.0625,.375,.375,.125,.0625],
             transition=[[int(a==b) for b in MODES] for a in MODES],
-            positive_likelihood={'manual-vibration':[.25,.75,.25,.75] if index==0 else [.375,.625,.375,.625],
+            positive_likelihood={'manual-vibration':[.25,.75,.25,.75,.5] if index==0 else [.375,.625,.375,.625,.5],
                 'lookahead-flow-channel':list(likelihood.values())},
             basis='Declared joint hypotheses and likelihoods; sensitivity varies the contextual symptom.')
-    capacity = {name:dict(compute=1,network=(1 if name.startswith('healthy') else .5),storage=1)
+    capacity = {name:dict(compute=1,network=(.75 if name=='other' else 1 if name.startswith('healthy') else .5),storage=1)
                 for name in MODES}
     catalog.update(horizon_s=duration,demand=[dict(start_s=0,end_s=duration,rate=1)],
         outcomes=[dict(id=name,meaning='Synthetic finite condition for '+name,
@@ -191,6 +192,7 @@ def _apply_method(program, method):
 
 def _admit(document, method):
     # No simulator, policy selection, sampling or completion call is made here.
+    from aegis_dc.action_value import assess_action_value
     from aegis_dc.evidence_projection import validate_projection, validate_value_projection_bindings
     from aegis_dc.inspection_execution import InspectionSession
     from aegis_dc.intervention_execution import InterventionSession, prepare_intervention
@@ -219,6 +221,10 @@ def _admit(document, method):
     if method in METHODS:
         validate_execution_bindings(policy,program['inspection_program'],frame=frame)
         validate_value_projection_bindings(policy['options'],candidates,policy['evidence_projection'])
+        opts=policy['options']
+        # Shared declaration admission only. Neither selection algorithm runs;
+        # expected values are not returned or used to alter the draft.
+        assess_action_value(frame,opts['belief_model'],opts['catalog'],opts['value_model'])
     parameters = {row['id']:row['value'] for row in model['parameters']}
     CrewWorkforce(model,parameters,session.work_program,duration)
     InspectionSession(model,session.catalog_program,program['inspection_program'])
