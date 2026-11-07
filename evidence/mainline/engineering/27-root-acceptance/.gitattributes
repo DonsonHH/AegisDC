@@ -1,0 +1,9 @@
+# Preserve exact native regression streams.
+raw/summary.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+raw/evidence.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+raw/tests.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+launch/stdout.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+launch/stderr.txt -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve Matplotlib SVG path whitespace and native line endings exactly.
+figures/*.svg -text whitespace=-blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+visual-draft/*.svg -text whitespace=-blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
