@@ -1,5 +1,6 @@
 """Audit exact actual inputs first, then the separately declared public planner view."""
 from copy import deepcopy
+from collections import Counter
 from pathlib import Path
 from zipfile import ZipFile,ZIP_DEFLATED
 from inspection_delivery import read,require,digest,write,durable
@@ -28,7 +29,12 @@ def check_ablation_run(document,run,trace,balances):
         'Unexpected dependency shape-validation lifecycle')
     actual_tasks={c['task']['id']:c['task'] for c in actual['policy_program']['candidates']}
     decisions={r['frame']['as_of_s']:r for r in run['policy_public_decisions']}
-    for row in marker.get('private_submission_frames',[]):
+    expected=Counter((r['frame']['as_of_s'],r['choice']['work_intention']['id'],channel)
+        for r in run['policy_public_decisions'] if r['choice']['work_intention'] is not None
+        for channel in ('WORK_SUBMIT','ACTION_ISSUE'))
+    require(Counter((r['as_of_s'],r['task_id'],r['channel']) for r in marker['private_submission_frames'])==expected,
+        'Private issue audit lacks exactly one actual mapping for each declared submission channel')
+    for row in marker['private_submission_frames']:
         decision=decisions[row['as_of_s']]
         require(decision['choice']['work_intention']['id']==row['task_id']
             and row['evidence_sha256']==fingerprint(decision['frame']['evidence'])

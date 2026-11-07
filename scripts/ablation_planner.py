@@ -103,22 +103,22 @@ def session_type(mask,instances):
             instances.append(self)
         def process(self,time_s,workforce,inspections,interventions):
             session=self
-            def actual_frame(frame,task):
+            def actual_frame(frame,task,channel):
                 from aegis_dc.decision_view import validate_current_frame
                 value=deepcopy(frame)
                 value['nominal_knowledge']=deepcopy(session.execution_program['nominal_knowledge'])
                 validate_current_frame(value)
-                session.private_submission_frames.append(dict(task_id=task['id'],as_of_s=frame['as_of_s'],
+                session.private_submission_frames.append(dict(channel=channel,task_id=task['id'],as_of_s=frame['as_of_s'],
                     evidence_sha256=fingerprint(frame['evidence']),
                     planner_nominal_sha256=fingerprint(frame['nominal_knowledge']),
                     actual_nominal_sha256=fingerprint(value['nominal_knowledge'])))
                 return value
             class WorkSubmissions:
                 def public_feedback(self,at):return workforce.public_feedback(at)
-                def submit(self,frame,task):return workforce.submit(actual_frame(frame,task),task)
+                def submit(self,frame,task):return workforce.submit(actual_frame(frame,task,'WORK_SUBMIT'),task)
             class ActionIssues:
                 def public_feedback(self,at):return interventions.public_feedback(at)
-                def record_issue(self,frame,profile,task):return interventions.record_issue(actual_frame(frame,task),profile,task)
+                def record_issue(self,frame,profile,task):return interventions.record_issue(actual_frame(frame,task,'ACTION_ISSUE'),profile,task)
             with planning_scope(self):
                 return super().process(time_s,WorkSubmissions(),inspections,ActionIssues() if interventions is not None else None)
         def resource_ledger(self,*args,**kwargs):
