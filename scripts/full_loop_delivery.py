@@ -11,7 +11,7 @@ from inspection_delivery import digest, durable, git, hashes, read, require, unc
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PROTOCOL = 'docs/mainline/27-loop-engineering-protocol-v2.json'
+PROTOCOL = 'docs/mainline/27-loop-engineering-protocol-v3.json'
 PACKAGE = 'evidence/mainline/engineering/27-full-loop'
 DOMAINS = {'power', 'backup', 'facility_cooling', 'equipment_environment', 'it_service',
            'control_monitoring', 'space_access', 'people_tools_work'}
@@ -31,6 +31,12 @@ def pins(protocol, source):
         tools=protocol['tools'], inputs=inputs,
         development_originals=[name for name in paths if name.startswith(PACKAGE + '/development')])
     result = {role: hashes(source, names) for role, names in groups.items()}
+    retained = protocol['retained_original']
+    original_paths = git('ls-tree', '-rz', '--name-only', retained['delivery'],
+        retained['folder'], retained['launch_folder']).decode().strip('\0').split('\0')
+    result['retained_original'] = hashes(retained['delivery'], original_paths)
+    require(result['retained_original'] == hashes(source, original_paths), 'Failed capture or launch originals changed')
+    require(result['runtime'] == hashes(retained['execution_source'], result['runtime']), 'Replay runtime bytes differ from original execution')
     for name, sha in source_doc['source_inputs'].items():
         require(result['inputs'][name] == sha, 'Template source differs from authored input identity')
     service = read(ROOT / PACKAGE / 'development-service-20261107-02/receipt.json')
@@ -121,7 +127,14 @@ def check_case(folder, name, protocol, doc, source, identity):
     require(at[0]['power']['actual_powers_W']['compute'] == 1_000_000 and
         at[load_at]['power']['actual_powers_W']['compute'] == 2_000_000, 'Actual requested-load heat witness differs')
     require(at[maintenance_at]['backup']['reserve_states']['ups']['mode'] == 'maintenance' and
-        at[outage_at]['power']['ups_output_W'] == at[outage_at]['power']['generator_output_W'] == 0, 'Maintenance/reserve gating differs')
+        at[outage_at]['backup']['reserve_states']['ups']['mode'] == 'maintenance' and
+        at[outage_at]['power']['ups_protected_output_W'] == at[outage_at]['power']['generator_output_W'] == 0,
+        'Maintenance must disable UPS protected load output while diesel is unavailable')
+    outage_power = at[outage_at]['power']
+    control_watts = next(row['value'] for row in doc['model']['parameters'] if row['id'] == 'ups_internal_control_power')
+    require(outage_power['ups_control_from_battery_W'] == outage_power['ups_control_power_W'] ==
+        outage_power['ups_output_W'] == control_watts and outage_power['actual_powers_W']['local_controller'] == 0,
+        'Reserve internal battery control and local controller power were conflated')
     require(not at[outage_at]['control_monitoring']['compute_permitted'] and not at[mains_at]['control_monitoring']['compute_permitted'] and
         at[restored_at]['control_monitoring']['compute_permitted'], 'Local protection/restoration timing differs')
     for time, squared in ((0, 1/100), (degradation_at, 1/340), (outage_at, 0), (4.25, 1/340), (6, 1/100)):
@@ -137,6 +150,8 @@ def check_case(folder, name, protocol, doc, source, identity):
         require(math.isclose(summary[metric], expected, rel_tol=0, abs_tol=tol), 'Independent ' + metric + ' differs')
     require(abs(summary['whole_run_energy_residual_J']) < protocol['energy_tolerance_J'] and
         summary['max_mass_residual_kg'] <= protocol['mass_tolerance_kg'], 'Independent boundary conservation differs')
+    require(math.isclose(summary['ups_output_energy_J'], control_watts * (3.4 - 2), rel_tol=0,
+        abs_tol=tol), 'Internal UPS control energy does not match the outage interval')
     work = run['work_records']
     require([(r['issued_at_s'], r['work_started_at_s'], r['completed_at_s'], r['status']) for r in work] ==
         [(3, 3.25, 4.25, 'completed'), (4.75, 5, 6, 'completed')], 'Actual paid work chronology differs')
@@ -204,24 +219,44 @@ def check_case(folder, name, protocol, doc, source, identity):
         public_record_counts=record_counts, work_records=work, closure_support=closures[-1]['supporting_record_ids'],
         actual=summary, forecast_after_work_order=values, trace_points=len(trace),
         external_events=[dict(parameter_id=parameter, requested_at_s=requested, applied_at_s=applied)
-            for (parameter, requested), applied in epochs.items()], restoration_sample_s=restored_at)
+            for (parameter, requested), applied in epochs.items()], restoration_sample_s=restored_at,
+        outage_reserve=dict(ups_mode='maintenance', ups_protected_output_W=outage_power['ups_protected_output_W'],
+            ups_internal_control_battery_W=outage_power['ups_control_from_battery_W'],
+            generator_output_W=outage_power['generator_output_W']))
 
 
-def compare(folder):
-    original, replay = [read(folder / case / 'trajectory/run.json') for case in ('original', 'replay')]
-    for run in (original, replay):
+def retained_check(protocol, doc, identity):
+    retained = protocol['retained_original']
+    folder = ROOT / retained['folder']
+    receipt = read(folder / 'receipt.json')
+    require(receipt['source'] == retained['execution_source'] and receipt['status'] == 'FAIL' and receipt['source_guard'] and
+        receipt['error'] == 'Maintenance/reserve gating differs' and receipt['attempts'] == receipt['completed_integrations'] == 1 and
+        receipt['validated'] == 0 and receipt['simulated_duration_attempted_s'] == 10, 'Original failure accounting differs')
+    require(durable(folder) == set(receipt['artifacts']) | {'receipt.json'} and not (folder / 'replay').exists(), 'Retained original output set differs')
+    require(all(digest((folder / name).read_bytes()) == sha for name, sha in receipt['artifacts'].items()), 'Retained original bytes differ')
+    require(receipt['pins']['runtime'] == identity['runtime'], 'Original runtime hashes differ')
+    return check_case(folder, 'original', protocol, doc, retained['execution_source'], identity)
+
+
+def compare(original_case, replay_case, original_source, replay_source):
+    original, replay = [read(case / 'trajectory/run.json') for case in (original_case, replay_case)]
+    for run, expected_source in ((original, original_source), (replay, replay_source)):
+        require(run['code_identity'].pop('git_commit') == expected_source, 'Unexpected declared run source identity')
         for row in run['policy_computation_audit']:
             row.pop('elapsed_ns')
     require(json.dumps(original, sort_keys=True, allow_nan=False) == json.dumps(replay, sort_keys=True, allow_nan=False),
         'Run differs outside explicitly classified diagnostic elapsed_ns')
     for name in ('scenario.json', 'private-state.jsonl', 'balances.jsonl'):
-        require((folder / 'original/trajectory' / name).read_bytes() == (folder / 'replay/trajectory' / name).read_bytes(), 'Exact trajectory replay differs: ' + name)
-    a, b = [read(folder / case / 'attempt.json') for case in ('original', 'replay')]
+        require((original_case / 'trajectory' / name).read_bytes() == (replay_case / 'trajectory' / name).read_bytes(), 'Exact trajectory replay differs: ' + name)
+    a, b = [read(case / 'attempt.json') for case in (original_case, replay_case)]
     require(a['attempt_id'] != b['attempt_id'] and b['replay_of'] == dict(attempt_id=a['attempt_id'],
-        attempt_sha256=digest((folder / 'original/attempt.json').read_bytes()), mode='EXACT_REEXECUTION'), 'Replay origin identity differs')
+        attempt_sha256=digest((original_case / 'attempt.json').read_bytes()), mode='EXACT_REEXECUTION'), 'Replay origin identity differs')
+    require(b['replay_revision_relationship'] == 'DIFFERENT_COMMIT_SAME_RUNTIME_BYTES' and
+        a['source_identity']['python'] == b['source_identity']['python'], 'Replay runtime/interpreter relationship differs')
     for name in ('attempt.json', 'declaration.json', 'lifecycle.jsonl'):
-        require((folder / 'original' / name).read_bytes() == (folder / 'replay/origin' / name).read_bytes(), 'Original identity snapshot differs')
+        require((original_case / name).read_bytes() == (replay_case / 'origin' / name).read_bytes(), 'Original identity snapshot differs')
     return dict(status='PASS', wall_clock_exception='policy_computation_audit[*].elapsed_ns',
+        metadata_exception='code_identity.git_commit only; both Git revisions and identical runtime/interpreter verified',
         scenario_trace_balances_byte_equal=True, original_and_replay_distinct=True)
 
 
@@ -240,30 +275,28 @@ def capture(folder, protocol):
     identity = pins(protocol, source)
     require(unchanged(source, identity), 'Execution source differs before capture')
     doc = read(ROOT / protocol['input'])
-    require(protocol['cases'] == ['original', 'replay'] and protocol['attempt_budget'] == 2 and
-        protocol['simulated_duration_budget_s'] == 2 * doc['duration_s'] == 20 and
+    require(protocol['cases'] == ['replay'] and protocol['attempt_budget'] == 1 and
+        protocol['simulated_duration_budget_s'] == doc['duration_s'] == 10 and protocol['combined_physical_budget_s'] == 20 and
         doc['maximum_step_s'] == protocol['maximum_step_s'], 'Unexpected frozen budget')
+    retained = protocol['retained_original']
+    original_case = ROOT / retained['folder'] / 'original'
+    checks = {'original': retained_check(protocol, doc, identity)}
     folder.mkdir(exist_ok=False)
     write(folder / 'capture.json', dict(execution_source=source, python=sys.version, executable=sys.executable,
         executable_sha256=digest(Path(sys.executable).read_bytes()), argv=sys.argv, cache_prefix=sys.pycache_prefix,
-        no_bytecode=sys.dont_write_bytecode, utf8_mode=sys.flags.utf8_mode, planned_attempts=2,
-        declared_simulated_duration_s=20, classification=protocol['classification']))
+        no_bytecode=sys.dont_write_bytecode, utf8_mode=sys.flags.utf8_mode, planned_attempts=1, retained_original=retained,
+        declared_simulated_duration_s=10, classification=protocol['classification']))
     receipt = dict(status='FAIL', source=source, pins=identity, attempts=0, completed_integrations=0, validated=0,
         simulated_duration_attempted_s=0, registered_effect_trials=0, field_calibration='PENDING')
     try:
-        from aegis_dc.replay import replay_attempt, run_recorded
-        checks = {}
+        from aegis_dc.replay import replay_attempt
         for case in protocol['cases']:
             require(unchanged(source, identity), 'Execution source differs before case')
             receipt['attempts'] += 1
             receipt['simulated_duration_attempted_s'] += doc['duration_s']
             append(folder / 'attempts.jsonl', dict(case=case, status='STARTED', source=source, duration_s=doc['duration_s']))
             try:
-                if case == 'original':
-                    result = run_recorded(doc['model'], folder / case, inputs=doc['replay_inputs'],
-                        duration_s=doc['duration_s'], step_s=doc['maximum_step_s'])
-                else:
-                    result = replay_attempt(folder / 'original', folder / case)
+                result = replay_attempt(original_case, folder / case)
                 require(result['status'] == 'COMPLETED', str(result['failure']))
                 receipt['completed_integrations'] += 1
                 checks[case] = check_case(folder, case, protocol, doc, source, identity)
@@ -272,7 +305,7 @@ def capture(folder, protocol):
             except Exception as error:
                 append(folder / 'attempts.jsonl', dict(case=case, status='FAILED', source=source, error=str(error)))
                 raise
-        checks['replay_comparison'] = compare(folder)
+        checks['replay_comparison'] = compare(original_case, folder / 'replay', retained['execution_source'], source)
         write(folder / 'checks.json', checks)
         require(durable(folder) == declared(protocol), 'Declared output set differs')
         receipt['status'] = 'PASS'
@@ -289,15 +322,16 @@ def capture(folder, protocol):
         receipt['artifacts'] = {name: digest((folder / name).read_bytes()) for name in sorted(durable(folder))}
         write(folder / protocol['terminal'], receipt)
     require(receipt['status'] == 'PASS', 'Terminal capture failed')
-    return dict(status='PASS', source=source, physical_runs=receipt['completed_integrations'], simulated_duration_s=20)
+    return dict(status='PASS', source=source, new_physical_runs=receipt['completed_integrations'], simulated_duration_s=10,
+        reused_originals=1, combined_physical_budget_s=20)
 
 
 def verify(folder, protocol, delivery):
     require(git('rev-parse', 'HEAD').decode().strip() == delivery and not git('status', '--porcelain'), 'Use clean committed delivery')
     receipt = read(folder / protocol['terminal'])
     source = receipt['source']
-    require(receipt['status'] == 'PASS' and receipt['source_guard'] and receipt['attempts'] == receipt['completed_integrations'] == receipt['validated'] == 2 and
-        receipt['simulated_duration_attempted_s'] == 20, 'Original frozen attempt did not pass')
+    require(receipt['status'] == 'PASS' and receipt['source_guard'] and receipt['attempts'] == receipt['completed_integrations'] == receipt['validated'] == 1 and
+        receipt['simulated_duration_attempted_s'] == 10, 'Frozen replay did not pass')
     require(durable(folder) == declared(protocol) | {protocol['terminal']} and set(receipt['artifacts']) == declared(protocol), 'Frozen durable output set differs')
     for name, sha in receipt['artifacts'].items():
         require(digest((folder / name).read_bytes()) == sha, 'Original artifact differs: ' + name)
@@ -311,11 +345,14 @@ def verify(folder, protocol, delivery):
         [(case, stage, source) for case in protocol['cases'] for stage in ('STARTED', 'COMPLETED')], 'Frozen attempt ledger differs')
     require(all(row['duration_s'] == protocol['duration_s_per_case'] for row in ledger if row['status'] == 'STARTED'), 'Started attempt budget differs')
     doc = read(ROOT / protocol['input'])
-    rebuilt = {case: check_case(folder, case, protocol, doc, source, receipt['pins']) for case in protocol['cases']}
-    rebuilt['replay_comparison'] = compare(folder)
+    rebuilt = {'original': retained_check(protocol, doc, receipt['pins'])}
+    rebuilt.update({case: check_case(folder, case, protocol, doc, source, receipt['pins']) for case in protocol['cases']})
+    retained = protocol['retained_original']
+    rebuilt['replay_comparison'] = compare(ROOT / retained['folder'] / 'original', folder / 'replay', retained['execution_source'], source)
     require(rebuilt == read(folder / 'checks.json'), 'Saved check results differ')
     return dict(status='PASS', source=source, delivery=delivery, artifacts=len(receipt['artifacts']),
-        pins={role: len(names) for role, names in receipt['pins'].items()}, physical_runs=2, simulated_duration_s=20,
+        pins={role: len(names) for role, names in receipt['pins'].items()}, retained_original_runs=1, replay_runs=1,
+        combined_simulated_duration_s=20,
         new_physics=0, new_selector_calls=0, registered_effect_trials=0)
 
 

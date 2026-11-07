@@ -1,0 +1,106 @@
+{
+  "schema": "aegisdc-ticket27-finite-loop-engineering-v3",
+  "classification": "FROZEN_FINITE_ENGINEERING_LOOP_AND_EXACT_REPLAY_NOT_EFFECT_COMPARISON",
+  "input": "evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+  "independent_literals": "evidence/mainline/engineering/27-full-loop/reference/independent-literals-v1.json",
+  "output": "evidence/mainline/engineering/27-full-loop/capture-20261107-03",
+  "tools": [
+    "scripts/full_loop_delivery.py",
+    "scripts/inspection_delivery.py",
+    "scripts/prepare_full_loop_inputs.py",
+    "scripts/prepare_full_loop_oracles.py",
+    "scripts/full_loop_development.py",
+    "scripts/full_loop_development_v2.py"
+  ],
+  "contracts": [
+    "docs/mainline/27-cross-system-loop-contract.md",
+    "docs/mainline/27-loop-input-context.md",
+    "docs/mainline/27-service-observation-development.md",
+    "docs/mainline/27-online-replay-development.md",
+    "docs/mainline/27-pre-capture-review-correction.md",
+    "docs/mainline/27-reserve-oracle-correction.md"
+  ],
+  "cases": [
+    "replay"
+  ],
+  "duration_s_per_case": 10,
+  "maximum_step_s": 0.01,
+  "attempt_budget": 1,
+  "simulated_duration_budget_s": 10,
+  "scheduled_online_decisions_per_case": 8,
+  "decisions_s": [
+    1,
+    3,
+    4.5,
+    4.75,
+    6,
+    6.5,
+    7.5,
+    8.5
+  ],
+  "choices": [
+    null,
+    "first-inspection",
+    null,
+    "first-action",
+    null,
+    null,
+    null,
+    null
+  ],
+  "closure_states": [
+    "OPEN_UNCONFIRMED",
+    "OPEN_UNCONFIRMED",
+    "OPEN_UNCONFIRMED",
+    "OPEN_UNCONFIRMED",
+    "OPEN_UNCONFIRMED",
+    "ACTION_COMPLETED_PENDING_VERIFICATION",
+    "ACTION_COMPLETED_PENDING_VERIFICATION",
+    "VERIFIED_CLOSED"
+  ],
+  "absolute_tolerance": 1e-09,
+  "energy_tolerance_J": 0.0001,
+  "mass_tolerance_kg": 1e-09,
+  "durable_root": [
+    "capture.json",
+    "attempts.jsonl",
+    "checks.json"
+  ],
+  "durable_case": [
+    "declaration.json",
+    "lifecycle.jsonl",
+    "request.json",
+    "scenario-input.json",
+    "inputs.json",
+    "frozen-inputs.json",
+    "attempt.json",
+    "trajectory/run.json",
+    "trajectory/scenario.json",
+    "trajectory/private-state.jsonl",
+    "trajectory/balances.jsonl"
+  ],
+  "durable_replay_extra": [
+    "origin/attempt.json",
+    "origin/declaration.json",
+    "origin/lifecycle.jsonl"
+  ],
+  "terminal": "receipt.json",
+  "comparison": "The retained original and new replay scenario, physical trace and balance bytes must match. Compare complete run content except policy_computation_audit[*].elapsed_ns and the explicitly verified code_identity.git_commit metadata for the two different Git sources with identical runtime bytes and interpreter.",
+  "failure_rule": "Validate the retained, immutable original against corrected reserve accounting before any call. One new replay only, with a synced STARTED row; retain any failure, no automatic retry.",
+  "scope": "A new finite same-facility engineering scenario including load rise, maintenance, cooling degradation, local protection and restoration, delayed work order, actual inspection and authorized cleaning, and post-action verification. Replay is a reproducibility check, not an independent research repetition.",
+  "field_calibration": "PENDING",
+  "registered_effect_trials": 0,
+  "supersedes_unexecuted_protocol": "docs/mainline/27-loop-engineering-protocol.json",
+  "retained_protocol_inputs": [
+    "docs/mainline/27-loop-engineering-protocol.json",
+    "evidence/mainline/engineering/27-full-loop/reference/online-loop-v1.json",
+    "docs/mainline/27-loop-engineering-protocol-v2.json"
+  ],
+  "combined_physical_budget_s": 20,
+  "retained_original": {
+    "folder": "evidence/mainline/engineering/27-full-loop/capture-20261107-02",
+    "launch_folder": "evidence/mainline/engineering/27-full-loop/capture-02-launch",
+    "execution_source": "36ae97cc17e4b9297017289e285d00abaee29929",
+    "delivery": "3ffa95d6e966443287f6b32f156413ce9587edae"
+  }
+}
