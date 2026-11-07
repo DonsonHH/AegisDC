@@ -27,6 +27,14 @@ def check_ablation_run(document,run,trace,balances):
     require(type(count) is int and (count>0 if mask=='without_dependency_context' else count==0),
         'Unexpected dependency shape-validation lifecycle')
     actual_tasks={c['task']['id']:c['task'] for c in actual['policy_program']['candidates']}
+    decisions={r['frame']['as_of_s']:r for r in run['policy_public_decisions']}
+    for row in marker.get('private_submission_frames',[]):
+        decision=decisions[row['as_of_s']]
+        require(decision['choice']['work_intention']['id']==row['task_id']
+            and row['evidence_sha256']==fingerprint(decision['frame']['evidence'])
+            and row['planner_nominal_sha256']==fingerprint(planning['nominal_knowledge'])
+            and row['actual_nominal_sha256']==fingerprint(actual['nominal_knowledge']),
+            'Private submission changed time, evidence or nominal identity beyond its declared binding')
     for row in run['policy_public_decisions']:
         task=row['choice']['work_intention']
         if task is not None:require(task==actual_tasks[task['id']],'A mask changed an actual task definition')

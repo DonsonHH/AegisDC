@@ -99,9 +99,28 @@ def session_type(mask,instances):
             self.execution_program=deepcopy(program)
             self.planner_program=planner_view(program,mask)
             self.mask=mask;self.catalog_shape_validations=0
+            self.private_submission_frames=[]
             instances.append(self)
-        def process(self,*args,**kwargs):
-            with planning_scope(self):return super().process(*args,**kwargs)
+        def process(self,time_s,workforce,inspections,interventions):
+            session=self
+            def actual_frame(frame,task):
+                from aegis_dc.decision_view import validate_current_frame
+                value=deepcopy(frame)
+                value['nominal_knowledge']=deepcopy(session.execution_program['nominal_knowledge'])
+                validate_current_frame(value)
+                session.private_submission_frames.append(dict(task_id=task['id'],as_of_s=frame['as_of_s'],
+                    evidence_sha256=fingerprint(frame['evidence']),
+                    planner_nominal_sha256=fingerprint(frame['nominal_knowledge']),
+                    actual_nominal_sha256=fingerprint(value['nominal_knowledge'])))
+                return value
+            class WorkSubmissions:
+                def public_feedback(self,at):return workforce.public_feedback(at)
+                def submit(self,frame,task):return workforce.submit(actual_frame(frame,task),task)
+            class ActionIssues:
+                def public_feedback(self,at):return interventions.public_feedback(at)
+                def record_issue(self,frame,profile,task):return interventions.record_issue(actual_frame(frame,task),profile,task)
+            with planning_scope(self):
+                return super().process(time_s,WorkSubmissions(),inspections,ActionIssues() if interventions is not None else None)
         def resource_ledger(self,*args,**kwargs):
             with planning_scope(self):return super().resource_ledger(*args,**kwargs)
     return MaskedSession
@@ -117,6 +136,7 @@ def execution_audit(session,mask):
         actual_program_sha256=fingerprint(session.execution_program),
         planner_program_sha256=fingerprint(session.planner_program),
         schema_component_identity_validations=session.catalog_shape_validations,
+        private_submission_frames=deepcopy(session.private_submission_frames),
         actual_catalog_task_ids=sorted(r['task']['id'] for r in session.catalog_program['submissions']),
         planner_candidate_ids=sorted(c['id'] for c in session.planner_program['policy_program']['candidates']),
         actual_binding_task_ids=sorted(b['task_id'] for b in session.execution_program['intervention_program']['bindings']),
