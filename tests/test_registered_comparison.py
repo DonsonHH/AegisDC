@@ -185,3 +185,28 @@ class RegisteredComparisonTests(unittest.TestCase):
                     cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
                 self.assertNotEqual(result.returncode,0,change)
                 self.assertIn('semantic',result.stderr.lower())
+
+
+    def test_nonce_commitment_and_release_refusal_do_not_expose_a_held_seed(self):
+        gate=ROOT/'scripts/comparison_release.py'
+        with TemporaryDirectory() as folder:
+            nonce=Path(folder)/'synthetic-nonce.bin'
+            nonce.write_bytes(bytes(range(32)))
+            command=[sys.executable,'-B','-X','utf8',str(gate),'audit-nonce',str(nonce),
+                     '--sha256','630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd']
+            result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+            self.assertEqual(result.returncode,0,result.stderr)
+            receipt=json.loads(result.stdout)
+            self.assertEqual(receipt['status'],'PASS_COMMITMENT')
+            self.assertEqual(receipt['held_inputs_materialized'],0)
+            self.assertNotIn('0001020304',result.stdout)
+            command[-1]='0'*64
+            result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('commitment',result.stderr.lower())
+            result=subprocess.run([sys.executable,'-B','-X','utf8',str(gate),'audit-release',
+                '--phase','confirmation','--stage','prepare','--lock',str(Path(folder)/'absent-lock.json'),
+                '--nonce',str(Path(folder)/'absent-nonce.bin')],
+                cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('accepted ticket 30',result.stderr.lower())
