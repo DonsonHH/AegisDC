@@ -1,0 +1,50 @@
+{
+  "schema": "aegisdc-public-evidence-preflight-v1",
+  "date": "2026-11-07",
+  "classification": "ENGINEERING_PUBLIC_DECISION_AND_CLOSURE_FIXTURE_WITHOUT_FACILITY",
+  "input": "evidence/mainline/engineering/28-negative-controls/reference-v5/cases-v1.json",
+  "output": "evidence/mainline/engineering/28-negative-controls/public-evidence-preflight-20261107-01",
+  "frame_times_s": {
+    "normal": [
+      1,
+      3
+    ],
+    "false_report": [
+      1,
+      3,
+      6.5,
+      7
+    ]
+  },
+  "expected_counters": {
+    "public_frames": 6,
+    "public_choice_calls": 4,
+    "standalone_closure_calls": 1,
+    "physical_calls": 0
+  },
+  "nested_calls": "Each of four choose_work calls uses its own evidence-only closure and other model evaluations. Preserve reported counts; one independent no-sample closure call is separate.",
+  "neutral_note": "Operator reported possible low intake flow; a professional check is pending.",
+  "tools": [
+    "scripts/negative_control_public_evidence.py",
+    "scripts/inspection_delivery.py",
+    "scripts/prepare_negative_control_inputs_v5.py"
+  ],
+  "durable_outputs": [
+    "attempt.json",
+    "attempts.jsonl",
+    "frame-normal-1.json",
+    "frame-normal-3.json",
+    "frame-false_report-1.json",
+    "frame-false_report-3.json",
+    "frame-false_report-6.5.json",
+    "frame-false_report-7.json",
+    "choice-normal-1.json",
+    "choice-normal-3.json",
+    "choice-false_report-1.json",
+    "choice-false_report-3.json",
+    "closure-false-report-no-measurements.json"
+  ],
+  "terminal": "receipt.json",
+  "interpretation": "No actual sensor or handheld measurements are invented. Public pre-report frames equal. Arrival alone may make inspection appropriate; the declared review at seven cannot close without real supporting samples. No new physical attempt, comparative study, training or AI.",
+  "failure_rule": "Retain each returned public value and the first failure; no automatic retry."
+}
