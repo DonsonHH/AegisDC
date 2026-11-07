@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import secrets
 import subprocess
+import sys
 
 from inspection_delivery import ROOT, git, hashes, write
 from registered_comparison import audit_blueprints, canonical, read, require
@@ -158,26 +159,49 @@ def _accepted(ticket):
     return record
 
 
-def _execution_receipt(phase, lock, plan, directory):
-    # Filled by ticket 32 (confirmation) or the separately audited preparation
-    # within tickets 35 and 36. A missing or incomplete receipt refuses release.
+def _execution_files(source):
+    files={name for name in git('ls-tree','-rz','--name-only',source,'src','scripts','configs').decode().split('\0')
+           if name.endswith(('.py','.json'))}
+    require(bool(files),'Missing exact runtime and configuration paths')
+    return files
+
+
+def _execution_receipt(phase, lock, plan, directory, accepted):
+    # The executed code is an immutable ancestor of the governance receipt.
+    # A receipt cannot name the Git hash of its own containing commit.
     path=f'docs/mainline/evidence/30-{phase}-execution-lock.json'
     require((ROOT/path).is_file(),'Requires committed exact phase execution lock')
     receipt=_committed(path)
-    require(set(receipt)=={'schema','status','phase','design_lock_sha256','execution_commit','inputs','budget'}
+    require(set(receipt)=={'schema','status','phase','design_lock_sha256','execution_source','execution_pins',
+                          'interpreter_sha256','input_hashes','budget'}
             and receipt['schema']=='aegisdc-comparison-execution-lock-v1'
             and receipt['status']=='REVIEWED_FOR_EXECUTION' and receipt['phase']==phase
             and receipt['design_lock_sha256']==digest((ROOT/LOCK).read_bytes())
-            and receipt['execution_commit']==_head() and receipt['budget']==plan['phases'][phase]['budget'],
+            and receipt['budget']==plan['phases'][phase]['budget'],
             'Exact phase execution identity or budget differs')
+    if phase=='confirmation':
+        require(accepted.get('execution_lock')==path
+                and accepted.get('execution_lock_sha256')==digest((ROOT/path).read_bytes()),
+                'Accepted ticket 32 does not bind the exact phase execution lock')
+    source=receipt['execution_source']
+    _ancestor(lock['design_commit'],source)
+    _ancestor(source,_head())
+    code=receipt['execution_pins']
+    require(set(code)==_execution_files(source)==_execution_files(_head())
+            and code==hashes(source,code)==hashes(_head(),code)
+            and all(digest((ROOT/name).read_bytes())==sha for name,sha in code.items()),
+            'Executable files differ from the frozen phase source')
+    require(digest(Path(sys.executable).read_bytes())==receipt['interpreter_sha256'],
+            'Interpreter differs from the frozen phase executable')
     phase_plan=plan['phases'][phase]
     expected={f"{world['id']}/{arm}.json" for world in phase_plan['worlds'] for arm in phase_plan['arms']}
-    pins=receipt['inputs']
+    pins=receipt['input_hashes']
     require(set(pins)==expected and len(expected)==phase_plan['budget']['attempts'],'Phase input denominator differs')
     require(directory.is_dir(),'Requires frozen phase input directory')
-    require(all(_hex(h) and digest((directory/name).read_bytes())==h for name,h in pins.items()),
-            'Frozen phase input bytes differ')
-    _ancestor(lock['design_commit'],receipt['execution_commit'])
+    actual={p.relative_to(directory).as_posix() for p in directory.rglob('*') if p.is_file()}
+    require(actual==expected and all(_hex(sha) and digest((directory/name).read_bytes())==sha for name,sha in pins.items()),
+            'Frozen phase input set or bytes differ')
+    return source
 
 
 def audit_release(phase, stage, lock_path, nonce_path, input_directory, output):
@@ -190,15 +214,16 @@ def audit_release(phase, stage, lock_path, nonce_path, input_directory, output):
             and accepted.get('protocol_lock_sha256')==digest((ROOT/LOCK).read_bytes())
             and accepted.get('design_commit')==lock['design_commit'],'Ticket 30 does not bind the design lock')
     plan=_plan()
-    _accepted('31' if phase=='confirmation' and stage=='prepare' else '32' if phase=='confirmation' else '34')
+    gate=_accepted('31' if phase=='confirmation' and stage=='prepare' else '32' if phase=='confirmation' else '34')
     require(output is not None and not output.resolve().exists(),'Use a unique, unused phase output directory')
+    execution_source=None
     if stage=='execute':
         require(input_directory is not None,'Execution requires frozen input originals')
-        _execution_receipt(phase,lock,plan,input_directory.resolve())
+        execution_source=_execution_receipt(phase,lock,plan,input_directory.resolve(),gate)
     # Only after exact source and stage checks may this gate read the nonce.
     _read_nonce(nonce_path,lock['commitments_sha256'][phase])
     return dict(status='PASS_PHASE_GATE_AUDIT_ONLY',phase=phase,stage=stage,checked_commit=_head(),
-        budget=plan['phases'][phase]['budget'],held_inputs_materialized=0,facility_calls=0,selector_calls=0)
+        execution_source=execution_source,budget=plan['phases'][phase]['budget'],held_inputs_materialized=0,facility_calls=0,selector_calls=0)
 
 
 def assignment_key(nonce, protocol_id, namespace, family, variant):
