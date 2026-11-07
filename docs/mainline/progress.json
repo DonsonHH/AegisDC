@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "32",
+  "current_ticket": "33",
   "current_milestone": "M5",
   "milestones": [
     {
@@ -83,9 +83,10 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/29-root.json",
         "docs/mainline/evidence/30-root.json",
-        "docs/mainline/evidence/31-root.json"
+        "docs/mainline/evidence/31-root.json",
+        "docs/mainline/evidence/32-root.json"
       ],
-      "progress_scope": "31 complete as registered development;32 next freezes independent executable conditions,33 confirmation pending."
+      "progress_scope": "31 development complete;32 independently reviewed executable/input freeze accepted;33 original confirmation next."
     },
     {
       "id": "M6",
@@ -113,7 +114,9 @@
     },
     "confirmation": {
       "attempts": 0,
-      "materialized": false
+      "materialized": true,
+      "worlds": 16,
+      "inputs": 96
     }
   },
   "agent_stage": "deferred_until_eligibility_gate",
@@ -128,9 +131,16 @@
       "stage_effect": "reference ready; no facility milestone completed"
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "ticket": "33",
+      "owner": "/root",
+      "worktree": "mainline-33-confirmation",
+      "state": "ready_after32"
+    }
+  ],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-08: one original development batch completed and saved reviews/fresh proof passed.32 ready, no held inputs read.",
+  "liveness_refresh": "2026-11-08: root owns33 after32 acceptance; both32 reviewers passed,0 confirmation calls.",
   "user_review_checkpoint": {
     "ticket": "35",
     "status": "pending",
