@@ -4,7 +4,7 @@
 
 **Blocked by:** 34
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M6
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner /root, unique worktree mainline35-ablation at accepted34 4b5f0b34. Implement only the original three registered masks and independent32-slot budget; no candidate tuning. Preserve actual executor capability and original runtime source.
