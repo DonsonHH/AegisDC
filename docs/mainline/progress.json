@@ -10,8 +10,8 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "33",
-  "current_milestone": "M5",
+  "current_ticket": "34",
+  "current_milestone": "M6",
   "milestones": [
     {
       "id": "M0",
@@ -84,14 +84,16 @@
         "docs/mainline/evidence/29-root.json",
         "docs/mainline/evidence/30-root.json",
         "docs/mainline/evidence/31-root.json",
-        "docs/mainline/evidence/32-root.json"
+        "docs/mainline/evidence/32-root.json",
+        "docs/mainline/evidence/33-root.json"
       ],
-      "progress_scope": "31 development complete;32 independently reviewed executable/input freeze accepted;33 original confirmation next."
+      "progress_scope": "29–33 execution evidence accepted; paired scientific analysis34 pending before full comparison gate."
     },
     {
       "id": "M6",
-      "status": "pending",
-      "acceptance_evidence": []
+      "status": "in_progress",
+      "acceptance_evidence": [],
+      "progress_scope": "34 paired analysis next;35,36 and37 still pending."
     },
     {
       "id": "M7",
@@ -100,11 +102,11 @@
     }
   ],
   "research_trials": {
-    "status": "development_completed",
+    "status": "confirmation_completed_pending_analysis",
     "protocol": "docs/mainline/30-comparison-protocol-v1.json",
-    "attempts": 36,
+    "attempts": 132,
     "failure_records": 0,
-    "completed": 36,
+    "completed": 132,
     "development": {
       "attempts": 36,
       "completed": 36,
@@ -113,11 +115,18 @@
       "charged_s": 360
     },
     "confirmation": {
-      "attempts": 0,
+      "attempts": 96,
       "materialized": true,
       "worlds": 16,
-      "inputs": 96
-    }
+      "inputs": 96,
+      "completed": 96,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_s": 960,
+      "scheduled_decisions": 960
+    },
+    "charged_s": 1320
   },
   "agent_stage": "deferred_until_eligibility_gate",
   "rsi_gain": "NOT_ESTABLISHED",
@@ -133,14 +142,14 @@
   ],
   "active_implementations": [
     {
-      "ticket": "33",
+      "ticket": "34",
       "owner": "/root",
-      "worktree": "mainline-33-confirmation",
-      "state": "ready_after32"
+      "worktree": "integration",
+      "state": "ready_after33"
     }
   ],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-08: root owns33 after32 acceptance; both32 reviewers passed,0 confirmation calls.",
+  "liveness_refresh": "2026-11-08: unique96 confirmation returned and both independent saved reviews plus fresh-delivery passed. No rerun.",
   "user_review_checkpoint": {
     "ticket": "35",
     "status": "pending",
