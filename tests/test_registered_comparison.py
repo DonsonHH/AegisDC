@@ -103,3 +103,28 @@ class RegisteredComparisonTests(unittest.TestCase):
             self.assertNotEqual(held.returncode,0)
             self.assertIn('Held phase is not released',held.stderr)
             self.assertFalse(path.exists())
+
+
+    def test_held_blueprints_never_read_seed_material_and_pair_robustness_levels(self):
+        source = ROOT / 'docs/mainline/30-comparison-protocol-v1.json'
+        catalog = ROOT / 'configs/full-facility-comparison-held-blueprints-v1.json'
+
+        def audit(path):
+            return subprocess.run([sys.executable,'-B','-X','utf8',str(CLI),'audit-blueprints',
+                str(source),str(path)],cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+
+        result = audit(catalog)
+        self.assertEqual(result.returncode,0,result.stderr)
+        receipt = json.loads(result.stdout)
+        self.assertEqual(receipt['confirmation_blueprints'],16)
+        self.assertEqual(receipt['ablation_blueprints'],8)
+        self.assertEqual(receipt['robustness_blocks'],4)
+        self.assertEqual(receipt['held_inputs_materialized'],0)
+        with TemporaryDirectory() as folder:
+            edited = Path(folder) / 'bad.json'
+            blueprint = json.loads(catalog.read_bytes())
+            blueprint['confirmation']['network-restorable'][1] = blueprint['confirmation']['network-restorable'][0]
+            edited.write_text(json.dumps(blueprint),encoding='utf-8')
+            result = audit(edited)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('Reused blueprint',result.stderr)
