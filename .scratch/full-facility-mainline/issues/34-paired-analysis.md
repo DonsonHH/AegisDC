@@ -4,13 +4,13 @@
 
 **Blocked by:** 33
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M6
 
-- [ ] 不把多帧/多方法/重复轨迹当独立物理样本。
-- [ ] 报告完整分母、区间、代价和约束，零违规不等于有效性。
-- [ ] 主要结论与预注册判据一致，不能只挑显著指标。
+- [x] 不把多帧/多方法/重复轨迹当独立物理样本。
+- [x] 报告完整分母、区间、代价和约束，零违规不等于有效性。
+- [x] 主要结论与预注册判据一致，不能只挑显著指标。
 
 ## Context
 
@@ -18,6 +18,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Accepted: docs/mainline/evidence/34-root.json; all16pairs, NO_PRACTICAL_GAIN,3actual data figures, independent reviews and exact fresh delivery. No new physical/selector calls.
 
 Owner /root at integration after accepted33 (483f4bb8); saved-only analysis, no new physical or selector calls.

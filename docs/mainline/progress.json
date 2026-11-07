@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "34",
+  "current_ticket": "35",
   "current_milestone": "M6",
   "milestones": [
     {
@@ -79,21 +79,25 @@
     },
     {
       "id": "M5",
-      "status": "in_progress",
+      "status": "accepted",
       "acceptance_evidence": [
         "docs/mainline/evidence/29-root.json",
         "docs/mainline/evidence/30-root.json",
         "docs/mainline/evidence/31-root.json",
         "docs/mainline/evidence/32-root.json",
-        "docs/mainline/evidence/33-root.json"
+        "docs/mainline/evidence/33-root.json",
+        "docs/mainline/evidence/34-root.json",
+        "docs/mainline/evidence/M5.json"
       ],
-      "progress_scope": "29–33 execution evidence accepted; paired scientific analysis34 pending before full comparison gate."
+      "progress_scope": "Finite independent comparison accepted through34; practical gain not established."
     },
     {
       "id": "M6",
       "status": "in_progress",
-      "acceptance_evidence": [],
-      "progress_scope": "34 paired analysis next;35,36 and37 still pending."
+      "acceptance_evidence": [
+        "docs/mainline/evidence/34-root.json"
+      ],
+      "progress_scope": "34 primary result accepted;35 ablation next;36,37 pending."
     },
     {
       "id": "M7",
@@ -102,7 +106,7 @@
     }
   ],
   "research_trials": {
-    "status": "confirmation_completed_pending_analysis",
+    "status": "confirmation_analyzed_no_practical_gain",
     "protocol": "docs/mainline/30-comparison-protocol-v1.json",
     "attempts": 132,
     "failure_records": 0,
@@ -126,7 +130,9 @@
       "charged_s": 960,
       "scheduled_decisions": 960
     },
-    "charged_s": 1320
+    "charged_s": 1320,
+    "primary_confirmation_status": "NO_PRACTICAL_GAIN",
+    "primary_mean_service_delta_s": 0.03515625
   },
   "agent_stage": "deferred_until_eligibility_gate",
   "rsi_gain": "NOT_ESTABLISHED",
@@ -142,14 +148,14 @@
   ],
   "active_implementations": [
     {
-      "ticket": "34",
+      "ticket": "35",
       "owner": "/root",
-      "worktree": "integration",
-      "state": "ready_after33"
+      "worktree": "mainline35-ablation",
+      "state": "ready_after34"
     }
   ],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-08: unique96 confirmation returned and both independent saved reviews plus fresh-delivery passed. No rerun.",
+  "liveness_refresh": "2026-11-08:33 execution complete,34 saved analysis accepted by both review axes and fresh proof; root proceeds35 before user checkpoint.",
   "user_review_checkpoint": {
     "ticket": "35",
     "status": "pending",
