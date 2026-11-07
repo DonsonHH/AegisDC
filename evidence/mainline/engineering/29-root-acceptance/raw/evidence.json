@@ -1,0 +1,122 @@
+{
+  "schema": "curated-evidence-verification-v1",
+  "evidence_integrity": "PASS",
+  "research_gain": "NOT_ESTABLISHED",
+  "source_commit": "f2c20b3a642ff1df9426e523614d3da9a5cf1129",
+  "verified_original_files": 20,
+  "verified_original_bytes": 3181579,
+  "action_value": {
+    "samples": 144,
+    "roots": 24,
+    "processes": 12,
+    "underlying_seed_groups": 4,
+    "historical_rollout_receipts": 156,
+    "historical_fits": 4,
+    "professions": [
+      "thermal"
+    ],
+    "categories": {
+      "cost_improvement": 13,
+      "tradeoff": 8,
+      "all_worse": 3
+    },
+    "cost_actions": 13,
+    "prediction_max_absolute_difference": 1.1368683772161603e-13,
+    "oof_errors": {
+      "missed": {
+        "n": 144,
+        "mae": 0.25842314285652707,
+        "rmse": 1.4898172312469282
+      },
+      "wait_s": {
+        "n": 96,
+        "mae": 22.300201703934132,
+        "rmse": 131.934995113746
+      },
+      "travel_m": {
+        "n": 144,
+        "mae": 11.546186551645832,
+        "rmse": 78.54471158662936
+      },
+      "completed": {
+        "n": 144,
+        "mae": 0.31315258838065313,
+        "rmse": 1.1585640789063412
+      }
+    },
+    "zero_baseline_errors": {
+      "missed": {
+        "n": 144,
+        "mae": 0.06944444444444445,
+        "rmse": 0.26352313834736496
+      },
+      "wait_s": {
+        "n": 96,
+        "mae": 2.367647712547316,
+        "rmse": 8.482174649997656
+      },
+      "travel_m": {
+        "n": 144,
+        "mae": 10.504166666666618,
+        "rmse": 12.798779238661687
+      },
+      "completed": {
+        "n": 144,
+        "mae": 0.6527777777777778,
+        "rmse": 0.8079466429027216
+      }
+    },
+    "ridge_rankings": {
+      "comparable_pairs": 304,
+      "raw_counts": {
+        "undistinguished": 186,
+        "correct": 109,
+        "reversed": 9
+      },
+      "ordered_coverage": 0.4040521978021978,
+      "conditional_accuracy": 0.9312520067237048,
+      "all_comparable_correct_fraction": 0.37627442002442
+    },
+    "worst_wait_prediction_s": 913.8755522366969,
+    "worst_wait_actual_s": 0,
+    "feature_extrapolation_ratio": 309.37695547201696,
+    "online_policy_evaluated": false
+  },
+  "prior_results": {
+    "local_reorder_label_rows": 72,
+    "local_reorder_unique_record_ids": 66,
+    "local_reorder_confirmation_Q_minus_R": {
+      "missed_segments": 0.0,
+      "consequence_weighted_censored_delay_s": 0.15960260908885004,
+      "travel_m": 695.1999999999971,
+      "completed_inspections": -18.166666666666742
+    },
+    "correction_C1_C2_metrics_equal_Tour": true,
+    "correction_C1_minus_H": {
+      "travel_m": -2.0333333333328483,
+      "completed_inspections": -0.33333333333325754,
+      "service_s": -3.3333333333321207
+    },
+    "correction_interventions_cover_H_active_decisions": false
+  },
+  "historical_qwen": {
+    "historical_raw_responses": 4,
+    "duplicate_H_replies": 2,
+    "actual_evaluated_candidates": [
+      "C1",
+      "C2"
+    ],
+    "conditions_per_candidate": 6,
+    "C2_parent_policy_id": "7ff36a3713e7e9868d969775de5509cac3708685a410987b06c4970858c3a009",
+    "raw_output_matches_evaluated_rule": true,
+    "outcome": "C1 and C2 metrics equal Tour; independent task or recursive gain not established.",
+    "scope": "Saved replies, parent identity and evaluation CSV cross-check; no new generation and no complete prompt/feedback replay."
+  },
+  "scope": {
+    "new_research_rollouts": 0,
+    "new_model_fits": 0,
+    "new_llm_calls": 0,
+    "all_156_raw_trajectories_replayed": false,
+    "meaning": "Retained identities, saved predictions and statistics verified offline; no policy or RSI gain claim."
+  }
+}
