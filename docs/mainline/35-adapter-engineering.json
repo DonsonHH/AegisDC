@@ -1,0 +1,15 @@
+{
+  "schema": "aegisdc-adapter-engineering-witness-v1",
+  "classification": "ENGINEERING_INTERFACE_WITNESS_NOT_REGISTERED_EFFECT_TRIAL",
+  "physical_call_budget": 1,
+  "simulated_s_budget": 3,
+  "scheduled_decisions_budget": 3,
+  "automatic_retries": 0,
+  "output": "evidence/mainline/engineering/35-ablation-adapter/fixture-01",
+  "world": {"id": "engineering-team-view", "family": "engineering", "slot": 1, "duration_s": 3},
+  "recipe": {"kernel": "network-fallback", "network_cap": 0.3333333333333333, "filter_multiplier": 4, "context_valid_until_s": 3, "background": "late", "crew": "it-with-cooling", "events": []},
+  "decision_times_s": [0,1,2],
+  "mask": "without_joint_crew_planning",
+  "expected": {"actual_catalog_tasks": 2, "planner_candidates": 1, "actual_binding_tasks": 1, "planner_binding_tasks": 0, "selected_joint_tasks": 0, "physical_interventions": 0},
+  "claim": "Only planner/executor view separation, real singleton work and source/input accounting are checked; no effect gain is inferred."
+}
