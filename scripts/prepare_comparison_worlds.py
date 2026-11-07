@@ -71,7 +71,7 @@ def _question(options, duration, operation, fallback):
     likelihood = dict(zip(MODES,(0,1,0,1,.5),strict=True))
     for index, variant in enumerate(belief['variants']):
         variant.update(prior=[.0625,.375,.375,.125,.0625],
-            transition=[[int(a==b) for b in MODES] for a in MODES],
+            transition=[[1 if a==b=='other' else .0625 if b=='other' else .9375 if a==b else 0 for b in MODES] for a in MODES],
             positive_likelihood={'manual-vibration':[.25,.75,.25,.75,.5] if index==0 else [.375,.625,.375,.625,.5],
                 'lookahead-flow-channel':list(likelihood.values())},
             basis='Declared joint hypotheses and likelihoods; sensitivity varies the contextual symptom.')
