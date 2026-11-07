@@ -37,3 +37,34 @@ class RegisteredComparisonTests(unittest.TestCase):
             result = audit(edited)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('Another pair input differs', result.stderr)
+
+    def test_registry_rejects_a_cross_split_world_and_an_unbudgeted_arm(self):
+        source = ROOT / 'docs/mainline/30-comparison-protocol-v1.json'
+
+        def audit(path):
+            return subprocess.run(
+                [sys.executable, '-B', '-X', 'utf8', str(CLI), 'audit-plan', str(path)],
+                cwd=ROOT, capture_output=True, text=True, encoding='utf-8', check=False,
+            )
+
+        result = audit(source)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        receipt = json.loads(result.stdout)
+        self.assertEqual(receipt['worlds'], {'development':6,'confirmation':16,'ablation':8,'robustness':8})
+        self.assertEqual(receipt['attempts'], 180)
+        self.assertEqual(receipt['simulated_charge_s'], 1800)
+        self.assertEqual(receipt['research_trials'], 0)
+        with TemporaryDirectory() as folder:
+            altered = Path(folder) / 'altered.json'
+            original = json.loads(source.read_bytes())
+            mutated = json.loads(source.read_bytes())
+            mutated['phases']['confirmation']['worlds'][0]['id'] = original['phases']['development']['worlds'][0]['id']
+            altered.write_text(json.dumps(mutated), encoding='utf-8')
+            result = audit(altered)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('World IDs overlap', result.stderr)
+            original['phases']['development']['budget']['attempts'] += 1
+            altered.write_text(json.dumps(original), encoding='utf-8')
+            result = audit(altered)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('budget differs', result.stderr)
