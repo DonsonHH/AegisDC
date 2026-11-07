@@ -4,13 +4,13 @@
 
 **Blocked by:** 27
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M4
 
-- [ ] 检查不保证必有收益，资源成本与服务结果都入账。
-- [ ] 快速保护不由人员移动替代，失败/未确认不抹除。
-- [ ] 异常族和初值不只挑适合候选策略的有利条件。
+- [x] 检查不保证必有收益，资源成本与服务结果都入账。
+- [x] 快速保护不由人员移动替代，失败/未确认不抹除。
+- [x] 异常族和初值不只挑适合候选策略的有利条件。
 
 ## Context
 
@@ -33,3 +33,6 @@ First physical-call attempt:815 passed its static review gates but normal then f
 Public preflight revisions: original input-only phase1b refused stale late nominal identity after four valid scenario calls and four returned risk assessments. Phaseeb18 returned all four scenarios, three initial public frames and five risk assessments (19 saved artifacts at918e403c), zero new physical, selector or closure calls. [Third physical protocol](../../../docs/mainline/28-negative-engineering-protocol-v3.json) binds both phases and original815 failure to exact delivery bytes, keeps frozen plant/criteria, and accounts five attempts/28.75s cumulative upper budget. New four cases require two exact source reviews; none has run under v3 yet.
 
 Pre-capture privacy and ledger correction: frozen d0ecdd2e was never executed. Retained exact Spec205 and Standards1350 reports identify evaluator truth in public text and incomplete preparation/packet failure ledger. [Revision](../../../docs/mainline/28-privacy-and-ledger-correction.md) neutralizes only public labels, adds explicit lifecycle and per-closure receipts, and binds a successful 6-frame/4-choice/1-closure public fixture with zero new facility calls. The cumulative physical attempt limit and all four declared outcomes are unchanged; [protocol v4](../../../docs/mainline/28-negative-engineering-protocol-v4.json) is frozen for a new review, not yet launched.
+
+
+Root acceptance at cac9b4ef3d17d40133428f235efc5b73cb0a3dab: 567 executed, zero failures/errors/skips, 301 guarded files and 20 historical originals. Independent saved-data checks Spec9793 and Standards7932 and clean Git delivery all passed; four completed cases/21.5s and the first failed charge remain distinct (5 attempts/28.75s charged upper). Two actual figures were rendered and viewed. See [report](../../../evidence/mainline/engineering/28-negative-controls/README.md), [root authority](../../../docs/mainline/evidence/28-root.json), [fresh proof](../../../docs/mainline/evidence/28-root-delivery.json), [M4 authority](../../../docs/mainline/evidence/M4.json). Next dependency frontier is29; no effect study or field calibration.
