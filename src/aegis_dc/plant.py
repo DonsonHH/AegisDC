@@ -83,6 +83,21 @@ def _boundary_events(rows, parameters, duration, *, model, control_profile=None,
     return sorted(result, key=lambda item: item['time_s'])
 
 
+def validate_boundary_events(scenario, events, *, duration_s):
+    """Validate the public exogenous schedule without executing facility state."""
+    validate_scenario(scenario)
+    if not scenario['schema'].endswith('-v2'):
+        raise ValueError('A boundary schedule needs a runnable scenario')
+    parameters = {row['id']:row for row in scenario['parameters']}
+    duration = finite_number(duration_s, 'Duration', positive=True)
+    low, high = parameters['duration']['valid_range']
+    if not low <= duration <= high:
+        raise ValueError('duration outside declared runtime range')
+    runtime = scenario['runtime']
+    return _boundary_events(events, parameters, duration, model=runtime['model'],
+        control_profile=runtime.get('local_control_profile'), reserve_profile=runtime.get('reserve_profile'))
+
+
 def _code_identity():
     paths = sorted((ROOT / 'src/aegis_dc').glob('*.py')) + [ROOT / 'src/patrol_rsi/contracts.py']
     files = {str(path.relative_to(ROOT)).replace('\\', '/'): sha256(path.read_bytes()).hexdigest()
