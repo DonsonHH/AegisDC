@@ -164,3 +164,24 @@ class RegisteredComparisonTests(unittest.TestCase):
             self.assertEqual(result['mean_service_delta_bounds_s'],[.4375,1.0625])
             self.assertEqual(result['completed_primary_pairs'],15)
             self.assertEqual(result['source_verification'],'REQUIRED_SEPARATELY')
+
+
+    def test_semantic_audit_rejects_early_release_and_omitted_safety_rules(self):
+        protocol_path=ROOT/'docs/mainline/30-comparison-protocol-v1.json'
+        with TemporaryDirectory() as folder:
+            target=Path(folder)/'unsafe.json'
+            for change in ('early-release','negative-gain','missing-stops','missing-rules'):
+                plan=json.loads(protocol_path.read_bytes())
+                if change=='early-release':
+                    plan['phases']['confirmation']['release']='IMMEDIATE'
+                elif change=='negative-gain':
+                    plan['comparison']['minimum_worthwhile_gain_s']=-1
+                elif change=='missing-stops':
+                    plan['attempt_policy']['stop_conditions']=[]
+                else:
+                    del plan['comparison']['outcome_rules']
+                target.write_text(json.dumps(plan),encoding='utf-8')
+                result=subprocess.run([sys.executable,'-B','-X','utf8',str(CLI),'audit-plan',str(target)],
+                    cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+                self.assertNotEqual(result.returncode,0,change)
+                self.assertIn('semantic',result.stderr.lower())
