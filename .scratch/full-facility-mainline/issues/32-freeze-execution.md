@@ -4,7 +4,7 @@
 
 **Blocked by:** 31
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M5
 
@@ -19,3 +19,5 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+Owner /root, unique worktree mainline32-confirmation-freeze, accepted31 at ef790a2e; no conflicting owner. Input-only stage, no confirmation execution.
