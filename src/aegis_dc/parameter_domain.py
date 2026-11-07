@@ -10,7 +10,6 @@ from patrol_rsi.contracts import strict_json
 from .decision_view import validate_nominal
 from .plant import validate_boundary_events
 from .refrigerant_initialization import assess_refrigerant_initialization, prepare_refrigerant_initialization
-from .scenario import validate_scenario
 from .sensor_channels import validate_channel_profile
 from .thermodynamics import finite_number
 from .time_coordinates import same_time
@@ -92,8 +91,8 @@ def _power_service(p, events):
         output.append(dict(start_s=time, offered_demand=p['service_demand'],
             grid_path_upper_W=shared * min(p['grid_capacity'],p['switchboard_capacity']),
             diesel_path_upper_W=shared * min(p['diesel_capacity'],p['switchboard_capacity'])
-                if p['diesel_in_service'] and p['diesel_start_ok'] and p['diesel_transfer_ok']
-                   and p['diesel_initial_fuel_energy'] > 0 and p['generator_initial_start_energy'] > 0 else 0,
+                if p['diesel_in_service'] and p['diesel_transfer_ok']
+                   and p['diesel_initial_fuel_energy'] > 0 else 0,
             ups_protected_path_upper_W=shared * p['ups_output_capacity']
                 if p['ups_in_service'] and p['ups_transfer_ok'] and p['ups_energy'] > 0 else 0,
             service_nameplate_ceiling=min(p[key] for key in (
