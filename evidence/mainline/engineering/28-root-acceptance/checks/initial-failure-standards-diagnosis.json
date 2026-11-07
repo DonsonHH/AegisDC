@@ -1,0 +1,4876 @@
+{
+  "axis": "Standards",
+  "status": "DIAGNOSIS_ONLY_EXECUTION_BLOCKED",
+  "source": "f1d41ea3e1a096d39ee7e312571c441a1a916065",
+  "execution_source": "815294edb4befd6717a412c9fe48deac84157b4a",
+  "checks": 964,
+  "checks_passed": 964,
+  "checks_failed": 0,
+  "unresolved": [
+    {
+      "id": "STARTUP-BOUND-01",
+      "kind": "input_declaration_error",
+      "affected_upper_endpoints": 32,
+      "scope": [
+        "normal",
+        "false_report"
+      ],
+      "explanation": "Demand was changed to0.5 while eight questions in each policy and closure catalog retained unserved upper6. Exact six-second offered quantity is3; time bound remains6.",
+      "source_rules": [
+        "src/aegis_dc/risk_scenarios.py:129-136",
+        "scripts/prepare_negative_control_inputs_v2.py:68-69"
+      ],
+      "resolution": "New immutable input revision changes only these32 derived bounds, with no physical/model/literal tuning."
+    },
+    {
+      "id": "STARTUP-BINDING-02",
+      "kind": "latent_public_request_binding_error",
+      "scope": [
+        "too_late"
+      ],
+      "missing_request_ids": [
+        "intent-filter-check",
+        "intent-it-check"
+      ],
+      "explanation": "The full catalog validates both inspect options against frame.requests before any question closure evaluation. Current late plan only declares network-check-request-28.",
+      "source_rules": [
+        "src/aegis_dc/risk_scenarios.py:157-161",
+        "src/aegis_dc/verified_closure.py:191",
+        "scripts/negative_control_delivery.py:125-129"
+      ],
+      "resolution": "Declare the two already existing nominal static requests and preserve the single actual network-task submission."
+    }
+  ],
+  "execution_pass": false,
+  "new_project_imports": 0,
+  "new_application_calls": 0,
+  "new_selector_calls": 0,
+  "new_physical_calls": 0,
+  "new_closure_calls": 0,
+  "new_test_calls": 0,
+  "new_full_calls": 0,
+  "checks_detail": [
+    {
+      "id": 1,
+      "label": "recorded execution commit exact",
+      "passed": true
+    },
+    {
+      "id": 2,
+      "label": "failure record commit exact",
+      "passed": true
+    },
+    {
+      "id": 3,
+      "label": "fixed failure-source export .scratch/full-facility-mainline/issues/28-negative-controls.md",
+      "passed": true
+    },
+    {
+      "id": 4,
+      "label": "fixed failure-source export .scratch/full-facility-mainline/spec.md",
+      "passed": true
+    },
+    {
+      "id": 5,
+      "label": "fixed failure-source export AGENTS.md",
+      "passed": true
+    },
+    {
+      "id": 6,
+      "label": "fixed failure-source export GLOSSARY.md",
+      "passed": true
+    },
+    {
+      "id": 7,
+      "label": "fixed failure-source export configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 8,
+      "label": "fixed failure-source export docs/MAINLINE.md",
+      "passed": true
+    },
+    {
+      "id": 9,
+      "label": "fixed failure-source export docs/adr/0003-complete-facility-mainline.md",
+      "passed": true
+    },
+    {
+      "id": 10,
+      "label": "fixed failure-source export docs/agents/domain.md",
+      "passed": true
+    },
+    {
+      "id": 11,
+      "label": "fixed failure-source export docs/agents/issue-tracker.md",
+      "passed": true
+    },
+    {
+      "id": 12,
+      "label": "fixed failure-source export docs/agents/triage-labels.md",
+      "passed": true
+    },
+    {
+      "id": 13,
+      "label": "fixed failure-source export docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 14,
+      "label": "fixed failure-source export docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 15,
+      "label": "fixed failure-source export docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 16,
+      "label": "fixed failure-source export docs/mainline/28-negative-input-context.md",
+      "passed": true
+    },
+    {
+      "id": 17,
+      "label": "fixed failure-source export docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 18,
+      "label": "fixed failure-source export docs/mainline/progress.json",
+      "passed": true
+    },
+    {
+      "id": 19,
+      "label": "fixed failure-source export evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 20,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/.gitattributes",
+      "passed": true
+    },
+    {
+      "id": 21,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/attempt.json",
+      "passed": true
+    },
+    {
+      "id": 22,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/launcher.py",
+      "passed": true
+    },
+    {
+      "id": 23,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/manifest.json",
+      "passed": true
+    },
+    {
+      "id": 24,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/process.json",
+      "passed": true
+    },
+    {
+      "id": 25,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/stderr.txt",
+      "passed": true
+    },
+    {
+      "id": 26,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/stdout.txt",
+      "passed": true
+    },
+    {
+      "id": 27,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-02-launch/terminal.json",
+      "passed": true
+    },
+    {
+      "id": 28,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-20261107-02/attempts.jsonl",
+      "passed": true
+    },
+    {
+      "id": 29,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-20261107-02/capture.json",
+      "passed": true
+    },
+    {
+      "id": 30,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-20261107-02/normal/input.json",
+      "passed": true
+    },
+    {
+      "id": 31,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-20261107-02/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 32,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/capture-20261107-02/reviews.zip",
+      "passed": true
+    },
+    {
+      "id": 33,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 34,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 35,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 36,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 37,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 38,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 39,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 40,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 41,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 42,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 43,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 44,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 45,
+      "label": "fixed failure-source export evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 46,
+      "label": "fixed failure-source export scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 47,
+      "label": "fixed failure-source export scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 48,
+      "label": "fixed failure-source export scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 49,
+      "label": "fixed failure-source export scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 50,
+      "label": "fixed failure-source export scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 51,
+      "label": "fixed failure-source export scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 52,
+      "label": "fixed failure-source export scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 53,
+      "label": "fixed failure-source export scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 54,
+      "label": "fixed failure-source export src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 55,
+      "label": "fixed failure-source export src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 56,
+      "label": "fixed failure-source export src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 57,
+      "label": "fixed failure-source export src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 58,
+      "label": "fixed failure-source export src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 59,
+      "label": "fixed failure-source export src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 60,
+      "label": "fixed failure-source export src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 61,
+      "label": "fixed failure-source export src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 62,
+      "label": "fixed failure-source export src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 63,
+      "label": "fixed failure-source export src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 64,
+      "label": "fixed failure-source export src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 65,
+      "label": "fixed failure-source export src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 66,
+      "label": "fixed failure-source export src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 67,
+      "label": "fixed failure-source export src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 68,
+      "label": "fixed failure-source export src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 69,
+      "label": "fixed failure-source export src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 70,
+      "label": "fixed failure-source export src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 71,
+      "label": "fixed failure-source export src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 72,
+      "label": "fixed failure-source export src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 73,
+      "label": "fixed failure-source export src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 74,
+      "label": "fixed failure-source export src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 75,
+      "label": "fixed failure-source export src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 76,
+      "label": "fixed failure-source export src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 77,
+      "label": "fixed failure-source export src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 78,
+      "label": "fixed failure-source export src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 79,
+      "label": "fixed failure-source export src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 80,
+      "label": "fixed failure-source export src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 81,
+      "label": "fixed failure-source export src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 82,
+      "label": "fixed failure-source export src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 83,
+      "label": "fixed failure-source export src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 84,
+      "label": "fixed failure-source export src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 85,
+      "label": "fixed failure-source export src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 86,
+      "label": "fixed failure-source export src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 87,
+      "label": "fixed failure-source export src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 88,
+      "label": "fixed failure-source export src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 89,
+      "label": "fixed failure-source export src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 90,
+      "label": "fixed failure-source export src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 91,
+      "label": "fixed failure-source export src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 92,
+      "label": "fixed failure-source export src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 93,
+      "label": "fixed failure-source export src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 94,
+      "label": "fixed failure-source export src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 95,
+      "label": "fixed failure-source export src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 96,
+      "label": "fixed failure-source export src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 97,
+      "label": "fixed failure-source export src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 98,
+      "label": "fixed failure-source export src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 99,
+      "label": "fixed failure-source export src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 100,
+      "label": "fixed failure-source export src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 101,
+      "label": "fixed failure-source export src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 102,
+      "label": "fixed failure-source export src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 103,
+      "label": "fixed failure-source export src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 104,
+      "label": "fixed failure-source export src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 105,
+      "label": "fixed failure-source export src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 106,
+      "label": "fixed failure-source export src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 107,
+      "label": "fixed failure-source export src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 108,
+      "label": "fixed failure-source export src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 109,
+      "label": "fixed failure-source export src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 110,
+      "label": "fixed failure-source export src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 111,
+      "label": "fixed failure-source export src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 112,
+      "label": "fixed failure-source export src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 113,
+      "label": "fixed failure-source export src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 114,
+      "label": "fixed failure-source export src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 115,
+      "label": "fixed failure-source export src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 116,
+      "label": "fixed failure-source export src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 117,
+      "label": "fixed failure-source export src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 118,
+      "label": "fixed failure-source export src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 119,
+      "label": "fixed failure-source export src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 120,
+      "label": "fixed failure-source export src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 121,
+      "label": "AST parsed only evidence/mainline/engineering/28-negative-controls/capture-02-launch/launcher.py",
+      "passed": true
+    },
+    {
+      "id": 122,
+      "label": "AST parsed only scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 123,
+      "label": "AST parsed only scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 124,
+      "label": "AST parsed only scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 125,
+      "label": "AST parsed only scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 126,
+      "label": "AST parsed only scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 127,
+      "label": "AST parsed only scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 128,
+      "label": "AST parsed only scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 129,
+      "label": "AST parsed only scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 130,
+      "label": "AST parsed only src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 131,
+      "label": "AST parsed only src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 132,
+      "label": "AST parsed only src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 133,
+      "label": "AST parsed only src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 134,
+      "label": "AST parsed only src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 135,
+      "label": "AST parsed only src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 136,
+      "label": "AST parsed only src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 137,
+      "label": "AST parsed only src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 138,
+      "label": "AST parsed only src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 139,
+      "label": "AST parsed only src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 140,
+      "label": "AST parsed only src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 141,
+      "label": "AST parsed only src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 142,
+      "label": "AST parsed only src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 143,
+      "label": "AST parsed only src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 144,
+      "label": "AST parsed only src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 145,
+      "label": "AST parsed only src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 146,
+      "label": "AST parsed only src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 147,
+      "label": "AST parsed only src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 148,
+      "label": "AST parsed only src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 149,
+      "label": "AST parsed only src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 150,
+      "label": "AST parsed only src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 151,
+      "label": "AST parsed only src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 152,
+      "label": "AST parsed only src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 153,
+      "label": "AST parsed only src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 154,
+      "label": "AST parsed only src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 155,
+      "label": "AST parsed only src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 156,
+      "label": "AST parsed only src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 157,
+      "label": "AST parsed only src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 158,
+      "label": "AST parsed only src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 159,
+      "label": "AST parsed only src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 160,
+      "label": "AST parsed only src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 161,
+      "label": "AST parsed only src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 162,
+      "label": "AST parsed only src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 163,
+      "label": "AST parsed only src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 164,
+      "label": "AST parsed only src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 165,
+      "label": "AST parsed only src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 166,
+      "label": "AST parsed only src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 167,
+      "label": "AST parsed only src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 168,
+      "label": "AST parsed only src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 169,
+      "label": "AST parsed only src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 170,
+      "label": "AST parsed only src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 171,
+      "label": "AST parsed only src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 172,
+      "label": "AST parsed only src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 173,
+      "label": "AST parsed only src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 174,
+      "label": "AST parsed only src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 175,
+      "label": "AST parsed only src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 176,
+      "label": "AST parsed only src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 177,
+      "label": "AST parsed only src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 178,
+      "label": "AST parsed only src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 179,
+      "label": "AST parsed only src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 180,
+      "label": "AST parsed only src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 181,
+      "label": "AST parsed only src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 182,
+      "label": "AST parsed only src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 183,
+      "label": "AST parsed only src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 184,
+      "label": "AST parsed only src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 185,
+      "label": "AST parsed only src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 186,
+      "label": "AST parsed only src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 187,
+      "label": "AST parsed only src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 188,
+      "label": "AST parsed only src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 189,
+      "label": "AST parsed only src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 190,
+      "label": "AST parsed only src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 191,
+      "label": "AST parsed only src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 192,
+      "label": "AST parsed only src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 193,
+      "label": "AST parsed only src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 194,
+      "label": "AST parsed only src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 195,
+      "label": "AST parsed only src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 196,
+      "label": "AST parsed only src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 197,
+      "label": "execution source unchanged evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 198,
+      "label": "execution source unchanged evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 199,
+      "label": "execution source unchanged evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 200,
+      "label": "execution source unchanged evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 201,
+      "label": "execution source unchanged scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 202,
+      "label": "execution source unchanged src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 203,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 204,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 205,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 206,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 207,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 208,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 209,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 210,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 211,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 212,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 213,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 214,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 215,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 216,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 217,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 218,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 219,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 220,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 221,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 222,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 223,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 224,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 225,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 226,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 227,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 228,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 229,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 230,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 231,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 232,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 233,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 234,
+      "label": "bound defect confined to expected two online cases",
+      "passed": true
+    },
+    {
+      "id": 235,
+      "label": "exactly five risk catalog declarations",
+      "passed": true
+    },
+    {
+      "id": 236,
+      "label": "all five catalogs have eight full questions",
+      "passed": true
+    },
+    {
+      "id": 237,
+      "label": "32 inconsistent unserved upper endpoints",
+      "passed": true
+    },
+    {
+      "id": 238,
+      "label": "all normalized time bounds remain valid",
+      "passed": true
+    },
+    {
+      "id": 239,
+      "label": "late unserved bounds valid at demand1",
+      "passed": true
+    },
+    {
+      "id": 240,
+      "label": "exact 0.5 times6 is3 in binary64",
+      "passed": true
+    },
+    {
+      "id": 241,
+      "label": "six-second risk horizon differs from7.25s run integral",
+      "passed": true
+    },
+    {
+      "id": 242,
+      "label": "late catalog requires exactly two unavailable static IDs",
+      "passed": true
+    },
+    {
+      "id": 243,
+      "label": "request target remains within full question intent-filter-check",
+      "passed": true
+    },
+    {
+      "id": 244,
+      "label": "request binds existing late nominal identities intent-filter-check",
+      "passed": true
+    },
+    {
+      "id": 245,
+      "label": "request binds appropriate work target intent-filter-check",
+      "passed": true
+    },
+    {
+      "id": 246,
+      "label": "request target remains within full question intent-it-check",
+      "passed": true
+    },
+    {
+      "id": 247,
+      "label": "request binds existing late nominal identities intent-it-check",
+      "passed": true
+    },
+    {
+      "id": 248,
+      "label": "request binds appropriate work target intent-it-check",
+      "passed": true
+    },
+    {
+      "id": 249,
+      "label": "saved failure is source-bound terminal FAIL",
+      "passed": true
+    },
+    {
+      "id": 250,
+      "label": "expected exact bound validation error",
+      "passed": true
+    },
+    {
+      "id": 251,
+      "label": "single normal STARTED FAILED lifecycle",
+      "passed": true
+    },
+    {
+      "id": 252,
+      "label": "historical attempt completion validation counts",
+      "passed": true
+    },
+    {
+      "id": 253,
+      "label": "historical duration charged29/4 seconds",
+      "passed": true
+    },
+    {
+      "id": 254,
+      "label": "late and idle frames never started",
+      "passed": true
+    },
+    {
+      "id": 255,
+      "label": "saved normal input unchanged from frozen input",
+      "passed": true
+    },
+    {
+      "id": 256,
+      "label": "saved failure original hash attempts.jsonl",
+      "passed": true
+    },
+    {
+      "id": 257,
+      "label": "saved failure original hash capture.json",
+      "passed": true
+    },
+    {
+      "id": 258,
+      "label": "saved failure original hash normal/input.json",
+      "passed": true
+    },
+    {
+      "id": 259,
+      "label": "saved failure original hash reviews.zip",
+      "passed": true
+    },
+    {
+      "id": 260,
+      "label": "failure durable set exactly observed files",
+      "passed": true
+    },
+    {
+      "id": 261,
+      "label": "no returned or saved physical trajectory",
+      "passed": true
+    },
+    {
+      "id": 262,
+      "label": "other three cases have no produced originals",
+      "passed": true
+    },
+    {
+      "id": 263,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 264,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 265,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 266,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 267,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 268,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 269,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 270,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 271,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 272,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 273,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 274,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 275,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 276,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 277,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 278,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 279,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 280,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 281,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 282,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 283,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 284,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 285,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 286,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 287,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 288,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 289,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 290,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 291,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 292,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 293,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 294,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 295,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 296,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 297,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 298,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 299,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 300,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 301,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 302,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 303,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 304,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 305,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 306,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 307,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 308,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 309,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 310,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 311,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 312,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 313,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 314,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 315,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 316,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 317,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 318,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 319,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 320,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 321,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 322,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 323,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 324,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 325,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 326,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 327,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 328,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 329,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 330,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 331,
+      "label": "execution pin matches committed original runtime:src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 332,
+      "label": "failure commit preserves executed source/input runtime:src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 333,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 334,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 335,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 336,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 337,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 338,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 339,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 340,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 341,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 342,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 343,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 344,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 345,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 346,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 347,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 348,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 349,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 350,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 351,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 352,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 353,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 354,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 355,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 356,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 357,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 358,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 359,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 360,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 361,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 362,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 363,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 364,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 365,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 366,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 367,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 368,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 369,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 370,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 371,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 372,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 373,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 374,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 375,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 376,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 377,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 378,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 379,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 380,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 381,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 382,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 383,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 384,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 385,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 386,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 387,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 388,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 389,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 390,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 391,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 392,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 393,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 394,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 395,
+      "label": "execution pin matches committed original runtime:src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 396,
+      "label": "failure commit preserves executed source/input runtime:src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 397,
+      "label": "execution pin matches committed original tools:scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 398,
+      "label": "failure commit preserves executed source/input tools:scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 399,
+      "label": "execution pin matches committed original tools:scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 400,
+      "label": "failure commit preserves executed source/input tools:scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 401,
+      "label": "execution pin matches committed original tools:scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 402,
+      "label": "failure commit preserves executed source/input tools:scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 403,
+      "label": "execution pin matches committed original tools:scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 404,
+      "label": "failure commit preserves executed source/input tools:scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 405,
+      "label": "execution pin matches committed original tools:scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 406,
+      "label": "failure commit preserves executed source/input tools:scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 407,
+      "label": "execution pin matches committed original tools:scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 408,
+      "label": "failure commit preserves executed source/input tools:scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 409,
+      "label": "execution pin matches committed original tools:scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 410,
+      "label": "failure commit preserves executed source/input tools:scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 411,
+      "label": "execution pin matches committed original tools:scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 412,
+      "label": "failure commit preserves executed source/input tools:scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 413,
+      "label": "execution pin matches committed original inputs:configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 414,
+      "label": "failure commit preserves executed source/input inputs:configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 415,
+      "label": "execution pin matches committed original inputs:docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 416,
+      "label": "failure commit preserves executed source/input inputs:docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 417,
+      "label": "execution pin matches committed original inputs:docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 418,
+      "label": "failure commit preserves executed source/input inputs:docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 419,
+      "label": "execution pin matches committed original inputs:docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 420,
+      "label": "failure commit preserves executed source/input inputs:docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 421,
+      "label": "execution pin matches committed original inputs:docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 422,
+      "label": "failure commit preserves executed source/input inputs:docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 423,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 424,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 425,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 426,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 427,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 428,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 429,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 430,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 431,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 432,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 433,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 434,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 435,
+      "label": "execution pin matches committed original inputs:evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 436,
+      "label": "failure commit preserves executed source/input inputs:evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 437,
+      "label": "execution pin matches committed original inputs:scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 438,
+      "label": "failure commit preserves executed source/input inputs:scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 439,
+      "label": "execution pin matches committed original retained_draft:evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 440,
+      "label": "failure commit preserves executed source/input retained_draft:evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 441,
+      "label": "execution pin matches committed original retained_draft:evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 442,
+      "label": "failure commit preserves executed source/input retained_draft:evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 443,
+      "label": "execution pin matches committed original retained_draft:evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 444,
+      "label": "failure commit preserves executed source/input retained_draft:evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 445,
+      "label": "execution pin matches committed original retained_draft:evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 446,
+      "label": "failure commit preserves executed source/input retained_draft:evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 447,
+      "label": "execution pin matches committed original retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 448,
+      "label": "failure commit preserves executed source/input retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 449,
+      "label": "execution pin matches committed original retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 450,
+      "label": "failure commit preserves executed source/input retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 451,
+      "label": "execution pin matches committed original retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 452,
+      "label": "failure commit preserves executed source/input retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 453,
+      "label": "execution pin matches committed original retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 454,
+      "label": "failure commit preserves executed source/input retained_review:evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 455,
+      "label": "all 67 runtime identities unchanged",
+      "passed": true
+    },
+    {
+      "id": 456,
+      "label": "retained reviews archive has no duplicate members",
+      "passed": true
+    },
+    {
+      "id": 457,
+      "label": "Spec original current review remains source-bound",
+      "passed": true
+    },
+    {
+      "id": 458,
+      "label": "Spec original review verdict hash",
+      "passed": true
+    },
+    {
+      "id": 459,
+      "label": "Spec original review seal hash",
+      "passed": true
+    },
+    {
+      "id": 460,
+      "label": "preserved accepted review byte identity Spec/checks.json",
+      "passed": true
+    },
+    {
+      "id": 461,
+      "label": "preserved accepted review byte identity Spec/delivery-roles.json",
+      "passed": true
+    },
+    {
+      "id": 462,
+      "label": "preserved accepted review byte identity Spec/git-diff.patch",
+      "passed": true
+    },
+    {
+      "id": 463,
+      "label": "preserved accepted review byte identity Spec/git-log.txt",
+      "passed": true
+    },
+    {
+      "id": 464,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/checks.json",
+      "passed": true
+    },
+    {
+      "id": 465,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/delivery-roles.json",
+      "passed": true
+    },
+    {
+      "id": 466,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/manifest.json",
+      "passed": true
+    },
+    {
+      "id": 467,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/review.json",
+      "passed": true
+    },
+    {
+      "id": 468,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/review.md",
+      "passed": true
+    },
+    {
+      "id": 469,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/review_static.py",
+      "passed": true
+    },
+    {
+      "id": 470,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/source-index.json",
+      "passed": true
+    },
+    {
+      "id": 471,
+      "label": "preserved accepted review byte identity Spec/inherited/spec01/tool-errors.json",
+      "passed": true
+    },
+    {
+      "id": 472,
+      "label": "preserved accepted review byte identity Spec/review.json",
+      "passed": true
+    },
+    {
+      "id": 473,
+      "label": "preserved accepted review byte identity Spec/review.md",
+      "passed": true
+    },
+    {
+      "id": 474,
+      "label": "preserved accepted review byte identity Spec/review_static.py",
+      "passed": true
+    },
+    {
+      "id": 475,
+      "label": "preserved accepted review byte identity Spec/source-index.json",
+      "passed": true
+    },
+    {
+      "id": 476,
+      "label": "preserved accepted review byte identity Spec/sources/.scratch/full-facility-mainline/issues/28-negative-controls.md",
+      "passed": true
+    },
+    {
+      "id": 477,
+      "label": "preserved accepted review byte identity Spec/sources/.scratch/full-facility-mainline/spec.md",
+      "passed": true
+    },
+    {
+      "id": 478,
+      "label": "preserved accepted review byte identity Spec/sources/AGENTS.md",
+      "passed": true
+    },
+    {
+      "id": 479,
+      "label": "preserved accepted review byte identity Spec/sources/GLOSSARY.md",
+      "passed": true
+    },
+    {
+      "id": 480,
+      "label": "preserved accepted review byte identity Spec/sources/configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 481,
+      "label": "preserved accepted review byte identity Spec/sources/docs/MAINLINE.md",
+      "passed": true
+    },
+    {
+      "id": 482,
+      "label": "preserved accepted review byte identity Spec/sources/docs/adr/0003-complete-facility-mainline.md",
+      "passed": true
+    },
+    {
+      "id": 483,
+      "label": "preserved accepted review byte identity Spec/sources/docs/agents/domain.md",
+      "passed": true
+    },
+    {
+      "id": 484,
+      "label": "preserved accepted review byte identity Spec/sources/docs/agents/issue-tracker.md",
+      "passed": true
+    },
+    {
+      "id": 485,
+      "label": "preserved accepted review byte identity Spec/sources/docs/agents/triage-labels.md",
+      "passed": true
+    },
+    {
+      "id": 486,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 487,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 488,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 489,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/28-negative-input-context.md",
+      "passed": true
+    },
+    {
+      "id": 490,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 491,
+      "label": "preserved accepted review byte identity Spec/sources/docs/mainline/progress.json",
+      "passed": true
+    },
+    {
+      "id": 492,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 493,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 494,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 495,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 496,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 497,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 498,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 499,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 500,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 501,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 502,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 503,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 504,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 505,
+      "label": "preserved accepted review byte identity Spec/sources/evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 506,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 507,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 508,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 509,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 510,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 511,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 512,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 513,
+      "label": "preserved accepted review byte identity Spec/sources/scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 514,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 515,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 516,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 517,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 518,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 519,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 520,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 521,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 522,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 523,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 524,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 525,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 526,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 527,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 528,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 529,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 530,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 531,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 532,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 533,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 534,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 535,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 536,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 537,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 538,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 539,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 540,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 541,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 542,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 543,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 544,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 545,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 546,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 547,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 548,
+      "label": "preserved accepted review byte identity Spec/sources/src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 549,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 550,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 551,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 552,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 553,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 554,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 555,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 556,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 557,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 558,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 559,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 560,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 561,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 562,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 563,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 564,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 565,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 566,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 567,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 568,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 569,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 570,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 571,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 572,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 573,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 574,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 575,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 576,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 577,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 578,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 579,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 580,
+      "label": "preserved accepted review byte identity Spec/sources/src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 581,
+      "label": "preserved accepted review byte identity Spec/tool-errors.json",
+      "passed": true
+    },
+    {
+      "id": 582,
+      "label": "Standards original current review remains source-bound",
+      "passed": true
+    },
+    {
+      "id": 583,
+      "label": "Standards original review verdict hash",
+      "passed": true
+    },
+    {
+      "id": 584,
+      "label": "Standards original review seal hash",
+      "passed": true
+    },
+    {
+      "id": 585,
+      "label": "preserved accepted review byte identity Standards/build-static-review-attempt-01.py",
+      "passed": true
+    },
+    {
+      "id": 586,
+      "label": "preserved accepted review byte identity Standards/build_static_review.py",
+      "passed": true
+    },
+    {
+      "id": 587,
+      "label": "preserved accepted review byte identity Standards/collect_review.py",
+      "passed": true
+    },
+    {
+      "id": 588,
+      "label": "preserved accepted review byte identity Standards/commits.txt",
+      "passed": true
+    },
+    {
+      "id": 589,
+      "label": "preserved accepted review byte identity Standards/diff.patch",
+      "passed": true
+    },
+    {
+      "id": 590,
+      "label": "preserved accepted review byte identity Standards/fixed-source/.scratch/full-facility-mainline/issues/28-negative-controls.md",
+      "passed": true
+    },
+    {
+      "id": 591,
+      "label": "preserved accepted review byte identity Standards/fixed-source/.scratch/full-facility-mainline/spec.md",
+      "passed": true
+    },
+    {
+      "id": 592,
+      "label": "preserved accepted review byte identity Standards/fixed-source/AGENTS.md",
+      "passed": true
+    },
+    {
+      "id": 593,
+      "label": "preserved accepted review byte identity Standards/fixed-source/configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 594,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/adr/0003-complete-facility-mainline.md",
+      "passed": true
+    },
+    {
+      "id": 595,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/agents/domain.md",
+      "passed": true
+    },
+    {
+      "id": 596,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/agents/issue-tracker.md",
+      "passed": true
+    },
+    {
+      "id": 597,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/agents/triage-labels.md",
+      "passed": true
+    },
+    {
+      "id": 598,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 599,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 600,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 601,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/28-negative-input-context.md",
+      "passed": true
+    },
+    {
+      "id": 602,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 603,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/mainline/progress.json",
+      "passed": true
+    },
+    {
+      "id": 604,
+      "label": "preserved accepted review byte identity Standards/fixed-source/docs/MAINLINE.md",
+      "passed": true
+    },
+    {
+      "id": 605,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 606,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 607,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 608,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 609,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 610,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 611,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 612,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 613,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 614,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 615,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 616,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 617,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 618,
+      "label": "preserved accepted review byte identity Standards/fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 619,
+      "label": "preserved accepted review byte identity Standards/fixed-source/GLOSSARY.md",
+      "passed": true
+    },
+    {
+      "id": 620,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 621,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 622,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 623,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 624,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 625,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 626,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 627,
+      "label": "preserved accepted review byte identity Standards/fixed-source/scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 628,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 629,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 630,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 631,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 632,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 633,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 634,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 635,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 636,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 637,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 638,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 639,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 640,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 641,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 642,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 643,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 644,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 645,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 646,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 647,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 648,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 649,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 650,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 651,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 652,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 653,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 654,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 655,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 656,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 657,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 658,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 659,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 660,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 661,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 662,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 663,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 664,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 665,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 666,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 667,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 668,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 669,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 670,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 671,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 672,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 673,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 674,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 675,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 676,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 677,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 678,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 679,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 680,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 681,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 682,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 683,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 684,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 685,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 686,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 687,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 688,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 689,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 690,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 691,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 692,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 693,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 694,
+      "label": "preserved accepted review byte identity Standards/fixed-source/src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 695,
+      "label": "preserved accepted review byte identity Standards/prior-review-inheritance.json",
+      "passed": true
+    },
+    {
+      "id": 696,
+      "label": "preserved accepted review byte identity Standards/README.md",
+      "passed": true
+    },
+    {
+      "id": 697,
+      "label": "preserved accepted review byte identity Standards/review-tool-attempts.json",
+      "passed": true
+    },
+    {
+      "id": 698,
+      "label": "preserved accepted review byte identity Standards/review.json",
+      "passed": true
+    },
+    {
+      "id": 699,
+      "label": "preserved accepted review byte identity Standards/scope.json",
+      "passed": true
+    },
+    {
+      "id": 700,
+      "label": "preserved accepted review byte identity Standards/seal_review.py",
+      "passed": true
+    },
+    {
+      "id": 701,
+      "label": "preserved accepted review byte identity Standards/source-tree.txt",
+      "passed": true
+    },
+    {
+      "id": 702,
+      "label": "preserved accepted review byte identity Standards/static-checks.json",
+      "passed": true
+    },
+    {
+      "id": 703,
+      "label": "preserved accepted review byte identity Standards/static-review-attempt-01.py",
+      "passed": true
+    },
+    {
+      "id": 704,
+      "label": "preserved accepted review byte identity Standards/static_review.py",
+      "passed": true
+    },
+    {
+      "id": 705,
+      "label": "preserved accepted review byte identity Standards/worktree-state.txt",
+      "passed": true
+    },
+    {
+      "id": 706,
+      "label": "preserved accepted review byte identity Standards/worktrees.txt",
+      "passed": true
+    },
+    {
+      "id": 707,
+      "label": "accepted-review archive exact declared members",
+      "passed": true
+    },
+    {
+      "id": 708,
+      "label": "launch durable roles exact",
+      "passed": true
+    },
+    {
+      "id": 709,
+      "label": "launch original hash attempt.json",
+      "passed": true
+    },
+    {
+      "id": 710,
+      "label": "launch original hash process.json",
+      "passed": true
+    },
+    {
+      "id": 711,
+      "label": "launch original hash terminal.json",
+      "passed": true
+    },
+    {
+      "id": 712,
+      "label": "launch original hash stdout.txt",
+      "passed": true
+    },
+    {
+      "id": 713,
+      "label": "launch original hash stderr.txt",
+      "passed": true
+    },
+    {
+      "id": 714,
+      "label": "launch original hash launcher.py",
+      "passed": true
+    },
+    {
+      "id": 715,
+      "label": "process exited1 and retained receipt",
+      "passed": true
+    },
+    {
+      "id": 716,
+      "label": "terminal stdout exact stream hash",
+      "passed": true
+    },
+    {
+      "id": 717,
+      "label": "terminal stderr exact stream hash",
+      "passed": true
+    },
+    {
+      "id": 718,
+      "label": "earlier review seal remains fixed 28-frozen-standards-review-01",
+      "passed": true
+    },
+    {
+      "id": 719,
+      "label": "earlier review has no new unsealed files 28-frozen-standards-review-01",
+      "passed": true
+    },
+    {
+      "id": 720,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:collect_review.py",
+      "passed": true
+    },
+    {
+      "id": 721,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:commits.txt",
+      "passed": true
+    },
+    {
+      "id": 722,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:diff.patch",
+      "passed": true
+    },
+    {
+      "id": 723,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:draft-authoring-diff.patch",
+      "passed": true
+    },
+    {
+      "id": 724,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:extend_exports.py",
+      "passed": true
+    },
+    {
+      "id": 725,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/.scratch/full-facility-mainline/issues/28-negative-controls.md",
+      "passed": true
+    },
+    {
+      "id": 726,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/.scratch/full-facility-mainline/spec.md",
+      "passed": true
+    },
+    {
+      "id": 727,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/AGENTS.md",
+      "passed": true
+    },
+    {
+      "id": 728,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 729,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/adr/0003-complete-facility-mainline.md",
+      "passed": true
+    },
+    {
+      "id": 730,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/agents/domain.md",
+      "passed": true
+    },
+    {
+      "id": 731,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/agents/issue-tracker.md",
+      "passed": true
+    },
+    {
+      "id": 732,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/agents/triage-labels.md",
+      "passed": true
+    },
+    {
+      "id": 733,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 734,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 735,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/mainline/28-negative-input-context.md",
+      "passed": true
+    },
+    {
+      "id": 736,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/mainline/progress.json",
+      "passed": true
+    },
+    {
+      "id": 737,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/docs/MAINLINE.md",
+      "passed": true
+    },
+    {
+      "id": 738,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 739,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 740,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 741,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 742,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 743,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 744,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 745,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 746,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 747,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 748,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/GLOSSARY.md",
+      "passed": true
+    },
+    {
+      "id": 749,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 750,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 751,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 752,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 753,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 754,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 755,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 756,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 757,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 758,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 759,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 760,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 761,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 762,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 763,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 764,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 765,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 766,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 767,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 768,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 769,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 770,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 771,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 772,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 773,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 774,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 775,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 776,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 777,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 778,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 779,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 780,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 781,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 782,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 783,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 784,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 785,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 786,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 787,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 788,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 789,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 790,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 791,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 792,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 793,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 794,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 795,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 796,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 797,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 798,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 799,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 800,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 801,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 802,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 803,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 804,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 805,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 806,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 807,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 808,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 809,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 810,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 811,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 812,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 813,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 814,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 815,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 816,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 817,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 818,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 819,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 820,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 821,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 822,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:fixed-source/src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 823,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:README.md",
+      "passed": true
+    },
+    {
+      "id": 824,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:review.json",
+      "passed": true
+    },
+    {
+      "id": 825,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:scope.json",
+      "passed": true
+    },
+    {
+      "id": 826,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:seal_review.py",
+      "passed": true
+    },
+    {
+      "id": 827,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:source-tree.txt",
+      "passed": true
+    },
+    {
+      "id": 828,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:static-checks.json",
+      "passed": true
+    },
+    {
+      "id": 829,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:static_review.py",
+      "passed": true
+    },
+    {
+      "id": 830,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:tooling-observations.json",
+      "passed": true
+    },
+    {
+      "id": 831,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:worktree-state.txt",
+      "passed": true
+    },
+    {
+      "id": 832,
+      "label": "earlier review unchanged 28-frozen-standards-review-01:worktrees.txt",
+      "passed": true
+    },
+    {
+      "id": 833,
+      "label": "earlier review seal remains fixed 28-frozen-standards-review-02",
+      "passed": true
+    },
+    {
+      "id": 834,
+      "label": "earlier review has no new unsealed files 28-frozen-standards-review-02",
+      "passed": true
+    },
+    {
+      "id": 835,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:build-static-review-attempt-01.py",
+      "passed": true
+    },
+    {
+      "id": 836,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:build_static_review.py",
+      "passed": true
+    },
+    {
+      "id": 837,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:collect_review.py",
+      "passed": true
+    },
+    {
+      "id": 838,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:commits.txt",
+      "passed": true
+    },
+    {
+      "id": 839,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:diff.patch",
+      "passed": true
+    },
+    {
+      "id": 840,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/.scratch/full-facility-mainline/issues/28-negative-controls.md",
+      "passed": true
+    },
+    {
+      "id": 841,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/.scratch/full-facility-mainline/spec.md",
+      "passed": true
+    },
+    {
+      "id": 842,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/AGENTS.md",
+      "passed": true
+    },
+    {
+      "id": 843,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/configs/materials/reference-r134a-saturation.json",
+      "passed": true
+    },
+    {
+      "id": 844,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/adr/0003-complete-facility-mainline.md",
+      "passed": true
+    },
+    {
+      "id": 845,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/agents/domain.md",
+      "passed": true
+    },
+    {
+      "id": 846,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/agents/issue-tracker.md",
+      "passed": true
+    },
+    {
+      "id": 847,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/agents/triage-labels.md",
+      "passed": true
+    },
+    {
+      "id": 848,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/28-negative-controls-contract.md",
+      "passed": true
+    },
+    {
+      "id": 849,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/28-negative-engineering-protocol-v1.json",
+      "passed": true
+    },
+    {
+      "id": 850,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/28-negative-engineering-protocol-v2.json",
+      "passed": true
+    },
+    {
+      "id": 851,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/28-negative-input-context.md",
+      "passed": true
+    },
+    {
+      "id": 852,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/28-pre-capture-correction.md",
+      "passed": true
+    },
+    {
+      "id": 853,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/mainline/progress.json",
+      "passed": true
+    },
+    {
+      "id": 854,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/docs/MAINLINE.md",
+      "passed": true
+    },
+    {
+      "id": 855,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+      "passed": true
+    },
+    {
+      "id": 856,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/declaration.json",
+      "passed": true
+    },
+    {
+      "id": 857,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/members.json",
+      "passed": true
+    },
+    {
+      "id": 858,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/originals.zip",
+      "passed": true
+    },
+    {
+      "id": 859,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/pre-capture-review-01/receipt.json",
+      "passed": true
+    },
+    {
+      "id": 860,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 861,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 862,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 863,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference/static-check-observation.json",
+      "passed": true
+    },
+    {
+      "id": 864,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/cases-v1.json",
+      "passed": true
+    },
+    {
+      "id": 865,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/literals-v1.json",
+      "passed": true
+    },
+    {
+      "id": 866,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-v2/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 867,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/idle-crew.json",
+      "passed": true
+    },
+    {
+      "id": 868,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/evidence/mainline/engineering/28-negative-controls/reference-workforce/preparation.json",
+      "passed": true
+    },
+    {
+      "id": 869,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/GLOSSARY.md",
+      "passed": true
+    },
+    {
+      "id": 870,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/check_negative_control_preflight.py",
+      "passed": true
+    },
+    {
+      "id": 871,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/inspection_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 872,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/negative_control_checks.py",
+      "passed": true
+    },
+    {
+      "id": 873,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/negative_control_delivery.py",
+      "passed": true
+    },
+    {
+      "id": 874,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/prepare_negative_control_inputs.py",
+      "passed": true
+    },
+    {
+      "id": 875,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/prepare_negative_control_inputs_v2.py",
+      "passed": true
+    },
+    {
+      "id": 876,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/prepare_negative_control_workforce.py",
+      "passed": true
+    },
+    {
+      "id": 877,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/scripts/preserve_negative_control_reviews.py",
+      "passed": true
+    },
+    {
+      "id": 878,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 879,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 880,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/action_value.py",
+      "passed": true
+    },
+    {
+      "id": 881,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/belief.py",
+      "passed": true
+    },
+    {
+      "id": 882,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/decision_view.py",
+      "passed": true
+    },
+    {
+      "id": 883,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/dispatch_policy.py",
+      "passed": true
+    },
+    {
+      "id": 884,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/environment.py",
+      "passed": true
+    },
+    {
+      "id": 885,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/evidence_ledger.py",
+      "passed": true
+    },
+    {
+      "id": 886,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/evidence_projection.py",
+      "passed": true
+    },
+    {
+      "id": 887,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/facility.py",
+      "passed": true
+    },
+    {
+      "id": 888,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/heat_transfer.py",
+      "passed": true
+    },
+    {
+      "id": 889,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/inspection_execution.py",
+      "passed": true
+    },
+    {
+      "id": 890,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/intervention_execution.py",
+      "passed": true
+    },
+    {
+      "id": 891,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/live_sensor_execution.py",
+      "passed": true
+    },
+    {
+      "id": 892,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/local_control.py",
+      "passed": true
+    },
+    {
+      "id": 893,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/lookahead_policy.py",
+      "passed": true
+    },
+    {
+      "id": 894,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/nonfixed_evidence.py",
+      "passed": true
+    },
+    {
+      "id": 895,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/plant.py",
+      "passed": true
+    },
+    {
+      "id": 896,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/policy_budget.py",
+      "passed": true
+    },
+    {
+      "id": 897,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/policy_execution.py",
+      "passed": true
+    },
+    {
+      "id": 898,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/power.py",
+      "passed": true
+    },
+    {
+      "id": 899,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/replay.py",
+      "passed": true
+    },
+    {
+      "id": 900,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/replay_format.py",
+      "passed": true
+    },
+    {
+      "id": 901,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/reserve.py",
+      "passed": true
+    },
+    {
+      "id": 902,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/risk.py",
+      "passed": true
+    },
+    {
+      "id": 903,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/risk_condition_policy.py",
+      "passed": true
+    },
+    {
+      "id": 904,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/risk_scenarios.py",
+      "passed": true
+    },
+    {
+      "id": 905,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/runtime_contract.py",
+      "passed": true
+    },
+    {
+      "id": 906,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/scenario.py",
+      "passed": true
+    },
+    {
+      "id": 907,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/sensor_channels.py",
+      "passed": true
+    },
+    {
+      "id": 908,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/thermodynamics.py",
+      "passed": true
+    },
+    {
+      "id": 909,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/time_coordinates.py",
+      "passed": true
+    },
+    {
+      "id": 910,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/verified_closure.py",
+      "passed": true
+    },
+    {
+      "id": 911,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/workforce.py",
+      "passed": true
+    },
+    {
+      "id": 912,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/aegis_dc/workforce_dispatch.py",
+      "passed": true
+    },
+    {
+      "id": 913,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/__init__.py",
+      "passed": true
+    },
+    {
+      "id": 914,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/__main__.py",
+      "passed": true
+    },
+    {
+      "id": 915,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/active_inspection.py",
+      "passed": true
+    },
+    {
+      "id": 916,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/aisles.py",
+      "passed": true
+    },
+    {
+      "id": 917,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/baseline_correction.py",
+      "passed": true
+    },
+    {
+      "id": 918,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/case_report.py",
+      "passed": true
+    },
+    {
+      "id": 919,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/cli.py",
+      "passed": true
+    },
+    {
+      "id": 920,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/contracts.py",
+      "passed": true
+    },
+    {
+      "id": 921,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/correction_execution.py",
+      "passed": true
+    },
+    {
+      "id": 922,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/coverage_plan.py",
+      "passed": true
+    },
+    {
+      "id": 923,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/estimation.py",
+      "passed": true
+    },
+    {
+      "id": 924,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/estimation_model.py",
+      "passed": true
+    },
+    {
+      "id": 925,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/event_validation.py",
+      "passed": true
+    },
+    {
+      "id": 926,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/facility.py",
+      "passed": true
+    },
+    {
+      "id": 927,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/facility_observation.py",
+      "passed": true
+    },
+    {
+      "id": 928,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/feedback_study.py",
+      "passed": true
+    },
+    {
+      "id": 929,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/inspection_contracts.py",
+      "passed": true
+    },
+    {
+      "id": 930,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/inspection_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 931,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/inspection_model.py",
+      "passed": true
+    },
+    {
+      "id": 932,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/local_reorder.py",
+      "passed": true
+    },
+    {
+      "id": 933,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/local_score.py",
+      "passed": true
+    },
+    {
+      "id": 934,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/model_proposals.py",
+      "passed": true
+    },
+    {
+      "id": 935,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/patrol_task.py",
+      "passed": true
+    },
+    {
+      "id": 936,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/priority_study.py",
+      "passed": true
+    },
+    {
+      "id": 937,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/process.py",
+      "passed": true
+    },
+    {
+      "id": 938,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/reorder_execution.py",
+      "passed": true
+    },
+    {
+      "id": 939,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/response_rule.py",
+      "passed": true
+    },
+    {
+      "id": 940,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/response_search.py",
+      "passed": true
+    },
+    {
+      "id": 941,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/risk_response.py",
+      "passed": true
+    },
+    {
+      "id": 942,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/supplement_metrics.py",
+      "passed": true
+    },
+    {
+      "id": 943,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/supplement_models.py",
+      "passed": true
+    },
+    {
+      "id": 944,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:fixed-source/src/patrol_rsi/supplement_task.py",
+      "passed": true
+    },
+    {
+      "id": 945,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:prior-review-inheritance.json",
+      "passed": true
+    },
+    {
+      "id": 946,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:README.md",
+      "passed": true
+    },
+    {
+      "id": 947,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:review-tool-attempts.json",
+      "passed": true
+    },
+    {
+      "id": 948,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:review.json",
+      "passed": true
+    },
+    {
+      "id": 949,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:scope.json",
+      "passed": true
+    },
+    {
+      "id": 950,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:seal_review.py",
+      "passed": true
+    },
+    {
+      "id": 951,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:source-tree.txt",
+      "passed": true
+    },
+    {
+      "id": 952,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:static-checks.json",
+      "passed": true
+    },
+    {
+      "id": 953,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:static-review-attempt-01.py",
+      "passed": true
+    },
+    {
+      "id": 954,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:static_review.py",
+      "passed": true
+    },
+    {
+      "id": 955,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:worktree-state.txt",
+      "passed": true
+    },
+    {
+      "id": 956,
+      "label": "earlier review unchanged 28-frozen-standards-review-02:worktrees.txt",
+      "passed": true
+    },
+    {
+      "id": 957,
+      "label": "existing validator requires exact minimal outward upper",
+      "passed": true
+    },
+    {
+      "id": 958,
+      "label": "existing validator clips offered demand to question window",
+      "passed": true
+    },
+    {
+      "id": 959,
+      "label": "existing validator checks all question inspection bindings",
+      "passed": true
+    },
+    {
+      "id": 960,
+      "label": "closure validates the full risk catalog first",
+      "passed": true
+    },
+    {
+      "id": 961,
+      "label": "online choose_work invokes closure before contingent selection",
+      "passed": true
+    },
+    {
+      "id": 962,
+      "label": "source can integrate internally before first1s decision",
+      "passed": true
+    },
+    {
+      "id": 963,
+      "label": "new four-case duration remains43/2",
+      "passed": true
+    },
+    {
+      "id": 964,
+      "label": "conditional cumulative cap is five attempts115/4 charged seconds",
+      "passed": true
+    }
+  ],
+  "coverage_gap": "Prior static review02 checked declared demand-table equality but did not independently recompute all per-question quantity bounds or bind every late catalog inspect option to the actual public preparation plan. Those prior sealed reviews remain unchanged; this diagnosis records the omitted checks explicitly.",
+  "limits": "Static diagnosis and proposal only. No input revision, new protocol, admission-stage execution or physical retry is approved or performed."
+}

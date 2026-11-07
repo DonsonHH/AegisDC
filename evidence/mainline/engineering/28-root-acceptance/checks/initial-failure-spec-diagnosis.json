@@ -1,0 +1,143 @@
+{
+  "schema": "aegisdc-independent-startup-diagnosis-v1",
+  "axis": "Spec",
+  "source": "f1d41ea3e1a096d39ee7e312571c441a1a916065",
+  "execution_source": "815294edb4befd6717a412c9fe48deac84157b4a",
+  "status": "CONFIRMED_CORRECTION_REQUIRED",
+  "diagnosis_complete": true,
+  "capture_approved": false,
+  "checks": 541,
+  "unresolved": [
+    {
+      "id": "BOUND-001",
+      "priority": 1,
+      "evidence_level": "OBSERVED_FAILURE_PLUS_INDEPENDENT_INPUT_ARITHMETIC",
+      "title": "Public risk bounds were not recomputed when demand became0.5",
+      "recorded_failure": "evidence/mainline/engineering/28-negative-controls/capture-20261107-02/receipt.json",
+      "source_locations": [
+        "src/aegis_dc/risk_scenarios.py:132",
+        "src/aegis_dc/risk_scenarios.py:134",
+        "src/aegis_dc/risk_scenarios.py:135",
+        "scripts/prepare_negative_control_inputs_v2.py:68",
+        "scripts/prepare_negative_control_inputs_v2.py:69"
+      ],
+      "details": "Each normal/false public catalogue has eight0..6-second questions and offered rate0.5. Four policy/closure copies contain32 unserved_service_unit_s intervals [0,6]; each canonical interval must be [0,3]. Although6 is a loose mathematical upper bound, the declared interface requires the minimal outward finite binary64 upper. Both3 and6 are exactly representable; this is an input cross-field contract violation, not a numerical rounding or plant instability result. All time bounds [0,6] are correct, and the too_late rate1 catalogue must retain amount bound [0,6].",
+      "correction_status": "REQUIRED_NOT_APPLIED"
+    },
+    {
+      "id": "REQUEST-002",
+      "priority": 1,
+      "evidence_level": "STATIC_LATENT_FAILURE_NOT_EXECUTED",
+      "title": "Late closure catalogue references two missing public preparation requests",
+      "source_locations": [
+        "scripts/negative_control_delivery.py:125",
+        "scripts/negative_control_delivery.py:127",
+        "scripts/negative_control_delivery.py:163",
+        "src/aegis_dc/risk_scenarios.py:157",
+        "src/aegis_dc/risk_scenarios.py:159",
+        "src/aegis_dc/verified_closure.py:191"
+      ],
+      "details": "The late frame plan contains only network-check-request-28. Its full closure catalogue contains inspect options that require intent-filter-check and intent-it-check. Catalogue validation requires both requests in every corresponding public frame before closure can evaluate its network question. Declare both static intentions in the new input/plan while retaining exactly one actual network submission and all physical/feedback timings. This was not reached in the failed original run.",
+      "correction_status": "REQUIRED_NOT_APPLIED"
+    }
+  ],
+  "inventory": "catalog-bound-inventory.json",
+  "correction_scope": "correction-scope.json",
+  "original_failure_accounting": {
+    "attempted_integrations": 1,
+    "completed_integrations": 0,
+    "validated_cases": 0,
+    "charged_simulated_seconds": 7.25,
+    "source_guard": true,
+    "started_cases": [
+      "normal"
+    ],
+    "not_started_cases": [
+      "false_report",
+      "local_protection",
+      "too_late"
+    ],
+    "returned_trajectory": false,
+    "registered_research_trials": 0,
+    "interpretation": "The7.25-second counter is a frozen budget charge, not proof of7.25 seconds of returned physical evolution. No completed per-decision audit is available; do not infer historical zero selector/model processing."
+  },
+  "analytic_invariants": {
+    "status": "UNCHANGED_IF_ONLY_DECLARED_METADATA_AND_STATIC_REQUEST_BINDINGS_ARE_CORRECTED",
+    "six_second_risk_amount_upper": 3,
+    "six_second_normalized_time_upper": 6,
+    "normal_false_physical_demand_each": "29/8 over7.25s",
+    "posteriors": [
+      "25/124",
+      "50/941"
+    ],
+    "false_work_and_report_s": [
+      3.25,
+      4.25,
+      4.75
+    ],
+    "protection_trip_and_conditional_reset_s": [
+      1,
+      2
+    ],
+    "late_work_start_abort_earliest_completion_feedback_s": [
+      2.25,
+      3,
+      3.25,
+      3.5
+    ],
+    "actual_trajectory_acceptance": "NOT_ESTABLISHED"
+  },
+  "prior_review_coverage_gap": {
+    "prior_source": "815294edb4befd6717a412c9fe48deac84157b4a",
+    "prior_spec_status": "PASS",
+    "prior_spec_checks": 739,
+    "prior_report": "prior-review/spec02/review.json",
+    "gap": "My prior review checked matching demand tables and copied catalogue equality, but omitted the demand/window/canonical bound coupling and the late whole-catalogue-to-frame request bindings. The existing pure static preflight omitted those semantics as well. The old sealed reviews remain unchanged; this diagnosis records the newly established blocking evidence.",
+    "original_reviews_modified": false
+  },
+  "prospective_budget": {
+    "status": "PROPOSED_NOT_FROZEN_NOT_EXECUTED",
+    "historical_attempted_calls": 1,
+    "historical_completed_calls": 0,
+    "historical_charged_seconds": 7.25,
+    "prospective_maximum_calls": 4,
+    "prospective_maximum_seconds": 21.5,
+    "cumulative_maximum_calls": 5,
+    "cumulative_charged_seconds": 28.75,
+    "required": "New immutable protocol, input directory, unique capture output and fixed-source independent reviews. Do not overwrite/retry capture02 or erase its failed charge."
+  },
+  "prospective_interface_validation": {
+    "status": "PROPOSED_NOT_FROZEN_NOT_EXECUTED",
+    "validate_scenario_calls": 4,
+    "initial_public_frames": 3,
+    "assess_risks_calls": 5,
+    "catalog_coverage": [
+      "normal policy",
+      "normal closure",
+      "false_report policy",
+      "false_report closure",
+      "too_late closure"
+    ],
+    "selector_calls": 0,
+    "physics_calls": 0,
+    "closure_calls": 0,
+    "requirement": "Freeze and ledger this independent interface-validation phase separately before any new physical capture; check the full demand/window/bound and option/request contracts through the real public interfaces."
+  },
+  "mainline_status": {
+    "status": "active",
+    "current_ticket": "28",
+    "milestone": "M4",
+    "research_trials_status": "not_started",
+    "research_goal_complete": false
+  },
+  "new_project_imports": 0,
+  "new_project_calls": 0,
+  "new_selector_calls": 0,
+  "new_physics": 0,
+  "new_closure_calls": 0,
+  "new_tests": 0,
+  "new_capture_calls": 0,
+  "repository_files_modified": false,
+  "old_reviews_modified": false,
+  "tool_errors": "tool-errors.json"
+}
