@@ -1,13 +1,16 @@
 """Run only the registered development phase, from the exact precompiled originals."""
 
 import argparse
+from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import subprocess
-from zipfile import ZipFile
+import sys
+from zipfile import ZIP_DEFLATED, ZipFile
 
 from comparison_release import AUTHORITY, LOCK, PROTOCOL, audit_lock
-from inspection_delivery import ROOT, digest, git, require
+from inspection_delivery import ROOT, digest, durable, git, hashes, require, write
 from registered_comparison import read
 from verify_comparison_delivery import _verified_input_originals
 
@@ -69,11 +72,185 @@ def load_roster():
     return protocol,slots,originals
 
 
+RUNBOOK='docs/mainline/31-development-execution.json'
+PACKAGE='evidence/mainline/research/31-development'
+NATIVE=('scenario.json','run.json','private-state.jsonl','balances.jsonl')
+
+
+def _execution_pins(source,lock):
+    names=set(lock['pins'])|{AUTHORITY,LOCK,RUNBOOK,
+        'scripts/registered_development.py','scripts/development_run_evidence.py',
+        'tests/test_registered_development.py'}
+    return hashes(source,names)
+
+
+def _guard(source,pins):
+    require(head()==source and all(digest((ROOT/name).read_bytes())==sha for name,sha in pins.items()),
+            'Live executable, input or HEAD differs from the frozen registered source')
+
+
+def _append(path,row):
+    row=dict(row,recorded_at_utc=datetime.now(timezone.utc).isoformat())
+    with path.open('a',encoding='utf-8',newline='\n') as stream:
+        stream.write(json.dumps(row,allow_nan=False,ensure_ascii=False)+'\n')
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def _begin(folder,stage,source,protocol,slots):
+    book=committed(RUNBOOK)
+    require(book['schema']=='aegisdc-development-execution-v1' and book['phase']==PHASE
+            and book['classification']=='REGISTERED_DEVELOPMENT_NOT_CONFIRMATION'
+            and book['protocol']==PROTOCOL and book['protocol_lock']==LOCK
+            and book['budget']==protocol['phases'][PHASE]['budget']
+            and book['durable_native_members']==list(NATIVE)
+            and book['automatic_retries']==0, 'Declared execution runbook differs')
+    require(folder==ROOT/PACKAGE/book['capture_directory'] and not folder.exists(),
+            'Use the declared unique development output directory')
+    require(stage==ROOT/'.work'/book['native_staging_directory'] and not stage.exists(),
+            'Use the declared unique native staging directory')
+    progress=committed('docs/mainline/progress.json')
+    require(progress['current_ticket']=='31' and progress['research_trials']['status']=='frozen_not_started'
+            and progress['research_trials']['attempts']==0,'Requires the unstarted registered development frontier')
+    require(head()==source and not git('status','--porcelain'),'Use clean exact registered development source')
+    require(sys.dont_write_bytecode and sys.pycache_prefix is not None
+            and not Path(sys.pycache_prefix).exists(),'Use -B and an unused PYTHONPYCACHEPREFIX')
+    lock=read(ROOT/LOCK)
+    pins=_execution_pins(source,lock)
+    _guard(source,pins)
+    folder.mkdir(parents=True)
+    stage.mkdir(parents=True)
+    receipt=dict(schema='aegisdc-registered-development-batch-v1',phase=PHASE,classification=book['classification'],
+        execution_commit=source,protocol_sha256=digest((ROOT/PROTOCOL).read_bytes()),
+        design_lock_sha256=digest((ROOT/LOCK).read_bytes()),budget=book['budget'],pins=pins,slots=slots,
+        python=sys.version,interpreter_sha256=digest(Path(sys.executable).read_bytes()),
+        unused_cache_prefix=True,held_inputs_read=0,held_seed_reads=0,automatic_retries=0)
+    write(folder/'batch.json',receipt)
+    return pins
+
+
+def _save_native(native,folder,program,result,source):
+    from aegis_dc.plant import save_run
+    from development_run_evidence import check_run
+
+    run=save_run(result,native)
+    require(set(durable(native))==set(NATIVE),'Native returned members differ from declaration')
+    originals=folder/'originals.zip'
+    with ZipFile(originals,'x',compression=ZIP_DEFLATED,compresslevel=4) as archive:
+        members={}
+        for name in NATIVE:
+            raw=(native/name).read_bytes()
+            members[name]=digest(raw)
+            archive.writestr(name,raw)
+    # Exact raw return is archived before any verifier can reject it.
+    write(folder/'originals.json',dict(archive_sha256=digest(originals.read_bytes()),members=members))
+    require(run['code_identity']['git_commit']==source and run['code_identity']['implementation_has_changes'] is False,
+            'Physical runtime identity differs from the registered execution commit')
+    require(read(native/'scenario.json')==program['model'],'Returned scenario differs from its registered input')
+    for name,item in run['artifacts'].items():
+        require(members[name]==item['sha256'],'Native artifact manifest differs')
+    audit=check_run(program,run,result['trace'],result['balances'])
+    write(folder/'audit.json',audit)
+    return len(result['policy_public_decisions'])
+
+
+def capture(source,folder,stage):
+    protocol,slots,originals=load_roster()
+    pins=_begin(folder,stage,source,protocol,slots)
+    ledger=folder/'attempts.jsonl'
+    total=dict(started=0,completed=0,failed=0,interrupted=0,unrun=0,
+               charged_simulated_s=0,charged_scheduled_decisions=0,returned_decisions=0)
+    attempted=set()
+    stop=None
+    status='PASS'
+    try:
+        sys.path.insert(0,str(ROOT/'src'))
+        from aegis_dc.plant import simulate_scenario
+
+        for slot in slots:
+            _guard(source,pins)
+            index=slot['index']
+            folder_slot=folder/f"{index:02}-{slot['world_id']}-{slot['arm']}"
+            folder_slot.mkdir()
+            program=json.loads(originals[slot['input_member']])
+            next_seconds=total['charged_simulated_s']+slot['duration_s']
+            next_decisions=total['charged_scheduled_decisions']+slot['scheduled_decisions']
+            budget=protocol['phases'][PHASE]['budget']
+            require(index==total['started']+1 and index<=budget['attempts']
+                    and next_seconds<=budget['simulated_charge_s']
+                    and next_decisions<=budget['scheduled_decisions'],'Registered phase budget exhausted')
+            start=dict(slot,status='STARTED',source=source,charged_simulated_s=slot['duration_s'],
+                       charged_scheduled_decisions=slot['scheduled_decisions'])
+            write(folder_slot/'start.json',start)
+            _append(ledger,start)
+            attempted.add(index)
+            total['started']+=1
+            total['charged_simulated_s']=next_seconds
+            total['charged_scheduled_decisions']=next_decisions
+            terminal=dict(slot,status='FAILED',source=source,physical_call_started=False,physical_returned=False)
+            try:
+                terminal['physical_call_started']=True
+                result=simulate_scenario(program['model'],duration_s=program['duration_s'],
+                    step_s=program['maximum_step_s'],boundary_events=program['boundary_events'],
+                    dispatch_program=program['dispatch_program'])
+                terminal['physical_returned']=True
+                terminal['returned_decisions']=len(result['policy_public_decisions'])
+                total['returned_decisions']+=terminal['returned_decisions']
+                decisions=_save_native(stage/f'{index:02}',folder_slot,program,result,source)
+                require(decisions==slot['scheduled_decisions'],'Actual decision count differs from frozen slot')
+                _guard(source,pins)
+                terminal['status']='COMPLETED'
+                total['completed']+=1
+            except BaseException as exc:
+                interrupted=isinstance(exc,KeyboardInterrupt)
+                terminal.update(status='INTERRUPTED' if interrupted else 'FAILED',
+                    error_type=type(exc).__name__,error=str(exc))
+                total['interrupted' if interrupted else 'failed']+=1
+                stop=dict(index=index,kind='INTERRUPTED' if interrupted else 'UNCLASSIFIED_OR_CONTRACT_FAILURE',
+                          reason=str(exc))
+                status='STOPPED'
+            terminal['artifacts']={name:digest((folder_slot/name).read_bytes()) for name in sorted(durable(folder_slot))}
+            write(folder_slot/'terminal.json',terminal)
+            _append(ledger,terminal)
+            if stop is not None:
+                break
+    except BaseException as exc:
+        status='STOPPED'
+        stop=dict(index=None,kind='BATCH_GUARD_OR_IMPORT_FAILURE',error_type=type(exc).__name__,reason=str(exc))
+    for slot in slots:
+        if slot['index'] not in attempted:
+            total['unrun']+=1
+            _append(ledger,dict(slot,status='UNRUN',source=source,reason='BATCH_STOPPED_WITHOUT_NEW_ATTEMPT'))
+    require(total['started']==total['completed']+total['failed']+total['interrupted']
+            and total['started']+total['unrun']==len(slots),'Attempt totals do not reconcile')
+    try:
+        _guard(source,pins)
+        source_unchanged=True
+    except ValueError:
+        source_unchanged=False
+        status='STOPPED'
+    artifacts={name:digest((folder/name).read_bytes()) for name in sorted(durable(folder))}
+    receipt=dict(status=status,phase=PHASE,execution_commit=source,source_unchanged=source_unchanged,
+        total=total,stop=stop,artifacts=artifacts,registered_research_trials=total['started'],
+        held_inputs_read=0,held_seed_reads=0,llm_calls=0,training_calls=0,automatic_retries=0,
+        field_calibration='PENDING')
+    write(folder/'receipt.json',receipt)
+    print(json.dumps({k:receipt[k] for k in ('status','phase','execution_commit','total','stop')},ensure_ascii=False))
+    return 0 if status=='PASS' else 3
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode',choices=('plan',))
-    parser.parse_args()
+    modes=parser.add_subparsers(dest='mode',required=True)
+    modes.add_parser('plan')
+    runner=modes.add_parser('capture')
+    runner.add_argument('--source',required=True)
+    runner.add_argument('--output',type=Path,required=True)
+    runner.add_argument('--native-staging',type=Path,required=True)
+    args=parser.parse_args()
     try:
+        if args.mode=='capture':
+            return capture(args.source,args.output.resolve(),args.native_staging.resolve())
         protocol,slots,_=load_roster()
         print(json.dumps(dict(status='PASS_DEVELOPMENT_PLAN_ONLY',phase=PHASE,slots=slots,
             budget=protocol['phases'][PHASE]['budget'],facility_calls=0,selector_calls=0,
@@ -83,4 +260,4 @@ def main():
 
 
 if __name__=='__main__':
-    main()
+    raise SystemExit(main())

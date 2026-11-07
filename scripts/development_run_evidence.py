@@ -206,6 +206,9 @@ def check_run(document,run,trace,balances):
     opportunities,tasks,interfaces,entities,spent=_decisions(model,program,run,arm)
     require(len(trace)==len(balances)+1 and trace[0]['time_s']==0 and trace[-1]['time_s']==horizon,
             'Returned trace and balance endpoints differ')
+    initial_demand=next(row['value'] for row in model['parameters'] if row['id']=='service_demand')
+    demand_events=[row for row in document.get('boundary_events',[]) if row['parameter_id']=='service_demand']
+    require(not demand_events,'This registered development scope uses no timed demand changes')
     contributions={key:[] for key in METRICS}
     for left,right,row in zip(trace[:-1],trace[1:],balances,strict=True):
         start,end=left['time_s'],right['time_s']
@@ -215,6 +218,8 @@ def check_run(document,run,trace,balances):
         dt=end-start
         service=domains['it_service']
         demand,delivered=service['demand'],service['delivered']
+        require(demand==initial_demand,'Offered demand was changed by the policy or plant')
+        require(min(row['capacity_slack_W'].values())>=-1e-6,'Electrical capacity was exceeded')
         require(0<=delivered<=demand and delivered<=min(service['capacities'].values())+TOL,
                 'Service exceeds demand or actual capacity')
         for k,value in (('demand_service_unit_s',demand*dt),('delivered_service_unit_s',delivered*dt),
