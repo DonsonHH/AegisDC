@@ -187,7 +187,7 @@ class RegisteredComparisonTests(unittest.TestCase):
                 self.assertIn('semantic',result.stderr.lower())
 
 
-    def test_nonce_commitment_and_release_refusal_do_not_expose_a_held_seed(self):
+    def test_nonce_commitment_rejects_wrong_bytes_without_exposing_a_held_seed(self):
         gate=ROOT/'scripts/comparison_release.py'
         with TemporaryDirectory() as folder:
             nonce=Path(folder)/'synthetic-nonce.bin'
@@ -204,13 +204,6 @@ class RegisteredComparisonTests(unittest.TestCase):
             result=subprocess.run(command,cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
             self.assertNotEqual(result.returncode,0)
             self.assertIn('commitment',result.stderr.lower())
-            result=subprocess.run([sys.executable,'-B','-X','utf8',str(gate),'audit-release',
-                '--phase','confirmation','--stage','prepare','--lock',str(Path(folder)/'absent-lock.json'),
-                '--nonce',str(Path(folder)/'absent-nonce.bin')],
-                cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
-            self.assertNotEqual(result.returncode,0)
-            self.assertIn('accepted ticket 30',result.stderr.lower())
-
 
     def test_confirmation_can_prepare_before_32_but_execute_only_its_reviewed_source(self):
         from hashlib import sha256
@@ -278,11 +271,15 @@ class RegisteredComparisonTests(unittest.TestCase):
                 commitments_sha256={phase:digest(raw) for phase,raw in nonces.items()},
                 held_inputs_materialized=0,registered_research_trials=0))
             lock_sha=digest((repo/lock_file).read_bytes())
+            input_dir=base/'synthetic-byte-fixtures'
+            commit('Lock present, acceptance still absent')
+            result=audit('prepare')
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('Requires accepted ticket 30',result.stderr)
             write(authority_file,dict(status='ACCEPTED',ticket='30',design_commit=design,
                 protocol_lock=lock_file,protocol_lock_sha256=lock_sha))
             write('docs/mainline/evidence/31-root.json',dict(status='ACCEPTED',ticket='31'))
             commit('Accepted 30 and 31')
-            input_dir=base/'synthetic-byte-fixtures'
             result=audit('prepare')
             self.assertEqual(result.returncode,0,result.stderr)
             self.assertEqual(json.loads(result.stdout)['held_inputs_materialized'],0)
