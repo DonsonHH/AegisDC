@@ -4,13 +4,13 @@
 
 **Blocked by:** 26, 13
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M4
 
-- [ ] 完整八域贯穿，不替换为单机柜或只画流程图。
-- [ ] 观测依据决定认知，后台故障不直接决定派单。
-- [ ] 输出是工程闭环证明，不把一次演示记作统计增益。
+- [x] 完整八域贯穿，不替换为单机柜或只画流程图。
+- [x] 观测依据决定认知，后台故障不直接决定派单。
+- [x] 输出是工程闭环证明，不把一次演示记作统计增益。
 
 ## Context
 
@@ -29,3 +29,6 @@ Continuation ownership: `/root` takes the first service observation slice after 
 First service observation slice: `docs/mainline/27-service-observation-development.md`. Two recorded development calls: one refused the previously unregistered signal, one completed1.25s of physics with a failed initial service oracle. Saved-only correction of that oracle verified actual delivered-rate values1/4 and1, strict arrival, and an out-of-range actual0 retained as missing. Three malformed public declarations were refused separately. The original logs/inputs/sources and tool packaging failure remain in the declared development package. Recorded dispatch transport and the full loop are still pending; no formal capture or research trial has run.
 
 Recorded online replay slice: `docs/mainline/27-online-replay-development.md`. RED05 preserves unsupported V2; GREEN06 records one1.75s online run and one exact reexecution, including actual paid clean-filter effect at1.25 and feedback1.75. Only diagnostic elapsed_ns is excluded from deterministic equality. Log07 preserves three input refusals, four legacy saved-origin reads and a hash-consistent wrong-program refusal without physical execution. The six directories and adversarial reader fixture are preserved under the declared replay development package. Full 27 cross-system scenario, independent final reviews and acceptance remain pending.
+
+
+Root acceptance: actual integrated source a97d09eb19b7d64b38f2042075221627f9255fa7, 567 executed with zero failures/errors/skips, 286 guarded files and 20 historical originals. Original 10s physical integration at 36ae97cc17e4b9297017289e285d00abaee29929 retained its outer FAIL. Previously unrun 10s replay at 83a66f1c3abe0b2613d0700448b22f82e576f3b7 is the single PASS replay; the frozen physics/inputs and the accepted original bytes were not revised or repeated. Final saved reviews Spec402/Standards373 and clean Git verification passed. See [engineering report and two actual figures](../../../evidence/mainline/engineering/27-root-acceptance/README.md), [acceptance](../../../docs/mainline/evidence/27-root.json) and [fresh proof](../../../docs/mainline/evidence/27-root-delivery.json). Ticket28 is next; no registered effect trial, AI/RSI gain or field calibration established.
