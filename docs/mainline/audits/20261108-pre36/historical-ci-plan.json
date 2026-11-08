@@ -1,0 +1,14 @@
+{
+  "schema": "aegisdc-historical-source-ci-compatibility-v1",
+  "classification": "ENGINEERING_TEST_SOURCE_CORRECTION_AFTER_A02",
+  "historical_source": "2dfe5537e4f95fa605f325b060ef32223dafb4f6",
+  "problem": "Three positive tests invoke an immutable old design lock against the newly corrected live closure code. The old guard must reject that mismatch; it must not be relaxed.",
+  "correction": "Run the three original positive CLI contracts in a temporary clean detached checkout of the exact historical source with LF bytes; retain an additional live-source negative lock check. Preserve old runtime, locks, protocols and capture originals.",
+  "checks": ["development plan only", "public hydraulic admission amendment", "public planner-mask contract", "old lock refuses corrected live source"],
+  "attempt_limits": {"red_suite": 1, "green_suite": 1, "automatic_retries": 0},
+  "engineering_calls": "Red: three old-lock refusals, no project model calls. Green: original public admission and mask checks, including one finite selector call already declared by the historical mask check; no physical execution, training, nonce read, or registered trial.",
+  "durable_outputs": "Unique red/green logs, actual source and historical-source identities, exact command, test counts and source guards. Cache files are excluded.",
+  "research_trials_before": 164,
+  "research_trials_after": 164,
+  "ticket36_started": false
+}
