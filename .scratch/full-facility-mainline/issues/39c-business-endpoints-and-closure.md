@@ -4,7 +4,7 @@
 
 **Blocked by:** 39a
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M7
 
@@ -19,3 +19,5 @@
 Ready frontier after39a and39b acceptance; no implementation/evaluation yet. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.
 
 Planning only: `docs/mainline/39c-business-endpoints-plan.md` defines the proposed event/opportunity/closure denominators and remote behavior sequence. No protocol/input/budget freeze, implementation, experiment or acceptance yet.
+
+Owner `/root`, existing canonical checkout, branch`donson/mainline-39c-endpoints`, base42252bf8. First frozen remote slice is `docs/mainline/39c-closure-endpoint-protocol-01.json`; it records actual closure timestamps only. All39c acceptance boxes remain open until the full endpoint/closure scope is implemented and verified.
