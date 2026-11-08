@@ -1,0 +1,241 @@
+{
+  "status": "COMPLETE_FINITE_ROBUSTNESS_DESCRIPTIVES",
+  "source": "dfd72f9e090101c60d8491e8012d95c78c1aa94c",
+  "execution_source": "18679d7620385c553041e58065d6c7841faebb15",
+  "runs": 16,
+  "worlds": 8,
+  "contrast_blocks": 4,
+  "simulated_s": 160,
+  "scheduled_decisions": 160,
+  "paired": [
+    {
+      "world_id": "robustness-01",
+      "comparison": "R1",
+      "family": "load-level",
+      "level": "reference",
+      "baseline_deficit_s": 0.625,
+      "candidate_deficit_s": 0.625,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-02",
+      "comparison": "R1",
+      "family": "load-level",
+      "level": "perturbed",
+      "baseline_deficit_s": 4.975,
+      "candidate_deficit_s": 5.2749999999999995,
+      "delta_service_s": -0.2999999999999998,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-03",
+      "comparison": "R2",
+      "family": "sensor-coverage",
+      "level": "reference",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": -1.25,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": -1.25
+    },
+    {
+      "world_id": "robustness-04",
+      "comparison": "R2",
+      "family": "sensor-coverage",
+      "level": "perturbed",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-05",
+      "comparison": "R3",
+      "family": "reserve-path",
+      "level": "reference",
+      "baseline_deficit_s": 4.5625,
+      "candidate_deficit_s": 4.9375,
+      "delta_service_s": -0.375,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-06",
+      "comparison": "R3",
+      "family": "reserve-path",
+      "level": "perturbed",
+      "baseline_deficit_s": 7.375,
+      "candidate_deficit_s": 7.375,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-07",
+      "comparison": "R4",
+      "family": "model-error",
+      "level": "reference",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-08",
+      "comparison": "R4",
+      "family": "model-error",
+      "level": "perturbed",
+      "baseline_deficit_s": 2.96875,
+      "candidate_deficit_s": 2.96875,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    }
+  ],
+  "contrasts": [
+    {
+      "comparison": "R1",
+      "family": "load-level",
+      "reference": {
+        "world_id": "robustness-01",
+        "comparison": "R1",
+        "family": "load-level",
+        "level": "reference",
+        "baseline_deficit_s": 0.625,
+        "candidate_deficit_s": 0.625,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "perturbed": {
+        "world_id": "robustness-02",
+        "comparison": "R1",
+        "family": "load-level",
+        "level": "perturbed",
+        "baseline_deficit_s": 4.975,
+        "candidate_deficit_s": 5.2749999999999995,
+        "delta_service_s": -0.2999999999999998,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "shift_in_delta_service_s": -0.2999999999999998,
+      "shift_in_extra_paid_person_s": 0.0
+    },
+    {
+      "comparison": "R2",
+      "family": "sensor-coverage",
+      "reference": {
+        "world_id": "robustness-03",
+        "comparison": "R2",
+        "family": "sensor-coverage",
+        "level": "reference",
+        "baseline_deficit_s": 6.25,
+        "candidate_deficit_s": 6.25,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": -1.25,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": -1.25
+      },
+      "perturbed": {
+        "world_id": "robustness-04",
+        "comparison": "R2",
+        "family": "sensor-coverage",
+        "level": "perturbed",
+        "baseline_deficit_s": 6.25,
+        "candidate_deficit_s": 6.25,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "shift_in_delta_service_s": 0.0,
+      "shift_in_extra_paid_person_s": 1.25
+    },
+    {
+      "comparison": "R3",
+      "family": "reserve-path",
+      "reference": {
+        "world_id": "robustness-05",
+        "comparison": "R3",
+        "family": "reserve-path",
+        "level": "reference",
+        "baseline_deficit_s": 4.5625,
+        "candidate_deficit_s": 4.9375,
+        "delta_service_s": -0.375,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "perturbed": {
+        "world_id": "robustness-06",
+        "comparison": "R3",
+        "family": "reserve-path",
+        "level": "perturbed",
+        "baseline_deficit_s": 7.375,
+        "candidate_deficit_s": 7.375,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "shift_in_delta_service_s": 0.375,
+      "shift_in_extra_paid_person_s": 0.0
+    },
+    {
+      "comparison": "R4",
+      "family": "model-error",
+      "reference": {
+        "world_id": "robustness-07",
+        "comparison": "R4",
+        "family": "model-error",
+        "level": "reference",
+        "baseline_deficit_s": 6.25,
+        "candidate_deficit_s": 6.25,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "perturbed": {
+        "world_id": "robustness-08",
+        "comparison": "R4",
+        "family": "model-error",
+        "level": "perturbed",
+        "baseline_deficit_s": 2.96875,
+        "candidate_deficit_s": 2.96875,
+        "delta_service_s": 0.0,
+        "extra_paid_person_s": 0.0,
+        "extra_travel_person_s": 0.0,
+        "extra_tool_s": 0.0
+      },
+      "shift_in_delta_service_s": 0.0,
+      "shift_in_extra_paid_person_s": 0.0
+    }
+  ],
+  "mean_over_eight_designed_worlds_service_delta_s": -0.08437499999999998,
+  "independence": "Four matched reference/perturbed blocks; not16 independent replications. No population interval.",
+  "original_primary_unchanged": {
+    "status": "NO_PRACTICAL_GAIN",
+    "mean_service_delta_s": 0.03515625,
+    "worlds": 16
+  },
+  "new_physical_calls": 0,
+  "new_selectors": 0,
+  "new_inference": 0,
+  "field_calibration": "PENDING"
+}

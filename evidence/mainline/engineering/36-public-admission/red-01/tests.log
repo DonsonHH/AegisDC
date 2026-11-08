@@ -1,0 +1,25 @@
+test_contrast_refuses_an_undeclared_changed_field (test_robustness_release.RobustnessReleaseTests.test_contrast_refuses_an_undeclared_changed_field) ... FAIL
+test_public_description_keeps_actual_and_forecast_changes_distinct (test_robustness_release.RobustnessReleaseTests.test_public_description_keeps_actual_and_forecast_changes_distinct) ... FAIL
+
+======================================================================
+FAIL: test_contrast_refuses_an_undeclared_changed_field (test_robustness_release.RobustnessReleaseTests.test_contrast_refuses_an_undeclared_changed_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\tests\test_robustness_release.py", line 39, in test_contrast_refuses_an_undeclared_changed_field
+    self.assertIn('Load contrast exceeds its three declared quantities',result.stderr)
+AssertionError: 'Load contrast exceeds its three declared quantities' not found in "usage: robustness_release.py [-h] {audit-public,prepare,freeze,verify} ...\nrobustness_release.py: error: argument mode: invalid choice: 'audit-contrast' (choose from audit-public, prepare, freeze, verify)\n"
+
+======================================================================
+FAIL: test_public_description_keeps_actual_and_forecast_changes_distinct (test_robustness_release.RobustnessReleaseTests.test_public_description_keeps_actual_and_forecast_changes_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\tests\test_robustness_release.py", line 19, in test_public_description_keeps_actual_and_forecast_changes_distinct
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 2 != 0 : usage: robustness_release.py [-h] {audit-public,prepare,freeze,verify} ...
+robustness_release.py: error: argument mode: invalid choice: 'describe-public' (choose from audit-public, prepare, freeze, verify)
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.379s
+
+FAILED (failures=2)

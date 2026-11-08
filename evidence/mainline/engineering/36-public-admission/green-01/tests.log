@@ -1,0 +1,28 @@
+test_contrast_refuses_an_undeclared_changed_field (test_robustness_release.RobustnessReleaseTests.test_contrast_refuses_an_undeclared_changed_field) ... ok
+test_public_description_keeps_actual_and_forecast_changes_distinct (test_robustness_release.RobustnessReleaseTests.test_public_description_keeps_actual_and_forecast_changes_distinct) ... FAIL
+
+======================================================================
+FAIL: test_public_description_keeps_actual_and_forecast_changes_distinct (test_robustness_release.RobustnessReleaseTests.test_public_description_keeps_actual_and_forecast_changes_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\tests\test_robustness_release.py", line 19, in test_public_description_keeps_actual_and_forecast_changes_distinct
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\scripts\robustness_release.py", line 229, in <module>
+    result=public_audit(args.output.resolve()) if args.mode=='audit-public' else prepare(args.source,ROOT/PREP) if args.mode=='prepare' else freeze(args.source) if args.mode=='freeze' else describe_public() if args.mode=='describe-public' else dict(status='PASS_DECLARED_CONTRAST',paths=check_contrast(read(args.left),read(args.right),args.family)) if args.mode=='audit-contrast' else verify_freeze()
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\scripts\robustness_release.py", line 113, in describe_public
+    contrasts={worlds[i]['comparison']:check_contrast(documents[worlds[i]['id']],documents[worlds[i+1]['id']],worlds[i]['family']) for i in range(0,8,2)}
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\scripts\robustness_release.py", line 88, in check_contrast
+    require(actual==expected,'Load contrast exceeds its three declared quantities')
+  File "C:\Users\Donson\.codex\worktrees\mainline36-robustness\Renly\scripts\inspection_delivery.py", line 16, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Load contrast exceeds its three declared quantities
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.854s
+
+FAILED (failures=1)

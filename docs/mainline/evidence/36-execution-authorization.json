@@ -1,0 +1,42 @@
+{
+  "schema": "aegisdc-robustness-execution-authorization-v1",
+  "status": "REVIEWED_TO_EXECUTE",
+  "execution_lock": "docs/mainline/evidence/30-robustness-execution-lock.json",
+  "execution_lock_sha256": "bb9f2b8ee93932c4c46ad7f151f25ed13a1012b7ce675a472695a4aea5420be9",
+  "frozen_execution_source": "f834ea4de71a175fc4fa341cc29ed1694280ae0e",
+  "executable_paths": 286,
+  "inputs": 16,
+  "contrast_blocks": 4,
+  "budget": {
+    "attempts": 16,
+    "simulated_charge_s": 160,
+    "scheduled_decisions": 160
+  },
+  "reviews": {
+    "Spec": {
+      "status": "PASS_TO_AUTHORIZE_ORIGINAL16_PHYSICAL_SLOTS",
+      "manifest_sha256": "39d0259bd4d80d105130e15f1150150a802cb5c560f1186a460e43a78a5f7329",
+      "source": "f101531642f5808f1af553f4b926dda92341ab42",
+      "archive": "evidence/mainline/research/36-robustness/execution-review/spec-originals.zip",
+      "nonce_or_HMAC_recomputed": false
+    },
+    "Standards": {
+      "status": "PASS_TO_AUTHORIZE_ORIGINAL16_PHYSICAL_SLOTS",
+      "manifest_sha256": "9d5a7223cc1b5af02980c95aa30ec2d648abd88323a763b06b48df87a61ce1b3",
+      "source": "f101531642f5808f1af553f4b926dda92341ab42",
+      "archive": "evidence/mainline/research/36-robustness/execution-review/standards-originals.zip",
+      "nonce_or_HMAC_recomputed": false
+    }
+  },
+  "fresh_proof": "docs/mainline/evidence/36-preexecution-fresh.json",
+  "candidate_push_ci": {
+    "commit": "f101531642f5808f1af553f4b926dda92341ab42",
+    "run_id": 42487189847,
+    "conclusion": "success",
+    "exact_remote_blobs": 6833
+  },
+  "research_attempts_before": 164,
+  "research_simulated_s_before": 1640,
+  "automatic_retries": 0,
+  "instructions": "One canonical capture; record every STARTED charge before physical call, retain all failures and UNRUN slots, stop on source/contract failure. No source/input/method/criterion changes."
+}
