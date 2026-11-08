@@ -18,7 +18,12 @@ def main():
     commit = git('rev-parse', args.commit).decode().strip()
     if git('rev-parse', 'HEAD').decode().strip() != commit:
         raise ValueError('Fresh checkout is not at the declared delivery commit')
-    manifest = json.loads((root / args.manifest).read_text(encoding='utf-8'))
+    manifest_bytes = (root / args.manifest).read_bytes()
+    if manifest_bytes != git('show', commit + ':' + args.manifest):
+        raise ValueError('Delivery manifest differs from its committed Git blob')
+    manifest = json.loads(manifest_bytes.decode('utf-8'))
+    if type(manifest.get('artifacts')) is not dict or not manifest['artifacts']:
+        raise ValueError('Declare a nonempty durable delivery set')
     checked = []
     digest = lambda data: hashlib.sha256(data).hexdigest()
     for name, record in manifest['artifacts'].items():
