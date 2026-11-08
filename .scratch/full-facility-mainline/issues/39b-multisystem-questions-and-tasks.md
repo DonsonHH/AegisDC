@@ -16,4 +16,6 @@
 
 ## Evidence
 
-Owner `/root` in canonical integration checkout;39a accepted. No implementation or new run yet. User-review recommendation F1 and F4; exact behavior contract/source freeze precedes engineering captures. New rules/tasks or forecast-model changes are not an AI increment.
+Owner `/root` in canonical integration checkout;39a accepted. First public work-order generation slice implemented on `donson/mainline-39b-problems`; remote red133107/green133108 preserved. Public intention only, not actual facility execution or ticket acceptance. User-review recommendation F1 and F4; exact behavior contract/source freeze precedes engineering captures. New rules/tasks or forecast-model changes are not an AI increment.
+
+First finite development slice: `evidence/mainline/engineering/39b-development/slice-01/README.md`; unchanged frozen test/input/protocol, guarded source758a39fb→58d74be2, one public behavior green. Remaining boxes intentionally unresolved.
