@@ -1,0 +1,48 @@
+{
+  "schema": "aegisdc-spec-review-v1",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "candidate": "b8cadb936ab2da8efbc12616e057dc78ef59d0b0",
+  "status": "FINDING_BLOCKS_39B_ACCEPTANCE",
+  "reused_preliminary_pass": false,
+  "finding_count": 1,
+  "blocks_39b": true,
+  "findings": [
+    {
+      "id": "39B-SPEC-01",
+      "priority": "P2",
+      "title": "Reject APPLIED feedback that contradicts public authorization or work completion",
+      "path": "src/aegis_dc/problem_actions.py",
+      "lines": "63-86,149-153",
+      "spec": [
+        {"path": "docs/mainline/39b-action-sequence-contract-v2.md", "line": 15, "quote": "不能用后台记录、未来状态或自填成功回执代替。"},
+        {"path": "docs/mainline/39b-action-sequence-contract-v2.md", "line": 21, "quote": "只有实际完成、完成时授权仍有效才可能改变设施。"},
+        {"path": "docs/mainline/39b-action-sequence-contract-v2.md", "line": 22, "quote": "失败/中止/授权过期不能伪造成功或触发“恢复后”复检。"}
+      ],
+      "behavior": "_feedback validates fields, issued task identity, channel strings, operation id and timing, but does not check APPLIED against the task binding's authorization interval or the corresponding terminal workforce report. allowed.recheck then depends only on outcome == APPLIED. An internally contradictory public history can open recheck despite the contract.",
+      "static_counterexample": "Take the actual slice06 expired-at-completion public history at3.5s: action issued1.75, completed ACK observed3/arrived3.5, grant expires exactly3. Preserve all fields and replace intervention outcome NO_EFFECT with APPLIED and reason with null. Every current _feedback predicate remains true although the authorization excludes3. An analogous APPLIED plus aborted/rejected work report is not cross-rejected. This counterexample was reasoned from source and saved fields, not executed.",
+      "related_existing_guard": "src/aegis_dc/verified_closure.py:149-152 already rejects APPLIED contradicting its declared authorization interval.",
+      "impact_boundary": "Normal PolicySession takes feedback from the actual private InterventionSession and slice06 correctly reports NO_EFFECT. The finding is a missing consistency rejection at the public choose_work boundary, not evidence that the normal plant applied an expired action and not a demand for cryptographic authentication.",
+      "requested_correction": "Cross-check APPLIED against the bound grant at observation time and a consistent arrived completed workforce ACK for the same issued action; reject contradictory terminal histories and retain pending behavior if channels have different delays. Add a separately frozen finite public-input red/green correction, keeping original b8 source and all existing records.",
+      "blocks_39b": true
+    }
+  ],
+  "reviewed_coverage": [
+    {"requirement": "同信息不同隐藏状态的公开问题/任务相同，直到合法新证据到达。", "spec_path": ".scratch/full-facility-mainline/issues/39b-multisystem-questions-and-tasks.md", "code": "problem_tasks.py:127-199; policy_execution.py:114-140", "evidence": "Slice04 declared paired hidden-flow case; no new review simulation."},
+    {"requirement": "新事件实例、重复问题、已完成任务后的复检有独立身份与来源。", "spec_path": ".scratch/full-facility-mainline/issues/39b-multisystem-questions-and-tasks.md", "code": "problem_tasks.py:138-185; problem_actions.py:117-164", "evidence": "Stable slots and source roots; slice04 copy/late case plus slice05/06 paid recheck cases."},
+    {"requirement": "未发出的任务不执行、不收费或产出观测。", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:13", "code": "policy_execution.py:90-108,129-151; policy_budget.py:13-25", "evidence": "Catalog is separate from empty actual submissions; direct-filter and no-human cases retain unissued stages."},
+    {"requirement": "仍有效、质量bounded且整个误差区间落入条件", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:20", "code": "problem_actions.py:121-135", "evidence": "Current availability, provenance/conflict and exact interval checks are explicit; normal and unknown cases were qualified without action."},
+    {"requirement": "保留所有已派阶段和其原可用时刻，不能因当前条件失效而丢失历史占用/费用。", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:29", "code": "problem_actions.py:149-170; policy_budget.py:13-25", "evidence": "Issued candidates remain even when the current stage gate is false; costs and full-window commitments are separate from measured crew time."},
+    {"requirement": "原v1字段和检查专用行为保持。", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:7", "code": "dispatch_policy.py:53-63; problem_tasks.py:94-102,202-218", "evidence": "Separate schema branches preserve v1 stage identities and legacy dispatch paths; static review only at the final source."},
+    {"requirement": "任何阶段都不自动关闭风险。", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:23", "code": "problem_actions.py:137-148; policy_execution.py:45-52", "evidence": "Workflow explicitly remains unclosed; generic business endpoints and closure criteria remain39c scope."},
+    {"requirement": "共享critical_service的静态路径不是实际容量/备用有效性，也不是概率法则。", "spec_path": "docs/mainline/39b-action-sequence-contract-v2.md:31", "code": "problem_tasks.py:105-124,187-198; nonfixed_evidence.py:117-118", "evidence": "Power/IT professional checks retain source/units, typed signals and static service context; unknown risks stay null."}
+  ],
+  "saved_evidence_scope": {
+    "slice04": "Committed qualification terminal:3tests,4facilitycalls,11returneddecisions, source9f49582a; treated as saved engineering evidence only.",
+    "slice05": "Committed green terminal:1test,1facilitycall,4returneddecisions, source0d689036; residual network action and paid recheck.",
+    "slice06": "Uncommitted saved terminal inspected read-only:4tests,5facilitycalls,17returneddecisions, sourceb8cadb93, qualification passed. Final immutable delivery not asserted.",
+    "full_remote_trajectories_reaudited": false,
+    "original_registered_trials": "180 preserved; no new scientific unit inferred."
+  },
+  "not_findings_against_39b": ["39c generic diagnosis/business endpoints and verified closure criteria remain future scope.","39d time-scale/parameter/numerical study remains future scope.","AI/RSI effects remain unmeasured; their absence is not a39b implementation defect."],
+  "local_execution": {"project_calls": 0, "tests": 0, "facility_calls": 0, "selectors": 0, "models": 0, "metric_recomputations": 0, "browser_calls": 0, "installs": 0, "new_worktrees": 0, "full_source_exports": 0, "counterexample_executed": false}
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "aegisdc-39b-complete-standards-review-v1",
+  "axis": "Standards",
+  "status": "ONE_METADATA_CORRECTION_BEFORE_ACCEPTANCE",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "candidate": "b8cadb936ab2da8efbc12616e057dc78ef59d0b0",
+  "candidate_tree": "8db50443f8775296a79d806ad5d69d80bd99e2da",
+  "prior_preliminary_pass_reused_as_conclusion": false,
+  "hard_rule_findings": [
+    {
+      "id": "STD39B-01",
+      "priority": "P2",
+      "category": "SOURCE_EPOCH_AND_LIFECYCLE_DISCLOSURE",
+      "path": "docs/mainline/39b-action-sequence-contract-v2.md",
+      "start_line": 1,
+      "end_line": 3,
+      "quote": "状态：待实现，尚无该版本的运行或接受证据。",
+      "rule": {"path": "docs/agents/domain.md", "line": 7, "quote": "engineering facts must retain their source/epoch"},
+      "supporting_rule": {"path": "AGENTS.md", "rule": "Keep source facts, design claims, modeling assumptions and unresolved site data explicit; component checks and CI are milestones rather than research completion."},
+      "contradictory_saved_source": ["evidence/mainline/engineering/39b-development/slice-05/README.md", "evidence/mainline/engineering/39b-development/slice-05/10-green-action-sequence/terminal.json"],
+      "actual_saved_execution_source": "0d68903631d3bd787aaa13710ea7e39d81d96bdb",
+      "actual_saved_job": "133131",
+      "impact": "The current contract is linked from the live ticket/progress but presents its preimplementation no-run state as current, contradicting the preserved actual v2 execution at the same candidate. Readers cannot reliably distinguish the frozen prospective plan from current evidence.",
+      "requested_change": "Explicitly label the original paragraph as its preexecution frozen historical state, then add a current implementation/source/evidence pointer. Preserve the original protocol, inputs, failures and execution identities; no scientific rerun needed.",
+      "blocks_39b_formal_acceptance_at_this_candidate": true,
+      "blocks_runtime_development": false,
+      "smell": false,
+      "status": "OPEN_AT_FIXED_CANDIDATE"
+    }
+  ],
+  "heuristic_smell_findings": [],
+  "implementation_blockers_identified_by_this_axis": [],
+  "coverage_of_static_review": [
+    {"paths": ["src/aegis_dc/problem_tasks.py"], "review": "Closed v1/v2 JSON fields, finite task templates/instance slots, public trigger coverage, stable origin identities, arrived/current/dispute gates, unknown numeric risk, deterministic static functional paths without capacity inference."},
+    {"paths": ["src/aegis_dc/problem_actions.py"], "review": "Complete declaration, issued-measurement, intervention-feedback and stage-compiler bodies. Read unit/target/producer bindings, observation validity and uncertainty interval, delayed APPLIED/NO_EFFECT channel handling, direct and deferred paths, retained issued-stage availability and resource commitments. This is static structural review, not an exhaustive proof of every contradictory supplied history; the originating behavioral contract belongs to the independent Spec axis."},
+    {"paths": ["src/aegis_dc/policy_execution.py", "src/aegis_dc/dispatch_policy.py", "src/aegis_dc/plant.py"], "review": "Public selectors receive validated frame plus declared producer profiles and arrived public reports; realization payloads remain in private orchestration/executors. New v2 declarations must equal actual profiles/bindings. Finite producer-slot registration is separate from actual crew submission. Existing schema branches remain present; no old comparison result was recomputed."},
+    {"paths": ["src/aegis_dc/nonfixed_evidence.py", "src/aegis_dc/inspection_execution.py", "src/aegis_dc/intervention_execution.py", "src/aegis_dc/policy_budget.py"], "review": "Two new fixed target/unit/path measurement names, with existing typed real crew sampling and named intervention interfaces. Followed common admission reservations and actual resource-cost separation, without treating reservation envelopes as measured labor."},
+    {"paths": ["tests/test_problem_tasks.py", "tests/test_problem_task_execution.py", "tests/test_problem_multisystem.py", "tests/test_problem_task_qualification.py", "tests/test_problem_action_sequence.py", "tests/test_problem_action_qualification.py"], "review": "Read all six tests and their finite declared expectations/charge-before-entry assignments; tests were not executed. Actual time, report arrival, unit-bearing measurement, residual effect, unknown/no-human and expiry fields remain separate. Returned decisions do not establish internal selector invocation counts or independent research units."},
+    {"paths": ["scripts/run_engineering_slice.py", "scripts/render_problem_task_evidence.py"], "review": "Read both complete tools. Slurm/login gate, exact manifest/source/input and actual execution checkout guards, unique result directories, retained failures/terminals and declared engineering/visualization classification. Runner now inventories partial outputs in finally; numerical computation or rendering was not run by reviewer."},
+    {"paths": [".gitattributes", "docs/mainline/39b-development-slice-01.json", "docs/mainline/39b-development-slice-02.json", "docs/mainline/39b-development-slice-02-v2.json", "docs/mainline/39b-development-slice-03.json", "docs/mainline/39b-existing-behaviors-qualification-04.json", "docs/mainline/39b-development-slice-05.json", "docs/mainline/39b-action-qualification-06.json"], "review": "Frozen finite engineering budgets and original unexpected/expected-red distinctions, zero new research units, separate saved rendering attempts. Only four named native SVG whitespace paths receive exact format classification; saved reproduction is explicitly identified as a reproduction rather than an original captured command log. No arbitrary source/hash waiver observed."}
+  ],
+  "scope_and_evidence_boundaries": {
+    "old_research": "git diff BASE...CANDIDATE -- evidence/mainline/research docs/mainline/30* is empty; original registered research bytes/protocols unchanged in that scope. No180-run re-audit or metric recomputation performed.",
+    "runtime05_to_candidate": "git diff --name-only 0d689036...b8cadb93 -- src/aegis_dc configs scripts/run_engineering_slice.py is empty. Saved05 source identity was not relabeled as candidate b8.",
+    "failure133111": "Original source/input refusal, FAILED terminal and cumulative v2 budget including that entry remain present; the failed attempt was not relabeled expected-red. Internal calls stay uninstrumented/null rather than zero.",
+    "cases_not_independence": "New source-case tokens, task slots, trace rows, returned decisions and finite engineering runs are not asserted as independent physical incidents or new research samples.",
+    "qualification06": "Parent reported Slurm133132 completed at b8 with4tests/5facility entries/17returned decisions and no test failure. At this review's fixed candidate, those output files are not committed; notification alone is not acceptance evidence. A later data delivery pin/fresh gate remains root's acceptance work.",
+    "successor_scope": "39c endpoints/verified closure,39d prospective numerical/timescale qualification and future AI are not listed as39b implementation defects. Unknown risk values and risk_closed=false are honest boundaries.",
+    "visuals": "No figures were newly rendered/viewed by this reviewer. Saved native-format classification and tool behavior were inspected statically; browser QA was not claimed."
+  },
+  "standards_sources": ["AGENTS.md", "docs/agents/compute-storage.md", "docs/agents/issue-tracker.md", "docs/agents/domain.md", "docs/agents/triage-labels.md", "GLOSSARY.md", "docs/adr/0003-complete-facility-mainline.md", ".scratch/full-facility-mainline/spec.md"],
+  "smell_policy": "All12 supplied Fowler smells considered as heuristics. Repository closed-JSON and explicit finite-interface conventions override speculative abstractions. No meaningful source hunk warranted a separate smell finding; tooling style was not reported.",
+  "commands": [
+    "git rev-parse BASE CANDIDATE; tree obtained using a literal subprocess argument CANDIDATE^{tree}",
+    "git log BASE..CANDIDATE --oneline",
+    "git diff BASE...CANDIDATE -- <new runtime, tests, protocols, tools and tracking paths>",
+    "git show CANDIDATE:<named source/standards/test/protocol or saved evidence path>",
+    "git diff --name-only BASE...CANDIDATE -- evidence/mainline/research docs/mainline/30*",
+    "git diff --name-only 0d689036...CANDIDATE -- src/aegis_dc configs scripts/run_engineering_slice.py",
+    "Small stdlib Git/SHA identity writer created source-fingerprint.json; no project imports, assertions or metric arithmetic."
+  ],
+  "fixed_source_fingerprint": "source-fingerprint.json",
+  "reviewer_activity": {"project_calls": 0, "tests": 0, "models": 0, "selectors": 0, "simulations": 0, "metric_calculations": 0, "renders": 0, "browsers": 0, "installs": 0, "source_exports": 0, "new_worktrees": 0, "new_agents": 0, "tracked_edits": 0},
+  "acceptance_conclusion": "One metadata/source-epoch correction blocks formal acceptance at fixed b8; no separate runtime implementation blocker identified by Standards. Final data/fresh acceptance is not replaced by this code review."
+}

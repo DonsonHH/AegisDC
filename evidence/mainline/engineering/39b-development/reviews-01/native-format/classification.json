@@ -1,0 +1,21 @@
+{
+  "classification": "NATIVE_REVIEWER_LINE_ENDINGS_NOT_RUNTIME_OR_HASH_EXCEPTION",
+  "initial_check": "Git cached check refused commit for two native CRLF source-pin files; original output is in tool history and was not redirected.",
+  "followup": "The helper attempted a reproduction after the working-tree attributes were already edited. Git used those attributes and returned0, so its expectation of exit2 failed. The empty check-reproduction-01.log is retained as that followup, not claimed to be the initial failure.",
+  "files": {
+    "spec-original/source-pin.json": {
+      "bytes": 3583,
+      "sha256": "e7fe6993f8937fd7dc53ea5a7663ddc067d3517f70d43e8721158e4bc63abd70",
+      "crlf_count": 43,
+      "disposition": "Native reviewer CRLF kept byte-identical; CR treated as EOL on this exact path only."
+    },
+    "spec-correction/source-pin.json": {
+      "bytes": 2988,
+      "sha256": "d412f86fffa03b6e72138e1e12fbdbd60ffa21b41652a4585bf4ed863dfc8ded",
+      "crlf_count": 37,
+      "disposition": "Native reviewer CRLF kept byte-identical; CR treated as EOL on this exact path only."
+    }
+  },
+  "hash_checks": "Original reviewer hashes remain mandatory. No reviewer bytes rewritten or hash failure skipped.",
+  "original_file_count": 11
+}
