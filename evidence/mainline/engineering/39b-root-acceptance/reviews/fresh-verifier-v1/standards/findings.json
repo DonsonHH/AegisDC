@@ -1,0 +1,65 @@
+{
+  "schema": "aegisdc-39b-fresh-verifier-standards-v1",
+  "source": "ae101123b7d55c3eeff58c1bfe3df0e63291b53f",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "status": "THREE_SAVED_DELIVERY_GATE_CORRECTIONS_BEFORE_FRESH",
+  "hard_rule_findings": [
+    {
+      "id": "STD39BF-01",
+      "priority": "P2",
+      "path": "scripts/verify_39b_delivery.py",
+      "start_line": 83,
+      "end_line": 134,
+      "title": "Current delivered execution bytes are not tied to the passed root source",
+      "rule": {"path": "AGENTS.md", "text": "Verify declared artifacts against manifests and committed delivery blobs; check runtime source against its recorded execution revision."},
+      "protocol": "39b-fresh-delivery-protocol-01 requires captured runtime/tool/input identities and exact609 root acceptance for its declared4f80 execution source.",
+      "impact": "The loop proves captured records match their historical commits. It never proves the current delivery's source/test/config/tool set and bytes match the root source-manifest-before. A post-root code change plus rebuilt global delivery manifest can pass all current checks while shipping an unregressed implementation. Current protected-scope check omits src/tests/scripts.",
+      "requested_change": "Bind execution_source to its protocol/authority; require the passed-root source manifest to equal its committed execution set, then require current runtime/tests/configs/execution tools to match that set and bytes. Permit only the explicitly declared new saved-only verifier or other nonexecution additions, not arbitrary extra source paths.",
+      "counterexample": "Static only: change a runtime Python file after4f80, add its new Git hash to the global delivery manifest, leave historical root source receipts intact. Current code compares each side to its own Git revision and never compares the delivered runtime to the regressed runtime.",
+      "counterexample_executed": false,
+      "blocks_fresh": true
+    },
+    {
+      "id": "STD39BF-02",
+      "priority": "P2",
+      "path": "scripts/verify_39b_delivery.py",
+      "start_line": 97,
+      "end_line": 152,
+      "title": "Nested captured/native datasets can be omitted while the global delivery remains complete",
+      "rule": {"path": "AGENTS.md", "text": "Define the durable input/output set before hashing, preserve immutable originals and validate the declared delivery without arbitrary omissions."},
+      "protocol": "Fresh protocol requires all captured runtime/tool/input identities and remote native hashes with complete JSON/JSONL readability; it excludes no original native member.",
+      "impact": "files dictionaries inside captured source manifests and private-raw-index are iterated without original start/terminal hash or exact-set binding. A private index can be empty or omit one trace file and no check fails. JSONL zero lines also pass. The independent review-originals-manifest has original SHA values but is never consumed, so global hashes alone cannot establish original reviewer-byte retention after reindexing.",
+      "requested_change": "Require nonempty dictionaries. Bind staged source manifests to attempt.manifest_sha256 and source identities; bind root before-manifests to original terminal output hashes. Bind every private index to the corresponding terminal.output_files exact nonempty native set/bytes/SHA, not just a positive count. Require nonempty native JSONL and verify the original-review SHA index. Enforce resolved namespace containment for private staging inputs as already done for native files.",
+      "concrete_existing_link": "slice04 terminal.output_files contains exactly the same cases/.../actual-run scenario.json/private-state.jsonl/balances.jsonl/run.json paths and hashes as its private-raw-index; this supplies an existing immutable reference without scientific recomputation.",
+      "namespace_detail": "For source-objects.pack/execution-snapshot.json, Path(attempt).name==attempt accepts '..' and no resolved containment is checked before REMOTE/attempt access. Reject this path escape within the same private-input binding fix.",
+      "counterexample": "Static only: remove one or all private index entries and rehash that JSON in the global manifest; other source references remain, so the verifier can report PASS with the omitted native data never opened. Or delete one staged source entry while the original attempt still records the old manifest SHA; that mismatch is currently unchecked.",
+      "counterexample_executed": false,
+      "blocks_fresh": true
+    },
+    {
+      "id": "STD39BF-03",
+      "priority": "P2",
+      "path": "scripts/verify_39b_delivery.py",
+      "lines": [85,86,87,88,89,90,91,153,154,155,156,157,158,159,160,161,162],
+      "title": "Two explicit preserved-evidence predicates are reported without checks",
+      "rule": {"path": "docs/mainline/39b-fresh-delivery-protocol-01.json", "text": "609/609 root tests with20historical originals; original root01 and delayed-ACK native failure preserved."},
+      "impact": "The script checks609zero failure and08FAILED, but never requires root verified_original_files==20 or root01 terminal to remainFAILED. It nevertheless unconditionally reports failures_preserved=True and copies the original-file count into a PASS result.",
+      "requested_change": "Explicitly require20 retained originals and the root01 failed source/count/status predicates (or exact original saved identity) in addition to08's separate failed/saved-correction classification before writing PASS.",
+      "counterexample": "Static only: change the committed reported original-file count to19 or relabel root01 terminal while updating global hashes; current explicit final predicates do not reject those required-gate violations.",
+      "counterexample_executed": false,
+      "blocks_fresh": true
+    }
+  ],
+  "heuristic_smell_findings": [],
+  "positive_static_observations": [
+    "Global manifest bytes first match the fixed delivery commit. Its nonempty file set must exactly match every committed change sinceBASE except its own self-hash; every member then matches size/SHA and actual Git bytes. That outer set is not the empty-set defect.",
+    "Slurm-only/nonoptimized gates are explicit require checks, output directory is unique, failed terminal is retained, imports are stdlib only and subprocess use is Git inspection rather than project execution.",
+    "Original configs,180 research and accepted report are explicitly protected from base drift. Current actual root data declares609/609 and20; the findings address incomplete rejection logic rather than claiming those saved data are presently false.",
+    "Three exact native Power= log paths and the fourth reproduced-check transcript are separately classified without rewriting bytes or waiving SHA. Reviewer raw CRLF rules are confined to original receipt directories; their independent SHA authority must also be consumed as noted above."
+  ],
+  "smell_policy": "Only meaningful Fowler heuristics considered; repository rules override, tooling style excluded. No extra smell finding. Core defects are documented saved-delivery correctness rules.",
+  "scope": "Saved-only fresh verifier/delivery boundary. No domain re-review, root repetition, scientific gain assessment or new research endpoint computation.",
+  "source_fingerprint": "pin.json",
+  "reviewer_activity": {"verifier_runs": 0, "project_calls": 0, "tests": 0, "models": 0, "selectors": 0, "simulations": 0, "metric_calculations": 0, "browsers": 0, "installs": 0, "exports": 0, "new_agents": 0, "new_worktrees": 0, "tracked_edits": 0},
+  "acceptance_boundary": "Block the pending one-shot fresh call until these saved-integrity gates are fixed prospectively. No root/research rerun is requested or implied. Preserve this original fixed-source review and add any later closure separately."
+}

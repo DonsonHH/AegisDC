@@ -1,0 +1,27 @@
+{
+  "schema": "aegisdc-spec-fresh-verifier-review-v1",
+  "source": "ae101123b7d55c3eeff58c1bfe3df0e63291b53f",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "status": "PASS_STATIC_FIXED_DELIVERY_VERIFIER_REVIEW",
+  "finding_count": 0,
+  "findings": [],
+  "scope": "Fresh saved-only verifier/protocol and declared delivery set; no repeated domain-body or previously closed reviews.",
+  "reviewed_gates": [
+    {"spec": "Fresh actual HEAD and exact manifest/delivery Git bytes; all declared changed files, no empty or omitted change set.","code": "scripts/verify_39b_delivery.py:68-80","assessment": "Actual HEAD and clean state, committed manifest bytes, exact full BASE-to-delivery set equality minus only manifest, confined nonsymlink paths, per-file SHA/size and raw Git-byte equality are required."},
+    {"spec": "609/609 root tests,0failure/error/skip and20historical originals.","code": "scripts/verify_39b_delivery.py:83-91","assessment": "Code explicitly enforces root PASS/source,609run=executed,zero failure/error/skip and source/package guards. The fixed root terminal independently read in this review records20 original files.20 is reported by the verifier rather than independently reasserted there; its fixed Git/hash identity is part of the fresh check."},
+    {"spec": "Current and historical captured runtime/tool/input Git identities, plus explicitly classified private staging inputs.","code": "scripts/verify_39b_delivery.py:93-134","assessment": "Root manifests bind each record to its captured terminal/source, source/tool/input records are batch-read from those exact Git revisions and matched by size,SHA and optional Git object id. Only named job,source-objects.pack and execution-snapshot.json private classifications are accepted; no arbitrary hash omission. Private pack/snapshot bytes are hashed, not imported or executed."},
+    {"spec": "Remote native byte hashes and complete JSON/JSONL readability.","code": "scripts/verify_39b_delivery.py:135-152","assessment": "Every declared native file is constrained to its indexed private root, matched by size/SHA and parsed as full JSON or linewise JSONL. Unclassified native suffixes refuse verification."},
+    {"spec": "Original root01 and delayed-ACK native failure preserved; saved correction remains separate.","code": "scripts/verify_39b_delivery.py:153-156; fixed root attempt-01 and08 records","assessment": "08 FAILED and separate SAVED_ASSERTIONS_VERIFIED_NOT_NATIVE_RERUN are explicit predicates. This review separately read root01FAILED and confirmed Git byte identity versus its original4f80 record; root01 is not an additional explicit status predicate in the verifier. Fresh exact Git/hash checks bind those already audited fixed facts."},
+    {"spec": "Original180/configs/accepted report byte-unchanged.","code": "scripts/verify_39b_delivery.py:81-82","assessment": "Explicit fixed-base Git no-change gate for configs,registered research and the accepted report; independent metadata diff in this review also found no changes."},
+    {"spec": "Single saved check, failures retained,zero facility/selector/model/newresearch.","code": "scripts/verify_39b_delivery.py:58-67,157-172; docs/mainline/39b-fresh-delivery-protocol-01.json","assessment": "One attempt is prospectively bounded, output directory is new, exceptions retain traceback and finally writes a terminal. Imports are stdlib and subprocess calls are Git only; SHA/readability work is saved evidence checking, not new scientific computation."}
+  ],
+  "scope_limits": [
+    "The394file/5527897byte packet totals were author-reported metadata; reviewer did not execute the builder or recompute aggregate totals.",
+    "No fresh verifier run was performed. Its declared source/input/private-native checks are reviewed code paths pending actual single-budget Slurm execution.",
+    "Root02 real PASS is saved evidence read at source4f80; no regression was repeated by this reviewer.",
+    "Static PASS is restricted to this fixed ae101 delivery and the separately inspected original terminal identities; it is not a claim that every future arbitrary packet would be semantically validated by the same optional predicates.",
+    "Fresh result, final committed delivery proof and whole39b acceptance remain pending."
+  ],
+  "ticket_39b_accepted": false,
+  "local_execution": {"verifier_runs":0,"builder_runs":0,"project_calls":0,"tests":0,"selectors":0,"models":0,"facility_calls":0,"metric_recomputations":0,"browser_calls":0,"installs":0,"full_source_exports":0,"new_worktrees":0}
+}
