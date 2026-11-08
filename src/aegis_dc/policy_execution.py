@@ -24,6 +24,8 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
+        self.problem_driven=program['policy_program']['schema']=='aegisdc-problem-driven-policy-v1'
+        self.question_instances=[]
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v4':
             projection=program['policy_program'].get('evidence_projection')
             _require(type(projection) is dict and type(self.inspection_program) is dict and 'profile' in self.inspection_program,
@@ -39,6 +41,9 @@ class PolicySession:
                 'Declare an empty closure feedback channel; actual arrived reports are supplied by the executor')
             _require(self.closure_template.get('intervention_declaration')==self.intervention_program,
                 'Closure and execution must share the same public action declaration')
+        if self.problem_driven:
+            _require(self.intervention_program is None and self.closure_template is None,
+                'Problem-driven actions and closure require a later instance-scoped execution contract')
         if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Policy and actual executor must share the same public intervention declaration')
@@ -77,11 +82,19 @@ class PolicySession:
             produced={r['record_id'] for r in self.inspection_program['profile']['bindings']}
             _require(not produced&{r['id'] for r in self.ledger['records']},'Do not prefill actual inspection records')
         initial=self._frame(0,None)
+        if self.problem_driven:
+            from .problem_tasks import declared_investigations
+            declared_candidates=declared_investigations(initial,program['policy_program'])
+            inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
+            _require({c['task']['id'] for c in declared_candidates}==inspection_ids,
+                'Problem investigation slots must match actual inspection bindings')
+        else:
+            declared_candidates=program['policy_program']['candidates']
         profile=program['policy_program']['workforce_profile']
         self.work_program=dict(schema='aegisdc-work-program-v2',id=program['id']+'-crew',profile=deepcopy(profile),
             initial_frame=initial,submissions=[])
         self.catalog_program=dict(schema='aegisdc-work-program-v1',id=program['id']+'-declared-bindings',profile=deepcopy(profile),
-            submissions=[dict(frame=deepcopy(initial),task=deepcopy(c['task'])) for c in program['policy_program']['candidates']])
+            submissions=[dict(frame=deepcopy(initial),task=deepcopy(c['task'])) for c in declared_candidates])
         if program['policy_program']['policy']=='one_observation_lookahead' and program['policy_program']['schema']!='aegisdc-dispatch-policy-program-v4':
             from .lookahead_policy import validate_execution_bindings
             validate_execution_bindings(program['policy_program'],self.inspection_program)
@@ -107,10 +120,12 @@ class PolicySession:
         _require(time_s==self.times[self.index],'Policy decisions must use their exact declared public instant')
         frame=self._frame(time_s,inspections)
         history=dict(issued=deepcopy(self.issued),work_feedback=workforce.public_feedback(time_s))
+        if self.problem_driven:history['question_instances']=deepcopy(self.question_instances)
         closure=deepcopy(self.closure_template)
         if closure is not None:closure['intervention_feedback']=interventions.public_feedback(time_s) if interventions is not None else []
         started=perf_counter_ns()
         choice=choose_work(frame,self.program['policy_program'],history,intervention_declaration=self.intervention_program,closure_program=closure)
+        if self.problem_driven:self.question_instances=deepcopy(choice['question_instances'])
         self.computation_audit.append(dict(decision_at_s=time_s,elapsed_ns=perf_counter_ns()-started,
             model_evaluations=deepcopy(choice['model_evaluations']),candidate_count=len(choice['candidates']),
             forecast_branch_count=choice.get('forecast_branch_count',0),

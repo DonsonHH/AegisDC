@@ -1,0 +1,20 @@
+test_triggered_cooling_check_measures_only_after_real_crew_work (test_problem_task_execution.ProblemTaskExecutionTests.test_triggered_cooling_check_measures_only_after_real_crew_work) ... ERROR
+
+======================================================================
+ERROR: test_triggered_cooling_check_measures_only_after_real_crew_work (test_problem_task_execution.ProblemTaskExecutionTests.test_triggered_cooling_check_measures_only_after_real_crew_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/04-red-execution-v2/tests/test_problem_task_execution.py", line 17, in test_triggered_cooling_check_measures_only_after_real_crew_work
+    result = simulate_scenario(fixture['model'], duration_s=4, step_s=.01,
+                               dispatch_program=fixture['dispatch_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/04-red-execution-v2/src/aegis_dc/plant.py", line 729, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/04-red-execution-v2/src/aegis_dc/policy_execution.py", line 84, in __init__
+    submissions=[dict(frame=deepcopy(initial),task=deepcopy(c['task'])) for c in program['policy_program']['candidates']])
+                                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'candidates'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.042s
+
+FAILED (errors=1)

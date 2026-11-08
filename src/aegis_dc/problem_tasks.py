@@ -62,6 +62,14 @@ def _matches(record, trigger):
             and type(record['value']) is bool and record['value'] == trigger['equals'])
 
 
+def declared_investigations(frame, program):
+    """Register finite measurement slots without opening or issuing any problem."""
+    templates = _templates(frame, program)
+    return [dict(kind='inspect', task=dict(deepcopy(template['task']),
+                 id=template['id'] + '/task-' + str(slot)))
+            for template in templates.values() for slot in range(template['max_instances'])]
+
+
 def choose_problem_work(frame, program, history):
     """Compile arrived public problem instances into the existing selection gate."""
     templates = _templates(frame, program)
