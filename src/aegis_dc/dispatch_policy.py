@@ -55,6 +55,12 @@ def choose_work(frame,program,history,*,intervention_declaration=None,closure_pr
             'Problem-driven actions and closure require a later instance-scoped execution contract')
         from .problem_tasks import choose_problem_work
         return choose_problem_work(frame,program,history)
+    if type(program) is dict and program.get('schema')=='aegisdc-problem-driven-policy-v2':
+        _require(closure_program is None, 'Problem workflow does not yet declare evidence-verified closure')
+        _require(intervention_declaration is None or intervention_declaration==program['intervention_declaration'],
+            'Problem selector and executor intervention declarations differ')
+        from .problem_actions import choose_problem_action
+        return choose_problem_action(frame,program,history)
     _require(type(program) is dict,'Declare policy program object')
     _text(program.get('schema'),'Policy program schema')
     version4=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v4'

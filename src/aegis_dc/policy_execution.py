@@ -24,7 +24,8 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
-        self.problem_driven=program['policy_program']['schema']=='aegisdc-problem-driven-policy-v1'
+        self.problem_driven=program['policy_program']['schema'] in {'aegisdc-problem-driven-policy-v1','aegisdc-problem-driven-policy-v2'}
+        self.problem_actions=program['policy_program']['schema']=='aegisdc-problem-driven-policy-v2'
         self.question_instances=[]
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v4':
             projection=program['policy_program'].get('evidence_projection')
@@ -41,9 +42,15 @@ class PolicySession:
                 'Declare an empty closure feedback channel; actual arrived reports are supplied by the executor')
             _require(self.closure_template.get('intervention_declaration')==self.intervention_program,
                 'Closure and execution must share the same public action declaration')
-        if self.problem_driven:
+        if self.problem_driven and not self.problem_actions:
             _require(self.intervention_program is None and self.closure_template is None,
                 'Problem-driven actions and closure require a later instance-scoped execution contract')
+        if self.problem_actions:
+            _require(self.inspection_program is not None
+                and program['policy_program']['inspection_declaration']==self.inspection_program['profile']
+                and program['policy_program']['intervention_declaration']==self.intervention_program,
+                'Problem public producer declarations must equal their actual executor declarations')
+            _require(self.closure_template is None, 'Problem workflow does not yet declare evidence-verified closure')
         if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Policy and actual executor must share the same public intervention declaration')
@@ -83,11 +90,15 @@ class PolicySession:
             _require(not produced&{r['id'] for r in self.ledger['records']},'Do not prefill actual inspection records')
         initial=self._frame(0,None)
         if self.problem_driven:
-            from .problem_tasks import declared_investigations
-            declared_candidates=declared_investigations(initial,program['policy_program'])
+            from .problem_tasks import declared_problem_tasks
+            declared_candidates=declared_problem_tasks(initial,program['policy_program'])
             inspection_ids={b['task_id'] for b in self.inspection_program['profile']['bindings']} if self.inspection_program is not None else set()
-            _require({c['task']['id'] for c in declared_candidates}==inspection_ids,
+            _require({c['task']['id'] for c in declared_candidates if c['kind']=='inspect'}==inspection_ids,
                 'Problem investigation slots must match actual inspection bindings')
+            if self.problem_actions:
+                intervention_ids={b['task_id'] for b in self.intervention_program['bindings']}
+                _require({c['task']['id'] for c in declared_candidates if c['kind']=='intervene'}==intervention_ids,
+                    'Problem action slots must match actual intervention bindings')
         else:
             declared_candidates=program['policy_program']['candidates']
         profile=program['policy_program']['workforce_profile']
@@ -121,6 +132,7 @@ class PolicySession:
         frame=self._frame(time_s,inspections)
         history=dict(issued=deepcopy(self.issued),work_feedback=workforce.public_feedback(time_s))
         if self.problem_driven:history['question_instances']=deepcopy(self.question_instances)
+        if self.problem_actions:history['intervention_feedback']=interventions.public_feedback(time_s)
         closure=deepcopy(self.closure_template)
         if closure is not None:closure['intervention_feedback']=interventions.public_feedback(time_s) if interventions is not None else []
         started=perf_counter_ns()
@@ -144,6 +156,16 @@ class PolicySession:
         return min(decision,self.sensors.next_event() if self.sensors is not None else math.inf)
 
     def resource_ledger(self,time_s,workforce,inspections):
+        if self.problem_actions:
+            from .problem_actions import compile_problem_actions
+            from .policy_budget import account
+            frame=self._frame(time_s,inspections)
+            history=deepcopy(self.decisions[-1]['history'])
+            history.update(issued=deepcopy(self.issued),question_instances=deepcopy(self.question_instances),
+                work_feedback=workforce.public_feedback(time_s))
+            prepared=compile_problem_actions(frame,self.program['policy_program'],history)
+            return account(frame,prepared['program'],prepared['history'],
+                {c['id']:c for c in prepared['program']['candidates']},[])
         if self.program['policy_program']['schema'] not in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:return None
         from .policy_budget import account
         program=self.program['policy_program'];frame=self._frame(time_s,inspections)

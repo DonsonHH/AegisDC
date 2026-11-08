@@ -11,7 +11,9 @@ INSTANCE_FIELDS = {'id', 'template_id', 'slot', 'origin_id', 'trigger_record_id'
 
 
 def _templates(frame, program):
-    _fields(program, PROGRAM_FIELDS, 'Problem-driven policy program')
+    version2 = program['schema'] == 'aegisdc-problem-driven-policy-v2'
+    _fields(program, PROGRAM_FIELDS | ({'resource_budget', 'inspection_declaration', 'intervention_declaration'}
+                                     if version2 else set()), 'Problem-driven policy program')
     _require(program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
              'Declare synthetic problem tasks in SI seconds')
     _text(program['id'], 'Problem policy id')
@@ -25,19 +27,37 @@ def _templates(frame, program):
     observables = {o['id']: o for o in frame['evidence']['static_knowledge']['observables']}
     entities = {e['id'] for e in knowledge['entities']}
     for row in templates.values():
-        _fields(row, TEMPLATE_FIELDS, 'Problem template')
+        _fields(row, TEMPLATE_FIELDS | ({'action_task', 'recheck_task', 'action_condition', 'issue_costs'}
+                                      if version2 else set()), 'Problem template')
         for name in ('question_id', 'source_note'):
             _text(row[name], 'Problem ' + name)
         _strings(row['domain_ids'], 'Problem domains')
         _require(set(row['domain_ids']) <= set(knowledge['domain_ids']), 'Unknown problem domain')
         _require(type(row['max_instances']) is int and 0 < row['max_instances'] <= 16,
                  'Declare one to16 problem instances per template')
-        _fields(row['task'], TASK_FIELDS, 'Professional investigation template')
-        task = deepcopy(row['task'])
-        _finite(task['deadline_s'], 'Investigation deadline')
-        _require(task['deadline_s'] >= 0, 'Negative investigation deadline')
-        task['deadline_s'] = max(task['deadline_s'], frame['as_of_s'])
-        prepare_work(frame, program['workforce_profile'], task)
+        for key in (('task', 'action_task', 'recheck_task') if version2 else ('task',)):
+            _fields(row[key], TASK_FIELDS, 'Professional task template')
+            task = deepcopy(row[key])
+            _finite(task['deadline_s'], 'Task deadline')
+            _require(task['deadline_s'] >= 0, 'Negative task deadline')
+            task['deadline_s'] = max(task['deadline_s'], frame['as_of_s'])
+            prepare_work(frame, program['workforce_profile'], task)
+        if version2:
+            _fields(row['issue_costs'], {'inspect', 'action', 'recheck'}, 'Problem stage costs')
+            for cost in row['issue_costs'].values():
+                _finite(cost, 'Problem stage cost')
+                _require(cost >= 0, 'Negative problem stage cost')
+            condition = row['action_condition']
+            if condition is not None:
+                _fields(condition, {'observable_id', 'unit', 'accepted_interval'}, 'Problem action condition')
+                observable = observables.get(condition['observable_id'])
+                _require(observable is not None and observable['value_type'] == 'number'
+                         and observable['unit'] == condition['unit'], 'Action condition requires a declared numeric SI observable')
+                bounds = condition['accepted_interval']
+                _require(type(bounds) is list and len(bounds) == 2, 'Declare action condition interval')
+                for bound in bounds:
+                    _finite(bound, 'Action condition bound')
+                _require(bounds[0] <= bounds[1], 'Reversed action condition interval')
         trigger = row['trigger']
         _fields(trigger, {'source_ids', 'target_id', 'observable_id', 'equals'}, 'Public problem trigger')
         _strings(trigger['source_ids'], 'Trigger sources')
@@ -71,6 +91,17 @@ def declared_investigations(frame, program):
             for template in templates.values() for slot in range(template['max_instances'])]
 
 
+def declared_problem_tasks(frame, program):
+    """Predeclare finite producer bindings; this does not issue any stage."""
+    if program['schema'] == 'aegisdc-problem-driven-policy-v1':
+        return declared_investigations(frame, program)
+    return [dict(kind='intervene' if stage == 'action' else 'inspect',
+                 task=dict(deepcopy(template[key]), id=template['id'] + '/' + stage + '-' + str(slot)))
+            for template in _templates(frame, program).values()
+            for slot in range(template['max_instances'])
+            for stage, key in [('inspect', 'task'), ('action', 'action_task'), ('recheck', 'recheck_task')]]
+
+
 def _service_context(knowledge, target_id):
     """Show one declared functional path per service; infer no capacity or risk."""
     entities = {row['id']: row for row in knowledge['entities']}
@@ -93,10 +124,12 @@ def _service_context(knowledge, target_id):
                 missing_path_is_not_zero_risk=True)
 
 
-def choose_problem_work(frame, program, history):
-    """Compile arrived public problem instances into the existing selection gate."""
+def open_questions(frame, program, history):
+    """Retain public opening identities independently of task-stage selection."""
     templates = _templates(frame, program)
-    _fields(history, {'issued', 'work_feedback', 'question_instances'}, 'Problem policy history')
+    _fields(history, {'issued', 'work_feedback', 'question_instances'} |
+            ({'intervention_feedback'} if program['schema'] == 'aegisdc-problem-driven-policy-v2' else set()),
+            'Problem policy history')
     _require(type(history['question_instances']) is list, 'Declare public question-instance history')
     records = {r['id']: r for r in frame['evidence']['records']}
     instances = deepcopy(history['question_instances'])
@@ -151,14 +184,9 @@ def choose_problem_work(frame, program, history):
             by_origin.add(origin)
             by_slot.add((template['id'], slot))
 
-    candidates = []
     questions = []
     for row in instances:
         template = templates[row['template_id']]
-        task = deepcopy(template['task'])
-        task['id'] = template['id'] + '/task-' + str(row['slot'])
-        candidates.append(dict(id=task['id'], kind='inspect', task=task, available_at_s=row['opened_at_s'],
-                               question_id=row['id'], source_note=template['source_note']))
         record = records[row['trigger_record_id']]
         questions.append(dict(deepcopy(row), catalog_question_id=template['question_id'],
                               domain_ids=deepcopy(template['domain_ids']),
@@ -168,6 +196,18 @@ def choose_problem_work(frame, program, history):
                               expected_service_deficit_time_s=None, time_unit='s',
                               service_context=_service_context(frame['nominal_knowledge'], template['task']['target_id']),
                               scope='PUBLIC_CLAIM_REQUIRES_INVESTIGATION_NOT_FAULT_DIAGNOSIS'))
+    return templates, instances, questions, deferred
+
+
+def choose_problem_work(frame, program, history):
+    """Compile arrived public problem instances into the existing selection gate."""
+    templates, instances, questions, deferred = open_questions(frame, program, history)
+    candidates = []
+    for row in instances:
+        template = templates[row['template_id']]
+        task = dict(deepcopy(template['task']), id=template['id'] + '/task-' + str(row['slot']))
+        candidates.append(dict(id=task['id'], kind='inspect', task=task, available_at_s=row['opened_at_s'],
+                               question_id=row['id'], source_note=template['source_note']))
     from .dispatch_policy import choose_work
     compiled = dict(schema='aegisdc-dispatch-policy-program-v2', id=program['id'] + '-compiled',
                     basis=program['basis'], policy=program['policy'],

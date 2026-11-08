@@ -1,0 +1,20 @@
+test_arrived_capacity_check_then_residual_action_then_actual_recheck (test_problem_action_sequence.ProblemActionSequenceTests.test_arrived_capacity_check_then_residual_action_then_actual_recheck) ... ERROR
+
+======================================================================
+ERROR: test_arrived_capacity_check_then_residual_action_then_actual_recheck (test_problem_action_sequence.ProblemActionSequenceTests.test_arrived_capacity_check_then_residual_action_then_actual_recheck)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/09-red-action-sequence/tests/test_problem_action_sequence.py", line 17, in test_arrived_capacity_check_then_residual_action_then_actual_recheck
+    result = simulate_scenario(fixture['model'], duration_s=5.5, step_s=.01,
+                               dispatch_program=fixture['dispatch_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/09-red-action-sequence/src/aegis_dc/plant.py", line 729, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/09-red-action-sequence/src/aegis_dc/policy_execution.py", line 92, in __init__
+    declared_candidates=program['policy_program']['candidates']
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'candidates'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.040s
+
+FAILED (errors=1)
