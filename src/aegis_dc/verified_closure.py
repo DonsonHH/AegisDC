@@ -3,7 +3,7 @@ from copy import deepcopy
 from fractions import Fraction
 
 from .decision_view import validate_current_frame
-from .evidence_ledger import _fields,_plain_json,_registry,_require,_strings,_text,_finite
+from .evidence_ledger import EvidenceLedger,RECORD_FIELDS,_fields,_plain_json,_registry,_require,_strings,_text,_finite
 from .risk_scenarios import assess_risks
 from .intervention_execution import _profile as _intervention_profile,BIND_FIELDS,SETTING_BOUNDS
 
@@ -151,7 +151,7 @@ def _action_declaration(frame,program,rules,feedback):
             _require(grant['starts_at_s']<=report['observed_at_s']<grant['expires_at_s'],
                 'Applied action report contradicts its declared authorization interval')
 
-def _check(frame,rule,check,after):
+def _check(frame,rule,check,after,*,support_ids=None):
     rows=[r for r in frame['evidence']['records'] if r['target_id']==check['target_id']
         and r['observable_id']==check['observable_id']
         and r['observed_at_s']>=after]
@@ -174,6 +174,7 @@ def _check(frame,rule,check,after):
         if row['id'] in conflict_ids|provenance_ids:issues.append(row['id']);continue
         low=Fraction(row['value'])-Fraction(row['quality']['error_bound']);high=Fraction(row['value'])+Fraction(row['quality']['error_bound'])
         if low<Fraction(check['accepted_interval'][0]) or high>Fraction(check['accepted_interval'][1]):issues.append(row['id']);continue
+        if support_ids is not None and row['id'] not in support_ids:continue
         if row['provenance']['copied_from_record_id'] is not None or origin in seen or row['observed_at_s'] in seen_times:continue
         seen.add(origin);seen_times.add(row['observed_at_s'])
         eligible.append(row)
@@ -183,6 +184,18 @@ def _check(frame,rule,check,after):
         supporting_record_ids=[r['id'] for r in eligible],insufficient_record_ids=issues,
         genuine_sample_count=len(eligible),span_s=eligible[-1]['observed_at_s']-eligible[0]['observed_at_s'] if eligible else None,
         independence='NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION')
+
+def _review_frame(frame,review_time):
+    """Rebuild historical evidence metadata from the already public record history."""
+    evidence=frame['evidence']
+    document=dict(schema='aegisdc-evidence-ledger-v1',id=evidence['ledger_id'],
+        facility_id=frame['facility_id'],basis='synthetic_assumption',time_unit='s',
+        **evidence['static_knowledge'],
+        records=[{key:row[key] for key in RECORD_FIELDS} for row in evidence['records']])
+    prior=deepcopy(frame)
+    prior['as_of_s']=review_time
+    prior['evidence']=EvidenceLedger(document).snapshot(review_time)
+    return prior
 
 def assess_closure(frame,program):
     """Evaluate declared question criteria from currently arrived public records only."""
@@ -214,15 +227,13 @@ def assess_closure(frame,program):
             dossier=dossiers.get(review['id'])
             if dossier is None or dossier['question_id']!=rule['question_id']:continue
             ids=set(dossier['supporting_record_ids'])
-            # The reviewer could only use records available by their review time.
-            prior=deepcopy(frame)
-            prior['evidence']['records']=[r for r in frame['evidence']['records'] if r['id'] in ids
-                and r['observed_at_s']<=review['observed_at_s'] and r['arrived_at_s']<=review['observed_at_s']]
-            if len(prior['evidence']['records'])!=len(ids):
-                evaluation['reason']='SUPPORT_NOT_AVAILABLE_AT_REVIEW';continue
+            # Review support uses its historical clock. Counterevidence available
+            # then remains relevant even when omitted from the supporting dossier.
+            prior=_review_frame(frame,review['observed_at_s'])
             prior_ids={r['id'] for r in prior['evidence']['records']}
-            prior['evidence']['conflicts']=[c for c in frame['evidence']['conflicts'] if set(c['record_ids'])<=prior_ids]
-            evidence_checks=[_check(prior,rule,c,rule['opened_at_s']) for c in rule['checks']]
+            if not ids<=prior_ids:
+                evaluation['reason']='SUPPORT_NOT_AVAILABLE_AT_REVIEW';continue
+            evidence_checks=[_check(prior,rule,c,rule['opened_at_s'],support_ids=ids) for c in rule['checks']]
             current_checks=[_check(frame,rule,c,rule['opened_at_s']) for c in rule['checks']]
             evaluation.update(review_checks=evidence_checks,current_checks=current_checks,reason='CRITERIA_INCOMPLETE_OR_CONTRADICTED')
             if all(c['passed'] for c in evidence_checks) and all(c['passed'] for c in current_checks):
