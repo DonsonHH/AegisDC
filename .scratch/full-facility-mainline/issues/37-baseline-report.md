@@ -4,7 +4,7 @@
 
 **Blocked by:** 35, 36
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M6
 
@@ -19,3 +19,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+
+Owner `/root` in integration checkout after36 acceptance. Scope: concise source-backed mentor report,8 architecture/data figures, offline HTML+Markdown, actual180-run readout and explicit unmeasured endpoints; no physical/policy/inference/LLM experiment or nonce read.
