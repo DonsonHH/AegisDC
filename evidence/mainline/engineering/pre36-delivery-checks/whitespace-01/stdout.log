@@ -1,0 +1,837 @@
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:1: trailing whitespace.
++# 01–35 substantive evidence matrix
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:2: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:3: trailing whitespace.
++Audited source `2dfe5537e4f95fa605f325b060ef32223dafb4f6`; accepted labels/CI are not used as substantive proof.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:4: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:5: trailing whitespace.
++## 01 01: 固定总目标、场景身份和验收契约
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:6: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:7: trailing whitespace.
++Meeting: R1, R3, R5, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:8: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:9: trailing whitespace.
++Single synthetic full-facility goal;42 dependent tickets, conditionalAI/RSI and incomplete overall goal.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:10: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:11: trailing whitespace.
++Source: docs/MAINLINE.md; docs/adr/0003-complete-facility-mainline.md; .scratch/full-facility-mainline/spec.md
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:12: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:13: trailing whitespace.
++Saved behavior: 35 source-pinned ticket criteria;164 phase attempts;36+ unstarted
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:14: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:15: trailing whitespace.
++## 02 02: 读取并核验独立全设施场景
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:16: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:17: trailing whitespace.
++Meeting: R2, R3, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:18: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:19: trailing whitespace.
++Closed loader validates eight domains, typed shared identities/four graphs, SI/ranges/provenance and unknown site gaps.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:20: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:21: trailing whitespace.
++Source: src/aegis_dc/scenario.py:validate_scenario/load_scenario; src/aegis_dc/runtime_contract.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:22: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:23: trailing whitespace.
++Saved behavior: V6 inventory8/45/113/91 directly counted
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:24: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:25: trailing whitespace.
++Limit/gap: Structural validation alone is not a dynamics proof.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:26: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:27: trailing whitespace.
++## 03 03: 跑通八域正常工况竖切片
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:28: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:29: trailing whitespace.
++Meeting: R1, R3, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:30: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:31: trailing whitespace.
++Coupled plant uses actual power/heat/service; default empty work list produces no automatic tour.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:32: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:33: trailing whitespace.
++Source: src/aegis_dc/plant.py:simulate_scenario/point/integrate/snapshot; src/aegis_dc/workforce.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:34: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:35: trailing whitespace.
++Saved behavior: Original600s healthy run: demand=delivered600, zero work and zero deficit
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:36: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:37: trailing whitespace.
++Limit/gap: Originalv2 witness retains its own version; later V6 coupling checked separately.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:38: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:39: trailing whitespace.
++## 04 04: 在全场传播供电容量和失电
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:40: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:41: trailing whitespace.
++Meeting: R3, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:42: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:43: trailing whitespace.
++Capacity-limited power allocation, prioritized protected loads, finite reserve inventory and explicit conversion losses.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:44: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:45: trailing whitespace.
++Source: src/aegis_dc/power.py:allocate_power/allocate_reserve_power
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:46: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:47: trailing whitespace.
++Saved behavior: 11 coupled sharedAC/rectifier/distribution cases
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:48: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:49: trailing whitespace.
++Limit/gap: Ideal aggregateMV/LV boundary; no separate voltage, transformer-loss or branch-protection model. Allowed explicit fidelity limit.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:50: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:51: trailing whitespace.
++## 05 05: 在全场传播滤阻、泵阀和板换变化
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:52: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:53: trailing whitespace.
++Meeting: R3, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:54: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:55: trailing whitespace.
++Paid hydraulic/valve operating points and HX heat exchange feed the same plant.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:56: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:57: trailing whitespace.
++Source: src/aegis_dc/heat_transfer.py; src/aegis_dc/plant.py:point/integrate
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:58: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:59: trailing whitespace.
++Saved behavior: 11 internal-valve/phase and capacity cases; saved mass/energy accounts
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:60: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:61: trailing whitespace.
++Limit/gap: Fixed supported topology and declared lumped model; not a general site hydraulic network.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:62: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:63: trailing whitespace.
++## 06 06: 闭合相变库存、内能和冷凝响应
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:64: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:65: trailing whitespace.
++Meeting: R3, R4, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:66: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:67: trailing whitespace.
++ReferenceR134a fixed-volume M/U phase state, EOS-domain failure and condenser coupling.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:68: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:69: trailing whitespace.
++Source: src/aegis_dc/thermodynamics.py:SaturationTable; src/aegis_dc/refrigerant_initialization.py; src/aegis_dc/plant.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:70: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:71: trailing whitespace.
++Saved behavior: Numerical/phase saved witnesses and frozen reference table
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:72: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:73: trailing whitespace.
++Limit/gap: Actual site working fluid unknown; no site-fluid inference or arbitrary-domain error theorem.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:74: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:75: trailing whitespace.
++## 07 07: 让房间、泄漏与访问条件影响作业
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:76: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:77: trailing whitespace.
++Meeting: R3, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:78: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:79: trailing whitespace.
++Room heat/water/temperature conditions block access and can stop actual crew work.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:80: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:81: trailing whitespace.
++Source: src/aegis_dc/environment.py; src/aegis_dc/plant.py:update_room_work_access; src/aegis_dc/workforce_dispatch.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:82: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:83: trailing whitespace.
++Saved behavior: 21 safety-closure actual abort;11 room/gate counterexamples
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:84: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:85: trailing whitespace.
++## 08 08: 让计算、网络和存储决定服务缺额
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:86: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:87: trailing whitespace.
++Meeting: R3, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:88: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:89: trailing whitespace.
++Delivered service is constrained jointly; external demand remains even during protection/derating.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:90: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:91: trailing whitespace.
++Source: src/aegis_dc/power.py; src/aegis_dc/plant.py:point/integrate
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:92: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:93: trailing whitespace.
++Saved behavior: Healthy demand=delivered; registered saved trace/ledger independently reconciled
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:94: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:95: trailing whitespace.
++Limit/gap: Normalized service capacity; no MW-to-FLOP/s claim.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:96: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:97: trailing whitespace.
++## 09 09: 使本地控制与自动保护实际响应
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:98: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:99: trailing whitespace.
++Meeting: R2, R3, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:100: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:101: trailing whitespace.
++Local samples/control/protection advance independently of dispatch and can react before people.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:102: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:103: trailing whitespace.
++Source: src/aegis_dc/local_control.py; src/aegis_dc/plant.py:sample_control
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:104: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:105: trailing whitespace.
++Saved behavior: 11 bias/link/latch and invalid-flow cases
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:106: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:107: trailing whitespace.
++Limit/gap: Local instrumentation permission does not become dispatch-wide observability.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:108: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:109: trailing whitespace.
++## 10 10: 让UPS、柴油与维护改变保障能力
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:110: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:111: trailing whitespace.
++Meeting: R3, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:112: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:113: trailing whitespace.
++UPS, starter/fuel, maintenance and switching/backup-cooling delays affect actual protected supply.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:114: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:115: trailing whitespace.
++Source: src/aegis_dc/reserve.py; src/aegis_dc/power.py; src/aegis_dc/plant.py:update_reserves
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:116: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:117: trailing whitespace.
++Saved behavior: 11 finite-generator case;23 backup-request native case
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:118: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:119: trailing whitespace.
++Limit/gap: Only declared protected loads; no equipment-count availability estimate.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:120: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:121: trailing whitespace.
++## 11 11: 验收同一全设施模型的跨系统行为
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:122: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:123: trailing whitespace.
++Meeting: R3, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:124: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:125: trailing whitespace.
++Integrated eight-domain event/capacity/crew counterexamples retain one facility and shared bottlenecks.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:126: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:127: trailing whitespace.
++Source: src/aegis_dc/plant.py; src/aegis_dc/runtime_contract.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:128: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:129: trailing whitespace.
++Saved behavior: 14 named coupled saved cases including resource conflicts, room, control and shared capacity
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:130: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:131: trailing whitespace.
++Limit/gap: Finite engineering scope, not field validation.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:132: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:133: trailing whitespace.
++## 12 12: 用独立算例验证数值与步长
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:134: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:135: trailing whitespace.
++Meeting: R4, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:136: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:137: trailing whitespace.
++Analytic/reference and refinement witnesses plus explicit domain failures; oldNO-GO preserved.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:138: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:139: trailing whitespace.
++Source: src/aegis_dc/thermodynamics.py; src/aegis_dc/heat_transfer.py; src/aegis_dc/plant.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:140: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:141: trailing whitespace.
++Saved behavior: 12 final assessment/refinement artifacts and original failed captures
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:142: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:143: trailing whitespace.
++Limit/gap: Frozen5/4/2 ladders and named cases; no universal trajectory error bound.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:144: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:145: trailing whitespace.
++## 13 13: 重放外生作业、故障与维护场景
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:146: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:147: trailing whitespace.
++Meeting: R4, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:148: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:149: trailing whitespace.
++Recorded input/source/interpreter binding, unique outputs, effective horizon/step and balance-axis integrity.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:150: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:151: trailing whitespace.
++Source: src/aegis_dc/replay.py:run_recorded/read_attempt/replay_attempt; src/aegis_dc/replay_format.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:152: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:153: trailing whitespace.
++Saved behavior: 13 causal baseline/command and lifecycle originals
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:154: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:155: trailing whitespace.
++Limit/gap: Replay of a world does not add an independent statistical unit.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:156: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:157: trailing whitespace.
++## 14 14: 接收有到达时间和共同来源的记录
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:158: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:159: trailing whitespace.
++Meeting: R2, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:160: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:161: trailing whitespace.
++Arrived snapshots retain missing/expired/conflicting/copy/provenance distinctions.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:162: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:163: trailing whitespace.
++Source: src/aegis_dc/evidence_ledger.py:validate_ledger/EvidenceLedger.snapshot
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:164: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:165: trailing whitespace.
++Saved behavior: 14 snapshot: negativehuman report remainsFalse; future records absent; independence not presumed
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:166: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:167: trailing whitespace.
++## 15 15: 验证决策视图不泄漏真实故障
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:168: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:169: trailing whitespace.
++Meeting: R1, R2, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:170: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:171: trailing whitespace.
++Closed public frame excludes backend objects; online policy receives arrived evidence and task-local feedback.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:172: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:173: trailing whitespace.
++Source: src/aegis_dc/decision_view.py:DecisionGateway/validate_current_frame; src/aegis_dc/policy_execution.py:_frame/process
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:174: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:175: trailing whitespace.
++Saved behavior: SavedA/B common public frames equal despite different private worlds
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:176: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:177: trailing whitespace.
++Limit/gap: Finite noninterference witnesses; no hostile-host security guarantee.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:178: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:179: trailing whitespace.
++## 16 16: 让稀疏测点、偏差和迟到形成可用信息
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:180: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:181: trailing whitespace.
++Meeting: R2, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:182: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:183: trailing whitespace.
++Sparse enabled channels carry public observation law and private realization separately.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:184: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:185: trailing whitespace.
++Source: src/aegis_dc/sensor_channels.py; src/aegis_dc/live_sensor_execution.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:186: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:187: trailing whitespace.
++Saved behavior: 16 saved future-hidden, missing-not-zero and bias/noninterference checks
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:188: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:189: trailing whitespace.
++Limit/gap: Coverage is declared; uninstrumented assets do not obtain synthetic full-state arrays.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:190: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:191: trailing whitespace.
++## 17 17: 让历史、人工和手持检查提供证据
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:192: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:193: trailing whitespace.
++Meeting: R2, R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:194: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:195: trailing whitespace.
++History/manual/work-order claims and typed saved-signal observations retain original time/provenance; numeric and binary errors explicit.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:196: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:197: trailing whitespace.
++Source: src/aegis_dc/nonfixed_evidence.py:NonfixedEvidenceProducer/NonfixedSession
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:198: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:199: trailing whitespace.
++Saved behavior: At97.999 three pending handheld records absent; at98 numeric/false-alarm/miss records present
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:200: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:201: trailing whitespace.
++Limit/gap: Binary fixture errors are signal-law examples, not field alarm rates or formal-study generic fault labels.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:202: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:203: trailing whitespace.
++## 18 18: 建立随证据和时间变化的风险认识
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:204: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:205: trailing whitespace.
++Meeting: R2, R4, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:206: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:207: trailing whitespace.
++Finite belief filtering handles age, correlation, duplicate channels, model conflicts and unknowns without repair actions.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:208: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:209: trailing whitespace.
++Source: src/aegis_dc/belief.py:infer_belief/exact_belief_context
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:210: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:211: trailing whitespace.
++Saved behavior: 64-atom exact synthetic calibration; normalized law and declared wrong comparators
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:212: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:213: trailing whitespace.
++Limit/gap: Synthetic calibration only; not empirical site priors/performance.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:214: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:215: trailing whitespace.
++## 19 19: 把FEMA情景、后果和能力映射到风险
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:216: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:217: trailing whitespace.
++Meeting: R1, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:218: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:219: trailing whitespace.
++Risk questions have scenarios, windows, joint service consequences, options and explicit unknown probability/consequence.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:220: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:221: trailing whitespace.
++Source: src/aegis_dc/risk_scenarios.py:assess_risks
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:222: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:223: trailing whitespace.
++Saved behavior: Saved joint witness matches15877/16480s; template8 questions with6UNMODELED
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:224: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:225: trailing whitespace.
++Limit/gap: Unmodeled domains retain gaps/bounds; not full calibrated facility failure prediction.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:226: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:227: trailing whitespace.
++## 20 20: 比较检查信息与可执行处置的价值
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:228: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:229: trailing whitespace.
++Meeting: R1, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:230: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:231: trailing whitespace.
++Defer/direct/inspect-then-act share information/model and full branch resource commitments; information itself changes no plant.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:232: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:233: trailing whitespace.
++Source: src/aegis_dc/action_value.py:assess_action_value
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:234: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:235: trailing whitespace.
++Saved behavior: Saved prior1/4 alternatives25/20/12.5s and0/20/15.5person-s
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:236: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:237: trailing whitespace.
++Limit/gap: Finite predictive law, not actual or field effect.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:238: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:239: trailing whitespace.
++## 21 21: 执行专业、工具、路径和占用约束
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:240: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:241: trailing whitespace.
++Meeting: R1, R3, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:242: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:243: trailing whitespace.
++Actual typed multi-role crew travel, queue/rendezvous, qualification/tool/access and resource occupation.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:244: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:245: trailing whitespace.
++Source: src/aegis_dc/workforce_dispatch.py:CrewWorkforce/prepare_work
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:246: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:247: trailing whitespace.
++Saved behavior: Team starts61/completes91;60workperson-s; actual safety case aborted before work
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:248: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:249: trailing whitespace.
++Limit/gap: Personnel are domain actors, not LLM agents; not optimal global crew assignment.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:250: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:251: trailing whitespace.
++## 22 22: 把检查执行与现场证据接起来
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:252: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:253: trailing whitespace.
++Meeting: R2, R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:254: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:255: trailing whitespace.
++Measurements require current actual completion, work duration, named tool/qualification and signal scope; reports delayed.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:256: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:257: trailing whitespace.
++Source: src/aegis_dc/inspection_execution.py:InspectionSession
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:258: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:259: trailing whitespace.
++Saved behavior: Saved public counts0/0/1 around2.25completion and2.75arrival
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:260: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:261: trailing whitespace.
++Limit/gap: Confirmation is named-signal threshold only; not a fault diagnosis or risk closure.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:262: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:263: trailing whitespace.
++## 23 23: 让处置延时、残余效果与服务响应闭环
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:264: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:265: trailing whitespace.
++Meeting: R1, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:266: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:267: trailing whitespace.
++Four named authorized operations apply once after actual completion; expiry/abort yields no effect; demand retained.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:268: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:269: trailing whitespace.
++Source: src/aegis_dc/intervention_execution.py:prepare_intervention/InterventionSession; src/aegis_dc/plant.py:event order
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:270: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:271: trailing whitespace.
++Saved behavior: 23 network/filter/compute/backup and authority-negative originals
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:272: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:273: trailing whitespace.
++Limit/gap: Lumped parameter effect is not verified physical repair.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:274: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:275: trailing whitespace.
++## 24 24: 用恢复证据关闭问题
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:276: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:277: trailing whitespace.
++Meeting: R2, R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:278: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:279: trailing whitespace.
++Action completion, symptom retreat, verified closure, false-alarm review, escalation and risk acceptance are distinct.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:280: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:281: trailing whitespace.
++Source: src/aegis_dc/verified_closure.py:assess_closure/_check
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:282: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:283: trailing whitespace.
++Saved behavior: Saved action-only pending, condition-only symptom, verifiedclosed cases
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:284: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:285: trailing whitespace.
++Limit/gap: Declared sampled criteria only; formal31–35 deliberately have no post-action closure protocol.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:286: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:287: trailing whitespace.
++## 25 25: 在同一设施运行透明比较策略
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:288: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:289: trailing whitespace.
++Meeting: R1, R4, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:290: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:291: trailing whitespace.
++No-human, due-check, FIFO, risk-condition and near-problem lookahead use shared public action/permission boundary.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:292: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:293: trailing whitespace.
++Source: src/aegis_dc/dispatch_policy.py:choose_work; src/aegis_dc/policy_execution.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:294: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:295: trailing whitespace.
++Saved behavior: 25 saved no-human/FIFO and explicit periodic/risk/closure cases
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:296: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:297: trailing whitespace.
++Limit/gap: Periodic is a comparator; it is not the default task definition or a one-factor intervention contrast.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:298: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:299: trailing whitespace.
++## 26 26: 实现一个可证伪的联合核查处置候选
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:300: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:301: trailing whitespace.
++Meeting: R1, R2, R4. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:302: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:303: trailing whitespace.
++Candidate changes prospective report interpretation under the declared updater, allowing defer/direct/inspection.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:304: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:305: trailing whitespace.
++Source: src/aegis_dc/lookahead_policy.py; src/aegis_dc/evidence_projection.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:306: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:307: trailing whitespace.
++Saved behavior: 26 exact/nonadaptive/informative saved decision cases; later primary has12identifiable worlds
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:308: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:309: trailing whitespace.
++Limit/gap: Curated finite candidate tasks; not autonomous sitewide discovery or new general optimization algorithm.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:310: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:311: trailing whitespace.
++## 27 27: 重放完整设施的跨系统闭环
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:312: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:313: trailing whitespace.
++Meeting: R1, R3, R6. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:314: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:315: trailing whitespace.
++One same-facility replay couples exogenous load/maintenance/fault, protection, work/action and later closure.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:316: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:317: trailing whitespace.
++Source: src/aegis_dc/policy_execution.py; src/aegis_dc/plant.py; src/aegis_dc/verified_closure.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:318: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:319: trailing whitespace.
++Saved behavior: 27 actual timeline:4automatic service recovery,6cleaning,8.5arrived-evidence closure
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:320: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:321: trailing whitespace.
++Limit/gap: Engineering demonstration and original replay failures stay separate from research units.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:322: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:323: trailing whitespace.
++## 28 28: 验证正常、误报和来不及挽救的情景
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:324: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:325: trailing whitespace.
++Meeting: R1, R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:326: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:327: trailing whitespace.
++Normal/false cue/automatic recovery/too-late intervention retain real costs and failure/no-benefit traces.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:328: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:329: trailing whitespace.
++Source: src/aegis_dc/inspection_execution.py; src/aegis_dc/intervention_execution.py; src/aegis_dc/verified_closure.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:330: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:331: trailing whitespace.
++Saved behavior: 28 frozen four negative-control trajectories
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:332: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:333: trailing whitespace.
++Limit/gap: Selected engineering controls do not estimate general false-alarm or miss rates.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:334: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:335: trailing whitespace.
++## 29 29: 冻结可行参数域和模型可信度边界
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:336: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:337: trailing whitespace.
++Meeting: R3, R4, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:338: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:339: trailing whitespace.
++Parameter provenance and coupled admissibility separate scalar ranges, named joint points and site gaps.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:340: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:341: trailing whitespace.
++Source: src/aegis_dc/parameter_domain.py; src/aegis_dc/water_envelope.py; src/aegis_dc/refrigerant_initialization.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:342: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:343: trailing whitespace.
++Saved behavior: 113parameter inventory and eight33s finite joint trajectories
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:344: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:345: trailing whitespace.
++Limit/gap: 106synthetic assumptions/7derivations; four site gaps retained; not a Cartesian or field-qualified domain.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:346: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:347: trailing whitespace.
++## 30 30: 预注册独立比较问题、指标和预算
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:348: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:349: trailing whitespace.
++Meeting: R4, R6, R7. Assessment: PARTIAL_REPORTING_GAP_F1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:350: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:351: trailing whitespace.
++Primary criteria/units/pairing/methods/budgets/source/nonces/failure rules frozen before runs.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:352: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:353: trailing whitespace.
++Source: docs/mainline/30-comparison-protocol-v1.json; scripts/comparison_release.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:354: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:355: trailing whitespace.
++Saved behavior: Original protocol/source lock and held-phase input release gates
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:356: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:357: trailing whitespace.
++Limit/gap: Several promised secondary endpoints lack operational definitions or an explicit published status; seeF1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:358: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:359: trailing whitespace.
++## 31 31: 在已见条件开发和诊断方法
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:360: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:361: trailing whitespace.
++Meeting: R1, R6, R7. Assessment: PARTIAL_REPORTING_GAP_F1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:362: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:363: trailing whitespace.
++36 unique development runs retain resources, opportunity/choice diagnostics and negative mean; held conditions not used for tuning.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:364: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:365: trailing whitespace.
++Source: scripts/registered_development.py; scripts/development_journal.py; scripts/analyze_registered_development.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:366: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:367: trailing whitespace.
++Saved behavior: Saved6world primary mean−1/24s,36/360/360 ledger
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:368: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:369: trailing whitespace.
++Limit/gap: Development output reports work counts but not generic confirmation/miss endpoints;F1 crosses subsequent reporting.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:370: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:371: trailing whitespace.
++## 32 32: 核对执行源码、配置和原件生命周期
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:372: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:373: trailing whitespace.
++Meeting: R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:374: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:375: trailing whitespace.
++Input/source/interpreter/cache and exact durable artifact lifecycle frozen, including original preparation failure.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:376: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:377: trailing whitespace.
++Source: scripts/prepare_confirmation.py; scripts/comparison_release.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:378: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:379: trailing whitespace.
++Saved behavior: 96input hashes; fixed64 interface and two hydraulic corrections recorded before any confirmation outcome
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:380: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:381: trailing whitespace.
++Limit/gap: Old failures and superseded prospective locks retain their actual source.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:382: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:383: trailing whitespace.
++## 33 33: 执行封存独立条件
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:384: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:385: trailing whitespace.
++Meeting: R6, R7. Assessment: CONSISTENT_WITH_DECLARED_FINITE_SCOPE.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:386: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:387: trailing whitespace.
++96 original starts billed before calls, fixed matched inputs/order and source, exact raw archives and no retries.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:388: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:389: trailing whitespace.
++Source: scripts/registered_confirmation.py; scripts/development_journal.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:390: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:391: trailing whitespace.
++Saved behavior: 96completed/960s/960decisions native capture; data/source identities and frozen input parity
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:392: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:393: trailing whitespace.
++Limit/gap: No raw-frame inflation of independent16world denominator.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:394: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:395: trailing whitespace.
++## 34 34: 形成主要结果、成本和约束结论
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:396: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:397: trailing whitespace.
++Meeting: R6, R7. Assessment: PARTIAL_REPORTING_GAP_F1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:398: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:399: trailing whitespace.
++Fixed16world primary/cost/stratum/missing-outcome arithmetic and all six methods published without upgrading negative result.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:400: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:401: trailing whitespace.
++Source: scripts/analyze_registered_confirmation.py; scripts/summarize_comparison_facts.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:402: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:403: trailing whitespace.
++Saved behavior: Primary+.03515625s, paid−.96875; nohuman/candidate mean3.8125;NO_PRACTICAL_GAIN
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:404: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:405: trailing whitespace.
++Limit/gap: Promised confirmation/report-error/completion-status readout omitted or left implicit;F1 must be closed before36.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:406: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:407: trailing whitespace.
++## 35 35: 隔离信息、依赖知识和协作机制
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:408: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:409: trailing whitespace.
++Meeting: R2, R4, R6, R7. Assessment: PARTIAL_REPORTING_GAP_F1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:410: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:411: trailing whitespace.
++Original three planner masks preserve byte-identical actual inputs; private nominal mapping keeps typed executor gates.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:412: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:413: trailing whitespace.
++Source: scripts/ablation_planner.py; scripts/ablation_run_evidence.py; scripts/registered_ablation.py
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:414: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:415: trailing whitespace.
++Saved behavior: 8worlds/32runs,128native members,56submission mappings and independent24contrasts
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:416: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:417: trailing whitespace.
++Limit/gap: Dependency is bundled consequence/edge knowledge; team availability is not optimal assignment. Secondary readout remainsF1.
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:418: trailing whitespace.
++
+docs/mainline/audits/20261108-pre36/ticket-matrix.md:418: new blank line at EOF.
