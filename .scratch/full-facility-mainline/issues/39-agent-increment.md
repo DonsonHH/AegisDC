@@ -19,3 +19,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+
+Frontier after accepted38: a narrow structured policy factor is eligible, but this experimental body is UNRUN. No gate deferral. A new protocol with matched information/actions/permissions/costs and new confirmation must be frozen before any call; original180-run budget is exhausted. Existing-results reading delivery after38 does not accept this ticket.

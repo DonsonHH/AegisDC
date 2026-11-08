@@ -1,7 +1,7 @@
 {
   "schema": "aegisdc-mainline-progress-v1",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "active",
+  "status": "checkpoint_for_user_review",
   "goal": "完整设施中风险驱动的异质核查与处置，以及独立、可复核的机制与条件式技术增量结论",
   "engineering_reference": "Zhengzhou core node / Sugon8000",
   "facility_identity": "explicit synthetic research facility, not an as-built reconstruction",
@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "38",
+  "current_ticket": "39",
   "current_milestone": "M7",
   "milestones": [
     {
@@ -106,7 +106,10 @@
     {
       "id": "M7",
       "status": "in_progress",
-      "acceptance_evidence": []
+      "acceptance_evidence": [
+        "docs/mainline/evidence/38-root.json"
+      ],
+      "progress_scope": "38 corrected eligibility only;39–42 unrun/not accepted; no technical effect measured"
     }
   ],
   "research_trials": {
@@ -170,8 +173,8 @@
       "acceptance": "docs/mainline/evidence/36-root.json"
     }
   },
-  "agent_stage": "deferred_until_eligibility_gate",
-  "rsi_gain": "NOT_ESTABLISHED",
+  "agent_stage": "narrow_structured_policy_factor_eligible_not_run",
+  "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "completion_rule": "Required M0-M6 evidence and M7 eligibility/result accounting must be audited; a plan, fixture, test pass or CI is not completion.",
   "engineering_references": [
@@ -182,33 +185,25 @@
       "stage_effect": "reference ready; no facility milestone completed"
     }
   ],
-  "active_implementations": [
-    {
-      "ticket": "38",
-      "owner": "/root",
-      "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
-      "branch": "donson/full-facility-mainline",
-      "status": "qualitative_eligibility_audit_no_new_runs"
-    }
-  ],
+  "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-08:01–35 substantive audit and corrections accepted;36 robustness and37 report accepted;180 original registered runs completed. Current38 is a qualitative entry audit with no new experiment; root is the only implementation owner.",
+  "liveness_refresh": "2026-11-08:180 original registered runs,36/37 accepted,38 corrected eligibility accepted. Both independent reviews finished; no active implementation or new experiment. Delivering bounded user reading checkpoint;39 is the next unrun ticket.",
   "user_review_checkpoint": {
-    "ticket": "35",
-    "status": "audit_completed_user_authorized_continuation",
-    "purpose": "Review results, costs, failures and alignment before continuing beyond this checkpoint.",
-    "accepted_through": "35",
+    "ticket": "38",
+    "status": "existing_results_delivered_for_user_review",
+    "purpose": "User requested a concise mentor-facing report and bounded stop near35/40;39 requires a new protocol before any trial.",
+    "accepted_through": "38",
     "remaining_tickets": [
-      "36",
-      "37",
-      "38",
       "39",
       "40",
       "41",
       "42"
-    ]
+    ],
+    "report": "paper/mainline-report-20261108/AegisDC-会后研究报告.html",
+    "scope": "docs/mainline/checkpoint38.md",
+    "overall_goal": "INCOMPLETE"
   },
-  "research_execution_status": "baseline180_and_report_accepted_next38_eligibility_no_extra_trials",
+  "research_execution_status": "original180_complete_reading_checkpoint_after38_no_new_AI_or_RSI_experiment",
   "pre36_alignment_audit": {
     "status": "accepted_to_continue_with_coverage_limits",
     "source": "2dfe5537e4f95fa605f325b060ef32223dafb4f6",
@@ -220,5 +215,22 @@
     "fresh_proof": "docs/mainline/evidence/pre36-delivery.json",
     "registered_runs": 164
   },
-  "baseline_report": "paper/mainline-report-20261108/AegisDC-会后研究报告.html"
+  "baseline_report": "paper/mainline-report-20261108/AegisDC-会后研究报告.html",
+  "user_review_checkpoint_history": [
+    {
+      "ticket": "35",
+      "status": "audit_completed_user_authorized_continuation",
+      "purpose": "Review results, costs, failures and alignment before continuing beyond this checkpoint.",
+      "accepted_through": "35",
+      "remaining_tickets": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42"
+      ]
+    }
+  ]
 }
