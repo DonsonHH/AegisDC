@@ -63,6 +63,13 @@ def main():
         assert Path(git('rev-parse', '--show-toplevel').decode().strip()).resolve() == ROOT
         assert git('branch', '--show-current').decode().strip() == 'donson/full-facility-mainline'
         assert not git('status', '--porcelain').strip()
+        assert sys.version_info[:3] == (3, 13, 9), 'Use the frozen Python version'
+        environment = Path('/share/home/renly/renly-patrol-rsi/environments/aegisdc-verify-20261109')
+        assert Path(sys.prefix).resolve() == environment.resolve(), 'Use the isolated frozen verification environment'
+        assert Path(sys.executable).parent == environment / 'bin', 'Use its declared Python entry point'
+        assert git('rev-parse', '--is-shallow-repository').decode().strip() == 'false'
+        git('cat-file', '-e', '2dfe5537e4f95fa605f325b060ef32223dafb4f6^{commit}')
+        assert git('rev-parse', 'pre-meeting-20261103^{}').decode().strip() == '076d9aa15c5bc99a5b7985f296e15543b7b0f3d7'
         before = identities()
         save(output / 'source-manifest-before.json', before)
         sys.path[:0] = [str(ROOT / 'src'), str(ROOT / 'scripts')]
