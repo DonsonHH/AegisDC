@@ -1,0 +1,21 @@
+{
+  "schema": "aegisdc-integrated-engineering-acceptance-protocol-v2",
+  "id": "39b-integrated-root-regression-02",
+  "classification": "ENGINEERING_REGRESSION_NOT_REGISTERED_RESEARCH",
+  "supersedes_for_next_attempt": "docs/mainline/39b-root-regression-protocol-01.json",
+  "original_attempt": {"job": "133143", "source": "04ed91bea1c2ff7d05181de2bf5a1a5079f5d7c2", "status": "FAILED_NOT_RELABELED", "tests": 609, "failures": 1, "errors": 0, "skips": 0, "source_guard": "PASS", "historical_originals": 20},
+  "reason": "Correct one immutable36 public-CLI regression to use its actual historical source, preserving all assertions, original CLI guard and180 outcomes. No candidate physics/policy or research criterion is changed.",
+  "maximum_new_attempts": 1,
+  "cumulative_root_attempt_cap": 2,
+  "attempt": "39b-root-regression-02",
+  "blocked_by": "09 targeted historical CLI qualification and independent correction review",
+  "runner": "scripts/run_remote_root_acceptance.py",
+  "execution": "One complete exact-integrated-source acceptance.verify on the same complete remote repository and isolated frozen environment. Preserve runs/39b-root-regression-01 and its terminal.",
+  "expected_tests": 609,
+  "gates": ["All609 tests executed,0failure/error/skip", "Exact Python3.13.9/isolated prefix/numpy2.3.5/torch2.6cpu", "Actual HEAD/branch/full history and before-after Git/source byte guards", "20historical originals pass", "New immutable output and terminal with every failure retained"],
+  "resources": {"partition": "cu", "nodes": 1, "cpus": 2, "memory_GiB": 4, "wall_minutes": 30, "requeue": false},
+  "new_research_trials": 0,
+  "original_registered_research_runs": 180,
+  "scope": "Existing engineering fixtures and saved-evidence checks, including untrained neural contracts. No training, LLM experiment or new scientific effect comparison.",
+  "retry_policy": "Single new full regression after the explicit repair, no automatic retry. Failure remains charged and requires a new named correction protocol/source/output. Original01 budget and failed record are not rewritten."
+}

@@ -5,17 +5,19 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import unittest
+from historical_research_checkout import historical_checkout
 
 ROOT=Path(__file__).resolve().parents[1]
-CLI=ROOT/'scripts/robustness_release.py'
+ROBUSTNESS_SOURCE='f834ea4de71a175fc4fa341cc29ed1694280ae0e'
 
 class RobustnessReleaseTests(unittest.TestCase):
-    def call(self,*args):
-        return subprocess.run([sys.executable,'-B','-X','utf8',str(CLI),*map(str,args)],cwd=ROOT,
+    def call(self,*args,root=ROOT):
+        return subprocess.run([sys.executable,'-B','-X','utf8',str(root/'scripts/robustness_release.py'),*map(str,args)],cwd=root,
             capture_output=True,text=True,encoding='utf-8')
 
     def test_public_description_keeps_actual_and_forecast_changes_distinct(self):
-        result=self.call('describe-public')
+        with historical_checkout(source=ROBUSTNESS_SOURCE) as checkout:
+            result=self.call('describe-public',root=checkout)
         self.assertEqual(result.returncode,0,result.stderr)
         data=json.loads(result.stdout);rows={r['id']:r for r in data['worlds']}
         self.assertEqual(data['contrast_blocks'],4)

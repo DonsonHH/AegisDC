@@ -1,0 +1,23 @@
+{
+  "schema": "aegisdc-engineering-correction-protocol-v1",
+  "id": "39b-immutable-robustness-cli-source-09",
+  "classification": "HISTORICAL_TEST_SOURCE_CORRECTION_NOT_RESEARCH_TRIAL",
+  "original_red": {"job": "133143", "source": "04ed91bea1c2ff7d05181de2bf5a1a5079f5d7c2", "result": "Root609 tests executed,608passed,1failed,0error/skip; actual source and20originals passed. The36 describe-public CLI correctly refused current39b changes outside its old frozen source."},
+  "test": "tests/test_robustness_release.py",
+  "helper": "tests/historical_research_checkout.py",
+  "correction": "Run only the old describe-public contract at its actual frozen36 sourcef834ea4de71a175fc4fa341cc29ed1694280ae0e. Retain all original assertions and the immutableCLI/source guard unchanged. The pure contrast refusal remains on current source; existing30/31 historical tests keep default2dfe source.",
+  "maximum_attempts": 1,
+  "attempt": "15-historical-cli-qualification",
+  "tests": 2,
+  "CLI_calls": 2,
+  "facility_calls": 0,
+  "direct_public_choice_calls": 0,
+  "model_calls": 0,
+  "nonce_reads": 0,
+  "new_statistical_units": 0,
+  "expected": "Both original public contracts pass without weakening the old-source change refusal. No registered run is repeated.",
+  "resources": {"partition": "cu", "cpus": 1, "memory_GiB": 2, "wall_minutes": 5, "requeue": false},
+  "durable_outputs": ["attempt/terminal", "source-input-tool manifest", "test.log", "Slurm logs/accounting", "readonly Git source identity receipt"],
+  "retry_policy": "No automatic retry. Keep root133143 failure and partial artifacts; any later full regression has its own prospective protocol.",
+  "original_registered_research_runs": 180
+}
