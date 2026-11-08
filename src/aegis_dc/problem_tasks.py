@@ -1,5 +1,6 @@
 """Public evidence triggers professional investigations; fault truth stays absent."""
 from copy import deepcopy
+from collections import deque
 
 from .evidence_ledger import _fields, _finite, _registry, _require, _strings, _text
 from .workforce_dispatch import TASK_FIELDS, prepare_work, validate_profile
@@ -68,6 +69,28 @@ def declared_investigations(frame, program):
     return [dict(kind='inspect', task=dict(deepcopy(template['task']),
                  id=template['id'] + '/task-' + str(slot)))
             for template in templates.values() for slot in range(template['max_instances'])]
+
+
+def _service_context(knowledge, target_id):
+    """Show one declared functional path per service; infer no capacity or risk."""
+    entities = {row['id']: row for row in knowledge['entities']}
+    outgoing = {}
+    for edge in sorted(knowledge['graphs']['functional'], key=lambda row: row['id']):
+        outgoing.setdefault(edge['from'], []).append(edge)
+    pending = deque([(target_id, [])])
+    visited = {target_id}
+    paths = []
+    while pending:
+        target, edge_ids = pending.popleft()
+        if entities[target]['kind'] == 'service':
+            paths.append(dict(service_id=target, edge_ids=edge_ids))
+        for edge in outgoing.get(target, []):
+            if edge['to'] not in visited:
+                visited.add(edge['to'])
+                pending.append((edge['to'], edge_ids + [edge['id']]))
+    return dict(classification='STATIC_FUNCTIONAL_PATHS_NOT_AVAILABLE_CAPACITY',
+                target_id=target_id, paths=sorted(paths, key=lambda row: row['service_id']),
+                missing_path_is_not_zero_risk=True)
 
 
 def choose_problem_work(frame, program, history):
@@ -143,6 +166,7 @@ def choose_problem_work(frame, program, history):
                               'OPEN_UNCONFIRMED' if record['availability'] == 'current' else 'OPEN_STALE',
                               quantification='UNMODELED_IN_THIS_FACTORY', fault_probability=None,
                               expected_service_deficit_time_s=None, time_unit='s',
+                              service_context=_service_context(frame['nominal_knowledge'], template['task']['target_id']),
                               scope='PUBLIC_CLAIM_REQUIRES_INVESTIGATION_NOT_FAULT_DIAGNOSIS'))
     from .dispatch_policy import choose_work
     compiled = dict(schema='aegisdc-dispatch-policy-program-v2', id=program['id'] + '-compiled',

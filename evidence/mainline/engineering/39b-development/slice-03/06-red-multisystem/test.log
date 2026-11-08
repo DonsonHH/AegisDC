@@ -1,0 +1,24 @@
+test_it_and_power_checks_execute_with_separate_tools_and_shared_service_context (test_problem_multisystem.MultisystemProblemTests.test_it_and_power_checks_execute_with_separate_tools_and_shared_service_context) ... ERROR
+
+======================================================================
+ERROR: test_it_and_power_checks_execute_with_separate_tools_and_shared_service_context (test_problem_multisystem.MultisystemProblemTests.test_it_and_power_checks_execute_with_separate_tools_and_shared_service_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/06-red-multisystem/tests/test_problem_multisystem.py", line 17, in test_it_and_power_checks_execute_with_separate_tools_and_shared_service_context
+    result = simulate_scenario(fixture['model'], duration_s=3, step_s=.01,
+                               dispatch_program=fixture['dispatch_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/06-red-multisystem/src/aegis_dc/plant.py", line 745, in simulate_scenario
+    inspections = InspectionSession(scenario, dispatch.catalog_program if dispatch is not None else work_program, inspection_program)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/06-red-multisystem/src/aegis_dc/inspection_execution.py", line 25, in __init__
+    self.profile=validate_nonfixed_profile(profile['nonfixed_profile'])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/06-red-multisystem/src/aegis_dc/nonfixed_evidence.py", line 360, in validate_nonfixed_profile
+    model = _measurement_model(row['model'], observables[row['observable_id']])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/06-red-multisystem/src/aegis_dc/nonfixed_evidence.py", line 196, in _measurement_model
+    raise ValueError('Instrument output/signal does not match a declared SI observable')
+ValueError: Instrument output/signal does not match a declared SI observable
+
+----------------------------------------------------------------------
+Ran 1 test in 0.069s
+
+FAILED (errors=1)
