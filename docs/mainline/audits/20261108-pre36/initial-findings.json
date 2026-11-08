@@ -1,0 +1,29 @@
+{
+  "schema": "aegisdc-pre36-alignment-findings-v1",
+  "audited_source": "2dfe5537e4f95fa605f325b060ef32223dafb4f6",
+  "findings": [
+    {
+      "id": "A01",
+      "axis": "Spec",
+      "requirement": "R6 and original30 comparison.report_separately",
+      "status": "OPEN_REPORTING_BLOCKER",
+      "scope": "31–35 separate outcome readout",
+      "problem": "Service/cost outcomes are reported, but confirmation, misleading/missed-report and effect-versus-closure endpoints lack a complete separate readout and explicit missing-definition/not-evaluated reasons.",
+      "important_boundary": "Named-signal threshold confirmation is implemented by InspectionSession. It is not fault diagnosis or verified risk closure. Missing frozen opportunity/truth definitions must not become zero misses or false alarms.",
+      "remedy": "Freeze a saved-only descriptive completion plan, extract all existing runs without rerunning them, and retain explicit NA statuses for unoperationalized/unexecuted endpoints. Primary NO_PRACTICAL_GAIN and original denominator stay unchanged."
+    },
+    {
+      "id": "A02",
+      "axis": "Standards",
+      "requirement": "R7 historical evidence timing and ticket24 review criteria",
+      "status": "OPEN_IMPLEMENTATION_CORRECTION",
+      "scope": "verified_closure.py FALSE_ALARM review-time checks",
+      "problem": "The historical dossier frame filters record IDs but retains current availability/age/provenance metadata. Previously valid review support can be incorrectly refused after expiry. Filtering to dossier IDs can also omit counterevidence available at review time.",
+      "important_boundary": "Current checks remain mandatory; this is not evidence of unsafe physical restoration. Registered31–35 explicitly have closure_program=None, so their measured primary outcomes do not invoke this branch.",
+      "remedy": "New bounded public-API engineering red/green evidence; rebuild review-time evidence through the existing ledger snapshot contract, count only dossier support while retaining review-time counterevidence, and preserve all current checks. New source version and prospective36 execution freeze are required; no old-source hash waiver or old-capture rewrite."
+    }
+  ],
+  "ticket36_started": false,
+  "registered_runs": 164,
+  "new_registered_runs": 0
+}

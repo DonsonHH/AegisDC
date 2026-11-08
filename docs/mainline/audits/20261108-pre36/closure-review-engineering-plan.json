@@ -1,0 +1,46 @@
+{
+  "schema": "aegisdc-pre36-closure-review-engineering-v1",
+  "finding": "A02",
+  "baseline": "2dfe5537e4f95fa605f325b060ef32223dafb4f6",
+  "public_interface": "aegis_dc.verified_closure.assess_closure",
+  "fixture_sources": [
+    "tests/test_verified_closure.py::fixture/reframe",
+    "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json",
+    "configs/full-facility-risk-scenarios-v1.json",
+    "configs/full-facility-belief-model-v1.json",
+    "evidence/mainline/engineering/23-interventions/reference/filter-later-inspection.json"
+  ],
+  "independent_expected_cases": [
+    {
+      "id": "support_expires_after_review",
+      "expectation": "Dossier samples4/5 valid at review5.5 and expired by current7.5; separate fresh6/7 samples satisfy current criteria. Historical and current checks pass; FALSE_ALARM_REVIEWED, risk_closed false."
+    },
+    {
+      "id": "past_counterevidence_not_in_dossier",
+      "expectation": "Contradictory flow observed5.25, arrived5.3, validuntil6 is known at review5.5 even though omitted from dossier and expired by current7.5. Review check fails; current checks may pass; no FALSE_ALARM_REVIEWED."
+    },
+    {
+      "id": "later_counterevidence_not_historical",
+      "expectation": "Contradictory flow observed6.25/arrived6.3 is not available at review5.5; review checks pass. At current7.5 that record remains current, so current checks fail and question stays unclosed."
+    }
+  ],
+  "execution_limits": {
+    "red_suite_attempts": 1,
+    "green_suite_attempts": 1,
+    "compatibility_suite_attempts": 1,
+    "physical_runs": 0,
+    "selectors": 0,
+    "training_or_llm": 0,
+    "random_or_nonce_reads": 0,
+    "registered_effect_trials": 0,
+    "note": "Public closure/risk/belief calculations inside the finite engineering API checks are allowed and kept separate from research budgets. Exact test commands, source revisions, outputs and failures are saved. A failed attempt is not silently repeated."
+  },
+  "durable_delivery": [
+    "new public-contract test source",
+    "corrected implementation source and exact pre/post identities",
+    "original red, green, compatibility logs and terminal receipts",
+    "raw source/tool hashes and independent review",
+    "no runtime caches"
+  ],
+  "future_source_rule": "The original269-file protocol identities remain preserved at their old source. A prospective36 technical correction/freeze must explicitly identify this changed, unused-in-registered-runs closure branch before any new research run."
+}
