@@ -4,7 +4,7 @@
 
 **Blocked by:** 39a
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M7
 
@@ -16,4 +16,4 @@
 
 ## Evidence
 
-Blocked; no implementation or experiment yet. User-review recommendation F1 and F4; exact behavior contract/source freeze precedes engineering captures. New rules/tasks or forecast-model changes are not an AI increment.
+Owner `/root` in canonical integration checkout;39a accepted. No implementation or new run yet. User-review recommendation F1 and F4; exact behavior contract/source freeze precedes engineering captures. New rules/tasks or forecast-model changes are not an AI increment.

@@ -8,7 +8,7 @@
 
 **[会后研究报告：设施架构、风险与180次注册仿真](paper/mainline-report-20261108/report.md)** · **[离线HTML（8图与内嵌数据）](paper/mainline-report-20261108/AegisDC-会后研究报告.html)**。以简短正文和对照表展示导师要求、实际结果及未测范围。
 
-2026年11月9日已同步到[Lab第三项目页面](https://lab.donson.top/liquid-cooling/)：12张图、8张表与6份数据，保留旧报告、Datapath、ISA和HTTPS。暂存/源站/公网资源及跳转核验通过；浏览器预览连接超时，本次只完成静态响应式检查。用户总体审阅已收到，当前先完成[39a跨阶段复核及39b–39d前置补全](docs/reviews/20261109-user-review/response.md)，然后冻结39新协议；新增研究试验仍为0。见[实际发布记录](docs/mainline/evidence/lab-publication-20261109.json)。
+2026年11月9日已同步到[Lab第三项目页面](https://lab.donson.top/liquid-cooling/)：12张图、8张表与6份数据，保留旧报告、Datapath、ISA和HTTPS。暂存/源站/公网资源及跳转核验通过；浏览器预览连接超时，本次只完成静态响应式检查。用户总体审阅已收到，39a跨阶段复核已接受，当前推进[39b–39d前置补全](docs/reviews/20261109-user-review/response.md)，然后冻结39新协议；新增研究试验仍为0。见[实际发布记录](docs/mainline/evidence/lab-publication-20261109.json)。
 
 截至2026年11月8日，01–35已按会后要求完成实质审计与必要修正，原定180次注册运行及第37项报告已接受。主要确认平均服务改善0.03515625秒，未达到0.25秒门槛，结论保持 **NO_PRACTICAL_GAIN**；四组稳健性没有显示稳定优势。本次在[38后的阅读检查点](docs/mainline/checkpoint38.md)收束：结构化AI选单具备独立比较条件，效果尚未测；原否决已按独立审查撤回并保留。39–42未完成，总目标不标完成。误报/漏报、提前预防、正式比较的验证关闭和现场标定仍待研究。
 
@@ -98,6 +98,6 @@ python -m patrol_rsi verify --output runs/verification-new
 
 `status`读取会前状态，`verify`执行工程/证据校验；没有自动训练或LLM调用，计算校验仍须远端执行。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，当前39a先复核跨阶段覆盖，随后补全多系统问题/动态任务、业务端点和人员设备时间尺度，再冻结39的新比较。38已接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
+1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，39a跨阶段覆盖复核已接受，当前39b开始补全多系统问题/动态任务、业务端点和人员设备时间尺度，再冻结39的新比较。38已接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
 
 [1–38跨阶段复核](docs/mainline/audits/20261109-integrated/review-report.md)另列[逐项证据表](docs/mainline/audits/20261109-integrated/coverage-01-38.md)与[会后要求补全表](docs/mainline/audits/20261109-integrated/meeting-gaps.md)。原180次保持不变；保存数据在Slurm补读，区分工程实现、正式覆盖和未测，不能以表格代替39b–39d实质工作。
