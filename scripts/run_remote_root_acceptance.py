@@ -51,7 +51,9 @@ def main():
     if not os.environ.get('SLURM_JOB_ID') or socket.gethostname().split('.')[0] == 'mu01':
         raise SystemExit('Root acceptance requires a Slurm compute allocation')
     output = args.output.resolve()
-    assert output.parent == ROOT / 'runs' and not output.exists()
+    if output.parent != ROOT / 'runs' or output.exists():
+        raise ValueError('Declare a new direct child of the repository runs directory')
+    (ROOT / 'runs').mkdir(exist_ok=True)
     output.mkdir()
     terminal = dict(status='FAILED', source_commit=args.source)
     save(output / 'attempt.json', dict(classification='INTEGRATED_ENGINEERING_REGRESSION_NOT_REGISTERED_RESEARCH',
