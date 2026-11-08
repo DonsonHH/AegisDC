@@ -53,22 +53,24 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 全部会前分支历史已合入main，并固定为[pre-meeting-20261103](https://github.com/DonsonHH/AegisDC/tree/pre-meeting-20261103)。[复核记录](docs/reviews/premeeting-20261103.md)列出原件、预算、修复与范围。
 
-- [v11会前报告](paper/supervisor-briefing.html)及[阅读索引](paper/README.md)：七章、31图、27表和图表说明；[线上快照](https://lab.donson.top/liquid-cooling/)。
+- [v11会前报告](paper/supervisor-briefing.html)及[阅读索引](paper/README.md)：七章、31图、27表和图表说明；[v11历史HTML下载](https://lab.donson.top/liquid-cooling/history/20261103/report.bin)。Lab项目主地址现展示会后180次研究报告。
 - [独立补充基准](evidence/supplement-study/README.md)：3个CVAE-U-Net、6个PPO、1080测试回合；同流温度误差改善与学习调度未超过名义FIFO的结果一并保留。
 - [事件验证](evidence/event-validation/final/README.md)、[九规则负结果](evidence/response-defer/README.md)、[反馈研究](evidence/feedback-study/README.md)：协议、原失败及未成立的增益分别保留。
-- [全部证据索引](evidence/README.md)：大体积逐帧原件仍在本地runs，以SHA索引定位；Git包含原件索引、明细、权重与实际执行源码等交付。
+- [全部证据索引](evidence/README.md)：大体积逐帧原件按SHA索引保存在项目私有服务器；Git包含原件索引、明细、权重与实际执行源码等交付。[2026年11月9日空间清理记录](docs/maintenance/20261109-storage/README.md)说明远端完整性验证和本地保留范围。
 
 旧Tour、实时观测及返回/重访假设属于会前问题定义。旧结果作为比较与复现材料保留，新问题的效果需另行验证。
 
 ## 新研究原型入口
 
-完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。当前分阶段资格以新的 M2 根记录为准，风险证据与策略闭环继续按固定主线推进。
+完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。该早期工程基线及其M2数值资格属于历史验收范围；最新进度为1–38有限范围接受、39a跨阶段复核，见[progress](docs/mainline/progress.json)。
 
 **M0–M4 已按各自有限工程范围接受**。[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)、[M2 数值见证](evidence/mainline/engineering/M2-root-acceptance/README.md)、[M3 证据、风险与价值](evidence/mainline/engineering/20-root-acceptance/README.md)及[M4 正常与负例](evidence/mainline/engineering/28-root-acceptance/README.md)保留各自执行身份、原始失败和验收范围。[第29项联合工况](docs/mainline/29-root-acceptance.md)限定本轮模型工作域；[第30项注册协议](docs/mainline/30-registered-comparison.md)随后固定方法、独立单位和180次总预算。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录；兼容默认保持原样。
 
+以下示例均在现有服务器执行：依赖下载、隔离环境准备和轻量状态读取按登录节点规则进行，仿真、风险计算、工程评价和重型验证通过Slurm作业。桌面仅做编辑、SSH、完整性核对、小文件同步和结果查看。远端不可用时停止并记录原因，不能自动改在本机计算。详见[远端计算与存储规则](docs/agents/compute-storage.md)。每次输出使用新目录。
+
 ```bash
 python -m aegis_dc scenario
-python -m aegis_dc simulate --output runs/full-site-engineering-new
+python -m aegis_dc simulate --model configs/full-facility-mainline-reserve-v6.json --step .01 --output runs/full-site-engineering-new
 python -m aegis_dc status
 ```
 
@@ -83,17 +85,17 @@ python -m aegis_dc foundation
 python -m aegis_dc risk-demo --output runs/foundation-demo-new
 ```
 
-这些入口不训练智能体、不调用模型，也不控制真实设备。算例参数和结果标为synthetic，不是FEMA官方设备分数或实测收益。
+这些入口没有训练或LLM调用，也不控制真实设备；其中设施仿真和风险算例仍进行数值计算，按上述远端规则执行。算例参数和结果标为synthetic，不是FEMA官方设备分数或实测收益。
 
 ## 兼容执行与检查
 
-Python3.11+，先`python -m pip install -e .`。现有包名和历史CLI保留兼容：
+以下为远端兼容入口：Python3.11+，依赖安装及工程校验在服务器按调度规则执行。现有包名和历史CLI保留兼容：
 
 ```bash
 python -m patrol_rsi status
 python -m patrol_rsi verify --output runs/verification-new
 ```
 
-这两个命令读取会前状态或执行工程/证据校验，不自动训练或调用科研模型。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
+`status`读取会前状态，`verify`执行工程/证据校验；没有自动训练或LLM调用，计算校验仍须远端执行。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
 1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，当前39a先复核跨阶段覆盖，随后补全多系统问题/动态任务、业务端点和人员设备时间尺度，再冻结39的新比较。38已接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
