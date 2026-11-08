@@ -1,0 +1,62 @@
+{
+  "schema": "aegisdc-39b-final-gates-standards-v1",
+  "source": "090986bd30626622b5ffe4964b0656a0f333f6f8",
+  "status": "TWO_STARTUP_GUARD_CORRECTIONS_BEFORE_ROOT_RUN",
+  "scope": "Only new Slurm root regression runner/protocol, direct acceptance dependency and relevant public lifecycle. Fullb8/oldP2 not re-reviewed.",
+  "hard_findings": [
+    {
+      "id": "STD39BG-01",
+      "priority": "P2",
+      "path": "scripts/run_remote_root_acceptance.py",
+      "lines": [35,39,42,62,63,64,65,72,77,78],
+      "title": "Mandatory source gates depend on assertions without rejecting optimization",
+      "rule": {"path": "docs/mainline/39b-root-regression-protocol-01.json", "line": 11, "text": "Actual HEAD/source/root/branch match; all tracked execution bytes equal exact Git blobs before and after."},
+      "supporting_rule": {"path": "AGENTS.md", "text": "Check runtime source against its recorded execution revision and preserve exact durable identities."},
+      "impact": "Under Python optimization, these assert statements are removed. For example a mismatched --source can bypass the HEAD/branch/clean/byte equality gates while later code still labels source_guard PASS_BEFORE_AND_AFTER. No optimization refusal exists in090.",
+      "requested_change": "Use non-optimizable explicit checks or explicitly refuse sys.flags.optimize>0 before assertion-based source claims/project execution. Preserve failed preconditions in the attempt/terminal path and keep the output-path boundary explicit.",
+      "status": "OPEN_AT_FIXED_090",
+      "blocks_rootfull_launch": true,
+      "project_counterexample_executed": false
+    },
+    {
+      "id": "STD39BG-02",
+      "priority": "P2",
+      "path": "scripts/run_remote_root_acceptance.py",
+      "start_line": 70,
+      "end_line": 82,
+      "title": "Frozen interpreter and isolated prefix are not matched before verify",
+      "rule": {"path": "docs/mainline/39b-root-regression-protocol-01.json", "line": 9, "text": "environment.python3.13.9 and prefix/share/home/renly/renly-patrol-rsi/environments/aegisdc-verify-20261109"},
+      "supporting_rule": {"path": "docs/agents/compute-storage.md", "section": "Execution3", "text": "Stage exact execution dependencies; reuse an appropriate verified environment or create an isolated one and keep shared environments stable."},
+      "impact": "The runner checks only numpy/torch versions. Any environment with those two package versions can enter verify even when Python version or sys.prefix contradicts the frozen environment. Post-success sys.version/executable logging does not enforce the declared precondition.",
+      "requested_change": "Before the one verify call, explicitly match the frozen Python version and actual sys.prefix/isolated environment, record actual interpreter identity in the start/evidence path, and reject mismatches without project execution.",
+      "status": "OPEN_AT_FIXED_090",
+      "blocks_rootfull_launch": true,
+      "project_counterexample_executed": false
+    }
+  ],
+  "operational_start_item": {
+    "id": "STD39BG-START-01",
+    "path": "scripts/run_remote_root_acceptance.py",
+    "start_line": 53,
+    "end_line": 55,
+    "observed": "runs/ is ignored and absent from the committed tree. output.mkdir() does not create this parent in a fresh complete clone.",
+    "impact": "Without a separately documented outer mkdir, a clean clone fails before attempt.json with FileNotFoundError. Also the output boundary is an assert in090.",
+    "disposition": "Either prepare exactlyROOT/runs in the explicit launcher or let the validated tool create only that parent; use an explicit boundary check. Recorded as a startup condition, not a claim that an already prepared server lacks it.",
+    "blocks_if_outer_setup_missing": true,
+    "status": "RECORDED_BEFORE_LAUNCH"
+  },
+  "heuristic_smell_findings": [],
+  "other_review_observations": [
+    "Slurm/job-node restriction, one unique output, fixed one-attempt protocol and original/partial terminal inventories are present. Existing acceptance.verify is called once and zero failures/errors/skips is stronger than its ordinary optional-Torch skip behavior.",
+    "The20 retained original-file gate is already explicitly enforced in verify_evidence.verify_manifest, including count/size/SHA/source; it was not reported as another missing gate.",
+    "Current source guard explicitly covers tracked Python/JSON under src/scripts/tests/configs; runtime src/aegis_dc diff versus2dece is empty. No old implementation or successor39c/d/AI scope was reopened.",
+    "Public development README and progress keep39b unaccepted and rootfull/fresh pending. Completed native horizon, failed test, saved-only verification, interface calls, uninstrumented internal calls and returned decisions are named separately.",
+    "08 original133138 remains FAILED. Saved-only133139 verifies the old assertions after stale/expired naming correction and is explicitly not a native rerun/PASS. No quantitative values were recomputed by this reviewer.",
+    "Figure02 actual QA is recorded by root. This reviewer read declarations/source only and did not claim a new visual/browser QA."
+  ],
+  "smell_policy": "All supplied smells are heuristics, repo rules take priority, tooling checks not repeated. No new hunk had an independent practical smell impact beyond the two documented execution-boundary defects.",
+  "source_fingerprint": "source-pin.json",
+  "commands": ["git diff 2dece5e8...090986bd -- selected new tool/protocol/public tracking paths", "git show SOURCE:<selected file>", "git ls-tree SOURCE -- runs .gitignore", "Small stdlib Git/SHA metadata writer for source-pin.json only"],
+  "reviewer_activity": {"project_calls": 0, "tests": 0, "models": 0, "selectors": 0, "simulations": 0, "metric_calculations": 0, "renders": 0, "browsers": 0, "installs": 0, "source_exports": 0, "new_worktrees": 0, "new_agents": 0, "tracked_edits": 0},
+  "acceptance_boundary": "Rootfull and fresh delivery were not executed or accepted. These090 findings remain immutable; any subsequent closure must be additive at its new source pin."
+}

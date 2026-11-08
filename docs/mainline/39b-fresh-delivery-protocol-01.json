@@ -1,0 +1,41 @@
+{
+  "schema": "aegisdc-fresh-git-saved-delivery-protocol-v1",
+  "id": "39b-root-fresh-delivery-01",
+  "classification": "SAVED_INTEGRITY_VERIFICATION_NOT_RESEARCH_TRIAL",
+  "maximum_attempts": 1,
+  "execution_source": "4f80bb35480bf633a777ab34d30a8573ea0734f0",
+  "base_commit": "047fc6615313fe28137a17eaefcb35d714222753",
+  "verifier": "scripts/verify_39b_delivery.py",
+  "dataset": "Every committed changed file since the accepted base, excluding only the manifest itself, at one fixed delivery commit. New native trajectories are retained remotely and verified by their declared indexes.",
+  "required_checks": [
+    "Fresh actual HEAD and exact manifest/delivery Git bytes",
+    "All declared changed files, no empty or omitted change set",
+    "609/609 root tests,0failure/error/skip and20historical originals",
+    "Current and historical captured runtime/tool/input Git identities, plus explicitly classified private staging inputs",
+    "Remote native byte hashes and complete JSON/JSONL readability",
+    "Original root01 and delayed-ACK native failure preserved; saved correction remains separate",
+    "Original180/configs/accepted report byte-unchanged"
+  ],
+  "facility_calls": 0,
+  "direct_public_choice_calls": 0,
+  "model_calls": 0,
+  "new_research_trials": 0,
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "durable_outputs": [
+    "Attempt/terminal",
+    "verification.json",
+    "fixed-source/job manifest",
+    "Slurm stdout/stderr/accounting"
+  ],
+  "retry_policy": "No automatic retry or requeue. Preserve any failure and use a new explicit correction/output before another saved check.",
+  "excludes": [
+    "Python and Matplotlib caches",
+    "Private full repository object store: existing source identity and complete history are checked, not copied into the public artifact packet"
+  ]
+}

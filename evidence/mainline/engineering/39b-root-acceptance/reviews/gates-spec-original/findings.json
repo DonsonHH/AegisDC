@@ -1,0 +1,41 @@
+{
+  "schema": "aegisdc-spec-final-gates-review-v1",
+  "source": "090986bd30626622b5ffe4964b0656a0f333f6f8",
+  "scope": "New complete-root runner/protocol and saved delayed-ACK evidence only; no repeated complete39b/historical review.",
+  "status": "ONE_PREFLIGHT_GATE_FINDING",
+  "finding_count": 1,
+  "findings": [
+    {
+      "id": "39B-GATE-SPEC-01",
+      "priority": "P2",
+      "title": "Enforce the frozen interpreter and complete-history preflight before acceptance.verify",
+      "path": "scripts/run_remote_root_acceptance.py",
+      "lines": "62-75",
+      "spec": [
+        {"path": "docs/mainline/39b-root-regression-protocol-01.json", "field": "execution", "quote": "in the complete remote repository with all history/data; not a small sparse development snapshot."},
+        {"path": "docs/mainline/39b-root-regression-protocol-01.json", "field": "environment", "quote": "python:3.13.9; prefix:/share/home/renly/renly-patrol-rsi/environments/aegisdc-verify-20261109"}
+      ],
+      "behavior": "The runner checks exact HEAD/root/branch and clean tracked state, then byte identities and numpy/torch versions. It records the Python executable/version only after verify returns. It does not refuse a different Python version/prefix before work, nor establish nonshallow/full historical object availability. A matching-library environment or HEAD-only repository can enter the expensive one-shot regression outside the frozen invocation conditions.",
+      "requested_correction": "Before acceptance.verify, check the frozen Python version and interpreter environment path, require a nonshallow/full checkout and required historical author revisions to be readable, and retain the metadata receipt. A separately pinned same-source preflight receipt consumed by the runner is also adequate. No additional physical/selector call is needed to close this finding.",
+      "blocks": "Starting the single frozen rootfull acceptance until the invocation gate is established; this does not reopen the corrected problem_actions runtime finding.",
+      "severity_boundary": "Missing prospective verification, not evidence that the actual remote interpreter/repository is currently wrong. No new project run is requested by the reviewer."
+    }
+  ],
+  "positive_static_gates": [
+    "Actual HEAD, top-level root, integration branch and clean state checked before verify; all tracked src/scripts/tests/configs .py/.json bytes are compared to exact Git blobs before/after.",
+    "numpy2.3.5 and torch2.6.0+cpu are explicitly checked; zero skips, failures and errors plus at least500 tests are required on top of acceptance.overall PASS.",
+    "acceptance.verify delegates original provenance checks to verify_evidence, which requires exactly20 original files and their recorded hashes; the root runner retains the reported count.",
+    "Source manifest is saved before verification. Exceptions are retained with traceback, and finally hashes available outputs and writes terminal; no automatic retry path is present."
+  ],
+  "delayed_ack_pending_boundary": {
+    "status": "CLOSED_BY_ORIGINAL_SAVED_NATIVE_AND_EXPLICIT_SAVED_ASSERTION_CORRECTION",
+    "original": "Slurm133138 sourceb028121e, original terminal remainsFAILED after the single wrong stale-versus-expired literal assertion. Full native result existed before that assertion.",
+    "saved_correction": "Slurm133139 source84975afe uses pinned summary/terminal/test-log SHA with guards before/after, no project imports or facility/selector/model calls; verification status explicitly SAVED_ASSERTIONS_VERIFIED_NOT_NATIVE_RERUN.",
+    "observed_saved_fields": "At3.75 the action APPLIED report is present, action completion workforce ACK absent, choice isNone and workflow waits for work ACK. At4 the matching completed ACK arrives and recheck is chosen. Saved verifier also checks canonical expired initial reading, preserved issued budget, actual later recheck and original frozen outcome assertions.",
+    "review_method": "Read the original saved history fields and verifier source/results; did not rerun the verifier or recompute any metric.",
+    "native_pass_relabel_permitted": false,
+    "generalization": "Finite specified unequal-delay case only; not every channel delay, site process or new business endpoint."
+  },
+  "pending": ["Close the prospective interpreter/history gate.","Perform the single exact-integrated-source rootfull regression and retain its real outcome.","Complete committed fresh delivery; ticket39b and overall project remain unaccepted/incomplete at this review."],
+  "local_execution": {"project_calls":0,"tests":0,"selectors":0,"facility_calls":0,"models":0,"metric_recomputations":0,"saved_verifier_runs":0,"browser_calls":0,"installs":0,"full_source_exports":0,"new_worktrees":0}
+}

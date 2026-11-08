@@ -1,0 +1,39 @@
+{
+  "schema": "aegisdc-39b-root-gates-standards-closure-v1",
+  "status": "PASS_STATIC_STARTUP_CLOSURE",
+  "original_source": "090986bd30626622b5ffe4964b0656a0f333f6f8",
+  "correction_source": "04ed91bea1c2ff7d05181de2bf5a1a5079f5d7c2",
+  "dispositions": [
+    {
+      "id": "STD39BG-01",
+      "status": "CLOSED",
+      "basis": "try begins with non-assert if sys.flags.optimize: raise ValueError. Optimized execution cannot reach assertion-based HEAD/root/branch/byte/version gates, imports or verify. Output boundary also now explicitly checked."
+    },
+    {
+      "id": "STD39BG-02",
+      "status": "CLOSED",
+      "basis": "Beforeverify: Python3.13.9, resolvedsys.prefix and declaredvenv/bin Python entry match the frozen environment; the existing success receipt retains interpreter version/path/hash and package versions."
+    },
+    {
+      "id": "STD39BG-START-01",
+      "status": "CLOSED",
+      "basis": "Output must resolve to a new direct child ofROOT/runs via explicit check; only the validated fixedROOT/runs parent is created before the unique attempt directory."
+    }
+  ],
+  "additional_observation": "New preflight refuses shallow repositories and checks the required old source commit and peeled premeeting tag. This is a bounded presence check, not an independent proof that every historical blob or private raw artifact has been materialized; root staging receipts and actual acceptance remain separate.",
+  "scope": "Only one runner changed. Protocol bytes are identical. No original090 report/finding/fingerprint rewritten; no b8 or prior P2 review repeated.",
+  "remaining_standards_startup_blockers": [],
+  "execution_boundary": "The authorized one-shot Slurm regression may proceed subject to actual staging/Slurm prerequisites. This reviewer performed no project/test/metric/rootfull/fresh run and does not accept39b.",
+  "original_review_files_sha256": {
+    "report.md": "2740485720d8b6bb416a6a80015529f982485520b531bc60c6d1a4aaed8ea508",
+    "findings.json": "269cedc8ddb2307773f5725ab7deac6a19aab97f612bb6e3e750a0ebb545a6bb",
+    "source-pin.json": "4be474ea2e15c4cefeebf2778d6fcf3176bd337438c84d1689ef347e8928a956"
+  },
+  "project_calls": 0,
+  "tests": 0,
+  "models": 0,
+  "metrics_recomputed": 0,
+  "new_agents": 0,
+  "new_worktrees": 0,
+  "tracked_edits": 0
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "aegisdc-spec-gate-correction-review-v1",
+  "original_candidate": "090986bd30626622b5ffe4964b0656a0f333f6f8",
+  "candidate": "04ed91bea1c2ff7d05181de2bf5a1a5079f5d7c2",
+  "status": "PASS_STATIC_PREFLIGHT_CORRECTION",
+  "new_finding_count": 0,
+  "findings": [],
+  "closed_findings": [
+    {
+      "id": "39B-GATE-SPEC-01",
+      "original_priority": "P2",
+      "disposition": "Closed statically; original090 review remains unchanged.",
+      "spec": "docs/mainline/39b-root-regression-protocol-01.json: frozen Python3.13.9/environment and complete remote history/data before one-shot acceptance.verify.",
+      "path": "scripts/run_remote_root_acceptance.py",
+      "closure_lines": "64-76",
+      "evidence": "Before verify, the explicit nonoptimized guard prevents -O from eliding assertions; exact Python patch version, isolated sys.prefix, executable parent path, nonshallow repository, historical2dfe commit and unchanged peeled pre-meeting tag are checked. These are metadata gates, not new project calls.",
+      "related_output_guard": "Lines54-57 explicitly refuse an existing output or a path outside direct ROOT/runs children, then create the fixed parent. Failure capture remains in the existing try/except/finally."
+    }
+  ],
+  "scope_limits": [
+    "No re-review of the prior runner body or old39b runtime/evidence.",
+    "No src/aegis_dc or root protocol change relative to090986bd was observed in Git.",
+    "Actual rootfull invocation, result, environment observation and fresh committed delivery remain pending. Static gate closure does not assert an executed PASS or accept ticket39b."
+  ],
+  "formal_rootfull_executed_by_reviewer": false,
+  "fresh_delivery_completed": false,
+  "ticket_39b_accepted": false,
+  "local_execution": {"project_calls":0,"tests":0,"selectors":0,"models":0,"facility_calls":0,"metric_recomputations":0,"verifier_runs":0,"browser_calls":0,"installs":0,"full_source_exports":0,"new_worktrees":0}
+}

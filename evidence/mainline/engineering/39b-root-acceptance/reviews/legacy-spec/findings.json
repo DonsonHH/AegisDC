@@ -1,0 +1,32 @@
+{
+  "schema": "aegisdc-spec-legacy-correction-review-v1",
+  "base": "04ed91bea1c2ff7d05181de2bf5a1a5079f5d7c2",
+  "candidate": "4f80bb35480bf633a777ab34d30a8573ea0734f0",
+  "scope": "Only historical source selection, preservation of frozen contracts/research, and explicit failure/new-attempt budget.",
+  "status": "PASS_NARROW_HISTORICAL_SOURCE_CORRECTION",
+  "finding_count": 0,
+  "findings": [],
+  "boundary_review": [
+    {
+      "boundary": "Correct historical execution source",
+      "spec": "docs/mainline/39b-legacy-cli-correction-09.json: Run only the old describe-public contract at its actual frozen36 sourcef834ea4de71a175fc4fa341cc29ed1694280ae0e.",
+      "source": "tests/historical_research_checkout.py:8-23; tests/test_robustness_release.py:11-20",
+      "assessment": "The36 execution lock names exactlyf834. The helper retains2dfe as default, validates a full lowercase40hex immutable source, verifies actual HEAD and removes its temporary checkout. Only the old describe-public invocation selectsf834; the contrast refusal still invokes current ROOT. Reviewer did not create or execute any checkout."
+    },
+    {
+      "boundary": "No weakened seal or repeated original research",
+      "spec": "docs/mainline/39b-legacy-cli-correction-09.json: Retain all original assertions and the immutableCLI/source guard unchanged.",
+      "source": "tests/test_robustness_release.py:20-43; scripts/robustness_release.py; docs/mainline/evidence/30-robustness-execution-lock.json",
+      "assessment": "Git diff retains every original JSON/actual-versus-forecast and zero physical/selector/nonce/admission assertion. CLI Git blob is identical atf834 and candidate. No src/aegis_dc,configs,registered evidence,old CLI guard or36 extension change is part of this correction. The root readonly pin receipt separately records only the already allowed closure source change; no new CLI/effect evaluation was performed by this reviewer."
+    },
+    {
+      "boundary": "Preserved failure and new prospective budget",
+      "spec": "docs/mainline/39b-root-regression-protocol-02.json: maximum_new_attempts1; cumulative_root_attempt_cap2; All609 tests executed,0failure/error/skip.",
+      "source": "evidence/mainline/engineering/39b-root-acceptance/attempt-01/attempt-ledger.json,acceptance__summary.json,source-guard.json; docs/mainline/39b-legacy-cli-correction-09.json; docs/mainline/39b-root-regression-protocol-02.json",
+      "assessment": "Original133143 remainsFAIL with609 executed,1failure,0errors/skips and successful source/20-original integrity.09 is one two-test/two-CLI qualification with zero facility,selector,model,nonce and new statistical units.02 has a separately declared single new full attempt and cumulative cap2, blocked on09 plus independent review. Neither is an automatic retry or a relabeling of the original failed root run."
+    }
+  ],
+  "pending": ["The09 actual result was not reviewed in this fixed-source static task.","Root02 has not been accepted or executed by the reviewer; its real result must satisfy all609 zero-failure/error/skip gates.","Fresh committed delivery and whole39b acceptance remain incomplete."],
+  "ticket_39b_accepted": false,
+  "local_execution": {"helper_calls":0,"CLI_calls":0,"project_calls":0,"tests":0,"selectors":0,"models":0,"facility_calls":0,"nonce_reads":0,"metric_recomputations":0,"browser_calls":0,"installs":0,"new_worktrees":0,"full_source_exports":0}
+}
