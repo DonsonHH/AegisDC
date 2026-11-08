@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 import unittest
+from historical_research_checkout import historical_checkout
 
 ROOT=Path(__file__).resolve().parents[1]
 RUNNER=ROOT/'scripts/registered_development.py'
@@ -12,8 +13,9 @@ RUNNER=ROOT/'scripts/registered_development.py'
 
 class RegisteredDevelopmentTests(unittest.TestCase):
     def test_plan_pins_development_only_and_rotates_arms_per_world(self):
-        result=subprocess.run([sys.executable,'-B','-X','utf8',str(RUNNER),'plan'],cwd=ROOT,
-            capture_output=True,encoding='utf-8',check=False)
+        with historical_checkout() as historical:
+            result=subprocess.run([sys.executable,'-B','-X','utf8','scripts/registered_development.py','plan'],cwd=historical,
+                capture_output=True,encoding='utf-8',check=False)
         self.assertEqual(result.returncode,0,result.stderr)
         data=json.loads(result.stdout)
         self.assertEqual(data['status'],'PASS_DEVELOPMENT_PLAN_ONLY')
@@ -29,6 +31,12 @@ class RegisteredDevelopmentTests(unittest.TestCase):
              ('development-03','fifo'),('development-04','risk_condition_priority_adapted'),
              ('development-05','one_observation_lookahead'),('development-06','evidence_consistent_contingent')])
         self.assertTrue(all(len(row['input_sha256'])==64 and row['duration_s']==10 for row in rows))
+
+    def test_old_lock_refuses_changed_live_source(self):
+        result=subprocess.run([sys.executable,'-B','-X','utf8',str(RUNNER),'plan'],cwd=ROOT,
+            capture_output=True,encoding='utf-8',check=False)
+        self.assertNotEqual(result.returncode,0)
+        self.assertIn('Frozen protocol, source or working bytes differ',result.stderr)
 
 
     def test_journal_rejects_a_started_slot_relabelled_unrun_or_partial_tail(self):

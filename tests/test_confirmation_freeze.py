@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess,sys,unittest
 from hashlib import sha256
 from tempfile import TemporaryDirectory
+from historical_research_checkout import historical_checkout
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -41,8 +42,9 @@ class ConfirmationFreezeTests(unittest.TestCase):
             self.assertFalse((folder/'analysis').exists())
 
     def test_public_amendment_is_limited_to_two_hydraulic_coordinates(self):
-        result=subprocess.run([sys.executable,'-B','-X','utf8','scripts/prepare_confirmation.py','audit-admission'],
-            cwd=ROOT,capture_output=True,text=True,encoding='utf-8',check=False)
+        with historical_checkout() as historical:
+            result=subprocess.run([sys.executable,'-B','-X','utf8','scripts/prepare_confirmation.py','audit-admission'],
+                cwd=historical,capture_output=True,text=True,encoding='utf-8',check=False)
         self.assertEqual(result.returncode,0,result.stderr)
         facts=json.loads(result.stdout)
         self.assertEqual(facts['status'],'PASS_EXPLICIT_ADMISSION_AMENDMENT')

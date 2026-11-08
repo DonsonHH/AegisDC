@@ -1,12 +1,14 @@
 """Public preparation seam for the preregistered planner-only masks."""
 import json,subprocess,sys,unittest
 from pathlib import Path
+from historical_research_checkout import historical_checkout
 ROOT=Path(__file__).resolve().parents[1]
 
 class AblationMasksTests(unittest.TestCase):
     def test_public_masks_keep_real_plant_and_team_capability(self):
-        result=subprocess.run([sys.executable,'-B','-X','utf8','scripts/prepare_ablation.py','audit-masks'],
-            cwd=ROOT,capture_output=True,text=True,encoding='utf-8')
+        with historical_checkout() as historical:
+            result=subprocess.run([sys.executable,'-B','-X','utf8','scripts/prepare_ablation.py','audit-masks'],
+                cwd=historical,capture_output=True,text=True,encoding='utf-8')
         self.assertEqual(result.returncode,0,result.stderr)
         facts=json.loads(result.stdout)
         self.assertEqual(facts['status'],'PASS_PUBLIC_MASKS')
