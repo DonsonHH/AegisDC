@@ -1,0 +1,15 @@
+{
+  "schema": "aegisdc-exact-delivery-format-correction-v1",
+  "refused_delivery": "9b14d147d9130fc6277307fe12129527d561fd82",
+  "failure_record": "evidence/mainline/engineering/pre36-delivery-checks/attempt-01",
+  "cause": "The broad docs/mainline/** text eol=lf rule normalized CRLF byte pairs inside the new binary review ZIPs and the copied original review matrix. Fresh delivery verification refused the first changed ZIP.",
+  "exact_correction": [
+    "docs/mainline/audits/20261108-pre36/reviews/*.zip: -text",
+    "docs/mainline/audits/20261108-pre36/ticket-matrix.md: -text"
+  ],
+  "source_of_correct_bytes": "Original locally sealed archives and byte-identical reviewer matrix, still matching the unchanged delivery manifest. Restaged with explicit binary/native-record attributes.",
+  "not_waived": "No manifest mismatch is ignored. The original refused commit and failure logs remain. A new saved-only fresh verification must pass every declared artifact and Git identity.",
+  "new_physical_calls": 0,
+  "new_selectors": 0,
+  "new_registered_runs": 0
+}
