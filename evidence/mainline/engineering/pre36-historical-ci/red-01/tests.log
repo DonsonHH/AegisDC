@@ -1,0 +1,67 @@
+test_plan_pins_development_only_and_rotates_arms_per_world (test_registered_development.RegisteredDevelopmentTests.test_plan_pins_development_only_and_rotates_arms_per_world) ... FAIL
+test_public_amendment_is_limited_to_two_hydraulic_coordinates (test_confirmation_freeze.ConfirmationFreezeTests.test_public_amendment_is_limited_to_two_hydraulic_coordinates) ... FAIL
+test_public_masks_keep_real_plant_and_team_capability (test_ablation_masks.AblationMasksTests.test_public_masks_keep_real_plant_and_team_capability) ... FAIL
+
+======================================================================
+FAIL: test_plan_pins_development_only_and_rotates_arms_per_world (test_registered_development.RegisteredDevelopmentTests.test_plan_pins_development_only_and_rotates_arms_per_world)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\tests\test_registered_development.py", line 17, in test_plan_pins_development_only_and_rotates_arms_per_world
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 2 != 0 : Frozen protocol, source or working bytes differ
+
+
+======================================================================
+FAIL: test_public_amendment_is_limited_to_two_hydraulic_coordinates (test_confirmation_freeze.ConfirmationFreezeTests.test_public_amendment_is_limited_to_two_hydraulic_coordinates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\tests\test_confirmation_freeze.py", line 46, in test_public_amendment_is_limited_to_two_hydraulic_coordinates
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_confirmation.py", line 147, in <module>
+    main()
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_confirmation.py", line 140, in main
+    _,rows=admission_blueprints()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_confirmation.py", line 29, in admission_blueprints
+    audit_lock(ROOT/LOCK)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\comparison_release.py", line 147, in audit_lock
+    _pin_check(lock['design_commit'],lock['pins'])
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\comparison_release.py", line 78, in _pin_check
+    require(set(pins)==_paths(source) and pins==hashes(source,pins)==hashes(_head(),pins)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\registered_comparison.py", line 64, in require
+    raise ValueError(message)
+ValueError: Frozen protocol, source or working bytes differ
+
+
+======================================================================
+FAIL: test_public_masks_keep_real_plant_and_team_capability (test_ablation_masks.AblationMasksTests.test_public_masks_keep_real_plant_and_team_capability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\tests\test_ablation_masks.py", line 10, in test_public_masks_keep_real_plant_and_team_capability
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_ablation.py", line 196, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_ablation.py", line 193, in main
+    value=audit_masks() if a.mode=='audit-masks' else verify()
+          ^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_ablation.py", line 50, in audit_masks
+    blueprints,_=admission_blueprints();plan=read(ROOT/PROTOCOL);worlds=plan['phases']['ablation']['worlds']
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\prepare_confirmation.py", line 29, in admission_blueprints
+    audit_lock(ROOT/LOCK)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\comparison_release.py", line 147, in audit_lock
+    _pin_check(lock['design_commit'],lock['pins'])
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\comparison_release.py", line 78, in _pin_check
+    require(set(pins)==_paths(source) and pins==hashes(source,pins)==hashes(_head(),pins)
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\scripts\registered_comparison.py", line 64, in require
+    raise ValueError(message)
+ValueError: Frozen protocol, source or working bytes differ
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.233s
+
+FAILED (failures=3)
