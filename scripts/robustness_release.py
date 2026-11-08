@@ -166,11 +166,15 @@ def prepare(source,folder):
     require(sys.dont_write_bytecode and sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),'Use -B and unused cache prefix')
     folder.mkdir(parents=True);(folder/'inputs').mkdir()
     receipt=dict(status='FAILED_INPUT_PREPARATION',source=source,input_hashes={},prepared_inputs=0,assigned_worlds=[],
-        physical_calls=0,selector_calls=0,finite_admission_calls=0,nonce_reads=0,registered_research_trials=0,
-        pins=dict(preparation_pins(source),**{PREPARATION_AUTHORIZATION:digest((ROOT/PREPARATION_AUTHORIZATION).read_bytes())}))
+        physical_calls=0,selector_calls=0,finite_admission_calls=0,nonce_read_attempts=0,nonce_reads=0,registered_research_trials=0,
+        pins=dict(preparation_pins(source),**hashes(source,{PREPARATION_AUTHORIZATION,'docs/mainline/progress.json',
+            'evidence/mainline/engineering/36-public-admission/preflight-01.json',
+            'evidence/mainline/engineering/36-public-admission/preflight-01.start.json'})))
     append(folder/'attempts.jsonl',dict(status='STARTED_INPUT_PREPARATION',source=source,expected_inputs=16))
     try:
         require(all(digest((ROOT/n).read_bytes())==h for n,h in receipt['pins'].items()),'Preparation working source/input differs before nonce')
+        receipt['nonce_read_attempts']=1
+        append(folder/'attempts.jsonl',dict(status='STARTED_NONCE_READ',source=source,expected_commitment=lock['commitments_sha256']['robustness']))
         nonce=_read_nonce(NONCE,lock['commitments_sha256']['robustness']);receipt['nonce_reads']=1
         namespace=plan['seed_policy']['namespaces']['robustness']
         for world in phase['worlds']:

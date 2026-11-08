@@ -67,12 +67,22 @@ def _begin(folder,stage,source,plan,slots):
     require(authorization['status']=='REVIEWED_TO_EXECUTE' and authorization['execution_lock']==EXECUTION_LOCK
         and authorization['execution_lock_sha256']==digest((ROOT/EXECUTION_LOCK).read_bytes()),'Missing exact independent execution authorization')
     require(not progress['pre36_alignment_audit']['blocks_ticket36'],'Alignment audit still blocks36')
-    _read_nonce(NONCE,read(ROOT/LOCK)['commitments_sha256'][PHASE])
     require(sys.dont_write_bytecode and sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),
             'Use -B and a fresh cache prefix')
+    # This metadata validation precedes every chargeable physical slot. Keep
+    # a failure here even when no capture/batch directory can yet be created.
+    gate=ROOT/PACKAGE/'execution-validation-01';require(not gate.exists(),'Execution validation already attempted')
+    gate.mkdir()
+    journal_write(gate/'start.json',dict(status='STARTED_NONCE_VALIDATION',source=source,nonce_read_attempts=1,physical_calls=0))
+    try:
+        _read_nonce(NONCE,read(ROOT/LOCK)['commitments_sha256'][PHASE])
+    except BaseException as exc:
+        journal_write(gate/'terminal.json',dict(status='REFUSED_BEFORE_PHYSICAL_SLOTS',source=source,nonce_read_attempts=1,
+            nonce_validated=0,error_type=type(exc).__name__,error=str(exc),physical_calls=0));raise
+    journal_write(gate/'terminal.json',dict(status='PASS_NONCE_VALIDATION',source=source,nonce_read_attempts=1,nonce_validated=1,physical_calls=0))
     names=set(read(ROOT/EXECUTION_LOCK)['execution_pins'])
     names.update(read(ROOT/LOCK)['pins'])
-    names.update({RUNBOOK,LOCK,PROTOCOL,'docs/mainline/evidence/30-root.json','docs/mainline/evidence/31-root.json',
+    names.update({RUNBOOK,LOCK,PROTOCOL,'docs/mainline/progress.json','docs/mainline/evidence/30-root.json','docs/mainline/evidence/31-root.json',
         'docs/mainline/evidence/34-root.json','docs/mainline/evidence/35-root.json',EXECUTION_LOCK,AUTHORIZATION,EXTENSION,'docs/mainline/evidence/pre36-alignment.json'})
     names.update((ROOT/FREEZE/name).relative_to(ROOT).as_posix() for name in
                  set(read(ROOT/FREEZE/'receipt.json')['artifacts'])|{'receipt.json'})
