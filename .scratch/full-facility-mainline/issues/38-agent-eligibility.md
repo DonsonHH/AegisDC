@@ -4,7 +4,7 @@
 
 **Blocked by:** 37
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M7
 
@@ -19,3 +19,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+
+Owner `/root`; post-M6 qualitative eligibility audit only. No new model selection, feedback loop, nonce or experiment. Proposal must distinguish a supported no-entry decision from unmeasured technical effects and preserve real existing choice opportunities.
