@@ -1,8 +1,10 @@
-# 当前执行：39b多系统动态任务，补全后才冻结39
+# 当前执行：39c业务端点与验证关闭，补全后才冻结39
 
 2026年11月9日，用户已提供总体审阅并要求完全依建议推进；[空间清理](maintenance/20261109-storage/README.md)已先完成。[审阅采纳表](reviews/20261109-user-review/response.md)明确顺序：39a复核1–38实现/工程/正式覆盖 → 39b多系统问题与动态任务、39c业务端点 → 39d时间尺度/参数敏感性与新数值范围 → 原39新协议。后续运行均在远端，集群使用Slurm，原180次不重跑。
 
 39a的[38行证据表](mainline/audits/20261109-integrated/coverage-01-38.md)和[会后补全表](mainline/audits/20261109-integrated/meeting-gaps.md)已交付。保存数据在Slurm作业133102补读成功，新增设施/策略/模型调用和研究样本均0；[复核报告](mainline/audits/20261109-integrated/review-report.md)说明集中度、无人工参照、风险范围和非统一时间缩放。两轴复核及92件小文件fresh交付已通过，[39a已接受](mainline/evidence/39a-root.json)，表格不能替代39b–39d。
+
+[39b实际检查、处置、复查及三张数据/架构图](mainline/39b-root-acceptance.md)已接受。609/609远端回归与一次fresh核验通过，406交付文件、2,208源码身份、52份服务器完整轨迹及原失败均核对。当前39c先定义故障真值、可检测机会、提前量和验证关闭端点；39d保留39b/39c依赖，原39的AI比较尚未运行。
 
 [站内第三项目](https://lab.donson.top/liquid-cooling/)保留最新已接受基线报告的12图、数据及历史下载，Datapath/ISA及HTTPS保持。现有报告与原主要结论不因本次审阅而改写；AI可检验性仍通过38，效果尚未测。[发布核验](mainline/evidence/lab-publication-20261109.json)。
 

@@ -8,7 +8,9 @@
 
 **[会后研究报告：设施架构、风险与180次注册仿真](paper/mainline-report-20261108/report.md)** · **[离线HTML（8图与内嵌数据）](paper/mainline-report-20261108/AegisDC-会后研究报告.html)**。以简短正文和对照表展示导师要求、实际结果及未测范围。
 
-2026年11月9日已同步到[Lab第三项目页面](https://lab.donson.top/liquid-cooling/)：12张图、8张表与6份数据，保留旧报告、Datapath、ISA和HTTPS。暂存/源站/公网资源及跳转核验通过；浏览器预览连接超时，本次只完成静态响应式检查。用户总体审阅已收到，39a跨阶段复核已接受，当前推进[39b–39d前置补全](docs/reviews/20261109-user-review/response.md)，然后冻结39新协议；新增研究试验仍为0。见[实际发布记录](docs/mainline/evidence/lab-publication-20261109.json)。
+2026年11月9日已同步到[Lab第三项目页面](https://lab.donson.top/liquid-cooling/)：12张图、8张表与6份数据，保留旧报告、Datapath、ISA和HTTPS。暂存/源站/公网资源及跳转核验通过；浏览器预览连接超时，本次只完成静态响应式检查。见[实际发布记录](docs/mainline/evidence/lab-publication-20261109.json)。
+
+**[新增39b成果：多系统工单→实际检查→残余处置→复查，含三张数据与架构图](docs/mainline/39b-root-acceptance.md)**。按用户总体审阅，39a跨阶段复核与39b有限工程范围现已接受；609项完整远端回归、20历史原件和406件新Git交付核验通过，所有原失败保留。下一项39c定义业务端点与验证关闭，39d随后核查时间尺度，再冻结原39的新AI协议；新增注册研究试验为0。详见[审阅采纳顺序](docs/reviews/20261109-user-review/response.md)。
 
 截至2026年11月8日，01–35已按会后要求完成实质审计与必要修正，原定180次注册运行及第37项报告已接受。主要确认平均服务改善0.03515625秒，未达到0.25秒门槛，结论保持 **NO_PRACTICAL_GAIN**；四组稳健性没有显示稳定优势。本次在[38后的阅读检查点](docs/mainline/checkpoint38.md)收束：结构化AI选单具备独立比较条件，效果尚未测；原否决已按独立审查撤回并保留。39–42未完成，总目标不标完成。误报/漏报、提前预防、正式比较的验证关闭和现场标定仍待研究。
 
@@ -62,7 +64,7 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 ## 新研究原型入口
 
-完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。该早期工程基线及其M2数值资格属于历史验收范围；最新进度为1–38有限范围接受、39a跨阶段复核，见[progress](docs/mainline/progress.json)。
+完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。该早期工程基线及其M2数值资格属于历史验收范围；最新进度为1–38有限范围接受、39a跨阶段复核及39b动态任务接受，39c为下一主票，见[progress](docs/mainline/progress.json)。
 
 **M0–M4 已按各自有限工程范围接受**。[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)、[M2 数值见证](evidence/mainline/engineering/M2-root-acceptance/README.md)、[M3 证据、风险与价值](evidence/mainline/engineering/20-root-acceptance/README.md)及[M4 正常与负例](evidence/mainline/engineering/28-root-acceptance/README.md)保留各自执行身份、原始失败和验收范围。[第29项联合工况](docs/mainline/29-root-acceptance.md)限定本轮模型工作域；[第30项注册协议](docs/mainline/30-registered-comparison.md)随后固定方法、独立单位和180次总预算。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录；兼容默认保持原样。
 

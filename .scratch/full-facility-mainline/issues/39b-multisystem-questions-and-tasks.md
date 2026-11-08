@@ -4,17 +4,21 @@
 
 **Blocked by:** 39a
 
-**Status:** claimed
+**Status:** resolved
 
 **Milestone:** M7
 
-- [ ] 代表性问题/任务覆盖设施依赖、专业能力和共同服务后果；风险量化、边界/未知分别列出，不将八域运行等同八域已量化。
-- [ ] 规则只接收到时证据及声明知识；同信息不同隐藏状态的公开问题/任务相同，直到合法新证据到达。
-- [ ] 新事件实例、重复问题、已完成任务后的复检有独立身份与来源；ALREADY_ISSUED只限制同一任务实例，不锁死后续序列。
-- [ ] 多问题共存时资质、工具、路径、占用和授权实际限制选择；不查和直接处置保留。
-- [ ] 在已批准场景/运行/决策视图/CLI公共边界逐个红绿行为验证，手算或独立情景作预期；远端工程记录与注册比较分开，旧输入与协议保持。
+- [x] 代表性问题/任务覆盖设施依赖、专业能力和共同服务后果；风险量化、边界/未知分别列出，不将八域运行等同八域已量化。
+- [x] 规则只接收到时证据及声明知识；同信息不同隐藏状态的公开问题/任务相同，直到合法新证据到达。
+- [x] 新事件实例、重复问题、已完成任务后的复检有独立身份与来源；ALREADY_ISSUED只限制同一任务实例，不锁死后续序列。
+- [x] 多问题共存时资质、工具、路径、占用和授权实际限制选择；不查和直接处置保留。
+- [x] 在已批准场景/运行/决策视图/CLI公共边界逐个红绿行为验证，手算或独立情景作预期；远端工程记录与注册比较分开，旧输入与协议保持。
 
 ## Evidence
+
+2026-11-09 **accepted finite engineering scope**. Authority: `docs/mainline/evidence/39b-root.json`; actual root source4f80bb35 / Slurm133145 executed609/609 with0failure/error/skip and20historical originals. Fresh candidate dfa7ab52 / Slurm133146 verified406files,2208source identities,52private native files, allPASS. Both independent axes and exact original failures retained. [Readable acceptance](../../../docs/mainline/39b-root-acceptance.md) includes three actual data/architecture figures.39c is next; original180 and all scientific conclusions unchanged.
+
+The following development notes are preserved snapshots before final acceptance.
 
 Owner `/root` in canonical integration checkout;39a accepted. First public work-order generation slice implemented on `donson/mainline-39b-problems`; remote red133107/green133108 preserved. Public intention only, not actual facility execution or ticket acceptance. User-review recommendation F1 and F4; exact behavior contract/source freeze precedes engineering captures. New rules/tasks or forecast-model changes are not an AI increment.
 

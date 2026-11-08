@@ -16,4 +16,4 @@
 
 ## Evidence
 
-Blocked; no implementation/evaluation yet. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged.
+Ready frontier after39a and39b acceptance; no implementation/evaluation yet. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.

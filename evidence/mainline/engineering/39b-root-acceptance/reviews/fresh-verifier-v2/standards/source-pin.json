@@ -1,0 +1,120 @@
+{
+  "schema": "aegisdc-39b-fresh-verifier-standards-closure-v1",
+  "status": "PASS_STATIC_CLOSURE",
+  "original_source": "ae101123b7d55c3eeff58c1bfe3df0e63291b53f",
+  "correction_source": "dfa7ab521bdfa4e7f06554c836a16417759eab26",
+  "correction_tree": "cdf2138782f8d312d7b1bb2ad5dbb2070c3e7c0e",
+  "identities": {
+    "scripts/verify_39b_delivery.py": {
+      "git_blob": "2c4a99e3aef2347dd3ea93085fcdb2799f7c8994",
+      "bytes": 16232,
+      "sha256": "0e185735b58a2e927f6209560e17ae32de400f83019f38143085e19c668dcec3"
+    },
+    "docs/mainline/39b-fresh-delivery-protocol-01.json": {
+      "git_blob": "16b6186bdda2e8410f1306e193f04743db6a7886",
+      "bytes": 1895,
+      "sha256": "d900f921368b92888fd654865b0d35123f3ce28aca35408c0588051ac583eae5"
+    },
+    "evidence/mainline/engineering/39b-root-acceptance/delivery-manifest-v2.json": {
+      "git_blob": "f59bb3a11d4f46021cf3466db8c28314f9da2465",
+      "bytes": 83085,
+      "sha256": "545098ede35b3a49b7f4260ad92e57c4377a55e64fd1e1fc431f3160d7993661"
+    },
+    "evidence/mainline/engineering/39b-root-acceptance/delivery-manifest.json": {
+      "git_blob": "d89aad6b99fe423f78764f6135ccdc049422de21",
+      "bytes": 80410,
+      "sha256": "fdcd3df4e35f39b7ab148dddbf75120293c2f9072cdff9665e98cd3b669f566d"
+    },
+    "evidence/mainline/engineering/39b-root-acceptance/review-originals-manifest.json": {
+      "git_blob": "5788724cfc674a3c7fda12792ba299304ead0517",
+      "bytes": 4048,
+      "sha256": "29a488ba302af67644a799c5caacb839feabf9bf7b1c0363ac507e5a9e91e8e5"
+    },
+    "evidence/mainline/engineering/39b-development/slice-08/saved-correction-01/attempt.json": {
+      "git_blob": "a24dc7abaf021c8633025199bf673f361b1561aa",
+      "bytes": 345,
+      "sha256": "258f3622f782e0b8c2a4965122b7f9022a6f12f9fcedbd14aba400681c7dee5f"
+    },
+    "evidence/mainline/engineering/39b-development/slice-08/saved-correction-01/source-manifest.json": {
+      "git_blob": "710af0aeb0a4cffe23e6fc141c929e286c04206c",
+      "bytes": 736,
+      "sha256": "26c593dcb4ceb1adef00600a946b3eefa20a359186ce5ae6f9846d25814a7b26"
+    },
+    "evidence/mainline/engineering/39b-development/slice-08/saved-correction-01/terminal.json": {
+      "git_blob": "f6d629d91d9564f4d196d8dfcd8d09881e48b9ef",
+      "bytes": 479,
+      "sha256": "465735ed3611cbd411019af1835a509f75f19533861579566419b22998251b50"
+    }
+  },
+  "original_review_files": {
+    "report.md": {
+      "sha256": "1985d863a6476ff7cc27a125a727b7cc6a28b6dfbf2c052cdfdd1ae62f99313f",
+      "expected_sha256": "1985d863a6476ff7cc27a125a727b7cc6a28b6dfbf2c052cdfdd1ae62f99313f",
+      "unchanged": true
+    },
+    "findings.json": {
+      "sha256": "a0a6a06d9b8758dc6536a90ec3c6c80967a83e38aa066bf1c66914080ae44963",
+      "expected_sha256": "a0a6a06d9b8758dc6536a90ec3c6c80967a83e38aa066bf1c66914080ae44963",
+      "unchanged": true
+    },
+    "pin.json": {
+      "sha256": "c776beea80808da185996c36b76c230c2bfb8ebea3c2946567dc81d332ada393",
+      "expected_sha256": "c776beea80808da185996c36b76c230c2bfb8ebea3c2946567dc81d332ada393",
+      "unchanged": true
+    }
+  },
+  "v1_manifest_preserved": {
+    "original_git_blob": "d89aad6b99fe423f78764f6135ccdc049422de21",
+    "correction_git_blob": "d89aad6b99fe423f78764f6135ccdc049422de21",
+    "identical": true
+  },
+  "changed_code_paths": [
+    "scripts/verify_39b_delivery.py"
+  ],
+  "old_receipt_modified_deleted_or_type_changed": [],
+  "dispositions": [
+    {
+      "id": "STD39BF-01",
+      "status": "CLOSED",
+      "basis": "The committed src/scripts/tests/configs Python/JSON set equals the passing-root set plus exactly the declared saved-only verifier; every original execution path retains its root Git blob. Original root receipts are anchored byte-for-byte toae101, forcing the actual recorded4f80 source rather than a substituted history."
+    },
+    {
+      "id": "STD39BF-02",
+      "status": "CLOSED",
+      "basis": "The whole old development/root receipt tree is fixed toae101. Captured sets are nonempty, normal manifests match original startSHA, root before-manifests match terminal outputSHA, every required native index is present and equals the complete nonempty terminal native dictionary, review originals match independent SHA, JSONL has at least one record, and private staging paths resolve insideREMOTE."
+    },
+    {
+      "id": "STD39BF-03",
+      "status": "CLOSED",
+      "basis": "Explicit20originals, root01FAILED609/1failure/0error/skip and08FAILED plus separate saved-correction status are required beforePASS."
+    }
+  ],
+  "legacy_saved_only_exception": {
+    "exact_path": "evidence/mainline/engineering/39b-development/slice-08/saved-correction-01/source-manifest.json",
+    "original_start_manifest_sha": "MISSING_IN_ORIGINAL_RECORD; not reconstructed or relabeled as contemporaneously guarded",
+    "restriction": "Only this exact legacy saved-only zero-facility/zero-direct-choice/zero-model attempt is accepted without startSHA; manifest/attempt/terminal remainae101original blobs and the tool/protocol inputs remain individually pinned. Every actual facility capture still requires its original startSHA."
+  },
+  "remaining_identified_blockers": [],
+  "review_scope": "Only close the original3saved-integrity findings; originalae101reports unchanged, old domain/root/research not re-reviewed or rerun.",
+  "methods": [
+    "Fixed Git diff/read",
+    "Git blob and SHA integrity metadata",
+    "Manual static control-flow review; no verifier execution"
+  ],
+  "reviewer_activity": {
+    "verifier_runs": 0,
+    "project_calls": 0,
+    "tests": 0,
+    "models": 0,
+    "selectors": 0,
+    "simulations": 0,
+    "metric_calculations": 0,
+    "browsers": 0,
+    "installs": 0,
+    "exports": 0,
+    "new_agents": 0,
+    "new_worktrees": 0,
+    "tracked_edits": 0
+  },
+  "acceptance_boundary": "The prospective one-shot savedfresh remains unexecuted by reviewer. Static closure is not actualfreshPASS or39b acceptance."
+}

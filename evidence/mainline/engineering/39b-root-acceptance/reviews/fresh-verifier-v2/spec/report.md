@@ -1,0 +1,5 @@
+Spec：dfa7ab52保存完整性增量静态PASS，新增0项；原ae审查及全部原件不改。
+
+新增校验已绑定root执行集/字节、ae原receipt树、非空manifest与原attempt SHA、root before与terminal输出；native索引须为完整输出集，JSONL须有记录，审阅索引亦被消费。路径resolve限制、20original及root01FAILED均明确。
+
+saved08只允许指定零调用路径的旧manifestSHA遗漏，以ae原Gitblob、原attempt/terminal及工具输入身份闭合，不跳facility哈希。v1保留，02明确01未运行、累计fresh仍1。未重审领域/根回归主体，未运行项目、验证器或指标复算。唯一fresh实际执行及39b最终接受仍待完成。
