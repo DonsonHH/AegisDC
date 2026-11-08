@@ -95,6 +95,26 @@ def check_contrast(reference,perturbed,family):
             and '.after_capacity.' in p and p.endswith('.network') for p in actual),'Forecast contrast changes actual execution or another knowledge field')
     return sorted(actual)
 
+def describe_public():
+    plan,blueprints,_=audit_design();rows=[];documents={}
+    for world in plan['phases']['robustness']['worlds']:
+        doc=compile_world(world,plan,blueprints);documents[world['id']]=doc
+        program=doc['dispatch_program'];policy=program['policy_program']
+        params={r['id']:r['value'] for r in doc['model']['parameters']}
+        meter=next(m for m in program['sensor_program']['profile']['measurements'] if m['id']=='rectifier-meter')
+        local=policy['options']['value_model']['question_models'][0]
+        rows.append(dict(id=world['id'],offered_demand=params['service_demand'],
+            public_demand=policy['options']['catalog']['demand'][0]['rate'],
+            rectifier_meter_enabled=meter['enabled'],ups_in_service=params['ups_in_service'],
+            actual_fallback_capacity=program['intervention_program']['bindings'][0]['setting'],
+            forecast_capacity=next(iter(local['variants'][0]['after_capacity'].values()))['network'],
+            graphs_sha256=digest(canonical(doc['model']['graphs']))))
+    worlds=plan['phases']['robustness']['worlds']
+    contrasts={worlds[i]['comparison']:check_contrast(documents[worlds[i]['id']],documents[worlds[i+1]['id']],worlds[i]['family']) for i in range(0,8,2)}
+    require(not any(n.startswith('aegis_dc') for n in sys.modules),'Pure description imported project models')
+    return dict(status='PASS_PUBLIC_DESIGN_ONLY',worlds=rows,contrasts=contrasts,contrast_blocks=4,
+        physical_calls=0,selector_calls=0,admission_calls=0,nonce_reads=0)
+
 def public_audit(output):
     require(not output.exists(),'Unique public preflight output required')
     source=head();require(not git('status','--porcelain'),'Pin public admission source before calls')
@@ -202,6 +222,9 @@ if __name__=='__main__':
     p=sub.add_parser('prepare');p.add_argument('--source',required=True)
     p=sub.add_parser('freeze');p.add_argument('--source',required=True)
     sub.add_parser('verify')
+    sub.add_parser('describe-public')
+    p=sub.add_parser('audit-contrast');p.add_argument('--left',type=Path,required=True);p.add_argument('--right',type=Path,required=True)
+    p.add_argument('--family',choices=['load-level','sensor-coverage','reserve-path','model-error'],required=True)
     args=parser.parse_args()
-    result=public_audit(args.output.resolve()) if args.mode=='audit-public' else prepare(args.source,ROOT/PREP) if args.mode=='prepare' else freeze(args.source) if args.mode=='freeze' else verify_freeze()
+    result=public_audit(args.output.resolve()) if args.mode=='audit-public' else prepare(args.source,ROOT/PREP) if args.mode=='prepare' else freeze(args.source) if args.mode=='freeze' else describe_public() if args.mode=='describe-public' else dict(status='PASS_DECLARED_CONTRAST',paths=check_contrast(read(args.left),read(args.right),args.family)) if args.mode=='audit-contrast' else verify_freeze()
     print(json.dumps(result,ensure_ascii=False))
