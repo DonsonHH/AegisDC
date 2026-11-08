@@ -4,7 +4,7 @@
 
 **Blocked by:** 34
 
-**Status:** ready-for-agent
+**Status:** claimed
 
 **Milestone:** M6
 
@@ -19,3 +19,6 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 ## Evidence
 
 Pending implementation and acceptance.
+
+
+Owner `/root`, branch `donson/mainline-36-robustness`, dedicated worktree `C:/Users/Donson/.codex/worktrees/mainline36-robustness/Renly`. Claimed only after the substantive01–35 alignment acceptance and fresh delivery proof. Preparation/source-freeze work only; all16 actual slots remain unrun.

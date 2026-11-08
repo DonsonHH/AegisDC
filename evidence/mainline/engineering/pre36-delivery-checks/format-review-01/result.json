@@ -1,0 +1,593 @@
+{
+  "status": "PASS_NARROW_FORMAT_BYTE_PRESERVATION",
+  "source": "f1b1e19112330e82ff2d987a1ab58df0374c1cc9",
+  "refused_source": "9b14d147d9130fc6277307fe12129527d561fd82",
+  "delivery_manifest_sha256": "5383432b234bdcd80ce6925d46f7ddcc2e27e7ee0a029d8577b8a92594cbd86a",
+  "archives": [
+    {
+      "role": "spec-original",
+      "path": "docs/mainline/audits/20261108-pre36/reviews/spec-original.zip",
+      "sha256": "d3ff96add5bbdac415f1316012bbcdaca3a960e4929e44ec284174e47922d3d3",
+      "bytes": 72046,
+      "refused_bytes": 72044,
+      "original_crlf_pairs": 2,
+      "members": 20,
+      "original_manifest_sha256": "9eed8f9a2133e5a6f03e50c6db3fa47c81ad979dbddc192f9ceedb8cf6d82e83"
+    },
+    {
+      "role": "standards-original",
+      "path": "docs/mainline/audits/20261108-pre36/reviews/standards-original.zip",
+      "sha256": "52e984ac1b882f378833d394dda08e70d146a485a8b1018b3d51ae8ab9071ccf",
+      "bytes": 73587,
+      "refused_bytes": 73586,
+      "original_crlf_pairs": 1,
+      "members": 22,
+      "original_manifest_sha256": "ccff693c4641e2acdd3abbe3f6dfbba5e652c262e9f62c3a116c7ea71488417d"
+    },
+    {
+      "role": "spec-corrections",
+      "path": "docs/mainline/audits/20261108-pre36/reviews/spec-corrections.zip",
+      "sha256": "410eb2bc74d70d1508fc9cd9cec5c19f08dbdfd4a6fbde974c779a4ef40e224a",
+      "bytes": 16974,
+      "refused_bytes": 16974,
+      "original_crlf_pairs": 0,
+      "members": 13,
+      "original_manifest_sha256": "da36d8a84f10833f3a3031883ca1b5ed2ca6a81bc04d76da605409d3e6b99c52"
+    },
+    {
+      "role": "spec-readout",
+      "path": "docs/mainline/audits/20261108-pre36/reviews/spec-readout.zip",
+      "sha256": "12a6503d57d94d1733ced2e30e579b7dbb396d2c4ddabf1dcd80cf93204d48b7",
+      "bytes": 69341,
+      "refused_bytes": 69338,
+      "original_crlf_pairs": 3,
+      "members": 14,
+      "original_manifest_sha256": "3c65c5b32fef5e1e308e1be9de43a20a9c5bcd28f36bb78c6ebf93566c3a730d"
+    },
+    {
+      "role": "standards-corrections",
+      "path": "docs/mainline/audits/20261108-pre36/reviews/standards-corrections.zip",
+      "sha256": "2717d1cfce891b15c416a0ffd76fcd0a3d49740d68b1cab3f86518617bebfdf5",
+      "bytes": 76412,
+      "refused_bytes": 76408,
+      "original_crlf_pairs": 4,
+      "members": 15,
+      "original_manifest_sha256": "a523520c2981e3e7b09cd3d44bb87e25c53a787d0531683b8cb4d95747a3049a"
+    }
+  ],
+  "review_members": 84,
+  "matrix": {
+    "sha256": "34e5040d99d5710d739b3a9c936f43359ca7301ce49fb2ca9c4c5df3c935dfb4",
+    "bytes": 18053,
+    "crlf_pairs": 418
+  },
+  "original_failure_artifacts": [
+    {
+      "path": "evidence/mainline/engineering/pre36-delivery-checks/attempt-01/start.json",
+      "sha256": "a6b1df20fbaa4c5f82659a85876312640be7971743f2d358322665cbf1c488fe",
+      "bytes": 554
+    },
+    {
+      "path": "evidence/mainline/engineering/pre36-delivery-checks/attempt-01/receipt.json",
+      "sha256": "7101d9fd5452caf0df29761292e10b4147be61768489160a0df991d7d60c9cde",
+      "bytes": 159
+    },
+    {
+      "path": "evidence/mainline/engineering/pre36-delivery-checks/attempt-01/stderr.log",
+      "sha256": "b391db62c5f5ebbad2fb2ca21786a325e0a4962fa4a51b1d8b678ac20065e943",
+      "bytes": 714
+    },
+    {
+      "path": "evidence/mainline/engineering/pre36-delivery-checks/attempt-01/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "classification_sha256": "dd904ed577bdaf9aa93faeeccfbccaff26f24bca0aaf09949060cfadebcf4b2d",
+  "checks": [
+    {
+      "label": "pre-staging manifest unchanged; no new hashes substituted",
+      "passed": true
+    },
+    {
+      "label": "fresh verifier unchanged; no hash waiver",
+      "passed": true
+    },
+    {
+      "label": "exactly two path-scoped binary/native-record rules added",
+      "passed": true
+    },
+    {
+      "label": "specific byte-preservation rules follow broad docs text rule",
+      "passed": true
+    },
+    {
+      "label": "no model, test, source, exporter or verifier changes",
+      "passed": true
+    },
+    {
+      "label": "sealed ZIP SHA/size equals unchanged manifest spec-original",
+      "passed": true
+    },
+    {
+      "label": "working sealed ZIP bytes equal corrected Git blob spec-original",
+      "passed": true
+    },
+    {
+      "label": "refused ZIP differs only by broad CRLF normalization spec-original",
+      "passed": true
+    },
+    {
+      "label": "exact unique original ZIP member set spec-original",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/audit.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/audit-attempt-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/commit-log.txt",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/scoped-change-list.txt",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/ticket-matrix.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/ticket-matrix.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/endpoint-status-analysis.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/observations.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/findings.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/receipt.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/source-and-evidence-hashes.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/evidence-index.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/evidence-index-attempt-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/ticket-evidence-index.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/readout-plan-semantic-review.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/followup-evidence.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/followup-attempt-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/followup-observations.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/summary.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-original/manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original review manifest identity retained spec-original",
+      "passed": true
+    },
+    {
+      "label": "sealed ZIP SHA/size equals unchanged manifest standards-original",
+      "passed": true
+    },
+    {
+      "label": "working sealed ZIP bytes equal corrected Git blob standards-original",
+      "passed": true
+    },
+    {
+      "label": "refused ZIP differs only by broad CRLF normalization standards-original",
+      "passed": true
+    },
+    {
+      "label": "exact unique original ZIP member set standards-original",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/audit-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/audit-result.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/audit.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/coverage.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/coverage_builder.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/declared-record-set.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/F01-A02-review-clock.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/F02-secondary-reporting-gap.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/inventory-probe.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/inventory-summary.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/inventory_probe.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/receipt.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/record-probe.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/record_probe.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/seal.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/source-map.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/standards-review.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/supplement-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/supplement-result.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/supplement.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/ticket-coverage.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-original/manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original review manifest identity retained standards-original",
+      "passed": true
+    },
+    {
+      "label": "sealed ZIP SHA/size equals unchanged manifest spec-corrections",
+      "passed": true
+    },
+    {
+      "label": "working sealed ZIP bytes equal corrected Git blob spec-corrections",
+      "passed": true
+    },
+    {
+      "label": "refused ZIP differs only by broad CRLF normalization spec-corrections",
+      "passed": true
+    },
+    {
+      "label": "exact unique original ZIP member set spec-corrections",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/engineering-record-review.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/exporter-correction.diff",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/finalize.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/initial-548-findings.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/manifest-closure-note.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/receipt.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/report.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/review-attempt-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/review-saved.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/source-and-evidence-hashes.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/start.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-corrections/final-manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original review manifest identity retained spec-corrections",
+      "passed": true
+    },
+    {
+      "label": "sealed ZIP SHA/size equals unchanged manifest spec-readout",
+      "passed": true
+    },
+    {
+      "label": "working sealed ZIP bytes equal corrected Git blob spec-readout",
+      "passed": true
+    },
+    {
+      "label": "refused ZIP differs only by broad CRLF normalization spec-readout",
+      "passed": true
+    },
+    {
+      "label": "exact unique original ZIP member set spec-readout",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/finalize-delivery.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/findings.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/historical-cli-and-final-report-static-review.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/independent-readout-facts.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/promised-metric-map.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/receipt.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/report-final.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/report.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/review-output.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/reviewer-prose-correction.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/source-and-input-hashes.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/start.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged spec-readout/final-manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original review manifest identity retained spec-readout",
+      "passed": true
+    },
+    {
+      "label": "sealed ZIP SHA/size equals unchanged manifest standards-corrections",
+      "passed": true
+    },
+    {
+      "label": "working sealed ZIP bytes equal corrected Git blob standards-corrections",
+      "passed": true
+    },
+    {
+      "label": "refused ZIP differs only by broad CRLF normalization standards-corrections",
+      "passed": true
+    },
+    {
+      "label": "exact unique original ZIP member set standards-corrections",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/a02-check-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/a02-report.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/a02-result.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/a02_audit.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/historical-ci-check-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/historical-ci-result.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/historical_ci_audit.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/lookup-notes.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/readout-check-01.log",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/readout-result.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/readout_audit.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/receipt.json",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/seal.py",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/standards-review.md",
+      "passed": true
+    },
+    {
+      "label": "original sealed reviewer member unchanged standards-corrections/manifest.json",
+      "passed": true
+    },
+    {
+      "label": "original review manifest identity retained standards-corrections",
+      "passed": true
+    },
+    {
+      "label": "all five original sealed packets and84 members verified",
+      "passed": true
+    },
+    {
+      "label": "original matrix unchanged manifest SHA/size",
+      "passed": true
+    },
+    {
+      "label": "matrix restored byte-for-byte from original reviewer source",
+      "passed": true
+    },
+    {
+      "label": "matrix change restores original CRLF only",
+      "passed": true
+    },
+    {
+      "label": "original fresh-check start identifies refused delivery commit",
+      "passed": true
+    },
+    {
+      "label": "actual first manifest refusal preserved",
+      "passed": true
+    },
+    {
+      "label": "original refused terminal not relabelled pass",
+      "passed": true
+    },
+    {
+      "label": "additive classification binds exact original refusal",
+      "passed": true
+    },
+    {
+      "label": "format repair declares no project/research execution",
+      "passed": true
+    }
+  ],
+  "check_count": 123,
+  "review_scope": "Raw Git/archive/member/manifest bytes and precise attributes only; models/readout values not re-audited and no fresh-delivery verifier executed by reviewer.",
+  "new_project_calls": {
+    "tests": 0,
+    "plant": 0,
+    "selector": 0,
+    "rng": 0,
+    "nonce": 0,
+    "capture": 0,
+    "project_imports": 0,
+    "tracked_edits": 0
+  }
+}
