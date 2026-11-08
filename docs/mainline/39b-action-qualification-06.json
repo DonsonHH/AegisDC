@@ -1,0 +1,30 @@
+{
+  "schema": "aegisdc-engineering-qualification-protocol-v1",
+  "id": "39b-existing-action-path-qualification-06",
+  "classification": "ENGINEERING_QUALIFICATION_NOT_RESEARCH_TRIAL",
+  "runtime_basis": "0d68903631d3bd787aaa13710ea7e39d81d96bdb",
+  "test": "tests/test_problem_action_qualification.py",
+  "inputs": ["tests/fixtures/39b-network-action-sequence.json", "tests/fixtures/39b-direct-filter-sequence.json"],
+  "maximum_attempts": 1,
+  "attempt": "11-action-path-qualification",
+  "tests": 4,
+  "maximum_facility_calls": 5,
+  "maximum_returned_decisions": 17,
+  "maximum_total_physical_duration_s": 24.5,
+  "maximum_model_calls": 0,
+  "new_statistical_units": 0,
+  "independent_expected": {
+    "direct_filter": "Action0 completes3.25; arrived report3.75 opens recheck; sample5, arrival5.5; Q=sqrt(1/180), residual not nominal. Initial check stays unissued. Work2/travel2/access0.5 person-s, admission16.25 person/tool-s, cost2.",
+    "normal_network": "One actual initial read1; no action or recheck; admission10 person/tool-s and cost1.",
+    "unknown_network": "One unknown/null reading, never substituted with0; no action or recheck; cost1.",
+    "expiry": "Authority expires exactly at completion3: NO_EFFECT, no recheck; delivered11/8 and deficit33/8 in5.5s, cost2.",
+    "no_human": "2s: no issued task, reading, effect or issue cost; deficit1.5s.",
+    "risk_closed": false
+  },
+  "resources": {"cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "retry_policy": "One finite batch. Retain any unexpected failure and partial raw; do not resubmit or relabel as an expected red. A correction requires a separate frozen revision/output.",
+  "durable_outputs": ["attempt/terminal", "test.log", "source/input/tool hashes", "Slurm accounting/stdout/stderr", "five native case traces and summaries", "private raw-file index"],
+  "placement": "Detailed native trajectories remain private remote; only necessary summaries, figures and integrity receipts return locally.",
+  "excludes": ["Runtime caches"],
+  "original_registered_research_runs": 180
+}
