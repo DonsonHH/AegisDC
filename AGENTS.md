@@ -1,5 +1,11 @@
 # AegisDC research execution
 
+## Compute and storage (user requirement, 2026-11-09)
+
+Use the existing remote servers for dependency installation, training, inference, evaluation and large computation. Keep this desktop to editing, SSH, integrity checks, necessary file transfers and viewing results. If a remote service is unavailable, report the blocker and retain inputs; wait for an explicit change of instruction before using local computation.
+
+For server access, environment setup, jobs, result storage or cleanup, read `docs/agents/compute-storage.md`. Cluster work must follow the installed `use-renly-slurm` skill, including live identity/topology/queue discovery and Slurm allocation for computation. Keep detailed outputs and checkpoints on the private server; retrieve necessary figures and summaries. Preserve current directories, uncommitted/unpushed work, unique data and required reproduction evidence. Before deleting a local-only large artifact, verify the remote copy's identity and readability. Remove historical worktrees through normal Git operations; retain uncertain content and record why. These storage rules do not change the research objective or acceptance gates.
+
 For research continuation, read `docs/MAINLINE.md`, then `docs/mainline/progress.json` and the current ticket. Keep the complete-facility objective and its acceptance gates through context changes. A plan, component test, demo, or passing CI is a milestone, not completion of the research goal.
 
 Work the ready frontier in dependency order; the primary current ticket is the earliest ready item. Independent ready tickets may run in parallel within the same mainline, each with one owner/worktree. Record accepted artifacts and their checks before resolving it. Report a negative result as a research result; revise hypotheses through an explicit protocol revision instead of changing the target or reusing sealed outcomes.
