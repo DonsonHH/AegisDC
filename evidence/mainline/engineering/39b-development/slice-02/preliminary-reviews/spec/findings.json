@@ -1,0 +1,51 @@
+{
+  "schema": "aegisdc-bounded-spec-review-v1",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "candidate": "2d236e4742aa0139e6d157423c5d68f0e4e710f1",
+  "status": "PASS_TWO_DEVELOPMENT_SLICES_ONLY",
+  "finding_count": 0,
+  "findings": [],
+  "ticket_39b_accepted": false,
+  "scope_contracts": [
+    "docs/mainline/39b-problem-tasks-contract.md",
+    "docs/mainline/39b-executed-inspection-slice-02.md",
+    "docs/mainline/39b-development-slice-02-v2.json"
+  ],
+  "source_references": [
+    {"path": "src/aegis_dc/problem_tasks.py", "lines": "73-154", "git_blob": "de9bfa73d196f82e1e32731983c1488fb6304081", "review": "Only validated public evidence and history enter trigger matching; origin identity deduplicates copies, slots preserve ordering and explicit capacity deferral."},
+    {"path": "src/aegis_dc/policy_execution.py", "lines": "84-97,118-139", "git_blob": "3b5240329bd2fc9f5071d0e60a022e8cd2ce9d99", "review": "All declared inspection slots enter only the binding catalog. Actual crew program starts with no submissions; only selected public intentions are submitted at the current decision time."},
+    {"path": "src/aegis_dc/policy_execution.py", "lines": "44-46,103-116", "review": "New problem-driven actions/closure are explicitly refused; public frames use arrived ledger snapshots and declared nominal knowledge."},
+    {"path": "src/aegis_dc/inspection_execution.py", "lines": "68-134", "review": "Existing typed actual-crew and current-point gates remain; measurement requires actual completed work and public access remains arrival-filtered."},
+    {"path": "src/aegis_dc/dispatch_policy.py", "lines": "50-67,147-183", "review": "Separate new-schema branch delegates compiled inspection intentions to existing feasibility, occupation and ALREADY_ISSUED rules; legacy schema branches remain."},
+    {"path": "docs/mainline/39b-executed-inspection-slice-02.md", "lines": "3-19", "review": "Finite synthetic engineering timing, expected hydraulic witness and unresolved later gates are explicit. Original two-attempt plan is read with its explicit v2 cumulative three-attempt revision."}
+  ],
+  "saved_record_review": {
+    "execution_source": "fe2dd01dc84f79d39c9049331b9d437b7604b95e",
+    "runtime_test_and_fixture_diff_to_candidate": "No changed paths in src/aegis_dc, the two reviewed test files, 39b fixtures or run_engineering_slice.py",
+    "summary_path": "evidence/mainline/engineering/39b-development/slice-02/05-green-execution-v2/actual-run-summary.json",
+    "summary_git_blob": "a8b19279992f7b8971ec95834f7ff18dfe236f44",
+    "quoted_saved_times_s": {"work_started": 2.25, "sample": 3.25, "arrival": 3.75},
+    "method": "Read saved summary, terminal, source-manifest and fixture revision diff; no recalculation of measurements, costs or trajectories.",
+    "budget_revision": "133111 input-registry failure retained; v2 permits three total facility entries including that failure, followed by133112 expected red and133114 green. No additional three-attempt budget inferred.",
+    "original_registered_trials": "180 unchanged; engineering slices are not new effect-study units",
+    "full_private_trajectory_reaudited": false
+  },
+  "remaining_unvalidated_39b_gates": [
+    "Copied or late claims, new event identities and repeat inspection require public-interface behavior witnesses beyond static reasoning.",
+    "Same public information under different private states requires its own paired privacy behavior witness.",
+    "Representative multiple-domain problems and shared crew/tool/path/authority competition remain incomplete.",
+    "Instance-scoped physical intervention, post-action reinspection and evidence-verified closure remain incomplete."
+  ],
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "models": 0,
+    "physical_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "dependency_installs": 0,
+    "full_source_exports": 0,
+    "new_worktrees": 0,
+    "automated_literal_assertion_scripts": 0
+  }
+}

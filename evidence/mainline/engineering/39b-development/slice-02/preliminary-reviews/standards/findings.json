@@ -1,0 +1,73 @@
+{
+  "schema": "aegisdc-39b-preliminary-standards-v1",
+  "status": "PASS_LIMITED_PRELIMINARY",
+  "base": "047fc6615313fe28137a17eaefcb35d714222753",
+  "candidate": "2d236e4742aa0139e6d157423c5d68f0e4e710f1",
+  "axis": "Standards",
+  "hard_rule_findings": [],
+  "heuristic_smell_findings": [],
+  "diff_command": "git diff 047fc6615313fe28137a17eaefcb35d714222753...2d236e4742aa0139e6d157423c5d68f0e4e710f1 -- src/aegis_dc tests/test_problem_tasks.py tests/test_problem_task_execution.py tests/fixtures/39b* docs/mainline/39b* scripts/run_engineering_slice.py scripts/render_problem_task_evidence.py",
+  "commit_navigation": ["758a39fb", "3a316e11", "58d74be2", "183088c3", "186789cf", "dccd5651", "fe2dd01d", "2d236e47"],
+  "standards_sources": ["AGENTS.md", "docs/agents/compute-storage.md", "docs/agents/domain.md", "docs/agents/issue-tracker.md", "GLOSSARY.md", ".scratch/full-facility-mainline/spec.md", "docs/mainline/39b-problem-tasks-contract.md", "docs/mainline/39b-executed-inspection-slice-02.md"],
+  "additional_standards_discovery": "Pinned Git filename search found no CODING_STANDARDS, CONTRIBUTING or STYLEGUIDE document.",
+  "heuristic_policy": "All12 requested Fowler smells were judgement calls. Existing closed JSON/domain dictionary conventions override introducing unsupported abstraction. No meaningful new smell merits a finding in these finite slices; tooling style was not repeated.",
+  "observations": [
+    {
+      "scope": "Public task generation",
+      "paths": ["src/aegis_dc/problem_tasks.py", "src/aegis_dc/dispatch_policy.py"],
+      "rule": "AGENTS: dispatch receives records available at decision time and declared static knowledge; copied records share provenance. Spec: state/actions/evidence carry identity, time, validity and source.",
+      "review": "New schema is routed after validate_current_frame/plain-JSON checks. Closed fields, SI seconds, bounded templates/instances and registered public trigger coverage are checked. New openings require current undisputed arrived boolean claims. Stable origin/slot history, unknown numeric risk and no fixedTour are explicit. The factory never receives the plant or private truth."
+    },
+    {
+      "scope": "Actual execution and compatibility",
+      "paths": ["src/aegis_dc/policy_execution.py", "tests/test_problem_task_execution.py"],
+      "rule": "AGENTS: actual plant state remains private, personnel are domain actors, local protection persists, public seams retain real behavior.",
+      "review": "Finite inspection slots must exactly equal execution bindings. Slot declaration does not submit work. Actual submission uses workforce.submit and measurement remains in InspectionSession, with reports entering DecisionGateway through the existing arrived-record path. Only the new schema receives question-instance history; old schema candidates and resource-ledger branches retain prior semantics. Problem-driven interventions/closure are refused pending a later contract."
+    },
+    {
+      "scope": "Remote runner and visualization authoring",
+      "paths": ["scripts/run_engineering_slice.py", "scripts/render_problem_task_evidence.py"],
+      "rule": "Compute/storage: Slurm computation, unique named outputs, exact frozen sources/inputs/tools, original outcomes retained. Engineering fixtures prove no research gain.",
+      "review": "Both tools require Slurm and reject the named login node, create unique output paths, retain starts/terminals and guard declared inputs before/after. Runner binds actual execution Git/root/module location and preserves expected-red test errors distinctly. Renderer consumes pinned saved artifacts without importing/rerunning the plant and labels source-row count as nonstatistical. Images were not rendered or visually verified by this reviewer."
+    }
+  ],
+  "failure_and_revision_review": {
+    "original_attempt": "03-red-execution",
+    "original_job": "133111",
+    "original_source": "186789cfd14f6ecf25a04cb2539e3ba4bf2d369a",
+    "original_actual_failure": "Unregistered public restriction channel; the planned candidates refusal was not reached. Original FAILED1:0 and test error are retained.",
+    "before_entry_charge": "attempt.json records charged_facility_calls1 before the test. Original terminal was not rewritten to expected-red.",
+    "v2_budget": "Three total facility-entry attempts including original03, not three additional; the old04-green is explicitly UNRUN_SUPERSEDED_BEFORE_SUBMISSION.",
+    "v2_change": "Blob-to-blob fixture diff adds only declared-it-access-report and it-entry-permitted-reported registry declarations; original fixture remains. No physical/measurement/timing/expected-value change in that diff.",
+    "new_red": "133112, source dccd5651, EXPECTED_RED_CONTRACT_GAP with one saved test error; Slurm0:0 reflects the engineering runner's expected-red classification, not a passing test.",
+    "green": "133114, source fe2dd01dc84f79d39c9049331b9d437b7604b95e, GREEN_BEHAVIOR_PASSED; saved manifest/terminal record before-and-after guards.",
+    "accounting_boundary": "Internal public choice calls remain null, returned_decisions2 is reported separately from the predeclared ceiling, and neither is an independent statistical-unit claim. Original180 research runs remain unchanged by declaration; not recomputed here.",
+    "evidence_root": "evidence/mainline/engineering/39b-development/slice-02/"
+  },
+  "necessary_blob_identities": {
+    "scope": "Three selected execution/source/input members only, compared to the saved green source-manifest and candidate Git objects; not a fresh all-file audit.",
+    "scripts/run_engineering_slice.py": "017a505a57040870e205f4ec5dfcd010c5ef598c",
+    "tests/fixtures/39b-triggered-inspection-v2.json": "6e147dbc4ed1db6b3a305626f9aced17582643ac",
+    "tests/test_problem_task_execution.py": "bf23a68f05945e6be12bb6084e19f641823feff0",
+    "runtime_diff": "git diff --name-only fe2dd01d...2d236e47 -- src/aegis_dc scripts/run_engineering_slice.py tests/test_problem_task_execution.py tests/fixtures/39b-triggered-inspection-v2.json returned empty."
+  },
+  "commands": [
+    "git rev-parse BASE CANDIDATE",
+    "git log BASE..CANDIDATE --oneline",
+    "git diff BASE...CANDIDATE -- <requested paths>; large fixture bodies were not dumped",
+    "git show CANDIDATE:<named standards, source, tests, protocols and necessary attempt/terminal/accounting records>",
+    "git diff CANDIDATE:tests/fixtures/39b-triggered-inspection.json CANDIDATE:tests/fixtures/39b-triggered-inspection-v2.json",
+    "git rev-parse CANDIDATE:<three necessary execution member paths>",
+    "git diff --name-only fe2dd01d...CANDIDATE -- <selected unchanged execution paths>"
+  ],
+  "review_method_lookup_failure_preserved": {
+    "guessed_path": ".scratch/full-facility-mainline/issues/39b-multisystem-problem-task-pool.md",
+    "result": "Read-only Git path lookup failed: path does not exist in the fixed candidate. No project or research attempt occurred.",
+    "correct_path": ".scratch/full-facility-mainline/issues/39b-multisystem-questions-and-tasks.md",
+    "disposition": "Correct path located using pinned Git tree metadata and read. Ticket remains claimed."
+  },
+  "remaining_full_ticket_gates": ["Representative multisystem questions and actual competition", "Same public information under different hidden worlds", "New events, copied/late claims and postcompletion repeat-check identities", "Actual actions and postaction reinspection/closure integration", "Later scoped remote behavior verification and independent acceptance"],
+  "not_claimed": ["39b acceptance", "Research/AI gain", "New independent units", "Field timing/calibration", "Independent recomputation of saved trajectories or metrics", "Actual image/browser QA"],
+  "reviewer_activity": {"project_calls": 0, "tests": 0, "models": 0, "selectors": 0, "physical_runs": 0, "metric_calculations": 0, "renders": 0, "browsers": 0, "installs": 0, "exports": 0, "new_worktrees": 0, "tracked_edits": 0},
+  "conclusion": "PASS for these first two finite Standards slices only; keep39b claimed and continue the declared behavior frontier."
+}
