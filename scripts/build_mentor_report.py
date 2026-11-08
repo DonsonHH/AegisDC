@@ -52,6 +52,7 @@ source_index = {
  'S18': ('信息与处置价值的接口约定','docs/mainline/20-action-value-contract.md'),
  'S19': ('实际在线候选工程见证','docs/mainline/26-root-acceptance.md'),
  'S20': ('三案例资料与来源边界','docs/research/20261104/facility-cases/README.md'),
+ 'S21': ('注册协议的压缩时间与适用范围','docs/mainline/30-comparison-protocol-v1.json'),
 }
 for _, path in source_index.values(): original(path)
 model = load(source_index['S03'][1])
@@ -182,10 +183,11 @@ eq(r'D_H=\int_t^{t+H} [d(u)-s(u)]/d(u)\,du\quad(d(u)>0)',
  'D为归一化服务缺额时间，单位秒；零需求时该时刻贡献为零。它与未交付的服务单位·秒分开报告。','S17')
 figure('numerics')
 head(3,'1.5 参数可查、可调，缺失资料单列','parameters')
-p('完整配置提供每项参数的数值、SI单位、有效范围、依据类别与来源。下表给出理解模型所需的主要工作点；这些数值是合成设定或参考物性推导，现场标定仍待完成。','S03')
-key_params=[('grid_capacity','全设施电输入容量'),('rectifier_capacity','整流容量'),('ups_energy','UPS初始储能'),('ups_output_capacity','UPS输出上限'),('diesel_capacity','柴油机输出容量'),('diesel_initial_fuel_energy','柴油机初始燃料能量'),('compute_demand_power','计算请求功率'),('network_service_capacity','名义网络能力'),('lake_volume_flow','湖侧名义流量'),('internal_volume_flow','内部名义流量'),('lake_hydraulic_resistance','湖侧聚合阻力'),('filter_resistance_multiplier','滤阻倍数'),('inspection_time','基础检查时间')]
+p('完整配置提供每项参数的数值、SI单位、有效范围、依据类别与来源。下表是基准V6配置，给出理解模型所需的主要工作点；这些数值是合成设定或参考物性推导，现场标定仍待完成。注册比较中的时间覆盖在表后另列。','S03')
+key_params=[('grid_capacity','全设施电输入容量'),('rectifier_capacity','整流容量'),('ups_energy','UPS初始储能'),('ups_output_capacity','UPS输出上限'),('diesel_capacity','柴油机输出容量'),('diesel_initial_fuel_energy','柴油机初始燃料能量'),('compute_demand_power','计算请求功率'),('network_service_capacity','名义网络能力'),('lake_volume_flow','湖侧名义流量'),('internal_volume_flow','内部名义流量'),('lake_hydraulic_resistance','湖侧聚合阻力'),('filter_resistance_multiplier','滤阻倍数'),('inspection_time','基准检查时间'),('walk_short','基准短路径时间'),('walk_long','基准长路径时间')]
 param_by_id={r['id']:r for r in model['parameters']}
 table(['参数','数值','单位','依据'],[[label,f"{param_by_id[key]['value']:.9g}",param_by_id[key]['unit'],'参考物性推导' if param_by_id[key]['basis']=='derived_reference' else '合成设定'] for key,label in key_params],None,'S03')
+p('第4章注册比较在各输入里显式覆盖为：检查/专业作业1秒，短/长行走1/2秒；评价窗为10秒。这是用于机制比较的压缩合成时间，与上表30秒检查、60/120秒路径的基准配置分开。人秒结果仅用于这批输入内部比较，不能换算成现场巡检周期或真实节省时长。','S21')
 blocks.append(dict(kind='parameters'))
 
 head(2,'2. 证据与风险层：从已有记录形成待核查问题','evidence')
@@ -219,6 +221,14 @@ eq(r'\mathrm{NetVOI}_j=\min_a E[L(a)\mid I]-E_{Y_j}[\min_a E[L(a)\mid I,Y_j]]-K_
  '<msub><mtext>NetVOI</mtext><mi>j</mi></msub><mo>=</mo><msub><mi>min</mi><mi>a</mi></msub><mi>E</mi><mo>[</mo><mi>L</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>|</mo><mi>I</mi><mo>]</mo><mo>−</mo><msub><mi>E</mi><msub><mi>Y</mi><mi>j</mi></msub></msub><mo>[</mo><msub><mi>min</mi><mi>a</mi></msub><mi>E</mi><mo>[</mo><mi>L</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>|</mo><mi>I</mi><mo>,</mo><msub><mi>Y</mi><mi>j</mi></msub><mo>]</mo><mo>]</mo><mo>−</mo><msub><mi>K</mi><mi>j</mi></msub>',
  '这是同一损失量纲内的检查净价值表达。现有接口分别报告服务、人时、工具时和研究费用的变化，不任意折算相加；每个正支持分支都须满足完整资源承诺。','S15','S18')
 figure('value')
+p('把该已有100秒工程法则展开：缺陷先验q=1/4，检查灵敏度为0.8、假阳性率为0.1。检查占用10秒，阳性后执行20秒处置；阳性报告概率为0.25×0.8＋0.75×0.1=0.275，阳性后缺陷概率为0.2/0.275=8/11。这里展示声明观测法则下的计算，未使用现场校准概率。','S04')
+table(['潜在状态与报告','分支概率','该分支服务缺额','加权缺额'],[
+ ['有缺陷、查阳性','0.25×0.8=0.20','检查10秒＋处置20秒，共30秒','6秒'],
+ ['有缺陷、查阴性','0.25×0.2=0.05','未处置，100秒窗口继续受损','5秒'],
+ ['无该缺陷、查阳性','0.75×0.1=0.075','不必要处置导致20秒缺额','1.5秒'],
+ ['无该缺陷、查阴性','0.75×0.9=0.675','0秒','0秒']
+ ],'四个分支互斥且概率和为1；这是已封存二元有限法则的演算，独立方法比较仍按第4章评价。','S04')
+p('预期服务缺额为0.20×30＋0.05×100＋0.075×20=12.5秒；预期人员占用为10＋0.275×20=15.5人秒。暂缓的预期缺额为0.25×100=25秒，直接处置为20秒。因此本法则中，检查后行动相对直接处置少损失20−12.5=7.5秒，人员占用另记为15.5人秒。','S04')
 table(['故障先验','暂缓：缺额 / 人时','直接处置：缺额 / 人时','检查后按结果行动：缺额 / 人时','该法则下缺额最小的选择'],[
  ['0','0秒 / 0人秒','20秒 / 20人秒','2秒 / 12人秒','暂缓'],
  ['1/4','25秒 / 0人秒','20秒 / 20人秒','12.5秒 / 15.5人秒','检查后行动'],
@@ -253,6 +263,7 @@ table(['阶段','独立工况','方法/视图','实际运行','本报告的用�
  ['主要独立确认','16','6种方法','96次','按冻结主配对、门槛和成本约束评价'],
  ['机制消融','8','4种规划视图','32次','解释非固定线索、依赖后果和团队选项的作用']
  ],'每次评价窗口10秒，共164次、1640秒模拟时间。独立单位是工况，方法轨迹和逐时状态点不增加独立样本数。','S11','S12','S13','S16')
+p('注册输入把专业工作设为1秒、短/长路径设为1/2秒，形成10秒压缩合成评价窗。它们与第1章基准配置、以及第3章100秒有限决策树算例分别定义；本章报告的是固定机制条件下的配对结果，不能直接解释为现场工时或真实运维周期。','S21')
 p('六种方法为仅自动保护、到期检查、FIFO、风险/状态优先改编、一步观察前瞻和证据一致候选。固定主配对为最后两者。不同方法共用初态、外生扰动、观测生成机制和资源权限，后续状态与检查记录允许因实际行动而改变。','S11')
 head(3,'4.2 主确认：平均省下人工，服务改善未达门槛','primary')
 table(['预先规定的判据','16个确认工况的结果','解释'],[
