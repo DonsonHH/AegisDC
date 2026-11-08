@@ -60,6 +60,8 @@ def _begin(folder,stage,source,plan,slots):
     progress=read(ROOT/'docs/mainline/progress.json')
     require(progress['current_ticket']=='36' and progress['research_trials']['robustness']['attempts']==0,
             'Robustness already attempted or wrong mainline frontier')
+    require(progress['research_trials']['attempts']==164 and progress['research_trials']['charged_s']==1640,
+            'Cumulative registered budget before robustness differs')
     require(book['budget']==plan['phases'][PHASE]['budget'] and book['automatic_retries']==0,'Runbook budget differs')
     authorization=read(ROOT/AUTHORIZATION)
     require(authorization['status']=='REVIEWED_TO_EXECUTE' and authorization['execution_lock']==EXECUTION_LOCK

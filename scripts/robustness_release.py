@@ -17,6 +17,7 @@ PACKAGE='evidence/mainline/research/36-robustness'
 PREP=PACKAGE+'/prepared-01'
 EXECUTION_LOCK='docs/mainline/evidence/30-robustness-execution-lock.json'
 AUTHORIZATION='docs/mainline/evidence/36-execution-authorization.json'
+PREPARATION_AUTHORIZATION='docs/mainline/evidence/36-preparation-authorization.json'
 NONCE=Path('C:/Users/Donson/.codex/private-research/AegisDC/30-comparison-v1/robustness.bin')
 
 def head():return git('rev-parse','HEAD').decode().strip()
@@ -121,13 +122,15 @@ def describe_public():
         physical_calls=0,selector_calls=0,admission_calls=0,nonce_reads=0)
 
 def public_audit(output):
-    require(not output.exists(),'Unique public preflight output required')
+    require(output==ROOT/'evidence/mainline/engineering/36-public-admission/preflight-01.json'
+            and not output.exists(),'Use the single declared public preflight output')
     source=head();require(not git('status','--porcelain'),'Pin public admission source before calls')
     pins=preparation_pins(source)
     write(output.with_name(output.stem+'.start.json'),dict(status='STARTED_PUBLIC_PREFLIGHT',source=source,pins=pins))
     rows=[];documents={};calls=0
     result=dict(status='FAILED_PUBLIC_PREFLIGHT',source=source,physical_calls=0,selector_calls=0,nonce_reads=0,registered_research_trials=0)
     try:
+        require(sys.dont_write_bytecode and all(digest((ROOT/n).read_bytes())==h for n,h in pins.items()),'Use -B and exact public preflight working inputs')
         plan,blueprints,_=audit_design();phase=plan['phases']['robustness']
         for world in phase['worlds']:
             doc=compile_world(world,plan,blueprints);documents[world['id']]=doc
@@ -147,9 +150,16 @@ def prepare(source,folder):
     require(head()==source and not git('status','--porcelain'),'Clean exact preparation source required')
     require(folder==ROOT/PREP and not folder.exists(),'Unique original robustness preparation required')
     plan,blueprints,lock=audit_design();phase=plan['phases']['robustness']
-    require(read(ROOT/'docs/mainline/progress.json')['research_trials']['robustness']['attempts']==0,'Robustness already started')
+    progress=read(ROOT/'docs/mainline/progress.json')
+    require(progress['current_ticket']=='36' and progress['research_trials']['robustness']['attempts']==0,'Wrong frontier or robustness already started')
     public=read(ROOT/'evidence/mainline/engineering/36-public-admission/preflight-01.json')
     require(public['status']=='PASS_PUBLIC_ROBUSTNESS_ADMISSION','Public input admission must pass before unsealing')
+    public_start=read(ROOT/'evidence/mainline/engineering/36-public-admission/preflight-01.start.json')
+    require(public_start['source']==public['source'] and public_start['pins']==preparation_pins(public['source'])==preparation_pins(source),
+            'Public admission source/input freeze differs from preparation')
+    approval=read(ROOT/PREPARATION_AUTHORIZATION)
+    require(approval['status']=='REVIEWED_FOR_INPUT_PREPARATION' and approval['source_pins']==preparation_pins(source),
+            'Requires exact independently reviewed preparation source')
     require(sys.dont_write_bytecode and sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),'Use -B and unused cache prefix')
     folder.mkdir(parents=True);(folder/'inputs').mkdir()
     receipt=dict(status='FAILED_INPUT_PREPARATION',source=source,input_hashes={},prepared_inputs=0,assigned_worlds=[],
@@ -157,6 +167,7 @@ def prepare(source,folder):
         pins=preparation_pins(source))
     append(folder/'attempts.jsonl',dict(status='STARTED_INPUT_PREPARATION',source=source,expected_inputs=16))
     try:
+        require(all(digest((ROOT/n).read_bytes())==h for n,h in receipt['pins'].items()),'Preparation working source/input differs before nonce')
         nonce=_read_nonce(NONCE,lock['commitments_sha256']['robustness']);receipt['nonce_reads']=1
         namespace=plan['seed_policy']['namespaces']['robustness']
         for world in phase['worlds']:
@@ -165,7 +176,7 @@ def prepare(source,folder):
             program['sensor_program']['realization']['seed']=observation_seed(nonce,plan['id'],namespace,world['comparison'],'fixed')>>64
             directory=folder/'inputs'/world['id'];directory.mkdir()
             for arm in phase['arms']:
-                item=deepcopy(doc);_apply_method(item['dispatch_program'],arm);_admit(item,arm);receipt['finite_admission_calls']+=1
+                item=deepcopy(doc);_apply_method(item['dispatch_program'],arm);receipt['finite_admission_calls']+=1;_admit(item,arm)
                 raw=(json.dumps(item,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode()
                 name=world['id']+'/'+arm+'.json';write(directory/(arm+'.json'),raw)
                 receipt['input_hashes'][name]=digest(raw);receipt['prepared_inputs']+=1
