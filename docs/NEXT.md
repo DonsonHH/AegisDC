@@ -1,5 +1,7 @@
 # 当前交付：38后阅读检查点，下一项39尚未运行
 
+2026年11月9日，[站内第三项目](https://lab.donson.top/liquid-cooling/)已同步为最新会后报告，增加4张既有工程图，共12图；Datapath/ISA及HTTPS原字节保留。[39–42计划](mainline/39-42-plan-20261108.md)只提出单因素、预算和依赖草案，未冻结且未试验。按用户“先看再决定”的安排，当前等待页面审阅，不启动新增模型或设施运行。[发布核验](mainline/evidence/lab-publication-20261109.json)。
+
 [会后研究报告](../paper/mainline-report-20261108/report.md)与[离线HTML](../paper/mainline-report-20261108/AegisDC-会后研究报告.html)已接受。01–35实质审计及修正、36稳健性和37报告构成已接受的M6有限基线研究：180次原定运行完成，主要负结果和未测范围保持。
 
 38的[修订资格判断](mainline/38-eligibility-audit-v2.md)已接受：结构化决策求解器替换可以独立比较，原NOT_ELIGIBLE提案撤回且原审查记录保留。39保持ready、实验未运行，须先冻结新因素、完整成本与失败预算及新的独立确认条件；不按资格门槛延期。语言理解、任务发现和RSI过程尚未操作化，各增量效果均未测。
