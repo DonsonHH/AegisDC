@@ -24,6 +24,7 @@ def head():return git('rev-parse','HEAD').decode().strip()
 
 def preparation_pins(source):
     return hashes(source,_execution_files(source)|{EXTENSION,LOCK,PROTOCOL,
+        'docs/mainline/36-public-contract-correction-01.json','docs/mainline/36-robustness-execution.json',
         'docs/mainline/evidence/pre36-alignment.json','docs/mainline/evidence/34-root.json','docs/mainline/evidence/35-root.json',
         'evidence/mainline/engineering/26-candidate/reference/online-baseline-inspect.json',
         'evidence/mainline/engineering/23-interventions/reference/network-full.json'})
@@ -158,13 +159,15 @@ def prepare(source,folder):
     require(public_start['source']==public['source'] and public_start['pins']==preparation_pins(public['source'])==preparation_pins(source),
             'Public admission source/input freeze differs from preparation')
     approval=read(ROOT/PREPARATION_AUTHORIZATION)
-    require(approval['status']=='REVIEWED_FOR_INPUT_PREPARATION' and approval['source_pins']==preparation_pins(source),
+    require(approval['status']=='REVIEWED_FOR_INPUT_PREPARATION' and approval['source_pins']==preparation_pins(source)
+            and approval['public_preflight_sha256']==digest((ROOT/'evidence/mainline/engineering/36-public-admission/preflight-01.json').read_bytes())
+            and (ROOT/PREPARATION_AUTHORIZATION).read_bytes()==git('cat-file','blob',source+':'+PREPARATION_AUTHORIZATION),
             'Requires exact independently reviewed preparation source')
     require(sys.dont_write_bytecode and sys.pycache_prefix is not None and not Path(sys.pycache_prefix).exists(),'Use -B and unused cache prefix')
     folder.mkdir(parents=True);(folder/'inputs').mkdir()
     receipt=dict(status='FAILED_INPUT_PREPARATION',source=source,input_hashes={},prepared_inputs=0,assigned_worlds=[],
         physical_calls=0,selector_calls=0,finite_admission_calls=0,nonce_reads=0,registered_research_trials=0,
-        pins=preparation_pins(source))
+        pins=dict(preparation_pins(source),**{PREPARATION_AUTHORIZATION:digest((ROOT/PREPARATION_AUTHORIZATION).read_bytes())}))
     append(folder/'attempts.jsonl',dict(status='STARTED_INPUT_PREPARATION',source=source,expected_inputs=16))
     try:
         require(all(digest((ROOT/n).read_bytes())==h for n,h in receipt['pins'].items()),'Preparation working source/input differs before nonce')
