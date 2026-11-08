@@ -688,7 +688,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None, dispatch_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None, dispatch_program=None, business_program=None):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -704,6 +704,9 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         low, high = p_records[name]['valid_range']
         if not low <= value <= high:
             raise ValueError(name + ' outside declared runtime range')
+    if business_program is not None:
+        from .business_endpoints import validate_business_program
+        business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program)
     timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
                                     control_profile=scenario['runtime'].get('local_control_profile'),
                                     reserve_profile=scenario['runtime'].get('reserve_profile'))
@@ -844,7 +847,7 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                                            for name in balances[0]['capacity_slack_W']}
     summary['work_rejections'] = {reason: sum(row.get('reason') == reason for row in workforce.records)
                                   for reason in sorted({row['reason'] for row in workforce.records if row['status'] == 'rejected'})}
-    return {'schema': 'aegisdc-engineering-facility-run-v1', 'status': 'ENGINEERING_FIXTURE_COMPLETED',
+    result = {'schema': 'aegisdc-engineering-facility-run-v1', 'status': 'ENGINEERING_FIXTURE_COMPLETED',
             'basis': scenario['basis'], 'facility_id': scenario['id'], 'engineering_fixture': True,
             'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'PUBLIC_SELECTION_WITH_PRIVATE_EXECUTION' if dispatch is not None else 'DISABLED_FOR_THIS_RUN',
             'field_calibration': 'PENDING', 'research_gain_claim': 'NOT_ESTABLISHED',
@@ -866,11 +869,16 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             **({'policy_sensor_private_audit': deepcopy(dispatch.sensors.audit)} if dispatch is not None and dispatch.sensors is not None else {}),
             'inputs': {'duration_s': duration, 'maximum_step_s': step, 'work_requests': [] if work_program is not None else workforce.requests,
                        **({'dispatch_program': deepcopy(dispatch_program)} if dispatch is not None else {}),
+                       **({'business_program': deepcopy(business_program)} if business_program is not None else {}),
                        **({'work_program': deepcopy(work_program)} if work_program is not None else {}),
                        **({'inspection_program': deepcopy(inspection_program)} if inspections is not None else {}),
                        **({'intervention_program': deepcopy(intervention_program)} if interventions is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
+    if business_program is not None:
+        from .business_endpoints import evaluate_business_closure
+        result['business_evaluation'] = evaluate_business_closure(result, business_program)
+    return result
 
 
 def describe_run(result):
