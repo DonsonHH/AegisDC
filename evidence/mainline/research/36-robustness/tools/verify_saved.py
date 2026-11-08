@@ -53,6 +53,9 @@ def verify(output):
     assert sha(Path(sys.executable).read_bytes())==lock['interpreter_sha256']
     capture=ROOT/PACKAGE/'capture-01';receipt=read(capture/'receipt.json');batch=read(capture/'batch.json')
     assert receipt['status']=='PASS' and receipt['source_unchanged'] and batch['execution_commit']==EXECUTION
+    assert batch['pins']==blob_hashes(EXECUTION,batch['pins'])
+    preparation=read(ROOT/PACKAGE/'prepared-01/receipt.json')
+    assert preparation['pins']==blob_hashes(preparation['source'],preparation['pins'])
     assert receipt['total']==dict(started=16,completed=16,failed=0,interrupted=0,unrun=0,charged_simulated_s=160,charged_scheduled_decisions=160,returned_decisions=160)
     for n,h in receipt['artifacts'].items():assert sha((capture/n).read_bytes())==h
     journal=[json.loads(line) for line in (capture/'attempts.jsonl').read_bytes().splitlines()]
@@ -67,7 +70,9 @@ def verify(output):
             assert set(z.namelist())==set(original['members']) and len(z.namelist())==4
             raw={n:z.read(n) for n in z.namelist()}
             for n,h in original['members'].items():assert sha(raw[n])==h;members+=1
-        native=json.loads(raw['run.json']);expected=read(ROOT/PACKAGE/'prepared-01/inputs'/slot['input_member'])
+        native=json.loads(raw['run.json']);input_path=ROOT/PACKAGE/'prepared-01/inputs'/slot['input_member']
+        assert sha(input_path.read_bytes())==lock['input_hashes'][slot['input_member']]
+        expected=read(input_path)
         assert json.loads(raw['scenario.json'])==expected['model'] and native['inputs']['dispatch_program']==expected['dispatch_program']
         assert native['code_identity']['git_commit']==EXECUTION and native['code_identity']['implementation_has_changes'] is False
         assert all(pins[n]==h for n,h in native['code_identity']['files'].items())
