@@ -1,0 +1,28 @@
+{
+  "schema": "aegisdc-engineering-red-green-protocol-v1",
+  "id": "39b-public-applied-contradiction-guard-07",
+  "classification": "ENGINEERING_CORRECTION_NOT_RESEARCH_TRIAL",
+  "review_finding": "Independent Spec P2 atb8cadb93: an APPLIED report can contradict the declared completion-time authorization or terminal work status.",
+  "contract": "docs/mainline/39b-action-sequence-contract-v2.md",
+  "test": "tests/test_problem_feedback_guard.py",
+  "input": "tests/fixtures/39b-feedback-contradictions.json",
+  "input_origin": "Arrived public history/measurement of the preserved06 expiry witness, Slurm133132. Only the specified contradiction fields are changed; no original edited or new physical run.",
+  "maximum_attempts": 2,
+  "sequence": [
+    {"attempt": "12-red-feedback-guard", "expected": "Both contradictory reports are accepted, so APPLIED contradiction guards assertion fails"},
+    {"attempt": "13-green-feedback-guard", "expected": "The unchanged two public contradictions are refused, with authorization/completion reasons"}
+  ],
+  "maximum_direct_public_choice_calls_per_attempt": 2,
+  "maximum_facility_calls": 0,
+  "maximum_model_calls": 0,
+  "new_statistical_units": 0,
+  "independent_expected": [
+    "Grant ends at3 and APPLIED observed3 must be refused: authority is [start,end).",
+    "Grant extended to10 but same-task arrived workforce terminal says aborted: APPLIED completion must be refused."
+  ],
+  "resources": {"cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "retry_policy": "No automatic retry. Preserve the original review, red and all unexpected failures; subsequent revision must have a new frozen identity.",
+  "durable_outputs": ["attempt/terminal", "source-input-tool hashes", "test.log", "public-refusal-summary.json", "Slurm logs/accounting"],
+  "excludes": ["Runtime caches"],
+  "original_registered_research_runs": 180
+}

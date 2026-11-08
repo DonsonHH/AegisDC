@@ -1,0 +1,841 @@
+{
+  "classification": "PRIVATE_EVALUATOR_FINITE_ENGINEERING_QUALIFICATION",
+  "case_id": "normal-network",
+  "code_identity": {
+    "git_commit": "b8cadb936ab2da8efbc12616e057dc78ef59d0b0",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "6477c2f58b917632d5b8e7992cceaa9ed4b1d993c93c5cb52813630ea85e09bc",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+      "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+      "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+      "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+      "src/aegis_dc/dispatch_policy.py": "fe33a1ccea6115370259edab7420fe0aa19adc346e1bdf944ad88547d97bb6f7",
+      "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+      "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+      "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+      "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+      "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+      "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+      "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+      "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+      "src/aegis_dc/nonfixed_evidence.py": "09c601b61527cfaa46782a4cac7b8ef99f7c8121bc43980c021be3df4696ca17",
+      "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+      "src/aegis_dc/plant.py": "4d3bba9649a6ed4baef8c506db8a36170a5d41f4f6b3957c3e8cc2fcbcc7c9a9",
+      "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+      "src/aegis_dc/policy_execution.py": "b2bed0f30121cc5356055f64a7f93faf45bcc214206faace3842fd6aa00af39e",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+      "src/aegis_dc/problem_actions.py": "a1f34bf7c4fafe1a203737fa7e9c0951cec46a032aa57b497b5d6862b8af91b4",
+      "src/aegis_dc/problem_tasks.py": "f24f5a83ee9ea55424ab05ce22d4b0cbafe9f37e4dc8a00752d3128235f0c7ef",
+      "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+      "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+      "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+      "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+      "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+      "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+      "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+      "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+      "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+      "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "work_records": [
+    {
+      "id": "network-case/inspect-0",
+      "work_interface_id": "inspect_it_service",
+      "target_id": "network",
+      "crew": [
+        {
+          "worker_id": "worker_it",
+          "qualification_id": "qualified_it_inspection"
+        }
+      ],
+      "tool_carrier_id": "worker_it",
+      "deadline_s": 10,
+      "source_note": "Declared professional investigation; no physical repair effect.",
+      "issued_at_s": 0.0,
+      "accepted": true,
+      "status": "completed",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "network-case/inspect-0",
+        "as_of_s": 0.0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "effect": "ENGINEERING_WORK_RECORD_ONLY_NO_REPAIR_OR_EVIDENCE",
+      "started_at_s": 0.0,
+      "planned_work_start_s": 0.25,
+      "scheduled_completion_at_s": 1.25,
+      "paths": {
+        "worker_it": [
+          {
+            "from_id": "loc_it",
+            "to_id": "loc_it",
+            "departs_at_s": 0.0,
+            "gate_at_s": 0.0,
+            "arrives_at_s": 0.25
+          }
+        ]
+      },
+      "queue_wait_s": 0.0,
+      "work_started_at_s": 0.25,
+      "arrived_at_s": 0.25,
+      "finished_at_s": 1.25,
+      "completed_at_s": 1.25
+    }
+  ],
+  "summary": {
+    "boundary_input_J": 12677348.81401671,
+    "boundary_output_J": 9371150.792901311,
+    "grid_energy_J": 12677348.81401671,
+    "lake_heat_J": 8413318.988777598,
+    "room_heat_J": 957776.8041237115,
+    "ups_output_energy_J": 0.0,
+    "ups_loss_energy_J": 0.0,
+    "generator_output_energy_J": 0.0,
+    "generator_waste_energy_J": 0.0,
+    "floor_water_inlet_mass_kg": 0.0,
+    "floor_water_drained_mass_kg": 0.0,
+    "floor_inlet_energy_J": 0.0,
+    "floor_drain_energy_J": 0.0,
+    "worker_travel_person_s": 0.0,
+    "worker_work_person_s": 1.0,
+    "tool_occupation_tool_s": 1.25,
+    "demand_service_unit_s": 5.5,
+    "delivered_service_unit_s": 5.5,
+    "service_deficit_time_s": 0.0,
+    "internal_hot_leaked_mass_kg": 0.0,
+    "internal_hot_leak_energy_J": 0.0,
+    "worker_wait_person_s": 0.25,
+    "access_check_person_s": 0.25,
+    "rendezvous_wait_person_s": 0.0,
+    "queue_wait_person_s": 0.0,
+    "tool_work_tool_s": 1.0,
+    "starter_output_energy_J": 0.0,
+    "backup_water_heat_J": 0.0,
+    "reserve_external_electric_heat_J": 55.0,
+    "reserve_room_control_heat_J": 550.0,
+    "backup_fan_energy_J": 0.0,
+    "duration_s": 5.5,
+    "integration_steps": 555,
+    "initial_stored_energy_J": 29279777887.74015,
+    "final_stored_energy_J": 29283084085.76126,
+    "whole_run_energy_residual_J": -4.863366484642029e-06,
+    "max_energy_residual_J": 5.229076123214327e-06,
+    "max_mass_residual_kg": 4.547473508864641e-13,
+    "minimum_capacity_slack_W": {
+      "grid": 7695027.488360599,
+      "switchboard": 7695027.488360599,
+      "rectifier": 2731958.762886598,
+      "generator": 4000000.0,
+      "ups": 0.0
+    },
+    "work_rejections": {}
+  },
+  "inspection_records": [
+    {
+      "id": "it-capacity-before",
+      "source_id": "a-it-desk-professional-meter",
+      "target_id": "network",
+      "observable_id": "network_capacity",
+      "unit": "1",
+      "value": 1,
+      "observed_at_s": 1.25,
+      "arrived_at_s": 1.75,
+      "valid_until_s": 6.25,
+      "quality": {
+        "status": "bounded",
+        "error_bound": 0,
+        "note": "Zero-error named engineering witness, not field accuracy."
+      },
+      "provenance": {
+        "origin_id": "it-capacity-before",
+        "copied_from_record_id": null
+      },
+      "age_s": 4.25,
+      "availability": "current"
+    }
+  ],
+  "intervention_feedback": [],
+  "resource_ledger": {
+    "spent_or_reserved": {
+      "person_s": 10,
+      "tool_s": 10,
+      "cost": 1
+    },
+    "remaining": {
+      "person_s": 20,
+      "tool_s": 20,
+      "cost": 2
+    },
+    "cost_unit": "declared_research_cost",
+    "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+    "terminal_report_refund": false,
+    "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+  },
+  "decisions": [
+    {
+      "as_of_s": 0.0,
+      "history": {
+        "issued": [],
+        "work_feedback": [],
+        "question_instances": [],
+        "intervention_feedback": []
+      },
+      "choice": {
+        "schema": "aegisdc-policy-choice-v1",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "as_of_s": 0.0,
+        "policy": "fifo",
+        "chosen_candidate_id": "network-case/inspect-0",
+        "work_intention": {
+          "id": "network-case/inspect-0",
+          "work_interface_id": "inspect_it_service",
+          "target_id": "network",
+          "crew": [
+            {
+              "worker_id": "worker_it",
+              "qualification_id": "qualified_it_inspection"
+            }
+          ],
+          "tool_carrier_id": "worker_it",
+          "deadline_s": 10,
+          "source_note": "Declared professional investigation; no physical repair effect."
+        },
+        "reason": "FIFO_EARLIEST_AVAILABLE",
+        "candidates": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "task_id": "network-case/inspect-0",
+            "question_id": "network-case/question-0",
+            "eligible": true,
+            "reasons": [],
+            "available_at_s": 0.0,
+            "kind": "inspect",
+            "public_assessment": {
+              "schema": "aegisdc-work-intention-assessment-v1",
+              "task_id": "network-case/inspect-0",
+              "as_of_s": 0.0,
+              "legal_for_planning": true,
+              "public_reasons": [],
+              "considered_record_ids": [],
+              "execution_permission": false,
+              "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+              "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+            },
+            "declared_resource_reservation": {
+              "person_s": 10,
+              "tool_s": 10,
+              "cost": 1
+            }
+          }
+        ],
+        "generated_tour": false,
+        "execution_permission": false,
+        "scope": "PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED",
+        "resource_ledger": {
+          "spent_or_reserved": {
+            "person_s": 0,
+            "tool_s": 0,
+            "cost": 0
+          },
+          "remaining": {
+            "person_s": 30,
+            "tool_s": 30,
+            "cost": 3
+          },
+          "cost_unit": "declared_research_cost",
+          "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+          "terminal_report_refund": false,
+          "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+        },
+        "model_evaluations": {
+          "risk": 0,
+          "action_value": 0
+        },
+        "unmodeled_question_ids": [],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "questions": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0,
+            "catalog_question_id": "it-dependence",
+            "domain_ids": [
+              "it_service",
+              "power"
+            ],
+            "status": "OPEN_UNCONFIRMED",
+            "quantification": "UNMODELED_IN_THIS_FACTORY",
+            "fault_probability": null,
+            "expected_service_deficit_time_s": null,
+            "time_unit": "s",
+            "service_context": {
+              "classification": "STATIC_FUNCTIONAL_PATHS_NOT_AVAILABLE_CAPACITY",
+              "target_id": "network",
+              "paths": [
+                {
+                  "service_id": "critical_service",
+                  "edge_ids": [
+                    "f13"
+                  ]
+                }
+              ],
+              "missing_path_is_not_zero_risk": true
+            },
+            "scope": "PUBLIC_INSTANCE_WORKFLOW_NOT_ROOT_CAUSE_OR_VERIFIED_RISK_CLOSURE",
+            "workflow_status": "OPEN_UNCONFIRMED",
+            "risk_closed": false
+          }
+        ],
+        "deferred_triggers": [],
+        "stage_gates": [
+          {
+            "task_id": "network-case/inspect-0",
+            "stage": "inspect",
+            "prerequisites_met": true,
+            "already_issued": false
+          },
+          {
+            "task_id": "network-case/action-0",
+            "stage": "action",
+            "prerequisites_met": false,
+            "already_issued": false
+          },
+          {
+            "task_id": "network-case/recheck-0",
+            "stage": "recheck",
+            "prerequisites_met": false,
+            "already_issued": false
+          }
+        ],
+        "task_generation_scope": "PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN"
+      }
+    },
+    {
+      "as_of_s": 1.75,
+      "history": {
+        "issued": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "issued_at_s": 0.0
+          }
+        ],
+        "work_feedback": [
+          {
+            "task_id": "network-case/inspect-0",
+            "source_id": "workforce-execution-report",
+            "observed_at_s": 1.25,
+            "arrived_at_s": 1.75,
+            "status": "completed",
+            "reason": null,
+            "location_id": "loc_it",
+            "origin_id": "workforce:network-case/inspect-0",
+            "coverage": "THIS_ISSUED_TASK_ONLY",
+            "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+          }
+        ],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "intervention_feedback": []
+      },
+      "choice": {
+        "schema": "aegisdc-policy-choice-v1",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "as_of_s": 1.75,
+        "policy": "fifo",
+        "chosen_candidate_id": null,
+        "work_intention": null,
+        "reason": "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+        "candidates": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "task_id": "network-case/inspect-0",
+            "question_id": "network-case/question-0",
+            "eligible": false,
+            "reasons": [
+              "ALREADY_ISSUED"
+            ],
+            "available_at_s": 0.0,
+            "kind": "inspect",
+            "public_assessment": {
+              "schema": "aegisdc-work-intention-assessment-v1",
+              "task_id": "network-case/inspect-0",
+              "as_of_s": 1.75,
+              "legal_for_planning": true,
+              "public_reasons": [],
+              "considered_record_ids": [],
+              "execution_permission": false,
+              "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+              "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+            },
+            "declared_resource_reservation": {
+              "person_s": 10,
+              "tool_s": 10,
+              "cost": 1
+            }
+          }
+        ],
+        "generated_tour": false,
+        "execution_permission": false,
+        "scope": "PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED",
+        "resource_ledger": {
+          "spent_or_reserved": {
+            "person_s": 10,
+            "tool_s": 10,
+            "cost": 1
+          },
+          "remaining": {
+            "person_s": 20,
+            "tool_s": 20,
+            "cost": 2
+          },
+          "cost_unit": "declared_research_cost",
+          "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+          "terminal_report_refund": false,
+          "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+        },
+        "model_evaluations": {
+          "risk": 0,
+          "action_value": 0
+        },
+        "unmodeled_question_ids": [],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "questions": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0,
+            "catalog_question_id": "it-dependence",
+            "domain_ids": [
+              "it_service",
+              "power"
+            ],
+            "status": "OPEN_UNCONFIRMED",
+            "quantification": "UNMODELED_IN_THIS_FACTORY",
+            "fault_probability": null,
+            "expected_service_deficit_time_s": null,
+            "time_unit": "s",
+            "service_context": {
+              "classification": "STATIC_FUNCTIONAL_PATHS_NOT_AVAILABLE_CAPACITY",
+              "target_id": "network",
+              "paths": [
+                {
+                  "service_id": "critical_service",
+                  "edge_ids": [
+                    "f13"
+                  ]
+                }
+              ],
+              "missing_path_is_not_zero_risk": true
+            },
+            "scope": "PUBLIC_INSTANCE_WORKFLOW_NOT_ROOT_CAUSE_OR_VERIFIED_RISK_CLOSURE",
+            "workflow_status": "OBSERVATION_REPORTED_UNCLOSED",
+            "risk_closed": false
+          }
+        ],
+        "deferred_triggers": [],
+        "stage_gates": [
+          {
+            "task_id": "network-case/inspect-0",
+            "stage": "inspect",
+            "prerequisites_met": true,
+            "already_issued": true
+          },
+          {
+            "task_id": "network-case/action-0",
+            "stage": "action",
+            "prerequisites_met": false,
+            "already_issued": false
+          },
+          {
+            "task_id": "network-case/recheck-0",
+            "stage": "recheck",
+            "prerequisites_met": false,
+            "already_issued": false
+          }
+        ],
+        "task_generation_scope": "PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN"
+      }
+    },
+    {
+      "as_of_s": 3.5,
+      "history": {
+        "issued": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "issued_at_s": 0.0
+          }
+        ],
+        "work_feedback": [
+          {
+            "task_id": "network-case/inspect-0",
+            "source_id": "workforce-execution-report",
+            "observed_at_s": 1.25,
+            "arrived_at_s": 1.75,
+            "status": "completed",
+            "reason": null,
+            "location_id": "loc_it",
+            "origin_id": "workforce:network-case/inspect-0",
+            "coverage": "THIS_ISSUED_TASK_ONLY",
+            "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+          }
+        ],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "intervention_feedback": []
+      },
+      "choice": {
+        "schema": "aegisdc-policy-choice-v1",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "as_of_s": 3.5,
+        "policy": "fifo",
+        "chosen_candidate_id": null,
+        "work_intention": null,
+        "reason": "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+        "candidates": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "task_id": "network-case/inspect-0",
+            "question_id": "network-case/question-0",
+            "eligible": false,
+            "reasons": [
+              "ALREADY_ISSUED"
+            ],
+            "available_at_s": 0.0,
+            "kind": "inspect",
+            "public_assessment": {
+              "schema": "aegisdc-work-intention-assessment-v1",
+              "task_id": "network-case/inspect-0",
+              "as_of_s": 3.5,
+              "legal_for_planning": true,
+              "public_reasons": [],
+              "considered_record_ids": [],
+              "execution_permission": false,
+              "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+              "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+            },
+            "declared_resource_reservation": {
+              "person_s": 10,
+              "tool_s": 10,
+              "cost": 1
+            }
+          }
+        ],
+        "generated_tour": false,
+        "execution_permission": false,
+        "scope": "PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED",
+        "resource_ledger": {
+          "spent_or_reserved": {
+            "person_s": 10,
+            "tool_s": 10,
+            "cost": 1
+          },
+          "remaining": {
+            "person_s": 20,
+            "tool_s": 20,
+            "cost": 2
+          },
+          "cost_unit": "declared_research_cost",
+          "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+          "terminal_report_refund": false,
+          "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+        },
+        "model_evaluations": {
+          "risk": 0,
+          "action_value": 0
+        },
+        "unmodeled_question_ids": [],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "questions": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0,
+            "catalog_question_id": "it-dependence",
+            "domain_ids": [
+              "it_service",
+              "power"
+            ],
+            "status": "OPEN_UNCONFIRMED",
+            "quantification": "UNMODELED_IN_THIS_FACTORY",
+            "fault_probability": null,
+            "expected_service_deficit_time_s": null,
+            "time_unit": "s",
+            "service_context": {
+              "classification": "STATIC_FUNCTIONAL_PATHS_NOT_AVAILABLE_CAPACITY",
+              "target_id": "network",
+              "paths": [
+                {
+                  "service_id": "critical_service",
+                  "edge_ids": [
+                    "f13"
+                  ]
+                }
+              ],
+              "missing_path_is_not_zero_risk": true
+            },
+            "scope": "PUBLIC_INSTANCE_WORKFLOW_NOT_ROOT_CAUSE_OR_VERIFIED_RISK_CLOSURE",
+            "workflow_status": "OBSERVATION_REPORTED_UNCLOSED",
+            "risk_closed": false
+          }
+        ],
+        "deferred_triggers": [],
+        "stage_gates": [
+          {
+            "task_id": "network-case/inspect-0",
+            "stage": "inspect",
+            "prerequisites_met": true,
+            "already_issued": true
+          },
+          {
+            "task_id": "network-case/action-0",
+            "stage": "action",
+            "prerequisites_met": false,
+            "already_issued": false
+          },
+          {
+            "task_id": "network-case/recheck-0",
+            "stage": "recheck",
+            "prerequisites_met": false,
+            "already_issued": false
+          }
+        ],
+        "task_generation_scope": "PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN"
+      }
+    },
+    {
+      "as_of_s": 5.5,
+      "history": {
+        "issued": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "issued_at_s": 0.0
+          }
+        ],
+        "work_feedback": [
+          {
+            "task_id": "network-case/inspect-0",
+            "source_id": "workforce-execution-report",
+            "observed_at_s": 1.25,
+            "arrived_at_s": 1.75,
+            "status": "completed",
+            "reason": null,
+            "location_id": "loc_it",
+            "origin_id": "workforce:network-case/inspect-0",
+            "coverage": "THIS_ISSUED_TASK_ONLY",
+            "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+          }
+        ],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "intervention_feedback": []
+      },
+      "choice": {
+        "schema": "aegisdc-policy-choice-v1",
+        "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+        "as_of_s": 5.5,
+        "policy": "fifo",
+        "chosen_candidate_id": null,
+        "work_intention": null,
+        "reason": "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+        "candidates": [
+          {
+            "candidate_id": "network-case/inspect-0",
+            "task_id": "network-case/inspect-0",
+            "question_id": "network-case/question-0",
+            "eligible": false,
+            "reasons": [
+              "ALREADY_ISSUED"
+            ],
+            "available_at_s": 0.0,
+            "kind": "inspect",
+            "public_assessment": {
+              "schema": "aegisdc-work-intention-assessment-v1",
+              "task_id": "network-case/inspect-0",
+              "as_of_s": 5.5,
+              "legal_for_planning": true,
+              "public_reasons": [],
+              "considered_record_ids": [],
+              "execution_permission": false,
+              "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+              "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+            },
+            "declared_resource_reservation": {
+              "person_s": 10,
+              "tool_s": 10,
+              "cost": 1
+            }
+          }
+        ],
+        "generated_tour": false,
+        "execution_permission": false,
+        "scope": "PUBLIC_SELECTION_ONLY_ACTUAL_EXECUTOR_GATE_REQUIRED",
+        "resource_ledger": {
+          "spent_or_reserved": {
+            "person_s": 10,
+            "tool_s": 10,
+            "cost": 1
+          },
+          "remaining": {
+            "person_s": 20,
+            "tool_s": 20,
+            "cost": 2
+          },
+          "cost_unit": "declared_research_cost",
+          "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+          "terminal_report_refund": false,
+          "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+        },
+        "model_evaluations": {
+          "risk": 0,
+          "action_value": 0
+        },
+        "unmodeled_question_ids": [],
+        "question_instances": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0
+          }
+        ],
+        "questions": [
+          {
+            "id": "network-case/question-0",
+            "template_id": "network-case",
+            "slot": 0,
+            "origin_id": "a-it-desk-case",
+            "trigger_record_id": "a-it-desk-claim",
+            "opened_at_s": 0.0,
+            "catalog_question_id": "it-dependence",
+            "domain_ids": [
+              "it_service",
+              "power"
+            ],
+            "status": "OPEN_UNCONFIRMED",
+            "quantification": "UNMODELED_IN_THIS_FACTORY",
+            "fault_probability": null,
+            "expected_service_deficit_time_s": null,
+            "time_unit": "s",
+            "service_context": {
+              "classification": "STATIC_FUNCTIONAL_PATHS_NOT_AVAILABLE_CAPACITY",
+              "target_id": "network",
+              "paths": [
+                {
+                  "service_id": "critical_service",
+                  "edge_ids": [
+                    "f13"
+                  ]
+                }
+              ],
+              "missing_path_is_not_zero_risk": true
+            },
+            "scope": "PUBLIC_INSTANCE_WORKFLOW_NOT_ROOT_CAUSE_OR_VERIFIED_RISK_CLOSURE",
+            "workflow_status": "OBSERVATION_REPORTED_UNCLOSED",
+            "risk_closed": false
+          }
+        ],
+        "deferred_triggers": [],
+        "stage_gates": [
+          {
+            "task_id": "network-case/inspect-0",
+            "stage": "inspect",
+            "prerequisites_met": true,
+            "already_issued": true
+          },
+          {
+            "task_id": "network-case/action-0",
+            "stage": "action",
+            "prerequisites_met": false,
+            "already_issued": false
+          },
+          {
+            "task_id": "network-case/recheck-0",
+            "stage": "recheck",
+            "prerequisites_met": false,
+            "already_issued": false
+          }
+        ],
+        "task_generation_scope": "PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN"
+      }
+    }
+  ]
+}
