@@ -14,6 +14,7 @@ def _templates(frame, program):
     _require(program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
              'Declare synthetic problem tasks in SI seconds')
     _text(program['id'], 'Problem policy id')
+    _text(program['policy'], 'Problem policy')
     _require(program['policy'] in {'fifo', 'no_human'}, 'Declare the transparent investigation reference')
     knowledge = frame['nominal_knowledge']
     validate_profile(program['workforce_profile'], knowledge)
@@ -39,6 +40,8 @@ def _templates(frame, program):
         trigger = row['trigger']
         _fields(trigger, {'source_ids', 'target_id', 'observable_id', 'equals'}, 'Public problem trigger')
         _strings(trigger['source_ids'], 'Trigger sources')
+        _text(trigger['target_id'], 'Trigger target')
+        _text(trigger['observable_id'], 'Trigger observable')
         _require(trigger['target_id'] in entities, 'Unknown trigger target')
         observable = observables.get(trigger['observable_id'])
         _require(observable is not None and observable['value_type'] == 'boolean'
@@ -70,6 +73,7 @@ def choose_problem_work(frame, program, history):
     by_slot = set()
     for row in instances:
         _fields(row, INSTANCE_FIELDS, 'Public problem instance')
+        _text(row['template_id'], 'Problem-instance template')
         _require(row['template_id'] in templates, 'Unknown problem-instance template')
         template = templates[row['template_id']]
         _require(type(row['slot']) is int and 0 <= row['slot'] < template['max_instances'],
