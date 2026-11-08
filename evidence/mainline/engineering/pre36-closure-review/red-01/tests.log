@@ -1,0 +1,24 @@
+test_expired_now_support_remains_valid_at_review_when_current_evidence_is_fresh (test_pre36_closure_review_time.ReviewTimeEvidenceTests.test_expired_now_support_remains_valid_at_review_when_current_evidence_is_fresh) ... FAIL
+test_later_counterevidence_does_not_rewrite_review_but_still_blocks_current_closure (test_pre36_closure_review_time.ReviewTimeEvidenceTests.test_later_counterevidence_does_not_rewrite_review_but_still_blocks_current_closure) ... ok
+test_omitted_counterevidence_known_at_review_cannot_be_erased_by_later_expiry (test_pre36_closure_review_time.ReviewTimeEvidenceTests.test_omitted_counterevidence_known_at_review_cannot_be_erased_by_later_expiry) ... FAIL
+
+======================================================================
+FAIL: test_expired_now_support_remains_valid_at_review_when_current_evidence_is_fresh (test_pre36_closure_review_time.ReviewTimeEvidenceTests.test_expired_now_support_remains_valid_at_review_when_current_evidence_is_fresh)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\tests\test_pre36_closure_review_time.py", line 58, in test_expired_now_support_remains_valid_at_review_when_current_evidence_is_fresh
+    self.assertTrue(all(c['passed'] for c in question['review_evaluations'][0]['review_checks']))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_omitted_counterevidence_known_at_review_cannot_be_erased_by_later_expiry (test_pre36_closure_review_time.ReviewTimeEvidenceTests.test_omitted_counterevidence_known_at_review_cannot_be_erased_by_later_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Donson\Documents\ChatGPT\Renly\tests\test_pre36_closure_review_time.py", line 70, in test_omitted_counterevidence_known_at_review_cannot_be_erased_by_later_expiry
+    self.assertFalse(all(c['passed'] for c in review['review_checks']))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.129s
+
+FAILED (failures=2)
