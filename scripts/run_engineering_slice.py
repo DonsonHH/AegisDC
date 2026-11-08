@@ -96,6 +96,14 @@ def main():
             if name == 'aegis_dc' or name.startswith('aegis_dc.') or name == 'patrol_rsi.contracts':
                 if not Path(module.__file__).resolve().is_relative_to(root / 'src'):
                     raise ValueError('Project module imported outside the frozen stage: ' + name)
+        terminal.update(tests_run=result.testsRun, failures=len(result.failures), errors=len(result.errors),
+                        skips=len(result.skipped), direct_public_choice_calls=result.public_choice_calls,
+                        internal_public_choice_calls=None if result.facility_calls else 0,
+                        returned_decisions=result.returned_decisions,
+                        new_facility_calls=result.facility_calls, new_model_calls=0, new_research_trials=0,
+                        test_log_sha256=sha256(args.output / 'test.log'),
+                        source_guard='PASS_BEFORE_AND_AFTER',
+                        attempt_sha256=sha256(args.output / 'attempt.json'))
         if (result.testsRun != 1 or result.public_choice_calls != evaluation['direct_public_choice_calls']
                 or result.facility_calls != evaluation['facility_calls'] or result.skipped
                 or result.returned_decisions > evaluation['maximum_returned_decisions']):
@@ -111,15 +119,7 @@ def main():
             status = 'GREEN_BEHAVIOR_PASSED'
         else:
             raise ValueError('Unknown frozen development phase')
-        terminal.update(status=status, tests_run=result.testsRun, failures=len(result.failures),
-                        errors=len(result.errors), skips=len(result.skipped),
-                        direct_public_choice_calls=result.public_choice_calls,
-                        internal_public_choice_calls=None if result.facility_calls else 0,
-                        returned_decisions=result.returned_decisions,
-                        new_facility_calls=result.facility_calls, new_model_calls=0, new_research_trials=0,
-                        test_log_sha256=sha256(args.output / 'test.log'),
-                        source_guard='PASS_BEFORE_AND_AFTER',
-                        attempt_sha256=sha256(args.output / 'attempt.json'))
+        terminal['status'] = status
         terminal['output_files'] = {p.relative_to(args.output).as_posix(): dict(bytes=p.stat().st_size,
             sha256=sha256(p)) for p in args.output.rglob('*') if p.is_file()}
         print(json.dumps({key: terminal[key] for key in ('status', 'tests_run', 'new_facility_calls', 'new_research_trials')}))

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ProblemTaskExecutionTests(unittest.TestCase):
     def test_triggered_cooling_check_measures_only_after_real_crew_work(self):
-        fixture = json.loads((ROOT / 'tests/fixtures/39b-triggered-inspection.json').read_text(encoding='utf-8'))
+        fixture = json.loads((ROOT / 'tests/fixtures/39b-triggered-inspection-v2.json').read_text(encoding='utf-8'))
         self.facility_calls = 1  # Charged before entry, including a constructor refusal in the red phase.
         result = simulate_scenario(fixture['model'], duration_s=4, step_s=.01,
                                    dispatch_program=fixture['dispatch_program'])
