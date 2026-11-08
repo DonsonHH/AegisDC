@@ -52,6 +52,11 @@ def compile_world(world,plan,blueprints):
     recipe=deepcopy(block['shared']);recipe.pop('variant')
     document=_world(read(REFERENCE),world,plan,recipe,read(RECIPES)['shared'])
     program=document['dispatch_program'];policy=program['policy_program'];level=block[world['level']]
+    # Pure public compilation uses a paired placeholder, never a held nonce.
+    # Preparation replaces both with the registered block-wise HMAC realization.
+    placeholder=300000+int(world['comparison'][1:])
+    program['inspection_program']['realizations']['lookahead-inspect']['seed']=placeholder
+    program['sensor_program']['realization']['seed']=placeholder
     params={p['id']:p for p in document['model']['parameters']}
     if world['family']=='load-level':
         rate=level['offered_demand'];params['service_demand']['value']=rate
