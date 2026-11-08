@@ -1,0 +1,18 @@
+{
+  "schema": "aegisdc-integrated-engineering-acceptance-protocol-v1",
+  "id": "39b-integrated-root-regression-01",
+  "classification": "ENGINEERING_REGRESSION_NOT_REGISTERED_RESEARCH",
+  "maximum_attempts": 1,
+  "attempt": "39b-root-regression-01",
+  "execution": "One complete acceptance.verify call at the exact locally integrated Git revision, in the complete remote repository with all history/data; not a small sparse development snapshot.",
+  "runner": "scripts/run_remote_root_acceptance.py",
+  "environment": {"python": "3.13.9", "numpy": "2.3.5", "torch": "2.6.0+cpu", "prefix": "/share/home/renly/renly-patrol-rsi/environments/aegisdc-verify-20261109"},
+  "resources": {"partition": "cu", "nodes": 1, "cpus": 2, "memory_GiB": 4, "wall_minutes": 30, "requeue": false},
+  "gates": ["Actual HEAD/source/root/branch match", "All tracked src/scripts/tests/configs Python/JSON bytes equal exact Git blobs before and after", "At least500 tests actually run, zero failures/errors/skips", "Original evidence integrity including20 historical originals passes", "Terminal and all declared output hashes retained"],
+  "scope": "Existing fixtures, saved evidence verification and untrained neural contract checks only. No new registered experiment, training, LLM experiment, AI/RSI effect or field calibration.",
+  "research_trials_unchanged": 180,
+  "budget_note": "A separate one-shot complete engineering regression. Its fixture calls are not repeated registered trials and are counted as regression scope, not added to the17 development interface calls.",
+  "durable_outputs": ["attempt/terminal", "source manifest and source guard", "acceptance summary/tests/evidence logs", "job script and Slurm accounting/stdout/stderr", "environment preparation receipt"],
+  "placement": "Complete repository, dependencies and detailed regression output remain private remote; necessary summaries/receipts return locally.",
+  "retry_policy": "No automatic retry or requeue. Preserve any failed/partial attempt and require a separate correction protocol/source/output before another regression."
+}
