@@ -59,6 +59,8 @@ def main():
         started_at_utc=datetime.now(timezone.utc).isoformat(), new_research_trials=0,
         scope='One complete regression, including existing untrained neural contract checks; no research training or LLM experiment.'))
     try:
+        if sys.flags.optimize:
+            raise ValueError('Root source and environment guards require non-optimized Python')
         assert git('rev-parse', 'HEAD').decode().strip() == args.source
         assert Path(git('rev-parse', '--show-toplevel').decode().strip()).resolve() == ROOT
         assert git('branch', '--show-current').decode().strip() == 'donson/full-facility-mainline'
