@@ -1,0 +1,38 @@
+{
+  "schema": "aegisdc-engineering-red-green-protocol-v1",
+  "id": "39b-power-it-professional-inspections-slice-03",
+  "classification": "ENGINEERING_DEVELOPMENT_NOT_RESEARCH_TRIAL",
+  "contract": "docs/mainline/39b-multisystem-slice-03.md",
+  "test": "tests/test_problem_multisystem.py",
+  "input": "tests/fixtures/39b-power-it-inspections.json",
+  "maximum_attempts": 2,
+  "sequence": [
+    {"attempt": "06-red-multisystem", "expected": "One test fails because the declared nonfixed signal whitelist lacks the new professional measurements"},
+    {"attempt": "07-green-multisystem", "expected": "The unchanged two-profession behavior, readings and public service context pass"}
+  ],
+  "maximum_facility_calls_per_attempt": 1,
+  "maximum_scheduled_decisions_per_attempt": 3,
+  "maximum_physical_duration_s_per_attempt": 3,
+  "maximum_model_calls": 0,
+  "new_statistical_units": 0,
+  "independent_expected": {
+    "network_capacity": 0.25,
+    "rectifier_input_power_W": "212500000/97",
+    "it_sample_s": 1.25,
+    "it_arrival_s": 1.75,
+    "power_sample_s": 1.75,
+    "power_arrival_s": 2.25,
+    "demand_service_unit_s": 3,
+    "delivered_service_unit_s": 0.75,
+    "worker_work_person_s": 2,
+    "access_check_person_s": 0.5,
+    "worker_travel_person_s": 0,
+    "service_context": "Static declared paths only; no availability or risk estimate"
+  },
+  "resources_per_attempt": {"cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "retry_policy": "No automatic retry or requeue. Preserve unexpected failures and use a new explicit correction/source/output identity.",
+  "durable_outputs": ["attempt.json", "terminal.json", "test.log", "source-input-tool manifest", "Slurm accounting/stdout/stderr", "private native run", "actual-run-summary.json", "private raw-file hash index"],
+  "local_return": "Necessary summary/log/index only; detailed native trajectory stays remote",
+  "excluded": ["Runtime caches"],
+  "original_research_attempts_unchanged": 180
+}
