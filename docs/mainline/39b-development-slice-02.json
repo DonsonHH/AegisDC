@@ -1,0 +1,34 @@
+{
+  "schema": "aegisdc-engineering-red-green-protocol-v1",
+  "id": "39b-actual-triggered-inspection-slice-02",
+  "classification": "ENGINEERING_DEVELOPMENT_NOT_RESEARCH_TRIAL",
+  "contract": "docs/mainline/39b-executed-inspection-slice-02.md",
+  "test": "tests/test_problem_task_execution.py",
+  "input": "tests/fixtures/39b-triggered-inspection.json",
+  "sequence": [
+    {"attempt": "03-red-execution", "expected": "One facility-entry call fails with KeyError candidates before dynamic task catalog support"},
+    {"attempt": "04-green-execution", "expected": "Same behavior test passes after actual crew/inspection integration"}
+  ],
+  "maximum_attempts": 2,
+  "maximum_facility_calls_per_attempt": 1,
+  "maximum_scheduled_decisions_per_attempt": 2,
+  "maximum_physical_duration_s_per_attempt": 4,
+  "maximum_model_calls": 0,
+  "new_statistical_units": 0,
+  "independent_expected": {
+    "work_started_at_s": 2.25,
+    "measurement_at_s": 3.25,
+    "measurement_arrived_at_s": 3.75,
+    "flow_squared_m6_per_s2": "1/340",
+    "worker_travel_person_s": 2,
+    "worker_work_person_s": 1,
+    "access_check_person_s": 0.25,
+    "physical_interventions": 0
+  },
+  "resources_per_attempt": {"cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "retry_policy": "No automatic retry or Slurm requeue. An unexpected failure requires a new recorded correction and attempt identity.",
+  "durable_outputs": ["attempt.json", "terminal.json", "test.log", "source-input-tool manifest", "Slurm accounting/stdout/stderr", "private native actual-run if materialized", "actual-run-summary.json", "private raw-file identity index"],
+  "local_return": "Only necessary summary/log/hash receipts; detailed trajectories remain on the private server",
+  "excluded": ["Runtime caches"],
+  "original_research_attempts_unchanged": 180
+}
