@@ -1,0 +1,29 @@
+{
+  "schema": "aegisdc-existing-behavior-qualification-v1",
+  "id": "39b-copy-case-resource-privacy-qualification-04",
+  "classification": "ENGINEERING_QUALIFICATION_NOT_RESEARCH_TRIAL",
+  "purpose": "Qualify already implemented instance/provenance/resource/privacy behavior; do not fabricate a red phase for existing behavior",
+  "test": "tests/test_problem_task_qualification.py",
+  "input": "tests/fixtures/39b-triggered-inspection-v2.json",
+  "attempt": "08-existing-behavior-qualification",
+  "maximum_attempts": 1,
+  "expected_tests": 3,
+  "maximum_facility_calls": 4,
+  "maximum_returned_decisions": 11,
+  "maximum_planned_physical_duration_s": 11.5,
+  "cases": [
+    {"id": "copy-late", "duration_s": 6, "decisions_s": [0, 3.75, 4, 6], "expected": "A copied work order does not create another instance. Another declared work-order case arrives at4 despite observing at-1, gets stable slot1 after slot0; second measurement5.25/arrival5.75. Distinct source cases are not asserted to be distinct physical faults."},
+    {"id": "shared-meter", "duration_s": 4.5, "decisions_s": [0, 1, 4], "expected": "Two qualified workers share one actual flow meter for intake and internal-pump investigations. Second candidate blocked at1 by unacknowledged occupation, issued and starts only at4; its later route/work remains unfinished within4.5."},
+    {"id": "hidden-restricted-and-clear", "facility_calls": 2, "duration_s_each": 0.5, "decisions_s": [0, 0.5], "expected": "Filter multipliers4/1 create different private flow, but identical public decision frames/history/choices before any paid measurement arrives."}
+  ],
+  "case_semantics": "In the copy-late fixture each work-order provenance root is explicitly the declared case token. Different roots do not establish independent physical incidents or failure probabilities in general.",
+  "resources": {"cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "model_calls": 0,
+  "new_statistical_units": 0,
+  "retry_policy": "No automatic retry or requeue. Any unexpected failure is retained and requires an explicit new correction/source/output and budget.",
+  "source_guard": "Commit and stage exact code/tests/inputs/tools before allocation; check SHA and actual Git HEAD before/after",
+  "durable_outputs": ["attempt/terminal/test log", "per-case summaries and private native runs", "source-input-tool manifest", "Slurm accounting/stdout/stderr", "raw-file hash index"],
+  "local_return": "Necessary per-case summaries, logs and hash index; full private trajectories remain on the server",
+  "scope": "Finite engineering behavior, not effect comparison, general incident deduplication, field timing, or acceptance of39b. Numerical scope for future research windows remains39d.",
+  "original_registered_research_runs_unchanged": 180
+}

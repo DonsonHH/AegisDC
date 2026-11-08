@@ -104,7 +104,7 @@ def main():
                         test_log_sha256=sha256(args.output / 'test.log'),
                         source_guard='PASS_BEFORE_AND_AFTER',
                         attempt_sha256=sha256(args.output / 'attempt.json'))
-        if (result.testsRun != 1 or result.public_choice_calls != evaluation['direct_public_choice_calls']
+        if (result.testsRun != evaluation.get('tests_run', 1) or result.public_choice_calls != evaluation['direct_public_choice_calls']
                 or result.facility_calls != evaluation['facility_calls'] or result.skipped
                 or result.returned_decisions > evaluation['maximum_returned_decisions']):
             raise ValueError('Engineering slice execution denominator/call count differs')
@@ -117,16 +117,20 @@ def main():
             if not result.wasSuccessful():
                 raise ValueError('Green phase did not pass the unchanged public behavior')
             status = 'GREEN_BEHAVIOR_PASSED'
+        elif manifest['phase'] == 'qualification':
+            if not result.wasSuccessful():
+                raise ValueError('Existing-behavior qualification did not pass')
+            status = 'QUALIFICATION_BEHAVIORS_PASSED'
         else:
             raise ValueError('Unknown frozen development phase')
         terminal['status'] = status
-        terminal['output_files'] = {p.relative_to(args.output).as_posix(): dict(bytes=p.stat().st_size,
-            sha256=sha256(p)) for p in args.output.rglob('*') if p.is_file()}
         print(json.dumps({key: terminal[key] for key in ('status', 'tests_run', 'new_facility_calls', 'new_research_trials')}))
     except BaseException as error:
         terminal.update(error_type=type(error).__name__, error=str(error), traceback=traceback.format_exc())
         raise
     finally:
+        terminal['output_files'] = {p.relative_to(args.output).as_posix(): dict(bytes=p.stat().st_size,
+            sha256=sha256(p)) for p in args.output.rglob('*') if p.is_file()}
         terminal['finished_at_utc'] = datetime.now(timezone.utc).isoformat()
         save(args.output / 'terminal.json', terminal)
 
