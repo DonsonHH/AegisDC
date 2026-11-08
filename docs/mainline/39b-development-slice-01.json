@@ -1,0 +1,24 @@
+{
+  "schema": "aegisdc-engineering-red-green-protocol-v1",
+  "id": "39b-public-work-order-slice-01",
+  "classification": "ENGINEERING_DEVELOPMENT_NOT_RESEARCH_TRIAL",
+  "contract": "docs/mainline/39b-problem-tasks-contract.md",
+  "seam": "Existing evidence-only public decision frame and choose_work interface",
+  "test": "tests/test_problem_tasks.py",
+  "input": "tests/fixtures/39b-public-question-base.json",
+  "sequence": [
+    {"attempt": "01-red", "expected": "One test fails specifically because the new dispatch program contract is not supported"},
+    {"attempt": "02-green", "expected": "The same one test passes after implementation; no changed expected outcome"}
+  ],
+  "maximum_attempts": 2,
+  "maximum_public_choice_calls_per_attempt": 1,
+  "maximum_facility_calls": 0,
+  "maximum_model_calls": 0,
+  "new_statistical_units": 0,
+  "resources_per_attempt": {"partition": "live_verified_CPU", "cpus": 1, "memory_GiB": 1, "wall_minutes": 3},
+  "retry_policy": "No automatic retry. Keep every start and terminal; unexpected failure needs a separately declared correction and new identity.",
+  "source_freeze": "Each red/green source is committed before staging; record exact Git blobs, SHA256, bytes and execution tool in the per-attempt manifest. Guard before and after.",
+  "durable_outputs": ["attempt.json", "terminal.json", "test.log", "Slurm stdout/stderr/accounting", "source-input-tool manifest"],
+  "excluded": ["Runtime caches"],
+  "interpretation": "Passing one public task-generation behavior is not acceptance of39b, multiscale physics, general risk quantification, a new independent comparison or AI/RSI gain. Original180 attempts unchanged."
+}
