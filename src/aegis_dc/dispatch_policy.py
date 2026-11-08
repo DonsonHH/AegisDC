@@ -50,6 +50,11 @@ def _history(frame,history,candidates):
 def choose_work(frame,program,history,*,intervention_declaration=None,closure_program=None):
     """Choose a declared intention from current public information only."""
     frame=validate_current_frame(frame);_plain_json(program);_plain_json(history);_plain_json(intervention_declaration)
+    if type(program) is dict and program.get('schema')=='aegisdc-problem-driven-policy-v1':
+        _require(intervention_declaration is None and closure_program is None,
+            'Problem-driven actions and closure require a later instance-scoped execution contract')
+        from .problem_tasks import choose_problem_work
+        return choose_problem_work(frame,program,history)
     _require(type(program) is dict,'Declare policy program object')
     _text(program.get('schema'),'Policy program schema')
     version4=type(program) is dict and program.get('schema')=='aegisdc-dispatch-policy-program-v4'

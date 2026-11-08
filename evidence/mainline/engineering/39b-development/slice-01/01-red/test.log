@@ -1,0 +1,22 @@
+test_arrived_work_order_opens_a_typed_problem_and_professional_check (test_problem_tasks.ProblemTaskTests.test_arrived_work_order_opens_a_typed_problem_and_professional_check) ... ERROR
+
+======================================================================
+ERROR: test_arrived_work_order_opens_a_typed_problem_and_professional_check (test_problem_tasks.ProblemTaskTests.test_arrived_work_order_opens_a_typed_problem_and_professional_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/01-red/tests/test_problem_tasks.py", line 31, in test_arrived_work_order_opens_a_typed_problem_and_professional_check
+    choice = choose_work(frame, program, dict(issued=[], work_feedback=[], question_instances=[]))
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/01-red/src/aegis_dc/dispatch_policy.py", line 58, in choose_work
+    _fields(program,PROGRAM_FIELDS|({'options'} if version2 else set())|({'resource_budget','intervention_declaration'} if version3 else set())|({'evidence_projection'} if version4 else set()),'Dispatch policy program')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/01-red/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/01-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Dispatch policy program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+FAILED (errors=1)
