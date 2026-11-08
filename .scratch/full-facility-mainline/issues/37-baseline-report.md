@@ -18,7 +18,7 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 ## Evidence
 
-Pending implementation and acceptance.
+Accepted; see the source-bound report, independent reviews and fresh delivery evidence below.
 
 
 Owner `/root` in integration checkout after36 acceptance. Scope: concise source-backed mentor report,8 architecture/data figures, offline HTML+Markdown, actual180-run readout and explicit unmeasured endpoints; no physical/policy/inference/LLM experiment or nonce read.
