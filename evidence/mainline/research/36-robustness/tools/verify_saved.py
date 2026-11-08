@@ -13,7 +13,9 @@ def write(p,d):
     with p.open('x',encoding='utf-8',newline='\n') as f:f.write(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
 
 def blob_hashes(revision,names):
-    names=sorted(names);raw=git('cat-file','--batch') if not names else subprocess.check_output(['git','cat-file','--batch'],cwd=ROOT,input=''.join(revision+':'+n+'\n' for n in names).encode())
+    names=sorted(names)
+    if not names:return {}
+    raw=subprocess.check_output(['git','cat-file','--batch'],cwd=ROOT,input=''.join(revision+':'+n+'\n' for n in names).encode())
     values={};offset=0
     for name in names:
         end=raw.index(b'\n',offset);header=raw[offset:end].split();assert len(header)==3 and header[1]==b'blob',name
