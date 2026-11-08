@@ -1,0 +1,187 @@
+{
+  "schema": "aegisdc-baseline-report-facts-v1",
+  "source_cutoff": "2ba22965119615b157bb7f3a302875bf05e4989b",
+  "phases": [
+    {
+      "label": "开发",
+      "started": 36,
+      "completed": 36,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_simulated_s": 360,
+      "charged_scheduled_decisions": 360,
+      "returned_decisions": 360
+    },
+    {
+      "label": "主要确认",
+      "started": 96,
+      "completed": 96,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_simulated_s": 960,
+      "charged_scheduled_decisions": 960,
+      "returned_decisions": 960
+    },
+    {
+      "label": "机制消融",
+      "started": 32,
+      "completed": 32,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_simulated_s": 320,
+      "charged_scheduled_decisions": 320,
+      "returned_decisions": 320
+    },
+    {
+      "label": "稳健性",
+      "started": 16,
+      "completed": 16,
+      "failed": 0,
+      "interrupted": 0,
+      "unrun": 0,
+      "charged_simulated_s": 160,
+      "charged_scheduled_decisions": 160,
+      "returned_decisions": 160
+    }
+  ],
+  "total_runs": 180,
+  "total_simulated_s": 1800,
+  "primary": {
+    "status": "NO_PRACTICAL_GAIN",
+    "planned_denominator": 16,
+    "mean_service_delta_s": 0.03515625,
+    "mean_extra_paid_person_s": -0.96875,
+    "mean_extra_travel_person_s": -0.25,
+    "mean_extra_tool_occupation_s": -0.609375
+  },
+  "ablation_summary": {
+    "without_nonfixed_context": {
+      "mask_minus_full_deficit_s": 0.07324218750000022,
+      "full_minus_mask_paid_person_s": -1.375,
+      "full_minus_mask_travel_person_s": -0.75,
+      "full_minus_mask_tool_s": -0.375
+    },
+    "without_dependency_context": {
+      "mask_minus_full_deficit_s": -0.0146484375,
+      "full_minus_mask_paid_person_s": 5.09375,
+      "full_minus_mask_travel_person_s": 1.5,
+      "full_minus_mask_tool_s": 2.9375
+    },
+    "without_joint_crew_planning": {
+      "mask_minus_full_deficit_s": -0.0146484375,
+      "full_minus_mask_paid_person_s": 4.15625,
+      "full_minus_mask_travel_person_s": 1.5,
+      "full_minus_mask_tool_s": 2.0
+    }
+  },
+  "robustness_paired": [
+    {
+      "world_id": "robustness-01",
+      "comparison": "R1",
+      "family": "load-level",
+      "level": "reference",
+      "baseline_deficit_s": 0.625,
+      "candidate_deficit_s": 0.625,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-02",
+      "comparison": "R1",
+      "family": "load-level",
+      "level": "perturbed",
+      "baseline_deficit_s": 4.975,
+      "candidate_deficit_s": 5.2749999999999995,
+      "delta_service_s": -0.2999999999999998,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-03",
+      "comparison": "R2",
+      "family": "sensor-coverage",
+      "level": "reference",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": -1.25,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": -1.25
+    },
+    {
+      "world_id": "robustness-04",
+      "comparison": "R2",
+      "family": "sensor-coverage",
+      "level": "perturbed",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-05",
+      "comparison": "R3",
+      "family": "reserve-path",
+      "level": "reference",
+      "baseline_deficit_s": 4.5625,
+      "candidate_deficit_s": 4.9375,
+      "delta_service_s": -0.375,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-06",
+      "comparison": "R3",
+      "family": "reserve-path",
+      "level": "perturbed",
+      "baseline_deficit_s": 7.375,
+      "candidate_deficit_s": 7.375,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-07",
+      "comparison": "R4",
+      "family": "model-error",
+      "level": "reference",
+      "baseline_deficit_s": 6.25,
+      "candidate_deficit_s": 6.25,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    },
+    {
+      "world_id": "robustness-08",
+      "comparison": "R4",
+      "family": "model-error",
+      "level": "perturbed",
+      "baseline_deficit_s": 2.96875,
+      "candidate_deficit_s": 2.96875,
+      "delta_service_s": 0.0,
+      "extra_paid_person_s": 0.0,
+      "extra_travel_person_s": 0.0,
+      "extra_tool_s": 0.0
+    }
+  ],
+  "robustness_mean": -0.08437499999999998,
+  "parameter_count": 113,
+  "entity_count": 45,
+  "domain_count": 8,
+  "formal_closure": "NOT_EVALUATED",
+  "generic_false_miss_rates": "NOT_OPERATIONALIZED",
+  "prevention": "NOT_TESTED",
+  "AI_RSI": "NOT_MEASURED",
+  "new_project_calls": 0
+}

@@ -1,0 +1,114 @@
+﻿id,value,unit,valid_range,basis,source_note
+mv_voltage,10000,V,"[5000, 20000]",synthetic_assumption,"Research supply layer selected to retain the mentor-requested voltage hierarchy. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+lv_voltage,380,V,"[300, 500]",synthetic_assumption,"Research auxiliary AC layer; not a verified Zhengzhou feeder. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+compute_dc_voltage,800,V,"[400, 1000]",synthetic_assumption,"Selected research compute branch; Z2 does not specify its actual load mapping. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+network_dc_voltage,400,V,"[300, 800]",synthetic_assumption,"Selected research network/storage branch. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+grid_capacity,10000000,W,"[0, 20000000]",synthetic_assumption,"Available whole-facility electrical input, including explicit zero for an engineering outage. Synthetic research assumption, not a site observation."
+rectifier_efficiency,0.97,1,"[0.8, 1]",synthetic_assumption,"Research conversion efficiency; no real site curve obtained. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+ups_energy,18000000,J,"[0, 100000000]",synthetic_assumption,"Finite research reserve energy; not a site battery claim. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+ups_discharge_efficiency,0.92,1,"[0.7, 1]",synthetic_assumption,"Research reserve discharge efficiency. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+diesel_capacity,4000000,W,"[1000000, 10000000]",synthetic_assumption,"Research generator capacity. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+diesel_start_time,30,s,"[1, 120]",synthetic_assumption,Ideal finite research startup delay enacted by the M1 runtime. Detailed standby/maintenance validation remains ticket 10; this is not a site setting.
+lake_temperature,293.15,K,"[278.15, 313.15]",synthetic_assumption,"Research lake inlet temperature, not a field time series. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+lake_volume_flow,0.1,m3/s,"[0.01, 0.5]",synthetic_assumption,"Research nominal flow; does not resolve the published total/branch flow mismatch. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+internal_volume_flow,0.12,m3/s,"[0.01, 0.6]",synthetic_assumption,"Research internal circulation flow. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+pump_pressure_rise,150000,Pa,"[0, 1000000]",synthetic_assumption,"Ideal fixed-head lake pump at unit speed. Synthetic research input, not an observed Zhengzhou setting."
+pump_efficiency,0.7,1,"[0.3, 1]",synthetic_assumption,"Research combined pump/motor efficiency. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+plate_hx_conductance,800000,W/K,"[10000, 2000000]",synthetic_assumption,"Research HX conductance; site selection sheet missing. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+internal_hot_mass,10000,kg,"[1000, 50000]",synthetic_assumption,"Initial hot-buffer inventory; dynamic leakage debits this mass and its sensible energy. Synthetic research setting, not a site measurement."
+internal_cold_mass,10000,kg,"[1000, 50000]",synthetic_assumption,"Research cold-buffer inventory. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+water_specific_heat,4180,J/(kg*K),"[3800, 4400]",synthetic_assumption,"Research water approximation for the two water loops only, not the phase-change coolant. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+water_density,998,kg/m3,"[950, 1050]",synthetic_assumption,"Research water approximation; lake and internal identities remain separate. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+coolant_inventory,2000,kg,"[500, 5000]",synthetic_assumption,"Research coolant inventory; numerical phase initialization is not yet validated. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+coolant_control_volume,6.647467643830208,m3,"[0.01, 100]",derived_reference,"Fixed volume derived at table p=800 kPa, x=0.1 and M=2000 kg. Synthetic research input, not an observed Zhengzhou setting."
+it_thermal_capacity,1000000,J/K,"[100000, 10000000]",synthetic_assumption,"Research effective solid heat capacity. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+room_thermal_capacity,10000000,J/K,"[1000000, 100000000]",synthetic_assumption,"Research room/environment effective heat capacity. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+room_temperature,298.95470790378005,K,"[273.15, 340]",derived_reference,Parent steady room temperature plus paid UPS internal-control heat divided by room conductance; derived synthetic initialization.
+room_humidity,0.45,1,"[0, 1]",synthetic_assumption,"Prescribed RH boundary for risk-only vapor/surface saturation comparison. No evolving air-moisture inventory, condensate mass, evaporation or latent heat is computed."
+compute_demand_power,2000000,W,"[0, 5000000]",synthetic_assumption,"Research requested compute load, not actual executed heat input. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+network_demand_power,100000,W,"[0, 500000]",synthetic_assumption,"Research requested network load. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+storage_demand_power,100000,W,"[0, 500000]",synthetic_assumption,"Research requested storage load. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+network_service_capacity,1,1,"[0, 2]",synthetic_assumption,"Normalized research network capability, not a FLOP/s conversion. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+storage_service_capacity,1,1,"[0, 2]",synthetic_assumption,"Normalized research storage capability. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+cooling_setpoint,303.15,K,"[273.15, 340]",synthetic_assumption,"Local pump changes to high speed at this refrigerant temperature. Synthetic research input, not an observed Zhengzhou setting."
+protection_temperature,340,K,"[273.15, 360]",synthetic_assumption,"Local sampled thermal trip, uses plant-local instrument only. Synthetic research input, not an observed Zhengzhou setting."
+step_time,1,s,"[0.01, 1]",synthetic_assumption,"Bounded engineering integration step, split at discrete and depletion events. Synthetic research input, not an observed Zhengzhou setting."
+duration,600,s,"[0.01, 3600]",synthetic_assumption,"Engineering normal-load fixture duration. Synthetic research input, not an observed Zhengzhou setting."
+walk_short,60,s,"[1, 600]",synthetic_assumption,"Synthetic access time; no site floor plan obtained. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+walk_long,120,s,"[1, 1200]",synthetic_assumption,"Synthetic access time between research functional zones. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+inspection_time,30,s,"[1, 600]",synthetic_assumption,"Research work duration, not a measured professional inspection time. Instance, connection and numerical choice for this synthetic research facility; not an as-built site assertion."
+switchboard_capacity,10000000,W,"[0, 20000000]",synthetic_assumption,"Ideal AC switchboard power limit. Synthetic research input, not an observed Zhengzhou setting."
+rectifier_capacity,5000000,W,"[0, 10000000]",synthetic_assumption,"Rectifier AC input power limit. Synthetic research input, not an observed Zhengzhou setting."
+ups_output_capacity,100000,W,"[0, 500000]",synthetic_assumption,"UPS protects controller and two circulation pumps only. Synthetic research input, not an observed Zhengzhou setting."
+diesel_initial_fuel_energy,500000000,J,"[0, 10000000000]",synthetic_assumption,"Finite chemical fuel energy; no refueling. Synthetic research input, not an observed Zhengzhou setting."
+diesel_efficiency,0.4,1,"[0.1, 0.6]",synthetic_assumption,"Electrical output divided by fuel consumption; waste heat exits the boundary. Synthetic research input, not an observed Zhengzhou setting."
+controller_power,1000,W,"[0, 200000]",synthetic_assumption,"Local controller electrical demand, converted to room heat. Synthetic research input, not an observed Zhengzhou setting."
+room_aux_power,5000,W,"[0, 100000]",synthetic_assumption,"Room auxiliary electrical demand, converted to room heat. Synthetic research input, not an observed Zhengzhou setting."
+internal_pump_pressure_rise,120000,Pa,"[0, 1000000]",synthetic_assumption,"Ideal fixed-head internal pump at unit speed; no elevation or pump inertia. Synthetic research input, not an observed Zhengzhou setting."
+internal_pump_efficiency,0.75,1,"[0.1, 1]",synthetic_assumption,"Total pump electrical-to-hydraulic efficiency. Synthetic research input, not an observed Zhengzhou setting."
+lake_hydraulic_resistance,12000000,Pa*s2/m6,"[1, 1000000000]",synthetic_assumption,"Passive filter/pipe resistance only, excluding the explicit series valve. Research decomposition preserves the v2 full-open operating point; not a site measurement."
+internal_hydraulic_resistance,5000000,Pa*s2/m6,"[1, 1000000000]",synthetic_assumption,"Passive filter/pipe resistance only, excluding the explicit series valve. Research decomposition preserves the v2 full-open operating point; not a site measurement."
+filter_resistance_multiplier,1,1,"[0.25, 100]",synthetic_assumption,Multiplier of passive lake filter/pipe resistance only. The independent valve characteristic is not multiplied. Synthetic research assumption.
+pump_fluid_heat_fraction,1,1,"[0, 1]",synthetic_assumption,"Fraction of total pump electrical power ultimately dissipated in its own fluid; remainder enters room exactly once. Synthetic research input, not an observed Zhengzhou setting."
+pump_min_speed,0.5,1,"[0, 1]",synthetic_assumption,"Dimensionless low-speed command; q scales as n and electric power as n cubed. Synthetic research input, not an observed Zhengzhou setting."
+solid_coolant_conductance,500000,W/K,"[0, 2000000]",synthetic_assumption,"Lumped solid-to-refrigerant conductance. Synthetic research input, not an observed Zhengzhou setting."
+solid_air_conductance,0,W/K,"[0, 100000]",synthetic_assumption,"Explicit zero solid-to-room branch for this liquid-cooled operating point. Synthetic research input, not an observed Zhengzhou setting."
+room_ambient_temperature,293.15,K,"[273.15, 313.15]",synthetic_assumption,"Outdoor thermal boundary; floor-water source shares this temperature. Synthetic research input, not an observed Zhengzhou setting."
+room_conductance,30000,W/K,"[0, 200000]",synthetic_assumption,"Passive lumped room-to-outdoor heat transfer, independent of room aux power. Synthetic research input, not an observed Zhengzhou setting."
+compute_nominal_power,2000000,W,"[1, 10000000]",synthetic_assumption,"Actual compute power required per full unit of compute service capacity. Synthetic research input, not an observed Zhengzhou setting."
+network_nominal_power,100000,W,"[1, 1000000]",synthetic_assumption,"Network power per full configured capacity. Synthetic research input, not an observed Zhengzhou setting."
+storage_nominal_power,100000,W,"[1, 1000000]",synthetic_assumption,"Storage power per full configured capacity. Synthetic research input, not an observed Zhengzhou setting."
+compute_service_capacity,1,1,"[0, 2]",synthetic_assumption,"Normalized maximum compute capability; all three domains are jointly required. Synthetic research input, not an observed Zhengzhou setting."
+service_demand,1,1,"[0, 2]",synthetic_assumption,"Exogenous normalized critical-service demand; never deleted after load shedding. Synthetic research input, not an observed Zhengzhou setting."
+control_sample_time,1,s,"[0.05, 10]",synthetic_assumption,"Ideal local measurement and command sample period; no dispatch or measurement delay modeled in M1. Synthetic research input, not an observed Zhengzhou setting."
+control_hysteresis,2,K,"[0, 20]",synthetic_assumption,"Pump high/low threshold separation below cooling_setpoint. Synthetic research input, not an observed Zhengzhou setting."
+protection_reset_temperature,330,K,"[273.15, 359]",synthetic_assumption,"Local thermal-trip reset threshold; must be below trip threshold. Synthetic research input, not an observed Zhengzhou setting."
+minimum_internal_volume_flow,0.01,m3/s,"[0, 0.12]",synthetic_assumption,"Local low-flow trip threshold, independent of staff. Synthetic research input, not an observed Zhengzhou setting."
+initial_floor_water_mass,0,kg,"[0, 1000]",synthetic_assumption,"Separate nuisance-water inventory at ambient temperature; not coolant leakage. Synthetic research input, not an observed Zhengzhou setting."
+floor_water_inflow,0,kg/s,"[0, 10]",synthetic_assumption,"External ambient-water source; no transfer from the refrigerant or internal loop. Synthetic research input, not an observed Zhengzhou setting."
+drainage_mass_flow,0.1,kg/s,"[0, 10]",synthetic_assumption,"Gravity drainage capacity; exact empty event prevents negative inventory. Synthetic research input, not an observed Zhengzhou setting."
+access_block_mass,10,kg,"[0.001, 1000]",synthetic_assumption,"loc_it access closes when nuisance-water mass reaches this threshold. Synthetic research input, not an observed Zhengzhou setting."
+shift_end_time,3600,s,"[1, 86400]",synthetic_assumption,"Shared engineering-fixture shift end, no night-shift extrapolation. Synthetic research input, not an observed Zhengzhou setting."
+energy_absolute_tolerance,0.01,J,"[0, 1]",synthetic_assumption,"Numerical per-step and whole-run energy residual acceptance. Synthetic research input, not an observed Zhengzhou setting."
+mass_absolute_tolerance,1e-09,kg,"[1e-12, 0.001]",synthetic_assumption,"Numerical mass residual acceptance. Synthetic research input, not an observed Zhengzhou setting."
+balance_relative_tolerance,1e-10,1,"[0, 1e-06]",synthetic_assumption,"Relative residual tolerance against boundary energy throughput. Synthetic research input, not an observed Zhengzhou setting."
+maximum_temperature_step,5,K,"[0.01, 10]",synthetic_assumption,"Reject excessive explicit-step temperature jumps; deeper convergence work remains ticket 12. Synthetic research input, not an observed Zhengzhou setting."
+coolant_initial_energy,516335850.31469756,J,"[1, 2000000000]",derived_reference,"Initial internal energy from the same p/x and frozen T/v/u table. Synthetic research input, not an observed Zhengzhou setting."
+condenser_conductance,335444.68624395423,W/K,"[0, 2000000]",derived_reference,"Solved from Q=2 MW and eps=1-exp(-UA/Ci) at the declared steady p/x point. Synthetic research input, not an observed Zhengzhou setting."
+initial_hot_temperature,300.5295616763055,K,"[273.15, 360]",derived_reference,"Solved from lake pump heat plus plate-HX epsilon/NTU, Q=compute+storage+internal-pump. Synthetic research input, not an observed Zhengzhou setting."
+initial_cold_temperature,296.2962145993765,K,"[273.15, 360]",derived_reference,"Hot temperature minus Q/(rho*cp*qi); distinct finite cold-water volume. Synthetic research input, not an observed Zhengzhou setting."
+initial_solid_temperature,308.47751006414603,K,"[273.15, 370]",derived_reference,"Refrigerant saturation temperature plus 2 MW / solid-coolant conductance. Synthetic research input, not an observed Zhengzhou setting."
+lake_valve_open_resistance,3000000,Pa*s2/m6,"[1, 1000000000]",synthetic_assumption,"Full-open valve-group K; K(a)=Kopen/a^2 for 0<a<=1, with Kv assumed proportional to opening. Research characteristic, not vendor data."
+lake_valve_opening,1,1,"[0, 1]",synthetic_assumption,Imposed actual aggregate valve opening. a=0 invokes an immediate hardwired pump-stop interlock; no deadhead mode or actuator dynamics. Research action/state setting.
+internal_valve_open_resistance,3333333.333333334,Pa*s2/m6,"[1, 1000000000]",synthetic_assumption,"Full-open valve-group K; K(a)=Kopen/a^2 for 0<a<=1, with Kv assumed proportional to opening. Research characteristic, not vendor data."
+internal_valve_opening,1,1,"[0, 1]",synthetic_assumption,Imposed actual aggregate valve opening. a=0 invokes an immediate hardwired pump-stop interlock; no deadhead mode or actuator dynamics. Research action/state setting.
+internal_hot_leak_mass_flow,0,kg/s,"[0, 10]",synthetic_assumption,Imposed actual well-mixed hot-buffer water leakage to the floor pool. This is not a hole/pressure law or an inferred hidden fault; thermal energy cp*T leaves the hot inventory and enters the pool once.
+minimum_internal_hot_mass,9000,kg,"[1, 50000]",synthetic_assumption,"Explicit minimum inventory for this constant hydraulic working-domain approximation. A positive-rate loss beyond it fails, rather than inventing low-inventory pump/cavitation geometry."
+it_access_permit,1,1,"[0, 1]",synthetic_assumption,"Binary imposed access-gate permission: 0 forbids IT-zone work, 1 permits only when independent access/qualification/tool/environment conditions also hold. No physical-network reachability grants access."
+maximum_room_work_temperature,313.15,K,"[273.16, 333.15]",synthetic_assumption,"Declared synthetic work-permission temperature threshold, not an occupational or observed site limit. Rising crossing closes work; falling crossing opens it with event splitting and directional equality semantics."
+local_temperature_bias,0,K,"[-50, 50]",synthetic_assumption,Explicit ticket 09 research measurement/control input; reported values do not replace physical state.
+local_internal_flow_bias,0,m3/s,"[-0.2, 0.2]",synthetic_assumption,Explicit ticket 09 research measurement/control input; reported values do not replace physical state.
+local_temperature_sensor_valid,1,1,"[0, 1]",synthetic_assumption,Explicit ticket 09 research measurement/control input; reported values do not replace physical state.
+local_internal_flow_sensor_valid,1,1,"[0, 1]",synthetic_assumption,Explicit ticket 09 research measurement/control input; reported values do not replace physical state.
+supervisory_link_available,1,1,"[0, 1]",synthetic_assumption,Explicit ticket 09 research measurement/control input; reported values do not replace physical state.
+ups_internal_control_power,100,W,"[1, 10000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+generator_internal_control_power,10,W,"[1, 10000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+generator_start_power,1000,W,"[1, 100000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+generator_initial_start_energy,100000,J,"[0, 10000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+diesel_idle_fuel_power,1000,W,"[0, 1000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+ups_transfer_delay,0.2,s,"[0, 30]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+diesel_transfer_delay,2,s,"[0, 60]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_cooling_transfer_delay,2,s,"[0, 300]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_fan_nominal_power,20000,W,"[1, 1000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_air_capacity_rate,500000,W/K,"[1, 10000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_conductance,300000,W/K,"[0, 10000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_heat_capacity,1500000,W,"[0, 10000000]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+shared_distribution_available,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+ups_in_service,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+ups_transfer_ok,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+diesel_in_service,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+diesel_start_ok,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+diesel_transfer_ok,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_cooling_in_service,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_cooling_transfer_ok,1,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
+backup_cooling_requested,0,1,"[0, 1]",synthetic_assumption,Declared bounded reserve-profile research input; actual site value/coverage is unknown.
