@@ -6,6 +6,9 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import subprocess
+import re
+import zipfile
+from fractions import Fraction
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--checkout',type=Path,required=True)
@@ -58,10 +61,29 @@ assert sorted(r['viewport'] for r in qa['results'])==[412,1440,1920]
 for r in qa['results']:assert r['pageWidth']==r['clientWidth'] and r['parameters']==r['restored']==113
 visual=json.loads(current(prefix+'qa/visual-review.json'))
 for path,digest in visual['screenshots'].items():assert sha(current(prefix+'qa/'+path))==digest
+revision=json.loads(current(prefix+'qa/revision-check.json'))
+old=git('show',revision['original_browser_qa_commit']+':'+prefix+'AegisDC-导师研究报告.html')
+assert sha(old)==revision['original_html_sha256'] and sha(raw)==revision['current_html_sha256']
+assert not revision['new_browser_execution']
+for pattern in [rb'<style>(.*?)</style>',rb'<script>(.*?)</script>',rb'<math\b.*?</math>',rb'<img\b[^>]*>',rb'<a\b[^>]*download=[^>]*>']:
+    assert re.findall(pattern,old,re.S)==re.findall(pattern,raw,re.S)
+value=json.loads(git('show',source+':evidence/mainline/engineering/20-action-value/capture-01/check-results.json'))
+witness=next(row for row in value['independent_cases'] if row['prior_fault']=='1/4')
+deficit=Fraction(1,4)*Fraction(4,5)*30+Fraction(1,4)*Fraction(1,5)*100+Fraction(3,4)*Fraction(1,10)*20
+person=10+(Fraction(1,4)*Fraction(4,5)+Fraction(3,4)*Fraction(1,10))*20
+assert deficit==Fraction(witness['expected']['expected_deficit_time_s']['inspect_then_intervene_if_positive'])==Fraction(25,2)
+assert person==Fraction(witness['expected']['expected_worker_person_s']['inspect_then_intervene_if_positive'])==Fraction(31,2)
 progress=json.loads(git('show',source+':docs/mainline/progress.json'))
 assert progress['research_trials']['attempts']==164 and progress['research_trials']['robustness']['attempts']==0
 assert current('docs/mainline/progress.json')==git('show',source+':docs/mainline/progress.json')
 assert git('rev-parse','pre-meeting-20261103^{}').decode().strip()=='076d9aa15c5bc99a5b7985f296e15543b7b0f3d7'
-receipt=dict(status='PASS_EXACT_FRESH_MENTOR_REPORT',commit=args.revision,source_commit=source,source_files=len(manifest['source_files']),figures=15,formulas=8,parameters=113,downloads=23,registered_runs=164,new_research_trials=0,new_physical_calls=0,new_selector_calls=0,new_inference_calls=0,premeeting_tag_preserved=True)
+delivery=json.loads(current(prefix+'delivery-manifest.json'))
+for path,spec in delivery['artifacts'].items():
+    data=current(path);assert len(data)==spec['bytes'] and sha(data)==spec['sha256'],path
+for archive,members in delivery['archives'].items():
+    with zipfile.ZipFile(root/archive) as z:
+        assert set(z.namelist())==set(members)
+        for path,spec in members.items():assert sha(z.read(path))==spec['sha256'] and len(z.read(path))==spec['bytes']
+receipt=dict(status='PASS_EXACT_FRESH_MENTOR_REPORT',commit=args.revision,source_commit=source,source_files=len(manifest['source_files']),figures=15,formulas=8,parameters=113,downloads=23,browser_qa_scope='Original f492 browser/screenshots retained; corrected prose/table static checked, visual components byte-identical.',registered_runs=164,new_research_trials=0,new_physical_calls=0,new_selector_calls=0,new_inference_calls=0,premeeting_tag_preserved=True)
 with args.output.open('x',encoding='utf-8',newline='\n') as f:f.write(json.dumps(receipt,indent=2)+'\n')
 print(json.dumps(receipt))
