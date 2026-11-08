@@ -78,8 +78,8 @@ def _begin(folder,stage,source,plan,slots):
         _read_nonce(NONCE,read(ROOT/LOCK)['commitments_sha256'][PHASE])
     except BaseException as exc:
         journal_write(gate/'terminal.json',dict(status='REFUSED_BEFORE_PHYSICAL_SLOTS',source=source,nonce_read_attempts=1,
-            nonce_validated=0,error_type=type(exc).__name__,error=str(exc),physical_calls=0));raise
-    journal_write(gate/'terminal.json',dict(status='PASS_NONCE_VALIDATION',source=source,nonce_read_attempts=1,nonce_validated=1,physical_calls=0))
+            nonce_validated=0,nonce_read_completion='UNKNOWN_OR_FAILED',error_type=type(exc).__name__,error=str(exc),physical_calls=0));raise
+    journal_write(gate/'terminal.json',dict(status='PASS_NONCE_VALIDATION',source=source,nonce_read_attempts=1,nonce_validated=1,nonce_read_completion='VALIDATED_RETURN',physical_calls=0))
     names=set(read(ROOT/EXECUTION_LOCK)['execution_pins'])
     names.update(read(ROOT/LOCK)['pins'])
     names.update({RUNBOOK,LOCK,PROTOCOL,'docs/mainline/progress.json','docs/mainline/evidence/30-root.json','docs/mainline/evidence/31-root.json',

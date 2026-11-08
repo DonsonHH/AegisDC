@@ -167,6 +167,7 @@ def prepare(source,folder):
     folder.mkdir(parents=True);(folder/'inputs').mkdir()
     receipt=dict(status='FAILED_INPUT_PREPARATION',source=source,input_hashes={},prepared_inputs=0,assigned_worlds=[],
         physical_calls=0,selector_calls=0,finite_admission_calls=0,nonce_read_attempts=0,nonce_reads=0,registered_research_trials=0,
+        nonce_read_completion='NOT_STARTED',nonce_reads_scope='VALIDATED_READ_RETURNS_ONLY; actual completion unknown on failure',
         pins=dict(preparation_pins(source),**hashes(source,{PREPARATION_AUTHORIZATION,'docs/mainline/progress.json',
             'evidence/mainline/engineering/36-public-admission/preflight-01.json',
             'evidence/mainline/engineering/36-public-admission/preflight-01.start.json'})))
@@ -174,8 +175,9 @@ def prepare(source,folder):
     try:
         require(all(digest((ROOT/n).read_bytes())==h for n,h in receipt['pins'].items()),'Preparation working source/input differs before nonce')
         receipt['nonce_read_attempts']=1
+        receipt['nonce_read_completion']='UNKNOWN_OR_FAILED'
         append(folder/'attempts.jsonl',dict(status='STARTED_NONCE_READ',source=source,expected_commitment=lock['commitments_sha256']['robustness']))
-        nonce=_read_nonce(NONCE,lock['commitments_sha256']['robustness']);receipt['nonce_reads']=1
+        nonce=_read_nonce(NONCE,lock['commitments_sha256']['robustness']);receipt['nonce_reads']=1;receipt['nonce_read_completion']='VALIDATED_RETURN'
         namespace=plan['seed_policy']['namespaces']['robustness']
         for world in phase['worlds']:
             doc=compile_world(world,plan,blueprints);program=doc['dispatch_program']
