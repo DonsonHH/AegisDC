@@ -42,7 +42,11 @@
 |36|M6|[评价参数域、结构变体与模型误差](issues/36-robustness-study.md)|34|
 |37|M6|[形成全设施基线研究结论和复算包](issues/37-baseline-report.md)|35, 36|
 |38|M7|[审计智能体与经验改进的进入条件](issues/38-agent-eligibility.md)|37|
-|39|M7|[条件式比较智能体的独立增量](issues/39-agent-increment.md)|38|
+|39a|M7准备|[1–38跨阶段覆盖复核](issues/39a-integrated-scope-review.md)|38|
+|39b|M7准备|[多系统问题与动态任务](issues/39b-multisystem-questions-and-tasks.md)|39a|
+|39c|M7准备|[业务端点与验证关闭](issues/39c-business-endpoints-and-closure.md)|39a|
+|39d|M7准备|[时间尺度、参数和数值范围](issues/39d-timescales-parameter-and-numeric-scope.md)|39b, 39c|
+|39|M7|[条件式比较智能体的独立增量](issues/39-agent-increment.md)|38, 39b, 39c, 39d|
 |40|M7|[条件式比较普通反馈与递归改进](issues/40-rsi-increment.md)|39|
 |41|M7|[复核智能体/RSI结果或资格限制](issues/41-increment-conclusion.md)|38, 39, 40|
 |42|M7|[逐项复核固定总目标与最终研究结论](issues/42-research-closeout.md)|37, 41|
