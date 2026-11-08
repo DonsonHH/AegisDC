@@ -41,7 +41,7 @@ def write(name,value):
         f.write(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
 def csv_file(name,rows,fields):
     with (out/name).open('x',encoding='utf-8-sig',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=fields,lineterminator='\n',extrasaction='ignore');writer.writeheader()
+        writer=csv.DictWriter(f,fieldnames=fields,lineterminator='\n',extrasaction='raise');writer.writeheader()
         for row in rows:
             writer.writerow({k:json.dumps(v,ensure_ascii=False,sort_keys=True) if isinstance(v,(dict,list)) else v for k,v in row.items()})
 def journal(value):
@@ -116,6 +116,14 @@ try:
                     work_started_at_s=task.get('work_started_at_s'),completed_at_s=task.get('completed_at_s'),
                     sampled_at_s=event.get('source_sample_at_s'),record_id=event.get('record_id'),
                     public_report_arrived_at_s=f['arrived_at_s'] if f else None,
+                    source_id=f['source_id'] if f else None,
+                    target_id=f['target_id'] if f else None,
+                    observable_id=f['observable_id'] if f else None,
+                    provenance=f['provenance'] if f else None,
+                    valid_until_s=f['valid_until_s'] if f else None,
+                    confirmation_scope=f['scope'] if f else None,
+                    additional_evidence_factor=f['additional_evidence_factor'] if f else None,
+                    report_metadata_status='ARRIVED_NATIVE_FEEDBACK' if f else 'NO_ARRIVED_REPORT_METADATA',
                     historical_named_signal_finding=f['confirmation'] if f else None,
                     endpoint_availability=f['availability'] if f else None,
                     endpoint_current_confirmation=f['current_confirmation'] if f else None,
@@ -132,11 +140,16 @@ try:
             applied=[e for e in native['intervention_private_audit']['events'] if e['outcome']=='APPLIED']
             assert len(applied)==len(audit['applied_effects'])
             statuses=Counter(r['status'] for r in tasks.values())
+            structure=native.get('ablation_execution_audit')
+            structural_checks=structure['schema_component_identity_validations'] if structure is not None else None
+            if structural_checks is not None:
+                assert type(structural_checks) is int and structural_checks>=0
             quality=Counter('BOUND_CONTAINS_SIGNAL' if e['declared_bound_contains_signal'] else 'BOUND_FAILED'
                 for e in private['events'] if 'declared_bound_contains_signal' in e)
             row=dict(phase=dataset['phase'],world_id=began['world_id'],family=began['family'],arm=began['arm'],
                 original_index=began['index'],execution_source=began['source'],archive=archive.relative_to(ROOT).as_posix(),
                 duration_s=duration,**totals,completed_inspections=audit['completed_inspections'],completed_interventions=audit['completed_interventions'],
+                issued_inspection_tasks=sum(task_id in bindings for task_id in tasks),
                 task_dispositions=dict(statuses),aborted_or_rejected_tasks=sum(n for k,n in statuses.items() if k in {'aborted','rejected'}),
                 nonterminal_tasks=sum(n for k,n in statuses.items() if k not in {'completed','aborted','rejected'}),
                 arrived_inspection_feedback=len(feedback),source_record_binding_checks_passed=matched,
@@ -144,6 +157,8 @@ try:
                 threshold_findings=dict(findings),unconfirmed_named_signal_readings=findings['UNCONFIRMED'],
                 provenance_status='MATCHED_NATIVE_TASK_RECORD_SCOPE' if not snapshot['provenance_issues'] else 'ISSUE_TIMING_NOT_INFERRED_FROM_FINAL_SNAPSHOT',
                 numeric_bound_diagnostic=dict(quality),selector_instants=len(computation),model_evaluations=dict(counts),
+                schema_component_identity_validations=structural_checks,
+                structural_check_status='NATIVE_SEPARATE_COUNTER' if structure is not None else 'NOT_INSTRUMENTED_IN_ORIGINAL',
                 selector_wall_seconds=math.fsum(c['elapsed_ns'] for c in computation)/1e9,
                 applied_effects=len(applied),arrived_applied_feedback=sum(r['outcome']=='APPLIED' for r in native['intervention_public_feedback']),
                 verified_closure='NOT_EVALUATED_WITHOUT_POST_ACTION_PROTOCOL',
@@ -167,6 +182,7 @@ try:
         selected=[t for t in timing if t['phase']==phase and t['arm']==arm and t['public_report_arrived_at_s'] is not None]
         summarize=lambda key:sum(r[key] for r in group) if all(r[key] is not None for r in group) else None
         summaries.append(dict(phase=phase,arm=arm,worlds=len(group),completed_inspections=sum(r['completed_inspections'] for r in group),
+            issued_inspection_tasks=sum(r['issued_inspection_tasks'] for r in group),
             arrived_inspection_feedback=sum(r['arrived_inspection_feedback'] for r in group),
             historical_named_threshold_findings=summarize('historical_named_threshold_findings'),
             endpoint_current_named_threshold_findings=summarize('current_named_threshold_findings'),
