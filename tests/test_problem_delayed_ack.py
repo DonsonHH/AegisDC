@@ -42,7 +42,7 @@ class DelayedActionAcknowledgmentTests(unittest.TestCase):
         self.assertEqual(tasks['network-case/action-0']['completed_at_s'], 3.25)
         self.assertEqual(tasks['network-case/recheck-0']['completed_at_s'], 5.25)
         records = {r['id']: r for r in result['inspection_public_snapshot']['records']}
-        self.assertEqual(records['it-capacity-before']['availability'], 'stale')
+        self.assertEqual(records['it-capacity-before']['availability'], 'expired')
         self.assertEqual((records['it-capacity-after']['observed_at_s'], records['it-capacity-after']['arrived_at_s'],
                           records['it-capacity-after']['value']), (5.25, 5.75, .75))
         self.assertEqual(result['policy_public_resource_ledger']['spent_or_reserved'], dict(person_s=24.5, tool_s=24.5, cost=3))

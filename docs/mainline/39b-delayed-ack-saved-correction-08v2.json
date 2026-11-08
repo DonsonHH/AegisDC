@@ -1,0 +1,42 @@
+{
+  "schema": "aegisdc-saved-assertion-correction-protocol-v1",
+  "id": "39b-delayed-ack-08v2-saved-only",
+  "classification": "SAVED_ONLY_CORRECTION_NOT_PHYSICAL_RETRY",
+  "original_protocol": "docs/mainline/39b-delayed-ack-qualification-08.json",
+  "original_job": "133138",
+  "original_status": "FAILED_NOT_RELABELED",
+  "runtime_source": "b028121e7cf737e31bbef8b08447d88e64be441c",
+  "correction": "Only stale→expired in the test expectation; the existing EvidenceLedger enum and all physical/choice/time/budget expectations remain unchanged.",
+  "maximum_attempts": 1,
+  "facility_calls": 0,
+  "direct_public_choice_calls": 0,
+  "model_calls": 0,
+  "new_statistical_units": 0,
+  "inputs": {
+    "summary": {
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39b-development/14-late-ack-qualification/results/actual-run-summary.json",
+      "bytes": 60782,
+      "sha256": "55ee8b055774edbfaa149b33e1e2a403febcc4af1953383acbfd74082d7cd804"
+    },
+    "terminal": {
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39b-development/14-late-ack-qualification/results/terminal.json",
+      "bytes": 2096,
+      "sha256": "f6a6bcba01e1a5bf8b8845fd620ab0a8e97dd24f9c735c78cf08edcfeba75403"
+    },
+    "test_log": {
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39b-development/14-late-ack-qualification/results/test.log",
+      "bytes": 1179,
+      "sha256": "ee092909f28bb059616dffb6ae1eb85868cc0044b5d5fb6f13f63979d21b6f2f"
+    }
+  },
+  "verifier": "scripts/verify_saved_delayed_ack.py",
+  "expected": "Verify all original behavior assertions against the retained summary, including those after the original wrong enum assertion. Never call the facility or selector.",
+  "durable_outputs": [
+    "attempt/terminal",
+    "verification.json",
+    "source-input-tool manifest",
+    "Slurm logs/accounting"
+  ],
+  "retry_policy": "No automatic retry; keep all failures and originals.",
+  "original_registered_research_runs": 180
+}

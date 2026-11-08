@@ -95,8 +95,8 @@ def main():
                 ax.broken_barh([(finish, arrival - finish)], (index - .23, .46), facecolors='#7c3aed')
                 ax.scatter([task['issued_at_s']], [index], color='#334155', s=27, zorder=4)
                 ax.text(finish, index + .32, f'{finish:g} sample' if suffix != 'action' else f'{finish:g} effect',
-                        ha='center', va='bottom', fontsize=9, color='#0f766e')
-                ax.text(arrival, index - .34, f'{arrival:g} arrived', ha='center', va='top', fontsize=9, color='#6d28d9')
+                        ha='center', va='top', fontsize=9, color='#0f766e')
+                ax.text(arrival, index - .34, f'{arrival:g} arrived', ha='center', va='bottom', fontsize=9, color='#6d28d9')
             ax.set(xlim=(-.1, end), yticks=range(len(labels)), yticklabels=[label for _, label in labels],
                    xlabel='Facility time (s)', ylim=(-.75, len(labels) - .15))
             ax.invert_yaxis()
@@ -174,7 +174,7 @@ def main():
         ax.plot([.50, .50], [.05, .93], color='#94a3b8', ls=':', lw=1)
         ax.text(.23, .98, 'PUBLIC', ha='center', color=blue, fontweight='bold')
         ax.text(.77, .98, 'PRIVATE', ha='center', color=green, fontweight='bold')
-        fig.text(.06, .035, 'NO_EFFECT / unknown / normal / no-human remain distinct. APPLIED opens recheck; it never closes risk.', color='#334155')
+        fig.text(.06, .035, 'Consistent APPLIED + arrived completed-work ACK open recheck. Failed / unknown / normal / no-human stay distinct; risk stays unclosed.', fontsize=10, color='#334155')
         fig.savefig(args.output / 'question-action-architecture.png', dpi=150)
         fig.savefig(args.output / 'question-action-architecture.svg', metadata={'Date': None})
         plt.close(fig)

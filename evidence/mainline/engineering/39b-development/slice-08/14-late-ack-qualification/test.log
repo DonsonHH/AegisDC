@@ -1,0 +1,18 @@
+test_recheck_waits_for_work_ack_and_spent_action_survives_stale_initial_reading (test_problem_delayed_ack.DelayedActionAcknowledgmentTests.test_recheck_waits_for_work_ack_and_spent_action_survives_stale_initial_reading) ... FAIL
+
+======================================================================
+FAIL: test_recheck_waits_for_work_ack_and_spent_action_survives_stale_initial_reading (test_problem_delayed_ack.DelayedActionAcknowledgmentTests.test_recheck_waits_for_work_ack_and_spent_action_survives_stale_initial_reading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/14-late-ack-qualification/tests/test_problem_delayed_ack.py", line 45, in test_recheck_waits_for_work_ack_and_spent_action_survives_stale_initial_reading
+    self.assertEqual(records['it-capacity-before']['availability'], 'stale')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'expired' != 'stale'
+- expired
++ stale
+
+
+----------------------------------------------------------------------
+Ran 1 test in 5.365s
+
+FAILED (failures=1)
