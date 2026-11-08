@@ -1,0 +1,22 @@
+test_contradictory_applied_reports_are_refused_at_the_public_boundary (test_problem_feedback_guard.ProblemFeedbackGuardTests.test_contradictory_applied_reports_are_refused_at_the_public_boundary) ... FAIL
+
+======================================================================
+FAIL: test_contradictory_applied_reports_are_refused_at_the_public_boundary (test_problem_feedback_guard.ProblemFeedbackGuardTests.test_contradictory_applied_reports_are_refused_at_the_public_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39b-development/12-red-feedback-guard/tests/test_problem_feedback_guard.py", line 40, in test_contradictory_applied_reports_are_refused_at_the_public_boundary
+    self.assertEqual([r['result'] for r in outcomes], ['REFUSED', 'REFUSED'], 'APPLIED contradiction guards')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['ACCEPTED_CONTRADICTION', 'ACCEPTED_CONTRADICTION'] != ['REFUSED', 'REFUSED']
+
+First differing element 0:
+'ACCEPTED_CONTRADICTION'
+'REFUSED'
+
+- ['ACCEPTED_CONTRADICTION', 'ACCEPTED_CONTRADICTION']
++ ['REFUSED', 'REFUSED'] : APPLIED contradiction guards
+
+----------------------------------------------------------------------
+Ran 1 test in 0.190s
+
+FAILED (failures=1)

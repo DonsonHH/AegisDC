@@ -4,7 +4,7 @@ from fractions import Fraction
 
 from .evidence_ledger import _fields, _finite, _require, _text
 from .inspection_execution import PROFILE_FIELDS, BINDING_FIELDS
-from .intervention_execution import BIND_FIELDS, prepare_intervention
+from .intervention_execution import BIND_FIELDS, prepare_intervention, _authorization
 from .nonfixed_evidence import validate_nonfixed_profile, _arrival
 from .problem_tasks import declared_problem_tasks, open_questions
 from .verified_closure import FEEDBACK_FIELDS
@@ -63,6 +63,10 @@ def _declarations(frame, program):
 def _feedback(frame, program, history, actions):
     _require(type(history['intervention_feedback']) is list, 'Declare arrived problem intervention feedback')
     issued = {row['candidate_id']: row['issued_at_s'] for row in history['issued']}
+    _require(type(history['work_feedback']) is list, 'Declare arrived problem workforce feedback')
+    profile = program['intervention_declaration']['profile']
+    operations = {row['id']: row for row in profile['operations']}
+    grants = {row['id']: row for row in profile['authorizations']}
     reports = {}
     for row in history['intervention_feedback']:
         _fields(row, FEEDBACK_FIELDS, 'Arrived problem intervention feedback')
@@ -83,8 +87,21 @@ def _feedback(frame, program, history, actions):
         _require(issued[task_id] <= row['observed_at_s'] <= row['arrived_at_s'] <= frame['as_of_s']
                  and row['arrived_at_s'] == _arrival(row['observed_at_s'], program['intervention_declaration']['profile']['feedback_latency_s']),
                  'Intervention feedback contains pre-issue, future or undeclared arrival time')
+        if row['outcome'] == 'APPLIED':
+            binding = actions[task_id]
+            _require(_authorization(operations[binding['operation_id']], grants[binding['authorization_id']], row['observed_at_s']),
+                     'APPLIED report contradicts the declared authorization at completion')
+            terminal = [work for work in history['work_feedback'] if work['task_id'] == task_id
+                        and work['status'] in {'completed', 'aborted', 'rejected'}]
+            _require(all(work['status'] == 'completed' and work['observed_at_s'] == row['observed_at_s'] for work in terminal),
+                     'APPLIED report contradicts the arrived workforce completion')
         reports[task_id] = row
     return reports
+
+
+def _completion_arrived(history, report):
+    return report is not None and any(work['task_id'] == report['task_id'] and work['status'] == 'completed'
+        and work['observed_at_s'] == report['observed_at_s'] for work in history['work_feedback'])
 
 
 def _measurement(frame, history, task_id, declaration):
@@ -121,6 +138,7 @@ def compile_problem_actions(frame, program, history):
         observed = _measurement(frame, history, ids['inspect'], inspections[ids['inspect']])
         rechecked = _measurement(frame, history, ids['recheck'], inspections[ids['recheck']])
         report = reports.get(ids['action'])
+        completion_arrived = _completion_arrived(history, report)
         condition = template['action_condition']
         ready = observed is not None
         if condition is not None:
@@ -137,7 +155,7 @@ def compile_problem_actions(frame, program, history):
         if rechecked is not None:
             status = 'RECHECK_REPORTED_UNCLOSED'
         elif report is not None:
-            status = 'ACTION_APPLIED_AWAITING_RECHECK' if report['outcome'] == 'APPLIED' else 'ACTION_NO_EFFECT_UNCLOSED'
+            status = ('ACTION_APPLIED_AWAITING_RECHECK' if completion_arrived else 'ACTION_APPLIED_AWAITING_WORK_ACK') if report['outcome'] == 'APPLIED' else 'ACTION_NO_EFFECT_UNCLOSED'
         elif ids['action'] in issued:
             status = 'ACTION_ISSUED_UNCONFIRMED'
         elif observed is not None:
@@ -150,7 +168,7 @@ def compile_problem_actions(frame, program, history):
                             recheck=report['arrived_at_s'] if report is not None else None)
         allowed = dict(inspect=ids['action'] not in issued,
                        action=condition is None or ready,
-                       recheck=report is not None and report['outcome'] == 'APPLIED')
+                       recheck=report is not None and report['outcome'] == 'APPLIED' and completion_arrived)
         for stage, key in [('inspect', 'task'), ('action', 'action_task'), ('recheck', 'recheck_task')]:
             task = dict(deepcopy(template[key]), id=ids[stage])
             at = availability[stage]
