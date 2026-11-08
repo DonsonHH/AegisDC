@@ -76,7 +76,7 @@ def main():
             writer.writerows((row['time_s'], row['domains']['facility_cooling']['lake_pump']['volume_flow_m3_s'],
                              row['domains']['it_service']['delivered']) for row in rows)
         fig, (ax, timeline) = plt.subplots(2, 1, figsize=(13, 8), gridspec_kw={'height_ratios': [1, 1.4]})
-        fig.subplots_adjust(left=.10, right=.96, top=.86, bottom=.12, hspace=.47)
+        fig.subplots_adjust(left=.16, right=.96, top=.86, bottom=.12, hspace=.47)
         fig.suptitle('Problem-triggered inspection: actual execution and evidence timing', fontsize=17, x=.10, ha='left', y=.965)
         fig.text(.10, .91, 'Synthetic engineering fixture | one paid investigation | no intervention or gain claim', color='#475569')
         ax.plot(times, flow, color='#2563eb', lw=2.2, label='Private plant signal (evaluator only)')
@@ -121,7 +121,7 @@ def main():
         blue='#1d4ed8';green='#047857'
         box(.055,.74,'Work order + static identities','An unconfirmed claim; no hidden fault label',blue)
         box(.055,.56,'DecisionGateway','Current records only; no future measurement',blue)
-        box(.055,.38,'Problem instances','Origin + stable slot + professional task template',blue)
+        box(.055,.38,'Templates + problem instances','Origin + stable slot + professional task template',blue)
         box(.055,.20,'choose_work','Task intention; execution_permission = false',blue)
         box(.585,.20,'CrewWorkforce','Travel / qualification / tool / access checks',green)
         box(.585,.40,'InspectionSession','Sample after actual completion: 3.25 s',green)
