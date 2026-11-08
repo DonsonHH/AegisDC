@@ -1,12 +1,14 @@
 # 39b待实现契约：检查、授权处置与复检
 
-状态：**待实现，尚无该版本的运行或接受证据。** 此文件延续已完成的专业检查、公开服务关联及有限实例/资源/隔离验证，不改变原180次或39a接受范围。下一竖切片先冻结一个完整网络检查→残余处置→复检行为，红片后才实现；下列其他行为分别验证。
+状态：**待实现，尚无该版本的运行或接受证据。** 此文件延续已完成的专业检查、公开服务关联及有限实例/资源/隔离验证，不改变原180次或39a接受范围。下一竖切片的测试、输入与两次预算冻结于`39b-development-slice-05.json`；先运行完整网络检查→残余处置→复检行为的红片，再实现，下列其他行为分别验证。
 
 ## 公开声明与身份
 
 新增`aegisdc-problem-driven-policy-v2`，原v1字段和检查专用行为保持。v2在原程序字段外要求`resource_budget`、`inspection_declaration`及`intervention_declaration`。两份declaration只有公开执行profile/bindings，没有私有观测realizations；运行模块必须与实际生产者声明核对相等。
 
 模板沿用原`task`作为初次检查，另有`action_task`、`recheck_task`、`action_condition`和`issue_costs`。`issue_costs`显式给inspect/action/recheck三类非负研究费用，与人员秒、工具秒分别记账，不折算为服务分数。处置绑定沿用已实现的四种具名操作及原单位/设置域，不能传任意参数名、写外生需求或重置库存。
+
+`inspection_declaration`精确等于实际检查程序的公开`profile`（包含nonfixed_profile与bindings，不含realizations）；`intervention_declaration`精确等于实际具名处置程序。`action_condition`为null或闭合对象`{observable_id,unit,accepted_interval}`；非空时只读取本实例初次检查绑定的记录，`accepted_interval`为两个有限且有序的数，单位与声明物理量相同。
 
 实例问题ID仍为`template/question-N`；v2阶段任务分别为`template/inspect-N`、`template/action-N`和`template/recheck-N`。实际测量/处置槽位可预登记，未发出的任务不执行、不收费或产出观测。同实例同阶段只发一次；不同工单实例保留来源和稳定槽位，不据此断言独立物理事故。
 
