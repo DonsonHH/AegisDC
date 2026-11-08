@@ -48,6 +48,12 @@ def verify(output):
     source=git('rev-parse','HEAD').decode().strip();manifest=read(ROOT/MANIFEST);files=manifest['files']
     assert declaration()==set(files) and files==blob_hashes(source,files)
     for n,h in files.items():assert sha((ROOT/n).read_bytes())==h,n
+    review_members=0
+    for entry in read(ROOT/PACKAGE/'result-review/index.json').values():
+        archive=ROOT/PACKAGE/'result-review'/entry['archive'];assert sha(archive.read_bytes())==entry['sha256']
+        with zipfile.ZipFile(archive) as z:
+            assert set(z.namelist())==set(entry['members']) and len(z.namelist())==len(set(z.namelist()))
+            for n,h in entry['members'].items():assert sha(z.read(n))==h;review_members+=1
     lock=read(ROOT/'docs/mainline/evidence/30-robustness-execution-lock.json');pins=lock['execution_pins']
     assert pins==blob_hashes(EXECUTION,pins) and len(pins)==286
     assert sha(Path(sys.executable).read_bytes())==lock['interpreter_sha256']
@@ -102,7 +108,7 @@ def verify(output):
         for n,h in m['artifacts'].items():assert sha((folder/n).read_bytes())==h
     assert not any(n.startswith('aegis_dc') for n in sys.modules)
     proof=dict(status='PASS_FRESH_SAVED36_DELIVERY',source=source,files=len(files),frozen_execution_files=286,
-        archives=16,native_members=members,actual_runs=16,paired_worlds=8,contrast_blocks=4,
+        archives=16,native_members=members,result_review_members=review_members,actual_runs=16,paired_worlds=8,contrast_blocks=4,
         original_primary_unchanged=True,new_physical_calls=0,new_selectors=0,new_inference=0)
     write(output,proof);return proof
 
