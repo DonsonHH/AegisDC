@@ -1,0 +1,22 @@
+{
+  "review_axis": "Standards",
+  "content_source": "c6fc3a737ba420d1fe752cce52a9aad52189bf26",
+  "initial_source": "f73c57f8806dcc6e23d510e83391b0f46677b6cc",
+  "initial_base": "8e32a8075fb86de0818f8149d4e47cdae3170ad9",
+  "saved_audit_execution_source": "cfea64cbb059e0059ea2d5e8f148d03b66011b26",
+  "scientific_review_source": "2f3fb67f6847b94c24f8d50b95298dd4b057dd6c",
+  "fresh_tool_original_source": "d73ffed453cfc5dcbe5b6865bc0d4d4183586ccb",
+  "fresh_tool_corrected_source": "79480f06804221e1dde68c083bc6ea68e4d82071",
+  "commands": [
+    "git rev-parse c6fc3a73",
+    "git diff --stat cfea64cb...c6fc3a73",
+    "git cat-file blob <pinned-commit>:<declared-small-source-or-evidence-path>",
+    "python -B -X utf8 .work/39a-standards-20261109/final-01/review_metadata.py; raw logs review-01.log and review-02.log retained separately",
+    "git diff d73ffed4...79480f06 -- scripts/verify_scope_audit_delivery.py",
+    "python -B -X utf8 .work/39a-standards-20261109/final-01/seal_packet.py"
+  ],
+  "methods": ["Pinned text and JSON metadata", "Git object and SHA-256 integrity", "Relative-link/source-pointer existence", "Static AST parsing without importing author code", "Manual semantic inspection of finite scope"],
+  "not_executed": ["Project code", "Tests", "Frozen saved auditor", "Fresh verifier", "Prior review scripts", "Model/plant/selector/inference", "Numerical metrics", "Nonce/HMAC", "Browser", "Dependency installation", "Source export/clone/worktree"],
+  "standards": ["AGENTS.md", "docs/agents/compute-storage.md", "docs/agents/issue-tracker.md", "docs/agents/domain.md", "GLOSSARY.md", "docs/adr/0003-complete-facility-mainline.md", ".scratch/full-facility-mainline/spec.md", "docs/reviews/20261109-user-review/response.md"],
+  "smell_policy": "Twelve documented smells treated as heuristics; no meaningful new heuristic finding for the bounded reporting/auditing change. Repository source, lifecycle and evidence rules take priority."
+}

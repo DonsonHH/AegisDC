@@ -1,0 +1,17 @@
+{
+  "id": "S39A-FRESH-01",
+  "priority": "P2",
+  "path": "scripts/verify_scope_audit_delivery.py",
+  "original_line": 21,
+  "original_source": "d73ffed453cfc5dcbe5b6865bc0d4d4183586ccb",
+  "original_git_sha256": "00c716b18c2c6fb16ba74fa04391bff48bd68e3065ae385ac2661b954d46e74e",
+  "original_observed_working_sha256": "00c716b18c2c6fb16ba74fa04391bff48bd68e3065ae385ac2661b954d46e74e",
+  "original_finding": "Working manifest was parsed without comparing it to the declared commit. Accidental deletion of artifact entries, including an empty set, could skip report members and still yield PASS.",
+  "rule": "AGENTS durable delivery must match original manifest and committed blobs; exact declared set may not be weakened by working metadata.",
+  "status": "CLOSED_STATIC_ONLY",
+  "correction_source": "79480f06804221e1dde68c083bc6ea68e4d82071",
+  "correction_sha256": "b5211b64cca400292820d7b96c1bb56af30d208e07d27e4e23929502fe52dbab",
+  "closure": "Manifest raw bytes first match the declared committed blob, then parsing rejects empty or non-dictionary artifact sets before iterating.",
+  "execution": "Neither old nor corrected verifier was run by this reviewer.",
+  "outer_checkout_boundary": "This verifier does not create/remove checkouts. Root must separately use no-checkout before sparse setup, materialize only declared small files and remove normally; no full source/dependency/evidence restoration is authorized."
+}

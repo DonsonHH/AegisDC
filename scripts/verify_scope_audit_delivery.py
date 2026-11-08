@@ -67,6 +67,8 @@ def main():
     for directory, filename in (
         ('spec-initial', 'original-manifest.json'),
         ('standards-initial', 'preparation-manifest.json'),
+        ('spec-final', 'manifest.json'),
+        ('standards-final', 'manifest.json'),
     ):
         location = root / 'evidence/mainline/audits/39a-review-20261109' / directory
         original = json.loads((location / filename).read_text(encoding='utf-8'))['artifacts']
