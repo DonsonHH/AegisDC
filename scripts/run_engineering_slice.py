@@ -109,7 +109,8 @@ def main():
                     raise ValueError('Project module imported outside the frozen stage: ' + name)
         terminal.update(tests_run=result.testsRun, failures=len(result.failures), errors=len(result.errors),
                         skips=len(result.skipped), direct_public_choice_calls=result.public_choice_calls,
-                        internal_public_choice_calls=None if result.facility_calls else 0,
+                        internal_public_choice_calls=None,
+                        internal_public_choice_calls_scope='NOT_INSTRUMENTED_DO_NOT_INFER_FROM_FACILITY_ENTRY_COUNT',
                         returned_decisions=result.returned_decisions,
                         new_facility_calls=result.facility_calls, new_model_calls=0, new_research_trials=0,
                         test_log_sha256=sha256(args.output / 'test.log'),
