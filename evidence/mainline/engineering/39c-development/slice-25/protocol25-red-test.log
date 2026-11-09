@@ -1,0 +1,31 @@
+test_expired_current_authority_does_not_close_question (test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question) ... ERROR
+
+======================================================================
+ERROR: test_expired_current_authority_does_not_close_question (test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/tests/test_instance_review_authority_expiry.py", line 67, in test_expired_current_authority_does_not_close_question
+    choice = choose_work(frame, program, history,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/dispatch_policy.py", line 62, in choose_work
+    return choose_problem_action(frame,program,history,closure_program=closure_program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/problem_actions.py", line 210, in choose_problem_action
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/problem_actions.py", line 133, in compile_problem_actions
+    lifecycle = assess_instance_closure(frame, program, history, closure_program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/problem_closure.py", line 92, in assess_instance_closure
+    rules = validate_instance_closure(frame, policy, program)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/problem_closure.py", line 27, in validate_instance_closure
+    _require(program['schema'] == 'aegisdc-instance-closure-program-v1', 'Unknown instance closure program')
+  File "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Unknown instance closure program
+
+----------------------------------------------------------------------
+Ran 1 test in 0.237s
+
+FAILED (errors=1)

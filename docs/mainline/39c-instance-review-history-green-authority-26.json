@@ -1,0 +1,22 @@
+{
+  "schema": "aegisdc-engineering-green-source-authority-v1",
+  "id": "39c-instance-review-expiry-history-green-26",
+  "classification": "AUTHORIZED_SINGLE_GREEN_SOURCE_CORRECTION",
+  "protocol": "docs/mainline/39c-instance-review-history-projection-protocol-26.json",
+  "prior_red_protocol": "docs/mainline/39c-instance-review-authority-expiry-protocol-25.json",
+  "prior_red_receipt": "evidence/mainline/engineering/39c-development/slice-25/red-result.json",
+  "prior_red_scope": "Expected v1/v2 closure-contract error only; not an expiry behavior proof and must not be repeated.",
+  "fixed_test": "tests/test_instance_review_authority_expiry.py; exact blob d7b169c4bc5e40c40442b5f4bac9d8a7ee1e7024 and SHA-256 20942cbd3b61d064fd6dbf9efb349cd824145cdbb08f6c20ab68afc85b62380c",
+  "fixed_seed": "tests/fixtures/39c-two-instance-public-seed-21.json; exact blob 0555843bc4ef99717ade0420566cbae712486f19 and SHA-256 4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237",
+  "allowed_runtime_files": [
+    "src/aegis_dc/problem_closure.py",
+    "src/aegis_dc/instance_reviews.py"
+  ],
+  "required_behavior": "Derive a public prior frame at the review record arrival clock using the existing historical evidence projection; project public histories by their event times. A disposition valid at5.5s is retained as historical_dispositions with management question closed, risk_closed false and physical_restoration_claim false. At current as_of7, reject the expired grant as a new/current disposition: current question remains OPEN_UNCONFIRMED, question_closed false, risk_closed false and disposition_record_ids empty. Historical output is separate. No public program override, hidden truth, evidence rewrite, current operation/task selection change, test or seed change.",
+  "purity_requirement": "assess_instance_closure consumes detached JSON/current public frame and returns detached values; historical projection uses existing public ledger snapshots. No filesystem, facility state, private truth or external effects.",
+  "maximum_invocations": 1,
+  "public_choice_calls": 1,
+  "facility_entries": 0,
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}

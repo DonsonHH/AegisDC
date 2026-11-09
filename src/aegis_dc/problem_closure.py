@@ -93,6 +93,11 @@ def validate_instance_closure(frame, policy, program):
 
 
 def assess_instance_closure(frame, policy, history, program):
+    """Assess instance closure from the supplied current public frame without side effects."""
+    return _assess_instance_closure(frame, policy, history, program, project_prior_lifecycle=True)
+
+
+def _assess_instance_closure(frame, policy, history, program, *, project_prior_lifecycle):
     """Use each instance's own public completion chain before sampled closure."""
     from .problem_actions import _completion_arrived, _declarations, _feedback, _measurement
 
@@ -179,5 +184,6 @@ def assess_instance_closure(frame, policy, history, program):
         private_state_used=False, risk_probability_invented=False)
     if program['schema'].endswith('-v2'):
         from .instance_reviews import apply_instance_reviews
-        return apply_instance_reviews(frame, program, assessment)
+        return apply_instance_reviews(frame, policy, history, program, assessment,
+                                      project_prior_lifecycle=project_prior_lifecycle)
     return assessment

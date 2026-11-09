@@ -57,8 +57,33 @@ def validate_instance_review_declarations(frame, profile):
     return authorizations, channels
 
 
-def apply_instance_reviews(frame, program, assessment):
-    """Close only the matching management question; never claim risk or physical closure."""
+def _history_at(history, as_of_s):
+    projected = deepcopy(history)
+    projected['issued'] = [row for row in projected['issued'] if row['issued_at_s'] <= as_of_s]
+    projected['work_feedback'] = [row for row in projected['work_feedback'] if row['arrived_at_s'] <= as_of_s]
+    projected['question_instances'] = [row for row in projected['question_instances']
+                                       if row['opened_at_s'] <= as_of_s]
+    projected['intervention_feedback'] = [row for row in projected['intervention_feedback']
+                                          if row['arrived_at_s'] <= as_of_s]
+    return projected
+
+
+def _prior_lifecycle(frame, policy, history, program, question_id, record):
+    """Replay the visible public frame/history at the review's arrival clock."""
+    from .problem_closure import _assess_instance_closure
+    from .verified_closure import _review_frame
+
+    prior_frame = _review_frame(frame, record['arrived_at_s'])
+    prior_history = _history_at(history, record['arrived_at_s'])
+    prior_program = deepcopy(program)
+    prior_program['intervention_feedback'] = deepcopy(prior_history['intervention_feedback'])
+    prior = _assess_instance_closure(prior_frame, policy, prior_history, prior_program,
+                                     project_prior_lifecycle=False)
+    return next((row for row in prior['questions'] if row['question_id'] == question_id), None)
+
+
+def apply_instance_reviews(frame, policy, history, program, assessment, *, project_prior_lifecycle=True):
+    """Return a detached current assessment with authorized past dispositions retained."""
     profile = program['profile']
     authorizations, channels = validate_instance_review_declarations(frame, profile)
     questions = {row['question_id']: row for row in assessment['questions']}
@@ -87,6 +112,21 @@ def apply_instance_reviews(frame, program, assessment):
                  and grant['starts_at_s'] <= record['observed_at_s'] < grant['expires_at_s']
                  and grant['starts_at_s'] <= frame['as_of_s'] < grant['expires_at_s'])
         if not valid:
+            if project_prior_lifecycle and record['arrived_at_s'] <= frame['as_of_s']:
+                historical = _prior_lifecycle(frame, policy, history, program,
+                                              channel['question_id'], record)
+                if historical is not None and historical['status'] == 'RISK_ACCEPTED':
+                    question.setdefault('historical_dispositions', []).append(dict(
+                        record_id=record['id'], disposition=record['value'],
+                        observed_at_s=record['observed_at_s'], arrived_at_s=record['arrived_at_s'],
+                        status_at_arrival=historical['status'],
+                        question_closed_at_arrival=historical['question_closed'],
+                        risk_closed_at_arrival=historical['risk_closed'],
+                        physical_restoration_claim_at_arrival=historical['physical_restoration_claim'],
+                        authorization_id=grant['id'],
+                        scope='HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME'))
+                    question['historical_dispositions'].sort(
+                        key=lambda row: (row['arrived_at_s'], row['record_id']))
             continue
 
         question.update(status='RISK_ACCEPTED', question_closed=True, risk_closed=False,
