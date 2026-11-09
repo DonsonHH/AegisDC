@@ -44,7 +44,7 @@ class DiagnosticQualificationTests(unittest.TestCase):
             event['truth']['threshold']=case['truth_threshold']
             if identifier=='wrong-demand-model':
                 dispatch['diagnostic_profile']['rules'][0]['source_note']='Deliberately wrong estimate of the actual offered-demand requirement: assumes1when the actual requirement is0.5. This is not a design-capacity maintenance alarm.'
-                event['truth']['source_note']='Actual offered demand0.5is the normative requirement, while the public model remains1. Accurate0.75measurement does not justify a true capacity-shortfall event here.'
+                event['truth']['source_note']='Actual offered demand0.5is the normative requirement, while the public model remains1. Actual usable capacity0.5satisfies demand; nameplate0.75is not the measured signal.'
         values=dict(scenario_sha256=model,boundary_events_sha256=[],nominal_knowledge_sha256=dispatch['nominal_knowledge'],
             ledger_sha256=dispatch['evidence_ledger'],workforce_profile_sha256=dispatch['policy_program']['workforce_profile'],
             inspection_profile_sha256=inspection)
@@ -94,7 +94,9 @@ class DiagnosticQualificationTests(unittest.TestCase):
         result=self.run_case('wrong-demand-model');evaluation=result['business_evaluation']
         self.assertEqual(result['policy_public_decisions'][1]['condition_assessment']['conditions'][0]['status'],'ABNORMAL')
         self.assertEqual(evaluation['events'][0]['initial_truth'],'NORMAL')
-        self.assertEqual(evaluation['events'][0]['initial_private_value'],.75)
+        # Allocated power limits the usable scalar to min(nameplate.75,demand.5).
+        # Original failed133274 assertion and saved-only correction133280 remain.
+        self.assertEqual(evaluation['events'][0]['initial_private_value'],.5)
         self.assertEqual(evaluation['counts']['events_total'],1)
         self.assertEqual(evaluation['counts']['false_positive_state_events'],1)
         self.assertEqual(evaluation['rates']['false_positive_state_events']['denominator'],1)
