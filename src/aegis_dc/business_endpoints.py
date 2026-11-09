@@ -7,9 +7,12 @@ PROGRAM_FIELDS = {'schema', 'id', 'facility_id', 'basis', 'time_unit', 'source_n
 EPISODE_FIELDS = {'id', 'question_id', 'task_id', 'opened_at_s', 'source_note'}
 
 
-def validate_business_program(program, facility_id, duration_s, dispatch_program):
+def validate_business_program(program, facility_id, duration_s, dispatch_program, *, scenario=None, boundary_events=()):
     """Validate evaluation-only bindings before any physical execution begins."""
     _plain_json(program)
+    if type(program) is dict and program.get('schema')=='aegisdc-business-diagnostic-evaluation-v1':
+        from .diagnostic_endpoints import validate_diagnostic_evaluation
+        return validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch_program,scenario,boundary_events)
     _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
     _require(program['schema'] == 'aegisdc-business-closure-evaluation-v1'
              and program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
@@ -92,3 +95,10 @@ def evaluate_business_closure(result, program):
             false_positive_rate=None, missed_detection_rate=None, prevention_effect=None),
         new_research_trials=0,
         field_calibration='PENDING', research_gain_claim='NOT_ESTABLISHED')
+
+
+def evaluate_business_endpoints(result, program):
+    if program['schema']=='aegisdc-business-diagnostic-evaluation-v1':
+        from .diagnostic_endpoints import evaluate_diagnostic_events
+        return evaluate_diagnostic_events(result,program)
+    return evaluate_business_closure(result,program)

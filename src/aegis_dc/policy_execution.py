@@ -12,10 +12,11 @@ class PolicySession:
     """The selector receives only a validated frame and arrived public feedback."""
     def __init__(self,program,duration_s):
         _plain_json(program)
-        lifecycle=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v3'
-        live=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3'}
-        _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set()),'Policy facility run program')
-        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3'},'Unknown policy facility run schema')
+        diagnostics=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v4'
+        lifecycle=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'}
+        live=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'}
+        _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set())|({'diagnostic_profile'} if diagnostics else set()),'Policy facility run program')
+        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'},'Unknown policy facility run schema')
         _text(program['id'],'Policy facility run id');self.program=deepcopy(program)
         self.times=program['decision_times_s']
         _require(type(self.times) is list and 1<=len(self.times)<=128,'Declare one to128 policy decision instants')
@@ -27,6 +28,7 @@ class PolicySession:
         self.problem_driven=program['policy_program']['schema'] in {'aegisdc-problem-driven-policy-v1','aegisdc-problem-driven-policy-v2'}
         self.problem_actions=program['policy_program']['schema']=='aegisdc-problem-driven-policy-v2'
         self.question_instances=[]
+        self.diagnostic_profile=deepcopy(program['diagnostic_profile']) if diagnostics else None
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v4':
             projection=program['policy_program'].get('evidence_projection')
             _require(type(projection) is dict and type(self.inspection_program) is dict and 'profile' in self.inspection_program,
@@ -89,6 +91,9 @@ class PolicySession:
             produced={r['record_id'] for r in self.inspection_program['profile']['bindings']}
             _require(not produced&{r['id'] for r in self.ledger['records']},'Do not prefill actual inspection records')
         initial=self._frame(0,None)
+        if diagnostics:
+            from .condition_assessment import validate_condition_profile
+            validate_condition_profile(initial,self.diagnostic_profile)
         if self.problem_driven:
             from .problem_tasks import declared_problem_tasks
             declared_candidates=declared_problem_tasks(initial,program['policy_program'])
@@ -142,7 +147,14 @@ class PolicySession:
             model_evaluations=deepcopy(choice['model_evaluations']),candidate_count=len(choice['candidates']),
             forecast_branch_count=choice.get('forecast_branch_count',0),
             scope='DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT'))
-        self.decisions.append(dict(frame=frame,history=history,choice=deepcopy(choice)))
+        decision=dict(frame=frame,history=history,choice=deepcopy(choice))
+        if self.diagnostic_profile is not None:
+            from .condition_assessment import assess_conditions
+            diagnostic_started=perf_counter_ns()
+            decision['condition_assessment']=assess_conditions(frame,self.diagnostic_profile)
+            self.computation_audit[-1].update(condition_assessment_evaluations=1,
+                condition_assessment_elapsed_ns=perf_counter_ns()-diagnostic_started)
+        self.decisions.append(decision)
         self.index+=1
         if choice['chosen_candidate_id'] is None:return False
         task=choice['work_intention']

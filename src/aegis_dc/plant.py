@@ -706,7 +706,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             raise ValueError(name + ' outside declared runtime range')
     if business_program is not None:
         from .business_endpoints import validate_business_program
-        business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program)
+        business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                                                     scenario=scenario, boundary_events=boundary_events)
     timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
                                     control_profile=scenario['runtime'].get('local_control_profile'),
                                     reserve_profile=scenario['runtime'].get('reserve_profile'))
@@ -876,8 +877,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
     if business_program is not None:
-        from .business_endpoints import evaluate_business_closure
-        result['business_evaluation'] = evaluate_business_closure(result, business_program)
+        from .business_endpoints import evaluate_business_endpoints
+        result['business_evaluation'] = evaluate_business_endpoints(result, business_program)
     return result
 
 
