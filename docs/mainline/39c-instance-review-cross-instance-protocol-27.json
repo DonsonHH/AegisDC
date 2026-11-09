@@ -1,0 +1,60 @@
+{
+  "schema": "aegisdc-development-execution-correction-v1",
+  "id": "39c-instance-review-cross-instance-disposition-qualification-27",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_SINGLE_GREEN_QUALIFICATION_NOT_RESEARCH",
+  "question": "A current ACCEPT_RISK record with a review channel and grant bound to question-0 must not close sibling question-1, even when both questions share the same template, system and target.",
+  "relationship_to_prior_slices": "Complements the positive protocol24 exact-instance acceptance and the protocol26 authority-expiry/history qualification. It does not alter those inputs or terminal records and does not rerun any previous attempt.",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "test": {
+    "path": "tests/test_instance_review_cross_instance.py",
+    "git_blob": "e350d3f5340a29774e1f2f67719b712c8cfba100",
+    "sha256": "9606abdcc01781a898f928588e332be3b387371072f49bfd58dd306f82e77d60",
+    "test_names": [
+      "test_instance_review_cross_instance.InstanceReviewCrossInstanceTests.test_disposition_is_limited_to_its_exact_instance"
+    ],
+    "expectations": {
+      "authorized_question": "cooling-direct/question-0",
+      "authorized_status": "RISK_ACCEPTED",
+      "sibling_question": "cooling-direct/question-1",
+      "sibling_status": "OPEN_UNCONFIRMED",
+      "shared_template": "cooling-direct",
+      "shared_target": "intake_pump",
+      "sibling_question_closed": false,
+      "sibling_risk_closed": false,
+      "sibling_disposition_ids": []
+    }
+  },
+  "attempt": {
+    "maximum_invocations": 1,
+    "source": "Clean source commit carrying this test and protocol; no runtime modification is planned because the positive and expiry code path is already present.",
+    "output_root": "/root/private_data/aegisdc-mainline-39c/34-instance-review-cross-instance-green-v27"
+  },
+  "budget": {
+    "tests": 1,
+    "direct_public_choice_calls": 1,
+    "facility_entries": 0,
+    "native_horizons": 0,
+    "returned_native_decisions": 0,
+    "LLM_calls": 0,
+    "training_calls": 0,
+    "GPU_use": false,
+    "new_research_trials": 0
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/34-instance-review-cross-instance-green-v27",
+  "durable_set": "Freeze source snapshot, manifest, fixed public seed, test, attempt, actual input/output, terminal and test log under the unique private persistent output namespace. Preserve all earlier protocol24-26 attempts.",
+  "failure_rule": "One invocation only. Preserve the complete terminal on success or failure. Any correction needs a new protocol and output root; do not retry this input.",
+  "whole_39c_accepted": false
+}
