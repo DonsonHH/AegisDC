@@ -1,0 +1,77 @@
+{
+  "schema": "aegisdc-development-slice-result-v1",
+  "date": "2026-11-09",
+  "classification": "REMOTE_PUBLIC_INTERFACE_GREEN_ENGINEERING_NOT_RESEARCH",
+  "protocol": "docs/mainline/39c-instance-review-container-protocol-24.json",
+  "authority": "docs/mainline/39c-instance-review-green-authority-25.json",
+  "attempt": "30-instance-review-container-green-v24",
+  "execution_source": "d823a68f5af03d5d464d1f2dd45d14fbe5b9e8f0",
+  "remote_staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/30-instance-review-container-green-protocol-24",
+  "remote_output_root": "/root/private_data/aegisdc-mainline-39c/30-instance-review-container-green-v24",
+  "status": "GREEN_BEHAVIOR_PASSED",
+  "test": "test_instance_review.InstanceReviewTests.test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim",
+  "tests_run": 1,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "direct_public_choice_calls": 1,
+  "facility_entries": 0,
+  "completed_native_horizons": 0,
+  "returned_native_decisions": 0,
+  "new_research_trials": 0,
+  "gpu_used": false,
+  "numpy_imported_by_test": false,
+  "source_guard": "PASS_BEFORE_AND_AFTER",
+  "test_and_seed_identity": "Exact Git blobs match protocol24 red execution source.",
+  "outcomes": {
+    "cooling-direct/question-0": {
+      "status": "VERIFIED_CLOSED",
+      "question_closed": true,
+      "risk_closed": true,
+      "physical_restoration_claim": false,
+      "supporting_record_ids": [
+        "flow-after-clean",
+        "flow-transfer:0",
+        "flow-transfer:1",
+        "joint-service-transfer:0",
+        "joint-service-transfer:1"
+      ]
+    },
+    "cooling-direct/question-1": {
+      "status": "RISK_ACCEPTED",
+      "question_closed": true,
+      "risk_closed": false,
+      "physical_restoration_claim": false,
+      "disposition_record_ids": [
+        "accept-risk-instance1-21"
+      ],
+      "own_recheck_passed": false,
+      "supporting_record_ids": [],
+      "fault_probability": null
+    }
+  },
+  "artifacts": {
+    "attempt.json": {
+      "bytes": 858,
+      "sha256": "ba5ae2ff65564e1b99eca0e58e64918fd86efc968180704c61d3e224dc956882"
+    },
+    "terminal.json": {
+      "bytes": 15401,
+      "sha256": "b1bd2602032811f747e3554b47c89810371aaa95bf425a136b961be6c47a15f3"
+    },
+    "test.log": {
+      "bytes": 313,
+      "sha256": "c6c61f40393fcacdf83223d6bb34ca179436ebf352d4d28a703cfec62010b9bf"
+    },
+    "frozen-public-call-input.json": {
+      "bytes": 80436,
+      "sha256": "b01d3795db56702bc829fb4f78f006db5a8c7042eeda5098a3dc4eeba70a6c64"
+    },
+    "actual-public-choice.json": {
+      "bytes": 13220,
+      "sha256": "17ae7c92c5a47b07cc88bfe02489a8615a7963dcefdf8f041c5941792de5f09d"
+    }
+  },
+  "interpretation": "The authorized ACCEPT_RISK disposition closes only the matching management question at its valid observation/current time. It does not close physical risk or claim equipment restoration. The prior instance remains closed from its own action and evidence chain.",
+  "limits": "One public engineering behavior only. No facility execution, research trial, false-alarm review, authority negative-control, whole39c acceptance or scientific gain is claimed."
+}
