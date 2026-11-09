@@ -1,0 +1,11 @@
+{
+  "classification": "READ_ONLY_RESULT_TRANSPORT_TOOL_FAILURE_NOT_EXPERIMENT_FAILURE",
+  "failed_tool_sha256": "a876d53040e6c4a5d48b545cb095124c58cf80820063a3fd99f29093199f6ef6",
+  "observed_error": "RuntimeError: dictionary changed size during iteration",
+  "cause": "A global text replacement also inserted the local verification block into the embedded remote read-only program, where it iterated a dictionary that later gained its private-index entry.",
+  "remote_job": "133330",
+  "physical_or_evaluator_calls": 0,
+  "remote_mutations": 0,
+  "original_capture_untouched": true,
+  "correction": "Use a uniquely matched unindented local block; keep the embedded remote program unchanged. New helper filename, same original terminal job and unique not-yet-created local delivery directory."
+}
