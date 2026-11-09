@@ -16,7 +16,7 @@ execution={'red':'9ad3afd8503964f5fea9582a603b952ec3adf000',
            'green':'d823a68f5af03d5d464d1f2dd45d14fbe5b9e8f0'}[phase]
 test='tests/test_instance_review_authority_expiry.py'
 seed='tests/fixtures/39c-two-instance-public-seed-21.json'
-output=root/'.work/39c-review25-container'/phase
+output=root/'.work/39c-review25-container'/(phase+'-'+control[:8])
 output.mkdir(parents=True,exist_ok=False)
 git=lambda *values:subprocess.check_output(['git',*values],cwd=root)
 for name in ['.gitattributes','.gitignore','pyproject.toml','scripts/run_engineering_slice.py',
