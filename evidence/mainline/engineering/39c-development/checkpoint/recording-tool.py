@@ -1,0 +1,31 @@
+"""Post-CI metadata and fixed-commit identity index; no project execution."""
+from datetime import datetime,timezone
+import hashlib,json,subprocess
+from pathlib import Path
+
+G=lambda *args:subprocess.check_output(['git',*args])
+head=G('rev-parse','HEAD').decode().strip();assert head=='1e71a8ab897976ddcd4b099985342e566c386600'
+base='42252bf8a9242f9141212fa4922318ca82ed310c'
+pub=json.loads(Path('.work/39c-checkpoint-publication-01.json').read_text())
+assert pub['commit']==head and pub['remote_tree_matches'] and pub['ci']['status']=='completed' and pub['ci']['conclusion']=='success'
+assert not G('diff','--name-only',base,head,'--','configs','evidence/mainline/research','paper/mainline-report-20261108').strip()
+paths=G('diff','--name-only','-z',base,head).decode().strip('\0').split('\0')
+queries=[head+':'+name for name in paths]
+raw=subprocess.check_output(['git','cat-file','--batch'],input=('\n'.join(queries)+'\n').encode())
+files={};offset=0
+for name in paths:
+ end=raw.index(b'\n',offset);identity,kind,size=raw[offset:end].split();assert kind==b'blob'
+ size=int(size);data=raw[end+1:end+1+size];assert len(data)==size
+ files[name]={'git_blob':identity.decode(),'bytes':size,'sha256':hashlib.sha256(data).hexdigest()}
+ offset=end+size+2
+assert offset==len(raw)
+packet=Path('evidence/mainline/engineering/39c-development/checkpoint');packet.mkdir()
+manifest={'classification':'FIXED_PUBLISHED_CHECKPOINT_CHANGED_SET_NOT_LIVE_HEAD_MANIFEST','base_commit':base,'delivery_commit':head,'files':files,'runtime_cache_policy':'Only declared committed changed files, no runtime caches. Exact historical files are bound to this fixed commit even when later lifecycle metadata changes.','private_native_scope':'Original native files and call inputs stay on the server with per-terminal SHA indexes. Full fresh-ticket native reread and root acceptance are pending; this is not that acceptance.'}
+with (packet/'delivery-manifest.json').open('x',encoding='utf-8',newline='\n') as stream:json.dump(manifest,stream,ensure_ascii=False,indent=2);stream.write('\n')
+skip_reason='Optional isolated Torch runtime is required for neural model checks'
+skip_names=['test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit','test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior']
+record={'schema':'aegisdc-development-checkpoint-v1','ticket':'39c','status':'PARTIAL_DEVELOPMENT_CHECKPOINT_NOT_TICKET_ACCEPTANCE','date':'2026-11-09','branch':'donson/mainline-39c-endpoints','published_code_commit':head,'publication':pub,'report':'evidence/mainline/engineering/39c-development/README.md','fixed_delivery_manifest':(packet/'delivery-manifest.json').as_posix(),'fixed_delivery_manifest_sha256':hashlib.sha256((packet/'delivery-manifest.json').read_bytes()).hexdigest(),'changed_files':len(files),'ci_tests':{'discovered':613,'executed':611,'failures':0,'errors':0,'skipped':2,'optional_neural_skips':[{'test':name,'reason':skip_reason} for name in skip_names],'unexpected_skips':[],'gate':'PASS','log_sha256':hashlib.sha256(Path('.work/39c-checkpoint-ci-01.log').read_bytes()).hexdigest(),'scope':'Existing minimal cloud CI; not the future zero-skip isolated whole39c root gate.'},'sealed_development_counts':{'facility_entries':7,'completed_native_horizons':4,'completed_native_duration_s':38,'returned_decisions':33,'direct_public_choice_calls':0,'internal_choice_or_forecast_calls':'NOT_INSTRUMENTED','LLM_or_training_calls':0,'denominator':'Development/qualification captures only; CI fixture runs are separate regression work. Failed unreturned execution is not counted as a completed horizon.'},'original_failures':{'133147':'Expected-red TypeError preserved','133194':'FAILED zero-tests preserved','133195':'FAILED two input errors; successful8s case retained and not rerun for correction'},'correction':{'job':'133223','source':'24f35d8312a860325a7737cfcc363d0d69911822','tests':2,'returned_decisions':17,'status':'QUALIFICATION_BEHAVIORS_PASSED'},'figures':{'job':'133245','source':'2f29119e5eefe3c5eee3e57aab1734f1fc08b1c0','attempts':1,'figures':2,'actually_viewed_PNGs':2,'physical_or_model_reruns':0,'visual_qa':'evidence/mainline/engineering/39c-development/figures-01/visual-qa.json'},'reviews':{'first_slice_source':'55ef2e190e38e397dc88abad9223c5442b1c3376','correction_source':'24f35d8312a860325a7737cfcc363d0d69911822','Spec':'PASS_STATIC_FINITE_SCOPES','Standards':'PASS_STATIC_FINITE_SCOPES','originals':'evidence/mainline/engineering/39c-development/reviews-01/originals-manifest.json'},'remaining':['Dynamic problem-instance closure adaptation','Public diagnosis and private truth/normal/unknown/opportunity denominators','Lead/censor/prevention counterfactual and complete actual costs','Whole-ticket root0skip and fresh Git delivery before acceptance'], 'next_design':'docs/mainline/39c-next-diagnostic-notes.md','original_registered_research_runs':180,'new_research_trials':0,'field_calibration':'PENDING','AI_RSI_effect':'NOT_MEASURED','main_integration_accepted_baseline':base,'whole_39c_accepted':False,'overall_goal':'INCOMPLETE','recorded_at_utc':datetime.now(timezone.utc).isoformat()}
+p=Path('docs/mainline/evidence/39c-checkpoint.json')
+with p.open('x',encoding='utf-8',newline='\n') as stream:json.dump(record,stream,ensure_ascii=False,indent=2);stream.write('\n')
+p=Path('docs/mainline/progress.json');a=json.loads(p.read_text(encoding='utf-8'));a['active_implementations'][0]['status']='FINITE_CLOSURE_CHECKPOINT_PUBLISHED_CI_PASS_NEXT_DIAGNOSTIC_AND_INSTANCE_SCOPE';a['development_39c'].update(checkpoint='docs/mainline/evidence/39c-checkpoint.json',checkpoint_ci=dict(run_id=pub['ci']['run_id'],source=head,status='SUCCESS',discovered=613,executed=611,optional_skips=2),denominator_note='Sealed development/qualification only; cloud regression runs separate, original180unchanged.',next_design='docs/mainline/39c-next-diagnostic-notes.md');p.write_text(json.dumps(a,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+print(json.dumps({'checkpoint':head,'changed_files_indexed_at_fixed_commit':len(files),'CI':'613discovered_611executed_2optional_skips_0failerror','whole_ticket_accepted':False}))

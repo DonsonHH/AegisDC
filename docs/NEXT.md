@@ -6,7 +6,7 @@
 
 [39b实际检查、处置、复查及三张数据/架构图](mainline/39b-root-acceptance.md)已接受。609/609远端回归与一次fresh核验通过，406交付文件、2,208源码身份、52份服务器完整轨迹及原失败均核对。当前39c先定义故障真值、可检测机会、提前量和验证关闭端点；39d保留39b/39c依赖，原39的AI比较尚未运行。
 
-[39c业务评价草案](mainline/39c-business-endpoints-plan.md)列出事件与机会分母、删失、反事实和关闭状态及远端行为验证顺序。当前仅有设计草案，未冻结输入/预算，未实现或运行。
+[39c开发检查点](../evidence/mainline/engineering/39c-development/README.md)已交付关闭时序、三个边界及两张实际数据/架构图；613项云端发现中611项执行通过、2项既有可选神经检查跳过。整票仍在开发；[下一行为设计](mainline/39c-next-diagnostic-notes.md)区分外部提示、读数、条件判定、私有真值和方法无关的取证机会，后续还须动态实例、提前量/反事实与完整成本。原[业务评价草案](mainline/39c-business-endpoints-plan.md)继续约束完整范围，不以本次有限检查点替代39c验收。
 
 [站内第三项目](https://lab.donson.top/liquid-cooling/)保留最新已接受基线报告的12图、数据及历史下载，Datapath/ISA及HTTPS保持。现有报告与原主要结论不因本次审阅而改写；AI可检验性仍通过38，效果尚未测。[发布核验](mainline/evidence/lab-publication-20261109.json)。
 
