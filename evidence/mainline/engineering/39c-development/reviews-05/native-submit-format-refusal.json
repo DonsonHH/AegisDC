@@ -1,0 +1,20 @@
+{
+  "classification": "NATIVE_SLURM_SUBMISSION_FORMAT_WITH_ORIGINAL_BYTES",
+  "failed_precommit_check_exit_code": 2,
+  "check": "git diff --cached --check",
+  "metadata_only_reproduction_stdout": "evidence/mainline/engineering/39c-development/figures-04/18-saved-reference-windows/submit.log:7: trailing whitespace.\n+JobId=133358 JobName=aegis39c-run-qualification UserId=renly(1017) GroupId=renly(1022) MCS_label=N/A Priority=4294879601 Nice=0 Account=renly QOS=normal JobState=PENDING Reason=Priority Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:05:00 TimeMin=N/A SubmitTime=2026-11-09T11:39:45 EligibleTime=2026-11-09T11:39:45 AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-11-09T11:39:45 Scheduler=Main Partition=cu AllocNode:Sid=mu01:3544793 ReqNodeList=(null) ExcNodeList=(null) NodeList= NumNodes=1-1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:* TRES=cpu=1,mem=2G,node=1,billing=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=1 MinMemoryNode=2G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null) Command=/share/home/renly/renly-patrol-rsi/mainline/39c-development/18-saved-reference-windows/job.slurm WorkDir=/share/home/renly/renly-patrol-rsi/mainline/39c-development/18-saved-reference-windows StdErr=/share/home/renly/renly-patrol-rsi/mainline/39c-development/18-saved-reference-windows/slice-133358.err StdIn=/dev/null StdOut=/share/home/renly/renly-patrol-rsi/mainline/39c-development/18-saved-reference-windows/slice-133358.out Power= \n",
+  "metadata_only_reproduction_stderr": "",
+  "path": "evidence/mainline/engineering/39c-development/figures-04/18-saved-reference-windows/submit.log",
+  "bytes": 1676,
+  "sha256": "2b6a5aebf7b227938b63a2990429b5c93d4ef7dcdbe912c77ae262a211d545c5",
+  "original_transport_bytes_equal": true,
+  "native_trailing_lines": [
+    7
+  ],
+  "correction": "Exact path classifies native scontrol Power= trailing space, original log unmodified; no broad rule or evidence hash bypass",
+  "project_calls": 0,
+  "native_retries": 0,
+  "ci_runs_submitted": 0,
+  "preliminary_skip_ci_feature_push": "e3668b4755522a0e766bc82c6142a53054c5ddba",
+  "checkpoint03_code_push": "NOT_YET_SUBMITTED"
+}
