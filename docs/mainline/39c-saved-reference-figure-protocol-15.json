@@ -1,0 +1,19 @@
+{
+  "schema":"aegisdc-saved-figure-protocol-v1",
+  "id":"39c-saved-reference-window-figure-15",
+  "classification":"REMOTE_SAVED_ONLY_RENDER_NO_NEW_EVALUATION",
+  "original_jobs":["133310","133326","133335","133340"],
+  "inputs":"Four original green business-result JSONs, terminal/source manifests and job IDs; no trajectory or model execution. Exact Git delivery input set is recorded by the staging manifest.",
+  "tool":"scripts/plot_business_reference_windows.py",
+  "maximum_new_render_attempts":1,
+  "expected":{"data_rows":4,"figures":1,"pngs":1,"svgs":1,"csv":1},
+  "semantics":"All four events have declared initial FAULT truth, but reference eligibility differs. Grey bars show observed run windows, hollow diamonds show declared reference time, filled stars only actual corroborated public confirmation. The2.5s reference in the2s TOO_LATE case is planned, not an observed future arrival. The deferred case actually confirms at2.25s with the original1.75s eligible reference. Deadline is2s; zero applicable denominator means null rate. Different case windows are not an effect comparison.",
+  "checks":"Explicit normal interpreter mode; Slurm compute node; frozen Git input/tool bytes before and after; original saved business bytes checked against original terminal; execution identity checked against original source manifest. Automatic text canvas bounds and separate actual PNG viewing.",
+  "resources":{"partition":"cu","cpus":1,"memory_GiB":2,"wall_minutes":5,"requeue":false,"python_environment":"existing diffv2ir Matplotlib"},
+  "new_facility_calls":0,
+  "new_model_calls":0,
+  "new_research_trials":0,
+  "failure_rule":"One unique render namespace18-saved-reference-windows; record attempt/terminal, retain failures. No automatic rerender.",
+  "durable_set":"Pinned protocol, renderer and staging/transport tools; four selected saved input sets; manifest, job, attempt, terminal/logs, CSV and PNG/SVG, separate actual-view record. Runtime caches excluded.",
+  "whole_39c_accepted":false
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "aegisdc-spec-reference-v2-finite-group-review-v1",
+  "base": "2bd11ed32ac012ffc102611b5121739aa5386032",
+  "candidate": "10b2b21f946c44bc8bea3a998b96e32de44cf07b",
+  "status": "PASS_STATIC_FINITE_SLICES_10_TO_14",
+  "finding_count": 0,
+  "findings": [],
+  "files": {
+    "src/aegis_dc/business_endpoints.py": "5c87a0837d3f4cbd5f6a643a0e2da01ea2be1b2e",
+    "src/aegis_dc/diagnostic_endpoints.py": "0589682d0173c0e4a3ef921f5a8da11522ba2650",
+    "src/aegis_dc/problem_tasks.py": "76e8d3d016a187b502b697d974a6c92b9502f58a",
+    "src/aegis_dc/problem_actions.py": "47ef60a6e82e3355a7b7e49c72e1565988283935",
+    "docs/mainline/39c-unmodeled-opportunity-contract-10.md": "d0c116f0d479a6ed860acfaf2186e78304d0f527",
+    "docs/mainline/39c-unmodeled-opportunity-protocol-10.json": "8f9849f670476392138127a38a8b61b01e01abd3",
+    "docs/mainline/39c-unavailable-opportunity-contract-11.md": "3f27c46d4ae5047c1ebfff6b20a9740849299d5f",
+    "docs/mainline/39c-unavailable-opportunity-protocol-11.json": "e8b86fec6bc17d4cdcb94394040de3eeab2d07c1",
+    "docs/mainline/39c-too-late-opportunity-contract-12.md": "4e4034300a4275211562a3243b946cb96b20cc51",
+    "docs/mainline/39c-too-late-opportunity-protocol-12.json": "c29a0fe727696c7ce1b88a0d00a2b9e43d567321",
+    "docs/mainline/39c-deliberate-defer-contract-13.md": "3debbb2721b75c1069c8427615f7fbcc1d58b606",
+    "docs/mainline/39c-deliberate-defer-protocol-13.json": "0f8afa4089ca7d76ca5c95be2a4ff4123a62b6bc",
+    "docs/mainline/39c-reference-refusal-qualification-14.json": "ca42b6a5e0dfddb1641ce4888df79d804f032e02",
+    "tests/test_diagnostic_opportunity.py": "ee222d4914df7ac9dc67c34f1fb40e264d33f712",
+    "tests/test_diagnostic_unavailable.py": "50baccfbbe2c2101c8b716a62206d201fc794064",
+    "tests/test_diagnostic_too_late.py": "ac7b49860a8625789fa7e0e808fdeb2eca2272f4",
+    "tests/test_diagnostic_deliberate_defer.py": "1643b8894cea6760d82b9afa9bc386d1caef70ec",
+    "tests/test_diagnostic_reference_refusal.py": "5d216d06bb334ab1126b311c3f195dd63093fcf3",
+    "tests/fixtures/39c-unmodeled-opportunity-10.json": "ed9832147627683d3a0cede6f0090e325645e104",
+    "tests/fixtures/39c-unavailable-opportunity-11.json": "4b5b3206dc3f3bd6e2622b4f85ac78d5bf13c7ee",
+    "tests/fixtures/39c-too-late-opportunity-12.json": "901292465e45994e87498f3c53dd1e0be2207705",
+    "tests/fixtures/39c-deliberate-defer-13.json": "fb37c6724be444df337518c03a2a0e7e0d5b8ff7",
+    "tests/fixtures/39c-reference-refusal-14.json": "1b72722f9b8d44b628f74bb001c4b4f2d1846ff0",
+    "evidence/mainline/engineering/39c-development/slice-10/13-unmodeled-reference-green/business-result.json": "703906d9c8515672ca55342e5defbd7df34320e8",
+    "evidence/mainline/engineering/39c-development/slice-11/14-unavailable-reference-green/business-result.json": "2827b5a56eafda03507baa47bee8fbcccc6cf107",
+    "evidence/mainline/engineering/39c-development/slice-12/15-too-late-reference-green/business-result.json": "4073874ca33b24186856e52d37212bea16726312",
+    "evidence/mainline/engineering/39c-development/slice-13/16-deliberate-defer-green/business-result.json": "695a047074c44f7690fcc16259cec24ebf3ec7ca",
+    "evidence/mainline/engineering/39c-development/slice-14/17-reference-refusal-qualification/terminal.json": "c8bcd9d79fa3539838cbe6355e2cc040cb0d6ad3"
+  },
+  "contract_review": [
+    {
+      "spec": "contract10:3-11,contract11:3-11",
+      "code": "business_endpoints.py private schema routing; diagnostic_endpoints.py:14-83,91-145",
+      "assessment": "v2 alone permits null earliest return for declaredUNMODELED/UNAVAILABLE, retains finite start/cutoff and named-task binding. Full fault events/status counts remain while matureELIGIBLE denominator0 produces null rate and reason. v1 finite ordering,statuses and result schema remain on the original branch."
+    },
+    {
+      "spec": "contract12:3-11",
+      "code": "diagnostic_endpoints.py:54-82,91-145",
+      "assessment": "TOO_LATE is v2-only, finite return strictly after cutoff and a declared inspection task are required. Saved12 keeps2.5 as a reference plan, actual confirmation null in2s, reference_too_late1 and no eligible denominator. It does not claim an observed2.5 confirmation or an unobserved censoring event."
+    },
+    {
+      "spec": "contract13:3-11",
+      "code": "problem_tasks.py policy declaration; problem_actions.py:183-203",
+      "assessment": "defer_once accepted only in problem-driven-v2, selects no_human until an actual public question-instance history exists, thenFIFO. It does not read business truth/reference and retains existing AdmissionBudget,workforce,authorization and safety gates. Public output distinguishes declared policy from stage selector."
+    },
+    {
+      "spec": "contract13:5-9",
+      "code": "test_diagnostic_deliberate_defer.py frozen grid/reference assertions; diagnostic_endpoints.py:121-142",
+      "assessment": "Grid retains0 and1.75, the original six-part reference object is unchanged, and the real first report2.25 is LATE_CONFIRMATION against cutoff2. ELIGIBLE denominator1/missed1 remains; it is not reclassifiedTOO_LATE or excluded because the method deferred."
+    },
+    {
+      "spec": "qualification14 expected10entries,0native horizons,0returned decisions",
+      "code": "test_diagnostic_reference_refusal.py; diagnostic_endpoints.py before-run validation",
+      "assessment": "One test makes ten invalid facility-interface entries, saves each input/refusal and any unexpected returned run before failing. Recorded ten ValueError refusals and zero returned decisions are not ten completed simulations or scientific units."
+    }
+  ],
+  "saved_execution": {
+    "slice10": {
+      "red_job": "133306",
+      "red_source": "56dc604726790de845afbc1a25939c9b757da4f9",
+      "green_job": "133310",
+      "green_source": "4fce17d050c6c33291ef971cc1dcbb5ce1a2a808",
+      "saved_result": "FAULT retained,UNMODELED1,eligible0,rate null;3returned decisions in one2s horizon."
+    },
+    "slice11": {
+      "red_job": "133316",
+      "red_source": "fe3f83a39be02d924c9e480284eeea8b8a2d3895",
+      "green_job": "133326",
+      "green_source": "986f3fa50493e78cf589745ee2c45d466ddb4614",
+      "saved_result": "Actual closed-gate attempt aborts;FAULT retained,UNAVAILABLE1,earliest null,eligible0,rate null."
+    },
+    "slice12": {
+      "red_job": "133330",
+      "red_source": "961082f1327398bc2b1665ac928da0c94973c255",
+      "green_job": "133335",
+      "green_source": "b1d7f05c5b434eace80f41386ef526f51ad1f7cf",
+      "saved_result": "Actual work completed but no arrived measurement within2s;TOO_LATE reference2.5,actual first report null,eligible0,rate null."
+    },
+    "slice13": {
+      "red_job": "133339",
+      "red_source": "ba7301c056c49de59eff1599be2a6269ecbc5554",
+      "green_job": "133340",
+      "green_source": "d575f15de8047280331ee82923a6a64f8790301c",
+      "saved_result": "First actual report2.25,observed1.75,ELIGIBLE1/missed1/rate1,LATE_CONFIRMATION,reference_too_late0;6returned decisions."
+    },
+    "slice14": {
+      "job": "133355",
+      "source": "2764ba921ab8228cf288963c66fd3a9478b5bd7d",
+      "saved_result": "QUALIFICATION_BEHAVIORS_PASSED,1test/10interface entries,0returned decisions and no completed native horizon."
+    },
+    "source_guards": "All inspected red/green/qualification terminals record PASS_BEFORE_AND_AFTER. Green cases each have0failure/error/skip; expected-red errors remain separate.",
+    "freezes": "Git metadata diffs for each10-13 red→green pair show no changes in frozen test,fixture,contract,protocol,stager or runner. No recalculation or replay was performed."
+  },
+  "boundaries": [
+    "UNMODELED case is explicitly a synthetic interface declaration of missing registered timing, not a claim that its model delay is physically unknowable.",
+    "UNAVAILABLE/TOO_LATE statuses are finite registered witnesses with source-specific constraints; the validator does not establish arbitrary full-facility detectability.",
+    "defer_once is an engineering boundary control, not a new method in original30, an AI/RSI factor, a gain or general proof that deferral is harmful.",
+    "Static metadata comparison found no original180/configs/report,30protocol or prior01/03-07 receipt changes under this group.",
+    "Root-reported cumulative worklog33entries/15returned native horizons/60.5s/69decisions is not recomputed here and is not a count of registered research trials.",
+    "No whole39c root/fresh or checkpointCI03 result is asserted for this new source; dynamic closure,lead/prevention and complete costs remain open."
+  ],
+  "whole_39c_accepted": false,
+  "original_registered_research_runs": "180 and NO_PRACTICAL_GAIN unchanged",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}
