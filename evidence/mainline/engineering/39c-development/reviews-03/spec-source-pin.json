@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-spec-diagnostic-correction-review-v1",
+  "base": "3e81e7faa61d1021cc9418172171de86e370750f",
+  "candidate": "c2872932b3aa77804762861c7b46385c1bd79f3b",
+  "status": "PASS_NARROW_DIAGNOSTIC_CORRECTION",
+  "new_finding_count": 0,
+  "findings": [],
+  "files": {
+    "src/aegis_dc/condition_assessment.py": "d34c8a20e5c9b59ac73fd8daccdc13958daa1223",
+    "tests/test_condition_record_selection.py": "27e1798ecd8cceae632f2d8f3230fb0f3ad8ef06",
+    "tests/fixtures/39c-condition-record-selection-05.json": "3c846f69e45301d8e5e503160557eef8c592bdfd",
+    "docs/mainline/39c-record-selection-protocol-05.json": "6687920e8445c38805535aee742772d55aa9266c",
+    "tests/test_business_diagnostic_qualification.py": "911bfc2949f968e476e5cd71d8bf3b9a5ff210e5",
+    "docs/mainline/39c-state-diagnostic-qualification-04.json": "f62fdb85a0b7f0ce01bb3cb8417e8a251dda4147",
+    "docs/mainline/39c-qualification-saved-correction-06.json": "c9c21c56af004267e71b5c709d0acfde301c5002",
+    "scripts/check_saved_diagnostic_qualification.py": "0c8bfa08312a16b39d2716fee61c088e4c746dd1",
+    "evidence/mainline/engineering/39c-development/slice-04/07-state-diagnostic-qualification/terminal.json": "3417e498a52644a284688b440f033cbebd4e3f95",
+    "evidence/mainline/engineering/39c-development/slice-04/07-state-diagnostic-qualification/wrong-demand-model--business-result.json": "7826d9f5f39194df11919c16569abdc3af056ab7",
+    "evidence/mainline/engineering/39c-development/slice-05/08-public-record-selection-red/public-assessment.json": "c8868e952ebaad62d5cec672362de36063ad9fa8",
+    "evidence/mainline/engineering/39c-development/slice-05/08-public-record-selection-green/public-assessment.json": "c33d35d33fb20b236c673ab2ea53c9879421a2be",
+    "evidence/mainline/engineering/39c-development/slice-05/08-public-record-selection-red/terminal.json": "f720073ea8458e19c87c53b582df6b53bfe15c32",
+    "evidence/mainline/engineering/39c-development/slice-05/08-public-record-selection-green/terminal.json": "24ea10cbb54b7046bb60c91bbc45ca4b023f7e07",
+    "evidence/mainline/engineering/39c-development/slice-06/09-saved-qualification-correction/terminal.json": "49d92eba62e49a841c581b74c5c95e3d6be9a838"
+  },
+  "closed_findings": [
+    {
+      "id": "39C-DIAG-SPEC-01",
+      "original_priority": "P2",
+      "original_record": ".work/39c-diagnostic-spec-01",
+      "disposition": "Closed at5c26e1d879c303d50661123d81caf939ae0551ec, unchanged at this candidate; original report not edited.",
+      "spec": "docs/mainline/39c-state-diagnostic-contract-03.md:7, latest qualified observation with finite-bound/original/uncontested provenance.",
+      "code": "condition_assessment.py:48-66 now collects excluded record IDs, filters qualification, then selects latest qualified observation. Whole-interval classification remains unchanged, so a later qualified interval crossing the threshold still producesUNKNOWN.",
+      "saved_red": "133275 retains UNKNOWN, observed1/arrival1.5, no support and unknown-new blocked; expected-red failure at3d5e6fe3.",
+      "saved_green": "133279 at5c26e1d8 returnsABNORMAL, observed0.5/arrival0.75, support qualified-old, block unknown-new, assessment available2 and private_truth_usedfalse. Frozen05 input/test/protocol unchanged from red.",
+      "execution_scope": "Pure public condition assessment only; no facility/choice/model/native rerun implied."
+    }
+  ],
+  "qualification04": {
+    "original_job": "133274",
+    "original_source": "3e81e7faa61d1021cc9418172171de86e370750f",
+    "original_status": "FAILED",
+    "tests_run": 5,
+    "failures": 1,
+    "errors": 0,
+    "skips": 0,
+    "native_calls": 6,
+    "returned_decisions": 18,
+    "scalar_correction": "Original usable private value and accurate public measurement are0.5; parameter0.75 is not that measured signal. The actual offered-demand criterion0.5 yieldsNORMAL, public estimated threshold1 yieldsABNORMAL. Original frozen04 expected0.75 remains recorded as the failing expectation.",
+    "active_test_change": "Only the scalar assertion0.75→0.5, its analytic comment and truth source_note are corrected prospectively; original truth thresholds, variants, event-count/false-positive and no-human/unknown assertions are unchanged."
+  },
+  "saved06": {
+    "job": "133280",
+    "author_source": "9440c3495cdbf407405d14cee9de57cfdcc0a5b8",
+    "status": "SAVED_ORIGINALS_AND_CORRECTED_LITERAL_PASSED",
+    "original_files_verified": 44,
+    "method": "Tool imports stdlib only, pins original manifest/terminal, hashes every original declared output before/after, reads the six original3e81 run identities/public projections/business results and completes the corrected literal plus remaining stored assertions.",
+    "classification": "New saved-only integrity/assertion receipt, not a new five-test green result, not new native runs and not independent scientific confirmation.",
+    "new_facility_calls": 0,
+    "new_model_calls": 0,
+    "new_research_trials": 0
+  },
+  "preserved": "Git diff shows original03 contract/protocol, frozen04 protocol, base/variant descriptors, private diagnostic/business/plant code,configs and original180 research unchanged. Original03 and04 outcomes remain bound to their original Git sources; only the explicit public selection fix and prospective active test correction are current.",
+  "whole_39c_accepted": false,
+  "pending": "Dynamic closure/lead/prevention/cost and further source/delay qualification remain open; no original positive or six native traces were replayed by this review.",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}
