@@ -1,0 +1,20 @@
+{
+  "schema": "aegisdc-checkpoint-ci-plan-v1",
+  "id": "39c-finite-closure-checkpoint-ci-01",
+  "classification": "CLOUD_ENGINEERING_REGRESSION_NOT_REGISTERED_RESEARCH",
+  "branch": "donson/mainline-39c-endpoints",
+  "workflow": ".github/workflows/acceptance.yml",
+  "execution_source": "Exact next checkpoint push commit; record actual SHA and actual GitHub push run before claiming success.",
+  "maximum_push_runs": 1,
+  "scope": "One existing full core/historical-evidence CI plus status/foundation/risk/cases and engineering baseline checks. This regression is separate from the prospectively bounded development captures; original tests/results are not relabeled or new statistical units.",
+  "new_behavior_tests": [
+    "test_business_closure_endpoint.py (1)",
+    "test_business_closure_qualification.py (3)"
+  ],
+  "optional_skips": "Keep existing minimal-CI optional neural skip policy and record actual execution counts; do not claim the full zero-skip isolated root acceptance from this minimal run.",
+  "failure_rule": "Preserve the original GitHub failed run/logs; no workflow rerun or automatic retry. Any repair requires new source and a separately stated correction plan before another push.",
+  "passed_native_originals_preserved": true,
+  "original_registered_research_runs": 180,
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}
