@@ -1,0 +1,86 @@
+{
+  "schema": "aegisdc-existing-behavior-qualification-v3",
+  "id": "39c-closure-boundary-02-v3",
+  "classification": "REMOTE_ENGINEERING_QUALIFICATION_NOT_RESEARCH",
+  "previous_protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json",
+  "previous_actual": {
+    "entries": 2,
+    "completed_native_horizons": 1,
+    "returned_decisions": 8,
+    "red_job": "133147",
+    "green_job": "133150"
+  },
+  "scope": "Check already implemented missing-action, observation-expiry and horizon-censor behavior with three prospectively declared new inputs; no implementation change or automatic retry.",
+  "test": "tests/test_business_closure_qualification.py",
+  "fixture": "tests/fixtures/39c-closure-qualification-02.json",
+  "base_fixture": "tests/fixtures/39c-actual-closure-endpoint.json",
+  "maximum_new_attempts": 1,
+  "tests": 2,
+  "maximum_new_facility_entries": 2,
+  "maximum_new_native_horizons": 2,
+  "requested_simulation_s": 20,
+  "maximum_returned_decisions": 17,
+  "maximum_direct_public_choice_or_model_calls": 0,
+  "cases": [
+    {
+      "id": "no-human",
+      "duration_s": 10,
+      "decisions": 8,
+      "expected": "No actual action/report/verified closure; right-censored at last actual assessment8.5, horizon10 unassessed."
+    },
+    {
+      "id": "expiry-reopens",
+      "duration_s": 10,
+      "decisions": 9,
+      "expected": "First verified8.5 retained as historical event; assessment10 is pending verification after the7/8 samples expire; only9s sample remains available."
+    }
+  ],
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "failure_policy": "Original133194 and133195 remain failed and charged; their captures are not relabeled. One new2-case allocation only. No automatic retry or reuse of passed window-censored result.",
+  "durable_set": "Frozen Git source/tests/base+variant input/protocol/stage and runner tools; actual full inputs saved before each call, all native run files, summaries, manifests, attempts, terminal and Slurm records. Runtime caches excluded.",
+  "new_research_trials": 0,
+  "original_registered_research_runs": 180,
+  "whole_39c_acceptance": false,
+  "supersedes_for_next_attempt": "docs/mainline/39c-closure-qualification-02-v2.json",
+  "cumulative_qualification_attempt_cap": 3,
+  "cumulative_reserved_facility_entry_cap": 8,
+  "correction": "Only input preparation synchronizes declared sensor profile and clears unused no_human options; all outcome assertions and variant literals unchanged. Runner prospectively supports two explicitly frozen named tests so the passed8s original is not rerun. Domain business/plant runtime remains59ac.",
+  "source_rule": "Freeze corrected helper/runner/protocol/stage source before the unique allocation. Original variant/base fixture bytes must equal8ad; original assertion methods unchanged. Select exactly the two named failed cases, keep original0-test failure and failed3-case attempt.",
+  "original_attempts": [
+    {
+      "job": "133194",
+      "source": "8ad6337fb6b9a36cc03763002f3e687524ca4787",
+      "status": "FAILED_NOT_RELABELLED",
+      "tests_run": 0,
+      "facility_calls": 0,
+      "returned_decisions": 0,
+      "cause": "Original stage evaluation.test_pattern retained the first-slice basename while only the qualification file was staged. Runner refused0tests; original test/input/protocol/runtime bytes preserved."
+    },
+    {
+      "job": "133195",
+      "source": "9efc9564fb9dd783b745079785ab29ce03185475",
+      "status": "FAILED_NOT_RELABELLED",
+      "tests_run": 3,
+      "errors": 2,
+      "facility_entries": 3,
+      "completed_native_horizons": 1,
+      "returned_decisions": 8,
+      "passed_original_preserved": "window-censored (8s), do not rerun for this correction",
+      "failures": [
+        "expiry actual sensor validity differed from its public projection declaration",
+        "no_human inherited nonempty forecast options"
+      ],
+      "partial_failed_execution": "No-human exception occurred during the first public dispatch. No completed return/trajectory was produced; input/source/stack/terminal retained. Do not count it as a completed horizon or invent its missing trace."
+    }
+  ],
+  "test_names": [
+    "test_business_closure_qualification.BusinessClosureQualificationTests.test_expired_evidence_reopens_current_assessment_but_preserves_first_closure",
+    "test_business_closure_qualification.BusinessClosureQualificationTests.test_no_human_preserves_unconfirmed_and_missing_action_endpoints"
+  ]
+}

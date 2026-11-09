@@ -18,6 +18,8 @@ class BusinessClosureQualificationTests(unittest.TestCase):
         dispatch = fixture['replay_inputs']['dispatch_program']
         if variant['policy'] is not None:
             dispatch['policy_program']['policy'] = variant['policy']
+            if variant['policy'] == 'no_human':
+                dispatch['policy_program']['options'] = {}
         if variant['append_decision_at_s'] is not None:
             dispatch['decision_times_s'].append(variant['append_decision_at_s'])
         if variant['decision_times_s'] is not None:
@@ -26,6 +28,8 @@ class BusinessClosureQualificationTests(unittest.TestCase):
             for channel in dispatch['sensor_program']['profile']['channels']:
                 if channel['id'] in {'flow-transfer', 'joint-service-transfer'}:
                     channel['validity_s'] = variant['postaction_validity_s']
+            dispatch['policy_program']['evidence_projection']['background_sensor_profile'] = deepcopy(
+                dispatch['sensor_program']['profile'])
         fixture['business_program']['id'] += '-' + case_id
         output = None
         if os.environ.get('AEGIS_ENGINEERING_RESULT_DIR'):

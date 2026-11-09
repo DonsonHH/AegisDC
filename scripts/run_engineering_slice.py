@@ -88,7 +88,18 @@ def main():
         if Path(pattern).name != pattern or not pattern.startswith('test_') or not pattern.endswith('.py'):
             raise ValueError('Declare one test file in the frozen tests directory')
         os.environ['AEGIS_ENGINEERING_RESULT_DIR'] = str(args.output.resolve())
-        suite = unittest.defaultTestLoader.discover(str(root / 'tests'), pattern=pattern)
+        selected = evaluation.get('test_names')
+        if selected is None:
+            suite = unittest.defaultTestLoader.discover(str(root / 'tests'), pattern=pattern)
+        else:
+            prefix = pattern[:-3] + '.'
+            if (type(selected) is not list or not selected
+                    or any(type(name) is not str or not name.startswith(prefix)
+                           or not name.rsplit('.', 1)[-1].startswith('test_') for name in selected)
+                    or len(selected) != len(set(selected))):
+                raise ValueError('Select unique named public tests from the one frozen test module')
+            sys.path.insert(0, str(root / 'tests'))
+            suite = unittest.defaultTestLoader.loadTestsFromNames(selected)
         with (args.output / 'test.log').open('x', encoding='utf-8', newline='\n') as stream:
             result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=AccountedResult).run(suite)
         guard()

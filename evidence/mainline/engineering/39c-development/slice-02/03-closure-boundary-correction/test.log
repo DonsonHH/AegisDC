@@ -1,0 +1,60 @@
+test_expired_evidence_reopens_current_assessment_but_preserves_first_closure (test_business_closure_qualification.BusinessClosureQualificationTests.test_expired_evidence_reopens_current_assessment_but_preserves_first_closure) ... ERROR
+test_no_human_preserves_unconfirmed_and_missing_action_endpoints (test_business_closure_qualification.BusinessClosureQualificationTests.test_no_human_preserves_unconfirmed_and_missing_action_endpoints) ... ERROR
+test_window_ends_before_second_arrival_and_closure_is_right_censored (test_business_closure_qualification.BusinessClosureQualificationTests.test_window_ends_before_second_arrival_and_closure_is_right_censored) ... ok
+
+======================================================================
+ERROR: test_expired_evidence_reopens_current_assessment_but_preserves_first_closure (test_business_closure_qualification.BusinessClosureQualificationTests.test_expired_evidence_reopens_current_assessment_but_preserves_first_closure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/tests/test_business_closure_qualification.py", line 66, in test_expired_evidence_reopens_current_assessment_but_preserves_first_closure
+    _, event = self.run_case('expiry-reopens')
+               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/tests/test_business_closure_qualification.py", line 40, in run_case
+    result = simulate_scenario(fixture['model'], duration_s=variant['duration_s'], step_s=.01,
+        work_requests=replay['work_requests'], boundary_events=replay['exogenous_events'],
+        action_commands=replay['action_commands'], dispatch_program=dispatch,
+        business_program=fixture['business_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/plant.py", line 732, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/policy_execution.py", line 36, in __init__
+    _require(projection.get('inspection_profile')==self.inspection_program['profile']
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        and projection.get('background_sensor_profile')==(background['profile'] if background is not None else None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'Projection public profiles must match the actual execution declarations')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Projection public profiles must match the actual execution declarations
+
+======================================================================
+ERROR: test_no_human_preserves_unconfirmed_and_missing_action_endpoints (test_business_closure_qualification.BusinessClosureQualificationTests.test_no_human_preserves_unconfirmed_and_missing_action_endpoints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/tests/test_business_closure_qualification.py", line 53, in test_no_human_preserves_unconfirmed_and_missing_action_endpoints
+    result, event = self.run_case('no-human')
+                    ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/tests/test_business_closure_qualification.py", line 40, in run_case
+    result = simulate_scenario(fixture['model'], duration_s=variant['duration_s'], step_s=.01,
+        work_requests=replay['work_requests'], boundary_events=replay['exogenous_events'],
+        action_commands=replay['action_commands'], dispatch_program=dispatch,
+        business_program=fixture['business_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/plant.py", line 806, in simulate_scenario
+    if dispatch is not None and dispatch.process(time_s,workforce,inspections,interventions):
+                                ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/policy_execution.py", line 139, in process
+    choice=choose_work(frame,self.program['policy_program'],history,intervention_declaration=self.intervention_program,closure_program=closure)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/dispatch_policy.py", line 80, in choose_work
+    if version2 and program['policy'] in {'no_human','fifo'}:_fields(program['options'],set(),'Policy options')
+                                                             ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy options fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 3 tests in 7.648s
+
+FAILED (errors=2)
