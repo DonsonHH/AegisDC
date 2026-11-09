@@ -1,0 +1,25 @@
+{
+  "classification":"FINITE_DYNAMIC_INSTANCE_CLOSURE_ENGINEERING_NOT_RESEARCH",
+  "base_fixture":"tests/fixtures/39b-direct-filter-sequence.json",
+  "sensor_template":"tests/fixtures/39c-actual-closure-endpoint.json",
+  "duration_s":6,
+  "step_s":0.01,
+  "decision_times_s":[0,3.75,4.5,5,5.5,6],
+  "filter_setting":1,
+  "fixed_phase_s":4,
+  "fixed_period_s":1,
+  "fixed_delay_s":0.5,
+  "fixed_validity_s":3,
+  "rule":{
+    "id":"cooling-instance-verification",
+    "template_id":"cooling-direct",
+    "service_id":"critical_service",
+    "minimum_span_s":1,
+    "required_samples":2,
+    "recheck_accepted_interval":[0.099,0.101],
+    "checks":[
+      {"id":"flow-restored","role":"condition","target_id":"intake_pump","observable_id":"lake_mass_flow","source_ids":["intake-flow-record"],"accepted_interval":[99.7,99.9]},
+      {"id":"service-restored","role":"service","target_id":"critical_service","observable_id":"service_delivered_rate","source_ids":["joint-service-record"],"accepted_interval":[1,1]}
+    ]
+  }
+}
