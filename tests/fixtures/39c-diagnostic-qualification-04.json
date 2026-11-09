@@ -1,0 +1,13 @@
+{
+  "schema": "aegisdc-state-diagnostic-qualification-input-v1",
+  "basis": "synthetic_assumption",
+  "cases": [
+    {"id": "normal", "capacity": 1, "demand": 1, "truth_threshold": 1, "policy": "fifo", "error_bound": 0, "truth_unmodeled": false},
+    {"id": "no-human-fault", "capacity": 0.25, "demand": 1, "truth_threshold": 1, "policy": "no_human", "error_bound": 0, "truth_unmodeled": false},
+    {"id": "no-human-normal", "capacity": 1, "demand": 1, "truth_threshold": 1, "policy": "no_human", "error_bound": 0, "truth_unmodeled": false},
+    {"id": "wrong-demand-model", "capacity": 0.75, "demand": 0.5, "truth_threshold": 0.5, "policy": "fifo", "error_bound": 0, "truth_unmodeled": false},
+    {"id": "uncertain", "capacity": 0.25, "demand": 1, "truth_threshold": 1, "policy": "fifo", "error_bound": 1, "truth_unmodeled": false},
+    {"id": "unmodeled-proxy", "capacity": 0.25, "demand": 1, "truth_threshold": null, "policy": "fifo", "error_bound": 0, "truth_unmodeled": true}
+  ],
+  "source_note": "Six variants frozen before any calls in this qualification. These are development checks informed by the implemented contract, not unseen independent confirmation. The wrong-model case tests normative model interpretation error, never fabricated instrument data. The unmodeled case changes the event meaning to a root-cause proxy whose truth mapping is explicitly unavailable."
+}

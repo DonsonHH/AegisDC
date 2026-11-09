@@ -1,0 +1,32 @@
+{
+  "schema": "aegisdc-existing-behavior-qualification-v1",
+  "id": "39c-state-diagnostic-qualification-04",
+  "classification": "REMOTE_ENGINEERING_NOT_RESEARCH_COMPARISON",
+  "implementation_source": "1fc37084f1db29ded88cffe4f9ec76e343b62740",
+  "test": "tests/test_business_diagnostic_qualification.py",
+  "fixture": "tests/fixtures/39c-diagnostic-qualification-04.json",
+  "descriptor": "tests/fixtures/39c-network-state-diagnostic.json",
+  "base_fixture": "tests/fixtures/39b-network-action-sequence.json",
+  "maximum_new_attempts": 1,
+  "tests": 5,
+  "maximum_facility_entries": 6,
+  "maximum_native_horizons": 6,
+  "requested_simulation_s": 12,
+  "maximum_returned_decisions": 18,
+  "direct_public_choice_or_model_calls": 0,
+  "cases": [
+    {"id": "normal", "expected": "Unconfirmed external work order does not create system false alarm; actual1reading yields NORMAL, normal denominator1/false state events0; no fault denominator."},
+    {"id": "no-human-fault + no-human-normal", "expected": "Exactly equal public frames and condition assessments under different hidden capacity; fault reference denominator remains1 with missed confirmation1, normal event has normal denominator1. No-human-fault reference equals the original human reference byte-for-byte."},
+    {"id": "wrong-demand-model", "expected": "Actual capacity0.75 meets actual demand0.5, while public model still uses1. The measured scalar is correct, but the state interpretation is a false positive relative to the private normative criterion0.5; one event, not two repeated judgments."},
+    {"id": "uncertain", "expected": "Declared error bound1straddles public threshold1, so UNKNOWN and no timely confirmation; never convert a raw point value into certainty."},
+    {"id": "unmodeled-proxy", "expected": "A capacity finding cannot establish an unmodeled root-cause interpretation. Private truth UNKNOWN, retained event1, both ratesnull with zero applicable denominators."}
+  ],
+  "resources": {"partition": "cu", "cpus": 1, "memory_GiB": 2, "wall_minutes": 5, "requeue": false},
+  "source_rule": "Freeze all variant operations, tests, input descriptors, protocol, actual-input authoring and stage tool before any calls. Existing domain implementation is unchanged. Persist each full actual input before its unique run.",
+  "failure_rule": "Every failure and partial return remains in original terminal/log/input indexes. No automatic retry or relabeling; correction needs a new frozen protocol and unique output.",
+  "durable_set": "Declared Git source/input/protocol/runner/stage tools; job/stage/attempt/terminal/logs; each pre-call input and complete native run; public projection and business summaries. Runtime caches excluded; detailed raw stays remote.",
+  "original_registered_research_runs": 180,
+  "new_research_trials": 0,
+  "field_calibration": "PENDING",
+  "whole_39c_accepted": false
+}

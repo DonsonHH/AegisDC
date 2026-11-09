@@ -191,7 +191,7 @@
       "owner": "/root",
       "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
       "branch": "donson/mainline-39c-endpoints",
-      "status": "FINITE_CLOSURE_CHECKPOINT_PUBLISHED_CI_PASS_NEXT_DIAGNOSTIC_AND_INSTANCE_SCOPE"
+      "status": "STATE_DIAGNOSTIC_FIRST_GREEN_QUALIFICATION_REVIEW_PENDING"
     }
   ],
   "prepared_implementations": [],
@@ -351,15 +351,15 @@
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
   "development_39c": {
-    "status": "WIP_CLOSURE_ENDPOINT_AND_FINITE_BOUNDARIES_ONLY",
+    "status": "WIP_FIRST_STATE_DIAGNOSTIC_GREEN_QUALIFICATION_PENDING",
     "red_job": "133147",
     "red_source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
     "green_job": "133150",
     "green_source": "59acded75e88963020d7e66583c07b5831766834",
-    "facility_interface_entries": 7,
-    "completed_native_horizons": 4,
-    "completed_native_duration_s": 38,
-    "returned_decisions": 33,
+    "facility_interface_entries": 9,
+    "completed_native_horizons": 5,
+    "completed_native_duration_s": 40,
+    "returned_decisions": 36,
     "internal_choice_calls": "NOT_INSTRUMENTED",
     "direct_public_choice_calls": 0,
     "model_calls": 0,
@@ -392,6 +392,17 @@
       "optional_skips": 2
     },
     "denominator_note": "Sealed development/qualification only; cloud regression runs separate, original180unchanged.",
-    "next_design": "docs/mainline/39c-next-diagnostic-notes.md"
+    "next_design": "docs/mainline/39c-next-diagnostic-notes.md",
+    "state_diagnostic": {
+      "red_job": "133254",
+      "red_source": "94c2656c19bf89e9493e0435ede6f34ff3ed3577",
+      "green_job": "133264",
+      "green_source": "1fc37084f1db29ded88cffe4f9ec76e343b62740",
+      "completed_duration_s": 2,
+      "returned_decisions": 3,
+      "scope": "One state-event confirmation with fixed reference; broader diagnostic qualification pending",
+      "report": "evidence/mainline/engineering/39c-development/slice-03/README.md",
+      "qualification_protocol": "docs/mainline/39c-state-diagnostic-qualification-04.json"
+    }
   }
 }
