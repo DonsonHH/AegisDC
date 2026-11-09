@@ -1,0 +1,17 @@
+test_actual_action_is_not_closed_until_two_arrived_verification_samples (test_business_closure_endpoint.BusinessClosureEndpointTests.test_actual_action_is_not_closed_until_two_arrived_verification_samples) ... ERROR
+
+======================================================================
+ERROR: test_actual_action_is_not_closed_until_two_arrived_verification_samples (test_business_closure_endpoint.BusinessClosureEndpointTests.test_actual_action_is_not_closed_until_two_arrived_verification_samples)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/01-closure-endpoint-red/tests/test_business_closure_endpoint.py", line 17, in test_actual_action_is_not_closed_until_two_arrived_verification_samples
+    result = simulate_scenario(fixture['model'], duration_s=10, step_s=.01,
+        work_requests=inputs['work_requests'], boundary_events=inputs['exogenous_events'],
+        action_commands=inputs['action_commands'], dispatch_program=inputs['dispatch_program'],
+        business_program=fixture['business_program'])
+TypeError: simulate_scenario() got an unexpected keyword argument 'business_program'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (errors=1)

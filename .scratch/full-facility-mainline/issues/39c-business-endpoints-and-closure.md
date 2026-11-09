@@ -16,8 +16,10 @@
 
 ## Evidence
 
-Ready frontier after39a and39b acceptance; no implementation/evaluation yet. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.
+Initial ready-frontier snapshot after39a and39b acceptance; superseded below by first-slice development. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.
 
-Planning only: `docs/mainline/39c-business-endpoints-plan.md` defines the proposed event/opportunity/closure denominators and remote behavior sequence. No protocol/input/budget freeze, implementation, experiment or acceptance yet.
+Planning only: `docs/mainline/39c-business-endpoints-plan.md` defines the proposed event/opportunity/closure denominators and remote behavior sequence. At that planning snapshot, no freeze or execution had started; first finite slice below is now complete, whole39c remains unaccepted.
 
 Owner `/root`, existing canonical checkout, branch`donson/mainline-39c-endpoints`, base42252bf8. First frozen remote slice is `docs/mainline/39c-closure-endpoint-protocol-01.json`; it records actual closure timestamps only. All39c acceptance boxes remain open until the full endpoint/closure scope is implemented and verified.
+
+First native closure-endpoint slice: `evidence/mainline/engineering/39c-development/slice-01/README.md`; frozen3e6fd367 red133147, implementation59acded7 green133150, one10s native horizon/eight returned decisions. Original red error retained. No closure threshold changed. Full truth/opportunity/lead/cost/dynamic-instance scope and negative qualification remain open; this is not a39c acceptance.
