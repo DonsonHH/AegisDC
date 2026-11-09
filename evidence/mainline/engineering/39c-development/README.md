@@ -48,6 +48,6 @@
 
 [六例审计CSV](slice-07/10-saved-verifier-mode-green/outputs/normal-child/original-six-endpoints.csv) · [新绘图数据](figures-03/12-saved-diagnostic-matrix-layout/diagnostic-plot-data.csv)。下一步仍是39c剩余业务语义与动态关闭，之后整票独立复核、远端根回归及fresh交付；39d和新的AI比较保持依赖。
 
-参考窗口有限组在10b2b21f的[Spec](reviews-05/spec-report.md)通过、[Standards](reviews-05/standards-report.md)发现1处当前进度误写“首红未运行”。原发现已保存，[c001b0d4元数据关闭记录](reviews-05/standards-closure-c001b0d4.json)确认未重跑。保存绘图133358通过并实际查看，新增图和[CSV](figures-04/18-saved-reference-windows/reference-windows.csv)来自四个原正例，不增加运行。第03检查点CI已冻结待实际提交，不能沿用第02结果冒充当前代码通过；整39c尚未验收。
+参考窗口有限组在10b2b21f的[Spec](reviews-05/spec-report.md)通过、[Standards](reviews-05/standards-report.md)发现1处当前进度误写“首红未运行”。原发现已保存，[c001b0d4元数据关闭记录](reviews-05/standards-closure-c001b0d4.json)确认未重跑。保存绘图133358通过并实际查看，新增图和[CSV](figures-04/18-saved-reference-windows/reference-windows.csv)来自四个原正例，不增加运行。第03检查点实际推送CI42557908713在14a6ae02成功：626项发现、624项执行、零失败／错误，2项既有可选Torch检查跳过；[回执及固定交付清单](../../../../docs/mainline/evidence/39c-reference-checkpoint.json)保存完整日志和原件身份。整39c尚未验收。
 
 [数据表](figures-01/endpoints.csv) · [逐时评估](figures-01/assessments.csv) · [冻结契约](../../../../docs/mainline/39c-closure-endpoint-contract-01.md) · [完整39c任务](../../../../.scratch/full-facility-mainline/issues/39c-business-endpoints-and-closure.md)。本页为开发检查点，主线及M7保持active，39d和新的AI比较尚未开始。
