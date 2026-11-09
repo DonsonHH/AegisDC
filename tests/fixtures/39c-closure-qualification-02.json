@@ -1,0 +1,11 @@
+{
+  "schema": "aegisdc-business-closure-qualification-fixture-v1",
+  "basis": "synthetic_assumption",
+  "base_fixture": "tests/fixtures/39c-actual-closure-endpoint.json",
+  "cases": [
+    {"id": "no-human", "duration_s": 10, "policy": "no_human", "append_decision_at_s": null, "decision_times_s": null, "postaction_validity_s": null},
+    {"id": "expiry-reopens", "duration_s": 10, "policy": null, "append_decision_at_s": 10, "decision_times_s": null, "postaction_validity_s": 2},
+    {"id": "window-censored", "duration_s": 8, "policy": null, "append_decision_at_s": null, "decision_times_s": [1, 3, 4.5, 4.75, 6, 6.5, 7.5, 8], "postaction_validity_s": null}
+  ],
+  "source_note": "Frozen explicit variant operations; full actual input is saved before each remote facility entry. No source/template/protocol or registered outcome is overwritten."
+}
