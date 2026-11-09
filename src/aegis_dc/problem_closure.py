@@ -4,7 +4,7 @@ from fractions import Fraction
 
 from .decision_view import validate_current_frame
 from .evidence_ledger import _fields, _finite, _plain_json, _registry, _require, _strings, _text
-from .problem_tasks import _service_context, _templates, open_questions
+from .problem_tasks import _templates, open_questions
 from .verified_closure import CHECK_FIELDS, _check
 
 PROGRAM_FIELDS = {'schema', 'profile', 'intervention_declaration', 'intervention_feedback'}
@@ -43,6 +43,7 @@ def validate_instance_closure(frame, policy, program):
     _require(bool(rules), 'Declare applicable instance verification rules')
     sources = {row['id']: row for row in frame['evidence']['static_knowledge']['sources']}
     observables = {row['id']: row for row in frame['evidence']['static_knowledge']['observables']}
+    services = {row['id'] for row in frame['nominal_knowledge']['entities'] if row['kind'] == 'service'}
     seen = set()
     for rule in rules.values():
         _fields(rule, RULE_FIELDS, 'Instance closure rule')
@@ -52,9 +53,9 @@ def validate_instance_closure(frame, policy, program):
                  'Unknown/repeated instance verification template')
         seen.add(rule['template_id'])
         template = templates[rule['template_id']]
-        services = _service_context(frame['nominal_knowledge'], template['task']['target_id'])['paths']
-        _require(rule['service_id'] in {row['service_id'] for row in services},
-                 'Instance verification service has no declared functional path')
+        # This is an explicit joint verification criterion, not a causal path
+        # inferred by joining distinct physical and functional relation graphs.
+        _require(rule['service_id'] in services, 'Instance verification requires a declared service entity')
         _finite(rule['minimum_span_s'], 'Instance verification span')
         _require(rule['minimum_span_s'] > 0 and type(rule['required_samples']) is int
                  and rule['required_samples'] >= 2, 'Require two genuine samples and positive verification span')

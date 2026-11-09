@@ -1,0 +1,27 @@
+test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5 (test_business_instance_closure.BusinessInstanceClosureTests.test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5) ... ERROR
+
+======================================================================
+ERROR: test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5 (test_business_instance_closure.BusinessInstanceClosureTests.test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-green/tests/test_business_instance_closure.py", line 59, in test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5
+    result = simulate_scenario(fixture['model'], duration_s=descriptor['duration_s'], step_s=descriptor['step_s'],
+        dispatch_program=dispatch, business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-green/src/aegis_dc/plant.py", line 733, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-green/src/aegis_dc/policy_execution.py", line 97, in __init__
+    validate_instance_closure(initial,program['policy_program'],self.closure_template)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-green/src/aegis_dc/problem_closure.py", line 56, in validate_instance_closure
+    _require(rule['service_id'] in {row['service_id'] for row in services},
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             'Instance verification service has no declared functional path')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-green/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Instance verification service has no declared functional path
+
+----------------------------------------------------------------------
+Ran 1 test in 0.198s
+
+FAILED (errors=1)
