@@ -43,6 +43,7 @@ class DiagnosticQualificationTests(unittest.TestCase):
         else:
             event['truth']['threshold']=case['truth_threshold']
             if identifier=='wrong-demand-model':
+                dispatch['diagnostic_profile']['rules'][0]['source_note']='Deliberately wrong estimate of the actual offered-demand requirement: assumes1when the actual requirement is0.5. This is not a design-capacity maintenance alarm.'
                 event['truth']['source_note']='Actual offered demand0.5is the normative requirement, while the public model remains1. Accurate0.75measurement does not justify a true capacity-shortfall event here.'
         values=dict(scenario_sha256=model,boundary_events_sha256=[],nominal_knowledge_sha256=dispatch['nominal_knowledge'],
             ledger_sha256=dispatch['evidence_ledger'],workforce_profile_sha256=dispatch['policy_program']['workforce_profile'],
