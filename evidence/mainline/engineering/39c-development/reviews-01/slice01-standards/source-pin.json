@@ -1,0 +1,191 @@
+{
+  "source": "55ef2e190e38e397dc88abad9223c5442b1c3376",
+  "frozen_red_green_bytes_equal": {
+    "tests/test_business_closure_endpoint.py": true,
+    "tests/fixtures/39c-actual-closure-endpoint.json": true,
+    "docs/mainline/39c-closure-endpoint-contract-01.md": true,
+    "docs/mainline/39c-closure-endpoint-protocol-01.json": true,
+    "evidence/mainline/engineering/39c-development/tools/stage_closure_endpoint_01.py": true
+  },
+  "reference": {
+    "path": "evidence/mainline/engineering/27-full-loop/reference/online-loop-v2.json",
+    "sha256": "5d69645ed1a445ab60a05e4adc4ea8200a51c9356a252d7e95e9185067ef61bd",
+    "matches_declared_reference_sha": true,
+    "model_identical": true,
+    "replay_inputs_identical": true,
+    "closure_rule_identical": true
+  },
+  "captures": {
+    "red": {
+      "source_commit": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
+      "manifest_matches_start_sha": true,
+      "attempt_matches_terminal_sha": true,
+      "source_agrees": true,
+      "terminal_status": "EXPECTED_RED_CONTRACT_GAP",
+      "source_guard": "PASS_BEFORE_AND_AFTER",
+      "tests_run": 1,
+      "errors": 1,
+      "returned_decisions": 0,
+      "source_records": {
+        "src/aegis_dc/plant.py": {
+          "bytes": 61941,
+          "sha256": "4d3bba9649a6ed4baef8c506db8a36170a5d41f4f6b3957c3e8cc2fcbcc7c9a9",
+          "git_blob": "6c45f5424a9e539ff903c4657fdd0e0220e28c4f"
+        },
+        "src/aegis_dc/business_endpoints.py": null
+      }
+    },
+    "green": {
+      "source_commit": "59acded75e88963020d7e66583c07b5831766834",
+      "manifest_matches_start_sha": true,
+      "attempt_matches_terminal_sha": true,
+      "source_agrees": true,
+      "terminal_status": "GREEN_BEHAVIOR_PASSED",
+      "source_guard": "PASS_BEFORE_AND_AFTER",
+      "tests_run": 1,
+      "errors": 0,
+      "returned_decisions": 8,
+      "source_records": {
+        "src/aegis_dc/plant.py": {
+          "bytes": 62514,
+          "sha256": "21865951aea4d9fb8954f9ddbc6db3d658cd7d1e492f9040e65e0b36db2dd0e6",
+          "git_blob": "d2b78eaafbfddb690ca639b58e643426c64d76c3"
+        },
+        "src/aegis_dc/business_endpoints.py": {
+          "bytes": 6026,
+          "sha256": "2769e25941b39029d79ad33f5bff10e3a2d3f58cd9bf3924ba24474a96a7258a",
+          "git_blob": "7d1d9e563baf5deeb60c8b6269a71d38989b73f4"
+        }
+      },
+      "native_index_equals_complete_terminal_native_set": true,
+      "native_index_paths": [
+        "actual-run/scenario.json",
+        "actual-run/private-state.jsonl",
+        "actual-run/balances.jsonl",
+        "actual-run/run.json"
+      ],
+      "business_result_matches_terminal_sha": true,
+      "business_execution_source": "59acded75e88963020d7e66583c07b5831766834"
+    }
+  },
+  "implementation_diff_since_actual_green": [],
+  "methods": "Only saved JSON/Git identity comparisons; no project import/test/verifier or scientific arithmetic.",
+  "schema": "aegisdc-39c-slice01-standards-v1",
+  "status": "PASS_FINITE_SLICE_STATIC_ONLY",
+  "base": "42252bf8a9242f9141212fa4922318ca82ed310c",
+  "source_tree": "cb348fb154ce3df4e7211a72aa7bf9d64dc858ec",
+  "identities": {
+    "AGENTS.md": {
+      "git_blob": "1a7f4d71f142794a9b64dc06390376890116a186",
+      "sha256": "fdff82aea6fedef35e81ce2e7bed36fede9bec0b7f6900dac1f54742862e1105",
+      "bytes": 4764
+    },
+    "docs/agents/compute-storage.md": {
+      "git_blob": "0e3ba83ed6942c0d6080b6451856db2ef575b315",
+      "sha256": "3182cf0c1fef371ff957c3392edb1961bc8a8da2f97b9cbaca4a5977128e9888",
+      "bytes": 3932
+    },
+    "docs/agents/domain.md": {
+      "git_blob": "d1349c649c07aa57296c97299880dfde53be0d35",
+      "sha256": "2a629e57d4263d3a8c67e1ec14bdf1db0a66f0b69c6d30f5fbaa3ab8e67b6adb",
+      "bytes": 581
+    },
+    "docs/agents/issue-tracker.md": {
+      "git_blob": "8b9ff125a4f37b7397f6a22915a32053c5ed4adf",
+      "sha256": "db2fdcd1cdb31ca0bdcc6ded0f278240c208a9514416370a691172432877956e",
+      "bytes": 2368
+    },
+    "GLOSSARY.md": {
+      "git_blob": "1e266dd6e8627e8367ebd571967a8d9d2eb4332c",
+      "sha256": "53598c84f9c6aa9744188fe8856b3b124b41f78b5fc594c8277bec5f9a843a8e",
+      "bytes": 3727
+    },
+    "docs/adr/0003-complete-facility-mainline.md": {
+      "git_blob": "f96f5c8d159e9d61f8df3263c47614ef6a484d7c",
+      "sha256": "c1f235a92c5176d35c2f7269dd77f89e65007bb6758f81f3437205be026012e5",
+      "bytes": 976
+    },
+    ".scratch/full-facility-mainline/spec.md": {
+      "git_blob": "a7a72f445e12f9f9415e4be97766cc25f105b059",
+      "sha256": "b07b05fea49741034dd3b655ab4ecb8cce1d35dadd3111d94f0884ad3c520227",
+      "bytes": 12596
+    },
+    "docs/mainline/39c-closure-endpoint-contract-01.md": {
+      "git_blob": "683787d1390ac27de3db27222fa2e2f9c313519e",
+      "sha256": "31a6ec05f56850c484a671a5e1bfffb98df1168930258fc2eb5b95a3b27e65a6",
+      "bytes": 2699
+    },
+    "docs/mainline/39c-closure-endpoint-protocol-01.json": {
+      "git_blob": "3e728cfb41a9b06251a00fb0d5cdbe887adfc323",
+      "sha256": "b8d2e07df9d71b33c4a47afc748857e4220b87eb60deab39ec16c8b397cfaf07",
+      "bytes": 1962
+    },
+    "src/aegis_dc/business_endpoints.py": {
+      "git_blob": "7d1d9e563baf5deeb60c8b6269a71d38989b73f4",
+      "sha256": "2769e25941b39029d79ad33f5bff10e3a2d3f58cd9bf3924ba24474a96a7258a",
+      "bytes": 6026
+    },
+    "src/aegis_dc/plant.py": {
+      "git_blob": "d2b78eaafbfddb690ca639b58e643426c64d76c3",
+      "sha256": "21865951aea4d9fb8954f9ddbc6db3d658cd7d1e492f9040e65e0b36db2dd0e6",
+      "bytes": 62514
+    },
+    "src/aegis_dc/verified_closure.py": {
+      "git_blob": "08c29d3239d2eba2afb86bab88a006d9f1d12c38",
+      "sha256": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+      "bytes": 21683
+    },
+    "tests/test_business_closure_endpoint.py": {
+      "git_blob": "2ae27bac266f0d1a24bf0699c8996f926f77da04",
+      "sha256": "2f946c7d23c75ab74fe7d5ebc1790ffbcaa917fe4c501d4ef8b4aab878d66b77",
+      "bytes": 2951
+    },
+    "tests/fixtures/39c-actual-closure-endpoint.json": {
+      "git_blob": "69acd5847c090a61bb51c1614957f017c4233626",
+      "sha256": "e7771767b62d484e481749db7758a3d2c08901dff117d934d7154eaf6b7c7b87",
+      "bytes": 381624
+    },
+    "evidence/mainline/engineering/39c-development/tools/stage_closure_endpoint_01.py": {
+      "git_blob": "6cf1ad36c852488a32b7a9f105cbdeb52f90bcf5",
+      "sha256": "70e6c26f632b322a11c2ece09a182db9ecff7f488a679ae1578350b548ff3477",
+      "bytes": 7190
+    }
+  },
+  "hard_rule_findings": [],
+  "heuristic_smell_findings": [],
+  "reviewed_scope": "Only first frozen closure-endpoint behavior at55ef. Subsequent qualification or revisions explicitly excluded.",
+  "privacy_review": "business_program is validated before plant work and only read again after complete private result construction; no business endpoint/program data is passed into PolicySession/selection/public frames. Conditional output preserves the no-business-program path contract.",
+  "rules_review": "Current implementation of verified_closure is unchanged; accepted27 model/replay and closure declaration are identical. Genuine2sample minimum, condition+service, span/current evidence/uncertainty logic remain in the existing public closure assessment.",
+  "remote_and_accounting_review": "Unique red/green Slurm directories, original expected-red1error/0returned decision retained, actualgreen1test/8decisions at59ac, frozen behavior/input/protocol/tool equal. Interface-entry attempts and native horizons remain separate, no new registered trials or scientificgain claimed.",
+  "smell_review": "Twelve supplied smells considered as heuristics. The small closed-JSON episode binding/postrun evaluation module has one current purpose; no meaningful new smell or refactor-only finding. Tooling style excluded.",
+  "protected_scope_diff": [],
+  "reviewer_activity": {
+    "project_calls": 0,
+    "verifier_runs": 0,
+    "tests": 0,
+    "models": 0,
+    "selectors": 0,
+    "simulations": 0,
+    "metric_calculations": 0,
+    "browsers": 0,
+    "installs": 0,
+    "exports": 0,
+    "new_agents": 0,
+    "new_worktrees": 0,
+    "tracked_edits": 0
+  },
+  "boundaries": [
+    "No actual remote native byte/readability verification by this reviewer; only captured index/terminal bindings checked.",
+    "No negative/diagnosis/opportunity/lead/prevention/cost qualification accepted; whole39c remainsclaimed.",
+    "Later qualification133194/133195 and their revisions not included."
+  ],
+  "commands": [
+    "git diff42252bf8...55ef2e19 (runtime/test/docs scope)",
+    "git show55ef:<standards, fullnewmodules, contract, protocol, test, staging tool and necessary capture receipts>",
+    "Saved Git/SHA and JSON identity comparisons for5frozen files/reference input/native index; no scientific calculation"
+  ],
+  "actual_new_implementation_matches_green_records": {
+    "src/aegis_dc/plant.py": true,
+    "src/aegis_dc/business_endpoints.py": true
+  }
+}

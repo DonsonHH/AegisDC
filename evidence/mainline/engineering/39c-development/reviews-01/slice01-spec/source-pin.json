@@ -1,0 +1,109 @@
+{
+  "schema": "aegisdc-spec-finite-slice-review-v1",
+  "base": "42252bf8a9242f9141212fa4922318ca82ed310c",
+  "candidate": "55ef2e190e38e397dc88abad9223c5442b1c3376",
+  "diff_command": "git diff 42252bf8a9242f9141212fa4922318ca82ed310c...55ef2e190e38e397dc88abad9223c5442b1c3376",
+  "commits": [
+    "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
+    "59acded75e88963020d7e66583c07b5831766834",
+    "55ef2e190e38e397dc88abad9223c5442b1c3376"
+  ],
+  "status": "PASS_STATIC_FIRST_FINITE_CLOSURE_ENDPOINT_SLICE",
+  "finding_count": 0,
+  "findings": [],
+  "files": {
+    "docs/mainline/39c-closure-endpoint-contract-01.md": "683787d1390ac27de3db27222fa2e2f9c313519e",
+    "docs/mainline/39c-closure-endpoint-protocol-01.json": "3e728cfb41a9b06251a00fb0d5cdbe887adfc323",
+    ".scratch/full-facility-mainline/issues/39c-business-endpoints-and-closure.md": "dd943790768a268b91ea9bc2ef070f8eec99861a",
+    "src/aegis_dc/business_endpoints.py": "7d1d9e563baf5deeb60c8b6269a71d38989b73f4",
+    "src/aegis_dc/plant.py": "d2b78eaafbfddb690ca639b58e643426c64d76c3",
+    "src/aegis_dc/verified_closure.py": "08c29d3239d2eba2afb86bab88a006d9f1d12c38",
+    "tests/test_business_closure_endpoint.py": "2ae27bac266f0d1a24bf0699c8996f926f77da04",
+    "tests/fixtures/39c-actual-closure-endpoint.json": "69acd5847c090a61bb51c1614957f017c4233626",
+    "evidence/mainline/engineering/39c-development/tools/stage_closure_endpoint_01.py": "6cf1ad36c852488a32b7a9f105cbdeb52f90bcf5",
+    "evidence/mainline/engineering/39c-development/slice-01/01-closure-endpoint-red/terminal.json": "ee8f86be658516dfde8d3b07c0f3657f9c504270",
+    "evidence/mainline/engineering/39c-development/slice-01/01-closure-endpoint-green/terminal.json": "c4ba67841ee713b3faacc117f701139fcd7b2ee4",
+    "evidence/mainline/engineering/39c-development/slice-01/01-closure-endpoint-green/business-result.json": "e5478f3053420a8c16f7ca2a8d3ad4776c125e5e"
+  },
+  "reviewed_contracts": [
+    {
+      "requirement": "contract:3 optional evaluation-only program must not enter dispatch",
+      "code": "plant.py:707-709,872-881; business_endpoints.py:42-62",
+      "assessment": "Program validated before plant construction/integration and evaluated only after the private result is assembled. No PolicySession or selector input change."
+    },
+    {
+      "requirement": "contract:5 closed finite program and actual rule/action binding before facility computation",
+      "code": "business_endpoints.py:10-39",
+      "assessment": "Closed top/event fields, schema/basis/SI, facility, nonempty bounded episode registry, unique event IDs and binding triples, finite nonnegative opening within horizon, exactly matching declared closure rule."
+    },
+    {
+      "requirement": "contract:7,9 actual work, arrived report and sampled VERIFIED_CLOSED remain separate",
+      "code": "business_endpoints.py:48-79",
+      "assessment": "Endpoint reads actual recorded public lifecycle assessments and work/intervention records. Existing verified_closure.py remains unchanged; fixture retains two physical-condition/service samples with one-second span."
+    },
+    {
+      "requirement": "contract:11 no extrapolation from last8.5 assessment to horizon10",
+      "code": "business_endpoints.py:69-86",
+      "assessment": "First observed closure is8.5; last assessment/status and horizon status are separate. No assessment at10 yields NOT_ASSESSED_AT_HORIZON. Missing first closure/delay remain null; the unclosed path records last actual assessment as its censor coordinate."
+    },
+    {
+      "requirement": "contract:15 diagnosis/prevention not defined, no whole39c acceptance",
+      "code": "business_endpoints.py:87-94; current39c ticket",
+      "assessment": "Undefined diagnosis/prevention fields are null with an explicit status, engineering gain is not established, field calibration pending. All whole39c gates remain open."
+    }
+  ],
+  "saved_records": {
+    "red": {
+      "job": "133147",
+      "source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
+      "status": "EXPECTED_RED_CONTRACT_GAP",
+      "tests": 1,
+      "errors": 1,
+      "returned_decisions": 0,
+      "facility_entries": 1,
+      "source_guard": "PASS_BEFORE_AND_AFTER"
+    },
+    "green": {
+      "job": "133150",
+      "source": "59acded75e88963020d7e66583c07b5831766834",
+      "status": "GREEN_BEHAVIOR_PASSED",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "returned_decisions": 8,
+      "facility_entries": 1,
+      "source_guard": "PASS_BEFORE_AND_AFTER"
+    },
+    "quoted_saved_times": {
+      "actual_completed_s": 6,
+      "APPLIED_report_arrived_s": 6.5,
+      "first_sample_group_arrived_s": 7.5,
+      "second_group_and_first_verified_closed_s": 8.5,
+      "last_assessed_s": 8.5,
+      "window_end_s": 10,
+      "horizon_status": "NOT_ASSESSED_AT_HORIZON"
+    },
+    "freeze": "Git diff red→green showed no changes in the frozen fixture,test,contract,protocol or runner; green source→delivery has no changed runtime path.",
+    "interpretation": "Saved engineering evidence only; no physical/selector/result recalculation by reviewer and no full private native trace audit."
+  },
+  "unvalidated_boundaries": [
+    "Only the positive sampled-closure witness was executed in this first slice. Input refusals, no-closure/right-censor outcomes and other negative paths are not behavior-validated by this one test.",
+    "Dynamic instance adaptation, truth/normal/unknown labels, detection opportunities, lead/prevention counterfactuals and complete cost scope remain future39c work; not defects attributed to this explicitly finite slice."
+  ],
+  "whole_39c_accepted": false,
+  "original_registered_research_runs": "180 unchanged; new registered trials0",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}

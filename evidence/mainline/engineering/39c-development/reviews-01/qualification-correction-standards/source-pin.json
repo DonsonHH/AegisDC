@@ -1,0 +1,106 @@
+{
+  "schema": "aegisdc-39c-qualification-correction-standards-v1",
+  "status": "PASS_STATIC_CORRECTION",
+  "base": "9efc9564fb9dd783b745079785ab29ce03185475",
+  "source": "24f35d8312a860325a7737cfcc363d0d69911822",
+  "source_tree": "f33cfb68bfaa13bd6259ba718a90ec5f91cd20e4",
+  "identities": {
+    "scripts/run_engineering_slice.py": {
+      "git_blob": "7ed1c217d5c1907bac4593de988e6080244bf713",
+      "bytes": 8532,
+      "sha256": "75689ddcddf0c2bf37587f614854cc5f7b69b1bda6a486802d1c9ea4fad56486"
+    },
+    "tests/test_business_closure_qualification.py": {
+      "git_blob": "b13664c64f013e1b2e33a7a77b57fffd2451a84b",
+      "bytes": 5120,
+      "sha256": "bb0ee3de0b9bbe5863cb518a1394d2c5280d766fb8c842c49efdcf02995d7d52"
+    },
+    "tests/fixtures/39c-closure-qualification-02.json": {
+      "git_blob": "fdb90968b86eeece55878b44d6bbc02ad288fa45",
+      "bytes": 850,
+      "sha256": "9e6b68706e7b4a730a3b9c2f6141f6d06e75ffecbafdff089b4a691895cb6c46"
+    },
+    "tests/fixtures/39c-actual-closure-endpoint.json": {
+      "git_blob": "69acd5847c090a61bb51c1614957f017c4233626",
+      "bytes": 381624,
+      "sha256": "e7771767b62d484e481749db7758a3d2c08901dff117d934d7154eaf6b7c7b87"
+    },
+    "docs/mainline/39c-closure-qualification-02-v3.json": {
+      "git_blob": "b2521762ea04ad7909c18faa88bf625c7ab1eb71",
+      "bytes": 4544,
+      "sha256": "679496cd71de44f76e3c8e3e0de44d41e7a5246cddb7b919853af322fecb30a4"
+    },
+    "evidence/mainline/engineering/39c-development/tools/stage_closure_qualification_02_v3.py": {
+      "git_blob": "3fb1c4817c3373569882372153b79580a3c2a580",
+      "bytes": 7412,
+      "sha256": "326923770a63b1f6adef79cb31a57f758e9a4f687340cd56cf1beeb0a2f67e35"
+    },
+    "evidence/mainline/engineering/39c-development/slice-02/02-closure-boundary-qualification/terminal.json": {
+      "git_blob": "980830bd4425e07890771e21984c09abb066a1b2",
+      "bytes": 1413,
+      "sha256": "2e815799b5e52f873ba39b4c8ca7f3e694ee5b31ec9c7cd0105eaabb4059fa62"
+    },
+    "evidence/mainline/engineering/39c-development/slice-02/03-closure-boundary-correction/terminal.json": {
+      "git_blob": "09b5b8867dbb9d8ffa83e82cc2b3fae9fba3808d",
+      "bytes": 2658,
+      "sha256": "41786d4856144f09d2799d9c467add58630fc62ccd0514b648237ee66b2c58d5"
+    },
+    "AGENTS.md": {
+      "git_blob": "1a7f4d71f142794a9b64dc06390376890116a186",
+      "bytes": 4764,
+      "sha256": "fdff82aea6fedef35e81ce2e7bed36fede9bec0b7f6900dac1f54742862e1105"
+    },
+    "docs/agents/compute-storage.md": {
+      "git_blob": "0e3ba83ed6942c0d6080b6451856db2ef575b315",
+      "bytes": 3932,
+      "sha256": "3182cf0c1fef371ff957c3392edb1961bc8a8da2f97b9cbaca4a5977128e9888"
+    },
+    "docs/agents/domain.md": {
+      "git_blob": "d1349c649c07aa57296c97299880dfde53be0d35",
+      "bytes": 581,
+      "sha256": "2a629e57d4263d3a8c67e1ec14bdf1db0a66f0b69c6d30f5fbaa3ab8e67b6adb"
+    },
+    "docs/agents/issue-tracker.md": {
+      "git_blob": "8b9ff125a4f37b7397f6a22915a32053c5ed4adf",
+      "bytes": 2368,
+      "sha256": "db2fdcd1cdb31ca0bdcc6ded0f278240c208a9514416370a691172432877956e"
+    }
+  },
+  "hard_rule_findings": [],
+  "heuristic_smell_findings": [],
+  "selected_tests": [
+    "test_business_closure_qualification.BusinessClosureQualificationTests.test_expired_evidence_reopens_current_assessment_but_preserves_first_closure",
+    "test_business_closure_qualification.BusinessClosureQualificationTests.test_no_human_preserves_unconfirmed_and_missing_action_endpoints"
+  ],
+  "passed8s_method_not_selected": true,
+  "selection_review": "Two unique fully qualified existing TestCase methods invoke onlyexpiry-reopens andno-human. Optional test_names uses loadTestsFromNames; absence retains the original discover call. Current module has no custom load_tests/factory/setUp side execution. The8s method remains in the immutable variant/test file but is not selected or discovered in this allocation.",
+  "input_preparation_review": "Only no_human options cleared and changed actual sensor TTL copied into its public evidence-projection declaration. Original outcome assertions were not edited. Runtime input/output expectations remain the original variants.",
+  "stage_review": "v3 stage includes the correct qualification file and copies the same2fully qualified names into evaluation, tests_run2/facility_calls2/maximum_returned_decisions17. It pins the source/runner/inputs/protocol/tool and source snapshot before Slurm; unique remote04directory/no-requeue/no automatic retry.",
+  "budget_review": "One prospective new qualification allocation/2entries only; prior1331940test failure and1331953tests2errors remainFAILED. The completed8s original is preserved rather than repeated. Qualification cumulative reserved cap8 and attempt cap3 are distinct from actual/completed horizons and first-slice accounting.",
+  "runtime_diff_from59ac": [],
+  "original_fixture_diff_from8ad": [],
+  "original55ef_review_sha256": {
+    "report.md": "07ba265790432e9b4fd5c812f40064bf122838fd3e6ed62e54028eb109f60d74",
+    "source-pin.json": "c228fc14e63b9e98611ada756b6ddea0652c6cb07ad9aec88a6b41dfce4d5f14"
+  },
+  "review_scope": "Only runner optional named selection, four input-preparation additions, newv3 protocol and stage tool. First slice/domain/large private indexes and untracked plotting draft excluded.",
+  "methods": [
+    "Pinned Git diff/read",
+    "Necessary source/receipt SHA metadata",
+    "Manual test-method/stage selection review; no discovery or test loading executed"
+  ],
+  "reviewer_activity": {
+    "project_calls": 0,
+    "verifier_runs": 0,
+    "tests": 0,
+    "selectors": 0,
+    "models": 0,
+    "simulations": 0,
+    "metric_calculations": 0,
+    "new_agents": 0,
+    "new_worktrees": 0,
+    "exports": 0,
+    "tracked_edits": 0
+  },
+  "acceptance_boundary": "No Standards blocker to the unique frozen2-case allocation onceactualstage guards pass. Actual job results are not predicted or accepted; whole39c remainsclaimed."
+}

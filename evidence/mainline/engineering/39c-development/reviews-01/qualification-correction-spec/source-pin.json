@@ -1,0 +1,64 @@
+{
+  "schema": "aegisdc-spec-input-qualification-correction-v1",
+  "base": "9efc9564fb9dd783b745079785ab29ce03185475",
+  "candidate": "24f35d8312a860325a7737cfcc363d0d69911822",
+  "status": "PASS_STATIC_TWO_FAILED_CASE_INPUT_CORRECTION",
+  "finding_count": 0,
+  "findings": [],
+  "files": {
+    "scripts/run_engineering_slice.py": "7ed1c217d5c1907bac4593de988e6080244bf713",
+    "tests/test_business_closure_qualification.py": "b13664c64f013e1b2e33a7a77b57fffd2451a84b",
+    "docs/mainline/39c-closure-qualification-02-v3.json": "b2521762ea04ad7909c18faa88bf625c7ab1eb71",
+    "evidence/mainline/engineering/39c-development/tools/stage_closure_qualification_02_v3.py": "3fb1c4817c3373569882372153b79580a3c2a580",
+    "tests/fixtures/39c-closure-qualification-02.json": "fdb90968b86eeece55878b44d6bbc02ad288fa45",
+    "tests/fixtures/39c-actual-closure-endpoint.json": "69acd5847c090a61bb51c1614957f017c4233626",
+    "src/aegis_dc/business_endpoints.py": "7d1d9e563baf5deeb60c8b6269a71d38989b73f4",
+    "src/aegis_dc/plant.py": "d2b78eaafbfddb690ca639b58e643426c64d76c3"
+  },
+  "original8ad_fixture_blobs": {
+    "tests/fixtures/39c-closure-qualification-02.json": "fdb90968b86eeece55878b44d6bbc02ad288fa45",
+    "tests/fixtures/39c-actual-closure-endpoint.json": "69acd5847c090a61bb51c1614957f017c4233626"
+  },
+  "original59ac_runtime_blobs": {
+    "src/aegis_dc/business_endpoints.py": "7d1d9e563baf5deeb60c8b6269a71d38989b73f4",
+    "src/aegis_dc/plant.py": "d2b78eaafbfddb690ca639b58e643426c64d76c3"
+  },
+  "reviewed_boundaries": [
+    {
+      "spec": "02-v3 correction: clears unused no_human options without changing the closed public interface",
+      "code": "tests/test_business_closure_qualification.py:19-22",
+      "assessment": "Input now selects no_human with its required empty options. Existing outcome assertions remain unchanged."
+    },
+    {
+      "spec": "02-v3 correction: synchronize declared sensor profile",
+      "code": "tests/test_business_closure_qualification.py:27-32",
+      "assessment": "Validity changes to the two actual post-action channels are mirrored by a detached copy in public evidence_projection.background_sensor_profile. No source/private value is added to dispatch."
+    },
+    {
+      "spec": "02-v3 source_rule: select exactly the two failed cases, keep original passed8s case",
+      "code": "scripts/run_engineering_slice.py:91-104; stage_closure_qualification_02_v3.py:38-42",
+      "assessment": "Frozen names are expiry and no-human only. Optional selection rejects empty,duplicate,wrong-module or non-test names; default absence retains original discovery. Exact test/call counts and maximum decisions remain enforced by the existing runner."
+    },
+    {
+      "spec": "02-v3 budget/failure_policy and original_attempts",
+      "code": "docs/mainline/39c-closure-qualification-02-v3.json; stage_closure_qualification_02_v3.py:18-35,38-42,75-82",
+      "assessment": "One prospective new allocation,2tests/2facility entries,20s requested and17returned maximum. Original133194 zero-test failure and133195 two input errors remain failed/charged; original successful window-censored8s is not selected or rerun. Cumulative qualification cap3 and reserved entry cap8 are explicitly historical-plus-new bounds."
+    }
+  ],
+  "preserved": "Only input preparation lines changed in the test helper; original assertion methods, base/variant fixtures, closure thresholds and business/plant runtime are unchanged. Original55ef review remains separate and unmodified.",
+  "pending": "Stage/new job execution and actual outcome are not reviewed or performed here. Static PASS is neither an executed qualification PASS nor whole39c acceptance.",
+  "local_execution": {
+    "stage_calls": 0,
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}

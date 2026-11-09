@@ -1,0 +1,74 @@
+{
+  "schema": "aegisdc-saved-render-protocol-v1",
+  "id": "39c-saved-closure-figures-01",
+  "classification": "SAVED_RESULTS_ONLY_NOT_RESEARCH_OR_NEW_FACILITY_CALL",
+  "renderer": "scripts/plot_business_closure_endpoints.py",
+  "inputs": [
+    {
+      "id": "nominal",
+      "label": "Initial positive\n10 s",
+      "job": "133150",
+      "case_status": "PASSED",
+      "local_source": "evidence/mainline/engineering/39c-development/slice-01/01-closure-endpoint-green/business-result.json",
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39c-development/01-closure-endpoint-green/results/business-result.json",
+      "bytes": 8968,
+      "sha256": "0c720aeaf7434d06aac0fab5b9a7c4905cabd0f199a9b7d0d28f52c04032dbde"
+    },
+    {
+      "id": "no-human",
+      "label": "No human\n10 s",
+      "job": "133223",
+      "case_status": "PASSED",
+      "local_source": "evidence/mainline/engineering/39c-development/slice-02/04-closure-input-correction/no-human__business-result.json",
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39c-development/04-closure-input-correction/results/no-human/business-result.json",
+      "bytes": 8705,
+      "sha256": "d1dfb9de9802cb9463e5de40c2b89fd08cf13f912795679b1643a05bb7d6bd21"
+    },
+    {
+      "id": "expiry",
+      "label": "Evidence expiry\n10 s",
+      "job": "133223",
+      "case_status": "PASSED",
+      "local_source": "evidence/mainline/engineering/39c-development/slice-02/04-closure-input-correction/expiry-reopens__business-result.json",
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39c-development/04-closure-input-correction/results/expiry-reopens/business-result.json",
+      "bytes": 9453,
+      "sha256": "9734d29da77663ff94cb715b1ec24adcb75b10d41a09ac3e502767c2be0c3f9d"
+    },
+    {
+      "id": "window8",
+      "label": "Censored window\n8 s",
+      "job": "133195",
+      "case_status": "PASSED_CASE_WITHIN_FAILED_BATCH",
+      "local_source": "evidence/mainline/engineering/39c-development/slice-02/03-closure-boundary-correction/window-censored__business-result.json",
+      "path": "/share/home/renly/renly-patrol-rsi/mainline/39c-development/03-closure-boundary-correction/results/window-censored/business-result.json",
+      "bytes": 8972,
+      "sha256": "3df1ca6bc5af5aca5642d6f180a53eff43d8f8339d8d4452ce794a9478c8b559"
+    }
+  ],
+  "maximum_render_attempts": 2,
+  "figures": 2,
+  "exports_per_figure": [
+    "PNG",
+    "SVG"
+  ],
+  "tables": [
+    "endpoints.csv",
+    "assessments.csv"
+  ],
+  "cases": "All4declared finite engineering variants; one passed case from failed133195 remains explicitly identified. These are not independent research units or efficacy comparisons.",
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "durable_set": "Frozen renderer/protocol/stage tool/input manifest/job; attempt, terminal, logs, PNG/SVG/CSV, geometryQA and actual view record. Exclude only declared runtime-matplotlib-cache, pyc/pyo/__pycache__.",
+  "retry": "No automatic retry. A second render requires a concrete layout defect, preserved first outputs/log and a pre-run source correction record; input values/semantics stay unchanged.",
+  "facility_calls": 0,
+  "direct_public_choice_calls": 0,
+  "model_calls": 0,
+  "new_research_trials": 0,
+  "field_calibration": "PENDING",
+  "whole_39c_acceptance": false
+}
