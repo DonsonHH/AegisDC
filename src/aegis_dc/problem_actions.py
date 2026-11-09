@@ -180,8 +180,11 @@ def compile_problem_actions(frame, program, history):
             candidates.append(dict(id=task['id'], kind='intervene' if stage == 'action' else 'inspect', task=task,
                                    available_at_s=at, question_id=instance['id'], source_note=template['source_note'],
                                    issue_cost=template['issue_costs'][stage]))
+    selector_policy=program['policy']
+    if selector_policy=='defer_once':
+        selector_policy='no_human' if not history['question_instances'] else 'fifo'
     compiled = dict(schema='aegisdc-dispatch-policy-program-v3', id=program['id'] + '-compiled',
-                    basis=program['basis'], policy=program['policy'], workforce_profile=program['workforce_profile'],
+                    basis=program['basis'], policy=selector_policy, workforce_profile=program['workforce_profile'],
                     candidates=candidates, options={}, resource_budget=program['resource_budget'],
                     intervention_declaration=dict(deepcopy(program['intervention_declaration']),
                         bindings=[row for key, row in actions.items() if key in {c['id'] for c in candidates}]))
@@ -192,6 +195,9 @@ def compile_problem_actions(frame, program, history):
 def choose_problem_action(frame, program, history):
     from .dispatch_policy import choose_work
     prepared = compile_problem_actions(frame, program, history)
+    selector_policy=prepared['program']['policy']
     choice = choose_work(frame, prepared.pop('program'), prepared.pop('history'))
     choice.update(**prepared, task_generation_scope='PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN')
+    if program['policy']=='defer_once':
+        choice.update(policy=program['policy'],stage_selector_policy=selector_policy)
     return choice

@@ -1,0 +1,27 @@
+test_legal_defer_then_real_late_confirmation_keeps_the_reference_denominator (test_diagnostic_deliberate_defer.DiagnosticDeliberateDeferTests.test_legal_defer_then_real_late_confirmation_keeps_the_reference_denominator) ... ERROR
+
+======================================================================
+ERROR: test_legal_defer_then_real_late_confirmation_keeps_the_reference_denominator (test_diagnostic_deliberate_defer.DiagnosticDeliberateDeferTests.test_legal_defer_then_real_late_confirmation_keeps_the_reference_denominator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/tests/test_diagnostic_deliberate_defer.py", line 31, in test_legal_defer_then_real_late_confirmation_keeps_the_reference_denominator
+    result=simulate_scenario(fixture['model'],duration_s=data['duration_s'],step_s=data['step_s'],
+        dispatch_program=dispatch,business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/src/aegis_dc/plant.py", line 733, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/src/aegis_dc/policy_execution.py", line 99, in __init__
+    declared_candidates=declared_problem_tasks(initial,program['policy_program'])
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/src/aegis_dc/problem_tasks.py", line 100, in declared_problem_tasks
+    for template in _templates(frame, program).values()
+                    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/src/aegis_dc/problem_tasks.py", line 21, in _templates
+    _require(program['policy'] in {'fifo', 'no_human'}, 'Declare the transparent investigation reference')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/16-deliberate-defer-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Declare the transparent investigation reference
+
+----------------------------------------------------------------------
+Ran 1 test in 0.073s
+
+FAILED (errors=1)

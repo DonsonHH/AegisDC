@@ -18,7 +18,8 @@ def _templates(frame, program):
              'Declare synthetic problem tasks in SI seconds')
     _text(program['id'], 'Problem policy id')
     _text(program['policy'], 'Problem policy')
-    _require(program['policy'] in {'fifo', 'no_human'}, 'Declare the transparent investigation reference')
+    policies=('fifo','no_human')+(('defer_once',) if version2 else ())
+    _require(program['policy'] in policies, 'Declare the transparent investigation reference')
     knowledge = frame['nominal_knowledge']
     validate_profile(program['workforce_profile'], knowledge)
     templates = _registry(program['templates'], 'Problem template')
