@@ -1,0 +1,66 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-instance-review-escalation-precedence-28",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_RED_GREEN_NOT_RESEARCH",
+  "contract": "docs/mainline/39c-instance-review-contract-21.md",
+  "question": "At one public clock, when independently authorized risk acceptance and escalation both apply to one instance, does escalation take precedence without closing that instance, changing an older verified closure, or issuing extra work?",
+  "fixed_seed": {
+    "path": "evidence/mainline/engineering/39c-development/slice-24/protocol24-green-frozen-public-call-input.json",
+    "git_blob": "ec96c653f9ffb3c43148dad1c1311f0e7cccf918",
+    "bytes": 80436,
+    "sha256": "b01d3795db56702bc829fb4f78f006db5a8c7042eeda5098a3dc4eeba70a6c64"
+  },
+  "test": {
+    "path": "tests/test_instance_review_escalation.py",
+    "git_blob": "e65121afeb16c1b97c0fe5695822ac09a580b6d7",
+    "sha256": "bea15e390cd2c56d1af77c0aba80e9399f810c16b507f0e838cf8a981a65ed8a",
+    "test_names": ["test_instance_review_escalation.InstanceReviewEscalationTests.test_escalation_takes_precedence_and_keeps_instance_open"]
+  },
+  "expectations": {
+    "as_of_s": 5.5,
+    "question_0": "VERIFIED_CLOSED",
+    "question_1": "ESCALATED",
+    "question_1_disposition_records": ["accept-risk-instance1-21", "escalation-question-1-28"],
+    "question_1_question_closed": false,
+    "question_1_risk_closed": false,
+    "question_1_physical_restoration_claim": false,
+    "dispatch": "Question 1 inspect and action stage prerequisites remain met; existing shared resource budget still prevents new work."
+  },
+  "budget": {
+    "tests": 1,
+    "direct_public_choice_calls": 1,
+    "facility_entries": 0,
+    "new_research_trials": 0,
+    "GPU_use": false
+  },
+  "container_snapshot": {
+    "runner_sha256": "abba1853c86471bae75b21d83650a01a5ce37b871d3196c576d7880848234773",
+    "support_files": ["docs/mainline/39c-instance-review-contract-21.md"],
+    "attempts": {
+      "red": {
+        "runtime_source": "d286f8cd50adb089337a230a224cb5a9fac6c7fb",
+        "expected_red_text": "This instance review slice permits only synthetic risk acceptance",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/35-instance-review-escalation-red-v28"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/36-instance-review-escalation-green-v28",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/36-instance-review-escalation-green-v28"
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "runtime_change_scope": "Only instance_reviews.py after observing the red result. Preserve exact record identity, scope, provenance, evidence clocks and authority. Accept multiple independently bound records on one question; escalation wins over acceptance regardless of channel order. Do not weaken existing physical verification or implement false-alarm review here.",
+  "failure_rule": "One invocation per phase, each in a new directory. A setup or assertion failure remains in the ledger; a new attempt needs a numbered revision. Do not rerun any previous slice.",
+  "whole_39c_accepted": false
+}

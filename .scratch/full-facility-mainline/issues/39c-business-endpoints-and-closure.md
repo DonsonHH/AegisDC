@@ -16,6 +16,8 @@
 
 ## Evidence
 
+Protocol27 [same-target scope qualification](../../../evidence/mainline/engineering/39c-development/slice-27/result.json) passed at runtime d286f8cd with frozen input/control bb4d6d7f: one public choice, no facility entries or research trials. Management acceptance closes question-0 only. Question-1 on the same intake pump stays open, retains both eligible stages and FIFO selects its action. Protocol28 is frozen to test escalation precedence while preserving physical verification and the shared budget.
+
 Initial ready-frontier snapshot after39a and39b acceptance; superseded below by first-slice development. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.
 
 Planning only: `docs/mainline/39c-business-endpoints-plan.md` defines the proposed event/opportunity/closure denominators and remote behavior sequence. At that planning snapshot, no freeze or execution had started; first finite slice below is now complete, whole39c remains unaccepted.
