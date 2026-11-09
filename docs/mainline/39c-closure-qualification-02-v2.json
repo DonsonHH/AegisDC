@@ -1,0 +1,70 @@
+{
+  "schema": "aegisdc-existing-behavior-qualification-v2",
+  "id": "39c-closure-boundary-02-v2",
+  "classification": "REMOTE_ENGINEERING_QUALIFICATION_NOT_RESEARCH",
+  "previous_protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json",
+  "previous_actual": {
+    "entries": 2,
+    "completed_native_horizons": 1,
+    "returned_decisions": 8,
+    "red_job": "133147",
+    "green_job": "133150"
+  },
+  "scope": "Check already implemented missing-action, observation-expiry and horizon-censor behavior with three prospectively declared new inputs; no implementation change or automatic retry.",
+  "test": "tests/test_business_closure_qualification.py",
+  "fixture": "tests/fixtures/39c-closure-qualification-02.json",
+  "base_fixture": "tests/fixtures/39c-actual-closure-endpoint.json",
+  "maximum_new_attempts": 1,
+  "tests": 3,
+  "maximum_new_facility_entries": 3,
+  "maximum_new_native_horizons": 3,
+  "requested_simulation_s": 28,
+  "maximum_returned_decisions": 25,
+  "maximum_direct_public_choice_or_model_calls": 0,
+  "cases": [
+    {
+      "id": "no-human",
+      "duration_s": 10,
+      "decisions": 8,
+      "expected": "No actual action/report/verified closure; right-censored at last actual assessment8.5, horizon10 unassessed."
+    },
+    {
+      "id": "expiry-reopens",
+      "duration_s": 10,
+      "decisions": 9,
+      "expected": "First verified8.5 retained as historical event; assessment10 is pending verification after the7/8 samples expire; only9s sample remains available."
+    },
+    {
+      "id": "window-censored",
+      "duration_s": 8,
+      "decisions": 8,
+      "expected": "Action6/report6.5 observed, only7s sample arrived; no verified closure before window8, explicit pending horizon status and right-censor8."
+    }
+  ],
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "failure_policy": "Original133194 remains failed and charged as an attempt. One explicit new correction allocation; no automatic retry. Any further failure needs a new frozen correction/output.",
+  "durable_set": "Frozen Git source/tests/base+variant input/protocol/stage and runner tools; actual full inputs saved before each call, all native run files, summaries, manifests, attempts, terminal and Slurm records. Runtime caches excluded.",
+  "new_research_trials": 0,
+  "original_registered_research_runs": 180,
+  "whole_39c_acceptance": false,
+  "supersedes_for_next_attempt": "docs/mainline/39c-closure-qualification-02.json",
+  "original_attempt": {
+    "job": "133194",
+    "source": "8ad6337fb6b9a36cc03763002f3e687524ca4787",
+    "status": "FAILED_NOT_RELABELLED",
+    "tests_run": 0,
+    "facility_calls": 0,
+    "returned_decisions": 0,
+    "cause": "Original stage evaluation.test_pattern retained the first-slice basename while only the qualification file was staged. Runner refused0tests; original test/input/protocol/runtime bytes preserved."
+  },
+  "cumulative_qualification_attempt_cap": 2,
+  "cumulative_reserved_facility_entry_cap": 6,
+  "correction": "Only stage metadata test_pattern and its prospective guard change. All three cases, tests, expectations and59ac domain runtime remain unchanged.",
+  "source_rule": "Freeze corrected metadata tool/protocol before unique correction attempt; exact test+base+variant bytes must match the original8ad Git blobs; refuse a test pattern absent from declared staged files."
+}
