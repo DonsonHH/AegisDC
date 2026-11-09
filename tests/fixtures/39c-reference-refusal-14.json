@@ -1,0 +1,16 @@
+{
+  "classification":"FROZEN_EXISTING_INPUT_REFUSAL_QUALIFICATION",
+  "cases":[
+    {"id":"v1-null","schema":"aegisdc-business-diagnostic-evaluation-v1","status":"UNMODELED","earliest":null,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"Opportunity earliest_report_at_s"},
+    {"id":"v2-unknown-zero","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"UNMODELED","earliest":0,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"must remain null"},
+    {"id":"v2-unavailable-finite","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"UNAVAILABLE","earliest":1.75,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"must remain null"},
+    {"id":"v2-too-late-at-cutoff","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"TOO_LATE","earliest":2,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"strictly after its cutoff"},
+    {"id":"v2-eligible-null","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"ELIGIBLE","earliest":null,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"Opportunity earliest_report_at_s"},
+    {"id":"v2-status-type","schema":"aegisdc-business-diagnostic-evaluation-v2","status":[],"earliest":1.75,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":false,"expected_error":"Unknown reference opportunity"},
+    {"id":"v2-undeclared-task","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"UNMODELED","earliest":null,"task":"undeclared-inspection","spoof_hash":false,"duplicate":false,"expected_error":"Named reference inspection"},
+    {"id":"v2-input-hash","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"ELIGIBLE","earliest":1.75,"task":"network-case/inspect-0","spoof_hash":true,"duplicate":false,"expected_error":"Fixed reference differs from actual input"},
+    {"id":"v2-duplicate-event","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"ELIGIBLE","earliest":1.75,"task":"network-case/inspect-0","spoof_hash":false,"duplicate":true,"expected_error":"Do not duplicate an event"},
+    {"id":"v2-eligible-no-task","schema":"aegisdc-business-diagnostic-evaluation-v2","status":"ELIGIBLE","earliest":1.75,"task":null,"spoof_hash":false,"duplicate":false,"expected_error":"Eligible inspection reference"}
+  ],
+  "source_note":"Expected rejections follow the frozen version, null, finite-window, provenance-bound input and unique-event contracts. This is one input-qualification test with10calls, not10independent research units or a new gain study."
+}
