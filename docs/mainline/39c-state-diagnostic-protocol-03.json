@@ -1,0 +1,46 @@
+{
+  "schema": "aegisdc-engineering-slice-protocol-v1",
+  "id": "39c-state-diagnostic-03",
+  "classification": "REMOTE_ENGINEERING_TDD_NOT_REGISTERED_RESEARCH",
+  "contract": "docs/mainline/39c-state-diagnostic-contract-03.md",
+  "test": "tests/test_business_state_diagnostic.py",
+  "fixture": "tests/fixtures/39c-network-state-diagnostic.json",
+  "base_fixture": "tests/fixtures/39b-network-action-sequence.json",
+  "maximum_attempts": 2,
+  "phases": [
+    "red",
+    "green"
+  ],
+  "maximum_facility_interface_entries": 2,
+  "maximum_native_horizons": 2,
+  "maximum_requested_simulation_s": 4,
+  "maximum_returned_decisions": 6,
+  "direct_public_choice_calls": 0,
+  "model_calls": 0,
+  "expected_red_error": "Business closure evaluation program fields do not match the closed contract",
+  "independent_expectations": {
+    "sample_s": 1.25,
+    "arrival_s": 1.75,
+    "capacity": 0.25,
+    "required_capacity": 1,
+    "events": 1,
+    "matured_eligible_fault_events": 1,
+    "timely_confirmed": 1,
+    "missed": 0,
+    "normal_denominator": 0,
+    "false_positive_rate": null
+  },
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "source_rule": "Freeze test, descriptor, base input, contract, protocol, runner/stage tool before red; green changes implementation only. Actual full input is saved before each facility entry. Source and manifests guarded before/after.",
+  "failure_rule": "Preserve failed/expected-red originals; no automatic retry. Any further call requires a new frozen correction protocol and unique output, accounting for previous attempts.",
+  "durable_set": "Declared committed source/tests/descriptor/base/config/contract/protocol/runner/stage, source/job manifests, attempt/terminal/logs, pre-call full input, complete native run and business summary. Runtime caches excluded. Detailed native output stays private remote.",
+  "original_registered_research_runs": 180,
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}

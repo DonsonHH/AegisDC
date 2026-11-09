@@ -1,0 +1,80 @@
+{
+  "schema": "aegisdc-diagnostic-engineering-descriptor-v1",
+  "classification": "FROZEN_NEW_ENGINEERING_INPUT_NOT_RESEARCH_TRIAL",
+  "base_fixture": "tests/fixtures/39b-network-action-sequence.json",
+  "base_sha256": "a9899ec56fff53edbc27648749405c9dad5403d1304b520a8ed0f7d789973c82",
+  "duration_s": 2,
+  "maximum_step_s": 0.01,
+  "decision_times_s": [
+    0,
+    1.75,
+    2
+  ],
+  "public_profile": {
+    "schema": "aegisdc-public-condition-profile-v1",
+    "id": "network-capacity-state-39c",
+    "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "nominal_knowledge_id": "V6-canonical-public-nominal-v1",
+    "basis": "synthetic_assumption",
+    "time_unit": "s",
+    "source_note": "A declared scalar capacity-state assessment, not root-cause diagnosis or a calibrated field detector.",
+    "rules": [
+      {
+        "id": "network-capacity",
+        "target_id": "network",
+        "observable_id": "network_capacity",
+        "unit": "1",
+        "source_ids": [
+          "a-it-desk-professional-meter"
+        ],
+        "comparison": "below",
+        "threshold": 1,
+        "source_note": "Capacity below the declared1service-unit requirement; use entire reported bounded interval."
+      }
+    ]
+  },
+  "business_program": {
+    "schema": "aegisdc-business-diagnostic-evaluation-v1",
+    "id": "network-state-event-39c-03",
+    "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "basis": "synthetic_assumption",
+    "time_unit": "s",
+    "diagnostic_profile_id": "network-capacity-state-39c",
+    "reference": {
+      "id": "network-reference-opportunity-2s",
+      "scenario_sha256": "5701d1363c08ae1ee2466efb9d417aef207d620d027aa0421e3d3974c78b49b8",
+      "boundary_events_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "nominal_knowledge_sha256": "75dd88430cbb09d7ec0f15494bf0092bdd9a47ba4141b2aea789a1ce6e8f75f8",
+      "ledger_sha256": "d199d2c6f6bb5e26a38cb9e68eea65ad4939d56e6579b0fd58ca5070962cb5d0",
+      "workforce_profile_sha256": "d32d28ad1d7271420106bac77995eaa46e93b0b70f7d16eab0952c7006ff0ac7",
+      "inspection_profile_sha256": "951df7d3f183b9eff6b9b57a7ff945c820ebdd5a72bad2508ae0e9c8823bf8d2",
+      "source_note": "Common prospective reference: same location, access0.25s+work1s+return0.5s=1.75s; fixed independently of selecting or deferring the task."
+    },
+    "events": [
+      {
+        "id": "network-event-01",
+        "condition_id": "network-capacity",
+        "opened_at_s": 0,
+        "truth": {
+          "kind": "SIGNAL_BELOW",
+          "signal_id": "network.available_capacity",
+          "target_id": "network",
+          "unit": "1",
+          "threshold": 1,
+          "source_note": "Initial private actual capacity0.25 is below declared requirement1; independent of evidence claims. Only this scalar state is defined."
+        },
+        "opportunity": {
+          "reference_id": "network-reference-opportunity-2s",
+          "status": "ELIGIBLE",
+          "inspection_task_id": "network-case/inspect-0",
+          "starts_at_s": 0,
+          "earliest_report_at_s": 1.75,
+          "deadline_s": 2,
+          "source_note": "Method-independent declared inspection opportunity; failing to dispatch does not remove this event from its reference denominator."
+        },
+        "source_note": "One event despite repeated assessment of the same arrived record; no root-cause or prevention-effect claim."
+      }
+    ],
+    "source_note": "Private evaluation only. Whole39c and probabilistic/field calibration remain incomplete."
+  }
+}
