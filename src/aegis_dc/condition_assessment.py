@@ -47,22 +47,22 @@ def assess_conditions(frame, profile):
             and row['target_id']==rule['target_id'] and sources[row['source_id']]['kind'] in {'human_report','work_order'})
         candidates=[row for row in evidence['records'] if row['id'] in current and row['source_id'] in rule['source_ids']
                     and row['target_id']==rule['target_id'] and row['observable_id']==rule['observable_id'] and row['unit']==rule['unit']]
-        latest=max((row['observed_at_s'] for row in candidates),default=None)
-        selected=[row for row in candidates if row['observed_at_s']==latest]
-        blocked=sorted(row['id'] for row in selected if row['id'] in conflict_ids|provenance_ids
+        blocked=sorted(row['id'] for row in candidates if row['id'] in conflict_ids|provenance_ids
                        or row['provenance']['copied_from_record_id'] is not None or row['quality']['status']!='bounded')
+        qualified=[row for row in candidates if row['id'] not in blocked]
+        latest=max((row['observed_at_s'] for row in qualified),default=None)
+        selected=[row for row in qualified if row['observed_at_s']==latest]
         states=[]
-        if not blocked:
-            for row in selected:
-                value,error,threshold=Fraction(row['value']),Fraction(row['quality']['error_bound']),Fraction(rule['threshold'])
-                states.append('ABNORMAL' if value+error<threshold else 'NORMAL' if value-error>=threshold else 'UNKNOWN')
+        for row in selected:
+            value,error,threshold=Fraction(row['value']),Fraction(row['quality']['error_bound']),Fraction(rule['threshold'])
+            states.append('ABNORMAL' if value+error<threshold else 'NORMAL' if value-error>=threshold else 'UNKNOWN')
         status=states[0] if states and len(set(states))==1 else 'UNKNOWN'
         conditions.append(dict(condition_id=rule['id'],target_id=rule['target_id'],observable_id=rule['observable_id'],unit=rule['unit'],
             status=status,reason='BOUNDED_SCALAR_CONDITION' if status!='UNKNOWN' else
-                'NO_CURRENT_MEASUREMENT' if not selected else 'BLOCKED_OR_AMBIGUOUS_MEASUREMENT',
+                'NO_CURRENT_MEASUREMENT' if not candidates else 'BLOCKED_OR_AMBIGUOUS_MEASUREMENT',
             available_at_s=frame['as_of_s'],observed_at_s=latest,
             latest_source_arrival_at_s=max((row['arrived_at_s'] for row in selected),default=None),
-            supporting_record_ids=sorted(row['id'] for row in selected) if not blocked else [],
+            supporting_record_ids=sorted(row['id'] for row in selected),
             blocking_record_ids=blocked,external_context_record_ids=contexts,
             scope='SAMPLED_SCALAR_CONDITION_NOT_ROOT_CAUSE_OR_CONTINUOUS_CURRENT_STATE'))
     return dict(schema='aegisdc-public-condition-assessment-v1',facility_id=frame['facility_id'],profile_id=profile['id'],
