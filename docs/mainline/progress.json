@@ -191,7 +191,7 @@
       "owner": "/root",
       "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
       "branch": "donson/mainline-39c-endpoints",
-      "status": "INSTANCE_REVIEW21_PUBLIC_SEED_PREPARING_NO_NATIVE"
+      "status": "INSTANCE_REVIEW21_CONTAINER_RED_FROZEN_NOT_STARTED"
     }
   ],
   "prepared_implementations": [],
@@ -598,7 +598,7 @@
       "original_counter_scope": "Original runner literalinternal0not a nested-call measurement; exact classification correction retained. Future runner reportsunknown/null."
     },
     "instance_review": {
-      "status": "RED_SUBMITTED_PENDING_SCHEDULER_PRIORITY",
+      "status": "ORIGINAL_SLURM_RED_CANCELLED_BEFORE_START_CONTAINER_RED_NOT_STARTED",
       "contract": "docs/mainline/39c-instance-review-contract-21.md",
       "protocol": "docs/mainline/39c-instance-review-protocol-21.json",
       "public_seed_source_job": "133380",
@@ -607,12 +607,15 @@
       "red_attempt_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
       "red_job": "133407",
       "red_submission": "2026-11-09T14:08:42 local time",
-      "red_state_last_checked": "PENDING_REASON_PRIORITY; all20cu nodes allocated with UNLIMITED current jobs; no test executed yet",
+      "red_state_last_checked": "133407 CANCELLED_BEFORE_START after live exact PENDING|(Priority), all20cu allocated and current jobs UNLIMITED; sacct Elapsed0/Exit0:0; 0entry/test/native horizon",
       "red_job_id_recorded": true,
-      "red_tests_or_entries": "NOT_EXECUTED_PENDING_SCHEDULER",
+      "red_tests_or_entries": "NOT_EXECUTED_CANCELLED_BEFORE_START",
       "planned_new_facility_entries": 0,
       "new_registered_trials": 0,
-      "next": "Monitor the same133407 job only; do not duplicate/cancel/change frozen resources. After terminal red, implement the instance-bound review program and run only the frozen green. Cluster lacks an active CPU slot and the controller reports priority; local evaluation prohibited."
+      "container_correction_protocol": "docs/mainline/39c-instance-review-container-protocol-22.json",
+      "container_red_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
+      "container_red_status": "FROZEN_NOT_STARTED",
+      "next": "Protocol22 and local watchdog/snapshot tools frozen. Preserve Slurm cancellation receipt; prepare exact red snapshot to private Parastor, then run 1public-only call in verified container. Red must complete before separate green source is created. No local project compute, installs, or GPU use."
     }
   }
 }
