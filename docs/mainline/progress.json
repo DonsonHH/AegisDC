@@ -191,7 +191,7 @@
       "owner": "/root",
       "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
       "branch": "donson/mainline-39c-endpoints",
-      "status": "STATE_DIAGNOSTIC_FIRST_GREEN_QUALIFICATION_REVIEW_PENDING"
+      "status": "DIAGNOSTIC_QUALIFICATION_ORIGINAL_SAVED_PUBLIC_SELECTION_FIX_NEXT"
     }
   ],
   "prepared_implementations": [],
@@ -351,15 +351,15 @@
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
   "development_39c": {
-    "status": "WIP_FIRST_STATE_DIAGNOSTIC_GREEN_QUALIFICATION_PENDING",
+    "status": "WIP_DIAGNOSTIC_NEGATIVES_EXECUTED_TWO_FINDINGS_PRESERVED",
     "red_job": "133147",
     "red_source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
     "green_job": "133150",
     "green_source": "59acded75e88963020d7e66583c07b5831766834",
-    "facility_interface_entries": 9,
-    "completed_native_horizons": 5,
-    "completed_native_duration_s": 40,
-    "returned_decisions": 36,
+    "facility_interface_entries": 15,
+    "completed_native_horizons": 11,
+    "completed_native_duration_s": 52,
+    "returned_decisions": 54,
     "internal_choice_calls": "NOT_INSTRUMENTED",
     "direct_public_choice_calls": 0,
     "model_calls": 0,
@@ -402,7 +402,14 @@
       "returned_decisions": 3,
       "scope": "One state-event confirmation with fixed reference; broader diagnostic qualification pending",
       "report": "evidence/mainline/engineering/39c-development/slice-03/README.md",
-      "qualification_protocol": "docs/mainline/39c-state-diagnostic-qualification-04.json"
+      "qualification_protocol": "docs/mainline/39c-state-diagnostic-qualification-04.json",
+      "qualification_job": "133274",
+      "qualification_status": "FAILED_ONE_EXPECTED_VALUE_ASSERTION_ALL_SIX_NATIVE_RUNS_RETAINED",
+      "qualification_source": "3e81e7faa61d1021cc9418172171de86e370750f",
+      "qualification_tests": 5,
+      "qualification_failures": 1,
+      "open_spec_finding": "39C-DIAG-SPEC-01",
+      "next": "Saved-only correction of wrong-demand expected usable value, then isolated public evidence qualification red/green; no repeat of original six native runs."
     }
   }
 }

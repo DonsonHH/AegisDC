@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-spec-diagnostic-stage-review-v1",
+  "base": "9b0a9dffaf28073797143a3e03e04beb5c600595",
+  "candidate": "3e81e7faa61d1021cc9418172171de86e370750f",
+  "status": "ONE_PUBLIC_CONTRACT_FINDING",
+  "finding_count": 1,
+  "files": {
+    "docs/mainline/39c-state-diagnostic-contract-03.md": "c0571c4ef1bccfaa5a5080ee96225ddd6b7cbcb8",
+    "docs/mainline/39c-state-diagnostic-protocol-03.json": "c542b035252290a07804faa1ca0560d6c944a3f8",
+    "docs/mainline/39c-state-diagnostic-qualification-04.json": "f62fdb85a0b7f0ce01bb3cb8417e8a251dda4147",
+    "src/aegis_dc/condition_assessment.py": "8b732977cecec061dcc851771c708ee77065bd43",
+    "src/aegis_dc/diagnostic_endpoints.py": "302cce4dd290afe0a3b7081743233c0bfc67873c",
+    "src/aegis_dc/policy_execution.py": "530183a55e132b6d486ac6bfb7bb890a184df327",
+    "src/aegis_dc/plant.py": "90abdcb0bd2f31c3429d4bc0d63d00b674f0a3ba",
+    "src/aegis_dc/business_endpoints.py": "bbca65c1401279abbf39a31731d28554765b5229",
+    "src/aegis_dc/evidence_ledger.py": "5a9e2c77cf90217fc63bb921c04af506ad0eef96",
+    "tests/test_business_state_diagnostic.py": "571261db249eeb58be21059489403be957f801a8",
+    "tests/test_business_diagnostic_qualification.py": "e250126e79f81e654a9d80447e0e3c133020d212",
+    "tests/fixtures/39c-network-state-diagnostic.json": "c0fbd406944017ca514148829f60772ecc6237c7",
+    "tests/fixtures/39c-diagnostic-qualification-04.json": "2ef2347d95b482f57fcbee8db505072c1a84cc20",
+    "evidence/mainline/engineering/39c-development/tools/stage_diagnostic_qualification_04.py": "5427a666cfc096a3174e3d79284d8e1632714ab6",
+    "evidence/mainline/engineering/39c-development/slice-03/06-state-diagnostic-red/terminal.json": "f642ff299bb10a7fde5dd3d7bde4588bc6fe7e4b",
+    "evidence/mainline/engineering/39c-development/slice-03/06-state-diagnostic-green/terminal.json": "1d1158b4a47834a9b3ed907a48e193dfd9794373",
+    "evidence/mainline/engineering/39c-development/slice-03/06-state-diagnostic-green/business-result.json": "c4d36582fdc2c454f39ab913e17cd3c99b01c7d0"
+  },
+  "findings": [
+    {
+      "id": "39C-DIAG-SPEC-01",
+      "priority": "P2",
+      "path": "src/aegis_dc/condition_assessment.py",
+      "lines": "48-59",
+      "spec_path": "docs/mainline/39c-state-diagnostic-contract-03.md",
+      "spec_line": 7,
+      "spec_quote": "只使用当前、非复制、无来源/同刻冲突且有有限误差界的数值测量；取最新合格观察时刻",
+      "issue": "The code takes latest observation across all current matching candidates before excluding ineligible quality/provenance. A later ineligible numeric observation can therefore hide a still-current qualified older observation, contrary to latest-qualified semantics.",
+      "static_counterexample": "One allowed numeric source has an older still-current bounded reading, and a newer still-current non-null numeric reading with quality.status=unknown,error_bound=null,distinct provenance roots and different observation times. evidence_ledger.py:122-135 permits explicitly unknown numeric quality, and conflicts only compare equal observation times. Current code selects only the newer row, blocks it and returnsUNKNOWN instead of selecting the latest qualified older bounded sample with its original observed_at_s. The counterexample was not executed.",
+      "correction": "Make qualification and cohort selection consistent with the frozen contract, preserving genuine same-time disputes. Alternatively explicitly revise the prospective semantics before further qualification, retaining the old source/evidence. Add a separately frozen pure public-frame behavior witness without rerunning the original03 facility result.",
+      "boundary": "The existing single-qualified-reading03 positive result is not contradicted. This blocks accepting the advertised general latest-qualified public condition contract, not a claim that its saved positive outcome is false."
+    }
+  ],
+  "other_reviewed_boundaries": [
+    "Public condition assessment reads only validated current frames. External human/work-order records are context, bounded whole-interval classification is three-valued, and scalar assessment is explicitly not root cause or continuous current state.",
+    "Private initial/observation truth reads only exact named trace points after the run. Six fixed-reference hashes are checked before execution; no business truth/reference/opportunity fields are added to PolicySession or decision frames.",
+    "All declared events remain in events_total independent of dispatch. InitialFAULT,referenceELIGIBLE,matured defines the confirmation denominator; zero denominators return null with a reason. Observation and availability times are separate.",
+    "04 no-human-fault changes only policy while retaining the original model,resources,ledger,nominal and inspection reference material; the intended reference equality assertion is present.",
+    "04 wrong-demand-model explicitly declares actual normative requirement0.5 versus public estimated1, with accurate0.75 capacity reading. It is prospective model-interpretation error, not fabricated instrument data or a maintenance/design-capacity alarm.",
+    "04 unmodeled proxy changes the stated event meaning to an unavailable cause mapping. Public scalar capacity finding remains bounded-state only; private truthUNKNOWN and both inapplicable ratesnull retain the event.",
+    "04 stage pins the correct test/fixtures,source/protocol/tools and unchanged1fc domain code, with5tests/6facility entries/18returned maximum and unique no-retry output. It has not been executed in this review."
+  ],
+  "saved03": {
+    "red_source": "94c2656c19bf89e9493e0435ede6f34ff3ed3577",
+    "red_job": "133254",
+    "red_status": "EXPECTED_RED_CONTRACT_GAP",
+    "green_source": "1fc37084f1db29ded88cffe4f9ec76e343b62740",
+    "green_job": "133264",
+    "green_status": "GREEN_BEHAVIOR_PASSED",
+    "observed_scope": "1test,one2s completed horizon,3returned decisions; initialUNKNOWN,measurement observed1.25/available1.75ABNORMAL,one initialFAULT event,one mature eligible confirmation,normal denominator0/rate null. Read saved fields only, no metric recomputation.",
+    "freeze": "Red→green frozen test,descriptor,base input,contract,protocol,runner/stage Git paths unchanged. Runtime1fc→3e81 unchanged."
+  },
+  "future04": "Prospective input preparation only; no test/project/validator calls or six-case outcomes were evaluated by reviewer. Existing04 cases do not cover the finding counterexample.",
+  "whole_39c_accepted": false,
+  "remaining_scope": "Dynamic closure,lead/prevention counterfactuals,complete costs,source/delay/conflict qualifications and whole39c acceptance remain open; not silently called complete.",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "counterexample_runs": 0,
+    "stage_calls": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}

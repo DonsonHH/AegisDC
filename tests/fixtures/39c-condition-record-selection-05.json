@@ -1,0 +1,12 @@
+{
+  "classification": "PURE_PUBLIC_EVIDENCE_ENGINEERING_NOT_RESEARCH",
+  "base_fixture": "tests/fixtures/39b-network-action-sequence.json",
+  "profile_descriptor": "tests/fixtures/39c-network-state-diagnostic.json",
+  "as_of_s": 2,
+  "records": [
+    {"id":"qualified-old","source_id":"a-it-desk-professional-meter","target_id":"network","observable_id":"network_capacity","unit":"1","value":0.25,"observed_at_s":0.5,"arrived_at_s":0.75,"valid_until_s":4,"quality":{"status":"bounded","error_bound":0,"note":"Literal bounded scalar sample, still valid at2."},"provenance":{"origin_id":"qualified-old-origin","copied_from_record_id":null}},
+    {"id":"unknown-new","source_id":"a-it-desk-professional-meter","target_id":"network","observable_id":"network_capacity","unit":"1","value":0.75,"observed_at_s":1,"arrived_at_s":1.5,"valid_until_s":4,"quality":{"status":"unknown","error_bound":null,"note":"A newer numeric report without a calibrated error bound."},"provenance":{"origin_id":"unknown-new-origin","copied_from_record_id":null}}
+  ],
+  "expected": {"status":"ABNORMAL","observed_at_s":0.5,"latest_source_arrival_at_s":0.75,"supporting_record_ids":["qualified-old"],"blocking_record_ids":["unknown-new"]},
+  "source_note":"Literal example of review finding39C-DIAG-SPEC-01. This checks a past sampled scalar only, never a claim about continuous current plant state. No facility or model call."
+}

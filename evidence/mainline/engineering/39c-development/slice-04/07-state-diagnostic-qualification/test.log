@@ -1,0 +1,19 @@
+test_bounded_interval_crossing_keeps_unknown_and_does_not_shrink_the_denominator (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_bounded_interval_crossing_keeps_unknown_and_does_not_shrink_the_denominator) ... ok
+test_no_human_keeps_the_fault_opportunity_and_hides_truth_from_public_conditions (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_no_human_keeps_the_fault_opportunity_and_hides_truth_from_public_conditions) ... ok
+test_normal_reading_does_not_promote_an_external_claim_to_a_false_alarm (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_normal_reading_does_not_promote_an_external_claim_to_a_false_alarm) ... ok
+test_unmodeled_root_cause_mapping_is_not_inferred_from_a_capacity_finding (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_unmodeled_root_cause_mapping_is_not_inferred_from_a_capacity_finding) ... ok
+test_wrong_demand_model_creates_one_false_state_event_without_falsifying_the_reading (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_wrong_demand_model_creates_one_false_state_event_without_falsifying_the_reading) ... FAIL
+
+======================================================================
+FAIL: test_wrong_demand_model_creates_one_false_state_event_without_falsifying_the_reading (test_business_diagnostic_qualification.DiagnosticQualificationTests.test_wrong_demand_model_creates_one_false_state_event_without_falsifying_the_reading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/07-state-diagnostic-qualification/tests/test_business_diagnostic_qualification.py", line 97, in test_wrong_demand_model_creates_one_false_state_event_without_falsifying_the_reading
+    self.assertEqual(evaluation['events'][0]['initial_private_value'],.75)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.5 != 0.75
+
+----------------------------------------------------------------------
+Ran 5 tests in 10.488s
+
+FAILED (failures=1)

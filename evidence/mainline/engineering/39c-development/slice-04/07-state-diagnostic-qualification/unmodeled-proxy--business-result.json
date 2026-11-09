@@ -1,0 +1,170 @@
+{
+  "schema": "aegisdc-business-diagnostic-result-v1",
+  "program_id": "network-state-event-39c-03-unmodeled-proxy",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "visibility": "PRIVATE_EVALUATOR_ONLY",
+  "basis": "synthetic_assumption",
+  "time_unit": "s",
+  "window_end_s": 2.0,
+  "execution_code_identity": {
+    "git_commit": "3e81e7faa61d1021cc9418172171de86e370750f",
+    "implementation_has_changes": false,
+    "source_tree_sha256": "61b3568ff662f104a138ee9142ed93b19747e8b4cbae715303f17afa90dfaa90",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+      "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+      "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+      "src/aegis_dc/business_endpoints.py": "d0c444cad96d6c0d02a6aec2b11381b1473c81c3d6287d5d2b5db49c9f3a4535",
+      "src/aegis_dc/condition_assessment.py": "e792fd9f6ccdf08284d7708f6a8dbd05fa88536ecf7fdb4f858a124be5c0a375",
+      "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+      "src/aegis_dc/diagnostic_endpoints.py": "2c8b309b969622e68e2afc2612b20a2483d4e7d8e8ee70b36b95e61e0c6cdf98",
+      "src/aegis_dc/dispatch_policy.py": "fe33a1ccea6115370259edab7420fe0aa19adc346e1bdf944ad88547d97bb6f7",
+      "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+      "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+      "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+      "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+      "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+      "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+      "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+      "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+      "src/aegis_dc/nonfixed_evidence.py": "09c601b61527cfaa46782a4cac7b8ef99f7c8121bc43980c021be3df4696ca17",
+      "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+      "src/aegis_dc/plant.py": "7a428a0bf3799050590cf317179232515f6cb15f70cb560fe30696fc0e19a875",
+      "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+      "src/aegis_dc/policy_execution.py": "45048b498460a3634ac4965e5208e9a2e248aad7409102e27af7eb81d191f948",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+      "src/aegis_dc/problem_actions.py": "16f12ce279e64be121eefea963db5c4888193537b5d417e55e9c854ba89deac6",
+      "src/aegis_dc/problem_tasks.py": "f24f5a83ee9ea55424ab05ce22d4b0cbafe9f37e4dc8a00752d3128235f0c7ef",
+      "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+      "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+      "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+      "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+      "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+      "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+      "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+      "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+      "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+      "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "reference": {
+    "id": "network-reference-opportunity-2s",
+    "scenario_sha256": "5701d1363c08ae1ee2466efb9d417aef207d620d027aa0421e3d3974c78b49b8",
+    "boundary_events_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "nominal_knowledge_sha256": "75dd88430cbb09d7ec0f15494bf0092bdd9a47ba4141b2aea789a1ce6e8f75f8",
+    "ledger_sha256": "d199d2c6f6bb5e26a38cb9e68eea65ad4939d56e6579b0fd58ca5070962cb5d0",
+    "workforce_profile_sha256": "d32d28ad1d7271420106bac77995eaa46e93b0b70f7d16eab0952c7006ff0ac7",
+    "inspection_profile_sha256": "951df7d3f183b9eff6b9b57a7ff945c820ebdd5a72bad2508ae0e9c8823bf8d2",
+    "source_note": "Common prospective reference: same location, access0.25s+work1s+return0.5s=1.75s; fixed independently of selecting or deferring the task."
+  },
+  "events": [
+    {
+      "id": "network-unmodeled-proxy-event",
+      "condition_id": "network-cause-proxy",
+      "opened_at_s": 0,
+      "initial_truth": "UNKNOWN",
+      "initial_private_value": null,
+      "reference_opportunity": {
+        "reference_id": "network-reference-opportunity-2s",
+        "status": "ELIGIBLE",
+        "inspection_task_id": "network-case/inspect-0",
+        "starts_at_s": 0,
+        "earliest_report_at_s": 1.75,
+        "deadline_s": 2,
+        "source_note": "Method-independent declared inspection opportunity; failing to dispatch does not remove this event from its reference denominator."
+      },
+      "deadline_right_censored": false,
+      "first_corroborated_fault_report_at_s": null,
+      "timely_outcome": "UNKNOWN_TRUTH",
+      "wrong_abnormal_state_observed": false,
+      "wrong_normal_state_observed": false,
+      "assessments": [
+        {
+          "available_at_s": 0.0,
+          "observed_at_s": null,
+          "public_status": "UNKNOWN",
+          "truth_at_observation": null,
+          "observation_in_event_window": false,
+          "supporting_record_ids": [],
+          "external_context_record_ids": [
+            "a-it-desk-claim"
+          ]
+        },
+        {
+          "available_at_s": 1.75,
+          "observed_at_s": 1.25,
+          "public_status": "ABNORMAL",
+          "truth_at_observation": "UNKNOWN",
+          "observation_in_event_window": true,
+          "supporting_record_ids": [
+            "it-capacity-before"
+          ],
+          "external_context_record_ids": [
+            "a-it-desk-claim"
+          ]
+        },
+        {
+          "available_at_s": 2.0,
+          "observed_at_s": 1.25,
+          "public_status": "ABNORMAL",
+          "truth_at_observation": "UNKNOWN",
+          "observation_in_event_window": true,
+          "supporting_record_ids": [
+            "it-capacity-before"
+          ],
+          "external_context_record_ids": [
+            "a-it-desk-claim"
+          ]
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "events_total": 1,
+    "truth_fault": 0,
+    "truth_normal": 0,
+    "truth_unknown": 1,
+    "eligible_fault_matured": 0,
+    "timely_confirmed_fault": 0,
+    "missed_fault_confirmation": 0,
+    "normal_matured": 0,
+    "false_positive_state_events": 0,
+    "window_censored": 0,
+    "reference_unavailable": 0,
+    "reference_unmodeled": 0
+  },
+  "rates": {
+    "missed_confirmation": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "unit": "1",
+      "unavailable_reason": "NO_MATURE_ELIGIBLE_INITIAL_FAULT_EVENTS"
+    },
+    "false_positive_state_events": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "unit": "1",
+      "unavailable_reason": "NO_MATURE_KNOWN_NORMAL_EVENTS"
+    }
+  },
+  "scope": "DECLARED_INITIAL_STATE_EVENTS_AND_REFERENCE_INSPECTION_NOT_ROOT_CAUSE_OR_CAUSAL_SERVICE_GAIN",
+  "prevention_effect": {
+    "status": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL",
+    "value": null
+  },
+  "field_calibration": "PENDING",
+  "new_research_trials": 0,
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
