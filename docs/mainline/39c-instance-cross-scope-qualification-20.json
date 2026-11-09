@@ -1,0 +1,23 @@
+{
+  "schema":"aegisdc-development-qualification-protocol-v1",
+  "id":"39c-instance-cross-scope-qualification-20",
+  "classification":"REMOTE_PUBLIC_INTERFACE_QUALIFICATION_NOT_RESEARCH",
+  "contract":"docs/mainline/39c-instance-cross-scope-contract-20.md",
+  "test":"tests/test_instance_cross_scope.py",
+  "test_names":["test_instance_cross_scope.InstanceCrossScopeTests.test_new_instance_cannot_borrow_the_old_instances_verified_closure"],
+  "source_data":{"original_job":"133378","source_commit":"8eeef6b724a130dad12fb21cfe8bf68c46ec47f5","private_run":"cases/network-healthy/actual-run/run.json","bytes":636572,"sha256":"767f224bab59ba54729dae65583cb079e74f534a9ffe4f02c5a5c86da89ecf14","public_epoch_s":5.5},
+  "preparation":"Pinned read-only export tool extracts only frame/history/inner public policy and closure template; no private source_config/trace/summary/business labels are passed. Freeze generated public seed and its source identity before the one public call.",
+  "input":"tests/fixtures/39c-instance-public-seed-20.json",
+  "maximum_attempts":1,
+  "phase":"qualification",
+  "budget":{"tests":1,"direct_public_choice_calls":1,"facility_entries":0,"native_horizons":0,"returned_native_decisions":0,"LLM_calls":0},
+  "literal_expectations":{"old_instance_status":"VERIFIED_CLOSED","new_instance_status":"OPEN_UNCONFIRMED","new_instance_opened_at_s":5.5,"new_instance_risk_closed":false,"new_instance_own_recheck_passed":false},
+  "runtime":"Existing34c158bd/efa actual runtime unchanged; all declared source/input/tool bytes guarded before/after.",
+  "output_namespace":"23-public-instance-cross-scope",
+  "tools":{"export":"evidence/mainline/engineering/39c-development/tools/export_instance_public_seed_20.py","stage":"evidence/mainline/engineering/39c-development/tools/stage_instance_cross_scope_20.py","runner":"scripts/run_engineering_slice.py"},
+  "durable_set":"Protocol/contract/test/public seed/source identity/runtime and pinned export/stage/runner; unique attempt/terminal/logs/public call input/output hashes. Full prior native data remains private server. Runtime caches excluded.",
+  "resources":{"partition":"cu","cpus":1,"memory_GiB":2,"wall_minutes":3,"requeue":false,"environment":"existing aegisdc-verify-20261109"},
+  "failure_rule":"One unique qualification; preserve any failure, no automatic retry or native replay.",
+  "new_research_trials":0,
+  "whole_39c_accepted":false
+}
