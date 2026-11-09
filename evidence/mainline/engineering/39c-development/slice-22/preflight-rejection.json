@@ -1,0 +1,36 @@
+{
+  "schema": "aegisdc-container-preflight-rejection-v1",
+  "date": "2026-11-09",
+  "classification": "REMOTE_ENGINEERING_PREFLIGHT_FAILURE_ZERO_TEST_ENTRIES_NOT_RESEARCH",
+  "protocol": "docs/mainline/39c-instance-review-container-protocol-22.json",
+  "phase": "red",
+  "control_source": "f93b411af0fd226ea5c73dab93f4cde7f0d216ca",
+  "execution_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
+  "staged_input": "/root/private_data/aegisdc-mainline-39c/inputs/25-instance-review-container-red-f93b411a",
+  "source_snapshot": {
+    "files": 57,
+    "bytes": 202536,
+    "sha256": "4c489d7e44e14d9c02d86027ec687c11eb82a3c5f4f354c52e224aef5654406f"
+  },
+  "manifest_sha256": "1eb055e2c3402744913cd4d61531d1e3fc631ddc18e6d246c33d6c958e5241b9",
+  "runner_sha256": "d61956d6046602bed114268c1c1b6ac0b1b8dce0cb2afe2739eef88b824f3f42",
+  "runner_result": "Remote persistent-container identity/environment differs from frozen protocol",
+  "test_entries": 0,
+  "facility_entries": 0,
+  "public_choice_calls": 0,
+  "output_root": "/root/private_data/aegisdc-mainline-39c/25-instance-review-container-red",
+  "output_root_created": false,
+  "diagnosis": {
+    "uid_root": true,
+    "hostname_matches": true,
+    "python_version_matches": true,
+    "slurm_job_id_unset": true,
+    "private_data_mount": true,
+    "expected_path_tested_as_mount": "/root/private_data/aegisdc-mainline-39c",
+    "expected_path_is_mount": false,
+    "actual_mount_path": "/root/private_data"
+  },
+  "retention": "The uploaded source snapshot, manifest and runner remain readable in the unique private staging directory. No output or test terminal was created. No retry was made under protocol22.",
+  "new_research_trials": 0,
+  "required_correction": "Freeze a new execution-only protocol that separately identifies the persistent mount and the project output root, then use a new unique red output directory."
+}

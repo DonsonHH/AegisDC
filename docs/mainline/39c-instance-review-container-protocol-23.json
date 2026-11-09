@@ -1,0 +1,70 @@
+{
+  "schema": "aegisdc-development-execution-correction-v1",
+  "id": "39c-instance-authorized-review-container-mount-correction-23",
+  "classification": "REMOTE_CONTAINER_PUBLIC_ENGINEERING_RED_GREEN_NOT_RESEARCH",
+  "reason": "Protocol22 red invocation failed before output creation because the runner required the study project subdirectory to itself be a mount. Read-only diagnosis confirmed the real persistent mount is /root/private_data and the project namespace beneath it is not a separate mount. UID, hostname, Python version and absence of SLURM_JOB_ID all match. No test or facility entry occurred.",
+  "supersedes_execution_only": "docs/mainline/39c-instance-review-container-protocol-22.json; test, behavior, seed and expected red remain unchanged. The protocol22 preflight failure is preserved at evidence/mainline/engineering/39c-development/slice-22/preflight-rejection.json and its uploaded staging files remain in the original private directory.",
+  "protocol22_terminal": {
+    "status": "PREFLIGHT_REJECTED_BEFORE_TEST_ENTRY",
+    "tests": 0,
+    "facility_entries": 0,
+    "public_choice_calls": 0,
+    "output_root_created": false,
+    "automatic_retry": false
+  },
+  "original_slurm_job": {
+    "id": "133407",
+    "status": "CANCELLED_BEFORE_START_ZERO_ENTRY",
+    "receipt": "evidence/mainline/engineering/39c-development/slice-21/slurm-cancel-before-start.json"
+  },
+  "original_test_protocol": "docs/mainline/39c-instance-review-protocol-21.json",
+  "fixed_test": "tests/test_instance_review.py",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "attempts": {
+    "red": {
+      "maximum_new_invocations": 1,
+      "execution_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
+      "expected_contract_error": "Unknown instance closure program",
+      "output_root": "/root/private_data/aegisdc-mainline-39c/27-instance-review-container-red-v23"
+    },
+    "green": {
+      "maximum_invocations": 1,
+      "source": "A separate clean frozen implementation commit after the red terminal",
+      "same_test_seed_and_protocol": true,
+      "output_root": "/root/private_data/aegisdc-mainline-39c/28-instance-review-container-green-v23"
+    }
+  },
+  "interface_budget_per_phase": {
+    "tests": 1,
+    "direct_public_choice_calls": 1,
+    "facility_entries": 0,
+    "native_horizons": 0,
+    "returned_native_decisions": 0,
+    "LLM_calls": 0,
+    "GPU_use": false
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "numpy": "2.1.2 preinstalled; package metadata only, project test must not import NumPy",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c",
+    "compute": "One short CPU public-interface test per phase in the user-provided persistent container. No install, GPU, Slurm allocation or local project evaluation."
+  },
+  "tools": {
+    "runner": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_22.py",
+    "stager": "evidence/mainline/engineering/39c-development/tools/stage_instance_review_container_22.py",
+    "preserved_protocol22_failure": "evidence/mainline/engineering/39c-development/slice-22/preflight-rejection.json"
+  },
+  "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/27-instance-review-container-red-protocol-23",
+  "durable_set": "Exact source manifest and zip, original test input/output, attempt/terminal/logs and environment receipts remain in private persistent storage. Preserve the protocol22 failed preflight and its uploaded input separately. No full repository clone or unrelated files.",
+  "failure_rule": "No retry in either unique phase output. Preserve failures and partial artifacts; another correction requires a further numbered protocol/source/output. Protocol22 remains a failed preflight, not an observed red test.",
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}

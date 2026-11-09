@@ -12,10 +12,10 @@ root=Path.cwd();parser=argparse.ArgumentParser();parser.add_argument('phase',cho
 phase=args.phase
 control=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
 if subprocess.check_output(['git','status','--porcelain'],cwd=root).strip():raise SystemExit('Freeze from a clean Git tree')
-protocol='docs/mainline/39c-instance-review-container-protocol-22.json'
+protocol='docs/mainline/39c-instance-review-container-protocol-23.json'
 baseline='9ad3afd8503964f5fea9582a603b952ec3adf000'
 execution=baseline if phase=='red' else control
-output=root/'.work/39c-review22-container'/phase
+output=root/'.work/39c-review23-container'/phase
 output.mkdir(parents=True,exist_ok=False)
 git=lambda *values:subprocess.check_output(['git',*values],cwd=root)
 names=git('ls-tree','-r','--name-only',execution,'--','src/aegis_dc','src/patrol_rsi/__init__.py','src/patrol_rsi/contracts.py').decode().splitlines()
@@ -27,22 +27,24 @@ for name in common:
     actual=git('show',execution+':'+name)
     if actual!=expected:raise SystemExit('Red/green test/fixture/protocol changed outside frozen behavior: '+name)
 names+=common
-for name in ['docs/mainline/39c-instance-review-container-protocol-22.json',
+for name in [protocol,
+             'evidence/mainline/engineering/39c-development/slice-22/preflight-rejection.json',
              'evidence/mainline/engineering/39c-development/tools/stage_instance_review_container_22.py',
              'evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_22.py']:
     names.append(name)
-if phase=='green':names.append('docs/mainline/39c-instance-review-green-authority-23.json')
+if phase=='green':names.append('docs/mainline/39c-instance-review-green-authority-24.json')
 names=sorted(set(names))
 files={name:git('show',(execution if name.startswith(('src/','tests/','configs/')) or name in common else control)+':'+name) for name in names}
 blob_ids={name:git('rev-parse',(execution if name.startswith(('src/','tests/','configs/')) or name in common else control)+':'+name).decode().strip() for name in names}
 manifest={'schema':'aegisdc-remote-container-engineering-manifest-v1',
     'classification':'REMOTE_CONTAINER_ENGINEERING_NOT_RESEARCH',
-    'protocol':protocol,'phase':phase,'attempt':'25-instance-review-container-'+phase,
+    'protocol':protocol,'phase':phase,'attempt':('27-instance-review-container-red-v23' if phase=='red' else
+        '28-instance-review-container-green-v23'),
     'execution_source':execution,'control_source':control,
     'expected_host':{'hostname':'crdnotebook-2108427285948563457-scnnxa6cio-89329','python':'3.12.7','user':'root',
-        'persistent_root':'/root/private_data/aegisdc-mainline-39c'},
-    'attempt_root':'/root/private_data/aegisdc-mainline-39c/25-instance-review-container-red' if phase=='red' else
-        '/root/private_data/aegisdc-mainline-39c/26-instance-review-container-green',
+        'persistent_mount':'/root/private_data','project_root':'/root/private_data/aegisdc-mainline-39c'},
+    'attempt_root':'/root/private_data/aegisdc-mainline-39c/27-instance-review-container-red-v23' if phase=='red' else
+        '/root/private_data/aegisdc-mainline-39c/28-instance-review-container-green-v23',
     'test':'tests/test_instance_review.py',
     'test_names':['test_instance_review.InstanceReviewTests.test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim'],
     'tests':1,'direct_public_choice_calls':1,'facility_entries':0,'max_returned_decisions':0,

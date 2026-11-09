@@ -1,0 +1,24 @@
+{
+  "schema": "aegisdc-engineering-green-source-authority-v1",
+  "id": "39c-instance-review-green-24",
+  "classification": "AUTHORIZED_SINGLE_GREEN_SOURCE_CORRECTION",
+  "red_protocol": "docs/mainline/39c-instance-review-container-protocol-23.json",
+  "red_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
+  "red_expected_error": "Unknown instance closure program",
+  "preserved_prior_failure": "evidence/mainline/engineering/39c-development/slice-22/preflight-rejection.json",
+  "contract": "docs/mainline/39c-instance-review-contract-21.md",
+  "unchanged_test": "tests/test_instance_review.py; Git bytes from original red source 9ad3afd8503964f5fea9582a603b952ec3adf000",
+  "unchanged_seed": "tests/fixtures/39c-two-instance-public-seed-21.json; 78111 bytes, SHA-256 4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237",
+  "allowed_runtime_files": [
+    "src/aegis_dc/instance_reviews.py",
+    "src/aegis_dc/problem_closure.py",
+    "src/aegis_dc/policy_execution.py",
+    "src/aegis_dc/problem_actions.py"
+  ],
+  "required_behavior": "At the same 5.5s public frame, the old instance remains VERIFIED_CLOSED. Only an arrived, current, noncopied, undisputed disposition record whose unique record_id, actual instance question_id, source, target, observable and half-open authority interval all match may set the new instance to RISK_ACCEPTED/question_closed true/risk_closed false/physical_restoration_claim false. The new question has no own action/recheck, so physical closure remains false. Remove no other gate; do not alter physics/evidence or the ticket21 test/seed.",
+  "maximum_green_invocations": 1,
+  "green_public_choice_calls": 1,
+  "green_facility_entries": 0,
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}

@@ -46,13 +46,15 @@ def main():
     parser.add_argument('--snapshot',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args();manifest=json.loads(args.manifest.read_bytes());manifest_sha=sha(args.manifest)
     attempt=manifest['attempt'];phase=manifest['phase'];expected=manifest['expected_host']
+    persistent_mount=Path(expected['persistent_mount']).resolve()
+    persistent_root=Path(expected['project_root']).resolve()
     if (os.geteuid()!=0 or socket.gethostname()!=expected['hostname'] or platform.python_version()!=expected['python']
-            or os.environ.get('SLURM_JOB_ID') or not Path(expected['persistent_root']).is_mount()):
+            or os.environ.get('SLURM_JOB_ID') or not persistent_mount.is_mount()
+            or not persistent_root.is_relative_to(persistent_mount)):
         raise SystemExit('Remote persistent-container identity/environment differs from frozen protocol')
     if importlib.util.find_spec('numpy') is None:
         raise SystemExit('Preinstalled NumPy dependency is missing; no install or local fallback')
     numpy_distribution=package_version('numpy')
-    persistent_root=Path(expected['persistent_root']).resolve()
     if not args.output.resolve().is_relative_to(persistent_root) or args.output.is_symlink():
         raise SystemExit('Output must stay under the declared persistent private volume')
     args.output.mkdir(mode=0o700,parents=False,exist_ok=False)

@@ -191,7 +191,7 @@
       "owner": "/root",
       "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
       "branch": "donson/mainline-39c-endpoints",
-      "status": "INSTANCE_REVIEW21_CONTAINER_RED_FROZEN_NOT_STARTED"
+      "status": "INSTANCE_REVIEW22_PREFLIGHT_REJECTED_ZERO_TESTS_PROTOCOL23_FROZEN_NOT_STARTED"
     }
   ],
   "prepared_implementations": [],
@@ -598,7 +598,7 @@
       "original_counter_scope": "Original runner literalinternal0not a nested-call measurement; exact classification correction retained. Future runner reportsunknown/null."
     },
     "instance_review": {
-      "status": "ORIGINAL_SLURM_RED_CANCELLED_BEFORE_START_CONTAINER_RED_NOT_STARTED",
+      "status": "SLURM_RED_CANCELLED_PROTOCOL22_PREFLIGHT_REJECTED_ZERO_TESTS_PROTOCOL23_FROZEN",
       "contract": "docs/mainline/39c-instance-review-contract-21.md",
       "protocol": "docs/mainline/39c-instance-review-protocol-21.json",
       "public_seed_source_job": "133380",
@@ -614,8 +614,13 @@
       "new_registered_trials": 0,
       "container_correction_protocol": "docs/mainline/39c-instance-review-container-protocol-22.json",
       "container_red_source": "9ad3afd8503964f5fea9582a603b952ec3adf000",
-      "container_red_status": "FROZEN_NOT_STARTED",
-      "next": "Protocol22 and local watchdog/snapshot tools frozen. Preserve Slurm cancellation receipt; prepare exact red snapshot to private Parastor, then run 1public-only call in verified container. Red must complete before separate green source is created. No local project compute, installs, or GPU use."
+      "container_red_status": "PROTOCOL22_PREFLIGHT_REJECTED_BEFORE_TEST_ZERO_ENTRIES",
+      "container_red_preflight_receipt": "evidence/mainline/engineering/39c-development/slice-22/preflight-rejection.json",
+      "container_red_preflight_diagnosis": "Runner checked the project subdirectory as a mount; actual mount is /root/private_data. UID, hostname, Python and no-Slurm environment matched. No test/output was created; protocol22 is not retried.",
+      "container_execution_correction_protocol": "docs/mainline/39c-instance-review-container-protocol-23.json",
+      "container_green_authority": "docs/mainline/39c-instance-review-green-authority-24.json",
+      "container_red_protocol23_status": "FROZEN_NOT_STARTED",
+      "next": "Protocol22 zero-entry preflight failure and uploaded snapshot retained. Protocol23 separates persistent mount from project root and has unique red/green outputs. Commit and stage corrected red source; verify remote hashes and mount identity, then allow one red invocation. No local project compute, install, GPU or retry under protocol22."
     }
   }
 }
