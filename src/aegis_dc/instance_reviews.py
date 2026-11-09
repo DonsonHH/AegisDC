@@ -5,6 +5,9 @@ from .evidence_ledger import _fields, _finite, _registry, _require, _strings, _t
 
 AUTHORIZATION_FIELDS = {'id', 'source_id', 'question_ids', 'dispositions', 'starts_at_s', 'expires_at_s', 'basis', 'source_note'}
 CHANNEL_FIELDS = {'id', 'question_id', 'source_id', 'target_id', 'observable_id', 'authorization_id', 'record_id'}
+REVIEW_STATUS = {'ACCEPT_RISK': 'RISK_ACCEPTED', 'ESCALATE': 'ESCALATED'}
+REVIEW_EVENT = {'ACCEPT_RISK': 'AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE',
+                'ESCALATE': 'AUTHORIZED_ESCALATION_AVAILABLE'}
 
 
 def validate_instance_review_declarations(frame, profile):
@@ -13,7 +16,6 @@ def validate_instance_review_declarations(frame, profile):
     channels = _registry(profile['review_channels'], 'Instance review channel')
     sources = {row['id']: row for row in frame['evidence']['static_knowledge']['sources']}
     observables = {row['id']: row for row in frame['evidence']['static_knowledge']['observables']}
-    seen_questions = set()
     seen_records = set()
     for grant in authorizations.values():
         _fields(grant, AUTHORIZATION_FIELDS, 'Instance review authorization')
@@ -22,8 +24,8 @@ def validate_instance_review_declarations(frame, profile):
         _strings(grant['question_ids'], 'Instance review question IDs')
         _strings(grant['dispositions'], 'Instance review dispositions')
         _require(grant['basis'] == 'synthetic_assumption'
-                 and set(grant['dispositions']) == {'ACCEPT_RISK'},
-                 'This instance review slice permits only synthetic risk acceptance')
+                 and set(grant['dispositions']) <= REVIEW_STATUS.keys(),
+                 'Unknown or non-synthetic instance review authority')
         _finite(grant['starts_at_s'], 'Instance review authority start')
         _finite(grant['expires_at_s'], 'Instance review authority expiry')
         _require(0 <= grant['starts_at_s'] < grant['expires_at_s'],
@@ -34,10 +36,8 @@ def validate_instance_review_declarations(frame, profile):
         _fields(channel, CHANNEL_FIELDS, 'Instance review channel')
         for key in CHANNEL_FIELDS:
             _text(channel[key], 'Instance review channel ' + key)
-        _require(channel['question_id'] not in seen_questions
-                 and channel['record_id'] not in seen_records,
-                 'Instance review question and record bindings must be unique')
-        seen_questions.add(channel['question_id'])
+        _require(channel['record_id'] not in seen_records,
+                 'Instance review record bindings must be unique')
         seen_records.add(channel['record_id'])
         grant = authorizations.get(channel['authorization_id'])
         source = sources.get(channel['source_id'])
@@ -53,7 +53,7 @@ def validate_instance_review_declarations(frame, profile):
                  'Instance review channel exceeds categorical source coverage')
 
     _require(type(profile['false_alarm_reviews']) is list and not profile['false_alarm_reviews'],
-             'False-alarm review is outside this instance risk-acceptance slice')
+             'False-alarm dossiers are outside the current management disposition scope')
     return authorizations, channels
 
 
@@ -93,6 +93,7 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
                 if set(issue['record_ids']) <= current_ids for identifier in issue['record_ids']}
     disputed |= {identifier for issue in frame['evidence']['provenance_issues']
                  if set(issue['record_ids']) & current_ids for identifier in issue['record_ids']}
+    current_reviews = {}
 
     for channel in channels.values():
         question = questions.get(channel['question_id'])
@@ -106,7 +107,7 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
                  and record['quality']['status'] == 'reported'
                  and record['provenance']['copied_from_record_id'] is None
                  and record['id'] not in disputed
-                 and record['value'] == 'ACCEPT_RISK'
+                 and record['value'] in grant['dispositions']
                  and record['observed_at_s'] >= question['opened_at_s']
                  and record['arrived_at_s'] <= frame['as_of_s']
                  and grant['starts_at_s'] <= record['observed_at_s'] < grant['expires_at_s']
@@ -115,7 +116,9 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
             if project_prior_lifecycle and record['arrived_at_s'] <= frame['as_of_s']:
                 historical = _prior_lifecycle(frame, policy, history, program,
                                               channel['question_id'], record)
-                if historical is not None and historical['status'] == 'RISK_ACCEPTED':
+                if (historical is not None
+                        and historical['status'] == REVIEW_STATUS.get(record['value'])
+                        and record['id'] in historical['disposition_record_ids']):
                     question.setdefault('historical_dispositions', []).append(dict(
                         record_id=record['id'], disposition=record['value'],
                         observed_at_s=record['observed_at_s'], arrived_at_s=record['arrived_at_s'],
@@ -129,14 +132,21 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
                         key=lambda row: (row['arrived_at_s'], row['record_id']))
             continue
 
-        question.update(status='RISK_ACCEPTED', question_closed=True, risk_closed=False,
+        current_reviews.setdefault(question['question_id'], []).append((record, grant))
+
+    for question_id, reviews in current_reviews.items():
+        question = questions[question_id]
+        status = ('ESCALATED' if any(record['value'] == 'ESCALATE' for record, _ in reviews)
+                  else 'RISK_ACCEPTED')
+        question.update(status=status, question_closed=status == 'RISK_ACCEPTED', risk_closed=False,
                         physical_restoration_claim=False,
-                        disposition_record_ids=[record['id']],
+                        disposition_record_ids=sorted(record['id'] for record, _ in reviews),
                         scope='OWN_INSTANCE_AUTHORIZED_MANAGEMENT_DISPOSITION_NOT_PHYSICAL_RESTORATION')
-        question['trace'].append(dict(event='AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE', record_id=record['id'],
-            disposition=record['value'], observed_at_s=record['observed_at_s'],
-            arrived_at_s=record['arrived_at_s'], valid_until_s=record['valid_until_s'],
-            authorization_id=grant['id'], provenance=deepcopy(record['provenance'])))
+        for record, grant in reviews:
+            question['trace'].append(dict(event=REVIEW_EVENT[record['value']], record_id=record['id'],
+                disposition=record['value'], observed_at_s=record['observed_at_s'],
+                arrived_at_s=record['arrived_at_s'], valid_until_s=record['valid_until_s'],
+                authorization_id=grant['id'], provenance=deepcopy(record['provenance'])))
         question['trace'].sort(key=lambda row: (row['arrived_at_s'], row.get('record_id', '')))
 
     return assessment

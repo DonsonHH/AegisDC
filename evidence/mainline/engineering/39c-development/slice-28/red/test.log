@@ -1,0 +1,36 @@
+test_escalation_takes_precedence_and_keeps_instance_open (test_instance_review_escalation.InstanceReviewEscalationTests.test_escalation_takes_precedence_and_keeps_instance_open) ... ERROR
+
+======================================================================
+ERROR: test_escalation_takes_precedence_and_keeps_instance_open (test_instance_review_escalation.InstanceReviewEscalationTests.test_escalation_takes_precedence_and_keeps_instance_open)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/tests/test_instance_review_escalation.py", line 70, in test_escalation_takes_precedence_and_keeps_instance_open
+    choice = choose_work(frame, policy, history,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/dispatch_policy.py", line 62, in choose_work
+    return choose_problem_action(frame,program,history,closure_program=closure_program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/problem_actions.py", line 210, in choose_problem_action
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/problem_actions.py", line 133, in compile_problem_actions
+    lifecycle = assess_instance_closure(frame, program, history, closure_program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/problem_closure.py", line 97, in assess_instance_closure
+    return _assess_instance_closure(frame, policy, history, program, project_prior_lifecycle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/problem_closure.py", line 105, in _assess_instance_closure
+    rules = validate_instance_closure(frame, policy, program)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/problem_closure.py", line 91, in validate_instance_closure
+    validate_instance_review_declarations(frame, profile)
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/instance_reviews.py", line 24, in validate_instance_review_declarations
+    _require(grant['basis'] == 'synthetic_assumption'
+  File "/root/private_data/aegisdc-mainline-39c/35-instance-review-escalation-red-v28/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: This instance review slice permits only synthetic risk acceptance
+
+----------------------------------------------------------------------
+Ran 1 test in 0.202s
+
+FAILED (errors=1)
