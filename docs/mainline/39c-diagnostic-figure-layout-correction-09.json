@@ -1,0 +1,20 @@
+{
+  "schema":"aegisdc-saved-figure-correction-protocol-v1",
+  "id":"39c-diagnostic-figure-layout-09",
+  "classification":"SAVED_ONLY_LAYOUT_CORRECTION_NO_NEW_ANALYSIS",
+  "original_render_job":"133292",
+  "original_render_source":"8f7b3c9fb5b071779c37aa177d53adad7c34c21f",
+  "original_view":"evidence/mainline/engineering/39c-development/figures-02/11-saved-diagnostic-figures/visual-qa.json",
+  "finding":"Actual view found the matrix bottom axis label too close to the caption; automatic canvas bounds passed but did not test inter-text spacing.",
+  "correction":"Increase bottom margin and lower caption for only diagnostic-state-and-denominators. Same frozen original six business summaries and audited CSV. No field, metric, label, case or data selection changes. Retain original PNG/SVG and visual finding; keep the already-passed architecture original.",
+  "tool":"scripts/plot_business_diagnostic_endpoints.py --matrix-only",
+  "maximum_new_render_attempts":1,
+  "expected":{"figures":1,"pngs":1,"svgs":1,"data_rows":6,"csv":1},
+  "new_facility_calls":0,
+  "new_model_calls":0,
+  "new_research_trials":0,
+  "resources":{"partition":"cu","cpus":1,"memory_GiB":2,"wall_minutes":5,"requeue":false},
+  "failure_rule":"New unique output and terminal; no overwrite or automatic retry. Actual new PNG view and source-data SHA comparison required.",
+  "durable_set":"Same08 data and static architecture sources plus new09 protocol/current renderer/stager/original visual finding; manifest/job/attempt/terminal/logs, onePNG/SVG/CSV and separate new actual-view record.",
+  "whole_39c_accepted":false
+}

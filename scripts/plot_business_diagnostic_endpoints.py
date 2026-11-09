@@ -27,7 +27,8 @@ def save(path,value):
 def main():
     if sys.flags.optimize:raise SystemExit('Optimized evidence rendering is forbidden')
     parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,required=True)
-    parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--matrix-only',action='store_true');args=parser.parse_args()
     require(bool(os.environ.get('SLURM_JOB_ID')) and socket.gethostname().split('.')[0]!='mu01','Use a Slurm compute allocation')
     root=args.manifest.resolve().parent;manifest=json.loads(args.manifest.read_bytes());manifest_sha=sha(args.manifest)
     args.output.mkdir(exist_ok=False)
@@ -74,7 +75,7 @@ def main():
         with (args.output/'diagnostic-plot-data.csv').open('x',encoding='utf-8',newline='') as stream:
             writer=csv.DictWriter(stream,fieldnames=list(export[0]),lineterminator='\n');writer.writeheader();writer.writerows(export)
         from matplotlib.colors import ListedColormap,BoundaryNorm
-        fig=plt.figure(figsize=(14,7.2));grid=fig.add_gridspec(1,2,width_ratios=[1.28,1],left=.18,right=.97,top=.79,bottom=.22,wspace=.42)
+        fig=plt.figure(figsize=(14,7.2));grid=fig.add_gridspec(1,2,width_ratios=[1.28,1],left=.18,right=.97,top=.79,bottom=.30,wspace=.42)
         left=fig.add_subplot(grid[0]);right=fig.add_subplot(grid[1])
         left.imshow(np.array(matrix),cmap=ListedColormap(colors),norm=BoundaryNorm([-.5,.5,1.5,2.5],3),aspect='auto')
         left.set_xticks(range(3),['0 s','1.75 s','2 s']);left.set_yticks(range(6),labels)
@@ -97,7 +98,7 @@ def main():
             for spine in axis.spines.values():spine.set_visible(False)
         fig.suptitle('State judgements and fixed opportunity denominators',x=.04,y=.96,ha='left',fontsize=19,fontweight='bold',color='#16384c')
         fig.text(.04,.89,'Six saved engineering variants, not independent research trials. Original failed assertion and corrections are retained.',fontsize=10,color='#506679')
-        fig.text(.04,.10,'Wrong-model case: actual usable capacity 0.5 meets demand 0.5; public model still assumes 1.\nUnmodeled cause: a capacity finding cannot establish a root cause. Zero applicable denominators produce null rates.',fontsize=10,color='#344e60',linespacing=1.6)
+        fig.text(.04,.07,'Wrong-model case: actual usable capacity 0.5 meets demand 0.5; public model still assumes 1.\nUnmodeled cause: a capacity finding cannot establish a root cause. Zero applicable denominators produce null rates.',fontsize=10,color='#344e60',linespacing=1.6)
         figures=[('diagnostic-state-and-denominators',fig)]
         fig,axis=plt.subplots(figsize=(13,7.5));axis.set_xlim(0,13);axis.set_ylim(0,7.5);axis.axis('off')
         def box(x,y,w,h,title,body,fill):
@@ -119,7 +120,9 @@ def main():
         axis.text(.3,3.75,'PUBLIC DECISION SIDE',fontsize=9,color='#6b8291')
         axis.text(.3,3.31,'PRIVATE, AFTER RUN COMPLETION',fontsize=9,color='#90745f')
         axis.text(.25,.28,'No private-to-dispatch path. Engineering scope; 180 registered baseline trials remain unchanged; field calibration pending.',fontsize=9,color='#506679')
-        fig.subplots_adjust(left=0,right=1,top=1,bottom=0);figures.append(('diagnostic-public-private-architecture',fig))
+        fig.subplots_adjust(left=0,right=1,top=1,bottom=0)
+        if args.matrix_only:plt.close(fig)
+        else:figures.append(('diagnostic-public-private-architecture',fig))
         bounds=[]
         for identifier,figure in figures:
             figure.canvas.draw();renderer=figure.canvas.get_renderer();canvas=figure.bbox
@@ -133,7 +136,7 @@ def main():
         require(not bounds,'Figure text extends beyond canvas: '+json.dumps(bounds))
         guard();terminal.update(status='SAVED_FIGURES_RENDERED',source_guard='PASS_BEFORE_AND_AFTER',
             input_original_job='133274',audited_saved_job='133282',original_runtime_source='3e81e7faa61d1021cc9418172171de86e370750f',
-            figures=2,pngs=2,svgs=2,source_rows=6,interpreter_optimize=0,text_bounds='PASS',visual_inspection='PENDING_SEPARATE_ACTUAL_VIEW')
+            figures=len(figures),pngs=len(figures),svgs=len(figures),source_rows=6,interpreter_optimize=0,text_bounds='PASS',visual_inspection='PENDING_SEPARATE_ACTUAL_VIEW')
     except BaseException as error:
         terminal.update(error_type=type(error).__name__,error=str(error),traceback=traceback.format_exc());raise
     finally:
