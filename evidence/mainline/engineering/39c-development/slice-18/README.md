@@ -2,6 +2,10 @@
 
 **同样完成清滤和本实例复检，健康网络例在5.5秒关闭；网络容量仍受限例保持待核验。** 两个6秒工程工况仅改变network_service_capacity：1与0.25。它们检验联合证据门槛，不是方法效果对照或独立研究样本。
 
+![实际公开评估与自身证据门槛](../figures-05/22-saved-instance-closure-figure/instance-joint-verification.png)
+
+[端点CSV](../figures-05/22-saved-instance-closure-figure/instance-endpoints.csv)与[12个实际评估CSV](../figures-05/22-saved-instance-closure-figure/instance-assessments.csv)由只读保存结果的Slurm133379生成，原输入/输出身份前后核对，PNG已实际查看。方格是各时刻实际评估，不表示两点之间连续状态。
+
 |实际端点|网络健康1|网络受限0.25|
 |---|---|---|
 |清滤实际完成|3.25秒|3.25秒|

@@ -1,6 +1,12 @@
 # 业务评价开发：从状态确认到证据关闭
 
-**39c已接通实际关闭时刻、公开状态判定、固定事件分母和四种参考窗口，整票仍在开发。** 无人工和不确定读数不会消除固定的故障取证机会；参考未知、不可用、来不及与方法实际迟到分别保留。原180次研究、NO_PRACTICAL_GAIN与所有失败保持，未新增AI或效果研究。
+**39c已接通动态实例自身的处置／复检链与联合证据关闭，整票仍在开发。** 公开状态判定、固定事件分母和四种参考窗口继续保留。原180次研究、NO_PRACTICAL_GAIN与所有失败保持，未新增AI或效果研究。
+
+![实例自身的作业与联合证据核验](figures-05/22-saved-instance-closure-figure/instance-joint-verification.png)
+
+[实际两例](slice-18/README.md)均3.25秒完成清滤、3.75秒收到报告、5秒完成自己的复检并在5.5秒收到证据。网络健康例5.5秒满足有限关闭；原网络容量0.25例虽冷却核验合格，仍因服务不合格保持待核验。两例只有一个声明的物理参数不同，不是方法收益对照。健康网络例在本窗口本来已交付服务，不能把核验关闭解释为新增服务收益。
+
+这组原件保留了[16首绿失败](slice-16/README.md)、[17上传后未提交](slice-17-staged-only/status.json)及独立冻结18的两例资格。原测试、输入与审查包按版本保存，服务门槛未放宽。每例实际作业2人秒、移动2人秒、门禁0.5人秒、等待0.5人秒；准入预算另列。[新CSV](figures-05/22-saved-instance-closure-figure/instance-endpoints.csv)与逐时评估来自原133378，绘图133379未新增设施运行。
 
 ![参考机会与方法实际迟到](figures-04/18-saved-reference-windows/reference-windows.png)
 
@@ -33,7 +39,7 @@
 
 ![公开决策与私有业务评价数据流](figures-01/public-private-endpoint-architecture.png)
 
-人员是设施域中的作业者，评价器在设施运行结束后读取实际工作和已生成的公开评估。上述关闭程序适配稳定风险问题；新增状态程序另有固定的正常／故障／未知事件表及确认分母。参考窗口有限切片已完成；39b动态实例关闭、其余过期／复制／冲突、提前量及完整成本仍须后续切片。预防因果效应保持未识别，不填零。
+人员是设施域中的作业者，评价器在设施运行结束后读取实际工作和已生成的公开评估。旧关闭程序适配稳定风险问题；新增状态程序有固定的正常／故障／未知事件表及确认分母，实例程序已验证有限自身行动／复检与联合关闭。其余跨实例／过期／复制／冲突、风险接受／升级、提前量及完整成本仍须后续切片。预防因果效应保持未识别，不填零。
 
 |记录|实际结果|
 |---|---|
@@ -42,7 +48,7 @@
 |Spec复核|首片55ef及纠正24f分别静态PASS，范围各自固定；[原件](reviews-01/slice01-spec/report.md)、[纠正](reviews-01/qualification-correction-spec/report.md)|
 |Standards复核|首片及纠正分别静态PASS，保留原pin，不接受整票；[原件](reviews-01/slice01-standards/report.md)、[纠正](reviews-01/qualification-correction-standards/report.md)|
 
-39c开发累计33次设施接口进入、15个完成时间窗／60.5秒、69个返回决策；其中10次入口拒绝不计完成窗口。另有2次直接公开状态判定、保存工具和绘图作业，分别记账。失败未返回部分不当作完成时长。LLM、训练与新增注册研究均0，内部预测／选择调用未插桩。运行和绘图使用远端Slurm；本地只编辑、传输、核对和看图，完整轨迹及实际输入留在既有私有服务器。
+39c开发累计37次设施接口进入、17个完成时间窗／72.5秒、81个返回决策；其中10次入口拒绝不计完成窗口，17只上传未执行也不计进入。另有2次直接公开状态判定、保存工具和绘图作业，分别记账。失败未返回部分不当作完成时长。LLM、训练与新增注册研究均0，内部预测／选择调用未插桩。运行和绘图使用远端Slurm；本地只编辑、传输、核对和看图，完整轨迹及实际输入留在既有私有服务器。
 
 独立复核按固定版本保存：[最初发现](reviews-02/spec-report.md)、[样本纠正](reviews-03/spec-report.md)、[工具原发现](reviews-03/standards-report.md)、[工具关闭包](reviews-04/standards-report.md)，不覆盖旧发现。新诊断检查点4f2977bb实际CI42548898914成功：621项中执行619项，零失败／错误，2项既有可选神经检查跳过。实际回执、192件固定版本交付清单和完整日志见[检查点记录](../../../../docs/mainline/evidence/39c-diagnostic-checkpoint.json)。这是最小云端回归，不替代整票零跳过根验收。
 
@@ -51,3 +57,5 @@
 参考窗口有限组在10b2b21f的[Spec](reviews-05/spec-report.md)通过、[Standards](reviews-05/standards-report.md)发现1处当前进度误写“首红未运行”。原发现已保存，[c001b0d4元数据关闭记录](reviews-05/standards-closure-c001b0d4.json)确认未重跑。保存绘图133358通过并实际查看，新增图和[CSV](figures-04/18-saved-reference-windows/reference-windows.csv)来自四个原正例，不增加运行。第03检查点实际推送CI42557908713在14a6ae02成功：626项发现、624项执行、零失败／错误，2项既有可选Torch检查跳过；[回执及固定交付清单](../../../../docs/mainline/evidence/39c-reference-checkpoint.json)保存完整日志和原件身份。整39c尚未验收。
 
 [数据表](figures-01/endpoints.csv) · [逐时评估](figures-01/assessments.csv) · [冻结契约](../../../../docs/mainline/39c-closure-endpoint-contract-01.md) · [完整39c任务](../../../../.scratch/full-facility-mainline/issues/39c-business-endpoints-and-closure.md)。本页为开发检查点，主线及M7保持active，39d和新的AI比较尚未开始。
+
+动态实例有限实现与输入修订的[原审查](reviews-06/)及[18事前／事后分列复核](reviews-07/)均保存。实际18为2项测试、2个6秒完成窗口、12次返回，零失败／错误／跳过；当前整票尚需其余资格、联合评价／版本重放、根验收和fresh。第04检查点CI另有冻结计划，实际结果不得从旧14a第03检查点推断。
