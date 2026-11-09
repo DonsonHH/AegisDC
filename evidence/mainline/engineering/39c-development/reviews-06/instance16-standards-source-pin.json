@@ -1,0 +1,229 @@
+{
+  "schema": "aegisdc-static-standards-instance16-v1",
+  "base": "14a6ae02c68650b059812d0df8c8c021efd47a3e",
+  "candidate": "16fcedfd3d7ee3925d60b02dec52ec8f98989789",
+  "tree": "9c70218e4bc2d7ba3cd1c8e58a3c4dc92e6a7777",
+  "result": "KNOWN_GREEN_BLOCKER",
+  "findings": [
+    {
+      "id": "39C-INSTANCE16-STANDARDS-01",
+      "priority": "P2",
+      "kind": "KNOWN_ACTUAL_BEHAVIOR_BLOCKER",
+      "path": "src/aegis_dc/problem_closure.py",
+      "line_start": 55,
+      "line_end": 57,
+      "origin": "Root reported actual failed green; reviewer independently read fixed source and saved log/receipt.",
+      "rule_refs": [
+        "docs/mainline/39c-instance-closure-contract-16.md:5-9",
+        "docs/MAINLINE.md:four separate relation semantics",
+        "GLOSSARY.md:service dependency"
+      ],
+      "summary": "New pure-functional-path prerequisite rejects the frozen intake-pump condition/critical-service verification input. Contract16 defines finite joint evidence criteria, not a pure functional-path causal-restoration prerequisite.",
+      "effect": "Green133377 failed before native return; 16f does not establish the positive instance-closure path.",
+      "remedy": "Prospective minimal source/protocol/output correction; preserve red/green16 and frozen16 inputs/tools. Do not alter graphs or claim causal restoration.",
+      "disposition": "OPEN_AT_FIXED16F; root plans separate17 budget; no reviewer executions."
+    }
+  ],
+  "meaningful_smell_findings": [],
+  "receipt_identity_checks": [
+    {
+      "phase": "red",
+      "source": "5b35417fc256c631e7fc9269be456f802acd2042",
+      "job": "133371",
+      "status": "EXPECTED_RED_CONTRACT_GAP",
+      "errors": 1,
+      "interface_entries": 1,
+      "returned_native": 0,
+      "returned_decisions": 0,
+      "git_bound_files": 56,
+      "source_guard": "PASS_BEFORE_AND_AFTER",
+      "full_input_sha256": "d959880edf246ef465669d357e7e500cd7bae8ef0ad556b4a01bbaa4c970a6cb",
+      "data_binding": "COMMITTED_AT_REVIEW_PIN"
+    },
+    {
+      "phase": "green",
+      "source": "16fcedfd3d7ee3925d60b02dec52ec8f98989789",
+      "job": "133377",
+      "status": "FAILED",
+      "errors": 1,
+      "interface_entries": 1,
+      "returned_native": 0,
+      "returned_decisions": 0,
+      "git_bound_files": 57,
+      "source_guard": "PASS_BEFORE_AND_AFTER",
+      "full_input_sha256": "d959880edf246ef465669d357e7e500cd7bae8ef0ad556b4a01bbaa4c970a6cb",
+      "data_binding": "SAVED_RAW_SOURCE16F_DELIVERY_NOT_IN_CODE_PIN"
+    }
+  ],
+  "frozen_pair_paths": [
+    ".gitattributes",
+    ".gitignore",
+    "configs/materials/reference-r134a-saturation.json",
+    "docs/mainline/39c-instance-closure-contract-16.md",
+    "docs/mainline/39c-instance-closure-protocol-16.json",
+    "evidence/mainline/engineering/39c-development/tools/stage_instance_closure_16.py",
+    "scripts/run_engineering_slice.py",
+    "tests/fixtures/39b-direct-filter-sequence.json",
+    "tests/fixtures/39c-actual-closure-endpoint.json",
+    "tests/fixtures/39c-instance-closure-16.json",
+    "tests/test_business_instance_closure.py"
+  ],
+  "runtime_delta": [
+    "src/aegis_dc/business_endpoints.py",
+    "src/aegis_dc/dispatch_policy.py",
+    "src/aegis_dc/policy_execution.py",
+    "src/aegis_dc/problem_actions.py",
+    "src/aegis_dc/problem_closure.py"
+  ],
+  "old_research_configs_scripts_workflow_diff": [],
+  "source_files": {
+    "AGENTS.md": {
+      "git_blob": "1a7f4d71f142794a9b64dc06390376890116a186",
+      "bytes": 4764,
+      "sha256": "fdff82aea6fedef35e81ce2e7bed36fede9bec0b7f6900dac1f54742862e1105"
+    },
+    "docs/mainline/39c-instance-closure-contract-16.md": {
+      "git_blob": "e1d4e67bacbec078daa0e9673d22a81f453936b7",
+      "bytes": 2448,
+      "sha256": "9bea628d98eb30a3cbfc479bf529fa6622caa0f81c343e15bf0b5026f4c0c23e"
+    },
+    "docs/mainline/39c-instance-closure-protocol-16.json": {
+      "git_blob": "12292ae29a613912d4d69cdc88cbc53627549a78",
+      "bytes": 2359,
+      "sha256": "918783ddc21d43ce844747d9373c85865c14fdb3363d8ea55d94b6dec30d97b5"
+    },
+    "docs/mainline/evidence/39c-reference-checkpoint.json": {
+      "git_blob": "4dfcd4cb0db40b3a4fb7d6d89e4836313d047ca5",
+      "bytes": 4135,
+      "sha256": "b2eb3ce013ccdcca7a532b5aaeb2aedf0bae5db237bd05c6e4d17bd292ea6204"
+    },
+    "docs/mainline/progress.json": {
+      "git_blob": "2976aa2e6fe4af4f3ecfe6dcda1884e0608afdd2",
+      "bytes": 23840,
+      "sha256": "b0057f55ac0615334a96e6696ee597a7efb900423595a2f7aa084266b0d4da51"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/attempt.json": {
+      "git_blob": "f1632be3afd32778376829e0f01685bcc08856f7",
+      "bytes": 746,
+      "sha256": "e5611a5f9df41fa19ba02a00c31e84bba0f5957a7e6d0e3184bd4d4715577118"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/job.slurm": {
+      "git_blob": "11e63f62466426fd5c0f088669237bf3b2ea3615",
+      "bytes": 789,
+      "sha256": "0c2e3162b8b389bd87d1d5b2c479cad4d5e910ccba1a4f1ba1243bf82835e784"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/private-raw-index.json": {
+      "git_blob": "e509d19ec245341aec44163b3e5680fca4e2d553",
+      "bytes": 342,
+      "sha256": "82f692a6effd535a7901563b8585a69187b73eec6eb4b44f3c76b6e1b4e21cb4"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/slurm-accounting.txt": {
+      "git_blob": "fa44a1191b5a7a5b3582eb7abab4d96caed22823",
+      "bytes": 227,
+      "sha256": "6205d5e8b2d0eee6f243a7d87f5c40b338e5921cf7b2c899c86af9765a12df8f"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/source-manifest.json": {
+      "git_blob": "e57495f7045c6123dc4960b8ee31ee6f5b4c6a29",
+      "bytes": 13317,
+      "sha256": "250989c2ee4de2a62450b8ed3a7cfcf6931b11241c3c86aba24ac7dbd8af8044"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/terminal.json": {
+      "git_blob": "5a84ba3bfccadc53af724aef1e081c291109fb38",
+      "bytes": 1099,
+      "sha256": "c9e9732cf219df073bf10f10bc6346481473b79a3b65f82d3aaf8bc740f7ab3c"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/test.log": {
+      "git_blob": "0ff0d3547773de3e119943fb212023c685ceed2e",
+      "bytes": 2397,
+      "sha256": "4872f9c2e471fc6aff569ffa43848e62bfe9059702f8681561bf04be14d02ef8"
+    },
+    "evidence/mainline/engineering/39c-development/tools/stage_instance_closure_16.py": {
+      "git_blob": "3237f2203c64af2d52acca472fbf34c0dd25d44e",
+      "bytes": 7670,
+      "sha256": "5a3c8eff84c88838240340a8739e2eb6374fe7c115c85f1150c86331a6804906"
+    },
+    "evidence/mainline/engineering/39c-development/tools/transport/retrieve16.py": {
+      "git_blob": "9ed78b4db402b186e881e3c923a5a305685c3d87",
+      "bytes": 4517,
+      "sha256": "9104748724aff8d22de83d67f6d9e657686ba9f55facceaea55730b5cc7e4445"
+    },
+    "src/aegis_dc/business_endpoints.py": {
+      "git_blob": "86fd08c8abc47fdc73c3c3c623a1c3ac04df78d1",
+      "bytes": 8721,
+      "sha256": "b2874b10bc36a74bc90762bbe1c88f44924cb83c5fe6d9728a94ee30be26a798"
+    },
+    "src/aegis_dc/dispatch_policy.py": {
+      "git_blob": "ef761882704ea44a7fb7d4cf6cd06c08488d2e4c",
+      "bytes": 15002,
+      "sha256": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901"
+    },
+    "src/aegis_dc/policy_execution.py": {
+      "git_blob": "7a71e969729ace3204f646d64ceb6360a180ef89",
+      "bytes": 15651,
+      "sha256": "fc744a9b3f15ceb33c2352f3e5fa851d9b9ad5795b5cd81ada85251feadef70d"
+    },
+    "src/aegis_dc/problem_actions.py": {
+      "git_blob": "5ae1265e23f353061f933d17122b84dfe0da5a77",
+      "bytes": 14531,
+      "sha256": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40"
+    },
+    "src/aegis_dc/problem_closure.py": {
+      "git_blob": "ee1f71fc31f027d80656216facf40425158c5fb5",
+      "bytes": 11618,
+      "sha256": "c5ba299cc0e5cfe5ba653235115eba377db076d3583fb22208c44eef078737f4"
+    },
+    "tests/fixtures/39c-instance-closure-16.json": {
+      "git_blob": "5906b3d351f95800d3ee5e20737d512acaac937a",
+      "bytes": 1020,
+      "sha256": "1ba2ea733d4e6007bf7b04a1ef7d6344bd4fca771e34cea5eacc2340a8caec80"
+    },
+    "tests/test_business_instance_closure.py": {
+      "git_blob": "a510740558b6261153b9e37e73179be9a5041dc8",
+      "bytes": 6959,
+      "sha256": "306925b53ed8a3d2e545f19e98fc9bda308a5a2ca11de09d010e966895edaadc"
+    }
+  },
+  "saved_green_raw_delivery": {
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/source-manifest.json": {
+      "bytes": 13536,
+      "sha256": "1cbab32d7ed674bb8783fd437960e58b8412e80daa995486d1976a4889951aa7"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/attempt.json": {
+      "bytes": 750,
+      "sha256": "84172f8ef39da8442b1bc7732bed29d19c8d849111b684871a2c923b3e5a866c"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/terminal.json": {
+      "bytes": 1534,
+      "sha256": "3faa355e15c19a0fb081c375b4d10c4a892817442b1ba634c4de60111965f582"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/test.log": {
+      "bytes": 2392,
+      "sha256": "8bfead517c9c9c97a2b2eb988029a79a14f5683a73bd1eb4bb5098a9e27ab774"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/private-raw-index.json": {
+      "bytes": 344,
+      "sha256": "af314b4314ebb476490237bd0a3ce00fac4dfee60abeae6a718b55c41ac4eade"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/job.slurm": {
+      "bytes": 797,
+      "sha256": "e3e5340291629aabc93b48040ed8975f6d979596a2089761ca6d24f7b9ae561b"
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/slurm-accounting.txt": {
+      "bytes": 220,
+      "sha256": "dfecbb66db0cdf7f322fd65e2d51087e5505869a7391ae80aca6c6bb4510fe5a"
+    }
+  },
+  "whole_39c_accepted": false,
+  "commands": [
+    "git diff BASE...PIN;git log BASE..PIN",
+    "git show fixed source/contract/test/stager; necessary existing binding helpers",
+    "git ls-tree exact manifest paths;git cat-file blob plus necessary SHA only",
+    "Read saved133377 small receipts/log with before/after raw identity; no actual input/native reopening"
+  ],
+  "limits": [
+    "Green data not included in16f code commit; source identity pinned by its saved attempt/manifest/terminal.",
+    "No native returned from either phase; no positive closure result established.",
+    "CI14a is historical finite checkpoint, not16f or whole39c acceptance."
+  ],
+  "prohibited_calls_executed": []
+}

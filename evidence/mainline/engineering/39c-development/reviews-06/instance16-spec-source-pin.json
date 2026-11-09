@@ -1,0 +1,94 @@
+{
+  "schema": "aegisdc-spec-instance-closure-first-slice-v1",
+  "base": "14a6ae02c68650b059812d0df8c8c021efd47a3e",
+  "candidate": "16fcedfd3d7ee3925d60b02dec52ec8f98989789",
+  "status": "ONE_FINDING_AND_ACTUAL_GREEN_FAILED",
+  "finding_count": 1,
+  "files": {
+    "src/aegis_dc/problem_closure.py": "ee1f71fc31f027d80656216facf40425158c5fb5",
+    "src/aegis_dc/problem_actions.py": "5ae1265e23f353061f933d17122b84dfe0da5a77",
+    "src/aegis_dc/policy_execution.py": "7a71e969729ace3204f646d64ceb6360a180ef89",
+    "src/aegis_dc/dispatch_policy.py": "ef761882704ea44a7fb7d4cf6cd06c08488d2e4c",
+    "src/aegis_dc/business_endpoints.py": "86fd08c8abc47fdc73c3c3c623a1c3ac04df78d1",
+    "src/aegis_dc/verified_closure.py": "08c29d3239d2eba2afb86bab88a006d9f1d12c38",
+    "docs/mainline/39c-instance-closure-contract-16.md": "e1d4e67bacbec078daa0e9673d22a81f453936b7",
+    "docs/mainline/39c-instance-closure-protocol-16.json": "12292ae29a613912d4d69cdc88cbc53627549a78",
+    "tests/test_business_instance_closure.py": "a510740558b6261153b9e37e73179be9a5041dc8",
+    "tests/fixtures/39c-instance-closure-16.json": "5906b3d351f95800d3ee5e20737d512acaac937a",
+    "tests/fixtures/39b-direct-filter-sequence.json": "17e2f69fb925c319c805c684d7fb33eb178fbd9f",
+    "tests/fixtures/39c-actual-closure-endpoint.json": "69acd5847c090a61bb51c1614957f017c4233626",
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-red/terminal.json": "5a84ba3bfccadc53af724aef1e081c291109fb38"
+  },
+  "newly_saved_green_identities": {
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/attempt.json": {
+      "sha256": "84172f8ef39da8442b1bc7732bed29d19c8d849111b684871a2c923b3e5a866c",
+      "state": "Read-only saved original after133377 completed; not part of the fixed16f Git tree yet; execution source16f recorded in the original receipt."
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/terminal.json": {
+      "sha256": "3faa355e15c19a0fb081c375b4d10c4a892817442b1ba634c4de60111965f582",
+      "state": "Read-only saved original after133377 completed; not part of the fixed16f Git tree yet; execution source16f recorded in the original receipt."
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/test.log": {
+      "sha256": "8bfead517c9c9c97a2b2eb988029a79a14f5683a73bd1eb4bb5098a9e27ab774",
+      "state": "Read-only saved original after133377 completed; not part of the fixed16f Git tree yet; execution source16f recorded in the original receipt."
+    },
+    "evidence/mainline/engineering/39c-development/slice-16/19-instance-closure-green/source-manifest.json": {
+      "sha256": "1cbab32d7ed674bb8783fd437960e58b8412e80daa995486d1976a4889951aa7",
+      "state": "Read-only saved original after133377 completed; not part of the fixed16f Git tree yet; execution source16f recorded in the original receipt."
+    }
+  },
+  "findings": [
+    {
+      "id": "39C-INSTANCE-SPEC-01",
+      "priority": "P2",
+      "state": "OPEN_AT16F",
+      "path": "src/aegis_dc/problem_closure.py",
+      "lines": "55-57",
+      "spec_path": "docs/mainline/39c-instance-closure-contract-16.md",
+      "spec_lines": "5-13",
+      "spec_quote": "此外至少两条真实条件样本和两条服务样本，各满足原有跨度、当前有效性、来源/误差/冲突规则。",
+      "issue": "validate_instance_closure adds an unrequested requirement for a purely functional graph path from the initial check target to the declared service. The accepted cooling fixture propagates through thermal/fluid relations and has no such single-graph path; this extra premise refuses the correctly frozen finite joint-verification input before any returned run.",
+      "actual_evidence": "133377 at16f has1test,1error,1billed facility entry,0returned decisions and no completed native horizon. Its original traceback is the functional-path admission refusal, with source guardPASS_BEFORE_AND_AFTER. This is not a positive closure result.",
+      "requested_correction": "Validate that service_id names a declared nominal entity ofkind=service and retain exact service-check target matching plus all own-action/recheck/ACK and sampled evidence gates. Do not alter graphs, invent a path or probability, or call the finite joint evidence causal proof. Review the actual corrective pin separately.",
+      "acceptance": "Blocks accepting the16 advertised positive behavior at this source. Original report and failed capture must remain open/historical; a later correction closure is additive."
+    }
+  ],
+  "other_static_observations": [
+    "Own action and recheck IDs are formed from each actual public template/slot. Binding measurement lookup ties the recheck to its declared own record/source/target/unit/provenance and issued time.",
+    "Action requiresAPPLIED plus matching arrived completed ACK. Own recheck must be issued no earlier than that action report arrival, have current bounded original uncontested evidence, acceptable full interval and a matching completed ACK at its observation time.",
+    "Condition/service evidence reuses the unchanged verified_closure._check: every support is no earlier than the own action completion, has required distinct samples/span,current validity,source/error and counterevidence checks. Probabilities remainnull; private endpoints only read completed results/public assessments.",
+    "New None defaults and stable legacy closure routes remain separate statically. Green failure prevented any actual positive or negative outcome validation; no old regression is claimed."
+  ],
+  "frozen_attempts": {
+    "red_job": "133371",
+    "red_source": "5b35417fc256c631e7fc9269be456f802acd2042",
+    "red_status": "EXPECTED_RED_CONTRACT_GAP",
+    "green_job": "133377",
+    "green_source": "16fcedfd3d7ee3925d60b02dec52ec8f98989789",
+    "green_status": "FAILED",
+    "tests": 1,
+    "errors": 1,
+    "returned_decisions": 0,
+    "completed_native_horizons": 0,
+    "charged_facility_entries": 1,
+    "full_input_sha256": "d959880edf246ef465669d357e7e500cd7bae8ef0ad556b4a01bbaa4c970a6cb",
+    "full_input_bytes": 242997,
+    "freeze": "Red→green Git metadata confirms frozen test,descriptor,contract,protocol,stager and runner unchanged. Original2phase execution budget is exhausted, not automatically reset."
+  },
+  "proposed17_assessment": "The described correction-only one6s attempt is appropriate only under a separately frozen source/protocol/output and cumulative old-attempt accounting, retaining all16 input/threshold/expected behavior bytes. No unseen17 implementation or execution is approved by this16f record.",
+  "whole_39c_accepted": false,
+  "pending": "Actual corrected positive behavior plus cross-instance, residual/expiry,no-human and remaining joint endpoint/cost qualifications. No5.5closure event is inferred from the failed green entry.",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "aegisdc-spec-instance-service-binding-correction-v1",
+  "base": "16fcedfd3d7ee3925d60b02dec52ec8f98989789",
+  "candidate": "efa60470e84d2dde0f399fa78db38b01b88ffab5",
+  "status": "PASS_STATIC_CORRECTION_PENDING_ACTUAL_GREEN",
+  "new_finding_count": 0,
+  "findings": [],
+  "files": {
+    "src/aegis_dc/problem_closure.py": "4e02ee5c98f577efd3aaf4f57afe151d56573e93",
+    "docs/mainline/39c-instance-service-binding-correction-17.json": "86d2d7ec10f1daa32557d1a22539ca37336cc465",
+    "evidence/mainline/engineering/39c-development/tools/stage_instance_binding_correction_17.py": "4d9b4f305fe772302ab9e86f312164e6efea1a24",
+    "docs/mainline/39c-instance-closure-contract-16.md": "e1d4e67bacbec078daa0e9673d22a81f453936b7",
+    "docs/mainline/39c-instance-closure-protocol-16.json": "12292ae29a613912d4d69cdc88cbc53627549a78",
+    "tests/test_business_instance_closure.py": "a510740558b6261153b9e37e73179be9a5041dc8",
+    "tests/fixtures/39c-instance-closure-16.json": "5906b3d351f95800d3ee5e20737d512acaac937a",
+    "tests/fixtures/39b-direct-filter-sequence.json": "17e2f69fb925c319c805c684d7fb33eb178fbd9f",
+    "tests/fixtures/39c-actual-closure-endpoint.json": "69acd5847c090a61bb51c1614957f017c4233626"
+  },
+  "closed_findings": [
+    {
+      "id": "39C-INSTANCE-SPEC-01",
+      "original_priority": "P2",
+      "original_record": ".work/39c-instance16-spec-01",
+      "disposition": "Code-level extra-premise finding closed at this corrective pin; original16f/FAILED record is not edited. Actual positive behavior still pending.",
+      "requirement": "Contract16 requires a declared service,exact own-instance action/recheck/completion chain and finite condition/service samples; it does not require a single-functional-graph causal path.",
+      "correction": "Only problem_closure.py runtime changes: service IDs are collected from public nominal entities ofkind=service; selected rule service must belong. Existing service-check exact ID/source,own action/recheck/ACK,boundedness,current validity,span and counterevidence checks are unchanged.",
+      "causal_scope": "Inline correction explicitly says joint verification is not a causal path inferred by joining relation graphs. No graph,fault probability or private state is fabricated."
+    }
+  ],
+  "preservation": "Git metadata confirms original16 test,descriptor,both base fixtures,contract,protocol and stager unchanged; no other src/aegis_dc path changed. Original16f report and source remain historical with133377FAILED.",
+  "prospective17": {
+    "protocol": "docs/mainline/39c-instance-service-binding-correction-17.json",
+    "maximum_attempts": 1,
+    "namespace": "20-instance-service-binding-correction",
+    "phase": "green",
+    "facility_entries": 1,
+    "maximum_native_s": 6,
+    "maximum_returned_decisions": 6,
+    "input_bytes": 242997,
+    "input_sha256": "d959880edf246ef465669d357e7e500cd7bae8ef0ad556b4a01bbaa4c970a6cb",
+    "gate": "Same unchanged test writes the full generated actual input before entry. Root must separately match its resulting bytes/SHA before accepting correction; a declared expected hash alone is not actual execution proof.",
+    "original_budget": "Original16 two phases were already consumed. This is a separate one-shot correction namespace, not an overwrite,relabel or automatic re-run of the original green asPASS."
+  },
+  "whole_39c_accepted": false,
+  "pending": "Actual17 result,input identity,own closure endpoints and further negative qualifications remain unverified by this static review. No5.5s actual closure event is asserted yet.",
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "stage_calls": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}
