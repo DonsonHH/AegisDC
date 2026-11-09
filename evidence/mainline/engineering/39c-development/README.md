@@ -6,7 +6,7 @@
 
 [实际两例](slice-18/README.md)均3.25秒完成清滤、3.75秒收到报告、5秒完成自己的复检并在5.5秒收到证据。网络健康例5.5秒满足有限关闭；原网络容量0.25例虽冷却核验合格，仍因服务不合格保持待核验。两例只有一个声明的物理参数不同，不是方法收益对照。健康网络例在本窗口本来已交付服务，不能把核验关闭解释为新增服务收益。
 
-这组原件保留了[16首绿失败](slice-16/README.md)、[17上传后未提交](slice-17-staged-only/status.json)及独立冻结18的两例资格。原测试、输入与审查包按版本保存，服务门槛未放宽。每例实际作业2人秒、移动2人秒、门禁0.5人秒、等待0.5人秒；准入预算另列。[新CSV](figures-05/22-saved-instance-closure-figure/instance-endpoints.csv)与逐时评估来自原133378，绘图133379未新增设施运行。
+这组原件保留了[16首绿失败](slice-16/README.md)、[17上传后未提交](slice-17-staged-only/status.json)及独立冻结18的两例资格。原测试、输入与审查包按版本保存，服务门槛未放宽。每例实际作业2人秒、移动2人秒、等待0.5人秒，其中门禁核对占全部等待0.5人秒，不能重复相加；准入预算另列。[新CSV](figures-05/22-saved-instance-closure-figure/instance-endpoints.csv)与逐时评估来自原133378，绘图133379未新增设施运行。
 
 ![参考机会与方法实际迟到](figures-04/18-saved-reference-windows/reference-windows.png)
 
@@ -58,4 +58,4 @@
 
 [数据表](figures-01/endpoints.csv) · [逐时评估](figures-01/assessments.csv) · [冻结契约](../../../../docs/mainline/39c-closure-endpoint-contract-01.md) · [完整39c任务](../../../../.scratch/full-facility-mainline/issues/39c-business-endpoints-and-closure.md)。本页为开发检查点，主线及M7保持active，39d和新的AI比较尚未开始。
 
-动态实例有限实现与输入修订的[原审查](reviews-06/)及[18事前／事后分列复核](reviews-07/)均保存。实际18为2项测试、2个6秒完成窗口、12次返回，零失败／错误／跳过；当前整票尚需其余资格、联合评价／版本重放、根验收和fresh。第04检查点CI另有冻结计划，实际结果不得从旧14a第03检查点推断。
+动态实例有限实现与输入修订的[原审查](reviews-06/)及[18事前／事后分列复核](reviews-07/)均保存。实际18为2项测试、2个6秒完成窗口、12次返回，零失败／错误／跳过。第04检查点实际推送34c158bd的CI42561209542成功：628项发现、626项执行、零失败／错误，2项既有可选Torch跳过；[固定版本清单、完整日志与回执](../../../../docs/mainline/evidence/39c-instance-checkpoint.json)可查。当前整票尚需[其余资格、联合评价／版本重放](../../../../docs/mainline/39c-next-after-instance-notes.md)、零跳过根验收和fresh。
