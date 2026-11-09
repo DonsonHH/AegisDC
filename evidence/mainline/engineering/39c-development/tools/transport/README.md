@@ -1,0 +1,1 @@
+Exact read-only transport helpers retained after actual downloads for delivery audit. They copy terminal logs/summaries and verify transfer bytes; they do not create or recompute native runs. Their paths retain the original .work staging lookup, so they are originals rather than generalized new entrypoints. Runtime/metric/authoring tools were frozen separately before their calls.

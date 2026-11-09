@@ -1,0 +1,65 @@
+{
+  "schema": "aegisdc-spec-saved-mode-correction-v1",
+  "base": "c2872932b3aa77804762861c7b46385c1bd79f3b",
+  "candidate": "dc6a0380aa24397aca5594451466301d3d3e8e09",
+  "status": "PASS_STATIC_SAVED_VERIFIER_MODE_CORRECTION",
+  "new_finding_count": 0,
+  "findings": [],
+  "files": {
+    "scripts/check_saved_diagnostic_qualification.py": "b65f1fbf38c2dd63bb85261a7bedd1802340b866",
+    "docs/mainline/39c-saved-check-mode-protocol-07.json": "25ee4081f4709a05f2eb2cd24cb3a5a553499a28",
+    "tests/test_saved_diagnostic_verification.py": "79863a6114d33a6c5877b4b4e883447beee12725",
+    "evidence/mainline/engineering/39c-development/tools/stage_saved_mode_07.py": "b6d074266d1d5cae007448471606e15326fe0b66",
+    "evidence/mainline/engineering/39c-development/slice-07/README.md": "b90395e07541d4fcc98e3759a68cd5535aee61ed",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-red/terminal.json": "f9c290049986a6084cac84a1196ac8c4a3a0f7ac",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-red/outputs/optimized-child/terminal.json": "4d85979712f74dd9ec098a7cab2d0815581f5e73",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-green/job.slurm": "a6b5aa268a4467e2adb4fceeaf0af6b10ae72a9d",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-green/terminal.json": "a872c79cdd53ccb18d8813edef4332a6b54a45eb",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-green/outputs/normal-child/attempt.json": "b55e7040cce780a6eb1911ec0e59a65972a28a18",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-green/outputs/normal-child/terminal.json": "2805e470482dcdc7f11d1d51e749f4e4ecd99e03",
+    "evidence/mainline/engineering/39c-development/slice-07/10-saved-verifier-mode-green/outputs/normal-child/original-six-endpoints.csv": "666e9678434f3fb0e208bb8875632fec229a97b6"
+  },
+  "reviewed_contract": "docs/mainline/39c-saved-check-mode-protocol-07.json: fail closed on optimized interpreter before outputs/original reads; normal mode records optimize0; original133274/133280 retained.",
+  "code": {
+    "entry": "scripts/check_saved_diagnostic_qualification.py:23-30 uses explicit if/raise before argument parsing, manifest read and output mkdir; optimization cannot remove this guard.",
+    "receipt": "Lines31-36 record interpreter_optimize in attempt and terminal, plus executable in attempt; original verifier checks remain unchanged.",
+    "harness": "tests/test_saved_diagnostic_verification.py:29-49 removes inherited PYTHONOPTIMIZE, passes-O explicitly for rejection, checks nonzero/reason/no directory, then starts one normal saved child and requires mode0 in both receipts.",
+    "job": "Actual committed green job unsets PYTHONOPTIMIZE and enables its dedicated07 fixture before the declared normal Slurm runner."
+  },
+  "saved_execution": {
+    "red": {
+      "job": "133281",
+      "source": "eff9ac74610655e172bee21362461f93c66bd8c8",
+      "status": "EXPECTED_RED_CONTRACT_GAP",
+      "meaning": "Actual-O child returned0 and created an apparentPASSED output; frozen rejection test failed. Its CSV/status are failure evidence only, not a verified-originals source."
+    },
+    "green": {
+      "job": "133282",
+      "source": "4f4bfb027b35c3308cb1a68958f061a0b9853712",
+      "status": "GREEN_BEHAVIOR_PASSED",
+      "meaning": "Same frozen harness first refused-O before outputs, then the normal child recorded interpreter_optimize0 and checked44 original outputs at original3e81 source.",
+      "normal_child_status": "SAVED_ORIGINALS_AND_CORRECTED_LITERAL_PASSED",
+      "original_files_verified": 44,
+      "new_facility_calls": 0,
+      "new_model_calls": 0,
+      "new_research_trials": 0
+    },
+    "authoritative_saved_csv": "slice-07/10-saved-verifier-mode-green/outputs/normal-child/original-six-endpoints.csv is the normal-mode audited saved source for this correction; no native/metric evaluator replay is inferred."
+  },
+  "preserved": "Git diff shows domain code,original04 and06 receipts,original06 protocol,configs and original180 data unchanged. Red→green07 test/protocol/descriptor/stage unchanged; only mode gate/receipt code differs.",
+  "old06_boundary": "Original133280 status remains exactly recorded, but its optimization mode was not recorded and is not retrospectively proved normal. Old report remains historical; the new07 normal child supplies the explicit mode0 audit.",
+  "whole_39c_accepted": false,
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}
