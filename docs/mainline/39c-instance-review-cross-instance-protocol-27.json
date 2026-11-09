@@ -12,8 +12,8 @@
   },
   "test": {
     "path": "tests/test_instance_review_cross_instance.py",
-    "git_blob": "e350d3f5340a29774e1f2f67719b712c8cfba100",
-    "sha256": "9606abdcc01781a898f928588e332be3b387371072f49bfd58dd306f82e77d60",
+    "git_blob": "514a2aeb014f477c6726519858c3af80332d0135",
+    "sha256": "011e7e496e9ba04f95e3336de5a0415cfb79350f3e07af2387e29f6bbcce83bf",
     "test_names": [
       "test_instance_review_cross_instance.InstanceReviewCrossInstanceTests.test_disposition_is_limited_to_its_exact_instance"
     ],
@@ -26,7 +26,9 @@
       "shared_target": "intake_pump",
       "sibling_question_closed": false,
       "sibling_risk_closed": false,
-      "sibling_disposition_ids": []
+      "sibling_disposition_ids": [],
+      "eligible_candidates": ["cooling-direct/action-1", "cooling-direct/inspect-1"],
+      "chosen_candidate": "cooling-direct/action-1"
     }
   },
   "attempt": {
@@ -44,6 +46,20 @@
     "training_calls": 0,
     "GPU_use": false,
     "new_research_trials": 0
+  },
+  "pre_execution_refinement": "Supersedes the unexecuted test draft in 07cdb6b3. When removing the old instance's issued/recheck history, also omit its now unbound inspection record. Freeze the expected eligible candidates and FIFO selection. No remote attempt has used the draft.",
+  "container_snapshot": {
+    "runner_sha256": "abba1853c86471bae75b21d83650a01a5ce37b871d3196c576d7880848234773",
+    "support_files": ["docs/mainline/39c-instance-review-cross-instance-green-authority-27.json"],
+    "attempts": {
+      "green": {
+        "runtime_source": "d286f8cd50adb089337a230a224cb5a9fac6c7fb",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/34-instance-review-cross-instance-green-v27",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/34-instance-review-cross-instance-green-v27"
+      }
+    }
   },
   "execution_host": {
     "endpoint": "qdai.scnet.cn:58222",

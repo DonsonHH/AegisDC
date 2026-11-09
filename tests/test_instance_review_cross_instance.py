@@ -48,7 +48,8 @@ class InstanceReviewCrossInstanceTests(unittest.TestCase):
             basis='synthetic_assumption', target_ids=['intake_pump'],
             observable_ids=['cross-instance-disposition-27'], dependency_group=None,
             source_note='Synthetic management record for exact-instance scope qualification.'))
-        records = [{key: row[key] for key in RECORD_FIELDS} for row in snapshot['records']]
+        records = [{key: row[key] for key in RECORD_FIELDS} for row in snapshot['records']
+                   if row['id'] != 'flow-after-clean']
         records.append(dict(id='accept-risk-question-0-27', source_id='cross-instance-review-source-27',
             target_id='intake_pump', observable_id='cross-instance-disposition-27', unit='1',
             value='ACCEPT_RISK', observed_at_s=5.5, arrived_at_s=5.5, valid_until_s=8,
@@ -91,6 +92,10 @@ class InstanceReviewCrossInstanceTests(unittest.TestCase):
         sibling_target = templates[sibling['template_id']]['task']['target_id']
         self.assertEqual(accepted_target, 'intake_pump')
         self.assertEqual(sibling_target, accepted_target)
+        candidates = {row['candidate_id']: row for row in choice['candidates']}
+        self.assertEqual(set(candidates), {'cooling-direct/inspect-1', 'cooling-direct/action-1'})
+        self.assertTrue(all(row['eligible'] for row in candidates.values()))
+        self.assertEqual(choice['chosen_candidate_id'], 'cooling-direct/action-1')
 
 
 if __name__ == '__main__':
