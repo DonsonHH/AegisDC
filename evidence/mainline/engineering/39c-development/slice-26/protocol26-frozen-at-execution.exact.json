@@ -1,0 +1,77 @@
+{
+  "schema": "aegisdc-development-execution-correction-v1",
+  "id": "39c-instance-review-expiry-history-projection-26",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_GREEN_CORRECTION_NOT_RESEARCH",
+  "reason": "Protocol25 red executed the selected test but stopped at the older source's unsupported closure-program-v2 schema. It is an expected contract gap, not an expiry-behavior proof. The existing negative test expects the current frame at7s to remain open; the green must also preserve the valid historical disposition at5.5s in a separate lifecycle field.",
+  "supersedes_execution_only": "Protocol25 green runtime source and output only. Preserve its red attempt and terminal exactly; do not rerun the red. The test, seed, current frame and assertions are unchanged.",
+  "prior_red": {
+    "protocol": "docs/mainline/39c-instance-review-authority-expiry-protocol-25.json",
+    "attempt": "31-instance-review-expiry-red-v25",
+    "status": "EXPECTED_RED_CONTRACT_GAP",
+    "error": "Unknown instance closure program",
+    "tests": 1,
+    "public_choice_calls": 1,
+    "facility_entries": 0,
+    "valid_expiry_negative_proof": false,
+    "receipt": "evidence/mainline/engineering/39c-development/slice-25/red-result.json",
+    "receipt_sha256": "3000d91ab512ab78e31848b555c7dd4cce61ca265bddabb8105bd1e66f0598b2",
+    "manifest_sha256": "4889a668051256938c9f4fb1241b0abb2aae7376b3c8ce9158c9f59b594ee3b9",
+    "source_snapshot_sha256": "23435fe731d668b4f01d4055865f8a57b087ed8cce512da12983ab3432dc3c31"
+  },
+  "historical_projection_contract": {
+    "current_as_of_s": 7,
+    "decision_record_arrived_at_s": 5.5,
+    "authority_half_open_interval_s": [
+      0,
+      7
+    ],
+    "frame_projection": "Use the existing verified_closure._review_frame public-ledger snapshot projection at the record arrival clock; the evidence ledger itself filters by recorded observation and arrival times.",
+    "history_projection": "Retain only issue, work-feedback, question-instance and intervention-feedback events whose public timestamps are no later than the projected frame.",
+    "past_lifecycle": "At5.5s the exact arrived ACCEPT_RISK record is within authority. Project a historical lifecycle event for its exact instance with question_closed=true, risk_closed=false and physical_restoration_claim=false.",
+    "current_lifecycle": "At7s the half-open authority has expired. The current question remains OPEN_UNCONFIRMED/question_closed=false/risk_closed=false with current disposition_record_ids empty. Expose the past authorized event under historical_dispositions; do not rewrite the current evidence record, current question state or task candidates.",
+    "purity": "Source audit: assess_instance_closure validates to detached frame data, constructs local assessment rows and returns them; historical replay rebuilds a new public frame and time-filtered history. Neither path mutates the input or reads/writes filesystem, facility state or private truth. The recursion guard is internal and does not add a public program override."
+  },
+  "fixed_test": {
+    "path": "tests/test_instance_review_authority_expiry.py",
+    "git_blob": "d7b169c4bc5e40c40442b5f4bac9d8a7ee1e7024",
+    "sha256": "20942cbd3b61d064fd6dbf9efb349cd824145cdbb08f6c20ab68afc85b62380c",
+    "test_names": [
+      "test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question"
+    ]
+  },
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "fixed_test_blob": "d7b169c4bc5e40c40442b5f4bac9d8a7ee1e7024",
+  "fixed_test_sha256": "20942cbd3b61d064fd6dbf9efb349cd824145cdbb08f6c20ab68afc85b62380c",
+  "fixed_seed_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+  "test_names": [
+    "test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question"
+  ],
+  "green_source": "A new clean commit after this protocol, limited to authorized runtime files problem_closure.py and instance_reviews.py plus source/progress/report records. No test, fixture, physics, policy, task-generation, scenario, evidence or facility-operation change.",
+  "attempt": {
+    "maximum_green_invocations": 1,
+    "source": "New frozen green commit containing the historical projection and lifecycle output field.",
+    "output_root": "/root/private_data/aegisdc-mainline-39c/33-instance-review-expiry-history-green-v26",
+    "tests": 1,
+    "public_choice_calls": 1,
+    "facility_entries": 0,
+    "new_research_trials": 0,
+    "gpu_use": false
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/33-instance-review-expiry-history-green-v26",
+  "failure_rule": "Preserve prior expected-red contract gap and the single v26 green terminal. No automatic retry. A correction requires a new numbered protocol/source/output.",
+  "new_research_trials": 0,
+  "whole_39c_accepted": false
+}

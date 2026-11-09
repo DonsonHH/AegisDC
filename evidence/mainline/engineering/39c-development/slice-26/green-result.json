@@ -1,0 +1,70 @@
+{
+  "schema": "aegisdc-development-slice-result-v1",
+  "date": "2026-11-09",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_GREEN_NOT_RESEARCH",
+  "protocol": "docs/mainline/39c-instance-review-history-projection-protocol-26.json",
+  "executed_protocol_blob": "c01093a0fff57018bd9678ba3a3ed4e049876082",
+  "executed_protocol_sha256": "8b4f8236af9983b27b3ac6338d9da20677baf376e80e800a7daac47649b59676",
+  "attempt": "33-instance-review-expiry-history-green-v26",
+  "execution_source": "8475eac09abf7cd8ea00b2d1e4b304449c1b9c65",
+  "control_source": "8475eac09abf7cd8ea00b2d1e4b304449c1b9c65",
+  "remote_staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/33-instance-review-expiry-history-green-v26",
+  "remote_output_root": "/root/private_data/aegisdc-mainline-39c/33-instance-review-expiry-history-green-v26",
+  "source_manifest_sha256": "6001ffbc690e3e512ff5ca522123843c3fe7711bc779e89b25ecfd3d0f393344",
+  "source_snapshot": {"files": 71, "bytes": 443374, "sha256": "117c9d3bbcf99a5a7684048a45847cac963bbda2c480b44e6f01dc700ba942b0"},
+  "test": "test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question",
+  "test_and_seed": "Git blobs equal the exact protocol25 test and seed.",
+  "status": "GREEN_BEHAVIOR_PASSED",
+  "tests_run": 1,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "direct_public_choice_calls": 1,
+  "facility_entries": 0,
+  "completed_native_horizons": 0,
+  "returned_native_decisions": 0,
+  "new_research_trials": 0,
+  "gpu_used": false,
+  "numpy_imported_by_test": false,
+  "source_guard": "PASS_BEFORE_AND_AFTER",
+  "test_log_sha256": "c5d3bf05559ee61010644716c7cf095e46704fe0011c50edb1a0d1162a553d14",
+  "current_question": {
+    "question_id": "cooling-direct/question-1",
+    "as_of_s": 7,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "disposition_record_ids": [],
+    "fault_probability": null
+  },
+  "historical_dispositions": [
+    {
+      "record_id": "accept-risk-expiry-25",
+      "disposition": "ACCEPT_RISK",
+      "observed_at_s": 5.5,
+      "arrived_at_s": 5.5,
+      "status_at_arrival": "RISK_ACCEPTED",
+      "question_closed_at_arrival": true,
+      "risk_closed_at_arrival": false,
+      "physical_restoration_claim_at_arrival": false,
+      "authorization_id": "expiry-risk-owner-25",
+      "scope": "HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME"
+    }
+  ],
+  "protocol_amendment_reconciliation": {
+    "executed_protocol_copy": "protocol26-frozen-at-execution.exact.json",
+    "post_execution_protocol_commit": "f94dc57c",
+    "post_execution_additions": "A bounded source-purity review receipt and fuller prior-red artifact pins. No runtime source, test, seed, input, output or terminal changed.",
+    "source_purity_review": "evidence/mainline/engineering/39c-development/slice-26/source-purity-review.json",
+    "later_stage_collision": "A later package at control source f94dc57c found the unique remote staging/output roots already populated by this completed attempt. It was not uploaded or executed; the existing terminal and actual output were retained without overwrite or retry."
+  },
+  "artifacts": {
+    "attempt.json": {"bytes": 863, "sha256": "b955b6eae8b6348f2184f3f50b3e067f68d96249443f10b28d09df0c6f8f3f40"},
+    "terminal.json": {"bytes": 17534, "sha256": "aeab87213cd6fd4f3ce85ee55ad2a81a02746613316736e23e28f229ef1ddabf"},
+    "test.log": {"bytes": 289, "sha256": "c5d3bf05559ee61010644716c7cf095e46704fe0011c50edb1a0d1162a553d14"},
+    "frozen-public-call-input.json": {"bytes": 80562, "sha256": "903e746fd403a7ee8a1f2a46b6a0a84a8899568d94348eb4d60540fae419fbd9"},
+    "actual-public-choice.json": {"bytes": 14899, "sha256": "fff18d5256ecea0a18116b19a6375dc646959ead3a3472a85a55fc5bb16f3e19"}
+  },
+  "limits": "One public engineering behavior only. No facility entry, research sample, scientific gain, field validation or whole39c acceptance. Protocol25 red remains an expected contract gap, not expiry behavior evidence."
+}
