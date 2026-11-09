@@ -1,0 +1,27 @@
+test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5 (test_business_instance_closure.BusinessInstanceClosureTests.test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5) ... ERROR
+
+======================================================================
+ERROR: test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5 (test_business_instance_closure.BusinessInstanceClosureTests.test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-red/tests/test_business_instance_closure.py", line 59, in test_own_action_and_recheck_plus_two_condition_service_samples_close_at_5_5
+    result = simulate_scenario(fixture['model'], duration_s=descriptor['duration_s'], step_s=descriptor['step_s'],
+        dispatch_program=dispatch, business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-red/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                                                 scenario=scenario, boundary_events=boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-red/src/aegis_dc/business_endpoints.py", line 18, in validate_business_program
+    _require(program['schema'] == 'aegisdc-business-closure-evaluation-v1'
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             and program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             'Declare synthetic closure endpoint evaluation in SI seconds')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/19-instance-closure-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Declare synthetic closure endpoint evaluation in SI seconds
+
+----------------------------------------------------------------------
+Ran 1 test in 0.029s
+
+FAILED (errors=1)

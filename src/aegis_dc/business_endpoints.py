@@ -15,7 +15,8 @@ def validate_business_program(program, facility_id, duration_s, dispatch_program
         from .diagnostic_endpoints import validate_diagnostic_evaluation
         return validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch_program,scenario,boundary_events)
     _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
-    _require(program['schema'] == 'aegisdc-business-closure-evaluation-v1'
+    instance_program = program['schema'] == 'aegisdc-business-instance-closure-evaluation-v1'
+    _require(program['schema'] in ('aegisdc-business-closure-evaluation-v1', 'aegisdc-business-instance-closure-evaluation-v1')
              and program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
              'Declare synthetic closure endpoint evaluation in SI seconds')
     for name in ('id', 'source_note'):
@@ -25,6 +26,10 @@ def validate_business_program(program, facility_id, duration_s, dispatch_program
     _require(type(closure) is dict and type(closure.get('profile')) is dict
              and type(closure['profile'].get('rules')) is list,
              'Business closure endpoints require an executed public closure program')
+    if instance_program:
+        _require(closure.get('schema') == 'aegisdc-instance-closure-program-v1'
+                 and dispatch_program.get('policy_program', {}).get('schema') == 'aegisdc-problem-driven-policy-v2',
+                 'Instance endpoints require the matching public instance closure workflow')
     episodes = _registry(program['episodes'], 'Business event')
     _require(0 < len(episodes) <= 1024, 'Declare one to1024 finite business events')
     seen = set()
@@ -37,8 +42,25 @@ def validate_business_program(program, facility_id, duration_s, dispatch_program
         binding = (event['question_id'], event['task_id'], event['opened_at_s'])
         _require(binding not in seen, 'Do not duplicate the same question/action/opening event')
         seen.add(binding)
-        rules = [rule for rule in closure['profile']['rules'] if type(rule) is dict
-                 and (rule.get('question_id'), rule.get('task_id'), rule.get('opened_at_s')) == binding]
+        if instance_program:
+            rules = []
+            templates = dispatch_program['policy_program'].get('templates', [])
+            _require(type(templates) is list, 'Declare public instance templates')
+            for rule in closure['profile']['rules']:
+                if type(rule) is not dict:
+                    continue
+                for template in templates:
+                    if type(template) is not dict or template.get('id') != rule.get('template_id'):
+                        continue
+                    count = template.get('max_instances')
+                    _require(type(count) is int and 0 < count <= 16, 'Declare finite instance endpoint slots')
+                    for slot in range(count):
+                        if (event['question_id'], event['task_id']) == (
+                            template['id'] + '/question-' + str(slot), template['id'] + '/action-' + str(slot)):
+                            rules.append(rule)
+        else:
+            rules = [rule for rule in closure['profile']['rules'] if type(rule) is dict
+                     and (rule.get('question_id'), rule.get('task_id'), rule.get('opened_at_s')) == binding]
         _require(len(rules) == 1, 'Business event must bind one declared public question/action rule')
     return deepcopy(program)
 
@@ -61,6 +83,9 @@ def evaluate_business_closure(result, program):
             for question in lifecycle['questions']:
                 if question['question_id'] != event['question_id']:
                     continue
+                if program['schema'] == 'aegisdc-business-instance-closure-evaluation-v1':
+                    _require(question['opened_at_s'] == event['opened_at_s'] and question['task_id'] == event['task_id'],
+                             'Actual instance opening/action differs from its private endpoint binding')
                 assessments.append({name: deepcopy(question[name]) for name in
                     ('as_of_s', 'status', 'risk_closed', 'question_closed', 'supporting_record_ids',
                      'blocking_record_ids', 'disposition_record_ids', 'scope')})
@@ -88,7 +113,8 @@ def evaluate_business_closure(result, program):
             status_at_horizon=horizon['status'] if horizon else 'NOT_ASSESSED_AT_HORIZON',
             assessments=assessments,
             scope='ACTUAL_WORK_AND_DECLARED_FINITE_SAMPLED_CLOSURE_NOT_CONTINUOUS_RESTORATION'))
-    return dict(schema='aegisdc-business-evaluation-v1', program_id=program['id'],
+    return dict(schema='aegisdc-business-instance-closure-result-v1' if program['schema'] == 'aegisdc-business-instance-closure-evaluation-v1'
+                else 'aegisdc-business-evaluation-v1', program_id=program['id'],
         facility_id=result['facility_id'], visibility='PRIVATE_EVALUATOR_ONLY',
         basis=program['basis'], time_unit='s', window_end_s=end,
         execution_code_identity=deepcopy(result['code_identity']), episodes=episodes,

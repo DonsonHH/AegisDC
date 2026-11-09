@@ -52,7 +52,8 @@ class PolicySession:
                 and program['policy_program']['inspection_declaration']==self.inspection_program['profile']
                 and program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Problem public producer declarations must equal their actual executor declarations')
-            _require(self.closure_template is None, 'Problem workflow does not yet declare evidence-verified closure')
+            _require(self.closure_template is None or self.closure_template.get('schema')=='aegisdc-instance-closure-program-v1',
+                'Problem workflow requires an instance-scoped closure declaration')
         if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Policy and actual executor must share the same public intervention declaration')
@@ -91,6 +92,9 @@ class PolicySession:
             produced={r['record_id'] for r in self.inspection_program['profile']['bindings']}
             _require(not produced&{r['id'] for r in self.ledger['records']},'Do not prefill actual inspection records')
         initial=self._frame(0,None)
+        if self.problem_actions and self.closure_template is not None:
+            from .problem_closure import validate_instance_closure
+            validate_instance_closure(initial,program['policy_program'],self.closure_template)
         if diagnostics:
             from .condition_assessment import validate_condition_profile
             validate_condition_profile(initial,self.diagnostic_profile)
@@ -147,6 +151,8 @@ class PolicySession:
             model_evaluations=deepcopy(choice['model_evaluations']),candidate_count=len(choice['candidates']),
             forecast_branch_count=choice.get('forecast_branch_count',0),
             scope='DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT'))
+        if 'instance_closure_evaluations' in choice:
+            self.computation_audit[-1]['instance_closure_evaluations']=choice['instance_closure_evaluations']
         decision=dict(frame=frame,history=history,choice=deepcopy(choice))
         if self.diagnostic_profile is not None:
             from .condition_assessment import assess_conditions

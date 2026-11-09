@@ -120,12 +120,18 @@ def _measurement(frame, history, task_id, declaration):
     return record
 
 
-def compile_problem_actions(frame, program, history):
+def compile_problem_actions(frame, program, history, *, closure_program=None):
     """Compile active and all issued stages into the existing common budget gate."""
     templates, instances, questions, deferred = open_questions(frame, program, history)
     inspections, actions = _declarations(frame, program)
     _require(type(history['issued']) is list, 'Declare issued problem stages')
     reports = _feedback(frame, program, history, actions)
+    lifecycle = None
+    verification = {}
+    if closure_program is not None:
+        from .problem_closure import assess_instance_closure
+        lifecycle = assess_instance_closure(frame, program, history, closure_program)
+        verification = {row['question_id']: row for row in lifecycle['questions']}
     issued = {row['candidate_id'] for row in history['issued']}
     disputed = {identifier for issue in frame['evidence']['conflicts'] + frame['evidence']['provenance_issues']
                 for identifier in issue['record_ids']}
@@ -164,11 +170,17 @@ def compile_problem_actions(frame, program, history):
             status = 'OPEN_UNCONFIRMED'
         question.update(workflow_status=status, risk_closed=False,
                         scope='PUBLIC_INSTANCE_WORKFLOW_NOT_ROOT_CAUSE_OR_VERIFIED_RISK_CLOSURE')
+        verified = verification.get(instance['id'])
+        if verified is not None:
+            question.update(closure_status=verified['status'], risk_closed=verified['risk_closed'],
+                            question_closed=verified['question_closed'], scope=verified['scope'])
         availability = dict(inspect=instance['opened_at_s'], action=action_at,
                             recheck=report['arrived_at_s'] if report is not None else None)
         allowed = dict(inspect=ids['action'] not in issued,
                        action=condition is None or ready,
                        recheck=report is not None and report['outcome'] == 'APPLIED' and completion_arrived)
+        if verified is not None and verified['question_closed']:
+            allowed = dict.fromkeys(allowed, False)
         for stage, key in [('inspect', 'task'), ('action', 'action_task'), ('recheck', 'recheck_task')]:
             task = dict(deepcopy(template[key]), id=ids[stage])
             at = availability[stage]
@@ -189,15 +201,17 @@ def compile_problem_actions(frame, program, history):
                     intervention_declaration=dict(deepcopy(program['intervention_declaration']),
                         bindings=[row for key, row in actions.items() if key in {c['id'] for c in candidates}]))
     return dict(program=compiled, history=dict(issued=history['issued'], work_feedback=history['work_feedback']),
-                question_instances=instances, questions=questions, deferred_triggers=deferred, stage_gates=gates)
+                question_instances=instances, questions=questions, deferred_triggers=deferred, stage_gates=gates,
+                **({'question_lifecycle': lifecycle, 'instance_closure_evaluations': 1} if lifecycle is not None else {}))
 
 
-def choose_problem_action(frame, program, history):
+def choose_problem_action(frame, program, history, *, closure_program=None):
     from .dispatch_policy import choose_work
-    prepared = compile_problem_actions(frame, program, history)
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
     selector_policy=prepared['program']['policy']
     choice = choose_work(frame, prepared.pop('program'), prepared.pop('history'))
-    choice.update(**prepared, task_generation_scope='PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN')
+    choice.update(**prepared, task_generation_scope='PUBLIC_INSTANCE_STAGES_WITH_OWN_ACTION_RECHECK_VERIFICATION'
+                  if closure_program is not None else 'PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN')
     if program['policy']=='defer_once':
         choice.update(policy=program['policy'],stage_selector_policy=selector_policy)
     return choice
