@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import socket
 import subprocess
+import sys
 import traceback
 
 
@@ -20,6 +21,8 @@ def save(path,value):
 
 
 def main():
+    if sys.flags.optimize:
+        raise SystemExit('Optimized verification is forbidden; integrity checks require normal mode')
     parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
     assert os.environ.get('SLURM_JOB_ID') and socket.gethostname().split('.')[0]!='mu01'
@@ -27,8 +30,10 @@ def main():
     args.output.mkdir(exist_ok=False)
     save(args.output/'attempt.json',dict(classification='SAVED_ONLY_ENGINEERING_CORRECTION_NOT_NEW_NATIVE_RUN',
         source_commit=manifest['source_commit'],manifest_sha256=manifest_sha,slurm_job_id=os.environ['SLURM_JOB_ID'],
+        interpreter_optimize=sys.flags.optimize,python_executable=sys.executable,
         started_at_utc=datetime.now(timezone.utc).isoformat(),new_facility_calls=0,new_model_calls=0,new_research_trials=0))
-    terminal=dict(status='FAILED',source_commit=manifest['source_commit'],new_facility_calls=0,new_model_calls=0,new_research_trials=0)
+    terminal=dict(status='FAILED',source_commit=manifest['source_commit'],interpreter_optimize=sys.flags.optimize,
+        new_facility_calls=0,new_model_calls=0,new_research_trials=0)
     try:
         def guard():
             assert sha(args.manifest)==manifest_sha
