@@ -1,0 +1,27 @@
+test_closed_gate_has_no_reference_return_but_keeps_fault_and_paid_attempt (test_diagnostic_unavailable.DiagnosticUnavailableTests.test_closed_gate_has_no_reference_return_but_keeps_fault_and_paid_attempt) ... ERROR
+
+======================================================================
+ERROR: test_closed_gate_has_no_reference_return_but_keeps_fault_and_paid_attempt (test_diagnostic_unavailable.DiagnosticUnavailableTests.test_closed_gate_has_no_reference_return_but_keeps_fault_and_paid_attempt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/tests/test_diagnostic_unavailable.py", line 34, in test_closed_gate_has_no_reference_return_but_keeps_fault_and_paid_attempt
+    result=simulate_scenario(fixture['model'],duration_s=2,step_s=.01,dispatch_program=dispatch,business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                                                 scenario=scenario, boundary_events=boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/src/aegis_dc/business_endpoints.py", line 16, in validate_business_program
+    return validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch_program,scenario,boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/src/aegis_dc/diagnostic_endpoints.py", line 62, in validate_diagnostic_evaluation
+    for name in ('starts_at_s','earliest_report_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
+                                                                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/src/aegis_dc/evidence_ledger.py", line 31, in _finite
+    _require(valid, label + ' must be a finite numeric value, not boolean or missing')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/14-unavailable-reference-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Opportunity earliest_report_at_s must be a finite numeric value, not boolean or missing
+
+----------------------------------------------------------------------
+Ran 1 test in 0.036s
+
+FAILED (errors=1)

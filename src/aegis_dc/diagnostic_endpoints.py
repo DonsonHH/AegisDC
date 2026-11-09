@@ -53,9 +53,9 @@ def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scena
         opportunity=event['opportunity'];_fields(opportunity,OPPORTUNITY_FIELDS,'Reference opportunity')
         _text(opportunity['source_note'],'Opportunity basis')
         _require(opportunity['reference_id']==reference['id'] and opportunity['status'] in {'ELIGIBLE','UNAVAILABLE','UNMODELED'},'Unknown reference opportunity')
-        if version2 and opportunity['status']=='UNMODELED':
+        if version2 and opportunity['status'] in ('UNMODELED','UNAVAILABLE'):
             for name in ('starts_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
-            _require(opportunity['earliest_report_at_s'] is None,'Unmodeled reference time must remain null')
+            _require(opportunity['earliest_report_at_s'] is None,'Unmodeled or unavailable reference time must remain null')
             _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['deadline_s'],
                      'Reference window clock order differs')
         else:
