@@ -1,0 +1,46 @@
+{
+  "schema": "aegisdc-saved-qualification-correction-v1",
+  "id": "39c-saved-qualification-correction-06",
+  "classification": "REMOTE_SAVED_ONLY_ENGINEERING_NO_PHYSICAL_REEXECUTION",
+  "original_job": "133274",
+  "original_execution_source": "3e81e7faa61d1021cc9418172171de86e370750f",
+  "original_remote_root": "/share/home/renly/renly-patrol-rsi/mainline/39c-development/07-state-diagnostic-qualification",
+  "original_manifest_sha256": "c52a69574720c679e563c0a92ac8e82d39172dc3197fb549823d6b3eadbaaf85",
+  "original_terminal_sha256": "b1cdf3274fea20560a5486ce0626088fcfd8bf9d4676ac4e0623379755bb4b10",
+  "case_ids": [
+    "normal",
+    "no-human-fault",
+    "no-human-normal",
+    "wrong-demand-model",
+    "uncertain",
+    "unmodeled-proxy"
+  ],
+  "analytic_witness": {
+    "network_nameplate_limit": 0.75,
+    "offered_demand": 0.5,
+    "actual_network_power_over_nominal": 0.5,
+    "actual_capacity": 0.5,
+    "relation": "Allocated request is nominal demand power times min(offered_demand, nameplate limit); with adequate power and equal demand/nominal power, usable capacity is min(.75,.5)=.5. The point reading is.5, not.75.",
+    "private_truth": "NORMAL relative to actual requirement.5",
+    "public_rule_threshold": 1,
+    "expected_false_positive_events": 1
+  },
+  "original_failure": "One assertion incorrectly expected nameplate.75 instead of actual usable capacity.5; retain originalFAILED and all six original raw outputs. Do not rerun originals or reset outcomes.",
+  "checks": "Exact original source/manifest/terminal and every declared output hash before/after; original public input privacy, fixed-reference and finite/null denominators; complete the unchanged false-positive-count assertions after correcting only the scalar expectation. No runtime project imports.",
+  "tool": "scripts/check_saved_diagnostic_qualification.py",
+  "maximum_new_saved_only_attempts": 1,
+  "new_facility_calls": 0,
+  "new_choice_calls": 0,
+  "new_model_calls": 0,
+  "new_research_trials": 0,
+  "resources": {
+    "partition": "cu",
+    "cpus": 1,
+    "memory_GiB": 2,
+    "wall_minutes": 5,
+    "requeue": false
+  },
+  "failure_rule": "Unique directory and terminal receipt on all exits; no automatic retry.",
+  "durable_set": "Pinned saved-check tool, protocol, original descriptor; exact staged source manifest/job/attempt/terminal, original-file hashes and compact endpointCSV. Complete native data stays on existing private server.",
+  "whole_39c_accepted": false
+}
