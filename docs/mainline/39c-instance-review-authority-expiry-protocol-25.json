@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-development-execution-correction-v1",
+  "id": "39c-instance-review-current-time-authority-expiry-negative-25",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_RED_GREEN_QUALIFICATION_NOT_RESEARCH",
+  "question": "A disposition observed while its grant is live must not close its question when that same grant expires at the current evaluation instant.",
+  "supersedes_execution_only": "This is a new negative qualification after the positive instance acceptance green in protocol24. It does not alter protocol24 inputs, tests, outcomes or attempts; none are retried.",
+  "prior_positive_authority": "docs/mainline/39c-instance-review-green-authority-25.json",
+  "fixed_runtime_sources": {
+    "red": "9ad3afd8503964f5fea9582a603b952ec3adf000",
+    "green": "d823a68f5af03d5d464d1f2dd45d14fbe5b9e8f0"
+  },
+  "test": {
+    "path": "tests/test_instance_review_authority_expiry.py",
+    "git_blob": "d7b169c4bc5e40c40442b5f4bac9d8a7ee1e7024",
+    "sha256": "20942cbd3b61d064fd6dbf9efb349cdc824145cdbb08f6c20ab68afc85b62380c",
+    "test_names": [
+      "test_instance_review_authority_expiry.InstanceReviewAuthorityExpiryTests.test_expired_current_authority_does_not_close_question"
+    ]
+  },
+  "seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "negative_condition": {
+    "as_of_s": 7,
+    "authority_interval_half_open": [
+      0,
+      7
+    ],
+    "record_observed_at_s": 5.5,
+    "record_arrived_at_s": 5.5,
+    "record_valid_until_s": 8,
+    "expected_question_status": "OPEN_UNCONFIRMED",
+    "expected_question_closed": false,
+    "expected_risk_closed": false,
+    "expected_disposition_record_ids": []
+  },
+  "attempts": {
+    "red": {
+      "maximum_invocations": 1,
+      "expected_contract_error": "Unknown instance closure program",
+      "output_root": "/root/private_data/aegisdc-mainline-39c/31-instance-review-expiry-red-v25"
+    },
+    "green": {
+      "maximum_invocations": 1,
+      "expected_status": "GREEN_BEHAVIOR_PASSED",
+      "output_root": "/root/private_data/aegisdc-mainline-39c/32-instance-review-expiry-green-v25"
+    }
+  },
+  "interface_budget_per_phase": {
+    "tests": 1,
+    "direct_public_choice_calls": 1,
+    "facility_entries": 0,
+    "native_horizons": 0,
+    "returned_native_decisions": 0,
+    "LLM_calls": 0,
+    "GPU_use": false,
+    "new_research_trials": 0
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c",
+    "compute": "One short CPU public-choice behavior test per phase; no install, facility entry, Slurm allocation, GPU or local project evaluation."
+  },
+  "tools": {
+    "runner": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_22.py",
+    "stager": "evidence/mainline/engineering/39c-development/tools/stage_instance_review_authority_expiry_25.py"
+  },
+  "durable_set": "Freeze source commits, exact test blob, seed, manifest, source archive, attempt/input/output/terminal/log and package metadata in unique private persistent directories. Retain red and green separately. No automatic retry or overwrite.",
+  "failure_rule": "Any red or green invocation is terminal for its phase. Preserve the complete output. A correction requires a newly numbered protocol and unique output roots.",
+  "whole_39c_accepted": false
+}
