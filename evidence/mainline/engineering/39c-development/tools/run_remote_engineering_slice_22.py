@@ -93,7 +93,7 @@ def main():
         test_path=snapshot_root/manifest['test']
         sys.path.insert(0,str(snapshot_root/'src'));sys.path.insert(0,str(snapshot_root/'tests'))
         os.environ['AEGIS_ENGINEERING_RESULT_DIR']=str(args.output.resolve())
-        module=manifest['test'][:-3]
+        module=Path(manifest['test']).stem
         prefix=module+'.'
         names=manifest['test_names']
         if not names or any(not name.startswith(prefix) for name in names):raise ValueError('Selected test does not match snapshot')
