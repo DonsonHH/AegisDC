@@ -41,6 +41,9 @@ if hashlib.sha256(git('show',control+':'+red_manifest)).hexdigest()!=protocol_da
     raise SystemExit('Prior red manifest differs from protocol26 pin')
 if hashlib.sha256(git('show',control+':'+red_archive)).hexdigest()!=protocol_data['prior_red']['source_snapshot_sha256']:
     raise SystemExit('Prior red source archive differs from protocol26 pin')
+purity_review=protocol_data['historical_projection_contract']['source_review_artifact']
+if hashlib.sha256(git('show',control+':'+purity_review)).hexdigest()!=protocol_data['historical_projection_contract']['source_review_sha256']:
+    raise SystemExit('Source purity review differs from protocol26 pin')
 runtime=git('ls-tree','-r','--name-only',control,'--','src/aegis_dc','src/patrol_rsi/__init__.py','src/patrol_rsi/contracts.py').decode().splitlines()
 common=['.gitattributes','.gitignore','pyproject.toml','scripts/run_engineering_slice.py',
     'tests/fixtures/39c-two-instance-public-seed-21.json','tests/test_instance_review.py',
@@ -57,6 +60,7 @@ names=sorted(set(runtime+common+[test,protocol,authority,red_receipt,
     'evidence/mainline/engineering/39c-development/slice-25/protocol25-red-frozen-public-call-input.json',
     'docs/mainline/39c-instance-review-authority-expiry-protocol-25.json',
     'docs/mainline/39c-instance-review-history-projection-protocol-26.json',
+    'evidence/mainline/engineering/39c-development/slice-26/source-purity-review.json',
     'evidence/mainline/engineering/39c-development/slice-24/green-result.json',
     'evidence/mainline/engineering/39c-development/slice-24/protocol24-green-terminal.json',
     'evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_22.py',

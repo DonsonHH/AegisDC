@@ -29,7 +29,9 @@
     "history_projection": "Retain only issue, work-feedback, question-instance and intervention-feedback events whose public timestamps are no later than the projected frame.",
     "past_lifecycle": "At5.5s the exact arrived ACCEPT_RISK record is within authority. Project a historical lifecycle event for its exact instance with question_closed=true, risk_closed=false and physical_restoration_claim=false.",
     "current_lifecycle": "At7s the half-open authority has expired. The current question remains OPEN_UNCONFIRMED/question_closed=false/risk_closed=false with current disposition_record_ids empty. Expose the past authorized event under historical_dispositions; do not rewrite the current evidence record, current question state or task candidates.",
-    "purity": "Source audit: assess_instance_closure validates to detached frame data, constructs local assessment rows and returns them; historical replay rebuilds a new public frame and time-filtered history. Neither path mutates the input or reads/writes filesystem, facility state or private truth. The recursion guard is internal and does not add a public program override."
+    "purity": "Source audit: assess_instance_closure validates to detached frame data, constructs local assessment rows and returns them; historical replay rebuilds a new public frame and time-filtered history. Neither path mutates the input or reads/writes filesystem, facility state or private truth. The recursion guard is internal and does not add a public program override.",
+    "source_review_artifact": "evidence/mainline/engineering/39c-development/slice-26/source-purity-review.json",
+    "source_review_sha256": "ae1f81ac90dcc00ea40bcf0d573cef53934eb74626b332ae1532a19ccbe90f7f"
   },
   "fixed_test": {
     "path": "tests/test_instance_review_authority_expiry.py",

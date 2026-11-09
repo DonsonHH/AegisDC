@@ -1,0 +1,37 @@
+{
+  "schema": "aegisdc-source-purity-review-v1",
+  "date": "2026-11-09",
+  "classification": "SOURCE_INSPECTION_NOT_RUNTIME_TEST",
+  "source_commit": "8475eac09abf7cd8ea00b2d1e4b304449c1b9c65",
+  "question": "Does assess_instance_closure mutate caller-owned inputs or access side-effecting/private state while projecting a historical review lifecycle?",
+  "reviewed_functions": [
+    {
+      "path": "src/aegis_dc/problem_closure.py",
+      "git_blob": "016a5b1f55b3748cb7a80df00dd994d6d618cb81",
+      "symbols": ["assess_instance_closure", "_assess_instance_closure"],
+      "finding": "The public wrapper delegates to a local assessment builder. The builder validates the frame into a detached copy, creates local assessment/trace objects and returns them. It contains no file, network, facility or private-state access."
+    },
+    {
+      "path": "src/aegis_dc/instance_reviews.py",
+      "git_blob": "595c0f5a51f76455bc4761ba43d4a5e49984cac5",
+      "symbols": ["_history_at", "_prior_lifecycle", "apply_instance_reviews"],
+      "finding": "Historical history is deep-copied and filtered by public event clocks. The prior frame is reconstructed through the existing _review_frame public evidence snapshot projection. Recursive assessment disables further prior projection through a private function argument. The function mutates only the newly created assessment object, not its frame/program/history inputs. No public program override was added."
+    },
+    {
+      "path": "src/aegis_dc/verified_closure.py",
+      "git_blob": "08c29d3239d2eba2afb86bab88a006d9f1d12c38",
+      "symbols": ["_review_frame"],
+      "finding": "The existing helper deep-copies the current frame, rebuilds an EvidenceLedger from visible records and snapshots it at the requested past clock; no hidden evaluator state is consulted."
+    },
+    {
+      "path": "src/aegis_dc/evidence_ledger.py",
+      "git_blob": "5a9e2c77cf90217fc63bb921c04af506ad0eef96",
+      "symbols": ["EvidenceLedger.snapshot"],
+      "finding": "Snapshots deep-copy only records that had arrived by the requested public clock and recompute their age/availability metadata."
+    }
+  ],
+  "conclusion": "PASS_BY_SOURCE_INSPECTION",
+  "dynamic_purity_assertion": false,
+  "runtime_authority": "The protocol26 frozen public test runs once in the persistent remote container; it is not rerun locally.",
+  "limits": "This is a bounded source review, not an independent reviewer report, complete side-effect proof for every transitive helper, or whole39c acceptance."
+}
