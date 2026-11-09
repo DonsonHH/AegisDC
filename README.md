@@ -12,7 +12,7 @@
 
 **[新增39b成果：多系统工单→实际检查→残余处置→复查，含三张数据与架构图](docs/mainline/39b-root-acceptance.md)**。按用户总体审阅，39a跨阶段复核与39b有限工程范围现已接受；609项完整远端回归、20历史原件和406件新Git交付核验通过，所有原失败保留。下一项39c定义业务端点与验证关闭，39d随后核查时间尺度，再冻结原39的新AI协议；新增注册研究试验为0。详见[审阅采纳顺序](docs/reviews/20261109-user-review/response.md)。
 
-[39c开发检查点：状态确认、固定事件分母和实际关闭的四张数据与架构图](evidence/mainline/engineering/39c-development/README.md)。六个新工程场景保留正常、无人工、模型误判及未知，原失败和两项独立发现的纠正分开记录；动态实例关闭、其余时间窗语义与完整成本仍待完成，整票39c未接受。
+[39c开发检查点：状态确认、固定事件分母和实际关闭的四张数据与架构图](evidence/mainline/engineering/39c-development/README.md)。六个新工程场景保留正常、无人工、模型误判及未知，原失败和修订协议分开记录。新增正向实例授权接受已通过一项远端公开接口测试：只关闭指定实例的管理问题，不声明物理修复；授权过期/跨实例等负例、时间窗、完整成本和整票39c验收仍待完成。
 
 截至2026年11月8日，01–35已按会后要求完成实质审计与必要修正，原定180次注册运行及第37项报告已接受。主要确认平均服务改善0.03515625秒，未达到0.25秒门槛，结论保持 **NO_PRACTICAL_GAIN**；四组稳健性没有显示稳定优势。本次在[38后的阅读检查点](docs/mainline/checkpoint38.md)收束：结构化AI选单具备独立比较条件，效果尚未测；原否决已按独立审查撤回并保留。39–42未完成，总目标不标完成。误报/漏报、提前预防、正式比较的验证关闭和现场标定仍待研究。
 
@@ -66,7 +66,7 @@ El Capitan位于LLNL；LANL是协作方。郑州核心节点与纪录片中的�
 
 ## 新研究原型入口
 
-完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。该早期工程基线及其M2数值资格属于历史验收范围；最新进度为1–38有限范围接受、39a跨阶段复核及39b动态任务接受，39c为下一主票，见[progress](docs/mainline/progress.json)。
+完整设施主线现有[八域工程运行基线](docs/mainline/healthy-run-model.md)：电力/后备、两级水热与参考相变、IT服务、局部控制、访问和异质人员作业在同一场景中运行。[工程轨迹与图](evidence/mainline/engineering/03-root-demonstration/README.md)保存正常工况、外电中断/自动接管及专业作业时序。该早期工程基线及其M2数值资格属于历史验收范围；最新进度为1–38有限范围接受、39a/39b有限范围接受、39c正向实例资格已通过而整票待完成，见[progress](docs/mainline/progress.json)。
 
 **M0–M4 已按各自有限工程范围接受**。[M1 原工程基线](evidence/mainline/engineering/M1-root-acceptance/README.md)、[M2 数值见证](evidence/mainline/engineering/M2-root-acceptance/README.md)、[M3 证据、风险与价值](evidence/mainline/engineering/20-root-acceptance/README.md)及[M4 正常与负例](evidence/mainline/engineering/28-root-acceptance/README.md)保留各自执行身份、原始失败和验收范围。[第29项联合工况](docs/mainline/29-root-acceptance.md)限定本轮模型工作域；[第30项注册协议](docs/mainline/30-registered-comparison.md)随后固定方法、独立单位和180次总预算。数值研究显式使用 `--model configs/full-facility-mainline-reserve-v6.json --step .01` 和新输出目录；兼容默认保持原样。
 
@@ -102,6 +102,6 @@ python -m patrol_rsi verify --output runs/verification-new
 
 `status`读取会前状态，`verify`执行工程/证据校验；没有自动训练或LLM调用，计算校验仍须远端执行。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，39a跨阶段覆盖复核已接受，当前39b开始补全多系统问题/动态任务、业务端点和人员设备时间尺度，再冻结39的新比较。38已接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
+1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，39a跨阶段复核和39b多系统问题/动态任务已接受；当前39c正在补业务端点、关闭、时间尺度与成本。正向实例风险接受资格已通过，但跨实例/过期等反向资格、端点回放和整票独立验收仍待完成，之后才进入39d及原39比较冻结。38接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
 
 [1–38跨阶段复核](docs/mainline/audits/20261109-integrated/review-report.md)另列[逐项证据表](docs/mainline/audits/20261109-integrated/coverage-01-38.md)与[会后要求补全表](docs/mainline/audits/20261109-integrated/meeting-gaps.md)。原180次保持不变；保存数据在Slurm补读，区分工程实现、正式覆盖和未测，不能以表格代替39b–39d实质工作。
