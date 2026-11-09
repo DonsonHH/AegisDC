@@ -52,7 +52,8 @@ def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scena
         _text(truth['source_note'],'Private truth basis')
         opportunity=event['opportunity'];_fields(opportunity,OPPORTUNITY_FIELDS,'Reference opportunity')
         _text(opportunity['source_note'],'Opportunity basis')
-        _require(opportunity['reference_id']==reference['id'] and opportunity['status'] in {'ELIGIBLE','UNAVAILABLE','UNMODELED'},'Unknown reference opportunity')
+        statuses=('ELIGIBLE','UNAVAILABLE','UNMODELED')+(('TOO_LATE',) if version2 else ())
+        _require(opportunity['reference_id']==reference['id'] and opportunity['status'] in statuses,'Unknown reference opportunity')
         if version2 and opportunity['status'] in ('UNMODELED','UNAVAILABLE'):
             for name in ('starts_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
             _require(opportunity['earliest_report_at_s'] is None,'Unmodeled or unavailable reference time must remain null')
@@ -60,17 +61,22 @@ def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scena
                      'Reference window clock order differs')
         else:
             for name in ('starts_at_s','earliest_report_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
-            _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['earliest_report_at_s']<=opportunity['deadline_s'],
-                     'Reference opportunity clock order differs')
+            if version2 and opportunity['status']=='TOO_LATE':
+                _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['deadline_s']<opportunity['earliest_report_at_s'],
+                         'Too-late reference must return strictly after its cutoff')
+            else:
+                _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['earliest_report_at_s']<=opportunity['deadline_s'],
+                         'Reference opportunity clock order differs')
         if version2 and opportunity['inspection_task_id'] is not None:
             _text(opportunity['inspection_task_id'],'Reference inspection task')
             _require(inspection is not None and any(row['task_id']==opportunity['inspection_task_id'] for row in inspection['bindings']),
                      'Named reference inspection must bind an actual declared task')
         key=(event['condition_id'],event['opened_at_s'],opportunity['deadline_s'])
         _require(key not in seen,'Do not duplicate an event under another ID');seen.add(key)
-        if opportunity['status']=='ELIGIBLE':
+        if opportunity['status']=='ELIGIBLE' or (version2 and opportunity['status']=='TOO_LATE'):
             _require(inspection is not None and any(row['task_id']==opportunity['inspection_task_id'] for row in inspection['bindings']),
-                     'Eligible inspection reference must bind an actual declared task')
+                     'Eligible inspection reference must bind an actual declared task' if opportunity['status']=='ELIGIBLE'
+                     else 'Too-late inspection reference must bind an actual declared task')
     return deepcopy(program)
 
 
@@ -85,14 +91,17 @@ def _truth_at(result,truth,time_s):
 
 
 def evaluate_diagnostic_events(result,program):
+    version2=program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
     end=result['summary']['duration_s'];events=[]
     counts=dict(events_total=len(program['events']),truth_fault=0,truth_normal=0,truth_unknown=0,
         eligible_fault_matured=0,timely_confirmed_fault=0,missed_fault_confirmation=0,
         normal_matured=0,false_positive_state_events=0,window_censored=0,reference_unavailable=0,reference_unmodeled=0)
+    if version2:counts['reference_too_late']=0
     for event in program['events']:
         opportunity=event['opportunity'];deadline=opportunity['deadline_s'];initial,value=_truth_at(result,event['truth'],event['opened_at_s'])
         censored=end<deadline;counts['truth_'+initial.lower()]+=1;counts['window_censored']+=censored
         counts['reference_unavailable']+=opportunity['status']=='UNAVAILABLE';counts['reference_unmodeled']+=opportunity['status']=='UNMODELED'
+        if version2:counts['reference_too_late']+=opportunity['status']=='TOO_LATE'
         assessments=[];confirmed=[];wrong_abnormal=[];wrong_normal=[]
         for decision in result.get('policy_public_decisions',[]):
             public=decision.get('condition_assessment')
@@ -125,7 +134,7 @@ def evaluate_diagnostic_events(result,program):
     def rate(numerator,denominator,reason):
         return dict(numerator=numerator,denominator=denominator,value=numerator/denominator if denominator else None,
                     unit='1',unavailable_reason=None if denominator else reason)
-    return dict(schema='aegisdc-business-diagnostic-result-v2' if program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
+    return dict(schema='aegisdc-business-diagnostic-result-v2' if version2
                        else 'aegisdc-business-diagnostic-result-v1',program_id=program['id'],facility_id=result['facility_id'],
         visibility='PRIVATE_EVALUATOR_ONLY',basis=program['basis'],time_unit='s',window_end_s=end,
         execution_code_identity=deepcopy(result['code_identity']),reference=deepcopy(program['reference']),events=events,counts=counts,

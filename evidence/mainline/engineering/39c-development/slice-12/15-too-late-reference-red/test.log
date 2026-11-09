@@ -1,0 +1,24 @@
+test_known_minimum_report_after_cutoff_is_not_an_eligible_window (test_diagnostic_too_late.DiagnosticTooLateTests.test_known_minimum_report_after_cutoff_is_not_an_eligible_window) ... ERROR
+
+======================================================================
+ERROR: test_known_minimum_report_after_cutoff_is_not_an_eligible_window (test_diagnostic_too_late.DiagnosticTooLateTests.test_known_minimum_report_after_cutoff_is_not_an_eligible_window)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/15-too-late-reference-red/tests/test_diagnostic_too_late.py", line 36, in test_known_minimum_report_after_cutoff_is_not_an_eligible_window
+    result=simulate_scenario(fixture['model'],duration_s=2,step_s=.01,dispatch_program=dispatch,business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/15-too-late-reference-red/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                                                 scenario=scenario, boundary_events=boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/15-too-late-reference-red/src/aegis_dc/business_endpoints.py", line 16, in validate_business_program
+    return validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch_program,scenario,boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/15-too-late-reference-red/src/aegis_dc/diagnostic_endpoints.py", line 55, in validate_diagnostic_evaluation
+    _require(opportunity['reference_id']==reference['id'] and opportunity['status'] in {'ELIGIBLE','UNAVAILABLE','UNMODELED'},'Unknown reference opportunity')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/15-too-late-reference-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Unknown reference opportunity
+
+----------------------------------------------------------------------
+Ran 1 test in 0.036s
+
+FAILED (errors=1)
