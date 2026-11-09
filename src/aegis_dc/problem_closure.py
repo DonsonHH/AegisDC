@@ -9,6 +9,7 @@ from .verified_closure import CHECK_FIELDS, _check
 
 PROGRAM_FIELDS = {'schema', 'profile', 'intervention_declaration', 'intervention_feedback'}
 PROFILE_FIELDS = {'schema', 'id', 'facility_id', 'nominal_knowledge_id', 'basis', 'time_unit', 'source_note', 'rules'}
+REVIEW_PROFILE_FIELDS = {'authorizations', 'review_channels', 'false_alarm_reviews'}
 RULE_FIELDS = {'id', 'template_id', 'service_id', 'minimum_span_s', 'required_samples', 'recheck_accepted_interval', 'checks'}
 
 
@@ -24,13 +25,17 @@ def validate_instance_closure(frame, policy, program):
     frame = validate_current_frame(frame)
     _plain_json(program)
     _fields(program, PROGRAM_FIELDS, 'Instance closure program')
-    _require(program['schema'] == 'aegisdc-instance-closure-program-v1', 'Unknown instance closure program')
+    schema = program['schema']
+    _require(schema in {'aegisdc-instance-closure-program-v1', 'aegisdc-instance-closure-program-v2'},
+             'Unknown instance closure program')
     _require(program['intervention_declaration'] == policy['intervention_declaration'],
              'Instance closure and policy action declarations differ')
     _require(type(program['intervention_feedback']) is list, 'Declare arrived instance action feedback')
     profile = program['profile']
-    _fields(profile, PROFILE_FIELDS, 'Instance closure profile')
-    _require(profile['schema'] == 'aegisdc-instance-closure-profile-v1'
+    profile_fields = PROFILE_FIELDS | (REVIEW_PROFILE_FIELDS if schema.endswith('-v2') else set())
+    _fields(profile, profile_fields, 'Instance closure profile')
+    expected_profile_schema = 'aegisdc-instance-closure-profile-v2' if schema.endswith('-v2') else 'aegisdc-instance-closure-profile-v1'
+    _require(profile['schema'] == expected_profile_schema
              and profile['basis'] == 'synthetic_assumption' and profile['time_unit'] == 's',
              'Declare synthetic instance verification in SI seconds')
     for key in ('id', 'source_note'):
@@ -81,6 +86,9 @@ def validate_instance_closure(frame, policy, program):
                          'Instance verification source outside declared coverage')
             _interval(check['accepted_interval'], 'Instance accepted')
         _require(roles == {'condition', 'service'}, 'Require both instance condition and service verification')
+    if schema.endswith('-v2'):
+        from .instance_reviews import validate_instance_review_declarations
+        validate_instance_review_declarations(frame, profile)
     return rules
 
 
@@ -165,7 +173,11 @@ def assess_instance_closure(frame, policy, history, program):
             own_recheck=anchor, checks=checks, trace=trace,
             scope='OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY'))
     evaluated = {row['question_id'] for row in questions}
-    return dict(schema='aegisdc-instance-closure-assessment-v1', facility_id=frame['facility_id'],
+    assessment = dict(schema='aegisdc-instance-closure-assessment-v1', facility_id=frame['facility_id'],
         as_of_s=frame['as_of_s'], questions=questions,
         unevaluated_question_ids=sorted(row['id'] for row in instances if row['id'] not in evaluated),
         private_state_used=False, risk_probability_invented=False)
+    if program['schema'].endswith('-v2'):
+        from .instance_reviews import apply_instance_reviews
+        return apply_instance_reviews(frame, program, assessment)
+    return assessment

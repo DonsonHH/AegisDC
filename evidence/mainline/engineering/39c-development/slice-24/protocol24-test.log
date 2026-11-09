@@ -1,0 +1,31 @@
+test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim (test_instance_review.InstanceReviewTests.test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim) ... ERROR
+
+======================================================================
+ERROR: test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim (test_instance_review.InstanceReviewTests.test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/tests/test_instance_review.py", line 47, in test_arrived_authorized_acceptance_closes_only_its_instance_without_physical_claim
+    choice=choose_work(frame,program,history,intervention_declaration=program['intervention_declaration'],closure_program=closure)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/dispatch_policy.py", line 62, in choose_work
+    return choose_problem_action(frame,program,history,closure_program=closure_program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/problem_actions.py", line 210, in choose_problem_action
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/problem_actions.py", line 133, in compile_problem_actions
+    lifecycle = assess_instance_closure(frame, program, history, closure_program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/problem_closure.py", line 92, in assess_instance_closure
+    rules = validate_instance_closure(frame, policy, program)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/problem_closure.py", line 27, in validate_instance_closure
+    _require(program['schema'] == 'aegisdc-instance-closure-program-v1', 'Unknown instance closure program')
+  File "/root/private_data/aegisdc-mainline-39c/29-instance-review-container-red-v24/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Unknown instance closure program
+
+----------------------------------------------------------------------
+Ran 1 test in 0.292s
+
+FAILED (errors=1)
