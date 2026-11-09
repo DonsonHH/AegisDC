@@ -1,0 +1,26 @@
+test_unmodeled_reference_keeps_null_time_and_full_fault_event (test_diagnostic_opportunity.DiagnosticOpportunityTests.test_unmodeled_reference_keeps_null_time_and_full_fault_event) ... ERROR
+
+======================================================================
+ERROR: test_unmodeled_reference_keeps_null_time_and_full_fault_event (test_diagnostic_opportunity.DiagnosticOpportunityTests.test_unmodeled_reference_keeps_null_time_and_full_fault_event)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/13-unmodeled-reference-red/tests/test_diagnostic_opportunity.py", line 33, in test_unmodeled_reference_keeps_null_time_and_full_fault_event
+    result=simulate_scenario(fixture['model'],duration_s=data['duration_s'],step_s=data['step_s'],
+        dispatch_program=dispatch,business_program=business)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/13-unmodeled-reference-red/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                                                 scenario=scenario, boundary_events=boundary_events)
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/13-unmodeled-reference-red/src/aegis_dc/business_endpoints.py", line 16, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/13-unmodeled-reference-red/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/39c-development/13-unmodeled-reference-red/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.025s
+
+FAILED (errors=1)

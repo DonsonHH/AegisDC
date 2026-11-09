@@ -13,7 +13,9 @@ OPPORTUNITY_FIELDS={'reference_id','status','inspection_task_id','starts_at_s','
 
 def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scenario,boundary_events):
     _plain_json(program);_fields(program,PROGRAM_FIELDS,'Private diagnostic evaluation')
-    _require(program['schema']=='aegisdc-business-diagnostic-evaluation-v1' and program['basis']=='synthetic_assumption'
+    version2=program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
+    _require(program['schema'] in ('aegisdc-business-diagnostic-evaluation-v1','aegisdc-business-diagnostic-evaluation-v2')
+             and program['basis']=='synthetic_assumption'
              and program['time_unit']=='s' and program['facility_id']==facility_id,'Diagnostic evaluation identity/basis differs')
     for name in ('id','source_note'):_text(program[name],'Diagnostic evaluation '+name)
     _plain_json(dispatch)
@@ -51,9 +53,19 @@ def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scena
         opportunity=event['opportunity'];_fields(opportunity,OPPORTUNITY_FIELDS,'Reference opportunity')
         _text(opportunity['source_note'],'Opportunity basis')
         _require(opportunity['reference_id']==reference['id'] and opportunity['status'] in {'ELIGIBLE','UNAVAILABLE','UNMODELED'},'Unknown reference opportunity')
-        for name in ('starts_at_s','earliest_report_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
-        _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['earliest_report_at_s']<=opportunity['deadline_s'],
-                 'Reference opportunity clock order differs')
+        if version2 and opportunity['status']=='UNMODELED':
+            for name in ('starts_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
+            _require(opportunity['earliest_report_at_s'] is None,'Unmodeled reference time must remain null')
+            _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['deadline_s'],
+                     'Reference window clock order differs')
+        else:
+            for name in ('starts_at_s','earliest_report_at_s','deadline_s'):_finite(opportunity[name],'Opportunity '+name)
+            _require(event['opened_at_s']<=opportunity['starts_at_s']<=opportunity['earliest_report_at_s']<=opportunity['deadline_s'],
+                     'Reference opportunity clock order differs')
+        if version2 and opportunity['inspection_task_id'] is not None:
+            _text(opportunity['inspection_task_id'],'Reference inspection task')
+            _require(inspection is not None and any(row['task_id']==opportunity['inspection_task_id'] for row in inspection['bindings']),
+                     'Named reference inspection must bind an actual declared task')
         key=(event['condition_id'],event['opened_at_s'],opportunity['deadline_s'])
         _require(key not in seen,'Do not duplicate an event under another ID');seen.add(key)
         if opportunity['status']=='ELIGIBLE':
@@ -113,7 +125,8 @@ def evaluate_diagnostic_events(result,program):
     def rate(numerator,denominator,reason):
         return dict(numerator=numerator,denominator=denominator,value=numerator/denominator if denominator else None,
                     unit='1',unavailable_reason=None if denominator else reason)
-    return dict(schema='aegisdc-business-diagnostic-result-v1',program_id=program['id'],facility_id=result['facility_id'],
+    return dict(schema='aegisdc-business-diagnostic-result-v2' if program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
+                       else 'aegisdc-business-diagnostic-result-v1',program_id=program['id'],facility_id=result['facility_id'],
         visibility='PRIVATE_EVALUATOR_ONLY',basis=program['basis'],time_unit='s',window_end_s=end,
         execution_code_identity=deepcopy(result['code_identity']),reference=deepcopy(program['reference']),events=events,counts=counts,
         rates=dict(missed_confirmation=rate(counts['missed_fault_confirmation'],counts['eligible_fault_matured'],'NO_MATURE_ELIGIBLE_INITIAL_FAULT_EVENTS'),
