@@ -1,0 +1,111 @@
+{
+  "schema": "aegisdc-spec-static-saved-result-handoff-v1",
+  "execution_source": "8eeef6b724a130dad12fb21cfe8bf68c46ec47f5",
+  "classification": "READONLY_SAVED_ARTIFACT_HANDOFF_NOT_NEW_EXECUTION",
+  "earlier_prospective_review": "report.md and source-pin.json are preserved as pre-execution static records; this additive note records the later133378 handoff.",
+  "artifacts": {
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/attempt.json": {
+      "sha256": "b3ac2a9e88edcd0d52054c824faed54ea0f510591e2b9e1e6c4864d57f9f4c7a",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/terminal.json": {
+      "sha256": "e16b47c6b241d57495ce1fd9fbcde106964709226d4a592463b88da1c18fc25e",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/source-manifest.json": {
+      "sha256": "03d35a9abf7bd87bdbf39c5f38c3e264cbf05f10bd9c60786a84da4c568b257a",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/case-input-identity.json": {
+      "sha256": "1cd02ae6f560bcb08af784073d6b6af38ed375ac530eaefbfc3d5d265b1085e3",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/test.log": {
+      "sha256": "6e59b77ebcef7aeae8c0b9e01e77aad5ee22a39b4e5d3e6f7f04c3b350ead59e",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-healthy--business-result.json": {
+      "sha256": "c38babbeefcd139ccfaf3f5dc1dec9d0735ccd6834baf9facca06d1d33a88d09",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-still-blocked--business-result.json": {
+      "sha256": "4065dc0189dc8a08b1d87520dcd26aeb7c9ff00349e4899f8f8c778dce3120d2",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-healthy--actual-instance-summary.json": {
+      "sha256": "c7a4de5a56c43a896772b7833c1f4e6f8725033f2d97283c2533f6a2c47afebb",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    },
+    "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-still-blocked--actual-instance-summary.json": {
+      "sha256": "b73a2108952ce1908033c24408ba5c71eee4b1330a34f15fd9f60c1bda647b41",
+      "identity": "External saved-output handoff after the fixed8ee source,not yet asserted as a committed data-delivery blob."
+    }
+  },
+  "terminal_readout": {
+    "job": "133378",
+    "status": "QUALIFICATION_BEHAVIORS_PASSED",
+    "tests_run": 2,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "facility_entries": 2,
+    "returned_decisions": 12,
+    "source_guard": "PASS_BEFORE_AND_AFTER",
+    "new_model_calls": 0,
+    "new_research_trials": 0
+  },
+  "input_identity_readout": {
+    "classification": "ACTUAL_FULL_INPUT_IDENTITY_ONLY_NO_ENDPOINT_RECOMPUTATION",
+    "source": "8eeef6b724a130dad12fb21cfe8bf68c46ec47f5",
+    "only_parameter_difference": "network_service_capacity0.25_to1",
+    "all_other_actual_input_fields_equal": true,
+    "original133377_negative_input_equal": true,
+    "healthy_sha256": "1c960b97d3beba035d567df319d931e646f2e79d016e25ce4044241551860fab",
+    "negative_bytes": 242997,
+    "negative_sha256": "d959880edf246ef465669d357e7e500cd7bae8ef0ad556b4a01bbaa4c970a6cb",
+    "boundary": "Read the pinned identity receipt; full actual inputs remain on the private server and were not independently re-diffed by this reviewer."
+  },
+  "observed_saved_endpoints": {
+    "common": "Both saved summaries show own action completed3.25,APPLIED arrival3.75,own recheck completed5/report5.5. No new work or metric computation was performed.",
+    "healthy": {
+      "first_verified_closed_at_s": 5.5,
+      "last_assessed_at_s": 6,
+      "status_at_horizon": "VERIFIED_CLOSED",
+      "own_recheck_passed": true,
+      "condition_passed": true,
+      "service_passed": true,
+      "recorded_samples_each": 2,
+      "recorded_span_each_s": 1
+    },
+    "blocked": {
+      "first_verified_closed_at_s": null,
+      "time_to_first_verified_closed_s": null,
+      "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+      "risk_closed": false,
+      "own_recheck_passed": true,
+      "condition_passed": true,
+      "service_passed": false,
+      "blocked_service_record_ids": [
+        "joint-service-transfer:0",
+        "joint-service-transfer:1"
+      ]
+    }
+  },
+  "finding_disposition": "39C-INSTANCE-SPEC-02 prospective input revision now has saved finite positive/negative evidence. Original16f failure remains the earlier path refusal with no native horizon; original17 remains staged/not submitted. Do not relabel either as an executed green.",
+  "acceptance_boundary": "Finite two-condition qualification only; full private trace replay,fresh committed delivery and whole39c acceptance are not supplied by this handoff.",
+  "whole_39c_accepted": false,
+  "local_execution": {
+    "project_calls": 0,
+    "tests": 0,
+    "verifier_runs": 0,
+    "selectors": 0,
+    "models": 0,
+    "facility_calls": 0,
+    "metric_recomputations": 0,
+    "remote_compute": 0,
+    "browser_calls": 0,
+    "external_services": 0,
+    "new_worktrees": 0,
+    "full_source_exports": 0
+  }
+}
