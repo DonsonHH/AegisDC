@@ -1,0 +1,82 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-temporal-lead-37",
+  "classification": "REMOTE_NATIVE_ENGINEERING_RED_GREEN_NOT_RESEARCH",
+  "contract": "docs/mainline/39c-temporal-endpoints-contract-37.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-temporal-lead-37.json",
+    "git_blob": "66140decac878b9b95abd0ceea68a65602b3368f",
+    "sha256": "36aeb74ad2e576641c7c1f183de050223ea0493681a9bbc0ae4b11f2dc4b36d2"
+  },
+  "test": {
+    "path": "tests/test_business_temporal_endpoints.py",
+    "git_blob": "2b9cd49832495678e710532b2eb2d75ee43b9bf7",
+    "sha256": "a0431d27bf3d71322b2bb74c94029bb4787a5dc2f80a469b30f8dff278907182",
+    "test_names": [
+      "test_business_temporal_endpoints.BusinessTemporalEndpointTests.test_fault_service_and_declared_action_deadline_use_actual_arrival_clock"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 1,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 6
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-temporal-endpoints-contract-37.md",
+      "configs/materials/reference-r134a-saturation.json"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "a31c3278ab9a51dfb566935d67c52e6fc594fcea",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/49-temporal-lead-red-v37",
+        "expected_returned_decisions": 0,
+        "expected_completed_horizons": 0,
+        "expected_completed_duration_s": 0,
+        "expected_red_text": "Business closure evaluation program fields do not match the closed contract"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/50-temporal-lead-green-v37",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/50-temporal-lead-green-v37",
+        "expected_returned_decisions": 6,
+        "expected_completed_horizons": 1,
+        "expected_completed_duration_s": 3.5
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "first_public_confirmation_s": 1.75,
+    "fault_sample_s": 1,
+    "fault_sample_lead_s": -0.75,
+    "service_loss_sample_s": 3,
+    "service_sample_lead_s": 1.25,
+    "service_transition_lead_interval_s": [
+      0.75,
+      1.25
+    ],
+    "planned_intervention_deadline_s": 3.5,
+    "planned_deadline_lead_s": 1.75,
+    "confirmation_deadline_s": 2
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One invocation per frozen red/green. Do not implement green until red terminal. Preserve failures and inputs; retries or input changes require new numbered protocol and unique output.",
+  "whole_39c_accepted": false
+}
