@@ -1,0 +1,188 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-temporal-censoring-qualification-39",
+  "classification": "SINGLE_GREEN_FROZEN_FOUR_CASE_ENGINEERING_QUALIFICATION",
+  "contract": "docs/mainline/39c-temporal-endpoints-contract-37.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-temporal-qualification-39.json",
+    "git_blob": "5c8caf1d91fdbfd1dfd68c25f1ed7dbf4a893f34",
+    "sha256": "0652c34488bcac983bb45c6346f7839e5096354ebb2f47a58cdc73f20ee27f89"
+  },
+  "test": {
+    "path": "tests/test_temporal_endpoint_qualification.py",
+    "git_blob": "459dacc147520fe54cc487bb1347c55c6caba061",
+    "sha256": "1cb0ea08a266912f279e8479b1840532a0e96c6814ab13e60d507d6b713c9e23",
+    "test_names": [
+      "test_temporal_endpoint_qualification.TemporalEndpointQualificationTests.test_left_right_censor_missing_confirmation_and_unknown_references"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 4,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 11
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-temporal-endpoints-contract-37.md",
+      "configs/materials/reference-r134a-saturation.json",
+      "docs/mainline/39c-temporal-input-correction-contract-38.md",
+      "tests/fixtures/39c-temporal-lead-38.json"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "b0ddc285f4d4736423c1804d7b3fff1649002da8",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/52-temporal-censor-qualification-v39",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/52-temporal-censor-qualification-v39",
+        "expected_returned_decisions": 11,
+        "expected_completed_horizons": 4,
+        "expected_completed_duration_s": 6.5
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "tests/fixtures/39c-temporal-lead-38.json",
+        "git_blob": "e945dc45d0c8b61ca53221a114bd0b7c7e3d2f75",
+        "sha256": "dd4fb120fe7c1a65316d6d6453f010c6c9909d8d955e6dbdaa7968380331a847"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One invocation only; keep all four conditions, failures and partial outputs. No runtime correction or retry; a change needs a new protocol/output.",
+  "whole_39c_accepted": false,
+  "prior_original_green": "evidence/mainline/engineering/39c-development/slice-38/result.json",
+  "prior_green_status": "38PASSED_SINGLE_CONCRETE_THREE_REFERENCE_BEHAVIOR",
+  "cases": [
+    {
+      "id": "window-before-fault",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "sample_times_s": [
+        0,
+        0.5
+      ],
+      "initial_fault": false,
+      "policy": "fifo",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "fault_reference.status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "fault_reference.right_censored": true,
+        "fault_reference.censor_at_s": 0.5,
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "service_loss_reference.censor_at_s": 0.5,
+        "intervention_deadline_reference.at_s": 3.5,
+        "intervention_deadline_reference.lead_s": null
+      }
+    },
+    {
+      "id": "initial-fault-left-censored",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "initial_fault": true,
+      "policy": "fifo",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": 1.75,
+        "fault_reference.status": "PRESENT_AT_FIRST_SAMPLE",
+        "fault_reference.left_censored": true,
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "PRESENT_AT_FIRST_SAMPLE",
+        "service_loss_reference.left_censored": true,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.at_s": 3.5,
+        "intervention_deadline_reference.lead_s": 1.75
+      }
+    },
+    {
+      "id": "no-human-no-confirmation",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "initial_fault": false,
+      "policy": "no_human",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "confirmation_status": "NOT_OBSERVED_BY_WINDOW_END",
+        "fault_reference.status": "FIRST_TRANSITION_SAMPLE",
+        "fault_reference.sample_at_s": 1,
+        "fault_reference.lead_s": null,
+        "fault_reference.lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "service_loss_reference.sample_at_s": 1,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.lead_s": null
+      }
+    },
+    {
+      "id": "unmodeled-truth-and-cutoff",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "initial_fault": false,
+      "policy": "fifo",
+      "truth_modeled": false,
+      "deadline_modeled": false,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "fault_reference.status": "UNMODELED",
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "FIRST_TRANSITION_SAMPLE",
+        "service_loss_reference.sample_at_s": 1,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.status": "UNMODELED",
+        "intervention_deadline_reference.at_s": null,
+        "intervention_deadline_reference.lead_s": null
+      }
+    }
+  ]
+}

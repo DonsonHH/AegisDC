@@ -1,0 +1,123 @@
+{
+  "classification": "FROZEN_ENGINEERING_QUALIFICATION_NOT_RESEARCH_SAMPLES",
+  "base_input": "tests/fixtures/39c-temporal-lead-38.json",
+  "cases": [
+    {
+      "id": "window-before-fault",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "sample_times_s": [
+        0,
+        0.5
+      ],
+      "initial_fault": false,
+      "policy": "fifo",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "fault_reference.status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "fault_reference.right_censored": true,
+        "fault_reference.censor_at_s": 0.5,
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "service_loss_reference.censor_at_s": 0.5,
+        "intervention_deadline_reference.at_s": 3.5,
+        "intervention_deadline_reference.lead_s": null
+      }
+    },
+    {
+      "id": "initial-fault-left-censored",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "initial_fault": true,
+      "policy": "fifo",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": 1.75,
+        "fault_reference.status": "PRESENT_AT_FIRST_SAMPLE",
+        "fault_reference.left_censored": true,
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "PRESENT_AT_FIRST_SAMPLE",
+        "service_loss_reference.left_censored": true,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.at_s": 3.5,
+        "intervention_deadline_reference.lead_s": 1.75
+      }
+    },
+    {
+      "id": "no-human-no-confirmation",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "initial_fault": false,
+      "policy": "no_human",
+      "truth_modeled": true,
+      "deadline_modeled": true,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "confirmation_status": "NOT_OBSERVED_BY_WINDOW_END",
+        "fault_reference.status": "FIRST_TRANSITION_SAMPLE",
+        "fault_reference.sample_at_s": 1,
+        "fault_reference.lead_s": null,
+        "fault_reference.lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "service_loss_reference.sample_at_s": 1,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.lead_s": null
+      }
+    },
+    {
+      "id": "unmodeled-truth-and-cutoff",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "initial_fault": false,
+      "policy": "fifo",
+      "truth_modeled": false,
+      "deadline_modeled": false,
+      "expected": {
+        "first_public_confirmation_at_s": null,
+        "fault_reference.status": "UNMODELED",
+        "fault_reference.lead_s": null,
+        "service_loss_reference.status": "FIRST_TRANSITION_SAMPLE",
+        "service_loss_reference.sample_at_s": 1,
+        "service_loss_reference.lead_s": null,
+        "intervention_deadline_reference.status": "UNMODELED",
+        "intervention_deadline_reference.at_s": null,
+        "intervention_deadline_reference.lead_s": null
+      }
+    }
+  ],
+  "source_note": "Actual scenarios at the same finite run seam. Known future plans stay known; unobserved physical nodes and missing confirmation do not become zero leads."
+}
