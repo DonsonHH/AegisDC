@@ -1,0 +1,59 @@
+test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) ... 
+  test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) (case='private-v2') ... ERROR
+  test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) (case='wrong-recheck-slot') ... FAIL
+test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) ... FAIL
+
+======================================================================
+ERROR: test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) (case='private-v2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/tests/test_instance_management_endpoint.py", line 45, in test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/business_endpoints.py", line 24, in validate_business_program
+    _require(program['schema'] in ('aegisdc-business-closure-evaluation-v1', 'aegisdc-business-instance-closure-evaluation-v1')
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Declare synthetic closure endpoint evaluation in SI seconds
+
+======================================================================
+FAIL: test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks) (case='wrong-recheck-slot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/tests/test_instance_management_endpoint.py", line 45, in test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/business_endpoints.py", line 24, in validate_business_program
+    _require(program['schema'] in ('aegisdc-business-closure-evaluation-v1', 'aegisdc-business-instance-closure-evaluation-v1')
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Declare synthetic closure endpoint evaluation in SI seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/tests/test_instance_management_endpoint.py", line 53, in test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks
+    self.assertEqual(str(error), expected)
+AssertionError: 'Declare synthetic closure endpoint evaluation in SI seconds' != 'Business event must bind one declared public question/action/recheck rule'
+- Declare synthetic closure endpoint evaluation in SI seconds
++ Business event must bind one declared public question/action/recheck rule
+
+
+======================================================================
+FAIL: test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks (test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51/snapshot/tests/test_instance_management_endpoint.py", line 119, in test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks
+    self.assertTrue(all(row['passed'] for row in rows))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.145s
+
+FAILED (failures=2, errors=1)
