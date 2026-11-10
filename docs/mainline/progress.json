@@ -994,7 +994,7 @@
     "parent_question_id": "backup-support",
     "problem_id": "backup-ups-return-to-service-v1",
     "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
-    "status": "A2_REMOTE_GREEN_PASSED_REVIEW_AND_COMPATIBILITY_PENDING",
+    "status": "A2_BOUNDED_ENGINEERING_PASSED_AWAITING_USER_GUIDANCE",
     "document": "docs/mainline/39r-backup-support-question.md",
     "primary_sources": "docs/research/20261111-backup-support-sources.md",
     "unknown_inputs": [
@@ -1008,7 +1008,7 @@
     "new_research_runs": 0,
     "new_facility_captures": 4,
     "new_model_calls": 0,
-    "full_CI_rerun": false,
+    "full_CI_rerun": true,
     "website_deployed": false,
     "record57": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
@@ -1034,7 +1034,20 @@
     "engineering_interface_entries": 8,
     "completed_engineering_windows": 4,
     "completed_engineering_simulated_s": 24,
-    "routine_compatibility_ci": "PENDING_NEW_SOURCE_AFTER_CANCELLED_RETENTION_SUPERSEDED_RUN",
+    "routine_compatibility_ci": {
+      "run_id": 42869801491,
+      "url": "https://github.com/DonsonHH/AegisDC/actions/runs/42869801491",
+      "source_revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
+      "status": "completed",
+      "conclusion": "success",
+      "discovered": 652,
+      "executed": 650,
+      "failures": 0,
+      "errors": 0,
+      "existing_optional_torch_skips": 2,
+      "unexpected_skips": 0,
+      "scope": "ROUTINE_COMPATIBILITY_NOT_REGISTERED_RESEARCH_OR_PRIVATE_A2_ATTEMPT"
+    },
     "routine_ci_attempts": [
       {
         "run_id": 42869253754,
@@ -1043,6 +1056,20 @@
         "conclusion": "cancelled",
         "reason": "SUPERSEDED_BY_TEST_RETENTION_FIX;NOT_A_PASSED_CI",
         "original_record_preserved": true
+      },
+      {
+        "run_id": 42869801491,
+        "url": "https://github.com/DonsonHH/AegisDC/actions/runs/42869801491",
+        "source_revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
+        "status": "completed",
+        "conclusion": "success",
+        "discovered": 652,
+        "executed": 650,
+        "failures": 0,
+        "errors": 0,
+        "existing_optional_torch_skips": 2,
+        "unexpected_skips": 0,
+        "scope": "ROUTINE_COMPATIBILITY_NOT_REGISTERED_RESEARCH_OR_PRIVATE_A2_ATTEMPT"
       }
     ],
     "test_retention_revision": {
@@ -1050,7 +1077,22 @@
       "original_red_green_test_revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
       "original_native_result_unchanged": true,
       "behavior_assertions_and_inputs_unchanged": true,
-      "verification_route": "NEW_SOURCE_CI;NO_PRIVATE_RED_GREEN_RERUN"
+      "verification_route": "NEW_SOURCE_CI;NO_PRIVATE_RED_GREEN_RERUN",
+      "current_test_revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
+      "current_test_sha256": "54ed8d9f7926fdbec74dc1c1422238d132fa008524f76c5d7dd8b4d993b85f9b",
+      "standards_finding": "P2_CLOSED_BY_INDEPENDENT_STATIC_DELTA_REVIEW"
+    },
+    "engineering_accounting_scope": "39r-A2_PRIVATE_QUALIFICATION;SEPARATE_FROM_39c_CAPTURE_TOTAL_AND_ROUTINE_CI",
+    "review_axes": {
+      "Standards": {
+        "findings": 1,
+        "corrected": 1,
+        "open": 0
+      },
+      "Spec": {
+        "findings": 0,
+        "open": 0
+      }
     }
   }
 }

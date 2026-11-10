@@ -20,4 +20,4 @@
 
 用户2026-11-11复核后推荐A，当前仅定义backup-support下UPS检修后未恢复投入问题，四类输入／接口缺口及参数化计算契约见docs/mainline/39r-backup-support-question.md，一手依据见docs/research/20261111-backup-support-sources.md；0新试验、未改原覆盖／风险律，待用户下一步指导。
 
-A2原生UPS只读／恢复接口在同一测试红100d1fb2、绿d4432d5b一次通过，单一结果evidence/mainline/engineering/39r-ups-a2/result.json；8进入／4完成窗口24秒、0策略／模型／注册研究，授权拒绝及risk_closed=false保持，父风险仍UNMODELED，待审后按单步指导。
+A2原生UPS接口冻结v1红100d1fb2／绿d4432d5b一次通过，单一结果evidence/mainline/engineering/39r-ups-a2/result.json；8进入／4窗口24秒、0策略／模型／注册研究；v2仅修留存顺序，342e493f的CI42869801491为652／650通过、2既有可选跳过，旧CI42869253754取消保留；授权拒绝／risk_closed=false／父风险UNMODELED保持，待用户审查。

@@ -2,7 +2,7 @@
 
 **研究扩展已暂停，当前交付[方向纠正包](docs/reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
-本纠正包[云端CI](https://github.com/DonsonHH/AegisDC/actions/runs/42857263051)651发现／649执行通过，零失败／错误、2项既有可选Torch跳过；默认分支已切到本分支，当前等待用户审查。下文39c检查点保留原时点数据，新阅读版不继承旧验收。
+最新单步[A2 UPS原生只读／授权恢复接口](docs/mainline/39r-backup-support-question.md)已取得有限工程资格：[云端CI](https://github.com/DonsonHH/AegisDC/actions/runs/42869801491)652发现／650执行通过、零失败／错误、2项既有可选Torch跳过。原方向纠正包[CI651／649](https://github.com/DonsonHH/AegisDC/actions/runs/42857263051)保留；当前等待用户指导A1，不自动继续57或研究。下文39c检查点保留原时点数据，新阅读版不继承旧验收。
 
 [联合业务评价：实际数据、架构和离线报告](paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[此前完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
 
