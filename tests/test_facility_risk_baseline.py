@@ -1,6 +1,7 @@
 """One public baseline entry keeps eight domains, unknowns and time scopes explicit."""
 from copy import deepcopy
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -16,6 +17,8 @@ class FacilityRiskBaselineTests(unittest.TestCase):
         run=subprocess.run(command,cwd=ROOT,text=True,capture_output=True)
         self.assertEqual(run.returncode,0,run.stderr)
         result=json.loads(run.stdout)
+        if os.environ.get('AEGIS_BASELINE_RESULT_PATH'):
+            Path(os.environ['AEGIS_BASELINE_RESULT_PATH']).write_text(run.stdout,encoding='utf-8',newline='\n')
         self.assertEqual(result['schema'],'aegisdc-facility-risk-inspection-baseline-v1')
         self.assertEqual(len(result['domains']),8)
         self.assertEqual(result['coverage']['risk_modelled_primary_domains'],2)
@@ -40,7 +43,7 @@ class FacilityRiskBaselineTests(unittest.TestCase):
         self.assertFalse(result['field_calibrated'])
         baseline=json.loads((ROOT/'configs/facility-risk-baseline-v1.json').read_bytes())
         with tempfile.TemporaryDirectory() as folder:
-            invalid=deepcopy(baseline);invalid['domains'][2]['probability']=0
+            invalid=deepcopy(baseline);invalid['domains'][3]['probability']=0
             path=Path(folder)/'invalid.json';path.write_text(json.dumps(invalid),encoding='utf-8')
             rejected=subprocess.run(command+['--manifest',str(path)],cwd=ROOT,text=True,capture_output=True)
             self.assertNotEqual(rejected.returncode,0)
