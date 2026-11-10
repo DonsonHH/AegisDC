@@ -1,6 +1,10 @@
 # 业务评价开发：从状态确认到证据关闭
 
-**2026年11月10日最新：[实例审查阅读检查点](../../../../docs/mainline/39c-review-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-review-checkpoint-20261110.html)。** 24个证据／来源／授权条件通过，实际状态为1误报审查、1接受风险、1升级、17保持开放、4输入拒绝；三个历史处置与当前状态分开。全部原失败保留，整票39c尚未接受。
+**最新：[时序与删失检查点](../../../../docs/mainline/39c-temporal-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-temporal-checkpoint-20261110.html)。** 故障／服务采样节点lead为−0.75秒，计划截止余量1.75秒；四个边界通过，37首绿失败保留。累计44进入／23窗口86秒／104返回，成本、联合重放和整票门槛仍开放。
+
+![实际负提前量与删失状态](figures-08/temporal-checkpoint-40/temporal-leads-and-censoring.png)
+
+**2026年11月10日较早快照：[实例审查阅读检查点](../../../../docs/mainline/39c-review-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-review-checkpoint-20261110.html)。** 24个证据／来源／授权条件通过，实际状态为1误报审查、1接受风险、1升级、17保持开放、4输入拒绝；三个历史处置与当前状态分开。全部原失败保留，整票39c尚未接受。
 
 ![24条件实际数据](figures-07/review-checkpoint-36/review-qualification.png)
 
