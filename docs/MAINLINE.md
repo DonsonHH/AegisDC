@@ -46,7 +46,9 @@
 
 ## 当前起点与持续执行
 
-当前最新：[39c成本检查点](mainline/39c-cost-checkpoint-20261110.md)及[离线HTML](mainline/39c-cost-checkpoint-20261110.html)展示逐任务中止、未完成和共享队列实耗，成本／时序有限资格与独立复核通过。原审查缺陷和失败保留；累计70进入、35窗口101.25秒、126返回。下一步按[联合衔接](mainline/39c-combined-endpoints-next.md)完成原生公开审查v2、联合业务程序及版本化重放，再进入整票根／fresh。39d未启动，原180次及主要负结果不变。
+当前最新：[原生50资格](../evidence/mainline/engineering/39c-development/slice-50/README.md)已在同一实际6秒运行接通公开审查v2：旧q0自身链5.5秒关闭，新q1在5.75秒仅管理接受，无物理关闭／新增作业。49原绿在积分前因null公开profile失败并保留；50补合法到时流量profile，运行源码cf7未改。累计79进入／36窗口107.25秒／133返回；私有诊断兼容、管理端点、联合程序／重放与整票门槛仍开放。
+
+较早成本快照：[39c成本检查点](mainline/39c-cost-checkpoint-20261110.md)及[离线HTML](mainline/39c-cost-checkpoint-20261110.html)展示逐任务中止、未完成和共享队列实耗，成本／时序有限资格与独立复核通过。原审查缺陷和失败保留；累计70进入、35窗口101.25秒、126返回。下一步按[联合衔接](mainline/39c-combined-endpoints-next.md)完成原生公开审查v2、联合业务程序及版本化重放，再进入整票根／fresh。39d未启动，原180次及主要负结果不变。
 
 较早快照：[39c时序检查点](mainline/39c-temporal-checkpoint-20261110.md)保存实际负时间差、四个删失／未知边界及新图。37首绿失败和新38输入修订分开保留；有限Spec/Standards通过。累计44进入、23完成窗口86秒、104返回；原180次不变。剩余时序资格、成本、联合重放与整票根／fresh继续开放，39d未启动。
 
