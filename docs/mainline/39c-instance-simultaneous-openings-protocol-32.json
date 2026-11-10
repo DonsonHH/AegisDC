@@ -1,0 +1,60 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-simultaneous-instance-prefix-regression-32",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_REGRESSION_RED_GREEN_NOT_RESEARCH",
+  "finding": "39C-HISTORY-SLOTS-04",
+  "review_source": "evidence/mainline/engineering/39c-development/reviews-09/standards.md",
+  "question": "Do two first-opened simultaneous instances remain valid when an expired-authority review targets slot1 and historical projection needs the actual slot0 prefix?",
+  "fixed_seed": {
+    "path": "evidence/mainline/engineering/39c-development/slice-24/protocol24-green-frozen-public-call-input.json",
+    "git_blob": "ec96c653f9ffb3c43148dad1c1311f0e7cccf918",
+    "bytes": 80436,
+    "sha256": "b01d3795db56702bc829fb4f78f006db5a8c7042eeda5098a3dc4eeba70a6c64"
+  },
+  "test": {
+    "path": "tests/test_instance_review_simultaneous_openings.py",
+    "git_blob": "9d65f9e5863e60ef8a2e48de0bbfdac156c87693",
+    "sha256": "f3141cc81c297af532cfa6ff6131e2057915ed7adf5cb7d28cc3c7f7d8019ec0",
+    "test_names": ["test_instance_review_simultaneous_openings.InstanceReviewSimultaneousOpeningsTests.test_invalid_review_for_second_new_instance_does_not_break_slot_history"]
+  },
+  "expected": {
+    "as_of_s": 5.5,
+    "actual_slots_opened_at_s": [[0, 5.5], [1, 5.5]],
+    "statuses": ["OPEN_UNCONFIRMED", "OPEN_UNCONFIRMED"],
+    "historical_dispositions_question1": [],
+    "chosen_candidate": "cooling-direct/action-0",
+    "red_boundary": "Problem slots must preserve their opening order"
+  },
+  "budget": {"tests": 1, "direct_public_choice_calls": 1, "facility_entries": 0, "new_research_trials": 0, "GPU_use": false},
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_29.py",
+    "runner_sha256": "7f7a0bda4c9c903c5270d17702def2b446c4f5c755439d924139a82275fed8c4",
+    "support_files": ["evidence/mainline/engineering/39c-development/reviews-09/standards.md"],
+    "attempts": {
+      "red": {
+        "runtime_source": "b2171548d55de533a912d8bd63ddcda1483b61de",
+        "expected_red_text": "Problem slots must preserve their opening order",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/43-simultaneous-openings-red-v32"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/44-simultaneous-openings-green-v32",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/44-simultaneous-openings-green-v32"
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "runtime_change_scope": "After the red, instance_reviews.py may retain every actual instance already opened at the historical arrival clock, checking identity and preserving slot order. No schema, physical verification, authorization, dossier criterion, frozen seed or test changes.",
+  "failure_rule": "One invocation per phase. Preserve the full failed outputs and do not rerun originals. A correction requires a new protocol and unique namespace.",
+  "whole_39c_accepted": false
+}

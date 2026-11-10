@@ -1,0 +1,203 @@
+{
+  "schema": "aegisdc-public-engineering-qualification-v1",
+  "status": "GREEN_BEHAVIOR_PASSED",
+  "attempt": "42-false-alarm-review-green-v31",
+  "protocol": "docs/mainline/39c-instance-false-alarm-review-protocol-31.json",
+  "execution_source": "b2171548d55de533a912d8bd63ddcda1483b61de",
+  "control_source": "b2171548d55de533a912d8bd63ddcda1483b61de",
+  "tests": 1,
+  "public_choices": 1,
+  "failures": 0,
+  "errors": 0,
+  "facility_entries": 0,
+  "research_trials": 0,
+  "private_output": "/root/private_data/aegisdc-mainline-39c/42-false-alarm-review-green-v31",
+  "private_staging": "/root/private_data/aegisdc-mainline-39c/inputs/42-false-alarm-review-green-v31",
+  "snapshot_sha256": "be05ccd737666c34ba2b39134e60369f141daf1ce17aceda94f35515f6fe4f19",
+  "manifest_sha256": "c4c153b1e91c3efd136117eca1616453787538d19eb68926fe72c4e7eb16a1dc",
+  "receipt_zip_sha256": "d8c4bef26878d3c49cb58361e1c8ad8b4b7a23bf32ca12f9916c5296b044a83e",
+  "artifacts": {
+    "actual-public-choice.json": {
+      "bytes": 17374,
+      "sha256": "52142287e366f30f2f1d0381aa2ea86c24c058a3b5c18578589553c3777b14b1"
+    },
+    "attempt.json": {
+      "bytes": 851,
+      "sha256": "0cb26c91b8d650d6dc414ad45a2e6c8caf65e45334d2dcd9d28dd3997b7eb5bd"
+    },
+    "frozen-public-call-input.json": {
+      "bytes": 83902,
+      "sha256": "05c4bef0d3171f5761e7b4a1aebcda8fc7e5d00888da06eee3eb5f39a9cdeac7"
+    },
+    "terminal.json": {
+      "bytes": 10119,
+      "sha256": "8dee9d41e07a5632ff48cbb1577e17e67ffd07e6caccca466e35d4ef5d3b8284"
+    },
+    "test.log": {
+      "bytes": 315,
+      "sha256": "15a231666a5ff3b5e62bc9d96c2a739784b03b49ca04dce703a87089abfc9cbc"
+    }
+  },
+  "whole_39c_accepted": false,
+  "red_green_input_sha256": "05c4bef0d3171f5761e7b4a1aebcda8fc7e5d00888da06eee3eb5f39a9cdeac7",
+  "question_review": {
+    "as_of_s": 8,
+    "blocking_record_ids": [],
+    "checks": [],
+    "disposition_record_ids": [
+      "false-alarm-review-31"
+    ],
+    "opened_at_s": 5.5,
+    "own_recheck": {
+      "passed": false,
+      "record_id": null,
+      "supporting_record_ids": [],
+      "task_id": "cooling-direct/recheck-1"
+    },
+    "physical_restoration_claim": false,
+    "question_closed": true,
+    "question_id": "cooling-direct/question-1",
+    "recheck_task_id": "cooling-direct/recheck-1",
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": true,
+        "reason": "DECLARED_INSTANCE_REVIEW_CRITERIA_MET",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "risk_closed": false,
+    "rule_id": "cooling-instance-verification",
+    "scope": "OWN_INSTANCE_AUTHORIZED_MANAGEMENT_DISPOSITION_NOT_PHYSICAL_RESTORATION",
+    "status": "FALSE_ALARM_REVIEWED",
+    "supporting_record_ids": [
+      "flow-review-31-6",
+      "flow-review-31-7",
+      "service-review-31-6",
+      "service-review-31-7"
+    ],
+    "task_id": "cooling-direct/action-1",
+    "template_id": "cooling-direct",
+    "trace": [
+      {
+        "arrived_at_s": 6.25,
+        "event": "VERIFICATION_RECORD_AVAILABLE",
+        "observed_at_s": 6,
+        "provenance": {
+          "copied_from_record_id": null,
+          "origin_id": "flow-review-31-6"
+        },
+        "record_id": "flow-review-31-6",
+        "scope": "REVIEW_OR_CURRENT_CLOCK_CRITERIA",
+        "valid_until_s": 10
+      },
+      {
+        "arrived_at_s": 6.25,
+        "event": "VERIFICATION_RECORD_AVAILABLE",
+        "observed_at_s": 6,
+        "provenance": {
+          "copied_from_record_id": null,
+          "origin_id": "service-review-31-6"
+        },
+        "record_id": "service-review-31-6",
+        "scope": "REVIEW_OR_CURRENT_CLOCK_CRITERIA",
+        "valid_until_s": 10
+      },
+      {
+        "arrived_at_s": 7.25,
+        "event": "VERIFICATION_RECORD_AVAILABLE",
+        "observed_at_s": 7,
+        "provenance": {
+          "copied_from_record_id": null,
+          "origin_id": "flow-review-31-7"
+        },
+        "record_id": "flow-review-31-7",
+        "scope": "REVIEW_OR_CURRENT_CLOCK_CRITERIA",
+        "valid_until_s": 10
+      },
+      {
+        "arrived_at_s": 7.25,
+        "event": "VERIFICATION_RECORD_AVAILABLE",
+        "observed_at_s": 7,
+        "provenance": {
+          "copied_from_record_id": null,
+          "origin_id": "service-review-31-7"
+        },
+        "record_id": "service-review-31-7",
+        "scope": "REVIEW_OR_CURRENT_CLOCK_CRITERIA",
+        "valid_until_s": 10
+      },
+      {
+        "arrived_at_s": 7.75,
+        "authorization_id": "false-alarm-authority-31",
+        "disposition": "FALSE_ALARM",
+        "event": "AUTHORIZED_FALSE_ALARM_REVIEW_AVAILABLE",
+        "observed_at_s": 7.5,
+        "provenance": {
+          "copied_from_record_id": null,
+          "origin_id": "false-alarm-review-31"
+        },
+        "record_id": "false-alarm-review-31",
+        "valid_until_s": 10
+      }
+    ]
+  }
+}
