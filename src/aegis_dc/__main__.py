@@ -45,6 +45,9 @@ def main():
     evidence.add_argument('--as-of',type=float,required=True)
     evidence.add_argument('--output',type=Path,help='New directory for the public snapshot only')
     demo=sub.add_parser('risk-demo');demo.add_argument('--case',type=Path,default=ROOT/'configs/risk-method-demo.json');demo.add_argument('--output',type=Path)
+    baseline=sub.add_parser('risk-baseline',help='Review eight-domain risk/value coverage and time alignment;no dispatch')
+    baseline.add_argument('--manifest',type=Path,default=ROOT/'configs/facility-risk-baseline-v1.json')
+    baseline.add_argument('--output',type=Path)
     args=parser.parse_args()
     try:
         if args.command=='status':
@@ -54,6 +57,13 @@ def main():
                 progress=strict_json((ROOT/result['progress']).read_text(encoding='utf-8'))
                 result['mainline_progress']={key:progress[key] for key in ('status','goal','current_ticket','current_milestone','agent_stage','rsi_gain','research_trials')}
                 result['postmeeting_model_calls_scope']='agent/LLM research calls; engineering physics/property calculations are separate'
+        elif args.command=='risk-baseline':
+            from .risk_baseline import review_baseline
+            result=review_baseline(args.manifest)
+            if args.output:
+                args.output.mkdir(parents=True,exist_ok=False)
+                with (args.output/'result.json').open('x',encoding='utf-8',newline='\n') as stream:
+                    stream.write(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
         elif args.command=='foundation':
             model=load_model(args.model);result=describe(model);result['screened_asset']=args.asset
             result['candidate_exposed_services']=candidate_service_exposure(model,args.asset)
