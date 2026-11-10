@@ -67,3 +67,6 @@ The execution reconciliation records an important version boundary: the green ru
 
 
 Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnosticprofile3entries/0windows,allretained.50newinputonlycorrectionatfixedcf7passed3entries/1window6s/7returns:ownq0closes5.5,newq1RISK_ACCEPTED5.75riskfalse,noextrawork;producer_mismatchandoldv4publicv2refused.79entries/36windows107.25s/133returns. Private diagnosticv3/v5compatibility,managementprivateendpoints,combinedprogram,record/read/replayandfullroot/freshstillopen.
+
+
+51 private-instance v2 actual endpoint PASS at8131: red68 3entries/0windows preserved;green69 3entries/1window6s/7returns,0failerror skip. Complete public assessments and actual own action/recheck/report clocks retained;q0closes5.5,q1adminaccept5.75riskfalse,2slot/versionguardrefusals. Cumulative85/37/113.25s/140. See slice-51/README.md and reviews-18/private51.md. Management branches,diagnostic-v3/native-v5,composite,record/read/replay/fullroot/fresh remain open;all ticket boxes stay unchecked.
