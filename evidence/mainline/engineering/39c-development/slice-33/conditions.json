@@ -1,0 +1,1071 @@
+[
+  {
+    "case": "supported_review",
+    "expected_status": "FALSE_ALARM_REVIEWED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "FALSE_ALARM_REVIEWED",
+    "question_closed": true,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [
+      "false-alarm-review-31"
+    ],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": true,
+        "reason": "DECLARED_INSTANCE_REVIEW_CRITERIA_MET",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "missing_dossier",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [],
+        "original_record_id": null,
+        "passed": false,
+        "reason": "MISSING_OR_MISMATCHED_DOSSIER",
+        "review_at_s": 7.5,
+        "review_checks": [],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "wrong_original",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [],
+        "original_record_id": "cooling-claim-0",
+        "passed": false,
+        "reason": "MISSING_OR_MISMATCHED_DOSSIER",
+        "review_at_s": 7.5,
+        "review_checks": [],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "late_support",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "SUPPORT_NOT_AVAILABLE_AT_REVIEW",
+        "review_at_s": 7.5,
+        "review_checks": [],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "unknown_service",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [
+              "service-review-31-7"
+            ],
+            "passed": false,
+            "role": "service",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "service-review-31-6"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [
+              "service-review-31-7"
+            ],
+            "passed": false,
+            "role": "service",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "service-review-31-6"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "short_span",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0.5,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "service",
+            "span_s": 0.5,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0.5,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "service",
+            "span_s": 0.5,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "shared_origin",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "flow-review-31-6"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "flow-review-31-6"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "copied_support",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "flow-review-31-6"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 1,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": 0,
+            "supporting_record_ids": [
+              "flow-review-31-6"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "expired_support",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 1,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 0,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": false,
+            "role": "condition",
+            "span_s": null,
+            "supporting_record_ids": []
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [
+      {
+        "arrived_at_s": 7.75,
+        "authorization_id": "false-alarm-authority-31",
+        "disposition": "FALSE_ALARM",
+        "observed_at_s": 7.5,
+        "physical_restoration_claim_at_arrival": false,
+        "question_closed_at_arrival": true,
+        "record_id": "false-alarm-review-31",
+        "risk_closed_at_arrival": false,
+        "scope": "HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME",
+        "status_at_arrival": "FALSE_ALARM_REVIEWED"
+      }
+    ],
+    "chosen_candidate": null
+  },
+  {
+    "case": "review_counterevidence",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [
+              "adverse-flow-33"
+            ],
+            "passed": false,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "current_counterevidence",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 1,
+    "disposition_record_ids": [],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [
+              "adverse-flow-33"
+            ],
+            "passed": false,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": false,
+        "reason": "CRITERIA_INCOMPLETE_OR_CONTRADICTED",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [
+      {
+        "arrived_at_s": 7.75,
+        "authorization_id": "false-alarm-authority-31",
+        "disposition": "FALSE_ALARM",
+        "observed_at_s": 7.5,
+        "physical_restoration_claim_at_arrival": false,
+        "question_closed_at_arrival": true,
+        "record_id": "false-alarm-review-31",
+        "risk_closed_at_arrival": false,
+        "scope": "HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME",
+        "status_at_arrival": "FALSE_ALARM_REVIEWED"
+      }
+    ],
+    "chosen_candidate": null
+  },
+  {
+    "case": "expired_authority",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 1,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [
+      {
+        "arrived_at_s": 7.75,
+        "authorization_id": "false-alarm-authority-31",
+        "disposition": "FALSE_ALARM",
+        "observed_at_s": 7.5,
+        "physical_restoration_claim_at_arrival": false,
+        "question_closed_at_arrival": true,
+        "record_id": "false-alarm-review-31",
+        "risk_closed_at_arrival": false,
+        "scope": "HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME",
+        "status_at_arrival": "FALSE_ALARM_REVIEWED"
+      }
+    ],
+    "chosen_candidate": null
+  },
+  {
+    "case": "not_yet_authorized",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "copied_review",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "disputed_review",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "wrong_review_source",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "not_arrived_review",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "unknown_review",
+    "expected_status": "OPEN_UNCONFIRMED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [],
+    "review_evaluations": [],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "scope_mismatch",
+    "expected_status": null,
+    "expected_refusal": "Instance review source or question exceeds authority",
+    "passed": true,
+    "status": "INPUT_REFUSED",
+    "reason": "Instance review source or question exceeds authority",
+    "question_closed": null,
+    "historical_event_count": 0
+  },
+  {
+    "case": "reused_channel_record",
+    "expected_status": null,
+    "expected_refusal": "Instance review record bindings must be unique",
+    "passed": true,
+    "status": "INPUT_REFUSED",
+    "reason": "Instance review record bindings must be unique",
+    "question_closed": null,
+    "historical_event_count": 0
+  },
+  {
+    "case": "blank_rationale",
+    "expected_status": null,
+    "expected_refusal": "Instance dossier rationale must be nonempty text",
+    "passed": true,
+    "status": "INPUT_REFUSED",
+    "reason": "Instance dossier rationale must be nonempty text",
+    "question_closed": null,
+    "historical_event_count": 0
+  },
+  {
+    "case": "duplicate_support",
+    "expected_status": null,
+    "expected_refusal": "Duplicate Instance false-alarm support IDs",
+    "passed": true,
+    "status": "INPUT_REFUSED",
+    "reason": "Duplicate Instance false-alarm support IDs",
+    "question_closed": null,
+    "historical_event_count": 0
+  },
+  {
+    "case": "escalation_precedence",
+    "expected_status": "ESCALATED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "ESCALATED",
+    "question_closed": false,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [
+      "false-alarm-review-31",
+      "higher-priority-review-33"
+    ],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": true,
+        "reason": "DECLARED_INSTANCE_REVIEW_CRITERIA_MET",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  },
+  {
+    "case": "acceptance_precedence",
+    "expected_status": "RISK_ACCEPTED",
+    "expected_refusal": null,
+    "passed": true,
+    "status": "RISK_ACCEPTED",
+    "question_closed": true,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "historical_event_count": 0,
+    "disposition_record_ids": [
+      "false-alarm-review-31",
+      "higher-priority-review-33"
+    ],
+    "review_evaluations": [
+      {
+        "current_at_s": 8,
+        "current_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "original_record_id": "cooling-second-origin-20",
+        "passed": true,
+        "reason": "DECLARED_INSTANCE_REVIEW_CRITERIA_MET",
+        "review_at_s": 7.5,
+        "review_checks": [
+          {
+            "check_id": "flow-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "condition",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "flow-review-31-6",
+              "flow-review-31-7"
+            ]
+          },
+          {
+            "check_id": "service-restored",
+            "genuine_sample_count": 2,
+            "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION",
+            "insufficient_record_ids": [],
+            "passed": true,
+            "role": "service",
+            "span_s": 1,
+            "supporting_record_ids": [
+              "service-review-31-6",
+              "service-review-31-7"
+            ]
+          }
+        ],
+        "review_record_id": "false-alarm-review-31"
+      }
+    ],
+    "historical_dispositions": [],
+    "chosen_candidate": null
+  }
+]
