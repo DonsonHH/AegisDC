@@ -1,0 +1,60 @@
+{
+  "schema": "aegisdc-infrastructure-qualification-protocol-v1",
+  "id": "39c-failure-receipt-qualification-35",
+  "finding": "39C-RUNNER-ACCOUNTING-05",
+  "classification": "SYNTHETIC_COUNTER_FIXTURE_NO_PROJECT_EXECUTION",
+  "attempt": "47-failure-receipt-qualification-v35",
+  "runner_path": "evidence/mainline/engineering/39c-development/tools/qualify_failure_receipts_35.py",
+  "source_paths": [
+    "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_35.py"
+  ],
+  "source_sha256": {
+    "evidence/mainline/engineering/39c-development/tools/qualify_failure_receipts_35.py": "766241ded995187d47e126084f4d9363745ac5929e37003406211a3b941ae0ee",
+    "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_35.py": "272cc84b1fe905531fd67c8bdc79f67bfa47a2b2adea0f7eb7db39e603007752"
+  },
+  "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/47-failure-receipt-qualification-v35",
+  "maximum_invocations": 1,
+  "manifest": {
+    "hostname": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "output_root": "/root/private_data/aegisdc-mainline-39c/47-failure-receipt-qualification-v35",
+    "tested_runner": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_35.py"
+  },
+  "oracles": [
+    {
+      "case": "known-budget-violation",
+      "synthetic_reported_public": 2,
+      "synthetic_reported_facility": 3,
+      "synthetic_reported_returned": 5,
+      "receipt": "must preserve these exact values"
+    },
+    {
+      "case": "known-test-failure",
+      "reported_public": 1,
+      "reported_facility": 0,
+      "reported_returned": 0,
+      "failures": 1
+    },
+    {
+      "case": "unknown-before-result",
+      "reported_counts": null,
+      "receipt": "must explicitly remain unknown"
+    }
+  ],
+  "budget": {
+    "outer_tests": 3,
+    "nested_runner_invocations": 3,
+    "real_public_choices": 0,
+    "real_facility_calls": 0,
+    "new_research_trials": 0,
+    "gpu_used": false
+  },
+  "durable_delivery": [
+    "attempt.json",
+    "terminal.json",
+    "test.log",
+    "qualification.json",
+    "all three nested failed terminal receipts"
+  ],
+  "correction_scope": "New runner35 only. Keep original33 and every sealed original byte unchanged. Success33 remains valid. No AegisDC runtime is imported or executed by this qualification.",
+  "failure_rule": "One outer invocation. Preserve nested failed fixture receipts as intended outcomes. Any repair/retry requires a new numbered protocol and new output directory."
+}
