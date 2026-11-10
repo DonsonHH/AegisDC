@@ -1,0 +1,82 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-first-actual-cost-42",
+  "classification": "FROZEN_NATIVE_RED_GREEN_FIRST_COST_SLICE_NOT_RESEARCH",
+  "contract": "docs/mainline/39c-actual-cost-contract-42.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-actual-cost-42.json",
+    "git_blob": "bf679b6fa18c99c79c5fa8f5ee38cb16fc33da75",
+    "sha256": "276d96e7683fce742f3d8a657db8fca09c7deb8941f8195de92c58c71f9ba1ca"
+  },
+  "test": {
+    "path": "tests/test_business_actual_cost.py",
+    "git_blob": "f51390a16d0bab1dac3701bb43a68d892f8fb827",
+    "sha256": "1fa053f39686cce185d0dc06016d1b713bfc6b8b243a21ffcb5a6739dd4dcf8e",
+    "test_names": [
+      "test_business_actual_cost.BusinessActualCostTests.test_actual_occupation_admission_fees_and_computation_keep_distinct_units"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 1,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 3
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-actual-cost-contract-42.md",
+      "configs/materials/reference-r134a-saturation.json"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "111bff7557dd1cac0b64cf2da4aaf85ff61c516c",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/55-actual-cost-red-v42",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/55-actual-cost-red-v42",
+        "expected_returned_decisions": 0,
+        "expected_completed_horizons": 0,
+        "expected_completed_duration_s": 0,
+        "expected_red_text": "Business closure evaluation program fields do not match the closed contract"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/56-actual-cost-green-v42",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/56-actual-cost-green-v42",
+        "expected_returned_decisions": 3,
+        "expected_completed_horizons": 1,
+        "expected_completed_duration_s": 2
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "work_person_s": 1,
+    "travel_person_s": 0,
+    "wait_person_s": 0.25,
+    "access_subset_person_s": 0.25,
+    "exclusive_person_s": 1.25,
+    "tool_occupation_s": 1.25,
+    "tool_work_s": 1,
+    "admission_person_s": 10,
+    "admission_tool_s": 10,
+    "issue_fee": 1,
+    "selector_invocations": 3,
+    "condition_invocations": 3
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One invocation per frozen phase;red terminal precedes implementation. All failures retained;further input/runtime revisions need new protocol/output. Per-task failure attribution remains a later slice.",
+  "whole_39c_accepted": false
+}

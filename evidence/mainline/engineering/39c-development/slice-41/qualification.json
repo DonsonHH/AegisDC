@@ -1,0 +1,106 @@
+[
+  {
+    "case": "duplicate-sample",
+    "passed": true,
+    "actual_error": "Temporal samples must increase from event opening through the actual horizon",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "missing-horizon",
+    "passed": true,
+    "actual_error": "Temporal samples must increase from event opening through the actual horizon",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "missing-opening",
+    "passed": true,
+    "actual_error": "Temporal samples must increase from event opening through the actual horizon",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "undeclared-sample",
+    "passed": true,
+    "actual_error": "Temporal samples need exact declared run instants",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "boolean-sample",
+    "passed": true,
+    "actual_error": "Temporal sample must be a finite numeric value, not boolean or missing",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "unmodeled-cutoff-number",
+    "passed": true,
+    "actual_error": "Unmodeled intervention deadline must remain null",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "cutoff-before-opening",
+    "passed": true,
+    "actual_error": "Planned deadline precedes this event",
+    "completed_horizons": 0,
+    "returned_decisions": 0
+  },
+  {
+    "case": "confirmed-service-reference-right-censored",
+    "passed": true,
+    "actual": {
+      "first_public_confirmation_at_s": 1.75,
+      "confirmation_status": "OBSERVED",
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "fault_reference": {
+        "sample_at_s": 0,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": false,
+        "left_censored": true,
+        "censor_at_s": 0,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "PRESENT_AT_FIRST_SAMPLE",
+        "lead_unavailable_reason": "ONSET_NOT_OBSERVED"
+      },
+      "service_loss_reference": {
+        "sample_at_s": null,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": true,
+        "left_censored": false,
+        "censor_at_s": 2,
+        "lead_lower_bound_if_later_event_s": 0.25,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "lead_unavailable_reason": "REFERENCE_RIGHT_CENSORED",
+        "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+      },
+      "intervention_deadline_reference": {
+        "status": "DECLARED_PLANNED_DEADLINE",
+        "at_s": 3.5,
+        "source_note": "A prospective synthetic planning cutoff, distinct from2sconfirmation cutoff; no inferred optimal rescue deadline.",
+        "lead_s": 1.75,
+        "lead_unavailable_reason": null,
+        "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+      },
+      "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+    },
+    "completed_horizons": 1,
+    "returned_decisions": 3
+  }
+]
