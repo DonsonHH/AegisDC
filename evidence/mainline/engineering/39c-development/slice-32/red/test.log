@@ -1,0 +1,43 @@
+test_invalid_review_for_second_new_instance_does_not_break_slot_history (test_instance_review_simultaneous_openings.InstanceReviewSimultaneousOpeningsTests.test_invalid_review_for_second_new_instance_does_not_break_slot_history) ... ERROR
+
+======================================================================
+ERROR: test_invalid_review_for_second_new_instance_does_not_break_slot_history (test_instance_review_simultaneous_openings.InstanceReviewSimultaneousOpeningsTests.test_invalid_review_for_second_new_instance_does_not_break_slot_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/tests/test_instance_review_simultaneous_openings.py", line 41, in test_invalid_review_for_second_new_instance_does_not_break_slot_history
+    choice = choose_work(frame, policy, history,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/dispatch_policy.py", line 62, in choose_work
+    return choose_problem_action(frame,program,history,closure_program=closure_program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_actions.py", line 210, in choose_problem_action
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_actions.py", line 133, in compile_problem_actions
+    lifecycle = assess_instance_closure(frame, program, history, closure_program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_closure.py", line 97, in assess_instance_closure
+    return _assess_instance_closure(frame, policy, history, program, project_prior_lifecycle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_closure.py", line 187, in _assess_instance_closure
+    return apply_instance_reviews(frame, policy, history, program, assessment,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/instance_reviews.py", line 161, in apply_instance_reviews
+    historical = _prior_lifecycle(frame, policy, history, program,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/instance_reviews.py", line 90, in _prior_lifecycle
+    prior = _assess_instance_closure(prior_frame, policy, prior_history, prior_program,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_closure.py", line 108, in _assess_instance_closure
+    _, instances, _, _ = open_questions(frame, policy, history)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/problem_tasks.py", line 165, in open_questions
+    _require(slots == list(range(len(slots))), 'Problem slots must preserve their opening order')
+  File "/root/private_data/aegisdc-mainline-39c/43-simultaneous-openings-red-v32/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Problem slots must preserve their opening order
+
+----------------------------------------------------------------------
+Ran 1 test in 0.707s
+
+FAILED (errors=1)
