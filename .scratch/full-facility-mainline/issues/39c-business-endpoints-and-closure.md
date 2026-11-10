@@ -79,3 +79,6 @@ Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnost
 
 
 53jointactualdiag3/instance2/cost2 PASSat316fc3cc:4redentries0window retained,4greenentries1window6s8returns,0failerror skip. Normalized whole-input binding,initial fixed confirmation0.5,ownclose5.5,newq1admin5.75,actual4.5person/tool fee2. Source59/12green members verified. Spec P3density1000 narrative vsactual998 corrected separateaddendum,originals unchanged,no calls;findingclosed,Standards0. Cumulative97/42/145.25s/180returns,direct38,original180researchunchanged. Next54nonempty normalized boundary/crew/rendezvous/nohuman/servicejoint negatives,thenrecord/read/replay/fullrootfresh.
+
+
+54original73 FAILED2asserts(all3windows19s27returns complete) retained;nohuman/service originalsubcasespassed. SpecP2omitted per-edgegate;55saved-onlyactualqualification at7dee verifies12private run/trace/balance files,rawns copies/aggregates,bindings and corrected10.25person/5.75tool/firstclose7;P2closedfinite,no native rerun.56layout/gray actualviewed;parentHTMLURIcolon issue retained and onlyderivative reading page corrected,UI01failure retained/UI02mobile390,desktop1440,zoom/focus passed. Latest docs/mainline/39c-joint-checkpoint-20261110.md;100/45/164.25s/207,direct38,original180unchanged. Record/read/exactreplay thenfull0skiproot/fresh stillopen;39c claimed.
