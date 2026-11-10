@@ -1,0 +1,36 @@
+test_instance_dossier_closes_management_only_with_support_at_both_clocks (test_instance_false_alarm_review.InstanceFalseAlarmReviewTests.test_instance_dossier_closes_management_only_with_support_at_both_clocks) ... ERROR
+
+======================================================================
+ERROR: test_instance_dossier_closes_management_only_with_support_at_both_clocks (test_instance_false_alarm_review.InstanceFalseAlarmReviewTests.test_instance_dossier_closes_management_only_with_support_at_both_clocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/tests/test_instance_false_alarm_review.py", line 88, in test_instance_dossier_closes_management_only_with_support_at_both_clocks
+    choice = choose_work(data['frame'], data['program'], data['history'],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/dispatch_policy.py", line 62, in choose_work
+    return choose_problem_action(frame,program,history,closure_program=closure_program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/problem_actions.py", line 210, in choose_problem_action
+    prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/problem_actions.py", line 133, in compile_problem_actions
+    lifecycle = assess_instance_closure(frame, program, history, closure_program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/problem_closure.py", line 97, in assess_instance_closure
+    return _assess_instance_closure(frame, policy, history, program, project_prior_lifecycle=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/problem_closure.py", line 105, in _assess_instance_closure
+    rules = validate_instance_closure(frame, policy, program)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/problem_closure.py", line 91, in validate_instance_closure
+    validate_instance_review_declarations(frame, profile)
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/instance_reviews.py", line 26, in validate_instance_review_declarations
+    _require(grant['basis'] == 'synthetic_assumption'
+  File "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Unknown or non-synthetic instance review authority
+
+----------------------------------------------------------------------
+Ran 1 test in 0.418s
+
+FAILED (errors=1)

@@ -5,9 +5,11 @@ from .evidence_ledger import _fields, _finite, _registry, _require, _strings, _t
 
 AUTHORIZATION_FIELDS = {'id', 'source_id', 'question_ids', 'dispositions', 'starts_at_s', 'expires_at_s', 'basis', 'source_note'}
 CHANNEL_FIELDS = {'id', 'question_id', 'source_id', 'target_id', 'observable_id', 'authorization_id', 'record_id'}
-REVIEW_STATUS = {'ACCEPT_RISK': 'RISK_ACCEPTED', 'ESCALATE': 'ESCALATED'}
-REVIEW_EVENT = {'ACCEPT_RISK': 'AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE',
-                'ESCALATE': 'AUTHORIZED_ESCALATION_AVAILABLE'}
+DISPOSITIONS = {
+    'FALSE_ALARM': dict(status='FALSE_ALARM_REVIEWED', event='AUTHORIZED_FALSE_ALARM_REVIEW_AVAILABLE', priority=0),
+    'ACCEPT_RISK': dict(status='RISK_ACCEPTED', event='AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE', priority=1),
+    'ESCALATE': dict(status='ESCALATED', event='AUTHORIZED_ESCALATION_AVAILABLE', priority=2),
+}
 
 
 def validate_instance_review_declarations(frame, profile):
@@ -24,7 +26,7 @@ def validate_instance_review_declarations(frame, profile):
         _strings(grant['question_ids'], 'Instance review question IDs')
         _strings(grant['dispositions'], 'Instance review dispositions')
         _require(grant['basis'] == 'synthetic_assumption'
-                 and set(grant['dispositions']) <= REVIEW_STATUS.keys(),
+                 and set(grant['dispositions']) <= DISPOSITIONS.keys(),
                  'Unknown or non-synthetic instance review authority')
         _finite(grant['starts_at_s'], 'Instance review authority start')
         _finite(grant['expires_at_s'], 'Instance review authority expiry')
@@ -52,9 +54,8 @@ def validate_instance_review_declarations(frame, profile):
                  and observable['value_type'] == 'text',
                  'Instance review channel exceeds categorical source coverage')
 
-    _require(type(profile['false_alarm_reviews']) is list and not profile['false_alarm_reviews'],
-             'False-alarm dossiers are outside the current management disposition scope')
-    return authorizations, channels
+    from .instance_false_alarm import validate_dossiers
+    return authorizations, channels, validate_dossiers(profile, channels, authorizations)
 
 
 def _history_at(history, as_of_s):
@@ -96,10 +97,11 @@ def _prior_lifecycle(frame, policy, history, program, instance, record):
 def apply_instance_reviews(frame, policy, history, program, assessment, *, project_prior_lifecycle=True):
     """Return a detached current assessment with authorized past dispositions retained."""
     profile = program['profile']
-    authorizations, channels = validate_instance_review_declarations(frame, profile)
+    authorizations, channels, dossiers = validate_instance_review_declarations(frame, profile)
     from .problem_tasks import open_questions
     _, instances, _, _ = open_questions(frame, policy, history)
     instance_by_id = {row['id']: row for row in instances}
+    rules = {row['template_id']: row for row in profile['rules']}
     questions = {row['question_id']: row for row in assessment['questions']}
     records = {row['id']: row for row in frame['evidence']['records']}
     current_ids = set(frame['evidence']['current_record_ids'])
@@ -126,12 +128,40 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
                  and record['arrived_at_s'] <= frame['as_of_s']
                  and grant['starts_at_s'] <= record['observed_at_s'] < grant['expires_at_s']
                  and grant['starts_at_s'] <= frame['as_of_s'] < grant['expires_at_s'])
+        if valid and record['value'] == 'FALSE_ALARM':
+            from .instance_false_alarm import evaluate_review
+            instance = instance_by_id[channel['question_id']]
+            evaluation = evaluate_review(frame, instance, rules[instance['template_id']],
+                                         record, dossiers.get(record['id']))
+            question.setdefault('review_evaluations', []).append(evaluation)
+            reviewed_ids = set()
+            for check in evaluation['review_checks'] + evaluation['current_checks']:
+                question['blocking_record_ids'] = sorted(
+                    set(question['blocking_record_ids']) | set(check['insufficient_record_ids']))
+                reviewed_ids.update(check['supporting_record_ids'])
+                reviewed_ids.update(check['insufficient_record_ids'])
+            existing = {(row.get('record_id'), row['event']) for row in question['trace']}
+            for evidence in frame['evidence']['records']:
+                if evidence['id'] not in reviewed_ids:
+                    continue
+                event = ('VERIFICATION_RECORD_BLOCKED' if evidence['id'] in question['blocking_record_ids']
+                         else 'VERIFICATION_RECORD_AVAILABLE')
+                if (evidence['id'], event) not in existing:
+                    question['trace'].append(dict(
+                        event=event, record_id=evidence['id'], observed_at_s=evidence['observed_at_s'],
+                        arrived_at_s=evidence['arrived_at_s'], valid_until_s=evidence['valid_until_s'],
+                        scope='REVIEW_OR_CURRENT_CLOCK_CRITERIA', provenance=deepcopy(evidence['provenance'])))
+            valid = evaluation['passed']
+            if valid:
+                support = {identifier for check in evaluation['review_checks'] + evaluation['current_checks']
+                           for identifier in check['supporting_record_ids']}
+                question['supporting_record_ids'] = sorted(set(question['supporting_record_ids']) | support)
         if not valid:
             if project_prior_lifecycle and record['arrived_at_s'] <= frame['as_of_s']:
                 historical = _prior_lifecycle(frame, policy, history, program,
                                               instance_by_id[channel['question_id']], record)
                 if (historical is not None
-                        and historical['status'] == REVIEW_STATUS.get(record['value'])
+                        and historical['status'] == DISPOSITIONS.get(record['value'], {}).get('status')
                         and record['id'] in historical['disposition_record_ids']):
                     question.setdefault('historical_dispositions', []).append(dict(
                         record_id=record['id'], disposition=record['value'],
@@ -150,14 +180,14 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
 
     for question_id, reviews in current_reviews.items():
         question = questions[question_id]
-        status = ('ESCALATED' if any(record['value'] == 'ESCALATE' for record, _ in reviews)
-                  else 'RISK_ACCEPTED')
-        question.update(status=status, question_closed=status == 'RISK_ACCEPTED', risk_closed=False,
+        selected = max(reviews, key=lambda row: DISPOSITIONS[row[0]['value']]['priority'])[0]
+        status = DISPOSITIONS[selected['value']]['status']
+        question.update(status=status, question_closed=status in {'RISK_ACCEPTED', 'FALSE_ALARM_REVIEWED'}, risk_closed=False,
                         physical_restoration_claim=False,
                         disposition_record_ids=sorted(record['id'] for record, _ in reviews),
                         scope='OWN_INSTANCE_AUTHORIZED_MANAGEMENT_DISPOSITION_NOT_PHYSICAL_RESTORATION')
         for record, grant in reviews:
-            question['trace'].append(dict(event=REVIEW_EVENT[record['value']], record_id=record['id'],
+            question['trace'].append(dict(event=DISPOSITIONS[record['value']]['event'], record_id=record['id'],
                 disposition=record['value'], observed_at_s=record['observed_at_s'],
                 arrived_at_s=record['arrived_at_s'], valid_until_s=record['valid_until_s'],
                 authorization_id=grant['id'], provenance=deepcopy(record['provenance'])))
