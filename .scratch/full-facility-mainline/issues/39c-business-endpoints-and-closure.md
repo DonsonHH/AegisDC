@@ -76,3 +76,6 @@ Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnost
 
 
 51/52 actual publicationCI42814484451 at6b0c2740 SUCCESS:648found/646executed/0failerror/2existingoptionalTorch,20historical originals and allCLI steps pass;receipt docs/mainline/evidence/39c-management-checkpoint-ci-20261110/. Regression replays are separate from89/41/139.25s/172 capture ledger and original180. Whole39c remains claimed with all root/fresh/joint/replay gates open.
+
+
+53jointactualdiag3/instance2/cost2 PASSat316fc3cc:4redentries0window retained,4greenentries1window6s8returns,0failerror skip. Normalized whole-input binding,initial fixed confirmation0.5,ownclose5.5,newq1admin5.75,actual4.5person/tool fee2. Source59/12green members verified. Spec P3density1000 narrative vsactual998 corrected separateaddendum,originals unchanged,no calls;findingclosed,Standards0. Cumulative97/42/145.25s/180returns,direct38,original180researchunchanged. Next54nonempty normalized boundary/crew/rendezvous/nohuman/servicejoint negatives,thenrecord/read/replay/fullrootfresh.
