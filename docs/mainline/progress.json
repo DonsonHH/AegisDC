@@ -945,7 +945,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "DEFINITION_ONLY_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem_status": "A2_NATIVE_INTERFACE_QUALIFIED_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -994,28 +994,27 @@
     "parent_question_id": "backup-support",
     "problem_id": "backup-ups-return-to-service-v1",
     "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
-    "status": "FROZEN_TEST_BEFORE_NATIVE_IMPLEMENTATION",
+    "status": "A2_REMOTE_GREEN_PASSED_REVIEW_AND_COMPATIBILITY_PENDING",
     "document": "docs/mainline/39r-backup-support-question.md",
     "primary_sources": "docs/research/20261111-backup-support-sources.md",
     "unknown_inputs": [
       "conditional_prior",
       "observation_likelihood_and_validity",
-      "native_UPS_status_binding",
-      "authorized_UPS_restoration_effect_and_executor",
+      "functional_and_service_verification",
       "matched_time_basis"
     ],
     "calculation_ready": false,
-    "native_implementation_changed": false,
+    "native_implementation_changed": true,
     "new_research_runs": 0,
-    "new_facility_captures": 0,
+    "new_facility_captures": 4,
     "new_model_calls": 0,
     "full_CI_rerun": false,
     "website_deployed": false,
     "record57": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
-      "single_risk_problem",
-      "time_basis_for_this_problem",
-      "remaining_39c"
+      "A2_native_interface_review",
+      "A1_observation_and_time_basis",
+      "remaining_39c_after_39r_39t_review"
     ],
     "automatic_continuation": false,
     "engineering_budget": {
@@ -1028,6 +1027,13 @@
       "new_registered_research_runs": 0
     },
     "validation_tool": "scripts/ups_interface_validation.py",
-    "validation_test": "tests/test_ups_return_to_service.py"
+    "validation_test": "tests/test_ups_return_to_service.py",
+    "validation_result": "evidence/mainline/engineering/39r-ups-a2/result.json",
+    "qualified_source_revision": "d4432d5b9fe1bcfcd88eaa6e349f0cf68e094cef",
+    "red_source_revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
+    "engineering_interface_entries": 8,
+    "completed_engineering_windows": 4,
+    "completed_engineering_simulated_s": 24,
+    "routine_compatibility_ci": "PENDING_ONE_FULL_RUN;NOT_RESEARCH_OR_A2_ATTEMPT_REPLAY"
   }
 }

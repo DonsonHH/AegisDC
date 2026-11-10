@@ -1,0 +1,309 @@
+{
+  "schema": "aegisdc-ups-native-interface-engineering-v1",
+  "classification": "ENGINEERING_QUALIFICATION_NOT_SCIENTIFIC_GAIN",
+  "status": "PASSED_BOUNDED_A2_INTERFACE",
+  "red": {
+    "status": "EXPECTED_RED_MISSING_UPS_SIGNAL",
+    "phase": "red",
+    "source_commit": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
+    "node": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+    "started_utc": "2026-11-10T17:42:42.149859+00:00",
+    "manifest_sha256": "1a2227e6443a76a07aaf9a57d25003b17976bd575a8d9c29edf3cf45f90d45b3",
+    "snapshot_sha256": "67fa0bd8f222fcb8b9a544bd805695bec171c7a792717a4addbff42d46cdeb3a",
+    "runner_sha256": "bc0c2ffbd0afee7283a72a0b1e6d6ffd3494e041b0a8f16108304962156503f0",
+    "source_materialization": "Fresh declared Git blobs;Git metadata omitted;runtime source maps checked against execution commit blobs",
+    "cpu_max": "50000 100000",
+    "memory_max": "4294967296",
+    "new_registered_research_runs": 0,
+    "new_neural_or_llm_calls": 0,
+    "tests_selected": 1,
+    "command": [
+      "/opt/conda/bin/python",
+      "-m",
+      "unittest",
+      "test_ups_return_to_service.UPSReturnToServiceTests.test_native_read_restore_authority_and_verification_boundary",
+      "-v"
+    ],
+    "test_exit_code": 1,
+    "test_log_sha256": "a068dc5a8cb490d901221147a8b1e06ea2c93a06072ca9236a9631257a0ba6ed",
+    "metrics": {
+      "facility_entries": 1,
+      "completed_windows": 0,
+      "completed_simulated_s": 0,
+      "cases": [
+        {
+          "case": "authorized",
+          "status": "ENTERED"
+        }
+      ],
+      "public_choice_calls": 0,
+      "returned_decisions": 0,
+      "new_model_calls": 0,
+      "new_research_runs": 0
+    },
+    "source_guard": "PASS_BEFORE_AND_AFTER",
+    "finished_utc": "2026-11-10T17:42:43.188215+00:00"
+  },
+  "green": {
+    "status": "GREEN_UPS_NATIVE_INTERFACE_PASSED",
+    "phase": "green",
+    "source_commit": "d4432d5b9fe1bcfcd88eaa6e349f0cf68e094cef",
+    "node": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+    "started_utc": "2026-11-10T17:44:33.243507+00:00",
+    "manifest_sha256": "c45827d2b8191dcf15ffc68765456644ae55f96bd865fbcc030fc191976dbd40",
+    "snapshot_sha256": "d9530cf9d9d48b28846f9304b4e393ba1788d9167c74af97313cdf0b6b87e3e2",
+    "runner_sha256": "bc0c2ffbd0afee7283a72a0b1e6d6ffd3494e041b0a8f16108304962156503f0",
+    "source_materialization": "Fresh declared Git blobs;Git metadata omitted;runtime source maps checked against execution commit blobs",
+    "cpu_max": "50000 100000",
+    "memory_max": "4294967296",
+    "new_registered_research_runs": 0,
+    "new_neural_or_llm_calls": 0,
+    "tests_selected": 1,
+    "command": [
+      "/opt/conda/bin/python",
+      "-m",
+      "unittest",
+      "test_ups_return_to_service.UPSReturnToServiceTests.test_native_read_restore_authority_and_verification_boundary",
+      "-v"
+    ],
+    "test_exit_code": 0,
+    "test_log_sha256": "fc6d1f314db1a8788571e657507b8b8d5dda81f34dfdfbf7d51ef773199b0a1b",
+    "metrics": {
+      "facility_entries": 7,
+      "completed_windows": 4,
+      "completed_simulated_s": 24,
+      "cases": [
+        {
+          "case": "authorized",
+          "status": "COMPLETED",
+          "window_s": 6,
+          "work": [
+            {
+              "id": "read-before",
+              "status": "completed"
+            },
+            {
+              "id": "restore-ups",
+              "status": "completed"
+            },
+            {
+              "id": "read-after",
+              "status": "completed"
+            }
+          ],
+          "readings": [
+            {
+              "value": 0,
+              "observed_at_s": 1.25,
+              "arrived_at_s": 1.75
+            },
+            {
+              "value": 1,
+              "observed_at_s": 5.25,
+              "arrived_at_s": 5.75
+            }
+          ],
+          "actions": [
+            {
+              "task_id": "restore-ups",
+              "operation_id": "UPS-return",
+              "source_id": "intervention-execution-report",
+              "observed_at_s": 3.25,
+              "arrived_at_s": 3.75,
+              "outcome": "APPLIED",
+              "reason": null,
+              "origin_id": "intervention:restore-ups",
+              "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+              "risk_closed": false
+            }
+          ]
+        },
+        {
+          "case": "not-yet-authorized",
+          "status": "COMPLETED",
+          "window_s": 6,
+          "work": [
+            {
+              "id": "read-before",
+              "status": "completed"
+            },
+            {
+              "id": "restore-ups",
+              "status": "completed"
+            },
+            {
+              "id": "read-after",
+              "status": "completed"
+            }
+          ],
+          "readings": [
+            {
+              "value": 0,
+              "observed_at_s": 1.25,
+              "arrived_at_s": 1.75
+            },
+            {
+              "value": 0,
+              "observed_at_s": 5.25,
+              "arrived_at_s": 5.75
+            }
+          ],
+          "actions": [
+            {
+              "task_id": "restore-ups",
+              "operation_id": "UPS-return",
+              "source_id": "intervention-execution-report",
+              "observed_at_s": 3.25,
+              "arrived_at_s": 3.75,
+              "outcome": "NO_EFFECT",
+              "reason": "public_proposal_not_eligible",
+              "origin_id": "intervention:restore-ups",
+              "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+              "risk_closed": false
+            }
+          ]
+        },
+        {
+          "case": "expired-at-completion",
+          "status": "COMPLETED",
+          "window_s": 6,
+          "work": [
+            {
+              "id": "read-before",
+              "status": "completed"
+            },
+            {
+              "id": "restore-ups",
+              "status": "completed"
+            },
+            {
+              "id": "read-after",
+              "status": "completed"
+            }
+          ],
+          "readings": [
+            {
+              "value": 0,
+              "observed_at_s": 1.25,
+              "arrived_at_s": 1.75
+            },
+            {
+              "value": 0,
+              "observed_at_s": 5.25,
+              "arrived_at_s": 5.75
+            }
+          ],
+          "actions": [
+            {
+              "task_id": "restore-ups",
+              "operation_id": "UPS-return",
+              "source_id": "intervention-execution-report",
+              "observed_at_s": 3.25,
+              "arrived_at_s": 3.75,
+              "outcome": "NO_EFFECT",
+              "reason": "authorization_unavailable_at_completion",
+              "origin_id": "intervention:restore-ups",
+              "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+              "risk_closed": false
+            }
+          ]
+        },
+        {
+          "case": "too-short",
+          "status": "COMPLETED",
+          "window_s": 6,
+          "work": [
+            {
+              "id": "read-before",
+              "status": "completed"
+            },
+            {
+              "id": "restore-ups",
+              "status": "completed"
+            },
+            {
+              "id": "read-after",
+              "status": "completed"
+            }
+          ],
+          "readings": [
+            {
+              "value": 0,
+              "observed_at_s": 1.25,
+              "arrived_at_s": 1.75
+            },
+            {
+              "value": 0,
+              "observed_at_s": 5.25,
+              "arrived_at_s": 5.75
+            }
+          ],
+          "actions": [
+            {
+              "task_id": "restore-ups",
+              "operation_id": "UPS-return",
+              "source_id": "intervention-execution-report",
+              "observed_at_s": 3.25,
+              "arrived_at_s": 3.75,
+              "outcome": "NO_EFFECT",
+              "reason": "public_proposal_not_eligible",
+              "origin_id": "intervention:restore-ups",
+              "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+              "risk_closed": false
+            }
+          ]
+        },
+        {
+          "case": "invalid-state-0.5",
+          "status": "EXPECTED_INVALID_PHYSICAL_INPUT_REJECTED"
+        },
+        {
+          "case": "invalid-state-True",
+          "status": "EXPECTED_INVALID_PHYSICAL_INPUT_REJECTED"
+        },
+        {
+          "case": "invalid-state-2",
+          "status": "EXPECTED_INVALID_PHYSICAL_INPUT_REJECTED"
+        }
+      ],
+      "public_choice_calls": 0,
+      "returned_decisions": 0,
+      "new_model_calls": 0,
+      "new_research_runs": 0
+    },
+    "source_guard": "PASS_BEFORE_AND_AFTER",
+    "runtime_source_identity": "PASS_FOR_ALL_COMPLETED_WINDOWS",
+    "finished_utc": "2026-11-10T17:45:29.980621+00:00"
+  },
+  "unchanged_test": {
+    "bytes": 10562,
+    "sha256": "98a754f2fdd4db1c1c08caf7dce3a3ac93bd89c046ad4286abbece591a6eddd6",
+    "git_blob": "8a5e96f6ea4f4e6ba5923cc2923705dca21cf78a"
+  },
+  "new_registered_research_runs": 0,
+  "new_model_calls": 0,
+  "accounting": {
+    "attempts": 2,
+    "expected_red": 1,
+    "green": 1,
+    "facility_entries": 8,
+    "completed_windows": 4,
+    "completed_simulated_s": 24,
+    "public_choice_calls": 0,
+    "returned_decisions": 0
+  },
+  "private_originals": "/root/private_data/aegisdc-ups-a2-20261111-01",
+  "complete_facility_risk_coverage": "UNCHANGED_2_MODELLED_6_UNMODELED",
+  "inspection_value_coverage": "UNCHANGED_1_MODELLED_7_UNMODELED",
+  "time_basis": "ENGINEERING_FIXTURE_ONLY_NOT_FIELD_QUALIFICATION",
+  "verification_scope": "UPS_GATE_ONLY;FUNCTION_AND_SERVICE_CLOSURE_NOT_ACCEPTED",
+  "manifest_files": {
+    "red/result.json": "3ccdb30c5b61bf7b38988d84756ecb6ae8f3036459dda4bb79269a0d20483391",
+    "green/result.json": "554ee79eb65fe92fafc016625997c2af5d99a31185e3bee89240bd1d0b9408a1",
+    "incoming-red/manifest.json": "1a2227e6443a76a07aaf9a57d25003b17976bd575a8d9c29edf3cf45f90d45b3",
+    "incoming-green/manifest.json": "c45827d2b8191dcf15ffc68765456644ae55f96bd865fbcc030fc191976dbd40"
+  },
+  "setup_issue": "One SSH inspection command failed quoting before any project execution;interactive SSH then verified identity;no test rerun."
+}
