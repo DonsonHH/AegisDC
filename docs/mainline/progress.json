@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "20261110-direction-correction",
+    "bounded_request": "20261111-A-backup-ups-problem-definition",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
   },
@@ -943,7 +943,9 @@
     },
     "time_alignment": "UNRESOLVED",
     "automatic_dispatch": false,
-    "validation": "docs/reviews/20261110-direction-correction/result.json"
+    "validation": "docs/reviews/20261110-direction-correction/result.json",
+    "selected_problem": "backup-ups-return-to-service-v1",
+    "selected_problem_status": "DEFINITION_ONLY_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -986,5 +988,35 @@
       "unexpected_skips": 0,
       "does_not_accept_full_39c": true
     }
+  },
+  "current_single_step": {
+    "choice": "A",
+    "parent_question_id": "backup-support",
+    "problem_id": "backup-ups-return-to-service-v1",
+    "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
+    "status": "PROBLEM_DEFINED_INPUT_GAPS_AWAITING_USER_GUIDANCE",
+    "document": "docs/mainline/39r-backup-support-question.md",
+    "primary_sources": "docs/research/20261111-backup-support-sources.md",
+    "unknown_inputs": [
+      "conditional_prior",
+      "observation_likelihood_and_validity",
+      "native_UPS_status_binding",
+      "authorized_UPS_restoration_effect_and_executor",
+      "matched_time_basis"
+    ],
+    "calculation_ready": false,
+    "native_implementation_changed": false,
+    "new_research_runs": 0,
+    "new_facility_captures": 0,
+    "new_model_calls": 0,
+    "full_CI_rerun": false,
+    "website_deployed": false,
+    "record57": "PRESERVED_UNTRACKED_UNRUN",
+    "next_order": [
+      "single_risk_problem",
+      "time_basis_for_this_problem",
+      "remaining_39c"
+    ],
+    "automatic_continuation": false
   }
 }

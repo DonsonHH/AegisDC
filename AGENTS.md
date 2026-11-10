@@ -2,7 +2,7 @@
 
 ## User-directed review gate (2026-11-10)
 
-Automatic mainline execution is paused. The current authorized task is the bounded [direction-correction package](docs/reviews/20261110-direction-correction/README.md); after delivery wait for the user's review and single-step instruction. Do not resume57 or advance research merely because an older goal/frontier says continue. Remaining engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and preserved originals remain unchanged.
+Automatic mainline execution is paused. Follow the latest user-directed single step in `docs/mainline/progress.json`: the current deliverable is the [UPS return-to-service problem definition](docs/mainline/39r-backup-support-question.md) under39r, following the reviewed direction-correction package. After delivery wait for the user's next instruction; probability/observation inputs, native UPS actions and timing qualification remain unresolved. Do not resume57 or advance research merely because an older goal/frontier says continue. Remaining engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and preserved originals remain unchanged.
 
 ## Compute and storage (user requirement, 2026-11-09)
 

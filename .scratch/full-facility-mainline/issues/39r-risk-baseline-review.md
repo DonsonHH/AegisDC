@@ -17,3 +17,5 @@
 纠正包已发布到donson/mainline-39c-endpoints并设为默认分支，现等待用户审查；57草稿保留未执行，本票不自动解决或恢复后续开发。
 
 公共risk-baseline接口一个测试远端red/green通过：8主域、2有限风险/6UNMODELED、1价值/7UNMODELED、时间错位与禁派工明确；0新设施/AI/研究，合并result见docs/reviews/20261110-direction-correction/result.json；待用户审查。
+
+用户2026-11-11复核后推荐A，当前仅定义backup-support下UPS检修后未恢复投入问题，四类输入／接口缺口及参数化计算契约见docs/mainline/39r-backup-support-question.md，一手依据见docs/research/20261111-backup-support-sources.md；0新试验、未改原覆盖／风险律，待用户下一步指导。
