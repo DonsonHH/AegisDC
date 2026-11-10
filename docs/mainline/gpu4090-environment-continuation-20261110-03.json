@@ -1,0 +1,31 @@
+{
+  "schema": "aegisdc-gpu-environment-continuation-v1",
+  "classification": "INFRASTRUCTURE_ONLY_NO_RESEARCH_OR_MODEL_TRIAL",
+  "id": "gpu4090-runtime-20261110-03",
+  "preparation_script": "scripts/resume_gpu4090_runtime_03.py",
+  "preparation_script_sha256": "ebab09986d7ada539a44342fed97f9d9833e3e2af2a3589b835bd4daf3d2d647",
+  "private_output": "/root/private_data/aegisdc-gpu4090-env-20261110-03",
+  "previous_output": "/root/private_data/aegisdc-gpu4090-env-20261110-02",
+  "smoke_source": "/root/private_data/aegisdc-gpu4090-prepare-inputs-20261110-02/prepare_gpu4090_runtime_02.py",
+  "smoke_source_sha256": "b5074f75aef2670c30e191217989bcca0f39324d515eff8db4017d05f3a5926a",
+  "python": "3.11.9",
+  "torch_wheel": "torch-2.6.0+cu118-cp311-cp311-linux_x86_64.whl",
+  "range_workers": 4,
+  "transport_attempts_per_range": 3,
+  "maximum_preparation_invocations": 1,
+  "maximum_tiny_smoke_invocations": 1,
+  "pinned_packages": {
+    "torch": "2.6.0+cu118",
+    "numpy": "2.3.5"
+  },
+  "repair_scope": "Reuse the unsealed02privatevenv whose onlyinstalled project package wasNumPy2.3.5;freeze pre-continuation packages first. Original02failedterminal/logs/plan/source/cachebytes stay unchanged. Verify cachedwheels byofficial simple-index SHA256,copy partialTorch before exactparallelRange resume,new03records all changes. BaseCondaunchanged.",
+  "old_failure": "02Torch install reached1800s budget beforeCUDAstage;failedterminal and NumPy-only package listing verified. No model or CUDA smoke had run.",
+  "new_research_trials": 0,
+  "llm_inference_trials": 0,
+  "training_trials": 0,
+  "source_indexes": [
+    "https://download.pytorch.org/whl/cu118/",
+    "https://pytorch.org/get-started/previous-versions/#v260"
+  ],
+  "failure_rule": "One new continuation only,transport retries bounded perrange. Preserve partial03and old02 evidence on failure;no local computation or implicit runtime/version change."
+}
