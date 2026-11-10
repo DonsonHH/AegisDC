@@ -10,7 +10,7 @@ import zipfile
 
 
 TOOL = 'evidence/mainline/engineering/39c-development/tools/'
-RUNNER = TOOL + 'run_remote_engineering_slice_22.py'
+DEFAULT_RUNNER = TOOL + 'run_remote_engineering_slice_22.py'
 STAGER = TOOL + 'stage_public_container_qualification.py'
 
 
@@ -47,6 +47,9 @@ def main():
     protocol_name = protocol_path.as_posix()
     protocol = json.loads(blob(control, protocol_name))
     spec = protocol['container_snapshot']
+    runner = spec.get('runner_path', DEFAULT_RUNNER)
+    require(runner in (DEFAULT_RUNNER, TOOL + 'run_remote_engineering_slice_29.py'),
+            'Use a reviewed, versioned container runner')
     attempt = spec['attempts'][args.phase]
     execution = (control if attempt['runtime_source'] == 'control'
                  else attempt['runtime_source'])
@@ -66,7 +69,7 @@ def main():
     require(test['test_names'] and all(name.startswith(PurePosixPath(test['path']).stem + '.')
                                      for name in test['test_names']),
             'Selected test must come from the staged test module')
-    require(sha(blob(control, RUNNER)) == spec['runner_sha256'], 'Frozen runner differs')
+    require(sha(blob(control, runner)) == spec['runner_sha256'], 'Frozen runner differs')
     budget = protocol['budget']
     require((budget['tests'], budget['direct_public_choice_calls'], budget['facility_entries'],
              budget['new_research_trials'], budget['GPU_use']) == (1, 1, 0, 0, False),
@@ -83,7 +86,7 @@ def main():
     runtime = git('ls-tree', '-r', '--name-only', execution, '--',
                   'src/aegis_dc', 'src/patrol_rsi/__init__.py',
                   'src/patrol_rsi/contracts.py').decode().splitlines()
-    control_files = [protocol_name, test['path'], seed['path'], RUNNER, STAGER, *spec['support_files']]
+    control_files = [protocol_name, test['path'], seed['path'], runner, STAGER, *spec['support_files']]
     revisions = {name: execution for name in runtime}
     require(not revisions.keys() & set(control_files), 'Control files cannot override runtime files')
     revisions.update({name: control for name in control_files})
@@ -116,11 +119,11 @@ def main():
     with (destination / 'manifest.json').open('xb') as stream:
         stream.write(manifest_bytes)
     with (destination / 'runner.py').open('xb') as stream:
-        stream.write(files[RUNNER])
+        stream.write(files[runner])
     print(json.dumps(dict(local_stage=str(destination), attempt=output.name,
                           control_source=control, execution_source=execution, files=len(files),
                           manifest_sha256=sha(manifest_bytes), snapshot_sha256=manifest['snapshot_sha256'],
-                          runner_sha256=sha(files[RUNNER]))))
+                          runner_sha256=sha(files[runner]))))
 
 
 if __name__ == '__main__':

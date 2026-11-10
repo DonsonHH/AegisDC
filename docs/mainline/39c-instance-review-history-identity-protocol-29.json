@@ -1,0 +1,72 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-history-actual-opening-identity-29",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_REGRESSION_RED_GREEN_NOT_RESEARCH",
+  "finding": "39C-HISTORY-SPEC-03",
+  "review_source": "evidence/mainline/engineering/39c-development/reviews-08/spec-preliminary.md",
+  "question": "Can a review that predates the actual instance be misattributed through a historical reconstruction that manufactures an earlier question with the same slot ID?",
+  "timeline": [
+    {"time_s": 0, "event": "Old claim arrives but no actual dispatcher decision occurs."},
+    {"time_s": 2, "event": "Escalation arrives while grant and old claim are current."},
+    {"time_s": 4, "event": "Old claim and grant expire."},
+    {"time_s": 6, "event": "First dispatch frame opens question-0 from a different new claim."}
+  ],
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "test": {
+    "path": "tests/test_instance_review_history_identity.py",
+    "git_blob": "514a6d32c15599016d1ce67246aa08d5db454d74",
+    "sha256": "04fdad745dd8b5268bff608294d77eac6114470f7cc27e37373f053ae0512001",
+    "test_names": ["test_instance_review_history_identity.InstanceReviewHistoryIdentityTests.test_preopening_review_cannot_recreate_an_earlier_instance"]
+  },
+  "expected": {
+    "actual_question_id": "cooling-direct/question-0",
+    "actual_origin_id": "cooling-second-origin-20",
+    "actual_opened_at_s": 6,
+    "status": "OPEN_UNCONFIRMED",
+    "question_closed": false,
+    "disposition_record_ids": [],
+    "historical_dispositions": [],
+    "red_boundary": "An AssertionError for the false historical event, not an unsupported schema/import/setup error."
+  },
+  "budget": {"tests": 1, "direct_public_choice_calls": 1, "facility_entries": 0, "new_research_trials": 0, "GPU_use": false},
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_29.py",
+    "runner_sha256": "7f7a0bda4c9c903c5270d17702def2b446c4f5c755439d924139a82275fed8c4",
+    "support_files": [
+      "docs/mainline/39c-instance-review-contract-21.md",
+      "evidence/mainline/engineering/39c-development/reviews-08/spec-preliminary.md"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "93b4b3cffbb627eb4c2375b7a39a74b4c17f2236",
+        "maximum_invocations": 1,
+        "expected_red_text": "A review before the actual problem opening must not manufacture history",
+        "output_root": "/root/private_data/aegisdc-mainline-39c/37-history-opening-red-v29",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/37-history-opening-red-v29"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/38-history-opening-green-v29",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/38-history-opening-green-v29"
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-89329",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "allowed_runtime_correction": "instance_reviews.py only, after the red terminal. Preserve actual instance opening and origin/trigger/slot identity when projecting history; no hidden truth, effect, test/seed, or physical verification change.",
+  "runner_revision": "A new pinned runner additionally requires --output to equal the exact manifest attempt_root. Previous runners and attempts remain immutable; no old attempt is replayed.",
+  "failure_rule": "One invocation per phase. Preserve outputs on failure. Any change of test/input/runner or second attempt requires another numbered protocol and directory.",
+  "whole_39c_accepted": false
+}

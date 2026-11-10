@@ -16,6 +16,10 @@
 
 ## Evidence
 
+Protocol28 [green result](../../../evidence/mainline/engineering/39c-development/slice-28/green/result.json) passed: one public call, no facility or research trial. Escalation wins over simultaneous authorized acceptance, keeps question-1 open and retains both dispositions/times. Old question-0 remains VERIFIED_CLOSED; shared budget still blocks new work. Red preserved. Input JSON key order differs because RECORD_FIELDS is a set, but canonical JSON SHA is identical and both raw byte strings remain.
+
+Independent Standards review found no observed violation in completed27/28-red attempts, plus future runner output-path hardening and a disposition-map judgment call. Independent Spec preliminary finding39C-HISTORY-SPEC-03 concerns historical projection assigning an older trigger to the current slot ID; its final review did not complete. Protocol29 freezes a direct public regression; no full39c acceptance is claimed.
+
 Protocol27 [same-target scope qualification](../../../evidence/mainline/engineering/39c-development/slice-27/result.json) passed at runtime d286f8cd with frozen input/control bb4d6d7f: one public choice, no facility entries or research trials. Management acceptance closes question-0 only. Question-1 on the same intake pump stays open, retains both eligible stages and FIFO selects its action. Protocol28 is frozen to test escalation precedence while preserving physical verification and the shared budget.
 
 Initial ready-frontier snapshot after39a and39b acceptance; superseded below by first-slice development. User-review F3/F4 and original R6 coverage. Registered old comparison used closure_program=None and remains unchanged. Current predecessor evidence: `docs/mainline/evidence/39b-root.json`; a frozen39c behavior contract and remote red/green slices must precede new evaluation.
