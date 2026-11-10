@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class BusinessTemporalEndpointTests(unittest.TestCase):
-    def test_fault_service_and_declared_action_deadline_use_actual_arrival_clock(self):
-        data = json.loads((ROOT/'tests/fixtures/39c-temporal-lead-37.json').read_bytes())
+    def test_three_references_report_post_fault_delay_and_separate_plan_deadline(self):
+        data = json.loads((ROOT/'tests/fixtures/39c-temporal-lead-38.json').read_bytes())
         output = Path(os.environ['AEGIS_ENGINEERING_RESULT_DIR']) if os.environ.get('AEGIS_ENGINEERING_RESULT_DIR') else None
 
         def save(name, value):
@@ -50,10 +50,10 @@ class BusinessTemporalEndpointTests(unittest.TestCase):
         self.assertTrue(fault['interval_lower_exclusive'])
         service = temporal['service_loss_reference']
         self.assertEqual(service['status'], 'FIRST_TRANSITION_SAMPLE')
-        self.assertEqual(service['sample_at_s'], 3)
-        self.assertEqual(service['previous_non_event_sample_at_s'], 2.5)
-        self.assertEqual(service['lead_s'], 1.25)
-        self.assertEqual(service['transition_lead_interval_s'], [.75, 1.25])
+        self.assertEqual(service['sample_at_s'], 1)
+        self.assertEqual(service['previous_non_event_sample_at_s'], 0)
+        self.assertEqual(service['lead_s'], -.75)
+        self.assertEqual(service['transition_lead_interval_s'], [-1.75, -.75])
         self.assertEqual(service['attribution'], 'WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED')
         deadline = temporal['intervention_deadline_reference']
         self.assertEqual(deadline['status'], 'DECLARED_PLANNED_DEADLINE')
