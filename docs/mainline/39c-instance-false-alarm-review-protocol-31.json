@@ -1,0 +1,67 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-instance-false-alarm-evidence-review-31",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_RED_GREEN_NOT_RESEARCH",
+  "contract": "docs/mainline/39c-instance-review-contract-21.md",
+  "question": "Does an authorized review of the exact original suspicion close only its management question after condition and service evidence passes at both the review observation clock and the current clock?",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "test": {
+    "path": "tests/test_instance_false_alarm_review.py",
+    "git_blob": "940177bc177b63db48a142a45f0d4fb4e658a5e1",
+    "sha256": "6c129cfe4ebafee83e2ed7520efa8224baec10de2eb881d7f032c7de1314b71d",
+    "test_names": ["test_instance_false_alarm_review.InstanceFalseAlarmReviewTests.test_instance_dossier_closes_management_only_with_support_at_both_clocks"]
+  },
+  "declared_behavior": {
+    "question": "cooling-direct/question-1 opened at5.5 from original cooling-second-origin-20.",
+    "dossier_fields": ["review_record_id", "question_id", "original_record_id", "supporting_record_ids", "rationale"],
+    "review_observed_at_s": 7.5,
+    "review_arrived_at_s": 7.75,
+    "current_as_of_s": 8,
+    "evidence": "Two genuine post-opening flow readings99.8kg/s and two service readings1 at6 and7 seconds. Each arrived0.25 seconds later and remains current until10 seconds.",
+    "criteria": "Reuse the existing question template rule's two-sample, one-second-span condition and service criteria. Use public historical evidence at review observation time; include all arrived counterevidence at each applicable clock.",
+    "expected_status": "FALSE_ALARM_REVIEWED",
+    "question_closed": true,
+    "risk_closed": false,
+    "physical_restoration_claim": false,
+    "actual_recheck_passed": false,
+    "precedence": "ESCALATE before ACCEPT_RISK before evidence-qualified FALSE_ALARM.",
+    "denominator": "Administrative review does not rewrite private event truth or any registered false-positive/fault denominator."
+  },
+  "budget": {"tests": 1, "direct_public_choice_calls": 1, "facility_entries": 0, "new_research_trials": 0, "GPU_use": false},
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_29.py",
+    "runner_sha256": "7f7a0bda4c9c903c5270d17702def2b446c4f5c755439d924139a82275fed8c4",
+    "support_files": ["docs/mainline/39c-instance-review-contract-21.md"],
+    "attempts": {
+      "red": {
+        "runtime_source": "4cb260ec0d418190778a35fc9148a81619594b0d",
+        "expected_red_text": "Unknown or non-synthetic instance review authority",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/41-false-alarm-review-red-v31",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/41-false-alarm-review-red-v31"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/42-false-alarm-review-green-v31",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/42-false-alarm-review-green-v31"
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "allowed_runtime_correction": "instance_reviews.py and a focused instance_false_alarm.py evidence helper only; reuse existing public _check and _review_frame semantics. No plant, evidence ledger, thresholds, scenario, diagnostic evaluator, task executor or frozen test/seed change.",
+  "failure_rule": "One invocation per phase, each in a unique directory. Preserve failures. Negative/source/time qualifications follow separately; this positive slice is not the full39c acceptance.",
+  "whole_39c_accepted": false
+}
