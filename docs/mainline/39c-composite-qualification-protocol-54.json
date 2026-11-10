@@ -1,0 +1,100 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-composite-joint-qualification-54",
+  "classification": "GREEN_ONLY_FIXED_RUNTIME_JOINT_QUALIFICATION",
+  "contract": "docs/mainline/39c-composite-qualification-contract-54.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-composite-qualification-54.json",
+    "git_blob": "78fd064fc77199eccb9f3a3e9d0bfffe503e1626",
+    "sha256": "bf638432aab51147f000af5b2549ad15d0f7e89ddc79954b740cbd8d225ccdf4"
+  },
+  "test": {
+    "path": "tests/test_composite_business_qualification.py",
+    "git_blob": "dd436db2c2d3821a0d8b52128d557f01d4b001f7",
+    "sha256": "8dd3878bfdadf25f837566c7316dac7d026fd2ecaaaa36b3b551206c06047366",
+    "test_names": [
+      "test_composite_business_qualification.CompositeBusinessQualificationTests.test_crew_no_human_and_nonempty_service_boundary_keep_joint_denominators"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 3,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 27
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "configs/materials/reference-r134a-saturation.json",
+      "tests/fixtures/39c-composite-endpoint-53.json",
+      "docs/mainline/39c-composite-qualification-contract-54.md",
+      "docs/mainline/39c-composite-density-correction-53.md",
+      "docs/mainline/evidence/39c-composite-density-correction-53.json"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "316fc3cc0f0267f2420ead68361186023cd3085a",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/73-composite-joint-qualification-v54",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/73-composite-joint-qualification-v54",
+        "expected_returned_decisions": 27,
+        "expected_completed_horizons": 3,
+        "expected_completed_duration_s": 19
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "tests/fixtures/39c-composite-endpoint-53.json",
+        "git_blob": "5eacf4b7037621df969bd55957a516a04d9cc520",
+        "sha256": "e8d20cbeaa65a03c3f1f34e4d9dc8c4cda357200fe6a16295bee5aff8aab2e9e"
+      },
+      {
+        "path": "docs/mainline/39c-composite-density-correction-53.md",
+        "git_blob": "2ad4f7dcb9677da92b5d89dfdccac2b53ca8c2e0",
+        "sha256": "62da4d38f5cda4430e9638f485fc9ed8d8ba086384587f963205b4edff9c1345"
+      },
+      {
+        "path": "docs/mainline/evidence/39c-composite-density-correction-53.json",
+        "git_blob": "3c4e3391d8097858f831f197d84f3219ed6eec79",
+        "sha256": "361f7c3f9a895fbe153a471ff708538a381cf6e773b239cce47866fade395038"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "crew_action_completed_s": 4.25,
+    "crew_own_close_s": 6.5,
+    "crew_worker_travel_person_s": 5,
+    "crew_rendezvous_wait_person_s": 1,
+    "crew_personnel_total_person_s": 9.75,
+    "crew_tool_occupation_tool_s": 5.5,
+    "nohuman_actual_tasks": 0,
+    "nohuman_opportunity": "ELIGIBLE",
+    "service_raw_event_order": [
+      2,
+      1
+    ],
+    "service_actual_event_order": [
+      1,
+      2
+    ],
+    "service_deficit_time_s": 3.5,
+    "service_own_close_s": null
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One fixed-runtime qualification invocation;no repeat or source edits. Preserve failures and all completed subcases;any correction uses a new numbered protocol/root.",
+  "whole_39c_accepted": false,
+  "input_revision": "Three fixed engineering cases:second qualified action crewmember with horizon7,existing no_human policy,or reverse-order integer-time two-stage network loss. Rebind reference raw input hashes and common normalized actual input hashes;preserve998density/physicalrules."
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "aegisdc-engineering-qualification-description-v1",
+  "id": "39c-composite-qualification-54",
+  "base_input": "tests/fixtures/39c-composite-endpoint-53.json",
+  "classification": "ENGINEERING_NOT_RESEARCH",
+  "cases": ["crew-rendezvous", "no-human", "service-unqualified"],
+  "crew_duration_s": 7,
+  "crew_extra_decisions_s": [4.75, 6.5, 7],
+  "service_boundaries": [
+    {
+      "time_s": 2,
+      "parameter_id": "network_service_capacity",
+      "value": 0.25,
+      "source_note": "Second independent network capacity withdrawal; deliberately submitted before the earlier event."
+    },
+    {
+      "time_s": 1,
+      "parameter_id": "network_service_capacity",
+      "value": 0.5,
+      "source_note": "First independent network capacity withdrawal; no cause attributed to the flow condition."
+    }
+  ],
+  "source_note": "Same synthetic complete facility, explicit new joint qualifications; unchanged physics except the named exogenous boundary."
+}
