@@ -1,0 +1,148 @@
+{
+  "summary": {
+    "boundary_input_J": 13495980.394050442,
+    "boundary_output_J": 11901120.661220334,
+    "grid_energy_J": 13495980.394050442,
+    "lake_heat_J": 10858747.352821823,
+    "room_heat_J": 1042313.3083985106,
+    "ups_output_energy_J": 0.0,
+    "ups_loss_energy_J": 0.0,
+    "generator_output_energy_J": 0.0,
+    "generator_waste_energy_J": 0.0,
+    "floor_water_inlet_mass_kg": 0.0,
+    "floor_water_drained_mass_kg": 0.0,
+    "floor_inlet_energy_J": 0.0,
+    "floor_drain_energy_J": 0.0,
+    "worker_travel_person_s": 2.0,
+    "worker_work_person_s": 2.0,
+    "tool_occupation_tool_s": 4.5,
+    "demand_service_unit_s": 6.0,
+    "delivered_service_unit_s": 2.5,
+    "service_deficit_time_s": 3.5,
+    "internal_hot_leaked_mass_kg": 0.0,
+    "internal_hot_leak_energy_J": 0.0,
+    "worker_wait_person_s": 0.5,
+    "access_check_person_s": 0.5,
+    "rendezvous_wait_person_s": 0.0,
+    "queue_wait_person_s": 0.0,
+    "tool_work_tool_s": 2.0,
+    "starter_output_energy_J": 0.0,
+    "backup_water_heat_J": 0.0,
+    "reserve_external_electric_heat_J": 60.0,
+    "reserve_room_control_heat_J": 600.0,
+    "backup_fan_energy_J": 0.0,
+    "duration_s": 6.0,
+    "integration_steps": 610,
+    "initial_stored_energy_J": 29279777887.74015,
+    "final_stored_energy_J": 29281372747.47297,
+    "whole_run_energy_residual_J": -1.150369644165039e-05,
+    "max_energy_residual_J": 4.669756094699551e-06,
+    "max_mass_residual_kg": 4.547473508864641e-13,
+    "minimum_capacity_slack_W": {
+      "grid": 7695027.488360599,
+      "switchboard": 7695027.488360599,
+      "rectifier": 2731958.762886598,
+      "generator": 4000000.0,
+      "ups": 0.0
+    },
+    "work_rejections": {}
+  },
+  "work_records": [
+    {
+      "id": "cooling-direct/action-0",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "filter",
+      "crew": [
+        {
+          "worker_id": "worker_cooling",
+          "qualification_id": "qualified_cooling_inspection"
+        }
+      ],
+      "tool_carrier_id": "worker_cooling",
+      "deadline_s": 10,
+      "source_note": "Authorized direct residual filter operation, not a confirmed diagnosis.",
+      "issued_at_s": 0.0,
+      "accepted": true,
+      "status": "completed",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "cooling-direct/action-0",
+        "as_of_s": 0.0,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "effect": "ENGINEERING_WORK_RECORD_ONLY_NO_REPAIR_OR_EVIDENCE",
+      "started_at_s": 0.0,
+      "planned_work_start_s": 2.25,
+      "scheduled_completion_at_s": 3.25,
+      "paths": {
+        "worker_cooling": [
+          {
+            "from_id": "loc_hx",
+            "to_id": "loc_lake",
+            "departs_at_s": 0.0,
+            "gate_at_s": 2.0,
+            "arrives_at_s": 2.25
+          }
+        ]
+      },
+      "queue_wait_s": 0.0,
+      "work_started_at_s": 2.25,
+      "arrived_at_s": 2.25,
+      "finished_at_s": 3.25,
+      "completed_at_s": 3.25
+    },
+    {
+      "id": "cooling-direct/recheck-0",
+      "work_interface_id": "inspect_facility_cooling",
+      "target_id": "intake_pump",
+      "crew": [
+        {
+          "worker_id": "worker_cooling",
+          "qualification_id": "qualified_cooling_inspection"
+        }
+      ],
+      "tool_carrier_id": "worker_cooling",
+      "deadline_s": 10,
+      "source_note": "Professional investigation of an arrived cooling claim; no physical intervention effect.",
+      "issued_at_s": 3.75,
+      "accepted": true,
+      "status": "completed",
+      "public_assessment": {
+        "schema": "aegisdc-work-intention-assessment-v1",
+        "task_id": "cooling-direct/recheck-0",
+        "as_of_s": 3.75,
+        "legal_for_planning": true,
+        "public_reasons": [],
+        "considered_record_ids": [],
+        "execution_permission": false,
+        "dynamic_execution": "PRIVATE_EXECUTOR_CHECKS_REMAIN_REQUIRED",
+        "basis": "CURRENT_PUBLIC_FRAME_AND_DECLARED_STATIC_WORKFORCE_PROFILE_ONLY"
+      },
+      "effect": "ENGINEERING_WORK_RECORD_ONLY_NO_REPAIR_OR_EVIDENCE",
+      "started_at_s": 3.75,
+      "planned_work_start_s": 4.0,
+      "scheduled_completion_at_s": 5.0,
+      "paths": {
+        "worker_cooling": [
+          {
+            "from_id": "loc_lake",
+            "to_id": "loc_lake",
+            "departs_at_s": 3.75,
+            "gate_at_s": 3.75,
+            "arrives_at_s": 4.0
+          }
+        ]
+      },
+      "queue_wait_s": 0.0,
+      "work_started_at_s": 4.0,
+      "arrived_at_s": 4.0,
+      "finished_at_s": 5,
+      "completed_at_s": 5
+    }
+  ]
+}

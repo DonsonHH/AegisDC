@@ -1,4 +1,4 @@
-"""Joint actual cost/closure/diagnostic qualifications include positive rendezvous."""
+"""Joint qualification; crew expectations corrected in55,original54 test archived."""
 from copy import deepcopy
 import json
 import os
@@ -108,17 +108,17 @@ class CompositeBusinessQualificationTests(unittest.TestCase):
                     tasks = {w['id']:w for w in result['work_records']}
                     if case == 'crew-rendezvous':
                         self.assertEqual(len(public), 11)
-                        self.assertEqual(tasks['cooling-direct/action-0']['work_started_at_s'], 3.25)
-                        self.assertEqual(tasks['cooling-direct/action-0']['completed_at_s'], 4.25)
-                        self.assertEqual(old['action_report_arrived_at_s'], 4.75)
-                        self.assertEqual(tasks['cooling-direct/recheck-0']['work_started_at_s'], 5)
-                        self.assertEqual(old['actual_recheck_completed_at_s'], 6)
-                        self.assertEqual(old['recheck_report_arrived_at_s'], 6.5)
-                        self.assertEqual(old['first_verified_closed_at_s'], 6.5)
-                        expected = dict(worker_travel_person_s=5, worker_work_person_s=3, worker_wait_person_s=1.75,
-                            access_check_person_s=0.75, rendezvous_wait_person_s=1, queue_wait_person_s=0,
-                            tool_occupation_tool_s=5.5, tool_work_tool_s=2)
-                        self.assertAlmostEqual(cost['personnel_total']['value'], 9.75)
+                        self.assertEqual(tasks['cooling-direct/action-0']['work_started_at_s'], 3.5)
+                        self.assertEqual(tasks['cooling-direct/action-0']['completed_at_s'], 4.5)
+                        self.assertEqual(old['action_report_arrived_at_s'], 5)
+                        self.assertEqual(tasks['cooling-direct/recheck-0']['work_started_at_s'], 5.25)
+                        self.assertEqual(old['actual_recheck_completed_at_s'], 6.25)
+                        self.assertEqual(old['recheck_report_arrived_at_s'], 6.75)
+                        self.assertEqual(old['first_verified_closed_at_s'], 7)
+                        expected = dict(worker_travel_person_s=5, worker_work_person_s=3, worker_wait_person_s=2.25,
+                            access_check_person_s=1, rendezvous_wait_person_s=1.25, queue_wait_person_s=0,
+                            tool_occupation_tool_s=5.75, tool_work_tool_s=2)
+                        self.assertAlmostEqual(cost['personnel_total']['value'], 10.25)
                         self.assertEqual(cost['issue_fees']['value'], 2)
                     elif case == 'no-human':
                         self.assertEqual(len(public), 8)

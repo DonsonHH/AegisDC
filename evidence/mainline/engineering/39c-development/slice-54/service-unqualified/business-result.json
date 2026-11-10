@@ -1,0 +1,1843 @@
+{
+  "schema": "aegisdc-business-composite-result-v1",
+  "program_id": "joint53-private-composite",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "visibility": "PRIVATE_EVALUATOR_ONLY",
+  "basis": "synthetic_assumption",
+  "time_unit": "s",
+  "window_end_s": 6.0,
+  "execution_code_identity": {
+    "git_commit": null,
+    "implementation_has_changes": null,
+    "source_tree_sha256": "da78fd61b61b0cab9c9fb0a3cb5d9a263cf0864695eef8e2d10b97c018fea2e8",
+    "files": {
+      "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+      "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+      "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+      "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+      "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+      "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+      "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+      "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+      "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+      "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+      "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+      "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+      "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+      "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+      "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+      "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+      "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+      "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+      "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+      "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+      "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+      "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+      "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+      "src/aegis_dc/nonfixed_evidence.py": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+      "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+      "src/aegis_dc/plant.py": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+      "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+      "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+      "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+      "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+      "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+      "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+      "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+      "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+      "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+      "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+      "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+      "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+      "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+      "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+      "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+      "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+      "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+      "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+      "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+      "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+      "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+      "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+      "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+    }
+  },
+  "run_binding": {
+    "scenario_sha256": "200ec0c6e361f435ece4e1486dd3dc4a9068c2bfd1f2691f0c0a162ed8fdc782",
+    "dispatch_program_sha256": "e61c473b9e16607e1b4832c13d77e0fd2b8240a23ea9d0d7da414d94be5915b7",
+    "boundary_events_sha256": "beee1f13ecc1285a471f4f0887bd7bebdcdbfac202f9ae26e158bba3c087d1ed",
+    "action_commands_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "duration_s": 6.0,
+    "maximum_step_s": 0.01
+  },
+  "business_program_sha256": "125000457653706481f9ef83c1214ca35f3adab133aefcb90dc25e924dd226cf",
+  "component_program_sha256": {
+    "diagnostic": "74894c21f7d6e3781c37b97ef59e653376c6d46afa1f11bb7e8a3430faad4033",
+    "instance_closure": "76f0bab334f0978fadd643a27624c46f5852be8fecedbb3a43a5fac8f7c38694",
+    "costs": "cf05abbe572e43e9d8069306fb3629e83ab2e0e4a98c8ee54f0e7bdfaddfb424"
+  },
+  "components": {
+    "diagnostic": {
+      "schema": "aegisdc-business-diagnostic-result-v3",
+      "program_id": "joint53-private-diagnostic",
+      "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+      "visibility": "PRIVATE_EVALUATOR_ONLY",
+      "basis": "synthetic_assumption",
+      "time_unit": "s",
+      "window_end_s": 6.0,
+      "execution_code_identity": {
+        "git_commit": null,
+        "implementation_has_changes": null,
+        "source_tree_sha256": "da78fd61b61b0cab9c9fb0a3cb5d9a263cf0864695eef8e2d10b97c018fea2e8",
+        "files": {
+          "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+          "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+          "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+          "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+          "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+          "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+          "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+          "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+          "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+          "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+          "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+          "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+          "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+          "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+          "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+          "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+          "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+          "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+          "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+          "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+          "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+          "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+          "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+          "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+          "src/aegis_dc/nonfixed_evidence.py": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+          "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+          "src/aegis_dc/plant.py": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+          "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+          "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+          "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+          "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+          "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+          "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+          "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+          "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+          "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+          "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+          "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+          "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+          "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+          "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+          "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+          "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+          "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+          "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+          "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+          "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+          "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+          "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+          "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+          "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+        }
+      },
+      "reference": {
+        "id": "joint53-private-reference",
+        "source_note": "Method-independent initial inspection envelope:2travel+.25access+1work+.5report=3.75;cutoff4,not selected from actual dispatch.",
+        "scenario_sha256": "200ec0c6e361f435ece4e1486dd3dc4a9068c2bfd1f2691f0c0a162ed8fdc782",
+        "boundary_events_sha256": "3bb26864ad6b38a78a148a6f30f2e685086c2dfa52c4c40be1b8110d31a2706d",
+        "nominal_knowledge_sha256": "75dd88430cbb09d7ec0f15494bf0092bdd9a47ba4141b2aea789a1ce6e8f75f8",
+        "ledger_sha256": "273842585a44c934cb118a8f49d8451c7a840f5e56d240c5668851618f92a4ee",
+        "workforce_profile_sha256": "d32d28ad1d7271420106bac77995eaa46e93b0b70f7d16eab0952c7006ff0ac7",
+        "inspection_profile_sha256": "7a5c7ace786e0b00d56db5521d22f12cf106c855422ab0b06eb778c68b779bae"
+      },
+      "events": [
+        {
+          "id": "joint53-private-initial-flow-event",
+          "condition_id": "native50-flow",
+          "opened_at_s": 0,
+          "initial_truth": "FAULT",
+          "initial_private_value": 54.124149225754714,
+          "reference_opportunity": {
+            "reference_id": "joint53-private-reference",
+            "status": "ELIGIBLE",
+            "inspection_task_id": "cooling-direct/inspect-0",
+            "starts_at_s": 0,
+            "earliest_report_at_s": 3.75,
+            "deadline_s": 4,
+            "source_note": "Frozen hypothetical inspection envelope on unchanged workers/tools/routes,not an outcome-dependent denominator."
+          },
+          "deadline_right_censored": false,
+          "first_corroborated_fault_report_at_s": 0.5,
+          "timely_outcome": "TIMELY_CONFIRMED",
+          "wrong_abnormal_state_observed": false,
+          "wrong_normal_state_observed": false,
+          "assessments": [
+            {
+              "available_at_s": 0.0,
+              "observed_at_s": null,
+              "public_status": "UNKNOWN",
+              "truth_at_observation": null,
+              "observation_in_event_window": false,
+              "supporting_record_ids": [],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 0.5,
+              "observed_at_s": 0.0,
+              "public_status": "ABNORMAL",
+              "truth_at_observation": "FAULT",
+              "observation_in_event_window": true,
+              "supporting_record_ids": [
+                "flow-transfer:0"
+              ],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 3.75,
+              "observed_at_s": 3,
+              "public_status": "ABNORMAL",
+              "truth_at_observation": "FAULT",
+              "observation_in_event_window": true,
+              "supporting_record_ids": [
+                "flow-transfer:3"
+              ],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 4.5,
+              "observed_at_s": 4.0,
+              "public_status": "NORMAL",
+              "truth_at_observation": "NORMAL",
+              "observation_in_event_window": true,
+              "supporting_record_ids": [
+                "flow-transfer:4"
+              ],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 5,
+              "observed_at_s": 4.0,
+              "public_status": "NORMAL",
+              "truth_at_observation": "NORMAL",
+              "observation_in_event_window": true,
+              "supporting_record_ids": [
+                "flow-transfer:4"
+              ],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 5.5,
+              "observed_at_s": 5,
+              "public_status": "NORMAL",
+              "truth_at_observation": null,
+              "observation_in_event_window": false,
+              "supporting_record_ids": [
+                "flow-transfer:5"
+              ],
+              "external_context_record_ids": [
+                "cooling-claim-0"
+              ]
+            },
+            {
+              "available_at_s": 5.75,
+              "observed_at_s": 5,
+              "public_status": "NORMAL",
+              "truth_at_observation": null,
+              "observation_in_event_window": false,
+              "supporting_record_ids": [
+                "flow-transfer:5"
+              ],
+              "external_context_record_ids": [
+                "accept-risk-instance1-21",
+                "cooling-claim-0",
+                "cooling-second-origin-20"
+              ]
+            },
+            {
+              "available_at_s": 6.0,
+              "observed_at_s": 5,
+              "public_status": "NORMAL",
+              "truth_at_observation": null,
+              "observation_in_event_window": false,
+              "supporting_record_ids": [
+                "flow-transfer:5"
+              ],
+              "external_context_record_ids": [
+                "accept-risk-instance1-21",
+                "cooling-claim-0",
+                "cooling-second-origin-20"
+              ]
+            }
+          ],
+          "temporal_endpoints": {
+            "first_public_confirmation_at_s": 0.5,
+            "confirmation_status": "OBSERVED",
+            "sample_times_s": [
+              0,
+              0.5,
+              1,
+              2,
+              3.75,
+              4.5,
+              5,
+              5.5,
+              5.75,
+              6
+            ],
+            "fault_reference": {
+              "sample_at_s": 0,
+              "previous_non_event_sample_at_s": null,
+              "lead_s": null,
+              "transition_lead_interval_s": null,
+              "interval_lower_exclusive": null,
+              "right_censored": false,
+              "left_censored": true,
+              "censor_at_s": 0,
+              "lead_lower_bound_if_later_event_s": null,
+              "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+              "status": "PRESENT_AT_FIRST_SAMPLE",
+              "lead_unavailable_reason": "ONSET_NOT_OBSERVED"
+            },
+            "service_loss_reference": {
+              "sample_at_s": 1,
+              "previous_non_event_sample_at_s": 0.5,
+              "lead_s": 0.5,
+              "transition_lead_interval_s": [
+                0.0,
+                0.5
+              ],
+              "interval_lower_exclusive": true,
+              "right_censored": false,
+              "left_censored": false,
+              "censor_at_s": null,
+              "lead_lower_bound_if_later_event_s": null,
+              "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+              "status": "FIRST_TRANSITION_SAMPLE",
+              "lead_unavailable_reason": null,
+              "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+            },
+            "intervention_deadline_reference": {
+              "status": "DECLARED_PLANNED_DEADLINE",
+              "at_s": 6,
+              "source_note": "Prospective engineering review deadline,not a discovered optimal rescue time.",
+              "lead_s": 5.5,
+              "lead_unavailable_reason": null,
+              "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+            },
+            "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+            "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+          }
+        }
+      ],
+      "counts": {
+        "events_total": 1,
+        "truth_fault": 1,
+        "truth_normal": 0,
+        "truth_unknown": 0,
+        "eligible_fault_matured": 1,
+        "timely_confirmed_fault": 1,
+        "missed_fault_confirmation": 0,
+        "normal_matured": 0,
+        "false_positive_state_events": 0,
+        "window_censored": 0,
+        "reference_unavailable": 0,
+        "reference_unmodeled": 0,
+        "reference_too_late": 0
+      },
+      "rates": {
+        "missed_confirmation": {
+          "numerator": 0,
+          "denominator": 1,
+          "value": 0.0,
+          "unit": "1",
+          "unavailable_reason": null
+        },
+        "false_positive_state_events": {
+          "numerator": 0,
+          "denominator": 0,
+          "value": null,
+          "unit": "1",
+          "unavailable_reason": "NO_MATURE_KNOWN_NORMAL_EVENTS"
+        }
+      },
+      "scope": "DECLARED_INITIAL_STATE_EVENTS_AND_REFERENCE_INSPECTION_NOT_ROOT_CAUSE_OR_CAUSAL_SERVICE_GAIN",
+      "prevention_effect": {
+        "status": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL",
+        "value": null
+      },
+      "field_calibration": "PENDING",
+      "new_research_trials": 0,
+      "research_gain_claim": "NOT_ESTABLISHED"
+    },
+    "instance_closure": {
+      "schema": "aegisdc-business-instance-closure-result-v2",
+      "program_id": "joint53-private-instance-closure",
+      "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+      "visibility": "PRIVATE_EVALUATOR_ONLY",
+      "basis": "synthetic_assumption",
+      "time_unit": "s",
+      "window_end_s": 6.0,
+      "execution_code_identity": {
+        "git_commit": null,
+        "implementation_has_changes": null,
+        "source_tree_sha256": "da78fd61b61b0cab9c9fb0a3cb5d9a263cf0864695eef8e2d10b97c018fea2e8",
+        "files": {
+          "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+          "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+          "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+          "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+          "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+          "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+          "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+          "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+          "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+          "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+          "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+          "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+          "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+          "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+          "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+          "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+          "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+          "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+          "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+          "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+          "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+          "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+          "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+          "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+          "src/aegis_dc/nonfixed_evidence.py": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+          "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+          "src/aegis_dc/plant.py": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+          "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+          "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+          "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+          "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+          "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+          "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+          "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+          "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+          "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+          "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+          "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+          "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+          "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+          "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+          "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+          "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+          "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+          "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+          "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+          "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+          "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+          "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+          "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+          "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+        }
+      },
+      "episodes": [
+        {
+          "id": "own-physical-51",
+          "question_id": "cooling-direct/question-0",
+          "task_id": "cooling-direct/action-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": null,
+          "time_to_first_verified_closed_s": null,
+          "closure_right_censored": true,
+          "closure_censor_at_s": 6.0,
+          "last_assessed_at_s": 6.0,
+          "latest_assessed_status": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+          "assessments": [
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 0.0,
+              "status": "OPEN_UNCONFIRMED",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [],
+              "blocking_record_ids": [],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [],
+              "trace": [],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 0.5,
+              "status": "OPEN_UNCONFIRMED",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [],
+              "blocking_record_ids": [],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [],
+              "trace": [],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 3.75,
+              "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [],
+              "blocking_record_ids": [],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 4.5,
+              "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [
+                "flow-transfer:4"
+              ],
+              "blocking_record_ids": [
+                "joint-service-transfer:4"
+              ],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": false,
+                  "supporting_record_ids": [
+                    "flow-transfer:4"
+                  ],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 1,
+                  "span_s": 0.0,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [
+                    "joint-service-transfer:4"
+                  ],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "lake-flow@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@4",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 5,
+              "status": "ACTION_COMPLETED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [
+                "flow-transfer:4"
+              ],
+              "blocking_record_ids": [
+                "joint-service-transfer:4"
+              ],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": false,
+                  "supporting_record_ids": [
+                    "flow-transfer:4"
+                  ],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 1,
+                  "span_s": 0.0,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [
+                    "joint-service-transfer:4"
+                  ],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "lake-flow@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@4",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 5.5,
+              "status": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [
+                "flow-after-clean",
+                "flow-transfer:4",
+                "flow-transfer:5"
+              ],
+              "blocking_record_ids": [
+                "joint-service-transfer:4",
+                "joint-service-transfer:5"
+              ],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": "flow-after-clean",
+                "passed": true,
+                "supporting_record_ids": [
+                  "flow-after-clean"
+                ]
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": true,
+                  "supporting_record_ids": [
+                    "flow-transfer:4",
+                    "flow-transfer:5"
+                  ],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 2,
+                  "span_s": 1.0,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [
+                    "joint-service-transfer:4",
+                    "joint-service-transfer:5"
+                  ],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "lake-flow@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "OWN_RECHECK_AVAILABLE",
+                  "task_id": "cooling-direct/recheck-0",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "passed": true,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "lake-flow@5",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@5",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 5.75,
+              "status": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [
+                "flow-after-clean",
+                "flow-transfer:4",
+                "flow-transfer:5"
+              ],
+              "blocking_record_ids": [
+                "joint-service-transfer:4",
+                "joint-service-transfer:5"
+              ],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": "flow-after-clean",
+                "passed": true,
+                "supporting_record_ids": [
+                  "flow-after-clean"
+                ]
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": true,
+                  "supporting_record_ids": [
+                    "flow-transfer:4",
+                    "flow-transfer:5"
+                  ],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 2,
+                  "span_s": 1.0,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [
+                    "joint-service-transfer:4",
+                    "joint-service-transfer:5"
+                  ],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "lake-flow@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "OWN_RECHECK_AVAILABLE",
+                  "task_id": "cooling-direct/recheck-0",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "passed": true,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "lake-flow@5",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@5",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            },
+            {
+              "question_id": "cooling-direct/question-0",
+              "template_id": "cooling-direct",
+              "opened_at_s": 0.0,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-0",
+              "recheck_task_id": "cooling-direct/recheck-0",
+              "as_of_s": 6.0,
+              "status": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+              "risk_closed": false,
+              "question_closed": false,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [
+                "flow-after-clean",
+                "flow-transfer:4",
+                "flow-transfer:5"
+              ],
+              "blocking_record_ids": [
+                "joint-service-transfer:4",
+                "joint-service-transfer:5"
+              ],
+              "disposition_record_ids": [],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-0",
+                "record_id": "flow-after-clean",
+                "passed": true,
+                "supporting_record_ids": [
+                  "flow-after-clean"
+                ]
+              },
+              "checks": [
+                {
+                  "check_id": "flow-restored",
+                  "role": "condition",
+                  "passed": true,
+                  "supporting_record_ids": [
+                    "flow-transfer:4",
+                    "flow-transfer:5"
+                  ],
+                  "insufficient_record_ids": [],
+                  "genuine_sample_count": 2,
+                  "span_s": 1.0,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                },
+                {
+                  "check_id": "service-restored",
+                  "role": "service",
+                  "passed": false,
+                  "supporting_record_ids": [],
+                  "insufficient_record_ids": [
+                    "joint-service-transfer:4",
+                    "joint-service-transfer:5"
+                  ],
+                  "genuine_sample_count": 0,
+                  "span_s": null,
+                  "independence": "NOT_ESTABLISHED_NO_PROBABILITY_MULTIPLICATION"
+                }
+              ],
+              "trace": [
+                {
+                  "event": "ACTION_REPORT_AVAILABLE",
+                  "task_id": "cooling-direct/action-0",
+                  "observed_at_s": 3.25,
+                  "arrived_at_s": 3.75,
+                  "outcome": "APPLIED"
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "lake-flow@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:4",
+                  "observed_at_s": 4.0,
+                  "arrived_at_s": 4.5,
+                  "valid_until_s": 7,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@4",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "OWN_RECHECK_AVAILABLE",
+                  "task_id": "cooling-direct/recheck-0",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "passed": true,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-after-clean",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 10,
+                  "provenance": {
+                    "origin_id": "flow-after-clean",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_AVAILABLE",
+                  "record_id": "flow-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "lake-flow@5",
+                    "copied_from_record_id": null
+                  }
+                },
+                {
+                  "event": "VERIFICATION_RECORD_BLOCKED",
+                  "record_id": "joint-service-transfer:5",
+                  "observed_at_s": 5,
+                  "arrived_at_s": 5.5,
+                  "valid_until_s": 8,
+                  "provenance": {
+                    "origin_id": "joint-service-meter@5",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_ACTION_RECHECK_AND_DECLARED_FINITE_SAMPLED_CRITERIA_ONLY"
+            }
+          ],
+          "recheck_task_id": "cooling-direct/recheck-0",
+          "actual_recheck_completed_at_s": 5,
+          "recheck_report_arrived_at_s": 5.5,
+          "first_question_closed_at_s": null,
+          "first_risk_accepted_at_s": null,
+          "first_escalated_at_s": null,
+          "first_false_alarm_reviewed_at_s": null,
+          "management_disposition_assessments": [],
+          "historical_disposition_assessments": [],
+          "scope": "ACTUAL_WORK_AND_DECLARED_FINITE_SAMPLED_CLOSURE_NOT_CONTINUOUS_RESTORATION"
+        },
+        {
+          "id": "new-management-51",
+          "question_id": "cooling-direct/question-1",
+          "task_id": "cooling-direct/action-1",
+          "opened_at_s": 5.75,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "time_to_first_verified_closed_s": null,
+          "closure_right_censored": true,
+          "closure_censor_at_s": 6.0,
+          "last_assessed_at_s": 6.0,
+          "latest_assessed_status": "RISK_ACCEPTED",
+          "status_at_horizon": "RISK_ACCEPTED",
+          "assessments": [
+            {
+              "question_id": "cooling-direct/question-1",
+              "template_id": "cooling-direct",
+              "opened_at_s": 5.75,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-1",
+              "recheck_task_id": "cooling-direct/recheck-1",
+              "as_of_s": 5.75,
+              "status": "RISK_ACCEPTED",
+              "risk_closed": false,
+              "question_closed": true,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [],
+              "blocking_record_ids": [],
+              "disposition_record_ids": [
+                "accept-risk-instance1-21"
+              ],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-1",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [],
+              "trace": [
+                {
+                  "event": "AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE",
+                  "record_id": "accept-risk-instance1-21",
+                  "disposition": "ACCEPT_RISK",
+                  "observed_at_s": 5.75,
+                  "arrived_at_s": 5.75,
+                  "valid_until_s": 8,
+                  "authorization_id": "research-risk-owner-21",
+                  "provenance": {
+                    "origin_id": "accept-risk-instance1-21",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_AUTHORIZED_MANAGEMENT_DISPOSITION_NOT_PHYSICAL_RESTORATION"
+            },
+            {
+              "question_id": "cooling-direct/question-1",
+              "template_id": "cooling-direct",
+              "opened_at_s": 5.75,
+              "rule_id": "cooling-instance-verification",
+              "task_id": "cooling-direct/action-1",
+              "recheck_task_id": "cooling-direct/recheck-1",
+              "as_of_s": 6.0,
+              "status": "RISK_ACCEPTED",
+              "risk_closed": false,
+              "question_closed": true,
+              "physical_restoration_claim": false,
+              "supporting_record_ids": [],
+              "blocking_record_ids": [],
+              "disposition_record_ids": [
+                "accept-risk-instance1-21"
+              ],
+              "own_recheck": {
+                "task_id": "cooling-direct/recheck-1",
+                "record_id": null,
+                "passed": false,
+                "supporting_record_ids": []
+              },
+              "checks": [],
+              "trace": [
+                {
+                  "event": "AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE",
+                  "record_id": "accept-risk-instance1-21",
+                  "disposition": "ACCEPT_RISK",
+                  "observed_at_s": 5.75,
+                  "arrived_at_s": 5.75,
+                  "valid_until_s": 8,
+                  "authorization_id": "research-risk-owner-21",
+                  "provenance": {
+                    "origin_id": "accept-risk-instance1-21",
+                    "copied_from_record_id": null
+                  }
+                }
+              ],
+              "scope": "OWN_INSTANCE_AUTHORIZED_MANAGEMENT_DISPOSITION_NOT_PHYSICAL_RESTORATION"
+            }
+          ],
+          "recheck_task_id": "cooling-direct/recheck-1",
+          "actual_recheck_completed_at_s": null,
+          "recheck_report_arrived_at_s": null,
+          "first_question_closed_at_s": 5.75,
+          "first_risk_accepted_at_s": 5.75,
+          "first_escalated_at_s": null,
+          "first_false_alarm_reviewed_at_s": null,
+          "management_disposition_assessments": [
+            {
+              "event": "AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE",
+              "record_id": "accept-risk-instance1-21",
+              "disposition": "ACCEPT_RISK",
+              "observed_at_s": 5.75,
+              "arrived_at_s": 5.75,
+              "valid_until_s": 8,
+              "authorization_id": "research-risk-owner-21",
+              "provenance": {
+                "origin_id": "accept-risk-instance1-21",
+                "copied_from_record_id": null
+              },
+              "evaluated_at_s": 5.75,
+              "status_at_evaluation": "RISK_ACCEPTED",
+              "selected_at_evaluation": true
+            },
+            {
+              "event": "AUTHORIZED_RISK_ACCEPTANCE_AVAILABLE",
+              "record_id": "accept-risk-instance1-21",
+              "disposition": "ACCEPT_RISK",
+              "observed_at_s": 5.75,
+              "arrived_at_s": 5.75,
+              "valid_until_s": 8,
+              "authorization_id": "research-risk-owner-21",
+              "provenance": {
+                "origin_id": "accept-risk-instance1-21",
+                "copied_from_record_id": null
+              },
+              "evaluated_at_s": 6.0,
+              "status_at_evaluation": "RISK_ACCEPTED",
+              "selected_at_evaluation": true
+            }
+          ],
+          "historical_disposition_assessments": [],
+          "scope": "ACTUAL_WORK_AND_DECLARED_FINITE_SAMPLED_CLOSURE_NOT_CONTINUOUS_RESTORATION"
+        }
+      ],
+      "diagnosis_and_prevention": {
+        "status": "NOT_DEFINED_FOR_THIS_PROGRAM_VERSION",
+        "false_positive_rate": null,
+        "missed_detection_rate": null,
+        "prevention_effect": null
+      },
+      "new_research_trials": 0,
+      "field_calibration": "PENDING",
+      "research_gain_claim": "NOT_ESTABLISHED"
+    },
+    "costs": {
+      "schema": "aegisdc-business-cost-result-v2",
+      "program_id": "joint53-private-costs",
+      "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+      "visibility": "PRIVATE_EVALUATOR_ONLY",
+      "basis": "synthetic_assumption",
+      "time_unit": "s",
+      "window_end_s": 6.0,
+      "execution_code_identity": {
+        "git_commit": null,
+        "implementation_has_changes": null,
+        "source_tree_sha256": "da78fd61b61b0cab9c9fb0a3cb5d9a263cf0864695eef8e2d10b97c018fea2e8",
+        "files": {
+          "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+          "src/aegis_dc/__main__.py": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+          "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+          "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+          "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+          "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+          "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+          "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+          "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+          "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+          "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+          "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+          "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+          "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+          "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+          "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+          "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+          "src/aegis_dc/inspection_execution.py": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+          "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+          "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+          "src/aegis_dc/intervention_execution.py": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+          "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+          "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+          "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+          "src/aegis_dc/nonfixed_evidence.py": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+          "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+          "src/aegis_dc/plant.py": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+          "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+          "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+          "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+          "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+          "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+          "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+          "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+          "src/aegis_dc/replay.py": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+          "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+          "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+          "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+          "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+          "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+          "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+          "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+          "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+          "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+          "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+          "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+          "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+          "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+          "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+          "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+          "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+        }
+      },
+      "actual": {
+        "worker_travel_person_s": {
+          "value": 2.0,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "worker_work_person_s": {
+          "value": 2.0,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "worker_wait_person_s": {
+          "value": 0.5,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "access_check_person_s": {
+          "value": 0.5,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "rendezvous_wait_person_s": {
+          "value": 0.0,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "queue_wait_person_s": {
+          "value": 0.0,
+          "unit": "person_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "tool_occupation_tool_s": {
+          "value": 4.5,
+          "unit": "tool_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        },
+        "tool_work_tool_s": {
+          "value": 2.0,
+          "unit": "tool_s",
+          "status": "RECORDED",
+          "source": "PLANT_INTEGRATED_OCCUPATION_COUNTS"
+        }
+      },
+      "personnel_total": {
+        "value": 4.5,
+        "unit": "person_s",
+        "status": "RECORDED",
+        "source": "TRAVEL_PLUS_WORK_PLUS_WAIT_EXCLUDING_WAIT_SUBCOMPONENTS"
+      },
+      "consistency": {
+        "wait_components_partition_total": true,
+        "tool_work_within_occupation": true,
+        "all_recorded_quantities_nonnegative": true,
+        "absolute_roundoff_tolerance": 1e-09,
+        "relative_roundoff_tolerance": 1e-09
+      },
+      "admission": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "issue_fees": {
+        "value": 2,
+        "unit": "declared_research_cost",
+        "status": "RECORDED",
+        "source": "DECLARED_ISSUE_FEES_NOT_ACTUAL_CURRENCY_PAYMENT"
+      },
+      "distance_m": {
+        "value": null,
+        "unit": "m",
+        "status": "NOT_RECORDED",
+        "source": "NO_METRIC_ROUTE_LENGTH_ACCOUNT"
+      },
+      "currency_payment": {
+        "value": null,
+        "unit": null,
+        "status": "NOT_RECORDED",
+        "source": "NO_CURRENCY_RATE_OR_PAYMENT_RECORD"
+      },
+      "task_outcomes": {
+        "total": 2,
+        "counts": {
+          "completed": 2
+        },
+        "records": [
+          {
+            "id": "cooling-direct/action-0",
+            "status": "completed",
+            "accepted": true,
+            "issued_at_s": 0.0,
+            "finished_at_s": 3.25,
+            "completed_at_s": 3.25
+          },
+          {
+            "id": "cooling-direct/recheck-0",
+            "status": "completed",
+            "accepted": true,
+            "issued_at_s": 3.75,
+            "finished_at_s": 5,
+            "completed_at_s": 5
+          }
+        ]
+      },
+      "failure_attribution": {
+        "status": "ACTUAL_TRACE_WITH_SHARED_QUEUE_COSTS",
+        "per_task": [
+          {
+            "task_id": "cooling-direct/action-0",
+            "status_at_horizon": "completed",
+            "actual": {
+              "worker_travel_person_s": {
+                "value": 2.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "worker_work_person_s": {
+                "value": 1.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "worker_wait_person_s": {
+                "value": 0.25,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "access_check_person_s": {
+                "value": 0.25,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "rendezvous_wait_person_s": {
+                "value": 0.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "queue_wait_person_s": {
+                "value": 0.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "tool_occupation_tool_s": {
+                "value": 3.25,
+                "unit": "tool_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "tool_work_tool_s": {
+                "value": 1.0,
+                "unit": "tool_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              }
+            },
+            "issue_fee": {
+              "value": 1,
+              "unit": "declared_research_cost",
+              "source": "ACTUAL_SELECTED_CANDIDATE_DECLARED_FEE",
+              "status": "RECORDED"
+            }
+          },
+          {
+            "task_id": "cooling-direct/recheck-0",
+            "status_at_horizon": "completed",
+            "actual": {
+              "worker_travel_person_s": {
+                "value": 0.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "worker_work_person_s": {
+                "value": 1.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "worker_wait_person_s": {
+                "value": 0.25,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "access_check_person_s": {
+                "value": 0.25,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "rendezvous_wait_person_s": {
+                "value": 0.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "queue_wait_person_s": {
+                "value": 0.0,
+                "unit": "person_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "tool_occupation_tool_s": {
+                "value": 1.25,
+                "unit": "tool_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              },
+              "tool_work_tool_s": {
+                "value": 1.0,
+                "unit": "tool_s",
+                "status": "ACTUAL_TRACE_RECORDED",
+                "source": "POST_EVENT_ACTUAL_STATE_UNTIL_NEXT_TRACE_TIME"
+              }
+            },
+            "issue_fee": {
+              "value": 1,
+              "unit": "declared_research_cost",
+              "source": "ACTUAL_SELECTED_CANDIDATE_DECLARED_FEE",
+              "status": "RECORDED"
+            }
+          }
+        ],
+        "shared_queue_costs": [],
+        "failure_task_ids": [],
+        "unfinished_task_ids": [],
+        "reconciliation": {
+          "worker_travel_person_s": true,
+          "worker_work_person_s": true,
+          "worker_wait_person_s": true,
+          "access_check_person_s": true,
+          "rendezvous_wait_person_s": true,
+          "queue_wait_person_s": true,
+          "tool_occupation_tool_s": true,
+          "tool_work_tool_s": true
+        },
+        "issue_fee_reconciled": true,
+        "scope": "OBSERVED_ACTIVITY_AND_ISSUED_FEES_INCLUDING_FAILURES_AND_UNFINISHED;SHARED_QUEUE_REMAINS_JOINT"
+      },
+      "computation": {
+        "observed_selector_invocations": 8,
+        "observed_condition_assessment_invocations": 8,
+        "condition_count_records": 8,
+        "audit_records": 8,
+        "audit_record_details": [
+          {
+            "decision_at_s": 0.0,
+            "elapsed_ns": 433213480,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 55149761
+          },
+          {
+            "decision_at_s": 0.5,
+            "elapsed_ns": 496828714,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 1,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 7300772
+          },
+          {
+            "decision_at_s": 3.75,
+            "elapsed_ns": 535461068,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 56610041
+          },
+          {
+            "decision_at_s": 4.5,
+            "elapsed_ns": 602072843,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 8576603
+          },
+          {
+            "decision_at_s": 5,
+            "elapsed_ns": 602374603,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 8662973
+          },
+          {
+            "decision_at_s": 5.5,
+            "elapsed_ns": 701353149,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 9511083
+          },
+          {
+            "decision_at_s": 5.75,
+            "elapsed_ns": 686043474,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 9694083
+          },
+          {
+            "decision_at_s": 6.0,
+            "elapsed_ns": 703033770,
+            "model_evaluations": {
+              "risk": 0,
+              "action_value": 0
+            },
+            "candidate_count": 2,
+            "forecast_branch_count": 0,
+            "scope": "DIAGNOSTIC_WALL_TIME_ONLY_NOT_PHYSICAL_TIME_OR_POLICY_INPUT",
+            "instance_closure_evaluations": 1,
+            "condition_assessment_evaluations": 1,
+            "condition_assessment_elapsed_ns": 61983403
+          }
+        ],
+        "model_evaluations": {
+          "action_value": {
+            "count": 0,
+            "records_with_count": 8,
+            "audit_records": 8,
+            "coverage": "ALL_AUDIT_RECORDS"
+          },
+          "risk": {
+            "count": 0,
+            "records_with_count": 8,
+            "audit_records": 8,
+            "coverage": "ALL_AUDIT_RECORDS"
+          }
+        },
+        "instance_closure_evaluations": {
+          "count": 8,
+          "records_with_count": 8,
+          "audit_records": 8,
+          "coverage": "ALL_AUDIT_RECORDS"
+        },
+        "selector_elapsed_ns": {
+          "value": 4760381101,
+          "unit": "ns",
+          "status": "RECORDED",
+          "source": "POLICY_COMPUTATION_AUDIT_ONLY_NOT_PHYSICAL_TIME",
+          "records_with_timing": 8,
+          "audit_records": 8,
+          "scope": "SELECTOR_OR_CONDITION_CALL_ONLY_NOT_FULL_PROGRAM_WALL_TIME"
+        },
+        "condition_assessment_elapsed_ns": {
+          "value": 217488719,
+          "unit": "ns",
+          "status": "RECORDED",
+          "source": "POLICY_COMPUTATION_AUDIT_ONLY_NOT_PHYSICAL_TIME",
+          "records_with_timing": 8,
+          "audit_records": 8,
+          "scope": "SELECTOR_OR_CONDITION_CALL_ONLY_NOT_FULL_PROGRAM_WALL_TIME"
+        },
+        "llm_calls": {
+          "value": 0,
+          "unit": "call",
+          "status": "RECORDED",
+          "source": "FACILITY_DECLARED_LLM_COUNTER_NOT_MATHEMATICAL_ESTIMATIONS"
+        },
+        "training_calls": {
+          "value": 0,
+          "unit": "call",
+          "status": "RECORDED",
+          "source": "FACILITY_DECLARED_TRAINING_COUNTER"
+        },
+        "internal_nested_calls": {
+          "value": null,
+          "unit": "call",
+          "status": "NOT_RECORDED",
+          "source": "NOT_INSTRUMENTED"
+        },
+        "llm_tokens": {
+          "value": null,
+          "unit": "token",
+          "status": "NOT_RECORDED",
+          "source": "NO_TOKEN_ACCOUNT"
+        },
+        "computation_energy_J": {
+          "value": null,
+          "unit": "J",
+          "status": "NOT_RECORDED",
+          "source": "NO_COMPUTE_ENERGY_ACCOUNT"
+        }
+      },
+      "scope": "ACTUAL_OCCUPATION_DECLARED_FEES_AND_RECORDED_COMPUTATION_NOT_FIELD_MONETARY_COST",
+      "field_calibration": "PENDING",
+      "new_research_trials": 0,
+      "research_gain_claim": "NOT_ESTABLISHED"
+    }
+  },
+  "new_research_trials": 0,
+  "field_calibration": "PENDING",
+  "research_gain_claim": "NOT_ESTABLISHED"
+}
