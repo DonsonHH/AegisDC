@@ -1,0 +1,238 @@
+[
+  {
+    "case": "window-before-fault",
+    "passed": true,
+    "actual": {
+      "first_public_confirmation_at_s": null,
+      "confirmation_status": "NOT_OBSERVED_BY_WINDOW_END",
+      "sample_times_s": [
+        0,
+        0.5
+      ],
+      "fault_reference": {
+        "sample_at_s": null,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": true,
+        "left_censored": false,
+        "censor_at_s": 0.5,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "lead_unavailable_reason": "REFERENCE_RIGHT_CENSORED"
+      },
+      "service_loss_reference": {
+        "sample_at_s": null,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": true,
+        "left_censored": false,
+        "censor_at_s": 0.5,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+        "lead_unavailable_reason": "REFERENCE_RIGHT_CENSORED",
+        "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+      },
+      "intervention_deadline_reference": {
+        "status": "DECLARED_PLANNED_DEADLINE",
+        "at_s": 3.5,
+        "source_note": "A prospective synthetic planning cutoff, distinct from2sconfirmation cutoff; no inferred optimal rescue deadline.",
+        "lead_s": null,
+        "lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+      },
+      "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+    },
+    "duration_s": 0.5,
+    "returned_decisions": 2,
+    "public_conditions": [
+      "UNKNOWN",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "case": "initial-fault-left-censored",
+    "passed": true,
+    "actual": {
+      "first_public_confirmation_at_s": 1.75,
+      "confirmation_status": "OBSERVED",
+      "sample_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "fault_reference": {
+        "sample_at_s": 0,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": false,
+        "left_censored": true,
+        "censor_at_s": 0,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "PRESENT_AT_FIRST_SAMPLE",
+        "lead_unavailable_reason": "ONSET_NOT_OBSERVED"
+      },
+      "service_loss_reference": {
+        "sample_at_s": 0,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": false,
+        "left_censored": true,
+        "censor_at_s": 0,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "PRESENT_AT_FIRST_SAMPLE",
+        "lead_unavailable_reason": "ONSET_NOT_OBSERVED",
+        "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+      },
+      "intervention_deadline_reference": {
+        "status": "DECLARED_PLANNED_DEADLINE",
+        "at_s": 3.5,
+        "source_note": "A prospective synthetic planning cutoff, distinct from2sconfirmation cutoff; no inferred optimal rescue deadline.",
+        "lead_s": 1.75,
+        "lead_unavailable_reason": null,
+        "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+      },
+      "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+    },
+    "duration_s": 2.0,
+    "returned_decisions": 3,
+    "public_conditions": [
+      "UNKNOWN",
+      "ABNORMAL",
+      "ABNORMAL"
+    ]
+  },
+  {
+    "case": "no-human-no-confirmation",
+    "passed": true,
+    "actual": {
+      "first_public_confirmation_at_s": null,
+      "confirmation_status": "NOT_OBSERVED_BY_WINDOW_END",
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "fault_reference": {
+        "sample_at_s": 1,
+        "previous_non_event_sample_at_s": 0,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": true,
+        "right_censored": false,
+        "left_censored": false,
+        "censor_at_s": null,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "FIRST_TRANSITION_SAMPLE",
+        "lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION"
+      },
+      "service_loss_reference": {
+        "sample_at_s": 1,
+        "previous_non_event_sample_at_s": 0,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": true,
+        "right_censored": false,
+        "left_censored": false,
+        "censor_at_s": null,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "FIRST_TRANSITION_SAMPLE",
+        "lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+      },
+      "intervention_deadline_reference": {
+        "status": "DECLARED_PLANNED_DEADLINE",
+        "at_s": 3.5,
+        "source_note": "A prospective synthetic planning cutoff, distinct from2sconfirmation cutoff; no inferred optimal rescue deadline.",
+        "lead_s": null,
+        "lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+      },
+      "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+    },
+    "duration_s": 2.0,
+    "returned_decisions": 3,
+    "public_conditions": [
+      "UNKNOWN",
+      "UNKNOWN",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "case": "unmodeled-truth-and-cutoff",
+    "passed": true,
+    "actual": {
+      "first_public_confirmation_at_s": null,
+      "confirmation_status": "NOT_OBSERVED_BY_WINDOW_END",
+      "sample_times_s": [
+        0,
+        1,
+        1.75,
+        2
+      ],
+      "fault_reference": {
+        "sample_at_s": null,
+        "previous_non_event_sample_at_s": null,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": null,
+        "right_censored": false,
+        "left_censored": false,
+        "censor_at_s": null,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "UNMODELED",
+        "lead_unavailable_reason": "UNMODELED_REFERENCE"
+      },
+      "service_loss_reference": {
+        "sample_at_s": 1,
+        "previous_non_event_sample_at_s": 0,
+        "lead_s": null,
+        "transition_lead_interval_s": null,
+        "interval_lower_exclusive": true,
+        "right_censored": false,
+        "left_censored": false,
+        "censor_at_s": null,
+        "lead_lower_bound_if_later_event_s": null,
+        "sampling_scope": "DECLARED_PRIVATE_SAMPLES_ONLY",
+        "status": "FIRST_TRANSITION_SAMPLE",
+        "lead_unavailable_reason": "NO_PUBLIC_CONFIRMATION",
+        "attribution": "WHOLE_FACILITY_NOT_CAUSE_ATTRIBUTED"
+      },
+      "intervention_deadline_reference": {
+        "status": "UNMODELED",
+        "at_s": null,
+        "source_note": "No prospective intervention cutoff declared; keep unknown instead of substituting confirmation cutoff.",
+        "lead_s": null,
+        "lead_unavailable_reason": "UNMODELED_REFERENCE",
+        "scope": "PROSPECTIVE_PLAN_NOT_OBSERVED_FAILURE_OR_OPTIMAL_RESCUE_TIME"
+      },
+      "sign_convention": "REFERENCE_MINUS_PUBLIC_CONFIRMATION_AVAILABILITY",
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL"
+    },
+    "duration_s": 2.0,
+    "returned_decisions": 3,
+    "public_conditions": [
+      "UNKNOWN",
+      "ABNORMAL",
+      "ABNORMAL"
+    ]
+  }
+]
