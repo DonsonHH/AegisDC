@@ -664,7 +664,7 @@ class _Plant:
             'backup': {'ups_energy_J': self.energy['ups'], 'fuel_energy_J': self.energy['fuel'],
                        'generator_mode': self.generator_mode, 'generator_ready_at_s': self.generator_ready,
                        'backup_tower_mode': self.reserve_state['cooling']['mode'] if self.reserve_model else 'standby_uncommanded',
-                       **({'starter_energy_J': self.energy['starter'], 'reserve_states': deepcopy(self.reserve_state)} if self.reserve_model else {})},
+                       **({'ups_in_service': p['ups_in_service'], 'starter_energy_J': self.energy['starter'], 'reserve_states': deepcopy(self.reserve_state)} if self.reserve_model else {})},
             'facility_cooling': {'hot_temperature_K': t['hot'], 'cold_temperature_K': t['cold'],
                                  'hot_mass_kg': self.hot_mass, 'cold_mass_kg': p['internal_cold_mass'],
                                  'lake_pump': point['lake_pump'], 'internal_pump': point['internal_pump'],

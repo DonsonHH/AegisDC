@@ -3,7 +3,7 @@ from copy import deepcopy
 from fractions import Fraction
 from .evidence_ledger import EvidenceLedger
 from .nonfixed_evidence import (validate_nonfixed_profile, _measurement_result, _realization,
-    _arrival, _finite, _plain, _text, SIGNALS)
+    _arrival, _finite, _plain, _text, _signal_value, SIGNALS)
 
 PROFILE_FIELDS={'schema','id','facility_id','basis','source_note','nonfixed_profile','bindings'}
 BINDING_FIELDS={'task_id','model_id','tool_id','qualification_id','minimum_work_s',
@@ -86,7 +86,7 @@ class InspectionSession:
                 self.events.append(dict(audit,disposition='WORK_INTERVAL_TOO_SHORT'));continue
             model=binding['binding']['model'];value=point['domains']
             for key in SIGNALS[model['signal_id']][2]:value=value[key]
-            _finite(value,'Current authorized physical sample')
+            _signal_value(model['signal_id'],value)
             condition_ok=binding['condition_range'][0]<=value<=binding['condition_range'][1]
             token=dict(source_id=binding['binding']['source_id'],target_id=binding['binding']['target_id'],
                 observable_id=binding['binding']['observable_id'],completed_at_s=time_s,provenance=binding['provenance'])

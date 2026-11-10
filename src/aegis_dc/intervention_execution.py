@@ -19,11 +19,12 @@ OPERATIONS={
     'clean_filter':('filter','inspect_facility_cooling','filter_resistance_multiplier','1'),
     'adjust_compute_request':('compute','inspect_it_service','compute_demand_power','W'),
     'request_backup_cooling':('backup_tower','inspect_backup','backup_cooling_requested','1'),
+    'restore_ups_service':('ups','inspect_backup','ups_in_service','1'),
 }
 # Public, versioned research domains for this operation catalog. These bounds
 # describe supported inputs, not current actual capability or site calibration.
 SETTING_BOUNDS={'restore_network_capacity':(0,2),'clean_filter':(.25,100),
-                'adjust_compute_request':(0,5_000_000),'request_backup_cooling':(0,1)}
+                'adjust_compute_request':(0,5_000_000),'request_backup_cooling':(0,1),'restore_ups_service':(1,1)}
 
 def require(ok,message):
     if not ok:raise ValueError(message)

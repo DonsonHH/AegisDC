@@ -117,7 +117,15 @@ SIGNALS = {
     'intake_pump.mass_flow': ('intake_pump', 'kg/s', ('facility_cooling', 'lake_mass_flow_kg_s')),
     'network.available_capacity': ('network', '1', ('it_service', 'capacities', 'network')),
     'rectifier.input_power': ('rectifier', 'W', ('power', 'rectifier_input_W')),
+    'ups.in_service': ('ups', '1', ('backup', 'ups_in_service')),
 }
+
+
+def _signal_value(signal_id,value):
+    _finite(value,'Authorized physical signal')
+    if signal_id=='ups.in_service' and value not in (0,1):
+        raise ValueError('UPS input status must be numeric0 or1')
+    return value
 
 
 class SavedRunSignals:
@@ -180,7 +188,7 @@ class SavedRunSignals:
         value = selected[0]['domains']
         for part in SIGNALS[signal_id][2]:
             value = value[part]
-        return dict(value=_finite(value, 'Authorized measured signal'), unit=SIGNALS[signal_id][1],
+        return dict(value=_signal_value(signal_id,value), unit=SIGNALS[signal_id][1],
                     source_sample_at_s=selected[0]['time_s'], private_source=deepcopy(self._identity))
 
 
@@ -244,13 +252,14 @@ def _measurement_result(model, token, signal, realization):
     """Private pure observation law shared by fixture17 and actual execution22."""
     if model['kind'] == 'unknown':
         return None, dict(status='unknown', error_bound=None, note=model['quality_note']), dict(declared_indeterminate=True), None, None
+    _signal_value(model['signal_id'],signal['value'])
     realization = _realization(realization)
     if model['kind'] == 'binary_detection' and (realization['bias'] != 0 or realization['noise_half_width'] != 0):
         raise ValueError('Binary threshold performance is separate from the numeric bias/noise model')
     if model['kind'] == 'numeric':
         draw = _draw(realization, token, 'numeric-noise')
         exact = Fraction(signal['value']) + Fraction(realization['bias']) + Fraction(realization['noise_half_width']) * (2 * draw - 1)
-        value = _reported_number(exact)
+        value = _signal_value(model['signal_id'],_reported_number(exact))
         quality = dict(status='bounded', error_bound=model['reported_error_bound'], note=model['quality_note'])
         outcome = dict(actual_error_vs_signal=_reported_number(Fraction(value)-Fraction(signal['value'])),
             declared_bound_contains_signal=abs(Fraction(value)-Fraction(signal['value'])) <= Fraction(model['reported_error_bound']))
