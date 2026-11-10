@@ -49,7 +49,8 @@ def main():
     spec = protocol['container_snapshot']
     runner = spec.get('runner_path', DEFAULT_RUNNER)
     require(runner in (DEFAULT_RUNNER, TOOL + 'run_remote_engineering_slice_29.py',
-                      TOOL + 'run_remote_engineering_slice_33.py'),
+                      TOOL + 'run_remote_engineering_slice_33.py',
+                      TOOL + 'run_remote_engineering_slice_35.py'),
             'Use a reviewed, versioned container runner')
     attempt = spec['attempts'][args.phase]
     execution = (control if attempt['runtime_source'] == 'control'
@@ -81,7 +82,8 @@ def main():
     require((budget['tests'], budget['facility_entries'], budget['new_research_trials'],
              budget['GPU_use']) == (1, 0, 0, False) and type(calls) is int and 1 <= calls <= 64,
             'Declare one qualification test and a bounded public-call budget; no facility/trial/GPU work')
-    require(calls == 1 or runner == TOOL + 'run_remote_engineering_slice_33.py',
+    require(calls == 1 or runner in (TOOL + 'run_remote_engineering_slice_33.py',
+                                      TOOL + 'run_remote_engineering_slice_35.py'),
             'Use the explicit-budget runner for a multi-condition qualification')
     require(attempt['maximum_invocations'] == 1, 'Each phase permits a single invocation')
     host = protocol['execution_host']

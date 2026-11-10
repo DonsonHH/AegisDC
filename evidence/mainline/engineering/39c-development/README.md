@@ -1,5 +1,15 @@
 # 业务评价开发：从状态确认到证据关闭
 
+**2026年11月10日最新：[实例审查阅读检查点](../../../../docs/mainline/39c-review-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-review-checkpoint-20261110.html)。** 24个证据／来源／授权条件通过，实际状态为1误报审查、1接受风险、1升级、17保持开放、4输入拒绝；三个历史处置与当前状态分开。全部原失败保留，整票39c尚未接受。
+
+![24条件实际数据](figures-07/review-checkpoint-36/review-qualification.png)
+
+![实例审查架构](figures-07/review-checkpoint-36/review-architecture.png)
+
+协议20–33共16份唯一回执、15项执行测试、38次直接公开选择，零设施及研究增量；工具35三个夹具、保存绘图34／36另列。37次设施进入／17完成窗口72.5秒／81返回决策保持，内部选择未插桩。新图已核验哈希并实际查看。详见[执行账](instance-review-execution-ledger.json)、[独立复核及记账纠正](reviews-10)。
+
+以下保留此前物理、诊断与参考窗口的检查点；其中“下一步”等为各自时点快照，当前待办为提前量／删失、实际成本和联合重放。
+
 **39c已接通动态实例自身的处置／复检链与联合证据关闭，整票仍在开发。** 公开状态判定、固定事件分母和四种参考窗口继续保留。原180次研究、NO_PRACTICAL_GAIN与所有失败保持，未新增AI或效果研究。
 
 ![实例自身的作业与联合证据核验](figures-05/22-saved-instance-closure-figure/instance-joint-verification.png)
