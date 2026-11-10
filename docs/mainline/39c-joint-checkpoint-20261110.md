@@ -24,3 +24,5 @@
 [53原件](../../evidence/mainline/engineering/39c-development/slice-53/README.md) · [54原失败](../../evidence/mainline/engineering/39c-development/slice-54/README.md) · [55保存资格](../../evidence/mainline/engineering/39c-development/slice-55/result.json) · [56原件与灰度](../../evidence/mainline/engineering/39c-development/slice-56/result.json)
 
 下一步是[业务录制、读取与精确重放](39c-combined-endpoints-next.md)，之后整39c独立复核、零跳过根与fresh，再进39d时间尺度／数值范围及AI研究。当前CI检查点另记，不等于整39c接受；AI/RSI效果未测，现场标定PENDING。
+
+[新发布回归](evidence/39c-joint-checkpoint-ci-20261110/README.md)实际650发现／648执行，零失败错误、2既有可选神经跳过，20历史原件核验通过；原54失败保持。

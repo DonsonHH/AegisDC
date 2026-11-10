@@ -1,0 +1,135 @@
+{
+  "engineering": "PASS",
+  "evidence": "PASS",
+  "research": "NOT_RUN",
+  "historical_research_gain": "NOT_ESTABLISHED",
+  "overall": "PASS",
+  "output_directory": "/home/runner/work/AegisDC/AegisDC/runs/ci",
+  "scope": "Engineering regression and saved-evidence recomputation; no research training or LLM calls",
+  "structure": {
+    "status": "PASS",
+    "source_modules": 32,
+    "historical_parallel_entry_points": 0,
+    "local_document_links": "checked",
+    "scope": "Structural integrity, not scientific effectiveness"
+  },
+  "tests": {
+    "run": 650,
+    "executed": 648,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "optional_neural_skips": [
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_policy_masks_a_candidate_even_when_it_has_larger_logit",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      },
+      {
+        "test": "test_supplement_models.SupplementalModelTests.test_untrained_residual_preserves_exact_nominal_and_uses_no_posterior",
+        "reason": "Optional isolated Torch runtime is required for neural model checks"
+      }
+    ],
+    "unexpected_skips": [],
+    "gate": "PASS"
+  },
+  "numeric_regression": {
+    "details": "tests.log",
+    "observed_errors": [
+      {
+        "case": "nominal_H",
+        "maximum_absolute_by_quantity": {
+          "interval_weights": {
+            "path": "anomaly_intervals[0].weight",
+            "value": 0
+          },
+          "measurements": {
+            "path": "inspection_events[824].measurement.temperature_c",
+            "value": 1.4210854715202004e-14
+          },
+          "metrics": {
+            "path": "metrics.unserved_IT_kwh",
+            "value": 1.199040866595169e-14
+          },
+          "process": {
+            "path": "process.process_scalars[201][3]",
+            "value": 7.450580596923828e-9
+          }
+        }
+      },
+      {
+        "case": "history_stub_T",
+        "maximum_absolute_by_quantity": {
+          "interval_weights": {
+            "path": "anomaly_intervals[0].weight",
+            "value": 0
+          },
+          "measurements": {
+            "path": "inspection_events[824].measurement.temperature_c",
+            "value": 1.4210854715202004e-14
+          },
+          "metrics": {
+            "path": "metrics.unserved_IT_kwh",
+            "value": 1.199040866595169e-14
+          },
+          "process": {
+            "path": "process.process_scalars[201][3]",
+            "value": 7.450580596923828e-9
+          }
+        }
+      },
+      {
+        "case": "history_stub_T",
+        "maximum_absolute_by_quantity": {
+          "public_history_inputs": {
+            "path": "history_inputs[0][0][0]",
+            "value": 0
+          }
+        }
+      },
+      {
+        "case": "nominal_R",
+        "maximum_absolute_by_quantity": {
+          "interval_weights": {
+            "path": "anomaly_intervals[0].weight",
+            "value": 0
+          },
+          "measurements": {
+            "path": "inspection_events[835].measurement.temperature_c",
+            "value": 1.4210854715202004e-14
+          },
+          "metrics": {
+            "path": "metrics.unserved_IT_kwh",
+            "value": 1.199040866595169e-14
+          },
+          "process": {
+            "path": "process.process_scalars[201][3]",
+            "value": 7.450580596923828e-9
+          }
+        }
+      },
+      {
+        "case": "nominal_T",
+        "maximum_absolute_by_quantity": {
+          "interval_weights": {
+            "path": "anomaly_intervals[0].weight",
+            "value": 0
+          },
+          "measurements": {
+            "path": "inspection_events[824].measurement.temperature_c",
+            "value": 1.4210854715202004e-14
+          },
+          "metrics": {
+            "path": "metrics.unserved_IT_kwh",
+            "value": 1.199040866595169e-14
+          },
+          "process": {
+            "path": "process.process_scalars[201][3]",
+            "value": 7.450580596923828e-9
+          }
+        }
+      }
+    ]
+  },
+  "verified_original_files": 20,
+  "optional_neural_checkpoint_replay": "NOT_RUN: frozen private checkpoints were not supplied"
+}

@@ -82,3 +82,6 @@ Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnost
 
 
 54original73 FAILED2asserts(all3windows19s27returns complete) retained;nohuman/service originalsubcasespassed. SpecP2omitted per-edgegate;55saved-onlyactualqualification at7dee verifies12private run/trace/balance files,rawns copies/aggregates,bindings and corrected10.25person/5.75tool/firstclose7;P2closedfinite,no native rerun.56layout/gray actualviewed;parentHTMLURIcolon issue retained and onlyderivative reading page corrected,UI01failure retained/UI02mobile390,desktop1440,zoom/focus passed. Latest docs/mainline/39c-joint-checkpoint-20261110.md;100/45/164.25s/207,direct38,original180unchanged. Record/read/exactreplay thenfull0skiproot/fresh stillopen;39c claimed.
+
+
+Actual650publicationCI42832618941/sourceb02c SUCCESS:648executed0failerror2existingTorchoptional,20originals/allCLIpass. Runtime316 unchanged;activecorrectedjointregression executed here,original54 FAILED retained. Joint saved55/layout56 finite reviews and actualview includinggray/mobile390/desktop1440/zoom/focus pass. docs/mainline/39c-joint-checkpoint-20261110.md is latestreading.100/45/164.25s/207captureledger unchanged;record/read/exactreplay thenwhole0skiproot/fresh stillopen.
