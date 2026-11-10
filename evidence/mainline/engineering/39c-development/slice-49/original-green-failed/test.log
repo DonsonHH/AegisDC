@@ -1,0 +1,37 @@
+test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) ... 
+  test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='native-v5') ... ERROR
+test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) ... FAIL
+
+======================================================================
+ERROR: test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='native-v5')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/tests/test_native_instance_review.py", line 43, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/src/aegis_dc/plant.py", line 733, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/src/aegis_dc/policy_execution.py", line 103, in __init__
+    validate_condition_profile(initial,self.diagnostic_profile)
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/src/aegis_dc/condition_assessment.py", line 13, in validate_condition_profile
+    _plain_json(profile);_fields(profile, PROFILE_FIELDS, 'Public condition profile')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Public condition profile fields do not match the closed contract
+
+======================================================================
+FAIL: test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/66-native-review-green-v49/snapshot/tests/test_native_instance_review.py", line 91, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    self.assertTrue(all(r['passed'] for r in rows))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.443s
+
+FAILED (failures=1, errors=1)

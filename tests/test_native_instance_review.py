@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class NativeInstanceReviewTests(unittest.TestCase):
     def test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards(self):
-        base = json.loads((ROOT/'tests/fixtures/39c-native-review-49.json').read_bytes())
+        base = json.loads((ROOT/'tests/fixtures/39c-native-review-50.json').read_bytes())
         output = Path(os.environ['AEGIS_ENGINEERING_RESULT_DIR']) if os.environ.get('AEGIS_ENGINEERING_RESULT_DIR') else None
         self.facility_calls = self.completed_native_horizons = self.returned_decisions = 0
         self.completed_native_duration_s = 0
