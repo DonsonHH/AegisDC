@@ -1,0 +1,198 @@
+{
+  "schema": "aegisdc-facility-risk-baseline-manifest-v1",
+  "id": "V6-FEMA-adapted-risk-inspection-baseline-v1",
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "source_note": "Review baseline only;reuse original finite models,keep six primary scenarios unmodelled and seven inspection-value models absent.",
+  "references": {
+    "public_frame": "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json",
+    "belief_model": "configs/full-facility-belief-model-v1.json",
+    "risk_catalog": "configs/full-facility-risk-scenarios-v1.json",
+    "value_model": "configs/full-facility-action-value-v1.json",
+    "facility_model": "configs/full-facility-mainline-reserve-v6.json"
+  },
+  "method": {
+    "kind": "FEMA_ADAPTED_PROCESS_NOT_DEVICE_SCORE",
+    "sources": [
+      "https://emilms.fema.gov/is_0559/groups/22.html",
+      "https://emilms.fema.gov/is_0559/groups/25.html",
+      "https://emilms.fema.gov/is_0559/groups/28.html"
+    ],
+    "mapping": [
+      "hazard_context",
+      "asset_ids_and_service_dependencies",
+      "conditional_consequences_and_shared_loss",
+      "evidence_gaps_and_inspection_question",
+      "declared_capabilities_actions_and_verification"
+    ]
+  },
+  "domains": [
+    {
+      "domain_id": "power",
+      "label": "供配电",
+      "primary_question_id": "power",
+      "hazard_context": "Possible power impairment affects the shared critical service over the declared finite horizon.",
+      "inspection_question": "电源、整流和供电路径是否能承担声明负载？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "Declared finite conditional outcome law,not empirical site-event probability",
+      "missing_inputs": [
+        "Distinguish aggregate causes and establish present capacity under load.",
+        "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "backup",
+      "label": "后备能源",
+      "primary_question_id": "backup-support",
+      "hazard_context": "Reserve capacity, maintenance availability and switching can constrain shared supply or heat rejection.",
+      "inspection_question": "UPS、柴油与备用冷却是否具备所需持续和切换能力？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Given reserve failure during an upstream loss, delivered critical service can fall to zero; duration depends on demand, protection, stored energy and start delay.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "facility_cooling",
+      "label": "设施冷却",
+      "primary_question_id": "cooling",
+      "hazard_context": "Possible cooling impairment affects the shared critical service over the declared finite horizon.",
+      "inspection_question": "泵、阀、滤器和换热链是否满足当前排热需求？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "Declared finite conditional outcome law,not empirical site-event probability",
+      "missing_inputs": [
+        "Distinguish aggregate causes and establish present capacity under load.",
+        "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "equipment_environment",
+      "label": "设备冷却与房间环境",
+      "primary_question_id": "room-boundary",
+      "hazard_context": "Room conditions or omitted cooling mechanisms may alter thermal boundaries and access.",
+      "inspection_question": "房间、设备热边界和冷凝／泄漏是否造成约束？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Room-driven curtailment and access restriction may overlap with liquid-cooling limitations; their service loss must be deduplicated in a joint model.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "it_service",
+      "label": "计算／网络／存储服务",
+      "primary_question_id": "it-dependence",
+      "hazard_context": "Joint compute, network and storage execution may constrain offered service.",
+      "inspection_question": "共同服务所需的计算、网络和存储容量是否满足需求？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "For positive demand, any required component at zero capacity stops joint service even if other components remain supplied.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "control_monitoring",
+      "label": "自动控制与监控",
+      "primary_question_id": "control-uncertainty",
+      "hazard_context": "Local protection, communication loss and reported controls can alter actual service or available evidence.",
+      "inspection_question": "控制与监测记录是否可用、可信且与真实工作状态一致？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Lost reports may increase epistemic uncertainty without physical loss; a genuine control/permission change may constrain service. These alternatives cannot be assigned one probability from current channels.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "space_access",
+      "label": "空间与保障",
+      "primary_question_id": "access-and-leak",
+      "hazard_context": "Leakage, room restrictions and gate conditions can delay or prevent safe work.",
+      "inspection_question": "访问、泄漏和通行条件是否妨碍安全到场及作业？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Blocked access can delay a beneficial action beyond the response window; any later service loss remains one joint-service consequence, not an added penalty per blocked worker.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    },
+    {
+      "domain_id": "people_tools_work",
+      "label": "异质人员、工具与作业",
+      "primary_question_id": "people-and-tools",
+      "hazard_context": "Qualification, tool occupation, travel and shifts can limit timely inspection and intervention.",
+      "inspection_question": "现有资质、工具、班次和队伍能否完成所需核查及处置？",
+      "evidence_triggers": [
+        "asset_record",
+        "maintenance_history",
+        "human_report",
+        "work_order",
+        "fixed_sensor",
+        "handheld"
+      ],
+      "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+      "missing_inputs": [
+        "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+        "Late or infeasible work changes achievable restoration time; absence of a feasible crew is not itself proof of a current plant fault.",
+        "Dynamic people, tools, access, authorization and operation effects require executor checks."
+      ]
+    }
+  ]
+}
