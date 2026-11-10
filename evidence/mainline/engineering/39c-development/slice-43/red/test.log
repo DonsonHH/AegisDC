@@ -1,0 +1,37 @@
+test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) ... 
+  test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) (case='closure-audit') ... ERROR
+  test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) (case='no-admission') ... FAIL
+test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) ... FAIL
+
+======================================================================
+ERROR: test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) (case='closure-audit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/57-cost-audit-red-v43/snapshot/tests/test_cost_audit_correction.py", line 54, in test_existing_closure_audit_counts_and_no_admission_fee_applicability
+    count = costs['computation']['instance_closure_evaluations']
+            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'instance_closure_evaluations'
+
+======================================================================
+FAIL: test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability) (case='no-admission')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/57-cost-audit-red-v43/snapshot/tests/test_cost_audit_correction.py", line 63, in test_existing_closure_audit_counts_and_no_admission_fee_applicability
+    self.assertEqual(costs['issue_fees']['status'], 'NOT_APPLICABLE')
+AssertionError: 'NOT_RECORDED' != 'NOT_APPLICABLE'
+- NOT_RECORDED
++ NOT_APPLICABLE
+
+
+======================================================================
+FAIL: test_existing_closure_audit_counts_and_no_admission_fee_applicability (test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/57-cost-audit-red-v43/snapshot/tests/test_cost_audit_correction.py", line 74, in test_existing_closure_audit_counts_and_no_admission_fee_applicability
+    self.assertTrue(all(row['passed'] for row in rows))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 7.342s
+
+FAILED (failures=2, errors=1)

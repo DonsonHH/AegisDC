@@ -43,6 +43,13 @@ def _audit_timing(audits, key):
     return result
 
 
+def _audit_counter(audits, key):
+    values = [_counter(row[key]) for row in audits if key in row]
+    return dict(count=sum(values) if values else None, records_with_count=len(values), audit_records=len(audits),
+                coverage='ALL_AUDIT_RECORDS' if audits and len(values) == len(audits)
+                else 'PARTIAL_AUDIT_RECORDS' if values else 'NOT_RECORDED')
+
+
 def _computation(result):
     audits = result.get('policy_computation_audit', [])
     kinds = sorted({kind for row in audits for kind in row['model_evaluations']})
@@ -55,7 +62,8 @@ def _computation(result):
                  if 'condition_assessment_evaluations' in row]
     return dict(observed_selector_invocations=len(audits) if 'policy_computation_audit' in result else None,
         observed_condition_assessment_invocations=sum(condition) if condition else None,
-        condition_count_records=len(condition), audit_records=len(audits), model_evaluations=models,
+        condition_count_records=len(condition), audit_records=len(audits), audit_record_details=deepcopy(audits),
+        model_evaluations=models, instance_closure_evaluations=_audit_counter(audits, 'instance_closure_evaluations'),
         selector_elapsed_ns=_audit_timing(audits, 'elapsed_ns'),
         condition_assessment_elapsed_ns=_audit_timing(audits, 'condition_assessment_elapsed_ns'),
         llm_calls=_measurement(_counter(result['model_calls']) if 'model_calls' in result else None,
@@ -87,6 +95,8 @@ def evaluate_actual_costs(result, program):
     fees = _measurement(admission['spent_or_reserved']['cost'] if admission is not None else None,
                          admission['cost_unit'] if admission is not None else None,
                          'DECLARED_ISSUE_FEES_NOT_ACTUAL_CURRENCY_PAYMENT')
+    if admission is None:
+        fees.update(status='NOT_APPLICABLE', unavailable_reason='NO_ADMISSION_LEDGER')
     tasks = result['work_records']
     records = [{key: deepcopy(row[key]) for key in ('id', 'status', 'accepted', 'reason', 'issued_at_s',
                 'finished_at_s', 'completed_at_s') if key in row} for row in tasks]
