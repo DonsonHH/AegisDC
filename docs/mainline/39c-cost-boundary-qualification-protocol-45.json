@@ -1,0 +1,184 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-cost-boundary-qualification-45",
+  "classification": "SINGLE_GREEN_FIVE_CONCRETE_COST_BOUNDARIES",
+  "contract": "docs/mainline/39c-cost-qualification-contract-45.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-cost-qualification-45.json",
+    "git_blob": "9e3f207374ed3859a387e01db4eca9cd872cd195",
+    "sha256": "3ea0d79d7fdeee0ae0047a0fed04c0d9fb6e38b75cc16561a59f6e28281ca201"
+  },
+  "test": {
+    "path": "tests/test_cost_boundary_qualification.py",
+    "git_blob": "7d77b74da5b6c07304e4236f9d4c02302712243a",
+    "sha256": "baa5a25750da355ec7fc53b915130c0251df705b4c8fd3d6868aebd1d0e3abc1",
+    "test_names": [
+      "test_cost_boundary_qualification.CostBoundaryQualificationTests.test_completed_unfinished_no_human_rejection_and_shared_queue_costs"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 5,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 7
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-cost-qualification-contract-45.md",
+      "configs/materials/reference-r134a-saturation.json",
+      "tests/fixtures/39c-actual-cost-42.json",
+      "tests/test_workforce_dispatch.py",
+      "configs/full-facility-mainline-reserve-v6.json",
+      "configs/full-facility-decision-v1/public-nominal.json",
+      "configs/full-facility-decision-v1/common-ledger.json"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "0ac5b944870d55380cc30e5d52364db7ec0124eb",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/61-cost-boundary-qualification-v45",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/61-cost-boundary-qualification-v45",
+        "expected_returned_decisions": 7,
+        "expected_completed_horizons": 5,
+        "expected_completed_duration_s": 4.25
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "configs/materials/reference-r134a-saturation.json",
+        "git_blob": "4b4a147da4124b9fd515f2a0f6726977a8045cf0",
+        "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c"
+      },
+      {
+        "path": "tests/fixtures/39c-actual-cost-42.json",
+        "git_blob": "bf679b6fa18c99c79c5fa8f5ee38cb16fc33da75",
+        "sha256": "276d96e7683fce742f3d8a657db8fca09c7deb8941f8195de92c58c71f9ba1ca"
+      },
+      {
+        "path": "tests/test_workforce_dispatch.py",
+        "git_blob": "cda58715091939d8132500fbbf08d453ab991f6e",
+        "sha256": "3a2e6b79a4ea3b1fb2d45af9944872cc577627145f7accdfce9cd1d797ab5677"
+      },
+      {
+        "path": "configs/full-facility-mainline-reserve-v6.json",
+        "git_blob": "9617ca0e5b15d48ef16ef629d395c037d7c47b66",
+        "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+      },
+      {
+        "path": "configs/full-facility-decision-v1/public-nominal.json",
+        "git_blob": "0b6602de263237d02e69481c9b60af45d1de4c14",
+        "sha256": "abaec2544a7b16339cd9bcb4cf5c12deaf99695f43c3bc0e9b4df9c18c9d5c34"
+      },
+      {
+        "path": "configs/full-facility-decision-v1/common-ledger.json",
+        "git_blob": "da8fe75de4b8fe1d7eba2244a471bf0cbdb3261f",
+        "sha256": "8b6cb367471a483a0b9bd8079980af34ad8a2815c3c1528a12dba4d0e7d79581"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One invocation only,all5cases retained. A failure requires a new protocol/output for correction;no runtime change or automatic retry. Constructor helpers execute only on remote and do not run their unittest classes.",
+  "whole_39c_accepted": false,
+  "cases": [
+    {
+      "id": "completed",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "task_status": "completed",
+      "expected": {
+        "actual.worker_work_person_s.value": 1,
+        "actual.worker_wait_person_s.value": 0.25,
+        "personnel_total.value": 1.25,
+        "actual.tool_occupation_tool_s.value": 1.25,
+        "issue_fees.value": 1,
+        "task_outcomes.counts": {
+          "completed": 1
+        }
+      }
+    },
+    {
+      "id": "unfinished",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "task_status": "working",
+      "expected": {
+        "actual.worker_work_person_s.value": 0.25,
+        "actual.worker_wait_person_s.value": 0.25,
+        "personnel_total.value": 0.5,
+        "actual.tool_occupation_tool_s.value": 0.5,
+        "issue_fees.value": 1,
+        "task_outcomes.counts": {
+          "working": 1
+        }
+      }
+    },
+    {
+      "id": "no-human",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "expected": {
+        "personnel_total.value": 0,
+        "actual.tool_occupation_tool_s.value": 0,
+        "issue_fees.value": 0,
+        "task_outcomes.total": 0
+      }
+    },
+    {
+      "id": "rejected",
+      "duration_s": 0.25,
+      "task_status": "rejected",
+      "expected": {
+        "personnel_total.value": 0,
+        "actual.tool_occupation_tool_s.value": 0,
+        "issue_fees.status": "NOT_APPLICABLE",
+        "issue_fees.value": null,
+        "task_outcomes.counts": {
+          "rejected": 1
+        }
+      }
+    },
+    {
+      "id": "shared-queue",
+      "duration_s": 1,
+      "expected": {
+        "actual.worker_travel_person_s.value": 0,
+        "actual.worker_work_person_s.value": 0.75,
+        "actual.worker_wait_person_s.value": 1,
+        "actual.access_check_person_s.value": 0.25,
+        "actual.queue_wait_person_s.value": 0.75,
+        "personnel_total.value": 1.75,
+        "actual.tool_occupation_tool_s.value": 1,
+        "actual.tool_work_tool_s.value": 0.75,
+        "issue_fees.status": "NOT_APPLICABLE",
+        "task_outcomes.counts": {
+          "queued": 2,
+          "working": 1
+        }
+      }
+    }
+  ]
+}

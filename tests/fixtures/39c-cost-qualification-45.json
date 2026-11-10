@@ -1,0 +1,92 @@
+{
+  "classification": "FIXED_ENGINEERING_COST_QUALIFICATION_NOT_RESEARCH",
+  "base_input": "tests/fixtures/39c-actual-cost-42.json",
+  "cases": [
+    {
+      "id": "completed",
+      "duration_s": 2,
+      "decision_times_s": [
+        0,
+        1.75,
+        2
+      ],
+      "task_status": "completed",
+      "expected": {
+        "actual.worker_work_person_s.value": 1,
+        "actual.worker_wait_person_s.value": 0.25,
+        "personnel_total.value": 1.25,
+        "actual.tool_occupation_tool_s.value": 1.25,
+        "issue_fees.value": 1,
+        "task_outcomes.counts": {
+          "completed": 1
+        }
+      }
+    },
+    {
+      "id": "unfinished",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "task_status": "working",
+      "expected": {
+        "actual.worker_work_person_s.value": 0.25,
+        "actual.worker_wait_person_s.value": 0.25,
+        "personnel_total.value": 0.5,
+        "actual.tool_occupation_tool_s.value": 0.5,
+        "issue_fees.value": 1,
+        "task_outcomes.counts": {
+          "working": 1
+        }
+      }
+    },
+    {
+      "id": "no-human",
+      "duration_s": 0.5,
+      "decision_times_s": [
+        0,
+        0.5
+      ],
+      "expected": {
+        "personnel_total.value": 0,
+        "actual.tool_occupation_tool_s.value": 0,
+        "issue_fees.value": 0,
+        "task_outcomes.total": 0
+      }
+    },
+    {
+      "id": "rejected",
+      "duration_s": 0.25,
+      "task_status": "rejected",
+      "expected": {
+        "personnel_total.value": 0,
+        "actual.tool_occupation_tool_s.value": 0,
+        "issue_fees.status": "NOT_APPLICABLE",
+        "issue_fees.value": null,
+        "task_outcomes.counts": {
+          "rejected": 1
+        }
+      }
+    },
+    {
+      "id": "shared-queue",
+      "duration_s": 1,
+      "expected": {
+        "actual.worker_travel_person_s.value": 0,
+        "actual.worker_work_person_s.value": 0.75,
+        "actual.worker_wait_person_s.value": 1,
+        "actual.access_check_person_s.value": 0.25,
+        "actual.queue_wait_person_s.value": 0.75,
+        "personnel_total.value": 1.75,
+        "actual.tool_occupation_tool_s.value": 1,
+        "actual.tool_work_tool_s.value": 0.75,
+        "issue_fees.status": "NOT_APPLICABLE",
+        "task_outcomes.counts": {
+          "queued": 2,
+          "working": 1
+        }
+      }
+    }
+  ]
+}
