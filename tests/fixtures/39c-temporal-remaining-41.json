@@ -1,0 +1,105 @@
+{
+  "classification": "FINITE_TEMPORAL_QUALIFICATION_NOT_RESEARCH_OR_PREVENTION",
+  "base_input": "tests/fixtures/39c-temporal-lead-38.json",
+  "bound_input": "tests/fixtures/39c-temporal-lead-37.json",
+  "bound_predicate_note": "Declared low-load operating-point capacity predicate below1with offered demand0.1; this is not an installed-capacity degradation or offered-load service fault. Use only for finite conditional-censor arithmetic qualification.",
+  "refusals": [
+    {
+      "id": "duplicate-sample",
+      "timing_patch": {
+        "sample_times_s": [
+          0,
+          1,
+          1,
+          1.75,
+          2,
+          2.5,
+          3,
+          3.5
+        ]
+      },
+      "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+    },
+    {
+      "id": "missing-horizon",
+      "timing_patch": {
+        "sample_times_s": [
+          0,
+          1,
+          1.75,
+          2,
+          2.5,
+          3
+        ]
+      },
+      "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+    },
+    {
+      "id": "missing-opening",
+      "timing_patch": {
+        "sample_times_s": [
+          1,
+          1.75,
+          2,
+          2.5,
+          3,
+          3.5
+        ]
+      },
+      "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+    },
+    {
+      "id": "undeclared-sample",
+      "timing_patch": {
+        "sample_times_s": [
+          0,
+          0.3,
+          1,
+          1.75,
+          2,
+          2.5,
+          3,
+          3.5
+        ]
+      },
+      "expected_error": "Temporal samples need exact declared run instants"
+    },
+    {
+      "id": "boolean-sample",
+      "timing_patch": {
+        "sample_times_s": [
+          0,
+          true,
+          1.75,
+          2,
+          2.5,
+          3,
+          3.5
+        ]
+      },
+      "expected_error": "Temporal sample must be a finite numeric value, not boolean or missing"
+    },
+    {
+      "id": "unmodeled-cutoff-number",
+      "timing_patch": {
+        "intervention_deadline": {
+          "status": "UNMODELED",
+          "at_s": 3.5,
+          "source_note": "Deliberately invalid declared unknown cutoff with a number."
+        }
+      },
+      "expected_error": "Unmodeled intervention deadline must remain null"
+    },
+    {
+      "id": "cutoff-before-opening",
+      "timing_patch": {
+        "intervention_deadline": {
+          "status": "DECLARED_PLANNED_DEADLINE",
+          "at_s": -1,
+          "source_note": "Deliberately invalid cutoff before opening."
+        }
+      },
+      "expected_error": "Planned deadline precedes this event"
+    }
+  ]
+}

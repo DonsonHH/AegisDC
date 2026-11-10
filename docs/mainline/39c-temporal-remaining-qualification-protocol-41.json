@@ -1,0 +1,186 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-temporal-remaining-qualification-41",
+  "classification": "FROZEN_SINGLE_GREEN_SEVEN_REFUSALS_ONE_NATIVE_BOUND",
+  "contract": "docs/mainline/39c-temporal-remaining-qualification-contract-41.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-temporal-remaining-41.json",
+    "git_blob": "99a944c0ff2bf636bce1627447c471efe7eaba77",
+    "sha256": "e1842b73cdb1f437e61f29ca00155039e4eb233ae7d760884d94649a8056ce6d"
+  },
+  "test": {
+    "path": "tests/test_temporal_input_qualification.py",
+    "git_blob": "bf51140fa118efff537c248d0d6b25b3b309e2d0",
+    "sha256": "51a473b4068d7f9086d094b2985ac80c6f3519b017681619cd87acc8f0b57b98",
+    "test_names": [
+      "test_temporal_input_qualification.TemporalInputQualificationTests.test_refusals_precede_integration_and_confirmed_censor_bound_is_conditional"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 8,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 3
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-temporal-endpoints-contract-37.md",
+      "configs/materials/reference-r134a-saturation.json",
+      "docs/mainline/39c-temporal-input-correction-contract-38.md",
+      "tests/fixtures/39c-temporal-lead-38.json",
+      "tests/fixtures/39c-temporal-lead-37.json",
+      "docs/mainline/39c-temporal-remaining-qualification-contract-41.md"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "b0ddc285f4d4736423c1804d7b3fff1649002da8",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/54-temporal-remaining-qualification-v41",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/54-temporal-remaining-qualification-v41",
+        "expected_returned_decisions": 3,
+        "expected_completed_horizons": 1,
+        "expected_completed_duration_s": 2
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "tests/fixtures/39c-temporal-lead-37.json",
+        "git_blob": "66140decac878b9b95abd0ceea68a65602b3368f",
+        "sha256": "36aeb74ad2e576641c7c1f183de050223ea0493681a9bbc0ae4b11f2dc4b36d2"
+      },
+      {
+        "path": "tests/fixtures/39c-temporal-lead-38.json",
+        "git_blob": "e945dc45d0c8b61ca53221a114bd0b7c7e3d2f75",
+        "sha256": "dd4fb120fe7c1a65316d6d6453f010c6c9909d8d955e6dbdaa7968380331a847"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One invocation. Preserve every refusal and the one native result. An unexpected native return is recorded with its actual cost before failing. No automatic retry or runtime correction.",
+  "whole_39c_accepted": false,
+  "prior_original_green": "evidence/mainline/engineering/39c-development/slice-38/result.json",
+  "prior_green_status": "38PASSED_SINGLE_CONCRETE_THREE_REFERENCE_BEHAVIOR",
+  "cases": {
+    "refusals": [
+      {
+        "id": "duplicate-sample",
+        "timing_patch": {
+          "sample_times_s": [
+            0,
+            1,
+            1,
+            1.75,
+            2,
+            2.5,
+            3,
+            3.5
+          ]
+        },
+        "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+      },
+      {
+        "id": "missing-horizon",
+        "timing_patch": {
+          "sample_times_s": [
+            0,
+            1,
+            1.75,
+            2,
+            2.5,
+            3
+          ]
+        },
+        "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+      },
+      {
+        "id": "missing-opening",
+        "timing_patch": {
+          "sample_times_s": [
+            1,
+            1.75,
+            2,
+            2.5,
+            3,
+            3.5
+          ]
+        },
+        "expected_error": "Temporal samples must increase from event opening through the actual horizon"
+      },
+      {
+        "id": "undeclared-sample",
+        "timing_patch": {
+          "sample_times_s": [
+            0,
+            0.3,
+            1,
+            1.75,
+            2,
+            2.5,
+            3,
+            3.5
+          ]
+        },
+        "expected_error": "Temporal samples need exact declared run instants"
+      },
+      {
+        "id": "boolean-sample",
+        "timing_patch": {
+          "sample_times_s": [
+            0,
+            true,
+            1.75,
+            2,
+            2.5,
+            3,
+            3.5
+          ]
+        },
+        "expected_error": "Temporal sample must be a finite numeric value, not boolean or missing"
+      },
+      {
+        "id": "unmodeled-cutoff-number",
+        "timing_patch": {
+          "intervention_deadline": {
+            "status": "UNMODELED",
+            "at_s": 3.5,
+            "source_note": "Deliberately invalid declared unknown cutoff with a number."
+          }
+        },
+        "expected_error": "Unmodeled intervention deadline must remain null"
+      },
+      {
+        "id": "cutoff-before-opening",
+        "timing_patch": {
+          "intervention_deadline": {
+            "status": "DECLARED_PLANNED_DEADLINE",
+            "at_s": -1,
+            "source_note": "Deliberately invalid cutoff before opening."
+          }
+        },
+        "expected_error": "Planned deadline precedes this event"
+      }
+    ],
+    "bound": {
+      "public_confirmation_s": 1.75,
+      "window_end_s": 2,
+      "service_reference_status": "NOT_OBSERVED_BY_LAST_SAMPLE",
+      "lead_s": null,
+      "conditional_strict_lower_bound_s": 0.25,
+      "planned_deadline_lead_s": 1.75
+    }
+  }
+}
