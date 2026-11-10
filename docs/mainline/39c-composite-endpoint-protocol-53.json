@@ -1,0 +1,82 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-composite-business-endpoint-53",
+  "classification": "FROZEN_SAME_RUN_JOINT_ENGINEERING_RED_GREEN",
+  "contract": "docs/mainline/39c-composite-endpoint-contract-53.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-composite-endpoint-53.json",
+    "git_blob": "5eacf4b7037621df969bd55957a516a04d9cc520",
+    "sha256": "e8d20cbeaa65a03c3f1f34e4d9dc8c4cda357200fe6a16295bee5aff8aab2e9e"
+  },
+  "test": {
+    "path": "tests/test_composite_business_endpoint.py",
+    "git_blob": "0d6b7722b726df623f002bfe5443cf44b3ef44e4",
+    "sha256": "aeca346b045bb1a01657b5c77ae495684a277d2d065adde64636f8dc375b9c50",
+    "test_names": [
+      "test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 4,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 8
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "configs/materials/reference-r134a-saturation.json",
+      "docs/mainline/39c-composite-endpoint-contract-53.md"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "df003d544dfb18b3a648c7645fa19773818d8fef",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/71-composite-endpoint-red-v53",
+        "expected_returned_decisions": 0,
+        "expected_completed_horizons": 0,
+        "expected_completed_duration_s": 0,
+        "expected_red_text": "Business closure evaluation program fields do not match the closed contract"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/72-composite-endpoint-green-v53",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/72-composite-endpoint-green-v53",
+        "expected_returned_decisions": 8,
+        "expected_completed_horizons": 1,
+        "expected_completed_duration_s": 6
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "first_public_confirmation_s": 0.5,
+    "own_action_completion_s": 3.25,
+    "own_recheck_completion_s": 5,
+    "own_close_s": 5.5,
+    "new_instance_admin_accept_s": 5.75,
+    "worker_travel_person_s": 2,
+    "worker_work_person_s": 2,
+    "worker_wait_person_s": 0.5,
+    "tool_occupation_tool_s": 4.5,
+    "issue_fees": 2,
+    "service_deficit_time_s": 0
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One red then separately frozen green invocation;no green development before red terminal,no retries. Further correction needs new numbered protocol and unique root;retain all failures/partial outcomes.",
+  "whole_39c_accepted": false,
+  "input_revision": "Keep51 physics and actual work/resource declarations,move two fixed-meter phases4to0,add one decision0.5,replace private business_program with closed composite53."
+}
