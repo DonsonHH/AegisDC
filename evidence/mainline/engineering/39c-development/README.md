@@ -1,6 +1,10 @@
 # 业务评价开发：从状态确认到证据关闭
 
-**最新：[时序与删失检查点](../../../../docs/mainline/39c-temporal-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-temporal-checkpoint-20261110.html)。** 故障／服务采样节点lead为−0.75秒，计划截止余量1.75秒；四个边界通过，37首绿失败保留。累计44进入／23窗口86秒／104返回，成本、联合重放和整票门槛仍开放。
+**最新：[成本检查点](../../../../docs/mainline/39c-cost-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-cost-checkpoint-20261110.html)。** 实际中止／未完成成本保留，共享队列只计一次，个人、工具、费用、计算分列。70进入／35窗口101.25秒／126返回，原180次不变；联合评价／重放和整票门槛继续开放。
+
+![实际成本与作业状态](figures-09/cost-checkpoint-48/actual-costs-and-outcomes.png)
+
+**较早快照：[时序与删失检查点](../../../../docs/mainline/39c-temporal-checkpoint-20261110.md) · [离线HTML](../../../../docs/mainline/39c-temporal-checkpoint-20261110.html)。** 故障／服务采样节点lead为−0.75秒，计划截止余量1.75秒；四个边界通过，37首绿失败保留。累计44进入／23窗口86秒／104返回，成本、联合重放和整票门槛仍开放。
 
 ![实际负提前量与删失状态](figures-08/temporal-checkpoint-40/temporal-leads-and-censoring.png)
 
