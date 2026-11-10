@@ -704,10 +704,6 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
         low, high = p_records[name]['valid_range']
         if not low <= value <= high:
             raise ValueError(name + ' outside declared runtime range')
-    if business_program is not None:
-        from .business_endpoints import validate_business_program
-        business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
-                                                     scenario=scenario, boundary_events=boundary_events)
     timed_inputs = _boundary_events(boundary_events, p_records, duration, model=scenario['runtime']['model'],
                                     control_profile=scenario['runtime'].get('local_control_profile'),
                                     reserve_profile=scenario['runtime'].get('reserve_profile'))
@@ -715,6 +711,15 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                                 control_profile=scenario['runtime'].get('local_control_profile'),
                                 reserve_profile=scenario['runtime'].get('reserve_profile'))
     boundary_inputs = deepcopy(timed_inputs)
+    if business_program is not None:
+        from .business_endpoints import validate_business_program
+        execution_binding = None
+        if type(business_program) is dict and business_program.get('schema') == 'aegisdc-business-composite-evaluation-v1':
+            from .composite_endpoints import execution_input_binding
+            execution_binding = execution_input_binding(scenario, dict(dispatch_program=dispatch_program,
+                boundary_events=boundary_inputs, action_commands=commands, duration_s=duration, maximum_step_s=step))
+        business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+            scenario=scenario, boundary_events=boundary_events, execution_binding=execution_binding)
     if any(boundary['parameter_id'] == command['parameter_id'] and same_time(boundary['time_s'], command['time_s'])
            for boundary in timed_inputs for command in commands):
         raise ValueError('Conflicting boundary input and engineering command at the same time and parameter')

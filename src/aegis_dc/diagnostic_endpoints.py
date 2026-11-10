@@ -11,7 +11,7 @@ EVENT_FIELDS={'id','condition_id','opened_at_s','truth','opportunity','source_no
 OPPORTUNITY_FIELDS={'reference_id','status','inspection_task_id','starts_at_s','earliest_report_at_s','deadline_s','source_note'}
 
 
-def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scenario,boundary_events):
+def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scenario,boundary_events, *, _allow_native_v5=False):
     if type(program) is dict and program.get('schema')=='aegisdc-business-diagnostic-evaluation-v3':
         from .temporal_endpoints import validate_temporal_diagnostic
         return validate_temporal_diagnostic(program,facility_id,duration_s,dispatch,scenario,boundary_events)
@@ -22,7 +22,9 @@ def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scena
              and program['time_unit']=='s' and program['facility_id']==facility_id,'Diagnostic evaluation identity/basis differs')
     for name in ('id','source_note'):_text(program[name],'Diagnostic evaluation '+name)
     _plain_json(dispatch)
-    _require(type(dispatch) is dict and dispatch.get('schema')=='aegisdc-policy-run-program-v4'
+    allowed_native = ('aegisdc-policy-run-program-v4', 'aegisdc-policy-run-program-v5') if _allow_native_v5 else (
+        'aegisdc-policy-run-program-v4',)
+    _require(type(dispatch) is dict and dispatch.get('schema') in allowed_native
              and type(dispatch.get('diagnostic_profile')) is dict,'Declare a separate public diagnostic profile')
     profile=dispatch['diagnostic_profile']
     _require(profile.get('id')==program['diagnostic_profile_id'],'Private event/public diagnostic identity differs')

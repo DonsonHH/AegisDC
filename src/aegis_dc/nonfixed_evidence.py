@@ -114,6 +114,7 @@ SIGNALS = {
     'immersion.coolant_temperature': ('immersion', 'K', ('equipment_environment', 'refrigerant', 'temperature_K')),
     'internal_pump.volume_flow': ('internal_pump', 'm3/s', ('facility_cooling', 'internal_pump', 'volume_flow_m3_s')),
     'intake_pump.volume_flow': ('intake_pump', 'm3/s', ('facility_cooling', 'lake_pump', 'volume_flow_m3_s')),
+    'intake_pump.mass_flow': ('intake_pump', 'kg/s', ('facility_cooling', 'lake_mass_flow_kg_s')),
     'network.available_capacity': ('network', '1', ('it_service', 'capacities', 'network')),
     'rectifier.input_power': ('rectifier', 'W', ('power', 'rectifier_input_W')),
 }

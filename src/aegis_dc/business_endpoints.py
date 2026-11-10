@@ -9,9 +9,14 @@ INSTANCE_PROGRAMS = ('aegisdc-business-instance-closure-evaluation-v1',
                      'aegisdc-business-instance-closure-evaluation-v2')
 
 
-def validate_business_program(program, facility_id, duration_s, dispatch_program, *, scenario=None, boundary_events=()):
+def validate_business_program(program, facility_id, duration_s, dispatch_program, *, scenario=None, boundary_events=(),
+                              execution_binding=None):
     """Validate evaluation-only bindings before any physical execution begins."""
     _plain_json(program)
+    if type(program) is dict and program.get('schema') == 'aegisdc-business-composite-evaluation-v1':
+        from .composite_endpoints import validate_composite_program
+        return validate_composite_program(program, facility_id, duration_s, dispatch_program,
+                                          scenario, boundary_events, execution_binding)
     if type(program) is dict and program.get('schema') in ('aegisdc-business-cost-evaluation-v1',
                                                          'aegisdc-business-cost-evaluation-v2'):
         from .cost_endpoints import validate_cost_program
@@ -177,6 +182,9 @@ def evaluate_business_closure(result, program):
 
 
 def evaluate_business_endpoints(result, program):
+    if program['schema'] == 'aegisdc-business-composite-evaluation-v1':
+        from .composite_endpoints import evaluate_composite_endpoints
+        return evaluate_composite_endpoints(result, program)
     if program['schema'] in ('aegisdc-business-cost-evaluation-v1', 'aegisdc-business-cost-evaluation-v2'):
         from .cost_endpoints import evaluate_actual_costs
         return evaluate_actual_costs(result, program)

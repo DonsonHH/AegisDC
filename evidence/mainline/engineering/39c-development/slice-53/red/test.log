@@ -1,0 +1,92 @@
+test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) ... 
+  test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='joint') ... ERROR
+  test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='step-binding-mismatch') ... FAIL
+  test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='extra-component') ... FAIL
+test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) ... FAIL
+
+======================================================================
+ERROR: test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='joint')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 49, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/business_endpoints.py", line 24, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+======================================================================
+FAIL: test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='step-binding-mismatch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 49, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/business_endpoints.py", line 24, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 57, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    self.assertEqual(str(error), messages[case.replace('-', '_')])
+AssertionError: 'Business closure evaluation program fields do not match the closed contract' != 'Composite run binding differs from actual execution inputs'
+- Business closure evaluation program fields do not match the closed contract
++ Composite run binding differs from actual execution inputs
+
+
+======================================================================
+FAIL: test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs) (case='extra-component')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 49, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/business_endpoints.py", line 24, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 57, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    self.assertEqual(str(error), messages[case.replace('-', '_')])
+AssertionError: 'Business closure evaluation program fields do not match the closed contract' != 'Declare exactly diagnostic, instance_closure and costs components'
+- Business closure evaluation program fields do not match the closed contract
++ Declare exactly diagnostic, instance_closure and costs components
+
+
+======================================================================
+FAIL: test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs (test_composite_business_endpoint.CompositeBusinessEndpointTests.test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/71-composite-endpoint-red-v53/snapshot/tests/test_composite_business_endpoint.py", line 144, in test_same_native_run_binds_diagnosis_closure_costs_and_rejects_mixed_inputs
+    self.assertTrue(all(r['passed'] for r in rows))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.271s
+
+FAILED (failures=3, errors=1)

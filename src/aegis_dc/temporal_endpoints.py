@@ -24,7 +24,8 @@ def _base_program(program):
 def validate_temporal_diagnostic(program, facility_id, duration_s, dispatch, scenario, boundary_events):
     from .diagnostic_endpoints import validate_diagnostic_evaluation
     base = _base_program(program)
-    validate_diagnostic_evaluation(base, facility_id, duration_s, dispatch, scenario, boundary_events)
+    validate_diagnostic_evaluation(base, facility_id, duration_s, dispatch, scenario, boundary_events,
+                                   _allow_native_v5=True)
     points = {0, duration_s, *dispatch['decision_times_s']}
     points.update(row['time_s'] for row in boundary_events if type(row) is dict and 'time_s' in row)
     for event in program['events']:
