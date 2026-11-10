@@ -14,6 +14,6 @@
 
 ## Evidence
 
-纠正包开发中，准备完成后交用户审查；57草稿保留未执行。
+纠正包已发布到donson/mainline-39c-endpoints并设为默认分支，现等待用户审查；57草稿保留未执行，本票不自动解决或恢复后续开发。
 
 公共risk-baseline接口一个测试远端red/green通过：8主域、2有限风险/6UNMODELED、1价值/7UNMODELED、时间错位与禁派工明确；0新设施/AI/研究，合并result见docs/reviews/20261110-direction-correction/result.json；待用户审查。
