@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-cost-existing-counter-applicability-correction-43",
+  "classification": "FROZEN_NATIVE_RED_GREEN_FIRST_COST_SLICE_NOT_RESEARCH",
+  "contract": "docs/mainline/39c-cost-audit-correction-contract-43.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-cost-audit-43.json",
+    "git_blob": "4883153b85190c0c1f1486d4aba6b7463ec5b03c",
+    "sha256": "a8653227091033831657464d886251089ffdd5dae24a887e52c971ec0c9e8283"
+  },
+  "test": {
+    "path": "tests/test_cost_audit_correction.py",
+    "git_blob": "550f5a1e55aff1b116f6d1cfa8170f403a0b81b3",
+    "sha256": "9aba5677e677f6540acdbf89b7892e66acdf9505a7c8b3aa6ac082f2af84e875",
+    "test_names": [
+      "test_cost_audit_correction.CostAuditCorrectionTests.test_existing_closure_audit_counts_and_no_admission_fee_applicability"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 2,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 3
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "docs/mainline/39c-cost-audit-correction-contract-43.md",
+      "configs/materials/reference-r134a-saturation.json"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "ec6a26fc2c858329c365b557df91643bef4bf505",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/57-cost-audit-red-v43",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/57-cost-audit-red-v43",
+        "expected_returned_decisions": 3,
+        "expected_completed_horizons": 2,
+        "expected_completed_duration_s": 2.5,
+        "expected_red_text": "NOT_APPLICABLE"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/58-cost-audit-green-v43",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/58-cost-audit-green-v43",
+        "expected_returned_decisions": 3,
+        "expected_completed_horizons": 2,
+        "expected_completed_duration_s": 2.5
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "instance_closure_evaluation_count": 3,
+    "records_with_count": 3,
+    "no_admission_fee_status": "NOT_APPLICABLE",
+    "unrecorded_wait": null
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One frozen invocation per red/green;both actual runs counted even if assertions fail. Preserve source/test/input/originals. No retry/input change without new protocol.",
+  "whole_39c_accepted": false,
+  "findings": [
+    "39C-COST-SPEC-07",
+    "39C-COST-SPEC-08"
+  ]
+}
