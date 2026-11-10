@@ -60,7 +60,7 @@
 
 2026年11月10日较早快照：[39c实例审查阅读检查点](../paper/preset-dispatch-scope-review-20261110/review-checkpoint.md)及[离线HTML](../paper/preset-dispatch-scope-review-20261110/review-checkpoint.html)保存24条件实际数据与架构图，有限Spec通过、Standards记账发现已纠正。协议20–33共38次公开选择，无新增设施或注册研究；原37次设施进入／72.5秒／81返回保持。提前量、成本、联合重放及整票根／fresh仍未完成，39d保持依赖。以下旧检查点按各自时点阅读；133407早已开始前取消，容器修订及全部原件保留。
 
-2026年11月9日用户总体审阅要求先完成1–38跨阶段总review，再把多系统问题/动态任务、业务端点与时间尺度落实到研究。39a跨阶段复核与[39b动态检查处置](mainline/39b-root-acceptance.md)已接受，当前主票为39c；39b–39d是原39的明确前置，均按[采纳表](reviews/20261109-user-review/response.md)和[任务图](../.scratch/full-facility-mainline/map.md)推进。39b远端609项完整回归和一次406文件fresh核验通过，原失败保留。38的AI可检验性接受保持，执行优先级与资格分别处理；原180次、协议、失败、主要负结果和接受范围不变。计算与数据按[远端规则](agents/compute-storage.md)执行。
+2026年11月9日总体审阅之后，39a跨阶段复核与[39b动态检查处置](mainline/39b-root-acceptance.md)取得有限接受，39c继续开发。用户本次纠正后，当前改为39r风险基线与39t时间基础交审，39c剩余开发等待它们；本包发布后等待用户单步指导。[任务图](../.scratch/full-facility-mainline/map.md)与progress记录新顺序，[11月9日采纳表](reviews/20261109-user-review/response.md)保留为历史决定。39b远端609项完整回归和一次406文件fresh核验通过，原失败保留。38的AI可检验性接受保持；原180次、协议、失败、主要负结果和原有限接受范围不变。计算与数据按[远端规则](agents/compute-storage.md)执行。
 
 M0–M6已按各自有限范围接受。按用户要求，01–35已对照会后决策完成实质审计并修正两项问题；原定180次运行与37导师报告完成，R6未测指标仍保留。38修订审计接受窄结构化AI选单的可检验性，原资格否决撤回并保存独立发现；AI/RSI效果仍未测。按用户要求在[38后形成阅读检查点](mainline/checkpoint38.md)，下一主票39尚未运行，40–42保持依赖，总目标未关闭。
 
@@ -117,4 +117,4 @@ M0–M6已按各自有限范围接受。按用户要求，01–35已对照会后
 [第36项稳健性结果和数据图](../evidence/mainline/research/36-robustness/README.md)已按原16次预算完成：四个配对区组，负荷/表计/有效备用/预测误差分别报告。候选在高负荷与UPS在役两个工作点较差，其他六点服务差为零；人工节省随表计启停变化，R4的共同变化不能归为候选独有收益。原确认主要结果保持，原件、失败、图形QA与454件新Git交付核验可查。第37项收束导师阅读报告，暂不追加试验。
 
 
-[第37项导师阅读报告](../paper/preset-dispatch-scope-review-20261110/report.md)与[离线8图HTML](../paper/preset-dispatch-scope-review-20261110/report.html)按会后问题组织180次结果，43件fresh交付通过；旧报告均保留。M6的接受是有限合成研究收束，不是现场校准或所有业务指标已测。38先资格审计，再按真实门槛处理39/40，不能将未运行增量写成无效。
+原第37项报告的43件fresh交付通过，原件与原验收保持；本次[范围更正阅读版](../paper/preset-dispatch-scope-review-20261110/report.md)与[离线8图HTML](../paper/preset-dispatch-scope-review-20261110/report.html)等待用户审查，不继承旧文件的交付验收。M6的接受是有限合成研究收束，不是现场校准或所有业务指标已测。38先资格审计，再按真实门槛处理39/40，不能将未运行增量写成无效。

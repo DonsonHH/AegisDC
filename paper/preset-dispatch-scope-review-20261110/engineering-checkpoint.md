@@ -1,5 +1,7 @@
 # 联合业务评价：实际数据与架构
 
+> 本阅读版等待用户审查，不继承原文件的交付验收。以下数据与检查点保留原时点；当前研究扩展已暂停，39r风险基线与39t时间基础先交审查，第57项草稿未执行。
+
 [离线HTML，含图表放大](../../docs/mainline/39c-joint-checkpoint-20261110.html) · [原始CSV](../../evidence/mainline/engineering/39c-development/slice-56/joint-actual-data.csv) · [完整联合数据](../../evidence/mainline/engineering/39c-development/slice-53/green/joint/business-result.json)
 
 诊断、实例关闭与实际成本已接在同一次完整八域运行中。真实测点在0.5秒确认异常；单人自身链在5.5秒核验关闭，双人链经过逐边门禁后在7秒核验关闭。新问题在5.75秒的风险接受只关闭管理问题，物理风险不据此关闭。

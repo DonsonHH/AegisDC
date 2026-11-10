@@ -1,4 +1,4 @@
-# 当前执行：39c业务端点与验证关闭，补全后才冻结39
+# 当前交审：风险基线39r与时间基础39t，等待用户指导
 
 **研究扩展已暂停，当前交付[方向纠正包](reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
@@ -20,7 +20,7 @@
 
 [站内第三项目](https://lab.donson.top/liquid-cooling/)保留最新已接受基线报告的12图、数据及历史下载，Datapath/ISA及HTTPS保持。现有报告与原主要结论不因本次审阅而改写；AI可检验性仍通过38，效果尚未测。[发布核验](mainline/evidence/lab-publication-20261109.json)。
 
-[会后研究报告](../paper/preset-dispatch-scope-review-20261110/report.md)与[离线HTML](../paper/preset-dispatch-scope-review-20261110/report.html)已接受。01–35实质审计及修正、36稳健性和37报告构成已接受的M6有限基线研究：180次原定运行完成，主要负结果和未测范围保持。
+原第37项报告的M6有限验收保持；本次[范围更正阅读版](../paper/preset-dispatch-scope-review-20261110/report.md)与[离线HTML](../paper/preset-dispatch-scope-review-20261110/report.html)等待用户审查，不继承旧文件的交付验收。01–35有限审计及修正、36稳健性和原37报告保存180次原定运行，主要负结果和未测范围保持。
 
 38的[修订资格判断](mainline/38-eligibility-audit-v2.md)已接受：结构化决策求解器替换可以独立比较，原NOT_ELIGIBLE提案撤回且原审查记录保留。39保持ready、实验未运行，须先冻结新因素、完整成本与失败预算及新的独立确认条件；不按资格门槛延期。语言理解、任务发现和RSI过程尚未操作化，各增量效果均未测。
 

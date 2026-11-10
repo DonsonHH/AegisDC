@@ -114,6 +114,6 @@ python -m patrol_rsi verify --output runs/verification-new
 
 `status`读取会前状态，`verify`执行工程/证据校验；没有自动训练或LLM调用，计算校验仍须远端执行。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-1–38已按各自有限范围接受，研究结论以冻结协议和保存原件为准。2026年11月9日收到用户总体审阅，39a跨阶段复核和39b多系统问题/动态任务已接受；当前39c正在补业务端点、关闭、时间尺度与成本。正向实例风险接受资格已通过，但跨实例/过期等反向资格、端点回放和整票独立验收仍待完成，之后才进入39d及原39比较冻结。38接受窄结构化AI因素的可检验性，AI／RSI效果仍未测，现场标定仍待完成。[审阅采纳与执行顺序](docs/reviews/20261109-user-review/response.md) · [主线进度](docs/mainline/progress.json)
+1–38的原有限接受与冻结原件保持，39a／39b有限接受保持；它们不代表全场风险基线、现场标定或完整业务评价已完成。当前39r风险基线与39t时间基础交审，39c暂停在第57项草稿之前，剩余开发等待用户审查；39d后半段及原39比较未启动。38仅接受窄结构化AI因素的可检验性，AI／RSI效果仍未测。[本次方向纠正](docs/reviews/20261110-direction-correction/README.md) · [主线进度](docs/mainline/progress.json)
 
 [1–38跨阶段复核](docs/mainline/audits/20261109-integrated/review-report.md)另列[逐项证据表](docs/mainline/audits/20261109-integrated/coverage-01-38.md)与[会后要求补全表](docs/mainline/audits/20261109-integrated/meeting-gaps.md)。原180次保持不变；保存数据在Slurm补读，区分工程实现、正式覆盖和未测，不能以表格代替39b–39d实质工作。
