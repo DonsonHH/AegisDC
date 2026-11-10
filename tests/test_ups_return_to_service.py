@@ -68,11 +68,13 @@ class UPSReturnToServiceTests(unittest.TestCase):
         def run(name,s,w,i,a):
             record=dict(case=name,status='ENTERED');case_records.append(record)
             result=simulate_scenario(s,duration_s=6,step_s=.01,work_program=w,inspection_program=i,intervention_program=a)
+            # Preserve returned evidence before any assertion/summary can fail.
+            if output:save_run(result,Path(output)/name)
+            record.update(status='RETURNED',actual_end_s=result['trace'][-1]['time_s'])
             self.assertEqual(result['trace'][-1]['time_s'],6)
             record.update(status='COMPLETED',window_s=6,work=[dict(id=t['id'],status=t['status']) for t in result['work_records']],
                 readings=[dict(value=r['value'],observed_at_s=r['observed_at_s'],arrived_at_s=r['arrived_at_s']) for r in result['inspection_public_snapshot']['records']],
                 actions=result['intervention_public_feedback'])
-            if output:save_run(result,Path(output)/name)
             return result
         try:
             s,w,i,a=fixture();original=deepcopy(s)
