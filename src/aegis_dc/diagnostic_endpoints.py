@@ -12,6 +12,9 @@ OPPORTUNITY_FIELDS={'reference_id','status','inspection_task_id','starts_at_s','
 
 
 def validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch,scenario,boundary_events):
+    if type(program) is dict and program.get('schema')=='aegisdc-business-diagnostic-evaluation-v3':
+        from .temporal_endpoints import validate_temporal_diagnostic
+        return validate_temporal_diagnostic(program,facility_id,duration_s,dispatch,scenario,boundary_events)
     _plain_json(program);_fields(program,PROGRAM_FIELDS,'Private diagnostic evaluation')
     version2=program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
     _require(program['schema'] in ('aegisdc-business-diagnostic-evaluation-v1','aegisdc-business-diagnostic-evaluation-v2')
@@ -91,6 +94,9 @@ def _truth_at(result,truth,time_s):
 
 
 def evaluate_diagnostic_events(result,program):
+    if program['schema']=='aegisdc-business-diagnostic-evaluation-v3':
+        from .temporal_endpoints import evaluate_temporal_diagnostic
+        return evaluate_temporal_diagnostic(result,program)
     version2=program['schema']=='aegisdc-business-diagnostic-evaluation-v2'
     end=result['summary']['duration_s'];events=[]
     counts=dict(events_total=len(program['events']),truth_fault=0,truth_normal=0,truth_unknown=0,

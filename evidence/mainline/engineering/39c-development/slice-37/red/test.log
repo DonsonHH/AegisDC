@@ -1,0 +1,24 @@
+test_fault_service_and_declared_action_deadline_use_actual_arrival_clock (test_business_temporal_endpoints.BusinessTemporalEndpointTests.test_fault_service_and_declared_action_deadline_use_actual_arrival_clock) ... ERROR
+
+======================================================================
+ERROR: test_fault_service_and_declared_action_deadline_use_actual_arrival_clock (test_business_temporal_endpoints.BusinessTemporalEndpointTests.test_fault_service_and_declared_action_deadline_use_actual_arrival_clock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37/snapshot/tests/test_business_temporal_endpoints.py", line 25, in test_fault_service_and_declared_action_deadline_use_actual_arrival_clock
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37/snapshot/src/aegis_dc/business_endpoints.py", line 17, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+  File "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/49-temporal-lead-red-v37/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.073s
+
+FAILED (errors=1)
