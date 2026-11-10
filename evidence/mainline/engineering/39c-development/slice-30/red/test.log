@@ -1,0 +1,30 @@
+test_preopening_review_cannot_recreate_an_earlier_instance (test_instance_review_history_identity.InstanceReviewHistoryIdentityTests.test_preopening_review_cannot_recreate_an_earlier_instance) ... FAIL
+
+======================================================================
+FAIL: test_preopening_review_cannot_recreate_an_earlier_instance (test_instance_review_history_identity.InstanceReviewHistoryIdentityTests.test_preopening_review_cannot_recreate_an_earlier_instance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/39-history-opening-red-v30/snapshot/tests/test_instance_review_history_identity.py", line 82, in test_preopening_review_cannot_recreate_an_earlier_instance
+    self.assertEqual(reviewed.get('historical_dispositions', []), [],
+AssertionError: Lists differ: [{'record_id': 'review-before-actual-openi[338 chars]ME'}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'record_id': 'review-before-actual-opening-29', 'disposition': 'ESCALATE', 'observed_at_s': 2, 'arrived_at_s': 2, 'status_at_arrival': 'ESCALATED', 'question_closed_at_arrival': False, 'risk_closed_at_arrival': False, 'physical_restoration_claim_at_arrival': False, 'authorization_id': 'authority-29', 'scope': 'HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME'}
+
++ []
+- [{'arrived_at_s': 2,
+-   'authorization_id': 'authority-29',
+-   'disposition': 'ESCALATE',
+-   'observed_at_s': 2,
+-   'physical_restoration_claim_at_arrival': False,
+-   'question_closed_at_arrival': False,
+-   'record_id': 'review-before-actual-opening-29',
+-   'risk_closed_at_arrival': False,
+-   'scope': 'HISTORICAL_AUTHORIZED_DISPOSITION_REPLAYED_FROM_PUBLIC_ARRIVAL_FRAME',
+-   'status_at_arrival': 'ESCALATED'}] : A review before the actual problem opening must not manufacture history
+
+----------------------------------------------------------------------
+Ran 1 test in 0.894s
+
+FAILED (failures=1)

@@ -68,24 +68,38 @@ def _history_at(history, as_of_s):
     return projected
 
 
-def _prior_lifecycle(frame, policy, history, program, question_id, record):
-    """Replay the visible public frame/history at the review's arrival clock."""
+def _prior_lifecycle(frame, policy, history, program, instance, record):
+    """Replay a review for the actual instance, never a historical slot-name substitute."""
     from .problem_closure import _assess_instance_closure
     from .verified_closure import _review_frame
 
+    if record['observed_at_s'] < instance['opened_at_s']:
+        return None
     prior_frame = _review_frame(frame, record['arrived_at_s'])
     prior_history = _history_at(history, record['arrived_at_s'])
+    # A just-opened instance may not yet be in the caller's previous-decision
+    # history. Pin its actual identity rather than generating it from older claims.
+    prior_instances = {row['id']: row for row in prior_history['question_instances']}
+    if instance['id'] in prior_instances:
+        _require(prior_instances[instance['id']] == instance, 'Historical instance identity differs')
+    else:
+        prior_history['question_instances'].append(deepcopy(instance))
     prior_program = deepcopy(program)
     prior_program['intervention_feedback'] = deepcopy(prior_history['intervention_feedback'])
     prior = _assess_instance_closure(prior_frame, policy, prior_history, prior_program,
                                      project_prior_lifecycle=False)
-    return next((row for row in prior['questions'] if row['question_id'] == question_id), None)
+    return next((row for row in prior['questions'] if row['question_id'] == instance['id']
+                 and row['opened_at_s'] == instance['opened_at_s']
+                 and row['template_id'] == instance['template_id']), None)
 
 
 def apply_instance_reviews(frame, policy, history, program, assessment, *, project_prior_lifecycle=True):
     """Return a detached current assessment with authorized past dispositions retained."""
     profile = program['profile']
     authorizations, channels = validate_instance_review_declarations(frame, profile)
+    from .problem_tasks import open_questions
+    _, instances, _, _ = open_questions(frame, policy, history)
+    instance_by_id = {row['id']: row for row in instances}
     questions = {row['question_id']: row for row in assessment['questions']}
     records = {row['id']: row for row in frame['evidence']['records']}
     current_ids = set(frame['evidence']['current_record_ids'])
@@ -115,7 +129,7 @@ def apply_instance_reviews(frame, policy, history, program, assessment, *, proje
         if not valid:
             if project_prior_lifecycle and record['arrived_at_s'] <= frame['as_of_s']:
                 historical = _prior_lifecycle(frame, policy, history, program,
-                                              channel['question_id'], record)
+                                              instance_by_id[channel['question_id']], record)
                 if (historical is not None
                         and historical['status'] == REVIEW_STATUS.get(record['value'])
                         and record['id'] in historical['disposition_record_ids']):
