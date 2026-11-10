@@ -37,4 +37,30 @@ save_run已经保存inputs.business_program和business_evaluation，无需另拼
 
 物理成本、费用、任务状态、确认时刻与模型计数严格比较，原文件哈希完整保留。[固定40e只读缺口复核](evidence/39c-joint-gap-review-20261110.md)保留原判断。
 
+## 已复核的接口与版本选择
+
+以下为下一片设计，尚未冻结或执行。联合程序拟将组件键固定为diagnostic、instance_closure、costs，分别只接诊断v3、实例端点v2、成本v2；拒绝未知／递归组件。共同绑定scenario、boundary和完整dispatch的规范JSON哈希，以及实际duration／maximum_step。验证层检查共同声明，再让每组件验证自己的公开profile／producer绑定；结果从同一RunResult一次性提取，保留每组件的完整原件和运行身份。
+
+plant在验证business_program前已经得到有效duration与step，因此可显式传入实际maximum_step供共同绑定验证。私有诊断v3的底层验证需显式允许native-v5，同时保持旧诊断v1/v2的native-v4组合，避免无意放开旧输入。
+
+2026-11-10直接复核replay.py的_inputs、执行转发与reader，以及replay_format.py：新增含dispatch_program和business_program的闭合输入v3即可表达业务记录；现有attempt/declaration-v2已经完整保存inputs及原件角色，**若不改变封套字段／文件角色，无需新造attempt/declaration版本**。实现时逐项复核origin/source/lifecycle守卫，不能简单扩schema集合，因为部分守卫以endswith-v2判断。旧输入v1/v2继续拒绝额外业务字段；输入v3读取同时核对run.inputs及组件共同绑定。
+
+```mermaid
+flowchart LR
+  E[到时公开记录与静态知识] --> D[公开检查与处置决策]
+  D --> P[同一次八域设施运行]
+  P --> A[实际检查与仪表生产记录]
+  A --> E
+  P --> R[完整私有RunResult]
+  R --> T[诊断与时序 v3]
+  R --> M[实例物理与管理端点 v2]
+  R --> C[实际成本及归属 v2]
+  T -.待实现.-> J[共同绑定的联合评价]
+  M -.待实现.-> J
+  C -.待实现.-> J
+  J -.待实现.-> S[版本化记录 读取 精确重放]
+```
+
+图中现有三个评价器分别可用；联合程序及业务输入重放仍为待实现接口。管理接受／升级／误报审查不回写私有物理真值，不自动改变诊断机会分母。
+
 联合及重放资格完成后，再做整39c独立Spec／Standards、零跳过根回归、原件身份与fresh；之后39d验证时间比例、尺度／参数敏感性及新数值范围，再进原39AI协议和40–42。4090已经实际CUDA资格，可支持后续合适工作，不新增模型预算。

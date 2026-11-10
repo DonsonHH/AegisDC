@@ -73,3 +73,6 @@ Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnost
 
 
 52fouractualmanagementbranches PASSatfixed8131:4entries/4windows26s/32returns,0failerror skip. Current-vs-history,escalation priority and actual6/7sampled falsealarm review clocks remain separate;59source/17member hashes and independent two-axis finite review pass. Cumulative89/41/139.25s/172,direct38. Latest slice-52/README.md,reviews-19/management52.md;diagnosticcompat/composite/record/read/replay/fullroot/fresh stillopen. One new frozen minimal-cloud regression publication planned;oldCI doesnotcertify8131.
+
+
+51/52 actual publicationCI42814484451 at6b0c2740 SUCCESS:648found/646executed/0failerror/2existingoptionalTorch,20historical originals and allCLI steps pass;receipt docs/mainline/evidence/39c-management-checkpoint-ci-20261110/. Regression replays are separate from89/41/139.25s/172 capture ledger and original180. Whole39c remains claimed with all root/fresh/joint/replay gates open.
