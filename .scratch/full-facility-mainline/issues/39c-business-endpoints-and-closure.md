@@ -70,3 +70,6 @@ Native49/50update:49red3entries/0windows,original49greenFAILEDnullpublicdiagnost
 
 
 51 private-instance v2 actual endpoint PASS at8131: red68 3entries/0windows preserved;green69 3entries/1window6s/7returns,0failerror skip. Complete public assessments and actual own action/recheck/report clocks retained;q0closes5.5,q1adminaccept5.75riskfalse,2slot/versionguardrefusals. Cumulative85/37/113.25s/140. See slice-51/README.md and reviews-18/private51.md. Management branches,diagnostic-v3/native-v5,composite,record/read/replay/fullroot/fresh remain open;all ticket boxes stay unchecked.
+
+
+52fouractualmanagementbranches PASSatfixed8131:4entries/4windows26s/32returns,0failerror skip. Current-vs-history,escalation priority and actual6/7sampled falsealarm review clocks remain separate;59source/17member hashes and independent two-axis finite review pass. Cumulative89/41/139.25s/172,direct38. Latest slice-52/README.md,reviews-19/management52.md;diagnosticcompat/composite/record/read/replay/fullroot/fresh stillopen. One new frozen minimal-cloud regression publication planned;oldCI doesnotcertify8131.
