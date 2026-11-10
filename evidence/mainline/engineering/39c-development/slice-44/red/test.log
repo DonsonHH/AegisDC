@@ -1,0 +1,24 @@
+test_actual_safety_abort_keeps_its_elapsed_cost_and_issued_fee (test_task_cost_attribution.TaskCostAttributionTests.test_actual_safety_abort_keeps_its_elapsed_cost_and_issued_fee) ... ERROR
+
+======================================================================
+ERROR: test_actual_safety_abort_keeps_its_elapsed_cost_and_issued_fee (test_task_cost_attribution.TaskCostAttributionTests.test_actual_safety_abort_keeps_its_elapsed_cost_and_issued_fee)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/59-task-cost-red-v44/snapshot/tests/test_task_cost_attribution.py", line 25, in test_actual_safety_abort_keeps_its_elapsed_cost_and_issued_fee
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/59-task-cost-red-v44/snapshot/src/aegis_dc/plant.py", line 709, in simulate_scenario
+    business_program = validate_business_program(business_program, scenario['id'], duration, dispatch_program,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/59-task-cost-red-v44/snapshot/src/aegis_dc/business_endpoints.py", line 21, in validate_business_program
+    _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
+  File "/root/private_data/aegisdc-mainline-39c/59-task-cost-red-v44/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/59-task-cost-red-v44/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Business closure evaluation program fields do not match the closed contract
+
+----------------------------------------------------------------------
+Ran 1 test in 0.056s
+
+FAILED (errors=1)

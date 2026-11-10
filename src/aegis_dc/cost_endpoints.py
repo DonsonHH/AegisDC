@@ -15,7 +15,7 @@ PERSON_TOTAL_FIELDS = ('worker_travel_person_s', 'worker_work_person_s', 'worker
 def validate_cost_program(program, facility_id):
     _plain_json(program)
     _fields(program, PROGRAM_FIELDS, 'Private cost evaluation program')
-    _require(program['schema'] == 'aegisdc-business-cost-evaluation-v1'
+    _require(program['schema'] in ('aegisdc-business-cost-evaluation-v1', 'aegisdc-business-cost-evaluation-v2')
              and program['facility_id'] == facility_id and program['basis'] == 'synthetic_assumption'
              and program['time_unit'] == 's', 'Cost evaluation identity,basis or time unit differs')
     for name in ('id', 'source_note'):
@@ -100,7 +100,7 @@ def evaluate_actual_costs(result, program):
     tasks = result['work_records']
     records = [{key: deepcopy(row[key]) for key in ('id', 'status', 'accepted', 'reason', 'issued_at_s',
                 'finished_at_s', 'completed_at_s') if key in row} for row in tasks]
-    return dict(schema='aegisdc-business-cost-result-v1', program_id=program['id'], facility_id=result['facility_id'],
+    report = dict(schema='aegisdc-business-cost-result-v1', program_id=program['id'], facility_id=result['facility_id'],
         visibility='PRIVATE_EVALUATOR_ONLY', basis=program['basis'], time_unit='s', window_end_s=summary['duration_s'],
         execution_code_identity=deepcopy(result['code_identity']), actual=actual, personnel_total=personnel,
         consistency=consistency, admission=admission, issue_fees=fees,
@@ -113,3 +113,8 @@ def evaluate_actual_costs(result, program):
         computation=_computation(result),
         scope='ACTUAL_OCCUPATION_DECLARED_FEES_AND_RECORDED_COMPUTATION_NOT_FIELD_MONETARY_COST',
         field_calibration='PENDING', new_research_trials=0, research_gain_claim='NOT_ESTABLISHED')
+    if program['schema'] == 'aegisdc-business-cost-evaluation-v2':
+        from .cost_attribution import attribute_task_costs
+        report['schema'] = 'aegisdc-business-cost-result-v2'
+        report['failure_attribution'] = attribute_task_costs(result, actual, fees)
+    return report

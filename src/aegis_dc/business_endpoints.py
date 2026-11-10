@@ -10,7 +10,8 @@ EPISODE_FIELDS = {'id', 'question_id', 'task_id', 'opened_at_s', 'source_note'}
 def validate_business_program(program, facility_id, duration_s, dispatch_program, *, scenario=None, boundary_events=()):
     """Validate evaluation-only bindings before any physical execution begins."""
     _plain_json(program)
-    if type(program) is dict and program.get('schema') == 'aegisdc-business-cost-evaluation-v1':
+    if type(program) is dict and program.get('schema') in ('aegisdc-business-cost-evaluation-v1',
+                                                         'aegisdc-business-cost-evaluation-v2'):
         from .cost_endpoints import validate_cost_program
         return validate_cost_program(program, facility_id)
     if type(program) is dict and program.get('schema') in ('aegisdc-business-diagnostic-evaluation-v1',
@@ -129,7 +130,7 @@ def evaluate_business_closure(result, program):
 
 
 def evaluate_business_endpoints(result, program):
-    if program['schema'] == 'aegisdc-business-cost-evaluation-v1':
+    if program['schema'] in ('aegisdc-business-cost-evaluation-v1', 'aegisdc-business-cost-evaluation-v2'):
         from .cost_endpoints import evaluate_actual_costs
         return evaluate_actual_costs(result, program)
     if program['schema'] in ('aegisdc-business-diagnostic-evaluation-v1','aegisdc-business-diagnostic-evaluation-v2',
