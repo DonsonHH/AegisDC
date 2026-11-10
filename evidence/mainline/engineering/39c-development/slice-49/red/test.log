@@ -1,0 +1,63 @@
+test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) ... 
+  test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='native-v5') ... ERROR
+  test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='producer-mismatch') ... FAIL
+test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) ... FAIL
+
+======================================================================
+ERROR: test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='native-v5')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/tests/test_native_instance_review.py", line 43, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/plant.py", line 733, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/policy_execution.py", line 18, in __init__
+    _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set())|({'diagnostic_profile'} if diagnostics else set()),'Policy facility run program')
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy facility run program fields do not match the closed contract
+
+======================================================================
+FAIL: test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards) (case='producer-mismatch')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/tests/test_native_instance_review.py", line 43, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    result = simulate_scenario(**data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/plant.py", line 733, in simulate_scenario
+    dispatch = PolicySession(dispatch_program,duration)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/policy_execution.py", line 18, in __init__
+    _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set())|({'diagnostic_profile'} if diagnostics else set()),'Policy facility run program')
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 66, in _fields
+    _require(type(value) is dict and set(value) == expected, label + ' fields do not match the closed contract')
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/src/aegis_dc/evidence_ledger.py", line 21, in _require
+    raise ValueError(message)
+ValueError: Policy facility run program fields do not match the closed contract
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/tests/test_native_instance_review.py", line 50, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    self.assertEqual(str(error), expected)
+AssertionError: 'Policy facility run program fields do not match the closed contract' != 'Closure and execution must share the same public action declaration'
+- Policy facility run program fields do not match the closed contract
++ Closure and execution must share the same public action declaration
+
+
+======================================================================
+FAIL: test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards (test_native_instance_review.NativeInstanceReviewTests.test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/private_data/aegisdc-mainline-39c/65-native-review-red-v49/snapshot/tests/test_native_instance_review.py", line 91, in test_native_v5_old_own_closure_new_instance_acceptance_and_producer_guards
+    self.assertTrue(all(r['passed'] for r in rows))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.287s
+
+FAILED (failures=2, errors=1)

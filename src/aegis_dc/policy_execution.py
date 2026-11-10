@@ -12,11 +12,12 @@ class PolicySession:
     """The selector receives only a validated frame and arrived public feedback."""
     def __init__(self,program,duration_s):
         _plain_json(program)
-        diagnostics=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v4'
-        lifecycle=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'}
-        live=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'}
+        version5=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v5'
+        diagnostics=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v4','aegisdc-policy-run-program-v5'}
+        lifecycle=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4','aegisdc-policy-run-program-v5'}
+        live=type(program) is dict and program.get('schema') in {'aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4','aegisdc-policy-run-program-v5'}
         _fields(program,PROGRAM_FIELDS|({'sensor_program'} if live else set())|({'closure_program','preparation_requests'} if lifecycle else set())|({'diagnostic_profile'} if diagnostics else set()),'Policy facility run program')
-        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4'},'Unknown policy facility run schema')
+        _require(program['schema'] in {'aegisdc-policy-run-program-v1','aegisdc-policy-run-program-v2','aegisdc-policy-run-program-v3','aegisdc-policy-run-program-v4','aegisdc-policy-run-program-v5'},'Unknown policy facility run schema')
         _text(program['id'],'Policy facility run id');self.program=deepcopy(program)
         self.times=program['decision_times_s']
         _require(type(self.times) is list and 1<=len(self.times)<=128,'Declare one to128 policy decision instants')
@@ -52,7 +53,9 @@ class PolicySession:
                 and program['policy_program']['inspection_declaration']==self.inspection_program['profile']
                 and program['policy_program']['intervention_declaration']==self.intervention_program,
                 'Problem public producer declarations must equal their actual executor declarations')
-            _require(self.closure_template is None or self.closure_template.get('schema')=='aegisdc-instance-closure-program-v1',
+            allowed_closure_schemas={'aegisdc-instance-closure-program-v1'}
+            if version5:allowed_closure_schemas.add('aegisdc-instance-closure-program-v2')
+            _require(self.closure_template is None or self.closure_template.get('schema') in allowed_closure_schemas,
                 'Problem workflow requires an instance-scoped closure declaration')
         if program['policy_program']['schema'] in {'aegisdc-dispatch-policy-program-v3','aegisdc-dispatch-policy-program-v4'}:
             _require(program['policy_program']['intervention_declaration']==self.intervention_program,
