@@ -48,7 +48,8 @@ def main():
     protocol = json.loads(blob(control, protocol_name))
     spec = protocol['container_snapshot']
     runner = spec.get('runner_path', DEFAULT_RUNNER)
-    require(runner in (DEFAULT_RUNNER, TOOL + 'run_remote_engineering_slice_29.py'),
+    require(runner in (DEFAULT_RUNNER, TOOL + 'run_remote_engineering_slice_29.py',
+                      TOOL + 'run_remote_engineering_slice_33.py'),
             'Use a reviewed, versioned container runner')
     attempt = spec['attempts'][args.phase]
     execution = (control if attempt['runtime_source'] == 'control'
@@ -66,14 +67,22 @@ def main():
         require(sha(data) == fixed['sha256']
                 and git('rev-parse', f"{control}:{fixed['path']}").decode().strip() == fixed['git_blob'],
                 f"Frozen test/seed identity differs: {fixed['path']}")
+    for fixed in spec.get('fixed_support_files', []):
+        require(fixed['path'] in spec['support_files']
+                and sha(blob(control, fixed['path'])) == fixed['sha256']
+                and git('rev-parse', f"{control}:{fixed['path']}").decode().strip() == fixed['git_blob'],
+                f"Frozen supporting authoring input differs: {fixed['path']}")
     require(test['test_names'] and all(name.startswith(PurePosixPath(test['path']).stem + '.')
                                      for name in test['test_names']),
             'Selected test must come from the staged test module')
     require(sha(blob(control, runner)) == spec['runner_sha256'], 'Frozen runner differs')
     budget = protocol['budget']
-    require((budget['tests'], budget['direct_public_choice_calls'], budget['facility_entries'],
-             budget['new_research_trials'], budget['GPU_use']) == (1, 1, 0, 0, False),
-            'This runner is limited to one public-choice test, with no facility, trial or GPU work')
+    calls = budget['direct_public_choice_calls']
+    require((budget['tests'], budget['facility_entries'], budget['new_research_trials'],
+             budget['GPU_use']) == (1, 0, 0, False) and type(calls) is int and 1 <= calls <= 64,
+            'Declare one qualification test and a bounded public-call budget; no facility/trial/GPU work')
+    require(calls == 1 or runner == TOOL + 'run_remote_engineering_slice_33.py',
+            'Use the explicit-budget runner for a multi-condition qualification')
     require(attempt['maximum_invocations'] == 1, 'Each phase permits a single invocation')
     host = protocol['execution_host']
     project = PurePosixPath(host['project_root'])
@@ -100,7 +109,7 @@ def main():
                            python=host['python'], user='root', persistent_mount=host['persistent_mount'],
                            project_root=str(project)),
         attempt_root=str(output), staging_root=str(staging),
-        test=test['path'], test_names=test['test_names'], tests=1, direct_public_choice_calls=1,
+        test=test['path'], test_names=test['test_names'], tests=1, direct_public_choice_calls=calls,
         facility_entries=0, max_returned_decisions=0, watchdog_s=120,
         fixed_seed=seed,
         files={name: dict(bytes=len(data), sha256=sha(data),

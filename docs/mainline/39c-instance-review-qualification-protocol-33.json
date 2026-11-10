@@ -1,0 +1,215 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-instance-review-evidence-qualification-33",
+  "classification": "REMOTE_PUBLIC_ENGINEERING_QUALIFICATION_NOT_RESEARCH",
+  "question": "Do the declared source, provenance, authority and two-clock evidence boundaries gate instance false-alarm review without inventing physical restoration?",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-two-instance-public-seed-21.json",
+    "git_blob": "0555843bc4ef99717ade0420566cbae712486f19",
+    "bytes": 78111,
+    "sha256": "4f02ef6b8faf1fbbe0270b2b57bd8ce8e688c2fa5f98939ca3bc7eeebb905237"
+  },
+  "test": {
+    "path": "tests/test_instance_review_qualification.py",
+    "git_blob": "957ad50ae47a9d3976a7f0800c0749529c04a0c7",
+    "sha256": "6e2678a5784a84234f661ef59c3063d3481fc2d9337678eff002eb6ca7948c07",
+    "test_names": [
+      "test_instance_review_qualification.InstanceReviewQualificationTests.test_declared_review_evidence_and_authority_boundaries"
+    ]
+  },
+  "cases": [
+    {
+      "case": "supported_review",
+      "expected_status": "FALSE_ALARM_REVIEWED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "missing_dossier",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "wrong_original",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "late_support",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "unknown_service",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "short_span",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "shared_origin",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "copied_support",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "expired_support",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 1,
+      "expected_refusal": null
+    },
+    {
+      "case": "review_counterevidence",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "current_counterevidence",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 1,
+      "expected_refusal": null
+    },
+    {
+      "case": "expired_authority",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 1,
+      "expected_refusal": null
+    },
+    {
+      "case": "not_yet_authorized",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "copied_review",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "disputed_review",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "wrong_review_source",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "not_arrived_review",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "unknown_review",
+      "expected_status": "OPEN_UNCONFIRMED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "scope_mismatch",
+      "expected_status": null,
+      "historical_event_count": 0,
+      "expected_refusal": "Instance review source or question exceeds authority"
+    },
+    {
+      "case": "reused_channel_record",
+      "expected_status": null,
+      "historical_event_count": 0,
+      "expected_refusal": "Instance review record bindings must be unique"
+    },
+    {
+      "case": "blank_rationale",
+      "expected_status": null,
+      "historical_event_count": 0,
+      "expected_refusal": "Instance dossier rationale must be nonempty text"
+    },
+    {
+      "case": "duplicate_support",
+      "expected_status": null,
+      "historical_event_count": 0,
+      "expected_refusal": "Duplicate Instance false-alarm support IDs"
+    },
+    {
+      "case": "escalation_precedence",
+      "expected_status": "ESCALATED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    },
+    {
+      "case": "acceptance_precedence",
+      "expected_status": "RISK_ACCEPTED",
+      "historical_event_count": 0,
+      "expected_refusal": null
+    }
+  ],
+  "input_builder": {
+    "path": "tests/test_instance_false_alarm_review.py",
+    "git_blob": "940177bc177b63db48a142a45f0d4fb4e658a5e1",
+    "sha256": "6c129cfe4ebafee83e2ed7520efa8224baec10de2eb881d7f032c7de1314b71d"
+  },
+  "budget": {
+    "tests": 1,
+    "direct_public_choice_calls": 24,
+    "facility_entries": 0,
+    "new_research_trials": 0,
+    "GPU_use": false
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_33.py",
+    "runner_sha256": "5294e28c4ffc75f4e5f4a09f5a71c16ab1e10368a848adfba11d248d5aac7274",
+    "support_files": [
+      "tests/test_instance_false_alarm_review.py",
+      "docs/mainline/39c-instance-review-contract-21.md"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "b93b3c3d87d4a1ba6a7f74d9e13e191aba91bbbc",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/45-review-qualification-green-v33",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/45-review-qualification-green-v33"
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "tests/test_instance_false_alarm_review.py",
+        "git_blob": "940177bc177b63db48a142a45f0d4fb4e658a5e1",
+        "sha256": "6c129cfe4ebafee83e2ed7520efa8224baec10de2eb881d7f032c7de1314b71d"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "new_runner_scope": "Only records and checks a declared one-test,1-to64-public-call budget. It preserves exact manifest output root, hashes, no-NumPy/no-GPU and zero facility-entry gates. The frozen old runners are unchanged.",
+  "allowed_runtime_correction": "None during this single-green existing-code qualification.",
+  "interpretation": "One synthetic qualification cohort, not24 independent research samples. A reviewed false alarm never changes evaluator-private truth or original registered false-positive denominators.",
+  "failure_rule": "One invocation only; all24 conditions remain in its saved denominator. Preserve failed cases and partial outputs; no retry or input change without a new numbered protocol/source/output.",
+  "whole_39c_accepted": false
+}
