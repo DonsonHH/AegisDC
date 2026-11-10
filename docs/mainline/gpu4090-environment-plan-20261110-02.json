@@ -1,0 +1,51 @@
+{
+  "schema": "aegisdc-gpu-environment-preparation-v1",
+  "classification": "INFRASTRUCTURE_ONLY_NOT_FACILITY_OR_MODEL_RESEARCH",
+  "id": "gpu4090-environment-20261110-02",
+  "preparation_script": "scripts/prepare_gpu4090_runtime_02.py",
+  "preparation_script_sha256": "b5074f75aef2670c30e191217989bcca0f39324d515eff8db4017d05f3a5926a",
+  "python": "3.11.9",
+  "gpu_model": "NVIDIA GeForce RTX 4090",
+  "driver": "580.82.07",
+  "allocated_cpu_cores": 7,
+  "allocated_memory_bytes": 128849018880,
+  "private_output": "/root/private_data/aegisdc-gpu4090-env-20261110-02",
+  "maximum_preparation_invocations": 1,
+  "pinned_packages": {
+    "numpy": "2.3.5",
+    "torch": "2.6.0+cu118"
+  },
+  "indexes": [
+    "https://pypi.org/simple",
+    "https://download.pytorch.org/whl/cu118"
+  ],
+  "install_method": "Private venv,baseCondaunchanged,no wheel cache;pipreports and fullfreeze before tiny smoke.",
+  "smoke": {
+    "max_invocations": 1,
+    "matrix_products": 1,
+    "matrix_shape": [
+      16,
+      16
+    ],
+    "dtype": "float32",
+    "expected_each_result": 16.0,
+    "numpy_bridge_values": [
+      1,
+      2
+    ]
+  },
+  "new_facility_runs": 0,
+  "new_research_trials": 0,
+  "llm_inference_trials": 0,
+  "training_trials": 0,
+  "storage_scope": "Private persistent mount;reported filesystem capacity is shared/global,not an attested per-user storage quota.",
+  "credentials": "SSH authentication and exact host identity kept outside repository;known-hosts first-use pinned,strict verification for subsequent connections.",
+  "sources": [
+    "https://pytorch.org/get-started/previous-versions/#v260",
+    "https://docs.nvidia.com/cuda/ada-compatibility-guide/index.html"
+  ],
+  "failure_rule": "One install/preparation invocation in unique root;retain failures/partialenv,do not retry or alter baseenv/localcomputer. A correction needs a new explicit plan/root.",
+  "launch_mode": "FOREGROUND_SSH_SESSION_WITH_KEEPALIVE_AND_REUSABLE_TOOL_HANDLE",
+  "prior_launch_record": "docs/mainline/evidence/gpu4090-first-launch-20261110.json",
+  "correction": "Keep SSH foreground execution attached. First detached PID167 disappeared,driver.log0bytes,environment root absent;installation and CUDA smoke were not reached. Preserve first plan/source/inputstage,do not reuse its namespace."
+}
