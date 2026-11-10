@@ -1,0 +1,43 @@
+{
+  "classification": "ENGINEERING_VALIDATION_ONLY_NO_NATIVE_HORIZON",
+  "base_input": "tests/fixtures/39c-actual-cost-42.json",
+  "cases": [
+    {
+      "id": "wrong-facility",
+      "program_patch": {
+        "facility_id": "other-facility"
+      },
+      "expected_error": "Cost evaluation identity,basis or time unit differs"
+    },
+    {
+      "id": "field-provenance",
+      "program_patch": {
+        "basis": "field_measurement"
+      },
+      "expected_error": "Cost evaluation identity,basis or time unit differs"
+    },
+    {
+      "id": "wrong-physical-unit",
+      "program_patch": {
+        "time_unit": "ns"
+      },
+      "expected_error": "Cost evaluation identity,basis or time unit differs"
+    },
+    {
+      "id": "empty-source-note",
+      "program_patch": {
+        "source_note": ""
+      },
+      "expected_error": "Cost evaluation source_note must be nonempty text"
+    },
+    {
+      "id": "injected-actual-cost",
+      "program_patch": {
+        "actual": {
+          "worker_work_person_s": 0
+        }
+      },
+      "expected_error": "Private cost evaluation program fields do not match the closed contract"
+    }
+  ]
+}
