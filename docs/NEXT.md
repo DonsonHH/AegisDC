@@ -1,5 +1,7 @@
 # 当前执行：39c业务端点与验证关闭，补全后才冻结39
 
+2026年11月10日当前：[成本与共享队列检查点](mainline/39c-cost-checkpoint-20261110.md)保存41–46的时序／成本有限资格、实际中止和未完成成本。累计70进入／35窗口101.25秒／126返回；直接选择38次、原180次及主要负结果保持。实际cost检查点40e2f8b2的CI645发现／643执行、零失败错误、2项既有Torch可选跳过。当前先做[原生审查v2与联合业务程序／重放](mainline/39c-combined-endpoints-next.md)，之后整票零跳过根／fresh；39d仍有前置依赖。下文613等旧检查点保留为历史快照，最新状态以progress为准。
+
 2026年11月9日，用户已提供总体审阅并要求完全依建议推进；[空间清理](maintenance/20261109-storage/README.md)已先完成。[审阅采纳表](reviews/20261109-user-review/response.md)明确顺序：39a复核1–38实现/工程/正式覆盖 → 39b多系统问题与动态任务、39c业务端点 → 39d时间尺度/参数敏感性与新数值范围 → 原39新协议。后续运行均在远端，集群使用Slurm，原180次不重跑。
 
 39a的[38行证据表](mainline/audits/20261109-integrated/coverage-01-38.md)和[会后补全表](mainline/audits/20261109-integrated/meeting-gaps.md)已交付。保存数据在Slurm作业133102补读成功，新增设施/策略/模型调用和研究样本均0；[复核报告](mainline/audits/20261109-integrated/review-report.md)说明集中度、无人工参照、风险范围和非统一时间缩放。两轴复核及92件小文件fresh交付已通过，[39a已接受](mainline/evidence/39a-root.json)，表格不能替代39b–39d。
