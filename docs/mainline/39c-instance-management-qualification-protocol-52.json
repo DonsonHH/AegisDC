@@ -1,0 +1,78 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-instance-management-branch-qualification-52",
+  "classification": "GREEN_ONLY_QUALIFICATION_OF_EXISTING_ENDPOINTS_NO_RUNTIME_CHANGE",
+  "contract": "docs/mainline/39c-instance-management-qualification-contract-52.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-instance-management-qualification-52.json",
+    "git_blob": "24169ca23ca2b24d7a3fb205acb1838a3ca8f9a6",
+    "sha256": "56b472c994e6832ab47147d07a94b3ba2dd5668c73ab146839d1e69173811c96"
+  },
+  "test": {
+    "path": "tests/test_instance_management_qualification.py",
+    "git_blob": "3acb4e349cdf60f57a7507d6cca8d2d7037918e1",
+    "sha256": "9905e4dc5a15124cc93c8103cffe0a586ba2d72d84c8905d7c61f77c29e36e38",
+    "test_names": [
+      "test_instance_management_qualification.InstanceManagementQualificationTests.test_expiry_history_escalation_and_actual_evidence_false_alarm_clocks"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 4,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 32
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "configs/materials/reference-r134a-saturation.json",
+      "tests/fixtures/39c-instance-management-51.json",
+      "docs/mainline/39c-instance-management-qualification-contract-52.md"
+    ],
+    "attempts": {
+      "green": {
+        "runtime_source": "8131aae0b7697582cda500ea43fd822a68417004",
+        "control_runtime_must_match": true,
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/70-instance-management-qualification-v52",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/70-instance-management-qualification-v52",
+        "expected_returned_decisions": 32,
+        "expected_completed_horizons": 4,
+        "expected_completed_duration_s": 26
+      }
+    },
+    "fixed_support_files": [
+      {
+        "path": "tests/fixtures/39c-instance-management-51.json",
+        "git_blob": "3658507c8cc90d4389375b788b6de6dafb5fc8c5",
+        "sha256": "4780d75d12dc0ebfe5a3ae880cf690c992f8d389824c30782fa5942f10c1dda8"
+      }
+    ]
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "accepted_then_expired_first_current_acceptance_s": 5.75,
+    "historical_only_first_current_acceptance_s": null,
+    "historical_only_observed_s": 5.8125,
+    "historical_only_arrived_s": 5.875,
+    "historical_only_evaluated_s": 6,
+    "first_escalation_s": 5.75,
+    "first_evidence_reviewed_false_alarm_s": 7.5,
+    "own_physical_close_all_cases_s": 5.5
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One qualification invocation only; no new runtime implementation. Preserve failure and all completed subcases; further correction requires a new numbered protocol/output,never repeat52.",
+  "whole_39c_accepted": false,
+  "input_revision": "Four explicit public management declarations and one duration/decision extension per contract; plant/resources/measurement producers unchanged."
+}

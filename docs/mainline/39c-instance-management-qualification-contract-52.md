@@ -1,0 +1,18 @@
+# 52：管理分支端点的实际资格
+
+Engineering-only qualification of the51 endpoint implementation; runtime fixed8131aae0b7697582cda500ea43fd822a68417004, no new implementation or research comparison. Test at the existing facility-run seam. Preserve51's completed capture; each condition below is a new declared input and native execution, not a retry.
+
+Start from the complete51 call. Keep plant, resources, producers and physical closure rules fixed. Unless explicitly changed below, use6 seconds and the same7 decision instants. Both episodes bind the same actually opened identities; only action-0 and recheck-0 execute. q0 first physical close remains5.5. q1 has no own physical action/recheck completion/report or physical closure in any condition.
+
+|Condition|Declared changes|Independently specified output|
+|---|---|---|
+|accepted-then-expired|Acceptance still observed/arrived5.75; grant expires5.875.|First current selected acceptance and question closure5.75. At6 current statusOPEN_UNCONFIRMED; historical acceptance retains observed/arrived5.75, evaluated_at6. History does not keep the current question closed.|
+|historical-only|q1 opens5.75 as before. Review observation5.8125, arrival5.875, grant expiry5.9375. No decision between5.75 and6.|No actual current selected acceptance or question closure: both first clocks null. At6 a historically valid acceptance is retained with observation5.8125/arrival5.875/evaluation6. Never substitute5.875 for a decision that did not occur.|
+|escalation-priority|Add independent categorical source/observable/channel/grant for ESCALATE, observed/arrived5.75 and current through8. List escalation channel before acceptance.|First selected escalation5.75, no selected acceptance or question closure. At5.75 and6 retain both records; escalation selected=true, acceptance selected=false. risk_closed=false.|
+|evidence-reviewed-false-alarm|Extend horizon to8 and append decisions6.5,7,7.5,8. Replace acceptance with FALSE_ALARM review at7.5, authority/record valid to10; dossier names the actual q1 original work order and four actual fixed-meter records sampled6/7, arriving6.5/7.5.|11 decisions; first current false-alarm review and question closure7.5, no physical closure. At7.5 and8 preserve passed review_evaluations, both review/current clocks and two samples spanning1 second for each condition/service role. Claims remain finite evidence review, not root-cause diagnosis or physical restoration.|
+
+The false-alarm dossier support is exactly flow-transfer:2/:3 and joint-service-transfer:2/:3. These are actual sensor outputs from the unchanged period1/phase4/delay0.5 producers; do not insert artificial good readings. q1 originally opens5.75, so samples6/7 follow that instance. Private assessments must equal their complete actual public counterparts in every case, retaining both valid historical and current findings without changing plant truth or diagnostic denominators.
+
+One selected test, four native entries/four completed windows,26 total physical seconds and32 returned decisions. Zero direct public choices, GPU, model or registered research calls. Use one unique terminal directory, no automatic rerun; a failed assertion/setup is retained and any correction requires a new numbered protocol. Full traces remain private; return declared compact endpoint/public summaries with exact hashes. Freeze base input, descriptor, test, contract, material reference and runner/stager plus runtime blobs; caches excluded.
+
+This qualifies finite management branches only. Diagnostic/native version compatibility, joint business evaluation and recorded read/exact replay, whole39c independent review, zero-skip root/fresh,39d and later research remain open.
