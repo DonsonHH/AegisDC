@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "20261111-A-backup-ups-problem-definition",
+    "bounded_request": "20261111-A2-UPS-native-interface",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
   },
@@ -990,11 +990,11 @@
     }
   },
   "current_single_step": {
-    "choice": "A",
+    "choice": "A2",
     "parent_question_id": "backup-support",
     "problem_id": "backup-ups-return-to-service-v1",
     "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
-    "status": "PROBLEM_DEFINED_INPUT_GAPS_AWAITING_USER_GUIDANCE",
+    "status": "FROZEN_TEST_BEFORE_NATIVE_IMPLEMENTATION",
     "document": "docs/mainline/39r-backup-support-question.md",
     "primary_sources": "docs/research/20261111-backup-support-sources.md",
     "unknown_inputs": [
@@ -1017,6 +1017,17 @@
       "time_basis_for_this_problem",
       "remaining_39c"
     ],
-    "automatic_continuation": false
+    "automatic_continuation": false,
+    "engineering_budget": {
+      "tests_per_attempt": 1,
+      "expected_red_attempts": 1,
+      "green_attempts": 1,
+      "green_maximum_facility_entries": 7,
+      "green_completed_windows": 4,
+      "green_completed_simulated_s": 24,
+      "new_registered_research_runs": 0
+    },
+    "validation_tool": "scripts/ups_interface_validation.py",
+    "validation_test": "tests/test_ups_return_to_service.py"
   }
 }
