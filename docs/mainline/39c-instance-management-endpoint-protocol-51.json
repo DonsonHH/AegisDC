@@ -1,0 +1,83 @@
+{
+  "schema": "aegisdc-development-execution-protocol-v1",
+  "id": "39c-instance-management-endpoint-51",
+  "classification": "FROZEN_PRIVATE_INSTANCE_ENDPOINT_RED_GREEN",
+  "contract": "docs/mainline/39c-instance-management-endpoint-contract-51.md",
+  "fixed_seed": {
+    "path": "tests/fixtures/39c-instance-management-51.json",
+    "git_blob": "3658507c8cc90d4389375b788b6de6dafb5fc8c5",
+    "sha256": "4780d75d12dc0ebfe5a3ae880cf690c992f8d389824c30782fa5942f10c1dda8"
+  },
+  "test": {
+    "path": "tests/test_instance_management_endpoint.py",
+    "git_blob": "72ac9316b2091a8f0b63bd3a631487690697b599",
+    "sha256": "8b0e506f8082f0765a882bc9d5dc0d00326b0db4b7ff91db3b661048e3d04920",
+    "test_names": [
+      "test_instance_management_endpoint.InstanceManagementEndpointTests.test_own_physical_closure_and_new_management_acceptance_keep_evidence_and_clocks"
+    ]
+  },
+  "budget": {
+    "tests": 1,
+    "facility_entries": 3,
+    "direct_public_choice_calls": 0,
+    "new_research_trials": 0,
+    "GPU_use": false,
+    "max_returned_decisions": 7
+  },
+  "container_snapshot": {
+    "runner_path": "evidence/mainline/engineering/39c-development/tools/run_remote_engineering_slice_37.py",
+    "runner_sha256": "23dd4d439272d7ff2b36746a9d0d9495432deac1e9201666decfce7717853ccf",
+    "support_files": [
+      "configs/materials/reference-r134a-saturation.json",
+      "docs/mainline/39c-instance-management-endpoint-contract-51.md"
+    ],
+    "attempts": {
+      "red": {
+        "runtime_source": "294e4f9b89935efca17e27339194edca308d241d",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/68-instance-management-red-v51",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/68-instance-management-red-v51",
+        "expected_returned_decisions": 0,
+        "expected_completed_horizons": 0,
+        "expected_completed_duration_s": 0,
+        "expected_red_text": "Declare synthetic closure endpoint evaluation in SI seconds"
+      },
+      "green": {
+        "runtime_source": "control",
+        "maximum_invocations": 1,
+        "output_root": "/root/private_data/aegisdc-mainline-39c/69-instance-management-green-v51",
+        "staging_root": "/root/private_data/aegisdc-mainline-39c/inputs/69-instance-management-green-v51",
+        "expected_returned_decisions": 7,
+        "expected_completed_horizons": 1,
+        "expected_completed_duration_s": 6
+      }
+    }
+  },
+  "execution_host": {
+    "endpoint": "qdai.scnet.cn:58222",
+    "accepted_host_key": "ED25519 SHA256:3T7ETE/qMr2I4dIbwDpgZXdkBnntUZkHBN5Hhs1wAhU",
+    "container_identity": "root@crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "persistent_mount": "/root/private_data",
+    "project_root": "/root/private_data/aegisdc-mainline-39c"
+  },
+  "literal_expectations": {
+    "first_own_verified_close_s": 5.5,
+    "actual_action_completed_s": 3.25,
+    "action_report_arrival_s": 3.75,
+    "actual_recheck_completed_s": 5,
+    "recheck_report_arrival_s": 5.5,
+    "new_instance_opening_s": 5.75,
+    "first_management_accept_s": 5.75,
+    "management_current_evaluation_clocks_s": [
+      5.75,
+      6
+    ],
+    "new_instance_risk_closed": false
+  },
+  "durable_set": "Frozen source/test/full call input/contract/protocol/material table/runner/stager,unique attempt/terminal/log and actual native output hashes. Full trace/balances stay private; return endpoint and execution summaries. Runtime caches excluded.",
+  "dependency_boundary": "Existing standard-library facility path only; no NumPy import or dependency install. Preinstalled NumPy distribution metadata is not substituted project computation.",
+  "failure_rule": "One red and one separately frozen green invocation. Preserve every terminal; no automatic retry or source development before red terminal. Further fixes use a new protocol/output.",
+  "whole_39c_accepted": false,
+  "input_revision": "Only private business_program differs from50; physical/public inputs unchanged. New v2 episodes declare explicit own recheck identity."
+}
