@@ -1,0 +1,65 @@
+{
+  "schema": "aegisdc-gpu-runtime-qualification-v1",
+  "status": "ENVIRONMENT_AND_TINY_CUDA_SMOKE_PASSED",
+  "classification": "INFRASTRUCTURE_QUALIFIED_NOT_AI_RSI_RESEARCH_RESULT",
+  "plan": "docs/mainline/gpu4090-environment-continuation-20261110-03.json",
+  "controller_source": "532cb42821bbbf85ba064c3f5e57a463dd893469",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "reported_memory_MiB": 24564,
+  "driver": "580.82.07",
+  "python": "3.11.9",
+  "cpu_quota_cores": 7,
+  "memory_quota_bytes": 128849018880,
+  "torch": "2.6.0+cu118",
+  "numpy": "2.3.5",
+  "cuda_runtime": "11.8",
+  "capability": [
+    8,
+    9
+  ],
+  "matrix_shape": [
+    16,
+    16
+  ],
+  "matrix_products": 1,
+  "expected_each_result": 16.0,
+  "numpy_bridge": "PASS",
+  "torch_peak_allocated_bytes": 8521728,
+  "torch_reserved_bytes": 23068672,
+  "actual_kernel_count": "NOT_INSTRUMENTED",
+  "research_model_inference_trials": 0,
+  "training_trials": 0,
+  "new_research_trials": 0,
+  "original_base_numpy_after": "2.2.0",
+  "private_environment_python": "/root/private_data/aegisdc-gpu4090-env-20261110-02/venv/bin/python",
+  "private_evidence_root": "/root/private_data/aegisdc-gpu4090-env-20261110-03",
+  "verified_reused_or_resumed_wheels": 12,
+  "environment_lock_sha256": "0fc09e476ce4015b72062c42623c5c8c217eda5af7a4d7fac81cbc85a32ca840",
+  "receipts_sha256": "77aa2dfd514adeb2ed2830c5e086e7bef072b435b6b5e019c821bf96445132f5",
+  "artifact_index": {
+    "cuda-smoke.json": {
+      "bytes": 513,
+      "sha256": "2f29406c8db6709a722d3a6f829b316790a1ccb9e90e2e9543ddfc24df178a42"
+    },
+    "environment-lock.json": {
+      "bytes": 3570,
+      "sha256": "0fc09e476ce4015b72062c42623c5c8c217eda5af7a4d7fac81cbc85a32ca840"
+    },
+    "verified-wheel-inventory.json": {
+      "bytes": 5766,
+      "sha256": "f32cfdc2e36b018906771035100f2a2f23cfab78f1a948b52050c796d4e10ed6"
+    },
+    "torch-resume-ranges.json": {
+      "bytes": 1213,
+      "sha256": "0eca3590ceac41e290ede2a27b6e18791ec06d728ea304f4d9f4a271fd4a02bc"
+    },
+    "packages-before-continuation.json": {
+      "bytes": 60,
+      "sha256": "8fa27a2348c303689bc89ede8b21c7b2dd9b405eb7d955d301337f0812dd17a5"
+    }
+  },
+  "retention": "Full package reports,logs,old failedrecords and cachedwheels stay private server;necessary sanitized software/smoke/integrity records returned. Original02terminal/log bytes preserved across03continuation;unsealedprivatevenv completed without baseConda install.",
+  "scope": "One16x16FP32CUDAproduct and CPU NumPy bridge. No model-specific inference,training,benchmark or whole39c acceptance.",
+  "storage_quota": "NOT_ATTESTED_BY_GLOBAL_FILESYSTEM_STATS",
+  "matrix_dtype": "float32"
+}
