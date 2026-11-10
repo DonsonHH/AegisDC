@@ -44,8 +44,10 @@
 |38|M7|[审计智能体与经验改进的进入条件](issues/38-agent-eligibility.md)|37|
 |39a|M7准备|[1–38跨阶段覆盖复核](issues/39a-integrated-scope-review.md)|38|
 |39b|M7准备|[多系统问题与动态任务](issues/39b-multisystem-questions-and-tasks.md)|39a|
-|39c|M7准备|[业务端点与验证关闭](issues/39c-business-endpoints-and-closure.md)|39a|
-|39d|M7准备|[时间尺度、参数和数值范围](issues/39d-timescales-parameter-and-numeric-scope.md)|39b, 39c|
+|39r|纠正审查|[风险目录、检查价值基线与结论范围](issues/39r-risk-baseline-review.md)|39a；完成后等待用户审查|
+|39t|纠正审查|[先行时间轴与关键比值基础](issues/39t-time-foundation.md)|39a；不依赖39c|
+|39c|M7准备|[业务端点与验证关闭](issues/39c-business-endpoints-and-closure.md)|39a, 39r, 39t；剩余工作用户单步指导|
+|39d|M7准备|[后续敏感性、参数和数值范围](issues/39d-timescales-parameter-and-numeric-scope.md)|39b, 39c, 39r, 39t|
 |39|M7|[条件式比较智能体的独立增量](issues/39-agent-increment.md)|38, 39b, 39c, 39d|
 |40|M7|[条件式比较普通反馈与递归改进](issues/40-rsi-increment.md)|39|
 |41|M7|[复核智能体/RSI结果或资格限制](issues/41-increment-conclusion.md)|38, 39, 40|

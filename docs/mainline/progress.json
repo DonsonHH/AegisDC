@@ -1,7 +1,7 @@
 {
   "schema": "aegisdc-mainline-progress-v1",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "active",
+  "status": "awaiting_user_review",
   "goal": "完整设施中风险驱动的异质核查与处置，以及独立、可复核的机制与条件式技术增量结论",
   "engineering_reference": "Zhengzhou core node / Sugon8000",
   "facility_identity": "explicit synthetic research facility, not an as-built reconstruction",
@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "39c",
+  "current_ticket": "39r",
   "current_milestone": "M7",
   "milestones": [
     {
@@ -59,7 +59,8 @@
         "docs/mainline/evidence/19-root.json",
         "docs/mainline/evidence/20-root.json",
         "docs/mainline/evidence/M3.json"
-      ]
+      ],
+      "current_coverage_note": "原有限算术/证据接受保留；当前全场风险量化仍欠六个主域情景，检查价值欠七个主域情景，见39r；不得解释为完整全场风险基线已完成。"
     },
     {
       "id": "M4",
@@ -89,7 +90,8 @@
         "docs/mainline/evidence/34-root.json",
         "docs/mainline/evidence/M5.json"
       ],
-      "progress_scope": "Finite independent comparison accepted through34; practical gain not established."
+      "progress_scope": "Finite independent comparison accepted through34; practical gain not established.",
+      "current_interpretation_scope": "180次固定八域合成设施预设派工策略比较；验证关闭未入环、候选仅2预设实例、无现场标定；不回答R1/R4全场问题触发价值与风险基线。"
     },
     {
       "id": "M6",
@@ -101,7 +103,8 @@
         "docs/mainline/evidence/37-root.json",
         "docs/mainline/evidence/M6.json"
       ],
-      "progress_scope": "Finite synthetic baseline synthesis complete; negative primary and unmeasured limits retained."
+      "progress_scope": "Finite synthetic baseline synthesis complete; negative primary and unmeasured limits retained.",
+      "current_interpretation_scope": "180次固定八域合成设施预设派工策略比较；验证关闭未入环、候选仅2预设实例、无现场标定；不回答R1/R4全场问题触发价值与风险基线。"
     },
     {
       "id": "M7",
@@ -109,7 +112,7 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/38-root.json"
       ],
-      "progress_scope": "38 corrected eligibility only;39–42 unrun/not accepted; no technical effect measured"
+      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证、记录链及整票未验收；39r风险基线与39t时间基础纠正包待用户审查；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
     }
   ],
   "research_trials": {
@@ -171,7 +174,26 @@
       "returned_decisions": 160,
       "actual_execution_source": "18679d7620385c553041e58065d6c7841faebb15",
       "acceptance": "docs/mainline/evidence/36-root.json"
-    }
+    },
+    "study_name": "固定八域合成设施上的预设派工策略比较（180次）",
+    "primary_comparison_name": "两个预设派工策略的主比较，另保留四个参照臂",
+    "primary_confirmation_statement": "〔验证关闭未入环；仅2个预设实例；无现场标定〕NO_PRACTICAL_GAIN",
+    "conclusion_scope": {
+      "post_action_verification": "NOT_ENABLED_IN_REGISTERED_180",
+      "candidate_instances_per_world": 2,
+      "field_calibration": "PENDING",
+      "comparison_arms": 6,
+      "registered_runs": 180,
+      "mean_service_improvement_s": 0.03515625,
+      "practical_gain_threshold_s": 0.25
+    },
+    "questions_not_answered": [
+      "会议R1：全场问题触发的按需检查是否有价值",
+      "会议R4：全场风险与检查价值基线是否成立",
+      "启用复检关闭后的收益变化",
+      "真实设施的收益或故障概率"
+    ],
+    "lower_bound_interpretation": "NOT_IDENTIFIED"
   },
   "agent_stage": "structured_AI_factor_eligible_coverage_preparation_first",
   "rsi_gain": "NOT_MEASURED",
@@ -185,17 +207,9 @@
       "stage_effect": "reference ready; no facility milestone completed"
     }
   ],
-  "active_implementations": [
-    {
-      "ticket": "39c",
-      "owner": "/root",
-      "worktree": "C:/Users/Donson/Documents/ChatGPT/Renly",
-      "branch": "donson/mainline-39c-endpoints",
-      "status": "39C_JOINT_QUALIFIED_AND_CHECKPOINT_CI_PASSED_RECORDED_REPLAY_NEXT"
-    }
-  ],
+  "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "2026-11-10 root39c:53same-runjointPASSat316.54originalFAILED2asserts retained/all3windows19s27returns;55savedqualactualPASS0newnative/12privatehashes,SpecP2peredgeoracle corrected closed,Standards0.56layout and gray previews actually viewed;mainPNG/CSV/qual unchanged. ReadingHTMLdataURIcolon bug corrected onlyin derivativepage,failedUI01retained;UI02 390mobile/1440desktop/zoom/focus allPASS and screenshotsviewed.100entries/45windows164.25s/207returns,direct38,original180unchanged. ActualpublicationCI42832618941 atb02c98d2 SUCCESS650found/648executed/0failerror/2existingTorchoptional/20originals,onepush/attempt1;no pendingCI/native/render. Record/read/exactreplay,whole39c0skiproot/fresh open.",
+  "liveness_refresh": "User paused automatic mainline. Bounded direction correction only:39r eight-domain FEMA-adapted risk/value review baseline(2risk/1value modelled,others UNMODELED),39t minimum time foundation moved ahead of39c;57drafts preserved untouched/unrun. One public-interface test remote red/green passed,0newfacility or registered research. Original180 unchanged with fixed three-limit human label;old raw enums/archive bytes preserved. Await user review;no auto resume.",
   "user_review_checkpoint": {
     "ticket": "38",
     "status": "review_received_and_adopted",
@@ -215,7 +229,7 @@
     "review_source_sha256": "8f341a41a178646898ce9c773f5146d9058d1c64168dc6e5c7cf02b43084b233",
     "response": "docs/reviews/20261109-user-review/response.md"
   },
-  "research_execution_status": "original180_preserved_39a39b_accepted_39c_joint_qualified_recorded_replay_open",
+  "research_execution_status": "BOUNDED_CORRECTIONS_AWAITING_USER_REVIEW_AUTOMATIC_MAINLINE_PAUSED",
   "pre36_alignment_audit": {
     "status": "accepted_to_continue_with_coverage_limits",
     "source": "2dfe5537e4f95fa605f325b060ef32223dafb4f6",
@@ -248,8 +262,8 @@
   "baseline_report_site": "https://lab.donson.top/liquid-cooling/",
   "next_phase_plan": {
     "path": "docs/mainline/39-42-plan-20261108.md",
-    "status": "39A_39B_ACCEPTED_39C_NEXT_39D_BLOCKED_BEFORE_ORIGINAL39",
-    "scope": "39a then39b/39c then39d before original39 protocol; no pre-authorized new comparison budget",
+    "status": "AUTOMATIC_EXECUTION_PAUSED_CORRECTION_PACKAGE_AWAITING_USER_REVIEW",
+    "scope": "39r风险/检查价值基线与39t时间基础先交用户审查；39c余项轻量收束；之后39d敏感性/数值域；原39–42须用户逐步指导。",
     "new_research_trials": 0
   },
   "compute_storage_policy": "docs/agents/compute-storage.md",
@@ -343,10 +357,10 @@
   },
   "business_endpoint_preparation": {
     "ticket": "39c",
-    "status": "FINITE_INSTANCE_TEMPORAL_COST_QUALIFICATION_COMPLETE_JOINT_EXECUTION_OPEN",
+    "status": "PAUSED_FOR_RISK_TIME_BASELINE_AND_USER_REVIEW",
     "path": "docs/mainline/39c-business-endpoints-plan.md",
     "new_trials": 0,
-    "next": "docs/mainline/39c-combined-endpoints-next.md",
+    "next": "docs/reviews/20261110-direction-correction/README.md",
     "contract": "docs/mainline/39c-closure-endpoint-contract-01.md",
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
@@ -878,7 +892,8 @@
         "job_id": 129886352308,
         "corrected_active_joint_regression_executed": true
       }
-    }
+    },
+    "remaining_execution_mode": "LIGHTWEIGHT_AFTER_39R_39T_USER_REVIEW_ONLY"
   },
   "additional_gpu_environment": {
     "status": "QUALIFIED_ISOLATED_TORCH_AND_TINY_CUDA_ENVIRONMENT",
@@ -908,5 +923,54 @@
       16
     ],
     "model_research_trials": 0
+  },
+  "execution_control": {
+    "mode": "USER_DIRECTED_SINGLE_STEP",
+    "automatic_goal": "PAUSED",
+    "bounded_request": "20261110-direction-correction",
+    "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
+    "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
+  },
+  "risk_baseline_review": {
+    "status": "AWAITING_USER_REVIEW",
+    "manifest": "configs/facility-risk-baseline-v1.json",
+    "public_command": "python -m aegis_dc risk-baseline",
+    "coverage": {
+      "risk_modelled_primary_domains": 2,
+      "risk_unmodelled_primary_domains": 6,
+      "inspection_value_modelled_primary_domains": 1,
+      "inspection_value_unmodelled_primary_domains": 7
+    },
+    "time_alignment": "UNRESOLVED",
+    "automatic_dispatch": false,
+    "validation": "docs/reviews/20261110-direction-correction/result.json"
+  },
+  "baseline_report_scope_edition": {
+    "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
+    "html": "paper/preset-dispatch-scope-review-20261110/report.html",
+    "original_report": "paper/mainline-report-20261108/AegisDC-会后研究报告.html",
+    "original_unchanged": true
+  },
+  "review_ready_implementations": [
+    {
+      "ticket": "39r",
+      "owner": "/root",
+      "status": "AWAITING_USER_REVIEW",
+      "report": "docs/reviews/20261110-direction-correction/README.md"
+    },
+    {
+      "ticket": "39t",
+      "owner": "/root",
+      "status": "AWAITING_USER_REVIEW",
+      "report": "docs/mainline/39t-time-foundation.md"
+    }
+  ],
+  "direction_correction_package": {
+    "path": "docs/reviews/20261110-direction-correction/README.md",
+    "stage": "VALIDATING_PUBLICATION_DEFAULT_BRANCH_PENDING",
+    "source_risk_coverage": "2conditional primary domains,6UNMODELED",
+    "value_coverage": "1conditional primary domain,7UNMODELED",
+    "record57": "PRESERVED_UNCOMMITTED_UNRUN",
+    "new_registered_research": 0
   }
 }

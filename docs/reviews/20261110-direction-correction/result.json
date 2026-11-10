@@ -1,0 +1,3558 @@
+{
+  "classification": "BOUNDED_USER_DIRECTION_CORRECTION",
+  "status": "BASELINE_VALIDATION_PASSED",
+  "red": {
+    "status": "EXPECTED_RED_ENTRYPOINT_ABSENT",
+    "phase": "red",
+    "runtime": "24447e186cf6123a9d8317b9c0654729d93d5f4c",
+    "control": "5d4b6e34a63ed0709de125a77bcebf73a9864122",
+    "started_utc": "2026-11-10T16:04:59.159370+00:00",
+    "node": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+    "new_facility_runs": 0,
+    "new_neural_or_llm_calls": 0,
+    "new_registered_research_runs": 0,
+    "counting_basis": "Configuration-only CLI calls,source reviewed;no facility runner or model inference in the new entry",
+    "inputs": {
+      "configs/facility-risk-baseline-v1.json": {
+        "bytes": 9652,
+        "sha256": "d01c1f0d77ded811fcf0486d870bb2c0425a4bce0a7e52b6eb2a02d395f0cdbf",
+        "git_blob": "c696a3fd2dba2cd546e9085f5f43f2f75d947b39"
+      },
+      "configs/full-facility-action-value-v1.json": {
+        "bytes": 4657,
+        "sha256": "b30d3ec8a71b2551128b1cd912396fb7ba9ba8ca1d9a17ca00992b44813a13f6",
+        "git_blob": "0652b8204d42088b00c40284d7a9eb5526176602"
+      },
+      "configs/full-facility-belief-model-v1.json": {
+        "bytes": 5581,
+        "sha256": "a4707172a112d1e6ad15c2af581fa0306b29391a79ea2cd240b7aa06e8037eb2",
+        "git_blob": "c77401424212b0edd37d8c013d8cd71f4687908d"
+      },
+      "configs/full-facility-mainline-reserve-v6.json": {
+        "bytes": 144280,
+        "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+        "git_blob": "9617ca0e5b15d48ef16ef629d395c037d7c47b66"
+      },
+      "configs/full-facility-risk-scenarios-v1.json": {
+        "bytes": 36047,
+        "sha256": "897d7e6e51b27dbdf609f9d7ad145f1c8ca1ca6cb999cfeb26d95724567210e9",
+        "git_blob": "7f679f5b71285ba3f46f1a475abc5eab74f2fbc5"
+      },
+      "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json": {
+        "bytes": 49221,
+        "sha256": "0487d6778cc1add458073367acd4155df26ba763adb76d4c0257c9157d401687",
+        "git_blob": "a042dae87a950d63adaf7b0ce7666f6283742fb1"
+      },
+      "scripts/direction_review_validation.py": {
+        "bytes": 6960,
+        "sha256": "1c9c0868e6165c98b89fe05b6705be507c0ed126436710911950cb84f6cd547f",
+        "git_blob": "9ecb1b2b38975adb8b410e72b32c4d39ff502495"
+      },
+      "src/aegis_dc/__init__.py": {
+        "bytes": 85,
+        "sha256": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+        "git_blob": "f8b6ed7728e3487ff8d7d5a822bb9518d321cd96"
+      },
+      "src/aegis_dc/__main__.py": {
+        "bytes": 8505,
+        "sha256": "b28c4ecdf28df598bd8b7d44d3bf43bd7b3227ef056d67200961baff0cc74787",
+        "git_blob": "8711913c87b3645c6c965d71bff177f3b5c44d56"
+      },
+      "src/aegis_dc/action_value.py": {
+        "bytes": 24874,
+        "sha256": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+        "git_blob": "cc255c745f1e0a9f91873a486ff76970c741b7f5"
+      },
+      "src/aegis_dc/belief.py": {
+        "bytes": 21044,
+        "sha256": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+        "git_blob": "1e13f06dbec9dea46d8dc35e59d06c786985dd69"
+      },
+      "src/aegis_dc/business_endpoints.py": {
+        "bytes": 13307,
+        "sha256": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+        "git_blob": "7de7d0f797aa871a0fefe20d59684155d58bf0aa"
+      },
+      "src/aegis_dc/composite_endpoints.py": {
+        "bytes": 5595,
+        "sha256": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+        "git_blob": "986ef2eee9081624b078fe008710d401b2d071a8"
+      },
+      "src/aegis_dc/condition_assessment.py": {
+        "bytes": 5208,
+        "sha256": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+        "git_blob": "d34c8a20e5c9b59ac73fd8daccdc13958daa1223"
+      },
+      "src/aegis_dc/cost_attribution.py": {
+        "bytes": 6232,
+        "sha256": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+        "git_blob": "78af5fb1f05cf712fbe61f459deb61d480531f9c"
+      },
+      "src/aegis_dc/cost_endpoints.py": {
+        "bytes": 7958,
+        "sha256": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+        "git_blob": "c3d74072b3d4451c2645992f63fdf636131ca0ab"
+      },
+      "src/aegis_dc/decision_view.py": {
+        "bytes": 20505,
+        "sha256": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+        "git_blob": "ae5a4c2a0ac7501f62bfe67e7c436bd0dbeccc83"
+      },
+      "src/aegis_dc/diagnostic_endpoints.py": {
+        "bytes": 12895,
+        "sha256": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+        "git_blob": "a38aa19c23309c580eee389e05b6143dfeb36171"
+      },
+      "src/aegis_dc/dispatch_policy.py": {
+        "bytes": 15002,
+        "sha256": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+        "git_blob": "ef761882704ea44a7fb7d4cf6cd06c08488d2e4c"
+      },
+      "src/aegis_dc/environment.py": {
+        "bytes": 5491,
+        "sha256": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+        "git_blob": "a6d943abf25748d8fc47a6a67bbfdada8fc423ab"
+      },
+      "src/aegis_dc/evidence_ledger.py": {
+        "bytes": 15055,
+        "sha256": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+        "git_blob": "5a9e2c77cf90217fc63bb921c04af506ad0eef96"
+      },
+      "src/aegis_dc/evidence_projection.py": {
+        "bytes": 20280,
+        "sha256": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+        "git_blob": "0f1c6bdcaf27fdaa5401b1b8ca06c85f4827d151"
+      },
+      "src/aegis_dc/facility.py": {
+        "bytes": 3449,
+        "sha256": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+        "git_blob": "0900986132fb29b4ff2e8d88453e0edaccf09386"
+      },
+      "src/aegis_dc/heat_transfer.py": {
+        "bytes": 5041,
+        "sha256": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+        "git_blob": "11453863520940995e71d417e66a0aefeacec7f1"
+      },
+      "src/aegis_dc/inspection_execution.py": {
+        "bytes": 11700,
+        "sha256": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+        "git_blob": "7a65585598c6ec32783760a71963963695c282b5"
+      },
+      "src/aegis_dc/instance_false_alarm.py": {
+        "bytes": 2875,
+        "sha256": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+        "git_blob": "1057fa03a8f2234f12427b0bdb95564855a3f595"
+      },
+      "src/aegis_dc/instance_reviews.py": {
+        "bytes": 12847,
+        "sha256": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+        "git_blob": "5a5d1de0e04f81e8ffa3822c28e51fe33e0cbbca"
+      },
+      "src/aegis_dc/intervention_execution.py": {
+        "bytes": 12294,
+        "sha256": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+        "git_blob": "070bbbc2902b90d9901a3cd8bc83505b5bcc4ffd"
+      },
+      "src/aegis_dc/live_sensor_execution.py": {
+        "bytes": 3136,
+        "sha256": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+        "git_blob": "a5244738d1f02924babd4e3720a728a963fd5e99"
+      },
+      "src/aegis_dc/local_control.py": {
+        "bytes": 5770,
+        "sha256": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+        "git_blob": "7372cfc8c37251dd3eb1f8733be985a89a1aca74"
+      },
+      "src/aegis_dc/lookahead_policy.py": {
+        "bytes": 14190,
+        "sha256": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+        "git_blob": "423bbbdc72d7de4c85420fdcc8fbccbfb1011153"
+      },
+      "src/aegis_dc/nonfixed_evidence.py": {
+        "bytes": 29413,
+        "sha256": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+        "git_blob": "8c0008455e223c0650f13270024c40762481d259"
+      },
+      "src/aegis_dc/parameter_domain.py": {
+        "bytes": 9738,
+        "sha256": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+        "git_blob": "410689de5f473e4f62b266b5842af8cca914347e"
+      },
+      "src/aegis_dc/plant.py": {
+        "bytes": 63069,
+        "sha256": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+        "git_blob": "fff1435b44464cc50f6ccff3b867384514bba113"
+      },
+      "src/aegis_dc/policy_budget.py": {
+        "bytes": 3310,
+        "sha256": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+        "git_blob": "a7abf3221d8b9a0159a8c235cd59c1c8ae18819e"
+      },
+      "src/aegis_dc/policy_execution.py": {
+        "bytes": 16036,
+        "sha256": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+        "git_blob": "b8367c35c5f8cf984856d50728775f492a557912"
+      },
+      "src/aegis_dc/power.py": {
+        "bytes": 12993,
+        "sha256": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+        "git_blob": "f37066fea64e1615e091765934fa5a2735f8fda4"
+      },
+      "src/aegis_dc/problem_actions.py": {
+        "bytes": 14531,
+        "sha256": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+        "git_blob": "5ae1265e23f353061f933d17122b84dfe0da5a77"
+      },
+      "src/aegis_dc/problem_closure.py": {
+        "bytes": 12844,
+        "sha256": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+        "git_blob": "016a5b1f55b3748cb7a80df00dd994d6d618cb81"
+      },
+      "src/aegis_dc/problem_tasks.py": {
+        "bytes": 13503,
+        "sha256": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+        "git_blob": "76e8d3d016a187b502b697d974a6c92b9502f58a"
+      },
+      "src/aegis_dc/refrigerant_initialization.py": {
+        "bytes": 4525,
+        "sha256": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+        "git_blob": "a95d5a92290bbe6b688bbd77bf3cf8288df415d6"
+      },
+      "src/aegis_dc/replay.py": {
+        "bytes": 26917,
+        "sha256": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+        "git_blob": "6a7f4b06f0d041f91297be2f6dbd8a80aba5e842"
+      },
+      "src/aegis_dc/replay_format.py": {
+        "bytes": 16259,
+        "sha256": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+        "git_blob": "22d4f9bb69a0fe2f55e8a27172419d498b30f355"
+      },
+      "src/aegis_dc/reserve.py": {
+        "bytes": 12231,
+        "sha256": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+        "git_blob": "1d4447c969ab879922a5b9c6a80b04ab77de6fe0"
+      },
+      "src/aegis_dc/risk.py": {
+        "bytes": 8885,
+        "sha256": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+        "git_blob": "130d9b0e5f1b0598579ffe12c7e33302267e5d17"
+      },
+      "src/aegis_dc/risk_condition_policy.py": {
+        "bytes": 6608,
+        "sha256": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+        "git_blob": "d7e24e684372a7b9f957f09476342f4301689868"
+      },
+      "src/aegis_dc/risk_scenarios.py": {
+        "bytes": 22570,
+        "sha256": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+        "git_blob": "923a73c6dbb05c0bdeb6a366749e294c2e4560dd"
+      },
+      "src/aegis_dc/runtime_contract.py": {
+        "bytes": 8523,
+        "sha256": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+        "git_blob": "4c9f06c1cfe6752c04ec403401ba195411f01286"
+      },
+      "src/aegis_dc/scenario.py": {
+        "bytes": 23474,
+        "sha256": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+        "git_blob": "e077ade5cd865a4d2a1077429a2f081585ca39f3"
+      },
+      "src/aegis_dc/sensor_channels.py": {
+        "bytes": 26313,
+        "sha256": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+        "git_blob": "ea55f0596257bc28a2779bbcc91d6ceb1b8752eb"
+      },
+      "src/aegis_dc/temporal_endpoints.py": {
+        "bytes": 7085,
+        "sha256": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+        "git_blob": "d049259c5b0a00227e790d15ca3ccdfbcb5dded2"
+      },
+      "src/aegis_dc/thermodynamics.py": {
+        "bytes": 7649,
+        "sha256": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+        "git_blob": "f890f73d117702493554302e2ec6761d6ce45190"
+      },
+      "src/aegis_dc/time_coordinates.py": {
+        "bytes": 1323,
+        "sha256": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+        "git_blob": "3f9de6a3f91639d8c8a52122312f00dc3dcecf96"
+      },
+      "src/aegis_dc/verified_closure.py": {
+        "bytes": 21683,
+        "sha256": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+        "git_blob": "08c29d3239d2eba2afb86bab88a006d9f1d12c38"
+      },
+      "src/aegis_dc/water_envelope.py": {
+        "bytes": 5235,
+        "sha256": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+        "git_blob": "bb092f8ca3022313cb853a298ebbbe2a9c28faa4"
+      },
+      "src/aegis_dc/workforce.py": {
+        "bytes": 11365,
+        "sha256": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+        "git_blob": "43e655faa867046da205ae815f60aa1d54536fe3"
+      },
+      "src/aegis_dc/workforce_dispatch.py": {
+        "bytes": 23070,
+        "sha256": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+        "git_blob": "1600c36c065256d5ec0a750a2535d4e358c81ad1"
+      },
+      "src/patrol_rsi/__init__.py": {
+        "bytes": 67,
+        "sha256": "11fd54e54b1212df954cd2b2598e4297816a8a7d8113aab42e570fda60e75cc9",
+        "git_blob": "26fd759c99e5091c5a2f9478c8ac57fa25969b87"
+      },
+      "src/patrol_rsi/contracts.py": {
+        "bytes": 1157,
+        "sha256": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee",
+        "git_blob": "37ca6a4c93a674cd8ef223692a49ec3a9cdb2fd4"
+      },
+      "tests/test_facility_risk_baseline.py": {
+        "bytes": 2973,
+        "sha256": "f861b5b898731e8791b73feb7be9c87281e579d87ec1210076d2770db1e096f3",
+        "git_blob": "c0bf0548b59362ce809da028edf81cdde8a33669"
+      }
+    },
+    "manifest_sha256": "068032cb5d78e687599bc014aea6af149431cce6994085b1d2c925d931315b7f",
+    "snapshot_sha256": "c59df03b9532119f9f86574b8117b1429a29ef67b98c2dea37251cf0589aa216",
+    "test_exit_code": 1,
+    "tests": 1,
+    "test_log_sha256": "eeaed1d7ad1d99505fbfff778bcf1befad9a7f8eddebdcc40450b24fa15774c9",
+    "source_guard": "PASS_BEFORE_AND_AFTER",
+    "finished_utc": "2026-11-10T16:04:59.844821+00:00"
+  },
+  "green": {
+    "status": "GREEN_BASELINE_INTERFACE_PASSED",
+    "phase": "green",
+    "runtime": "48a27b39ca70b5d035d96e20421edf2f498504ca",
+    "control": "48a27b39ca70b5d035d96e20421edf2f498504ca",
+    "started_utc": "2026-11-10T16:11:30.254510+00:00",
+    "node": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+    "new_facility_runs": 0,
+    "new_neural_or_llm_calls": 0,
+    "new_registered_research_runs": 0,
+    "counting_basis": "Configuration-only CLI calls,source reviewed;no facility runner or model inference in the new entry",
+    "inputs": {
+      "configs/facility-risk-baseline-v1.json": {
+        "bytes": 9652,
+        "sha256": "d01c1f0d77ded811fcf0486d870bb2c0425a4bce0a7e52b6eb2a02d395f0cdbf",
+        "git_blob": "c696a3fd2dba2cd546e9085f5f43f2f75d947b39"
+      },
+      "configs/full-facility-action-value-v1.json": {
+        "bytes": 4657,
+        "sha256": "b30d3ec8a71b2551128b1cd912396fb7ba9ba8ca1d9a17ca00992b44813a13f6",
+        "git_blob": "0652b8204d42088b00c40284d7a9eb5526176602"
+      },
+      "configs/full-facility-belief-model-v1.json": {
+        "bytes": 5581,
+        "sha256": "a4707172a112d1e6ad15c2af581fa0306b29391a79ea2cd240b7aa06e8037eb2",
+        "git_blob": "c77401424212b0edd37d8c013d8cd71f4687908d"
+      },
+      "configs/full-facility-mainline-reserve-v6.json": {
+        "bytes": 144280,
+        "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+        "git_blob": "9617ca0e5b15d48ef16ef629d395c037d7c47b66"
+      },
+      "configs/full-facility-risk-scenarios-v1.json": {
+        "bytes": 36047,
+        "sha256": "897d7e6e51b27dbdf609f9d7ad145f1c8ca1ca6cb999cfeb26d95724567210e9",
+        "git_blob": "7f679f5b71285ba3f46f1a475abc5eab74f2fbc5"
+      },
+      "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json": {
+        "bytes": 49221,
+        "sha256": "0487d6778cc1add458073367acd4155df26ba763adb76d4c0257c9157d401687",
+        "git_blob": "a042dae87a950d63adaf7b0ce7666f6283742fb1"
+      },
+      "scripts/direction_review_validation.py": {
+        "bytes": 6960,
+        "sha256": "1c9c0868e6165c98b89fe05b6705be507c0ed126436710911950cb84f6cd547f",
+        "git_blob": "9ecb1b2b38975adb8b410e72b32c4d39ff502495"
+      },
+      "src/aegis_dc/__init__.py": {
+        "bytes": 85,
+        "sha256": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+        "git_blob": "f8b6ed7728e3487ff8d7d5a822bb9518d321cd96"
+      },
+      "src/aegis_dc/__main__.py": {
+        "bytes": 9222,
+        "sha256": "1442ccb9f867b9f68a912297eb047af4fa04fdbcee4502ef95ec6ba562131b3b",
+        "git_blob": "190011f9b3ee941c04d765d260971bace116024e"
+      },
+      "src/aegis_dc/action_value.py": {
+        "bytes": 24874,
+        "sha256": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+        "git_blob": "cc255c745f1e0a9f91873a486ff76970c741b7f5"
+      },
+      "src/aegis_dc/belief.py": {
+        "bytes": 21044,
+        "sha256": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+        "git_blob": "1e13f06dbec9dea46d8dc35e59d06c786985dd69"
+      },
+      "src/aegis_dc/business_endpoints.py": {
+        "bytes": 13307,
+        "sha256": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+        "git_blob": "7de7d0f797aa871a0fefe20d59684155d58bf0aa"
+      },
+      "src/aegis_dc/composite_endpoints.py": {
+        "bytes": 5595,
+        "sha256": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+        "git_blob": "986ef2eee9081624b078fe008710d401b2d071a8"
+      },
+      "src/aegis_dc/condition_assessment.py": {
+        "bytes": 5208,
+        "sha256": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+        "git_blob": "d34c8a20e5c9b59ac73fd8daccdc13958daa1223"
+      },
+      "src/aegis_dc/cost_attribution.py": {
+        "bytes": 6232,
+        "sha256": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+        "git_blob": "78af5fb1f05cf712fbe61f459deb61d480531f9c"
+      },
+      "src/aegis_dc/cost_endpoints.py": {
+        "bytes": 7958,
+        "sha256": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+        "git_blob": "c3d74072b3d4451c2645992f63fdf636131ca0ab"
+      },
+      "src/aegis_dc/decision_view.py": {
+        "bytes": 20505,
+        "sha256": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+        "git_blob": "ae5a4c2a0ac7501f62bfe67e7c436bd0dbeccc83"
+      },
+      "src/aegis_dc/diagnostic_endpoints.py": {
+        "bytes": 12895,
+        "sha256": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+        "git_blob": "a38aa19c23309c580eee389e05b6143dfeb36171"
+      },
+      "src/aegis_dc/dispatch_policy.py": {
+        "bytes": 15002,
+        "sha256": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+        "git_blob": "ef761882704ea44a7fb7d4cf6cd06c08488d2e4c"
+      },
+      "src/aegis_dc/environment.py": {
+        "bytes": 5491,
+        "sha256": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+        "git_blob": "a6d943abf25748d8fc47a6a67bbfdada8fc423ab"
+      },
+      "src/aegis_dc/evidence_ledger.py": {
+        "bytes": 15055,
+        "sha256": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+        "git_blob": "5a9e2c77cf90217fc63bb921c04af506ad0eef96"
+      },
+      "src/aegis_dc/evidence_projection.py": {
+        "bytes": 20280,
+        "sha256": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+        "git_blob": "0f1c6bdcaf27fdaa5401b1b8ca06c85f4827d151"
+      },
+      "src/aegis_dc/facility.py": {
+        "bytes": 3449,
+        "sha256": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+        "git_blob": "0900986132fb29b4ff2e8d88453e0edaccf09386"
+      },
+      "src/aegis_dc/heat_transfer.py": {
+        "bytes": 5041,
+        "sha256": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+        "git_blob": "11453863520940995e71d417e66a0aefeacec7f1"
+      },
+      "src/aegis_dc/inspection_execution.py": {
+        "bytes": 11700,
+        "sha256": "df1569ed30041437cbc1c9418578a1359533b27c0b844839bbcd512a3fb4f7f0",
+        "git_blob": "7a65585598c6ec32783760a71963963695c282b5"
+      },
+      "src/aegis_dc/instance_false_alarm.py": {
+        "bytes": 2875,
+        "sha256": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+        "git_blob": "1057fa03a8f2234f12427b0bdb95564855a3f595"
+      },
+      "src/aegis_dc/instance_reviews.py": {
+        "bytes": 12847,
+        "sha256": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+        "git_blob": "5a5d1de0e04f81e8ffa3822c28e51fe33e0cbbca"
+      },
+      "src/aegis_dc/intervention_execution.py": {
+        "bytes": 12294,
+        "sha256": "74554a1d29a25a4c7d3cdc0a9b36fc76f5d2eb51f78ca26dfd4027c0efd8b1a1",
+        "git_blob": "070bbbc2902b90d9901a3cd8bc83505b5bcc4ffd"
+      },
+      "src/aegis_dc/live_sensor_execution.py": {
+        "bytes": 3136,
+        "sha256": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+        "git_blob": "a5244738d1f02924babd4e3720a728a963fd5e99"
+      },
+      "src/aegis_dc/local_control.py": {
+        "bytes": 5770,
+        "sha256": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+        "git_blob": "7372cfc8c37251dd3eb1f8733be985a89a1aca74"
+      },
+      "src/aegis_dc/lookahead_policy.py": {
+        "bytes": 14190,
+        "sha256": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+        "git_blob": "423bbbdc72d7de4c85420fdcc8fbccbfb1011153"
+      },
+      "src/aegis_dc/nonfixed_evidence.py": {
+        "bytes": 29413,
+        "sha256": "13db6c9b929d670d2dedcacf15d8de87ee38c5e8d185f1cb0efd510aa848974c",
+        "git_blob": "8c0008455e223c0650f13270024c40762481d259"
+      },
+      "src/aegis_dc/parameter_domain.py": {
+        "bytes": 9738,
+        "sha256": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+        "git_blob": "410689de5f473e4f62b266b5842af8cca914347e"
+      },
+      "src/aegis_dc/plant.py": {
+        "bytes": 63069,
+        "sha256": "d97a1bd34c37e17118519a4ad178a3521e53aa58d5172fd42c13b282453f1d40",
+        "git_blob": "fff1435b44464cc50f6ccff3b867384514bba113"
+      },
+      "src/aegis_dc/policy_budget.py": {
+        "bytes": 3310,
+        "sha256": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+        "git_blob": "a7abf3221d8b9a0159a8c235cd59c1c8ae18819e"
+      },
+      "src/aegis_dc/policy_execution.py": {
+        "bytes": 16036,
+        "sha256": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+        "git_blob": "b8367c35c5f8cf984856d50728775f492a557912"
+      },
+      "src/aegis_dc/power.py": {
+        "bytes": 12993,
+        "sha256": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+        "git_blob": "f37066fea64e1615e091765934fa5a2735f8fda4"
+      },
+      "src/aegis_dc/problem_actions.py": {
+        "bytes": 14531,
+        "sha256": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+        "git_blob": "5ae1265e23f353061f933d17122b84dfe0da5a77"
+      },
+      "src/aegis_dc/problem_closure.py": {
+        "bytes": 12844,
+        "sha256": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+        "git_blob": "016a5b1f55b3748cb7a80df00dd994d6d618cb81"
+      },
+      "src/aegis_dc/problem_tasks.py": {
+        "bytes": 13503,
+        "sha256": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+        "git_blob": "76e8d3d016a187b502b697d974a6c92b9502f58a"
+      },
+      "src/aegis_dc/refrigerant_initialization.py": {
+        "bytes": 4525,
+        "sha256": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+        "git_blob": "a95d5a92290bbe6b688bbd77bf3cf8288df415d6"
+      },
+      "src/aegis_dc/replay.py": {
+        "bytes": 26917,
+        "sha256": "d3ea1f4fc758cc92d1d333389dbf64175d47920794b8c1d6871b42c0a6e4f095",
+        "git_blob": "6a7f4b06f0d041f91297be2f6dbd8a80aba5e842"
+      },
+      "src/aegis_dc/replay_format.py": {
+        "bytes": 16259,
+        "sha256": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+        "git_blob": "22d4f9bb69a0fe2f55e8a27172419d498b30f355"
+      },
+      "src/aegis_dc/reserve.py": {
+        "bytes": 12231,
+        "sha256": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+        "git_blob": "1d4447c969ab879922a5b9c6a80b04ab77de6fe0"
+      },
+      "src/aegis_dc/risk.py": {
+        "bytes": 8885,
+        "sha256": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+        "git_blob": "130d9b0e5f1b0598579ffe12c7e33302267e5d17"
+      },
+      "src/aegis_dc/risk_baseline.py": {
+        "bytes": 7899,
+        "sha256": "be1b0c066ea6fcd99292370a79ab57237bf439848b6aea8200e125d1e8fe2b26",
+        "git_blob": "7e5142485629176808bfb26a91087106a922a9f7"
+      },
+      "src/aegis_dc/risk_condition_policy.py": {
+        "bytes": 6608,
+        "sha256": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+        "git_blob": "d7e24e684372a7b9f957f09476342f4301689868"
+      },
+      "src/aegis_dc/risk_scenarios.py": {
+        "bytes": 22570,
+        "sha256": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+        "git_blob": "923a73c6dbb05c0bdeb6a366749e294c2e4560dd"
+      },
+      "src/aegis_dc/runtime_contract.py": {
+        "bytes": 8523,
+        "sha256": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+        "git_blob": "4c9f06c1cfe6752c04ec403401ba195411f01286"
+      },
+      "src/aegis_dc/scenario.py": {
+        "bytes": 23474,
+        "sha256": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+        "git_blob": "e077ade5cd865a4d2a1077429a2f081585ca39f3"
+      },
+      "src/aegis_dc/sensor_channels.py": {
+        "bytes": 26313,
+        "sha256": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+        "git_blob": "ea55f0596257bc28a2779bbcc91d6ceb1b8752eb"
+      },
+      "src/aegis_dc/temporal_endpoints.py": {
+        "bytes": 7085,
+        "sha256": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+        "git_blob": "d049259c5b0a00227e790d15ca3ccdfbcb5dded2"
+      },
+      "src/aegis_dc/thermodynamics.py": {
+        "bytes": 7649,
+        "sha256": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+        "git_blob": "f890f73d117702493554302e2ec6761d6ce45190"
+      },
+      "src/aegis_dc/time_coordinates.py": {
+        "bytes": 1323,
+        "sha256": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+        "git_blob": "3f9de6a3f91639d8c8a52122312f00dc3dcecf96"
+      },
+      "src/aegis_dc/verified_closure.py": {
+        "bytes": 21683,
+        "sha256": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+        "git_blob": "08c29d3239d2eba2afb86bab88a006d9f1d12c38"
+      },
+      "src/aegis_dc/water_envelope.py": {
+        "bytes": 5235,
+        "sha256": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+        "git_blob": "bb092f8ca3022313cb853a298ebbbe2a9c28faa4"
+      },
+      "src/aegis_dc/workforce.py": {
+        "bytes": 11365,
+        "sha256": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+        "git_blob": "43e655faa867046da205ae815f60aa1d54536fe3"
+      },
+      "src/aegis_dc/workforce_dispatch.py": {
+        "bytes": 23070,
+        "sha256": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+        "git_blob": "1600c36c065256d5ec0a750a2535d4e358c81ad1"
+      },
+      "src/patrol_rsi/__init__.py": {
+        "bytes": 67,
+        "sha256": "11fd54e54b1212df954cd2b2598e4297816a8a7d8113aab42e570fda60e75cc9",
+        "git_blob": "26fd759c99e5091c5a2f9478c8ac57fa25969b87"
+      },
+      "src/patrol_rsi/contracts.py": {
+        "bytes": 1157,
+        "sha256": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee",
+        "git_blob": "37ca6a4c93a674cd8ef223692a49ec3a9cdb2fd4"
+      },
+      "tests/test_facility_risk_baseline.py": {
+        "bytes": 2973,
+        "sha256": "f861b5b898731e8791b73feb7be9c87281e579d87ec1210076d2770db1e096f3",
+        "git_blob": "c0bf0548b59362ce809da028edf81cdde8a33669"
+      }
+    },
+    "manifest_sha256": "bf839ae5d91300556d1730527dfb6f913b3173ec86b72a4e1ef47641f54a3c2b",
+    "snapshot_sha256": "b96872c521b767b765fbb04b14fcb52b2a3419634d63d683ae0b3ccec8d0f802",
+    "baseline": {
+      "schema": "aegisdc-facility-risk-inspection-baseline-v1",
+      "id": "V6-FEMA-adapted-risk-inspection-baseline-v1",
+      "status": "PARTIAL_BASELINE_AWAITING_USER_REVIEW",
+      "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+      "method": {
+        "kind": "FEMA_ADAPTED_PROCESS_NOT_DEVICE_SCORE",
+        "sources": [
+          "https://emilms.fema.gov/is_0559/groups/22.html",
+          "https://emilms.fema.gov/is_0559/groups/25.html",
+          "https://emilms.fema.gov/is_0559/groups/28.html"
+        ],
+        "mapping": [
+          "hazard_context",
+          "asset_ids_and_service_dependencies",
+          "conditional_consequences_and_shared_loss",
+          "evidence_gaps_and_inspection_question",
+          "declared_capabilities_actions_and_verification"
+        ]
+      },
+      "source_note": "Review baseline only;reuse original finite models,keep six primary scenarios unmodelled and seven inspection-value models absent.",
+      "coverage": {
+        "primary_domain_scenarios": 8,
+        "risk_modelled_primary_domains": 2,
+        "risk_unmodelled_primary_domains": 6,
+        "inspection_value_modelled_primary_domains": 1,
+        "inspection_value_unmodelled_primary_domains": 7
+      },
+      "domains": [
+        {
+          "domain_id": "power",
+          "label": "供配电",
+          "primary_question_id": "power",
+          "hazard_context": "Possible power impairment affects the shared critical service over the declared finite horizon.",
+          "asset_ids": [
+            "rectifier",
+            "grid",
+            "load_distribution"
+          ],
+          "functional_edge_ids": [
+            "f12",
+            "f13",
+            "f14"
+          ],
+          "probability_object": "Declared finite conditional outcome law,not empirical site-event probability",
+          "risk_status": "FINITE_CONDITIONAL_LAW",
+          "conditional_risk": {
+            "id": "power",
+            "target_ids": [
+              "rectifier",
+              "grid",
+              "load_distribution"
+            ],
+            "scenario": "Possible power impairment affects the shared critical service over the declared finite horizon.",
+            "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+            "dependency_edge_ids": [
+              "f12",
+              "f13",
+              "f14"
+            ],
+            "outcome_ids": [
+              "power-limited",
+              "other"
+            ],
+            "window_s": [
+              12,
+              14
+            ],
+            "evidence_gaps": [
+              "Distinguish aggregate causes and establish present capacity under load.",
+              "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+              "Dynamic people, tools, access, authorization and operation effects require executor checks."
+            ],
+            "closure_evidence": "Compare electrical measurements with offered demand and reserve status; authorize isolation or switching only through the operation executor.",
+            "options": [
+              {
+                "id": "defer-power",
+                "kind": "defer",
+                "request_id": null,
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null
+              },
+              {
+                "id": "intervene-power",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-power",
+                "target_id": "rectifier",
+                "qualification_id": "qualified_electrical_inspection",
+                "tool_ids": [
+                  "tool_electrical_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_electrical"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_power"
+              }
+            ],
+            "quantification": "FINITE_CONDITIONAL_LAW",
+            "domain_ids": [
+              "power"
+            ],
+            "impact_description": "Rectifier or shared supply limitation constrains compute, network and storage jointly; UPS and diesel cover only their declared loads and switching path.",
+            "conditional_consequence": "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+            "consequence_bounds": {
+              "service_deficit_time_s": {
+                "interval": [
+                  0,
+                  2
+                ],
+                "unit": "s"
+              },
+              "unserved_service_unit_s": {
+                "interval": [
+                  0,
+                  2.5
+                ],
+                "unit": "normalized_service_unit*s"
+              },
+              "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+            },
+            "other_consequences": [
+              {
+                "id": "professional_response",
+                "description": "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+                "unit": "s",
+                "interval": null,
+                "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+              }
+            ],
+            "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT",
+            "status": "OPEN",
+            "probability": {
+              "value": 0.6286407766990291,
+              "unit": "1"
+            },
+            "option_assessments": [
+              {
+                "id": "defer-power",
+                "kind": "defer",
+                "request_id": null,
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null,
+                "legal_for_planning": true,
+                "public_reasons": [],
+                "unresolved_dynamic_requirements": [],
+                "execution_permission": false,
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "NONE_FOR_DEFER"
+              },
+              {
+                "id": "intervene-power",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-power",
+                "target_id": "rectifier",
+                "qualification_id": "qualified_electrical_inspection",
+                "tool_ids": [
+                  "tool_electrical_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_electrical"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_power",
+                "legal_for_planning": true,
+                "public_reasons": [],
+                "nominal_candidate_worker_ids": [
+                  "worker_electrical"
+                ],
+                "blocking_record_ids": [],
+                "unresolved_dynamic_requirements": [
+                  "actual_access",
+                  "current_worker_position",
+                  "tool_availability",
+                  "resource_occupation",
+                  "route_and_timing",
+                  "execution_authorization",
+                  "operation_effect_contract"
+                ],
+                "execution_permission": false,
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "REQUIRES_PERSONNEL_EXECUTOR_AND_OPERATION_CONTRACT"
+              }
+            ],
+            "consequences_by_variant": {
+              "reference": {
+                "offered_service_unit_s": {
+                  "value": 1.5716019417475728,
+                  "unit": "normalized_service_unit*s"
+                },
+                "delivered_service_unit_s": {
+                  "value": 0.3303398058252427,
+                  "unit": "normalized_service_unit*s"
+                },
+                "unserved_service_unit_s": {
+                  "value": 1.2412621359223301,
+                  "unit": "normalized_service_unit*s"
+                },
+                "service_deficit_time_s": {
+                  "value": 0.8323422330097087,
+                  "unit": "s"
+                }
+              },
+              "weaker-discrimination": {
+                "offered_service_unit_s": {
+                  "value": 1.2717466945024356,
+                  "unit": "normalized_service_unit*s"
+                },
+                "delivered_service_unit_s": {
+                  "value": 0.26985038274182327,
+                  "unit": "normalized_service_unit*s"
+                },
+                "unserved_service_unit_s": {
+                  "value": 1.0018963117606123,
+                  "unit": "normalized_service_unit*s"
+                },
+                "service_deficit_time_s": {
+                  "value": 0.6684585942936674,
+                  "unit": "s"
+                }
+              }
+            },
+            "assumption_envelope": {
+              "offered_service_unit_s": [
+                1.2717466945024356,
+                1.5716019417475728
+              ],
+              "delivered_service_unit_s": [
+                0.26985038274182327,
+                0.3303398058252427
+              ],
+              "unserved_service_unit_s": [
+                1.0018963117606123,
+                1.2412621359223301
+              ],
+              "service_deficit_time_s": [
+                0.6684585942936674,
+                0.8323422330097087
+              ]
+            },
+            "secondary_consequence_dimensions": [
+              {
+                "id": "professional_response",
+                "description": "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+                "unit": "s",
+                "interval": null,
+                "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+              }
+            ],
+            "consequences_basis": "EVENT_WEIGHTED_CONTRIBUTION_NOT_CONDITIONAL_ON_EVENT",
+            "consequences": {
+              "offered_service_unit_s": {
+                "value": 1.5716019417475728,
+                "unit": "normalized_service_unit*s"
+              },
+              "delivered_service_unit_s": {
+                "value": 0.3303398058252427,
+                "unit": "normalized_service_unit*s"
+              },
+              "unserved_service_unit_s": {
+                "value": 1.2412621359223301,
+                "unit": "normalized_service_unit*s"
+              },
+              "service_deficit_time_s": {
+                "value": 0.8323422330097087,
+                "unit": "s"
+              }
+            },
+            "physical_actions": []
+          },
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Rectifier or shared supply limitation constrains compute, network and storage jointly; UPS and diesel cover only their declared loads and switching path.",
+          "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "Distinguish aggregate causes and establish present capacity under load.",
+            "Conditional joint-capacity profile does not resolve reserve energy, switching delay or low-demand confounding.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "电源、整流和供电路径是否能承担声明负载？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-power",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-power",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-power",
+              "target_id": "rectifier",
+              "qualification_id": "qualified_electrical_inspection",
+              "tool_ids": [
+                "tool_electrical_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_electrical"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_power"
+            }
+          ],
+          "verification_evidence": "Compare electrical measurements with offered demand and reserve status; authorize isolation or switching only through the operation executor."
+        },
+        {
+          "domain_id": "backup",
+          "label": "后备能源",
+          "primary_question_id": "backup-support",
+          "hazard_context": "Reserve capacity, maintenance availability and switching can constrain shared supply or heat rejection.",
+          "asset_ids": [
+            "ups",
+            "generator",
+            "backup_tower"
+          ],
+          "functional_edge_ids": [
+            "f8",
+            "f9",
+            "f10",
+            "f11",
+            "f_ups_internal_pump",
+            "f_common_distribution"
+          ],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "UPS supports controller and pumps; generator feeds the main switchboard; backup tower supports internal water. Maintenance, finite energy/capacity and switching can leave common distribution or cooling unsupported.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "Given reserve failure during an upstream loss, delivered critical service can fall to zero; duration depends on demand, protection, stored energy and start delay.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "UPS、柴油与备用冷却是否具备所需持续和切换能力？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-backup-support",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-backup-support",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-backup-support",
+              "target_id": "ups",
+              "qualification_id": "qualified_electrical_inspection",
+              "tool_ids": [
+                "tool_electrical_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_electrical"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_backup"
+            }
+          ],
+          "verification_evidence": "Electrical specialist checks reserve availability, capacity and switching evidence; cooling specialist verifies backup heat rejection. Record restoration under load."
+        },
+        {
+          "domain_id": "facility_cooling",
+          "label": "设施冷却",
+          "primary_question_id": "cooling",
+          "hazard_context": "Possible cooling impairment affects the shared critical service over the declared finite horizon.",
+          "asset_ids": [
+            "filter",
+            "intake_pump",
+            "plate_hx",
+            "immersion"
+          ],
+          "functional_edge_ids": [
+            "f12",
+            "f13",
+            "f14"
+          ],
+          "probability_object": "Declared finite conditional outcome law,not empirical site-event probability",
+          "risk_status": "FINITE_CONDITIONAL_LAW",
+          "conditional_risk": {
+            "id": "cooling",
+            "target_ids": [
+              "filter",
+              "intake_pump",
+              "plate_hx",
+              "immersion"
+            ],
+            "scenario": "Possible cooling impairment affects the shared critical service over the declared finite horizon.",
+            "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+            "dependency_edge_ids": [
+              "f12",
+              "f13",
+              "f14"
+            ],
+            "outcome_ids": [
+              "cooling-limited",
+              "other"
+            ],
+            "window_s": [
+              12,
+              14
+            ],
+            "evidence_gaps": [
+              "Distinguish aggregate causes and establish present capacity under load.",
+              "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+              "Dynamic people, tools, access, authorization and operation effects require executor checks."
+            ],
+            "closure_evidence": "Review flow and coolant records, confirm pump/filter/HX condition, then verify heat rejection and service recovery.",
+            "options": [
+              {
+                "id": "defer-cooling",
+                "kind": "defer",
+                "request_id": null,
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null
+              },
+              {
+                "id": "isolate-cooling",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-cooling",
+                "target_id": "filter",
+                "qualification_id": "qualified_cooling_inspection",
+                "tool_ids": [
+                  "tool_flow_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_cooling"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_facility_cooling"
+              },
+              {
+                "id": "inspect-cooling",
+                "kind": "inspect",
+                "request_id": "intent-filter-check",
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null
+              },
+              {
+                "id": "unqualified-cooling",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-cooling",
+                "target_id": "filter",
+                "qualification_id": "qualified_cooling_inspection",
+                "tool_ids": [
+                  "tool_flow_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_electrical"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_facility_cooling"
+              }
+            ],
+            "quantification": "FINITE_CONDITIONAL_LAW",
+            "domain_ids": [
+              "facility_cooling",
+              "equipment_environment"
+            ],
+            "impact_description": "Filter, pump or exchanger limitations can constrain heat rejection through internal water and immersion. Thermal inertia and existing protection alter when compute delivery is curtailed.",
+            "conditional_consequence": "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+            "consequence_bounds": {
+              "service_deficit_time_s": {
+                "interval": [
+                  0,
+                  2
+                ],
+                "unit": "s"
+              },
+              "unserved_service_unit_s": {
+                "interval": [
+                  0,
+                  2.5
+                ],
+                "unit": "normalized_service_unit*s"
+              },
+              "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+            },
+            "other_consequences": [
+              {
+                "id": "professional_response",
+                "description": "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+                "unit": "s",
+                "interval": null,
+                "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+              }
+            ],
+            "immediate_service_effect": "CONDITIONAL_CAPACITY_OR_PROTECTION_EFFECT",
+            "status": "OPEN",
+            "probability": {
+              "value": 0.47572815533980584,
+              "unit": "1"
+            },
+            "option_assessments": [
+              {
+                "id": "defer-cooling",
+                "kind": "defer",
+                "request_id": null,
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null,
+                "legal_for_planning": true,
+                "public_reasons": [],
+                "unresolved_dynamic_requirements": [],
+                "execution_permission": false,
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "NONE_FOR_DEFER"
+              },
+              {
+                "id": "isolate-cooling",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-cooling",
+                "target_id": "filter",
+                "qualification_id": "qualified_cooling_inspection",
+                "tool_ids": [
+                  "tool_flow_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_cooling"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_facility_cooling",
+                "legal_for_planning": true,
+                "public_reasons": [],
+                "nominal_candidate_worker_ids": [
+                  "worker_cooling"
+                ],
+                "blocking_record_ids": [],
+                "unresolved_dynamic_requirements": [
+                  "actual_access",
+                  "current_worker_position",
+                  "tool_availability",
+                  "resource_occupation",
+                  "route_and_timing",
+                  "execution_authorization",
+                  "operation_effect_contract"
+                ],
+                "execution_permission": false,
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "REQUIRES_PERSONNEL_EXECUTOR_AND_OPERATION_CONTRACT"
+              },
+              {
+                "id": "inspect-cooling",
+                "kind": "inspect",
+                "request_id": "intent-filter-check",
+                "operation_id": null,
+                "target_id": null,
+                "qualification_id": null,
+                "tool_ids": [],
+                "candidate_worker_ids": [],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": null,
+                "legal_for_planning": true,
+                "public_reasons": [],
+                "considered_record_ids": [],
+                "blocking_record_ids": [],
+                "physical_feasibility": "UNVERIFIED",
+                "execution_permission": false,
+                "unresolved_dynamic_requirements": [
+                  "actual_access",
+                  "current_worker_position",
+                  "tool_availability",
+                  "resource_occupation",
+                  "route_and_timing",
+                  "execution_authorization"
+                ],
+                "basis": "NOMINAL_CAPABILITIES_AND_CURRENT_DECLARED_REPORTS_ONLY",
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "REQUIRES_PERSONNEL_EXECUTOR_AND_OPERATION_CONTRACT"
+              },
+              {
+                "id": "unqualified-cooling",
+                "kind": "intervene",
+                "request_id": null,
+                "operation_id": "make-safe-cooling",
+                "target_id": "filter",
+                "qualification_id": "qualified_cooling_inspection",
+                "tool_ids": [
+                  "tool_flow_meter"
+                ],
+                "candidate_worker_ids": [
+                  "worker_electrical"
+                ],
+                "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+                "capability_interface_id": "inspect_facility_cooling",
+                "legal_for_planning": false,
+                "public_reasons": [
+                  "nominal_qualification_mismatch",
+                  "nominal_tool_capability_mismatch"
+                ],
+                "nominal_candidate_worker_ids": [],
+                "blocking_record_ids": [],
+                "unresolved_dynamic_requirements": [
+                  "actual_access",
+                  "current_worker_position",
+                  "tool_availability",
+                  "resource_occupation",
+                  "route_and_timing",
+                  "execution_authorization",
+                  "operation_effect_contract"
+                ],
+                "execution_permission": false,
+                "requires_prior_inspection": false,
+                "physical_effect": "NOT_EXECUTED",
+                "execution_gate": "REQUIRES_PERSONNEL_EXECUTOR_AND_OPERATION_CONTRACT"
+              }
+            ],
+            "consequences_by_variant": {
+              "reference": {
+                "offered_service_unit_s": {
+                  "value": 1.1893203883495147,
+                  "unit": "normalized_service_unit*s"
+                },
+                "delivered_service_unit_s": {
+                  "value": 0.5160194174757282,
+                  "unit": "normalized_service_unit*s"
+                },
+                "unserved_service_unit_s": {
+                  "value": 0.6733009708737864,
+                  "unit": "normalized_service_unit*s"
+                },
+                "service_deficit_time_s": {
+                  "value": 0.3927184466019418,
+                  "unit": "s"
+                }
+              },
+              "weaker-discrimination": {
+                "offered_service_unit_s": {
+                  "value": 1.153444676409186,
+                  "unit": "normalized_service_unit*s"
+                },
+                "delivered_service_unit_s": {
+                  "value": 0.5008872651356994,
+                  "unit": "normalized_service_unit*s"
+                },
+                "unserved_service_unit_s": {
+                  "value": 0.6525574112734864,
+                  "unit": "normalized_service_unit*s"
+                },
+                "service_deficit_time_s": {
+                  "value": 0.38053235908141964,
+                  "unit": "s"
+                }
+              }
+            },
+            "assumption_envelope": {
+              "offered_service_unit_s": [
+                1.153444676409186,
+                1.1893203883495147
+              ],
+              "delivered_service_unit_s": [
+                0.5008872651356994,
+                0.5160194174757282
+              ],
+              "unserved_service_unit_s": [
+                0.6525574112734864,
+                0.6733009708737864
+              ],
+              "service_deficit_time_s": [
+                0.38053235908141964,
+                0.3927184466019418
+              ]
+            },
+            "secondary_consequence_dimensions": [
+              {
+                "id": "professional_response",
+                "description": "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+                "unit": "s",
+                "interval": null,
+                "basis": "Timing is unquantified until declared dynamic work and operation contracts are evaluated."
+              }
+            ],
+            "consequences_basis": "EVENT_WEIGHTED_CONTRIBUTION_NOT_CONDITIONAL_ON_EVENT",
+            "consequences": {
+              "offered_service_unit_s": {
+                "value": 1.1893203883495147,
+                "unit": "normalized_service_unit*s"
+              },
+              "delivered_service_unit_s": {
+                "value": 0.5160194174757282,
+                "unit": "normalized_service_unit*s"
+              },
+              "unserved_service_unit_s": {
+                "value": 0.6733009708737864,
+                "unit": "normalized_service_unit*s"
+              },
+              "service_deficit_time_s": {
+                "value": 0.3927184466019418,
+                "unit": "s"
+              }
+            },
+            "physical_actions": []
+          },
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Filter, pump or exchanger limitations can constrain heat rejection through internal water and immersion. Thermal inertia and existing protection alter when compute delivery is curtailed.",
+          "barriers": "Existing local automatic protection remains in the plant; this conditional profile does not switch or bypass it.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "Distinguish aggregate causes and establish present capacity under load.",
+            "Conditional joint-capacity profile is declared for arithmetic; actual thermal delay and diagnosis remain unidentified.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "泵、阀、滤器和换热链是否满足当前排热需求？",
+          "inspection_value_status": "FINITE_CONDITIONAL_MODEL_UNALIGNED_TIME",
+          "inspection_value": {
+            "question_id": "cooling",
+            "alternatives": [
+              {
+                "kind": "defer",
+                "expected": {
+                  "offered_service_unit_s": {
+                    "value": 2.5,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "delivered_service_unit_s": {
+                    "value": 0.9966019417475728,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "unserved_service_unit_s": {
+                    "value": 1.5033980582524271,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "service_deficit_time_s": {
+                    "value": 0.9634101941747573,
+                    "unit": "s"
+                  },
+                  "travel_person_s": {
+                    "value": 0.0,
+                    "unit": "person*s"
+                  },
+                  "wait_person_s": {
+                    "value": 0.0,
+                    "unit": "person*s"
+                  },
+                  "work_person_s": {
+                    "value": 0.0,
+                    "unit": "person*s"
+                  },
+                  "person_s": {
+                    "value": 0.0,
+                    "unit": "person*s"
+                  },
+                  "tool_s": {
+                    "value": 0.0,
+                    "unit": "tool*s"
+                  },
+                  "cost": {
+                    "value": 0.0,
+                    "unit": "research_cost_unit"
+                  }
+                },
+                "branches": [
+                  {
+                    "report": null,
+                    "probability": 1.0,
+                    "status": "PREDICTED",
+                    "action": "defer",
+                    "posterior_outcomes": {
+                      "nominal": 0.10922330097087378,
+                      "cooling-limited": 0.2621359223300971,
+                      "power-limited": 0.41504854368932037,
+                      "other": 0.21359223300970873
+                    },
+                    "action_started_at_s": null,
+                    "action_completed_at_s": null,
+                    "required_resources": {
+                      "travel_person_s": 0.0,
+                      "wait_person_s": 0.0,
+                      "work_person_s": 0.0,
+                      "person_s": 0.0,
+                      "tool_s": 0.0,
+                      "cost": 0.0
+                    },
+                    "action_status": "NOT_SELECTED"
+                  }
+                ],
+                "information_updates_physical_state": false,
+                "eligible_for_planning": true,
+                "planning_reasons": [],
+                "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                "execution_permission": false
+              },
+              {
+                "kind": "direct_intervention",
+                "expected": {
+                  "offered_service_unit_s": {
+                    "value": 2.5,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "delivered_service_unit_s": {
+                    "value": 2.3437196601941745,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "unserved_service_unit_s": {
+                    "value": 0.15628033980582523,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "service_deficit_time_s": {
+                    "value": 0.31256067961165046,
+                    "unit": "s"
+                  },
+                  "travel_person_s": {
+                    "value": 0.125,
+                    "unit": "person*s"
+                  },
+                  "wait_person_s": {
+                    "value": 0.125,
+                    "unit": "person*s"
+                  },
+                  "work_person_s": {
+                    "value": 0.25,
+                    "unit": "person*s"
+                  },
+                  "person_s": {
+                    "value": 0.5,
+                    "unit": "person*s"
+                  },
+                  "tool_s": {
+                    "value": 0.5,
+                    "unit": "tool*s"
+                  },
+                  "cost": {
+                    "value": 2.0,
+                    "unit": "research_cost_unit"
+                  }
+                },
+                "branches": [
+                  {
+                    "report": null,
+                    "probability": 1.0,
+                    "status": "PREDICTED",
+                    "action": "intervene",
+                    "posterior_outcomes": {
+                      "nominal": 0.10922330097087378,
+                      "cooling-limited": 0.2621359223300971,
+                      "power-limited": 0.41504854368932037,
+                      "other": 0.21359223300970873
+                    },
+                    "action_started_at_s": 0.25,
+                    "action_completed_at_s": 0.5,
+                    "required_resources": {
+                      "travel_person_s": 0.125,
+                      "wait_person_s": 0.125,
+                      "work_person_s": 0.25,
+                      "person_s": 0.5,
+                      "tool_s": 0.5,
+                      "cost": 2.0
+                    },
+                    "action_status": "COMPLETED_PREDICTED"
+                  }
+                ],
+                "information_updates_physical_state": false,
+                "eligible_for_planning": true,
+                "planning_reasons": [],
+                "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                "execution_permission": false
+              },
+              {
+                "kind": "inspect_then_act",
+                "expected": {
+                  "offered_service_unit_s": {
+                    "value": 2.5,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "delivered_service_unit_s": {
+                    "value": 1.4492945995145632,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "unserved_service_unit_s": {
+                    "value": 1.0507054004854368,
+                    "unit": "normalized_service_unit*s"
+                  },
+                  "service_deficit_time_s": {
+                    "value": 0.7677032766990292,
+                    "unit": "s"
+                  },
+                  "travel_person_s": {
+                    "value": 0.17912621359223302,
+                    "unit": "person*s"
+                  },
+                  "wait_person_s": {
+                    "value": 0.17912621359223302,
+                    "unit": "person*s"
+                  },
+                  "work_person_s": {
+                    "value": 0.35825242718446604,
+                    "unit": "person*s"
+                  },
+                  "person_s": {
+                    "value": 0.7165048543689321,
+                    "unit": "person*s"
+                  },
+                  "tool_s": {
+                    "value": 0.7165048543689321,
+                    "unit": "tool*s"
+                  },
+                  "cost": {
+                    "value": 1.866019417475728,
+                    "unit": "research_cost_unit"
+                  }
+                },
+                "branches": [
+                  {
+                    "report": "positive",
+                    "probability": 0.4330097087378641,
+                    "status": "PREDICTED",
+                    "action": "intervene",
+                    "posterior_outcomes": {
+                      "nominal": 0.02522421524663677,
+                      "cooling-limited": 0.484304932735426,
+                      "power-limited": 0.09585201793721973,
+                      "other": 0.39461883408071746
+                    },
+                    "action_started_at_s": 0.875,
+                    "action_completed_at_s": 1.125,
+                    "required_resources": {
+                      "travel_person_s": 0.25,
+                      "wait_person_s": 0.25,
+                      "work_person_s": 0.5,
+                      "person_s": 1.0,
+                      "tool_s": 1.0,
+                      "cost": 3.0
+                    },
+                    "action_status": "COMPLETED_PREDICTED"
+                  },
+                  {
+                    "report": "negative",
+                    "probability": 0.566990291262136,
+                    "status": "PREDICTED",
+                    "action": "defer",
+                    "posterior_outcomes": {
+                      "nominal": 0.17337328767123286,
+                      "cooling-limited": 0.09246575342465754,
+                      "power-limited": 0.658818493150685,
+                      "other": 0.07534246575342465
+                    },
+                    "action_started_at_s": null,
+                    "action_completed_at_s": null,
+                    "required_resources": {
+                      "travel_person_s": 0.125,
+                      "wait_person_s": 0.125,
+                      "work_person_s": 0.25,
+                      "person_s": 0.5,
+                      "tool_s": 0.5,
+                      "cost": 1.0
+                    },
+                    "action_status": "NOT_SELECTED"
+                  }
+                ],
+                "information_updates_physical_state": false,
+                "eligible_for_planning": true,
+                "planning_reasons": [],
+                "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                "execution_permission": false
+              }
+            ],
+            "alternatives_by_assumption": [
+              {
+                "belief_variant_id": "reference",
+                "value_variant_id": "reference",
+                "alternatives": [
+                  {
+                    "kind": "defer",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 0.9966019417475728,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.5033980582524271,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.9634101941747573,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.0,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 0.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.10922330097087378,
+                          "cooling-limited": 0.2621359223300971,
+                          "power-limited": 0.41504854368932037,
+                          "other": 0.21359223300970873
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.0,
+                          "wait_person_s": 0.0,
+                          "work_person_s": 0.0,
+                          "person_s": 0.0,
+                          "tool_s": 0.0,
+                          "cost": 0.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "direct_intervention",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 2.3437196601941745,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 0.15628033980582523,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.31256067961165046,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.25,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.5,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.5,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 2.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.10922330097087378,
+                          "cooling-limited": 0.2621359223300971,
+                          "power-limited": 0.41504854368932037,
+                          "other": 0.21359223300970873
+                        },
+                        "action_started_at_s": 0.25,
+                        "action_completed_at_s": 0.5,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 2.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "inspect_then_act",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.4492945995145632,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.0507054004854368,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.7677032766990292,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.17912621359223302,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.17912621359223302,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.35825242718446604,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.7165048543689321,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.7165048543689321,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 1.866019417475728,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": "positive",
+                        "probability": 0.4330097087378641,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.02522421524663677,
+                          "cooling-limited": 0.484304932735426,
+                          "power-limited": 0.09585201793721973,
+                          "other": 0.39461883408071746
+                        },
+                        "action_started_at_s": 0.875,
+                        "action_completed_at_s": 1.125,
+                        "required_resources": {
+                          "travel_person_s": 0.25,
+                          "wait_person_s": 0.25,
+                          "work_person_s": 0.5,
+                          "person_s": 1.0,
+                          "tool_s": 1.0,
+                          "cost": 3.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      },
+                      {
+                        "report": "negative",
+                        "probability": 0.566990291262136,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.17337328767123286,
+                          "cooling-limited": 0.09246575342465754,
+                          "power-limited": 0.658818493150685,
+                          "other": 0.07534246575342465
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 1.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  }
+                ]
+              },
+              {
+                "belief_variant_id": "reference",
+                "value_variant_id": "weaker-test-and-residual",
+                "alternatives": [
+                  {
+                    "kind": "defer",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 0.9966019417475728,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.5033980582524271,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.9634101941747573,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.0,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 0.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.10922330097087378,
+                          "cooling-limited": 0.2621359223300971,
+                          "power-limited": 0.41504854368932037,
+                          "other": 0.21359223300970873
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.0,
+                          "wait_person_s": 0.0,
+                          "work_person_s": 0.0,
+                          "person_s": 0.0,
+                          "tool_s": 0.0,
+                          "cost": 0.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "direct_intervention",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.3437196601941748,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.1562803398058252,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.8125606796116505,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.25,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.5,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.5,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 2.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.10922330097087378,
+                          "cooling-limited": 0.2621359223300971,
+                          "power-limited": 0.41504854368932037,
+                          "other": 0.21359223300970873
+                        },
+                        "action_started_at_s": 0.25,
+                        "action_completed_at_s": 0.5,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 2.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "inspect_then_act",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.0587606189320389,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.4412393810679611,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.9577821601941747,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.17020631067961164,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.17020631067961164,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.3404126213592233,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.6808252427184466,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.6808252427184466,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 1.7233009708737865,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": "positive",
+                        "probability": 0.3616504854368932,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.030201342281879193,
+                          "cooling-limited": 0.47114093959731546,
+                          "power-limited": 0.11476510067114093,
+                          "other": 0.3838926174496644
+                        },
+                        "action_started_at_s": 0.875,
+                        "action_completed_at_s": 1.125,
+                        "required_resources": {
+                          "travel_person_s": 0.25,
+                          "wait_person_s": 0.25,
+                          "work_person_s": 0.5,
+                          "person_s": 1.0,
+                          "tool_s": 1.0,
+                          "cost": 3.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      },
+                      {
+                        "report": "negative",
+                        "probability": 0.6383495145631067,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.15399239543726234,
+                          "cooling-limited": 0.14372623574144489,
+                          "power-limited": 0.585171102661597,
+                          "other": 0.11711026615969582
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 1.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  }
+                ]
+              },
+              {
+                "belief_variant_id": "weaker-discrimination",
+                "value_variant_id": "reference",
+                "alternatives": [
+                  {
+                    "kind": "defer",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.2434064022268614,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.2565935977731386,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.7958072372999304,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.0,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 0.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.23660403618649964,
+                          "cooling-limited": 0.2546972860125261,
+                          "power-limited": 0.30201809324982604,
+                          "other": 0.20668058455114824
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.0,
+                          "wait_person_s": 0.0,
+                          "work_person_s": 0.0,
+                          "person_s": 0.0,
+                          "tool_s": 0.0,
+                          "cost": 0.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "direct_intervention",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 2.350956854558107,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 0.14904314544189284,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.2980862908837857,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.25,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.5,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.5,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 2.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.23660403618649964,
+                          "cooling-limited": 0.2546972860125261,
+                          "power-limited": 0.30201809324982604,
+                          "other": 0.20668058455114824
+                        },
+                        "action_started_at_s": 0.25,
+                        "action_completed_at_s": 0.5,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 2.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "inspect_then_act",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.6633046276965902,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 0.8366953723034098,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.6163448155880307,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.1778705636743215,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.1778705636743215,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.355741127348643,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.711482254697286,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.711482254697286,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 1.8459290187891442,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": "positive",
+                        "probability": 0.42296450939457203,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.055939453767686734,
+                          "cooling-limited": 0.4817374136229023,
+                          "power-limited": 0.07140506745640013,
+                          "other": 0.39091806515301086
+                        },
+                        "action_started_at_s": 0.875,
+                        "action_completed_at_s": 1.125,
+                        "required_resources": {
+                          "travel_person_s": 0.25,
+                          "wait_person_s": 0.25,
+                          "work_person_s": 0.5,
+                          "person_s": 1.0,
+                          "tool_s": 1.0,
+                          "cost": 3.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      },
+                      {
+                        "report": "negative",
+                        "probability": 0.5770354906054279,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.36903039073806077,
+                          "cooling-limited": 0.08827785817655572,
+                          "power-limited": 0.4710564399421129,
+                          "other": 0.07163531114327062
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 1.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  }
+                ]
+              },
+              {
+                "belief_variant_id": "weaker-discrimination",
+                "value_variant_id": "weaker-test-and-residual",
+                "alternatives": [
+                  {
+                    "kind": "defer",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.2434064022268614,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.2565935977731386,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.7958072372999304,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.0,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.0,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 0.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.23660403618649964,
+                          "cooling-limited": 0.2546972860125261,
+                          "power-limited": 0.30201809324982604,
+                          "other": 0.20668058455114824
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.0,
+                          "wait_person_s": 0.0,
+                          "work_person_s": 0.0,
+                          "person_s": 0.0,
+                          "tool_s": 0.0,
+                          "cost": 0.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "direct_intervention",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.3509568545581072,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.1490431454418928,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.7980862908837857,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.125,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.25,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.5,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.5,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 2.0,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": null,
+                        "probability": 1.0,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.23660403618649964,
+                          "cooling-limited": 0.2546972860125261,
+                          "power-limited": 0.30201809324982604,
+                          "other": 0.20668058455114824
+                        },
+                        "action_started_at_s": 0.25,
+                        "action_completed_at_s": 0.5,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 2.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  },
+                  {
+                    "kind": "inspect_then_act",
+                    "expected": {
+                      "offered_service_unit_s": {
+                        "value": 2.5,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "delivered_service_unit_s": {
+                        "value": 1.2819665535838551,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "unserved_service_unit_s": {
+                        "value": 1.2180334464161449,
+                        "unit": "normalized_service_unit*s"
+                      },
+                      "service_deficit_time_s": {
+                        "value": 0.8019789491997217,
+                        "unit": "s"
+                      },
+                      "travel_person_s": {
+                        "value": 0.16921972860125262,
+                        "unit": "person*s"
+                      },
+                      "wait_person_s": {
+                        "value": 0.16921972860125262,
+                        "unit": "person*s"
+                      },
+                      "work_person_s": {
+                        "value": 0.33843945720250523,
+                        "unit": "person*s"
+                      },
+                      "person_s": {
+                        "value": 0.6768789144050105,
+                        "unit": "person*s"
+                      },
+                      "tool_s": {
+                        "value": 0.6768789144050105,
+                        "unit": "tool*s"
+                      },
+                      "cost": {
+                        "value": 1.7075156576200419,
+                        "unit": "research_cost_unit"
+                      }
+                    },
+                    "branches": [
+                      {
+                        "report": "positive",
+                        "probability": 0.3537578288100209,
+                        "status": "PREDICTED",
+                        "action": "intervene",
+                        "posterior_outcomes": {
+                          "nominal": 0.06688305301465525,
+                          "cooling-limited": 0.467984656240779,
+                          "power-limited": 0.08537425002458936,
+                          "other": 0.37975804071997643
+                        },
+                        "action_started_at_s": 0.875,
+                        "action_completed_at_s": 1.125,
+                        "required_resources": {
+                          "travel_person_s": 0.25,
+                          "wait_person_s": 0.25,
+                          "work_person_s": 0.5,
+                          "person_s": 1.0,
+                          "tool_s": 1.0,
+                          "cost": 3.0
+                        },
+                        "action_status": "COMPLETED_PREDICTED"
+                      },
+                      {
+                        "report": "negative",
+                        "probability": 0.6462421711899791,
+                        "status": "PREDICTED",
+                        "action": "defer",
+                        "posterior_outcomes": {
+                          "nominal": 0.32951057987401067,
+                          "cooling-limited": 0.137942174123728,
+                          "power-limited": 0.42061056372153127,
+                          "other": 0.1119366822807301
+                        },
+                        "action_started_at_s": null,
+                        "action_completed_at_s": null,
+                        "required_resources": {
+                          "travel_person_s": 0.125,
+                          "wait_person_s": 0.125,
+                          "work_person_s": 0.25,
+                          "person_s": 0.5,
+                          "tool_s": 0.5,
+                          "cost": 1.0
+                        },
+                        "action_status": "NOT_SELECTED"
+                      }
+                    ],
+                    "information_updates_physical_state": false,
+                    "eligible_for_planning": true,
+                    "planning_reasons": [],
+                    "resource_gate": "ALL_POSITIVE_SUPPORT_BRANCHES_WITHIN_SAME_DECLARED_BUDGET",
+                    "execution_permission": false
+                  }
+                ]
+              }
+            ],
+            "comparison": {
+              "best_eligible_without_inspection": "direct_intervention",
+              "minimum_deficit_alternative": "direct_intervention",
+              "inspection_service_deficit_reduction_s": -0.4551425970873787,
+              "inspection_person_time_change_s": 0.21650485436893208,
+              "inspection_cost_change": -0.13398058252427192,
+              "rule": "MINIMUM_EXPECTED_DEFICIT_WITH_SEPARATE_RESOURCE_BUDGETS_NOT_MIXED_UNIT_SCORE",
+              "scope": "DECLARED_SINGLE_NEXT_DECISION_TREE_NOT_GLOBAL_POLICY_OR_VERIFIED_GAIN"
+            },
+            "assumption_envelope": {
+              "defer": {
+                "offered_service_unit_s": [
+                  2.5,
+                  2.5
+                ],
+                "delivered_service_unit_s": [
+                  0.9966019417475728,
+                  1.2434064022268614
+                ],
+                "unserved_service_unit_s": [
+                  1.2565935977731386,
+                  1.5033980582524271
+                ],
+                "service_deficit_time_s": [
+                  0.7958072372999304,
+                  0.9634101941747573
+                ],
+                "travel_person_s": [
+                  0.0,
+                  0.0
+                ],
+                "wait_person_s": [
+                  0.0,
+                  0.0
+                ],
+                "work_person_s": [
+                  0.0,
+                  0.0
+                ],
+                "person_s": [
+                  0.0,
+                  0.0
+                ],
+                "tool_s": [
+                  0.0,
+                  0.0
+                ],
+                "cost": [
+                  0.0,
+                  0.0
+                ]
+              },
+              "direct_intervention": {
+                "offered_service_unit_s": [
+                  2.5,
+                  2.5
+                ],
+                "delivered_service_unit_s": [
+                  1.3437196601941748,
+                  2.350956854558107
+                ],
+                "unserved_service_unit_s": [
+                  0.14904314544189284,
+                  1.1562803398058252
+                ],
+                "service_deficit_time_s": [
+                  0.2980862908837857,
+                  0.8125606796116505
+                ],
+                "travel_person_s": [
+                  0.125,
+                  0.125
+                ],
+                "wait_person_s": [
+                  0.125,
+                  0.125
+                ],
+                "work_person_s": [
+                  0.25,
+                  0.25
+                ],
+                "person_s": [
+                  0.5,
+                  0.5
+                ],
+                "tool_s": [
+                  0.5,
+                  0.5
+                ],
+                "cost": [
+                  2.0,
+                  2.0
+                ]
+              },
+              "inspect_then_act": {
+                "offered_service_unit_s": [
+                  2.5,
+                  2.5
+                ],
+                "delivered_service_unit_s": [
+                  1.0587606189320389,
+                  1.6633046276965902
+                ],
+                "unserved_service_unit_s": [
+                  0.8366953723034098,
+                  1.4412393810679611
+                ],
+                "service_deficit_time_s": [
+                  0.6163448155880307,
+                  0.9577821601941747
+                ],
+                "travel_person_s": [
+                  0.16921972860125262,
+                  0.17912621359223302
+                ],
+                "wait_person_s": [
+                  0.16921972860125262,
+                  0.17912621359223302
+                ],
+                "work_person_s": [
+                  0.33843945720250523,
+                  0.35825242718446604
+                ],
+                "person_s": [
+                  0.6768789144050105,
+                  0.7165048543689321
+                ],
+                "tool_s": [
+                  0.6768789144050105,
+                  0.7165048543689321
+                ],
+                "cost": [
+                  1.7075156576200419,
+                  1.866019417475728
+                ]
+              }
+            },
+            "envelope_basis": "DECLARED_BELIEF_AND_VALUE_VARIANT_RANGE_NOT_CONFIDENCE_INTERVAL"
+          },
+          "inspection_value_gap": null,
+          "declared_options": [
+            {
+              "id": "defer-cooling",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "isolate-cooling",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-cooling",
+              "target_id": "filter",
+              "qualification_id": "qualified_cooling_inspection",
+              "tool_ids": [
+                "tool_flow_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_cooling"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_facility_cooling"
+            },
+            {
+              "id": "inspect-cooling",
+              "kind": "inspect",
+              "request_id": "intent-filter-check",
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "unqualified-cooling",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-cooling",
+              "target_id": "filter",
+              "qualification_id": "qualified_cooling_inspection",
+              "tool_ids": [
+                "tool_flow_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_electrical"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_facility_cooling"
+            }
+          ],
+          "verification_evidence": "Review flow and coolant records, confirm pump/filter/HX condition, then verify heat rejection and service recovery."
+        },
+        {
+          "domain_id": "equipment_environment",
+          "label": "设备冷却与房间环境",
+          "primary_question_id": "room-boundary",
+          "hazard_context": "Room conditions or omitted cooling mechanisms may alter thermal boundaries and access.",
+          "asset_ids": [
+            "room",
+            "immersion"
+          ],
+          "functional_edge_ids": [
+            "f_room_work_temperature"
+          ],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Room conditions influence equipment heat boundary and loc_it work temperature. Immersion thermal protection may curtail compute before personnel can intervene.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "Room-driven curtailment and access restriction may overlap with liquid-cooling limitations; their service loss must be deduplicated in a joint model.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "房间、设备热边界和冷凝／泄漏是否造成约束？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-room-boundary",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-room-boundary",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-room-boundary",
+              "target_id": "room",
+              "qualification_id": "qualified_cooling_inspection",
+              "tool_ids": [
+                "tool_flow_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_cooling"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_equipment_environment"
+            }
+          ],
+          "verification_evidence": "Cooling specialist obtains room and coolant measurements, distinguishes air-boundary and liquid-side causes and verifies safe room conditions plus service recovery."
+        },
+        {
+          "domain_id": "it_service",
+          "label": "计算／网络／存储服务",
+          "primary_question_id": "it-dependence",
+          "hazard_context": "Joint compute, network and storage execution may constrain offered service.",
+          "asset_ids": [
+            "compute",
+            "network",
+            "storage",
+            "critical_service"
+          ],
+          "functional_edge_ids": [
+            "f12",
+            "f13",
+            "f14"
+          ],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Compute, network and storage are all required by critical_service. A single limiting component constrains joint delivery; coincident deficits are counted once.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "For positive demand, any required component at zero capacity stops joint service even if other components remain supplied.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "共同服务所需的计算、网络和存储容量是否满足需求？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-it-dependence",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-it-dependence",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-it-dependence",
+              "target_id": "compute",
+              "qualification_id": "qualified_it_inspection",
+              "tool_ids": [
+                "tool_it_diagnostic"
+              ],
+              "candidate_worker_ids": [
+                "worker_it"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_it_service"
+            },
+            {
+              "id": "inspect-it-dependence",
+              "kind": "inspect",
+              "request_id": "intent-it-check",
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            }
+          ],
+          "verification_evidence": "IT specialist checks delivered capacity, network and storage, separates paused execution from failed hardware and verifies unchanged offered-demand accounting."
+        },
+        {
+          "domain_id": "control_monitoring",
+          "label": "自动控制与监控",
+          "primary_question_id": "control-uncertainty",
+          "hazard_context": "Local protection, communication loss and reported controls can alter actual service or available evidence.",
+          "asset_ids": [
+            "local_controller",
+            "bms"
+          ],
+          "functional_edge_ids": [
+            "f15"
+          ],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Local controller commands pumps and compute; controller permission affects compute. BMS/point reports feed the evidence inbox. Local protection continues privately during communication loss.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "Lost reports may increase epistemic uncertainty without physical loss; a genuine control/permission change may constrain service. These alternatives cannot be assigned one probability from current channels.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "控制与监测记录是否可用、可信且与真实工作状态一致？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-control-uncertainty",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-control-uncertainty",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-control-uncertainty",
+              "target_id": "local_controller",
+              "qualification_id": "qualified_control_inspection",
+              "tool_ids": [
+                "tool_control_reader"
+              ],
+              "candidate_worker_ids": [
+                "worker_control"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_control_monitoring"
+            }
+          ],
+          "verification_evidence": "Control specialist inspects local logs, command/permit mode and report delivery; confirm actual restoration by independent service evidence."
+        },
+        {
+          "domain_id": "space_access",
+          "label": "空间与保障",
+          "primary_question_id": "access-and-leak",
+          "hazard_context": "Leakage, room restrictions and gate conditions can delay or prevent safe work.",
+          "asset_ids": [
+            "drainage",
+            "it_access_gate",
+            "loc_it"
+          ],
+          "functional_edge_ids": [
+            "f16",
+            "f_it_access_gate",
+            "f_room_work_temperature"
+          ],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Drainage, gate and room-work conditions constrain loc_it access. Personnel may be unable to inspect or restore equipment although service initially continues.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "Blocked access can delay a beneficial action beyond the response window; any later service loss remains one joint-service consequence, not an added penalty per blocked worker.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "访问、泄漏和通行条件是否妨碍安全到场及作业？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-access-and-leak",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-access-and-leak",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-access-and-leak",
+              "target_id": "drainage",
+              "qualification_id": "qualified_cooling_inspection",
+              "tool_ids": [
+                "tool_flow_meter"
+              ],
+              "candidate_worker_ids": [
+                "worker_cooling"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_space_access"
+            }
+          ],
+          "verification_evidence": "Cooling/safety referral checks leak/drainage and entry conditions; IT access is granted only after authorized safe-entry evidence and execution checks."
+        },
+        {
+          "domain_id": "people_tools_work",
+          "label": "异质人员、工具与作业",
+          "primary_question_id": "people-and-tools",
+          "hazard_context": "Qualification, tool occupation, travel and shifts can limit timely inspection and intervention.",
+          "asset_ids": [
+            "worker_cooling",
+            "worker_it",
+            "tool_flow_meter"
+          ],
+          "functional_edge_ids": [],
+          "probability_object": "UNMODELED:domain-specific event probability and dynamic consequence law missing",
+          "risk_status": "UNMODELED",
+          "conditional_risk": null,
+          "consequence_bounds": {
+            "service_deficit_time_s": {
+              "interval": [
+                0,
+                2
+              ],
+              "unit": "s"
+            },
+            "unserved_service_unit_s": {
+              "interval": [
+                0,
+                2.5
+              ],
+              "unit": "normalized_service_unit*s"
+            },
+            "basis": "Nonnegative effective capacities and the shared exogenous demand imply these conservative finite-window bounds; not calibrated event likelihood."
+          },
+          "impact_description": "Workers, compatible tools, qualifications, access routes and shift/resource occupation determine whether a task can start and finish. These are separate from power/fluid dependency graphs.",
+          "barriers": "Declared local protection and operational procedures remain active; current dynamic availability must be checked privately before execution.",
+          "evidence_triggers": [
+            "asset_record",
+            "maintenance_history",
+            "human_report",
+            "work_order",
+            "fixed_sensor",
+            "handheld"
+          ],
+          "evidence_gaps": [
+            "The four-class belief does not identify this domain-specific event probability or conditional consequence.",
+            "Late or infeasible work changes achievable restoration time; absence of a feasible crew is not itself proof of a current plant fault.",
+            "Dynamic people, tools, access, authorization and operation effects require executor checks."
+          ],
+          "inspection_question": "现有资质、工具、班次和队伍能否完成所需核查及处置？",
+          "inspection_value_status": "UNMODELED",
+          "inspection_value": null,
+          "inspection_value_gap": "Need an inspection alternative,observation likelihood,post-action consequence and matching time basis.",
+          "declared_options": [
+            {
+              "id": "defer-people-and-tools",
+              "kind": "defer",
+              "request_id": null,
+              "operation_id": null,
+              "target_id": null,
+              "qualification_id": null,
+              "tool_ids": [],
+              "candidate_worker_ids": [],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": null
+            },
+            {
+              "id": "intervene-people-and-tools",
+              "kind": "intervene",
+              "request_id": null,
+              "operation_id": "make-safe-people-and-tools",
+              "target_id": "worker_cooling",
+              "qualification_id": "qualified_control_inspection",
+              "tool_ids": [
+                "tool_control_reader"
+              ],
+              "candidate_worker_ids": [
+                "worker_control"
+              ],
+              "source_note": "Declared synthetic planning option; actual work timing, authorization and effects must pass the downstream executor.",
+              "capability_interface_id": "inspect_people_tools_work"
+            }
+          ],
+          "verification_evidence": "Control/operations referral confirms crew qualifications, current positions, tool inventory, shifts and reserved resources through the workforce executor."
+        }
+      ],
+      "known_subset_portfolio": {
+        "aggregation": "JOINT_OUTCOME_AND_WINDOW_UNION",
+        "consequences": {
+          "offered_service_unit_s": {
+            "value": 2.2269417475728157,
+            "unit": "normalized_service_unit*s"
+          },
+          "delivered_service_unit_s": {
+            "value": 0.7235436893203884,
+            "unit": "normalized_service_unit*s"
+          },
+          "unserved_service_unit_s": {
+            "value": 1.5033980582524271,
+            "unit": "normalized_service_unit*s"
+          },
+          "service_deficit_time_s": {
+            "value": 0.9634101941747573,
+            "unit": "s"
+          }
+        },
+        "completeness": "PARTIAL_WITH_UNMODELED_QUESTIONS",
+        "unmodeled_question_ids": [
+          "backup-support",
+          "it-dependence",
+          "control-uncertainty",
+          "access-and-leak",
+          "people-and-tools",
+          "room-boundary"
+        ],
+        "consequences_by_variant": {
+          "reference": {
+            "offered_service_unit_s": {
+              "value": 2.2269417475728157,
+              "unit": "normalized_service_unit*s"
+            },
+            "delivered_service_unit_s": {
+              "value": 0.7235436893203884,
+              "unit": "normalized_service_unit*s"
+            },
+            "unserved_service_unit_s": {
+              "value": 1.5033980582524271,
+              "unit": "normalized_service_unit*s"
+            },
+            "service_deficit_time_s": {
+              "value": 0.9634101941747573,
+              "unit": "s"
+            }
+          },
+          "weaker-discrimination": {
+            "offered_service_unit_s": {
+              "value": 1.9084899095337509,
+              "unit": "normalized_service_unit*s"
+            },
+            "delivered_service_unit_s": {
+              "value": 0.6518963117606124,
+              "unit": "normalized_service_unit*s"
+            },
+            "unserved_service_unit_s": {
+              "value": 1.2565935977731386,
+              "unit": "normalized_service_unit*s"
+            },
+            "service_deficit_time_s": {
+              "value": 0.7958072372999304,
+              "unit": "s"
+            }
+          }
+        },
+        "assumption_envelope": {
+          "offered_service_unit_s": [
+            1.9084899095337509,
+            2.2269417475728157
+          ],
+          "delivered_service_unit_s": [
+            0.6518963117606124,
+            0.7235436893203884
+          ],
+          "unserved_service_unit_s": [
+            1.2565935977731386,
+            1.5033980582524271
+          ],
+          "service_deficit_time_s": [
+            0.7958072372999304,
+            0.9634101941747573
+          ]
+        },
+        "outcome_windows_s": {
+          "cooling-limited": [
+            [
+              0.0,
+              2.0
+            ]
+          ],
+          "other": [
+            [
+              0.0,
+              2.0
+            ]
+          ],
+          "power-limited": [
+            [
+              0.0,
+              2.0
+            ]
+          ]
+        }
+      },
+      "whole_facility_expected_risk": null,
+      "time_foundation": {
+        "status": "UNRESOLVED_ALIGNMENT",
+        "scope": "Conditional arithmetic fixture and declared default model,not calibrated field timing",
+        "as_of_s": 12,
+        "risk_horizon_s": 2,
+        "default_horizon_s": 600,
+        "default_work_s": 30,
+        "default_walk_s": [
+          60,
+          120
+        ],
+        "default_diesel_start_s": 30,
+        "value_inspection_s": 0.625,
+        "value_intervention_s": 0.5,
+        "default_work_to_risk_horizon_ratio": 15.0,
+        "default_walk_to_work_ratios": [
+          2.0,
+          4.0
+        ],
+        "time_to_harm_s": null,
+        "response_to_harm_ratio": null,
+        "required_before_operational_use": [
+          "Define a matched forecast and response time contract",
+          "Specify state evolution and event likelihood over that horizon",
+          "Validate new numerical scope before physical-effect comparisons"
+        ]
+      },
+      "source_identities": {
+        "evidence/mainline/engineering/18-beliefs/capture-01/cli-frame.json": {
+          "bytes": 49221,
+          "sha256": "0487d6778cc1add458073367acd4155df26ba763adb76d4c0257c9157d401687"
+        },
+        "configs/full-facility-belief-model-v1.json": {
+          "bytes": 5581,
+          "sha256": "a4707172a112d1e6ad15c2af581fa0306b29391a79ea2cd240b7aa06e8037eb2"
+        },
+        "configs/full-facility-risk-scenarios-v1.json": {
+          "bytes": 36047,
+          "sha256": "897d7e6e51b27dbdf609f9d7ad145f1c8ca1ca6cb999cfeb26d95724567210e9"
+        },
+        "configs/full-facility-action-value-v1.json": {
+          "bytes": 4657,
+          "sha256": "b30d3ec8a71b2551128b1cd912396fb7ba9ba8ca1d9a17ca00992b44813a13f6"
+        },
+        "configs/full-facility-mainline-reserve-v6.json": {
+          "bytes": 144280,
+          "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+        }
+      },
+      "manifest_sha256": "d01c1f0d77ded811fcf0486d870bb2c0425a4bce0a7e52b6eb2a02d395f0cdbf",
+      "field_calibrated": false,
+      "execution_permission": false,
+      "physical_actions": [],
+      "next_automatic_inspection": null,
+      "dispatch_blockers": [
+        "Whole-facility risk/value coverage is incomplete",
+        "Time alignment is unresolved",
+        "User review gate is active"
+      ],
+      "research_gain_claim": "NOT_ESTABLISHED",
+      "new_facility_runs": 0,
+      "new_neural_or_llm_calls": 0,
+      "new_registered_research_runs": 0
+    },
+    "test_exit_code": 0,
+    "tests": 1,
+    "test_log_sha256": "882c59d96aa4546f2238f5a705cfad18eec58d2802084b168e3b8f43a7f868ba",
+    "source_guard": "PASS_BEFORE_AND_AFTER",
+    "finished_utc": "2026-11-10T16:11:31.533571+00:00"
+  },
+  "new_facility_runs": 0,
+  "new_registered_research_runs": 0,
+  "full_logs_remote": "/root/private_data/aegisdc-direction-correction-20261110-01"
+}

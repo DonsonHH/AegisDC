@@ -52,6 +52,7 @@ def main():
     try:
         if args.command=='status':
             result=strict_json((ROOT/'docs/current-research.json').read_text(encoding='utf-8'))
+            result['registered_comparison_scope']=strict_json((ROOT/'docs/mainline/preset-study-scope.json').read_text(encoding='utf-8'))
             result.update(implementation=result.get('implementation','structural validation and synthetic decision-value prototype'),field_calibration='PENDING',postmeeting_model_calls=0,postmeeting_training=0)
             if 'progress' in result:
                 progress=strict_json((ROOT/result['progress']).read_text(encoding='utf-8'))

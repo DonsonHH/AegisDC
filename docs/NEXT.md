@@ -1,12 +1,14 @@
 # 当前执行：39c业务端点与验证关闭，补全后才冻结39
 
-[联合业务评价：实际数据、架构和离线报告](mainline/39c-joint-checkpoint-20261110.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[本次完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
+**研究扩展已暂停，当前交付[方向纠正包](reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+
+[联合业务评价：实际数据、架构和离线报告](../paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[本次完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
 
 [最新51／52私有管理端点](../evidence/mainline/engineering/39c-development/slice-52/README.md)及独立有限复核通过：完整保留实例证据与自身作业时标，另验证过期、历史有效但无当前选中、升级优先、实际样本审查误报。52为4窗口26秒／32返回；累计89进入／41窗口139.25秒／172返回。诊断兼容、联合评价／完整重放和整票门槛仍开放。后文旧快照按各自时点阅读。 [本次CI](https://github.com/DonsonHH/AegisDC/actions/runs/42814484451)648发现／646执行、零失败错误、2既有Torch可选跳过；不替代整39c零跳过根。
 
 此前50原生执行已通过：[同一运行的自身物理关闭／新实例管理接受](../evidence/mainline/engineering/39c-development/slice-50/README.md)。下一步不重复已通过原生接纳，转私有诊断v3与执行v5兼容、管理端点、联合程序／完整重放。49输入遗漏原失败及50修订分开；79进入／36窗口107.25秒／133返回，总目标active。
 
-2026年11月10日当前：[成本与共享队列检查点](mainline/39c-cost-checkpoint-20261110.md)保存41–46的时序／成本有限资格、实际中止和未完成成本。累计70进入／35窗口101.25秒／126返回；直接选择38次、原180次及主要负结果保持。实际cost检查点40e2f8b2的CI645发现／643执行、零失败错误、2项既有Torch可选跳过。当前先做[原生审查v2与联合业务程序／重放](mainline/39c-combined-endpoints-next.md)，之后整票零跳过根／fresh；39d仍有前置依赖。下文613等旧检查点保留为历史快照，最新状态以progress为准。
+2026年11月10日当前：[成本与共享队列检查点](../paper/preset-dispatch-scope-review-20261110/cost-checkpoint.md)保存41–46的时序／成本有限资格、实际中止和未完成成本。累计70进入／35窗口101.25秒／126返回；直接选择38次、原180次及主要负结果保持。实际cost检查点40e2f8b2的CI645发现／643执行、零失败错误、2项既有Torch可选跳过。当前先做[原生审查v2与联合业务程序／重放](mainline/39c-combined-endpoints-next.md)，之后整票零跳过根／fresh；39d仍有前置依赖。下文613等旧检查点保留为历史快照，最新状态以progress为准。
 
 2026年11月9日，用户已提供总体审阅并要求完全依建议推进；[空间清理](maintenance/20261109-storage/README.md)已先完成。[审阅采纳表](reviews/20261109-user-review/response.md)明确顺序：39a复核1–38实现/工程/正式覆盖 → 39b多系统问题与动态任务、39c业务端点 → 39d时间尺度/参数敏感性与新数值范围 → 原39新协议。后续运行均在远端，集群使用Slurm，原180次不重跑。
 
@@ -18,7 +20,7 @@
 
 [站内第三项目](https://lab.donson.top/liquid-cooling/)保留最新已接受基线报告的12图、数据及历史下载，Datapath/ISA及HTTPS保持。现有报告与原主要结论不因本次审阅而改写；AI可检验性仍通过38，效果尚未测。[发布核验](mainline/evidence/lab-publication-20261109.json)。
 
-[会后研究报告](../paper/mainline-report-20261108/report.md)与[离线HTML](../paper/mainline-report-20261108/AegisDC-会后研究报告.html)已接受。01–35实质审计及修正、36稳健性和37报告构成已接受的M6有限基线研究：180次原定运行完成，主要负结果和未测范围保持。
+[会后研究报告](../paper/preset-dispatch-scope-review-20261110/report.md)与[离线HTML](../paper/preset-dispatch-scope-review-20261110/report.html)已接受。01–35实质审计及修正、36稳健性和37报告构成已接受的M6有限基线研究：180次原定运行完成，主要负结果和未测范围保持。
 
 38的[修订资格判断](mainline/38-eligibility-audit-v2.md)已接受：结构化决策求解器替换可以独立比较，原NOT_ELIGIBLE提案撤回且原审查记录保留。39保持ready、实验未运行，须先冻结新因素、完整成本与失败预算及新的独立确认条件；不按资格门槛延期。语言理解、任务发现和RSI过程尚未操作化，各增量效果均未测。
 

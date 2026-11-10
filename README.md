@@ -1,6 +1,8 @@
 # AegisDC
 
-[联合业务评价：实际数据、架构和离线报告](docs/mainline/39c-joint-checkpoint-20261110.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[本次完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
+**研究扩展已暂停，当前交付[方向纠正包](docs/reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+
+[联合业务评价：实际数据、架构和离线报告](paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[本次完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
 
 [最新51／52私有管理端点](evidence/mainline/engineering/39c-development/slice-52/README.md)及独立有限复核通过：完整保留实例证据与自身作业时标，另验证过期、历史有效但无当前选中、升级优先、实际样本审查误报。52为4窗口26秒／32返回；累计89进入／41窗口139.25秒／172返回。诊断兼容、联合评价／完整重放和整票门槛仍开放。后文旧快照按各自时点阅读。 [本次CI](https://github.com/DonsonHH/AegisDC/actions/runs/42814484451)648发现／646执行、零失败错误、2既有Torch可选跳过；不替代整39c零跳过根。
 
@@ -12,19 +14,19 @@
 
 **[此前50原生执行：旧实例5.5秒自身核验关闭，新实例5.75秒只管理接受](evidence/mainline/engineering/39c-development/slice-50/README.md)**。v5接纳公开审查v2，旧v4限制和producer身份保护保持；只有旧实例两项作业，另两项输入在积分前拒绝。49首绿输入遗漏及原失败保留，50仅补合法公开profile，源码cf7不变。当前累计79进入／36窗口107.25秒／133返回；私有联合程序和完整重放仍待接通。 原生检查点[CI42808409110](https://github.com/DonsonHH/AegisDC/actions/runs/42808409110)通过：646发现／644执行，零失败错误、2项既有Torch可选跳过。
 
-**[此前成本快照：39c实际成本、失败与共享队列](docs/mainline/39c-cost-checkpoint-20261110.md)** · [离线HTML](docs/mainline/39c-cost-checkpoint-20261110.html)。中止任务已发生的0.75人秒、0.75工具秒和费用1保留；共享队列0.5人秒只计一次。正常、未完成、无人、拒绝及声明边界通过有限资格，原审查发现和失败保留。累计70进入／35窗口101.25秒／126返回；联合评价、重放和整票门槛仍开放。
+**[此前成本快照：39c实际成本、失败与共享队列](paper/preset-dispatch-scope-review-20261110/cost-checkpoint.md)** · [离线HTML](paper/preset-dispatch-scope-review-20261110/cost-checkpoint.html)。中止任务已发生的0.75人秒、0.75工具秒和费用1保留；共享队列0.5人秒只计一次。正常、未完成、无人、拒绝及声明边界通过有限资格，原审查发现和失败保留。累计70进入／35窗口101.25秒／126返回；联合评价、重放和整票门槛仍开放。
 
-**[此前39c时序端点与删失数据](docs/mainline/39c-temporal-checkpoint-20261110.md)** · [离线HTML](docs/mainline/39c-temporal-checkpoint-20261110.html)。实际确认比故障／服务样本晚0.75秒，距计划截止1.75秒；四个边界工况通过。首绿输入预期失败保留，修正输入与原件分版。累计44次进入／23完成窗口86秒／104返回，原180次研究不变；剩余资格、成本、联合重放和整票验收继续开放。
+**[此前39c时序端点与删失数据](paper/preset-dispatch-scope-review-20261110/temporal-checkpoint.md)** · [离线HTML](paper/preset-dispatch-scope-review-20261110/temporal-checkpoint.html)。实际确认比故障／服务样本晚0.75秒，距计划截止1.75秒；四个边界工况通过。首绿输入预期失败保留，修正输入与原件分版。累计44次进入／23完成窗口86秒／104返回，原180次研究不变；剩余资格、成本、联合重放和整票验收继续开放。
 
-**[会后研究报告：设施架构、风险与180次注册仿真](paper/mainline-report-20261108/report.md)** · **[离线HTML（8图与内嵌数据）](paper/mainline-report-20261108/AegisDC-会后研究报告.html)**。以简短正文和对照表展示导师要求、实际结果及未测范围。
+**[会后研究报告：设施架构、风险与180次注册仿真](paper/preset-dispatch-scope-review-20261110/report.md)** · **[离线HTML（8图与内嵌数据）](paper/preset-dispatch-scope-review-20261110/report.html)**。以简短正文和对照表展示导师要求、实际结果及未测范围。
 
 2026年11月9日已同步到[Lab第三项目页面](https://lab.donson.top/liquid-cooling/)：12张图、8张表与6份数据，保留旧报告、Datapath、ISA和HTTPS。暂存/源站/公网资源及跳转核验通过；浏览器预览连接超时，本次只完成静态响应式检查。见[实际发布记录](docs/mainline/evidence/lab-publication-20261109.json)。
 
 **[新增39b成果：多系统工单→实际检查→残余处置→复查，含三张数据与架构图](docs/mainline/39b-root-acceptance.md)**。按用户总体审阅，39a跨阶段复核与39b有限工程范围现已接受；609项完整远端回归、20历史原件和406件新Git交付核验通过，所有原失败保留。下一项39c定义业务端点与验证关闭，39d随后核查时间尺度，再冻结原39的新AI协议；新增注册研究试验为0。详见[审阅采纳顺序](docs/reviews/20261109-user-review/response.md)。
 
-**[此前39c实例审查快照：24个条件、实际数据图与实例审查架构](docs/mainline/39c-review-checkpoint-20261110.md)** · [离线HTML](docs/mainline/39c-review-checkpoint-20261110.html)。实例授权、升级、误报审查和两个证据时标已完成有限资格；历史身份、同步打开与失败记账发现均保留并修正。38次公开选择、零新增设施运行；原180次研究不变。提前量、成本、联合重放及整票39c验收仍待完成。
+**[此前39c实例审查快照：24个条件、实际数据图与实例审查架构](paper/preset-dispatch-scope-review-20261110/review-checkpoint.md)** · [离线HTML](paper/preset-dispatch-scope-review-20261110/review-checkpoint.html)。实例授权、升级、误报审查和两个证据时标已完成有限资格；历史身份、同步打开与失败记账发现均保留并修正。38次公开选择、零新增设施运行；原180次研究不变。提前量、成本、联合重放及整票39c验收仍待完成。
 
-截至2026年11月8日，01–35已按会后要求完成实质审计与必要修正，原定180次注册运行及第37项报告已接受。主要确认平均服务改善0.03515625秒，未达到0.25秒门槛，结论保持 **NO_PRACTICAL_GAIN**；四组稳健性没有显示稳定优势。本次在[38后的阅读检查点](docs/mainline/checkpoint38.md)收束：结构化AI选单具备独立比较条件，效果尚未测；原否决已按独立审查撤回并保留。39–42未完成，总目标不标完成。误报/漏报、提前预防、正式比较的验证关闭和现场标定仍待研究。
+截至2026年11月8日，01–35有限实现已完成一次会后对照审计；本次仍确认R1/R4全场覆盖债，原定180次注册运行及第37项报告已接受。主要确认平均服务改善0.03515625秒，未达到0.25秒门槛，结论保持 **〔验证关闭未入环；仅2个预设实例；无现场标定〕NO_PRACTICAL_GAIN**；四组稳健性没有显示稳定优势。本次在[38后的阅读检查点](docs/mainline/checkpoint38.md)收束：结构化AI选单具备独立比较条件，效果尚未测；原否决已按独立审查撤回并保留。39–42未完成，总目标不标完成。误报/漏报、提前预防、正式比较的验证关闭和现场标定仍待研究。
 
 - [保留的35项阅读快照（15图、8组公式、参数筛选）](paper/mentor-review-20261108/report.md)。
 - **[第36项：四组稳健性结果与新数据图](evidence/mainline/research/36-robustness/README.md)**，含全部16原件、配对CSV、失败/图形修订和复算工具。

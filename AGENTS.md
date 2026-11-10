@@ -1,5 +1,9 @@
 # AegisDC research execution
 
+## User-directed review gate (2026-11-10)
+
+Automatic mainline execution is paused. The current authorized task is the bounded [direction-correction package](docs/reviews/20261110-direction-correction/README.md); after delivery wait for the user's review and single-step instruction. Do not resume57 or advance research merely because an older goal/frontier says continue. Remaining engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and preserved originals remain unchanged.
+
 ## Compute and storage (user requirement, 2026-11-09)
 
 Use the existing remote servers for dependency installation, training, inference, evaluation and large computation. Keep this desktop to editing, SSH, integrity checks, necessary file transfers and viewing results. If a remote service is unavailable, report the blocker and retain inputs; wait for an explicit change of instruction before using local computation.
