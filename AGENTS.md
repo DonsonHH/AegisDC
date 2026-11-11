@@ -1,8 +1,8 @@
 # AegisDC research execution
 
-## User-directed review gate (2026-11-10)
+## User-directed review gate (2026-11-11)
 
-Automatic mainline execution is paused. Follow the latest user-directed single step in `docs/mainline/progress.json`: the current deliverable is the [A2 UPS native interface slice](docs/mainline/39r-backup-support-question.md) under39r, following the reviewed single-problem definition. After delivery wait for the user's next instruction; A1 probability/observation inputs, functional verification and timing qualification remain unresolved. Do not resume57 or advance research merely because an older goal/frontier says continue. Remaining engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and preserved originals remain unchanged.
+Automatic mainline execution is paused. Follow the user-directed scope in `docs/mainline/progress.json`. Retain 39c, 39d, 39t numeric qualification, 40–42, and AI/RSI without advancing them. This delivery is the [UPS breakeven boundary](docs/mainline/39r-ups-a1-stage2-breakeven.md) and [paper structure](paper/conditional-inspection-value-structure-20261111.md); after delivery wait for the user's next instruction. Keep draft57 untouched. Remaining authorized engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and originals remain unchanged.
 
 ## Compute and storage (user requirement, 2026-11-09)
 

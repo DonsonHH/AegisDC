@@ -24,4 +24,6 @@ A2原生UPS接口冻结v1红100d1fb2／绿d4432d5b一次通过，单一结果evi
 
 B1独立辅助后果契约docs/mainline/39r-backup-support-consequence.md，匹配探针d06fcb3f见evidence/mainline/engineering/39r-ups-b1/result.json；2进入／2窗口60秒、服务缺额28／28秒、三辅助负载各断供0.2／28秒、交流恢复右删失，零策略／模型／注册研究；A2获用户有限接受并分列v1／v2，A1与57未启动，父风险UNMODELED，待审。
 
-A1第一段仅试算合成辅助树，B1原件32c9b2a9、先验0.5／灵敏度与特异度各0.9，固定暂缓14.10秒对查后条件恢复1.59秒，各负载差12.51秒；说明docs/mainline/39r-backup-support-a1-aux-tree.md、单一结果evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json；一次算术、零设施或注册研究，父风险UNMODELED，真实参数段待审。
+A1第一段只核对合成树能产生非零差；原始算术记录evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json原样保留，点值不作为证据或对外材料；一次算术、零设施或注册研究，父风险UNMODELED。
+
+A1盈亏边界v1锁定0345d2d9；docs/mainline/39r-ups-a1-stage2-breakeven.md与evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json保存四动作逐负载赢输区、83组×101先验点的精确核算；零设施或注册研究；三案例论文骨架paper/conditional-inspection-value-structure-20261111.md，主线冻结范围见进度账，待用户审阅。

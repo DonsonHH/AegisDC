@@ -927,9 +927,20 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "20261111-A1-stage-1-UPS-auxiliary-tree",
+    "bounded_request": "39r-ups-a1-stage2-breakeven-v1-and-paper-structure",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
-    "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
+    "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
+    "user_frozen_tracks": [
+      "39c",
+      "39d",
+      "39t_numeric_qualification",
+      "40",
+      "41",
+      "42",
+      "AI",
+      "RSI"
+    ],
+    "new_test_slices_authorized": false
   },
   "risk_baseline_review": {
     "status": "AWAITING_USER_REVIEW",
@@ -945,7 +956,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "A1_SYNTHETIC_AUXILIARY_TREE_COMPUTABLE_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem_status": "A1_CONDITIONAL_BOUNDARIES_DOCUMENTED_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -1001,44 +1012,43 @@
       "matched_time_basis"
     ],
     "record57": "PRESERVED_UNTRACKED_UNRUN",
-    "choice": "A1_STAGE_1",
-    "status": "SYNTHETIC_COMPUTABILITY_SHOWN_AWAITING_USER_REVIEW",
-    "document": "docs/mainline/39r-backup-support-a1-aux-tree.md",
-    "validation_result": "evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json",
-    "result_sha256": "fe9cbcb5ae656a11e8b9b8070a7496a92198fec80bf3824e6ebf2f2bae006e15",
+    "choice": "A1_BREAKEVEN_AND_PAPER_STRUCTURE",
+    "status": "CONDITIONAL_BOUNDARIES_AND_PAPER_STRUCTURE_AWAITING_USER_REVIEW",
+    "document": "docs/mainline/39r-ups-a1-stage2-breakeven.md",
+    "frozen_spec": "docs/mainline/39r-ups-a1-stage2-breakeven-v1.json",
+    "frozen_spec_revision": "0345d2d961c136920904dd1514d606d557d17dd0",
+    "frozen_spec_sha256": "965b54958da61eb3fb0360bc3f350da7c3eab8e5e31ea20e26470df98d4954ad",
+    "validation_result": "evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json",
+    "result_sha256": "92aa8d52260703e1749dbf314a89cd4b65671547def28c9fda4376ad57370e7c",
+    "manuscript_structure": "paper/conditional-inspection-value-structure-20261111.md",
     "source_b1": "evidence/mainline/engineering/39r-ups-b1/result.json",
-    "source_b1_sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
-    "source_b1_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1",
     "accounting": {
       "arithmetic_attempts": 1,
       "facility_entries": 0,
-      "completed_simulated_s": 0,
       "policy_calls": 0,
-      "inspection_executions": 0,
-      "intervention_executions": 0,
       "model_calls": 0,
       "registered_research_runs": 0
     },
-    "execution_exit_code": 0,
-    "nonzero_by_asset": {
-      "local_controller": true,
-      "internal_pump": true,
-      "intake_pump": true
+    "arithmetic_checks": {
+      "exact_branch_sum_matches_boundary_at_grid_points": true,
+      "rows": 83,
+      "prior_points_per_row": 101,
+      "row_prior_evaluations": 8383
     },
-    "comparison_scope": "FIXED_DEFER_VS_CONDITIONAL_RESTORE;SYNTHETIC_AUXILIARY_CONSEQUENCES_NOT_OPTIMIZED_INSPECTION_VALUE",
+    "execution_exit_code": 0,
+    "comparison_scope": "PER_AUXILIARY_FIXED_CHECK_RULE_VS_EACH_ELIGIBLE_NON_INSPECTION_ACTION;NO_FIELD_ESTIMATION_OR_POOLED_UNITS",
     "synthetic_calculation_complete": true,
     "calculation_ready": false,
     "real_parameter_stage_started": false,
     "new_facility_captures": 0,
     "new_research_runs": 0,
     "new_model_calls": 0,
+    "new_test_slices": 0,
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
     "next_order": [
-      "A1_stage_1_user_review",
-      "A1_stage_2_real_inputs",
-      "remaining_39c_after_39r_39t_review"
+      "BOUNDARY_AND_PAPER_USER_REVIEW"
     ],
     "automatic_continuation": false
   },
@@ -1116,5 +1126,23 @@
     "ac_restoration": "RIGHT_CENSORED_IN_BOTH_CASES",
     "review_status": "USER_ACCEPTED_BOUNDED_ENGINEERING_CONSEQUENCE",
     "reviewed_delivery_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1"
+  },
+  "ups_a1_stage1_receipt": {
+    "document": "docs/mainline/39r-backup-support-a1-aux-tree.md",
+    "validation_result": "evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json",
+    "result_sha256": "fe9cbcb5ae656a11e8b9b8070a7496a92198fec80bf3824e6ebf2f2bae006e15",
+    "accounting": {
+      "arithmetic_attempts": 1,
+      "facility_entries": 0,
+      "completed_simulated_s": 0,
+      "policy_calls": 0,
+      "inspection_executions": 0,
+      "intervention_executions": 0,
+      "model_calls": 0,
+      "registered_research_runs": 0
+    },
+    "review_status": "ARITHMETIC_IDENTITY_ONLY",
+    "dissemination": "NO_POINT_ESTIMATE_IN_MANUSCRIPT_OR_SUPERVISOR_MATERIALS",
+    "native_bytes_preserved": true
   }
 }
