@@ -33,3 +33,5 @@ Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：
 用户报告 Stage 3 定理独立核对通过。精确算术入口 `scripts/verify_theorem.py` 复核原83组×101先验点、精确分界和三个解析例，合并结果见 `evidence/mainline/engineering/39r-ups-a1-stage3-verification-v1/result.json`。论文附录和现场判决表已补；零新增设施、策略、模型和注册研究，父问题仍未建模，交付后待用户指导。
 
 公开 CLI 边界与 `field` 模板见 `docs/mainline/39r-ups-field-tool.md`；合并结果 `evidence/mainline/engineering/39r-ups-field-cli-v1/result.json` 留存实现前4项通过／6项缺入口及实现后10项通过。单缺项给精确翻转条件，资格未知不排名；旧核验器及原件保留，零设施、模型、注册研究与全CI，父风险UNMODELED，待审。
+
+用户报告冻结核验、10 个 CLI 用例及 `47/80` 边界均通过；已澄清缺失参数范围与观测先验判决的区别。六步模板 `docs/mainline/39r-risk-problem-template.md` 首次用于 `docs/mainline/39r-it-dependence-network-capacity.md`，其[后果复核](../../../evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json)复用已有 6 秒配对，核对 0／4.5 秒缺额。新增设施、模型和注册研究均为零，`it-dependence` 仍未建模，交审后等待单步指导。

@@ -1,0 +1,66 @@
+{
+  "status": "SAVED_MATCHED_CONSEQUENCE_AND_AGGREGATE_CHECK_PASSED",
+  "scope": "READ_ONLY_HISTORICAL_ENGINEERING_EVIDENCE_NOT_NEW_EXECUTION_OR_FIELD_RISK",
+  "parent_question_id": "it-dependence",
+  "problem_id": "it-network-capacity-v1",
+  "source_job": "133378",
+  "source_revision": "8eeef6b724a130dad12fb21cfe8bf68c46ec47f5",
+  "runtime_source": {
+    "path": "src/aegis_dc/plant.py",
+    "sha256": "7a428a0bf3799050590cf317179232515f6cb15f70cb560fe30696fc0e19a875"
+  },
+  "source_records": [
+    {
+      "path": "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/case-input-identity.json",
+      "sha256": "1cd02ae6f560bcb08af784073d6b6af38ed375ac530eaefbfc3d5d265b1085e3"
+    },
+    {
+      "path": "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-healthy--actual-instance-summary.json",
+      "sha256": "c7a4de5a56c43a896772b7833c1f4e6f8725033f2d97283c2533f6a2c47afebb"
+    },
+    {
+      "path": "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-still-blocked--actual-instance-summary.json",
+      "sha256": "b73a2108952ce1908033c24408ba5c71eee4b1330a34f15fd9f60c1bda647b41"
+    }
+  ],
+  "matching": "Based on the saved actual full-input identity record; private full inputs were not retrieved in this review.",
+  "window_s": 6,
+  "step_s": 0.01,
+  "constant_service_demand": "1",
+  "cases": [
+    {
+      "case": "network-healthy",
+      "network_service_capacity": "1",
+      "demand_service_unit_s": "6",
+      "delivered_service_unit_s": "6",
+      "saved_service_deficit_time_s": "0",
+      "recomputed_from_saved_aggregates_s": "0",
+      "source": "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-healthy--actual-instance-summary.json"
+    },
+    {
+      "case": "network-still-blocked",
+      "network_service_capacity": "1/4",
+      "demand_service_unit_s": "6",
+      "delivered_service_unit_s": "3/2",
+      "saved_service_deficit_time_s": "9/2",
+      "recomputed_from_saved_aggregates_s": "9/2",
+      "source": "evidence/mainline/engineering/39c-development/slice-18/21-instance-service-qualification/cases--network-still-blocked--actual-instance-summary.json"
+    }
+  ],
+  "leaf_gap_s": "9/2",
+  "parent_status": "UNMODELED",
+  "action_comparison": "INSUFFICIENT_INPUT",
+  "coverage_unchanged": {
+    "risk_modelled_primary_domains": 2,
+    "risk_unmodelled_primary_domains": 6,
+    "inspection_value_modelled_primary_domains": 1,
+    "inspection_value_unmodelled_primary_domains": 7
+  },
+  "accounting": {
+    "new_facility_entries": 0,
+    "new_policy_calls": 0,
+    "new_model_calls": 0,
+    "new_registered_research_runs": 0,
+    "new_test_slices": 0
+  }
+}
