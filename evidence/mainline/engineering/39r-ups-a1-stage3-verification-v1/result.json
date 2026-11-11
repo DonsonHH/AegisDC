@@ -1,0 +1,3925 @@
+{
+  "accounting": {
+    "arithmetic_attempts": 1,
+    "facility_entries": 0,
+    "model_calls": 0,
+    "policy_calls": 0,
+    "registered_research_runs": 0
+  },
+  "command": "python -B scripts/verify_theorem.py verify-v1 --check evidence/mainline/engineering/39r-ups-a1-stage3-verification-v1/result.json",
+  "coverage": {
+    "analytic_examples": 3,
+    "comparable_direct_rows": 62,
+    "grid_points_per_row": 101,
+    "non_comparable_direct_rows": 21,
+    "strict_win_direct_rows": 32,
+    "v1_exact_probe_points_including_grid": 8751,
+    "v1_row_prior_grid_points": 8383,
+    "v1_rows": 83
+  },
+  "examples": {
+    "inverse_charge_1_over_4": {
+      "alpha": "-1/4",
+      "beta": "0",
+      "domain": "[0,1]",
+      "has_strict_win": false,
+      "inputs": {
+        "d_fp": "0",
+        "d_r": "0",
+        "g": 1,
+        "k": "1/4",
+        "q_i": "1",
+        "q_r": "1/2",
+        "s": "3/4",
+        "t": "1",
+        "u0": "0",
+        "u1": "0"
+      },
+      "slope": "1/4",
+      "status": "COMPARABLE",
+      "strict_win_interval": null,
+      "tie_region": "{1}"
+    },
+    "inverse_zero_charge": {
+      "alpha": "0",
+      "beta": "1/4",
+      "domain": "[0,1]",
+      "has_strict_win": true,
+      "inputs": {
+        "d_fp": "0",
+        "d_r": "0",
+        "g": 1,
+        "k": "0",
+        "q_i": "1",
+        "q_r": "1/2",
+        "s": "3/4",
+        "t": "1",
+        "u0": "0",
+        "u1": "0"
+      },
+      "slope": "1/4",
+      "status": "COMPARABLE",
+      "strict_win_interval": "(0,1]",
+      "tie_region": "{0}"
+    },
+    "piecewise_unavailable_direct": {
+      "cells": [
+        {
+          "alpha": "0",
+          "beta": "1/4",
+          "domain": "[0,1/4]",
+          "has_strict_win": true,
+          "slope": "1/4",
+          "status": "COMPARABLE",
+          "strict_win_interval": "(0,1/4]",
+          "tie_region": "{0}"
+        },
+        {
+          "alpha": null,
+          "beta": null,
+          "domain": "(1/4,3/4)",
+          "has_strict_win": null,
+          "reason": "COMPARATOR_INELIGIBLE",
+          "status": "NOT_COMPARABLE",
+          "strict_win_interval": null,
+          "tie_region": null
+        },
+        {
+          "alpha": "0",
+          "beta": "1/4",
+          "domain": "[3/4,1]",
+          "has_strict_win": true,
+          "slope": "1/4",
+          "status": "COMPARABLE",
+          "strict_win_interval": "[3/4,1]",
+          "tie_region": null
+        }
+      ],
+      "inputs": {
+        "d_fp": "0",
+        "d_r": "0",
+        "g": 1,
+        "k": "0",
+        "q_i": "1",
+        "q_r": "1/2",
+        "s": "3/4",
+        "t": "1",
+        "u0": "0",
+        "u1": "0"
+      },
+      "not_comparable_intervals": [
+        "(1/4,3/4)"
+      ],
+      "strict_win_intervals": [
+        "(0,1/4]",
+        "[3/4,1]"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "0",
+        "beta": "0",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "0",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": "[0,1]"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "TIE": 101
+        },
+        "defer": {
+          "TIE": 101
+        },
+        "direct": {
+          "TIE": 101
+        },
+        "escalate": {
+          "TIE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "0"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 1
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/50",
+        "beta": "-1/50",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "0",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "0"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 2
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/10",
+        "beta": "-1/10",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "0",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "0"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 3
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/4",
+        "beta": "-1/4",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "0",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "0"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 4
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "0",
+        "beta": "-19/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": "{0}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "TIE": 1,
+          "WIN": 100
+        },
+        "direct": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "escalate": {
+          "TIE": 1,
+          "WIN": 100
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 5
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/50",
+        "beta": "-27/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 10,
+          "WIN": 91
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 26,
+          "WIN": 75
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 6
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/10",
+        "beta": "-59/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 50,
+          "WIN": 51
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 7
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/4",
+        "beta": "-119/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 8
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "0",
+        "beta": "-19/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/200",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": "{0}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "TIE": 1,
+          "WIN": 100
+        },
+        "direct": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "escalate": {
+          "TIE": 1,
+          "WIN": 100
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/2"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 9
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/50",
+        "beta": "-23/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/200",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/2"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 10
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/10",
+        "beta": "-39/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/200",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 25,
+          "WIN": 76
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 65,
+          "WIN": 36
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/2"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 11
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/4",
+        "beta": "-69/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/200",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 62,
+          "WIN": 39
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1/2"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 12
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "0",
+        "beta": "-57/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-57/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": "{0}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "TIE": 1,
+          "WIN": 100
+        },
+        "direct": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "escalate": {
+          "TIE": 1,
+          "WIN": 100
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "3/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 13
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/50",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-57/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 4,
+          "WIN": 97
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 9,
+          "WIN": 92
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "3/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 14
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/10",
+        "beta": "-97/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-57/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 17,
+          "WIN": 84
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 44,
+          "WIN": 57
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "3/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 15
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/4",
+        "beta": "-157/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-57/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 42,
+          "WIN": 59
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "3/4"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 16
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "0",
+        "beta": "-19/100",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/100",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": "{0}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "TIE": 1,
+          "WIN": 100
+        },
+        "direct": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "escalate": {
+          "TIE": 1,
+          "WIN": 100
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 17
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/50",
+        "beta": "-21/100",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/100",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 3,
+          "WIN": 98
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 7,
+          "WIN": 94
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 18
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/10",
+        "beta": "-29/100",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/100",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 13,
+          "WIN": 88
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 33,
+          "WIN": 68
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 19
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-1/4",
+        "beta": "-11/25",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-19/100",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 31,
+          "WIN": 70
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 81,
+          "WIN": 20
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_downtime_over_gap": "0",
+        "false_positive_downtime_over_gap": "0",
+        "success": "1"
+      },
+      "regime": "harmless_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 20
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "91/1000",
+        "beta": "0",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-91/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,1)",
+        "tie_region": "{1}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "direct": {
+          "TIE": 1,
+          "WIN": 100
+        },
+        "escalate": {
+          "LOSE": 100,
+          "TIE": 1
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "success": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 21
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-1/50",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-91/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,71/91)",
+        "tie_region": "{71/91}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 22,
+          "WIN": 79
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "success": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 22
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-9/1000",
+        "beta": "-1/10",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-91/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "success": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 23
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-159/1000",
+        "beta": "-1/4",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-91/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "success": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 24
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "91/1000",
+        "beta": "-19/400",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-277/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,182/277)",
+        "tie_region": "{182/277}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 46,
+          "WIN": 55
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 35,
+          "WIN": 66
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "success": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(18/173,182/277)",
+      "v1_row": 25
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-27/400",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-277/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/277)",
+        "tie_region": "{142/277}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 14,
+          "WIN": 87
+        },
+        "direct": {
+          "LOSE": 49,
+          "WIN": 52
+        },
+        "escalate": {
+          "LOSE": 34,
+          "WIN": 67
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "success": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/173,142/277)",
+      "v1_row": 26
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-9/1000",
+        "beta": "-59/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-277/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 52,
+          "WIN": 49
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "success": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 27
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-159/1000",
+        "beta": "-119/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-277/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "success": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 28
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "91/1000",
+        "beta": "-19/200",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-93/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,91/186)",
+        "tie_region": "{91/186}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 58,
+          "WIN": 43
+        },
+        "defer": {
+          "LOSE": 3,
+          "WIN": 98
+        },
+        "direct": {
+          "LOSE": 52,
+          "WIN": 49
+        },
+        "escalate": {
+          "LOSE": 6,
+          "WIN": 95
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "success": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(9/164,91/186)",
+      "v1_row": 29
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-23/200",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-93/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,71/186)",
+        "tie_region": "{71/186}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 80,
+          "WIN": 21
+        },
+        "defer": {
+          "LOSE": 8,
+          "WIN": 93
+        },
+        "direct": {
+          "LOSE": 62,
+          "WIN": 39
+        },
+        "escalate": {
+          "LOSE": 18,
+          "WIN": 83
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "success": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(29/164,71/186)",
+      "v1_row": 30
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-9/1000",
+        "beta": "-39/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-93/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 27,
+          "WIN": 74
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 67,
+          "WIN": 34
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "success": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 31
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-159/1000",
+        "beta": "-69/200",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-93/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 63,
+          "WIN": 38
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "success": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 32
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "91/1000",
+        "beta": "-57/400",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,182/467)",
+        "tie_region": "{182/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 66,
+          "WIN": 35
+        },
+        "defer": {
+          "LOSE": 2,
+          "WIN": 99
+        },
+        "direct": {
+          "LOSE": 62,
+          "WIN": 39
+        },
+        "escalate": {
+          "LOSE": 4,
+          "WIN": 97
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "success": "3/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(6/161,182/467)",
+      "v1_row": 33
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "success": "3/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/483,142/467)",
+      "v1_row": 34
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-9/1000",
+        "beta": "-97/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 18,
+          "WIN": 83
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 46,
+          "WIN": 55
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "success": "3/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 35
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-159/1000",
+        "beta": "-157/400",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 43,
+          "WIN": 58
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "success": "3/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 36
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "91/1000",
+        "beta": "-19/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-281/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,91/281)",
+        "tie_region": "{91/281}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 71,
+          "WIN": 30
+        },
+        "defer": {
+          "LOSE": 2,
+          "WIN": 99
+        },
+        "direct": {
+          "LOSE": 68,
+          "WIN": 33
+        },
+        "escalate": {
+          "LOSE": 3,
+          "WIN": 98
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "success": "1"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(9/319,91/281)",
+      "v1_row": 37
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-21/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-281/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,71/281)",
+        "tie_region": "{71/281}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 85,
+          "WIN": 16
+        },
+        "defer": {
+          "LOSE": 4,
+          "WIN": 97
+        },
+        "direct": {
+          "LOSE": 75,
+          "WIN": 26
+        },
+        "escalate": {
+          "LOSE": 10,
+          "WIN": 91
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "success": "1"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(1/11,71/281)",
+      "v1_row": 38
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-9/1000",
+        "beta": "-29/100",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-281/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 14,
+          "WIN": 87
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 35,
+          "WIN": 66
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "success": "1"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 39
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "-159/1000",
+        "beta": "-11/25",
+        "domain": "[0,1]",
+        "has_strict_win": false,
+        "slope": "-281/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 32,
+          "WIN": 69
+        },
+        "direct": {
+          "LOSE": 101
+        },
+        "escalate": {
+          "LOSE": 82,
+          "WIN": 19
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "success": "1"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 40
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "defer": {
+          "LOSE": 100,
+          "TIE": 1
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 100,
+          "TIE": 1
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_authorized": false,
+        "success": "0"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 41
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_authorized": false,
+        "success": "0"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 42
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_authorized": false,
+        "success": "0"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 43
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_authorized": false,
+        "success": "0"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 44
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 11,
+          "WIN": 90
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_authorized": false,
+        "success": "1/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(18/173,1]",
+      "v1_row": 45
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 34,
+          "WIN": 67
+        },
+        "defer": {
+          "LOSE": 14,
+          "WIN": 87
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 34,
+          "WIN": 67
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_authorized": false,
+        "success": "1/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(58/173,1]",
+      "v1_row": 46
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 52,
+          "WIN": 49
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_authorized": false,
+        "success": "1/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 47
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 101,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_authorized": false,
+        "success": "1/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 48
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 6,
+          "WIN": 95
+        },
+        "defer": {
+          "LOSE": 3,
+          "WIN": 98
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 6,
+          "WIN": 95
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_authorized": false,
+        "success": "1/2"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(9/164,1]",
+      "v1_row": 49
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 18,
+          "WIN": 83
+        },
+        "defer": {
+          "LOSE": 8,
+          "WIN": 93
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 18,
+          "WIN": 83
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_authorized": false,
+        "success": "1/2"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(29/164,1]",
+      "v1_row": 50
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 67,
+          "WIN": 34
+        },
+        "defer": {
+          "LOSE": 27,
+          "WIN": 74
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 67,
+          "WIN": 34
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_authorized": false,
+        "success": "1/2"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(109/164,1]",
+      "v1_row": 51
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 63,
+          "WIN": 38
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_authorized": false,
+        "success": "1/2"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 52
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 4,
+          "WIN": 97
+        },
+        "defer": {
+          "LOSE": 2,
+          "WIN": 99
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 4,
+          "WIN": 97
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_authorized": false,
+        "success": "3/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(6/161,1]",
+      "v1_row": 53
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 13,
+          "WIN": 88
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_authorized": false,
+        "success": "3/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(58/483,1]",
+      "v1_row": 54
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 46,
+          "WIN": 55
+        },
+        "defer": {
+          "LOSE": 18,
+          "WIN": 83
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 46,
+          "WIN": 55
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_authorized": false,
+        "success": "3/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(218/483,1]",
+      "v1_row": 55
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 104,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 43,
+          "WIN": 58
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_authorized": false,
+        "success": "3/4"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 56
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 3,
+          "WIN": 98
+        },
+        "defer": {
+          "LOSE": 2,
+          "WIN": 99
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 3,
+          "WIN": 98
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "0",
+        "direct_authorized": false,
+        "success": "1"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(9/319,1]",
+      "v1_row": 57
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 10,
+          "WIN": 91
+        },
+        "defer": {
+          "LOSE": 4,
+          "WIN": 97
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 10,
+          "WIN": 91
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/50",
+        "direct_authorized": false,
+        "success": "1"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(1/11,1]",
+      "v1_row": 58
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 35,
+          "WIN": 66
+        },
+        "defer": {
+          "LOSE": 14,
+          "WIN": 87
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 35,
+          "WIN": 66
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/10",
+        "direct_authorized": false,
+        "success": "1"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(109/319,1]",
+      "v1_row": 59
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "COMPARATOR_INELIGIBLE",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 82,
+          "WIN": 19
+        },
+        "defer": {
+          "LOSE": 32,
+          "WIN": 69
+        },
+        "direct": {
+          "COMPARATOR_INELIGIBLE": 101
+        },
+        "escalate": {
+          "LOSE": 82,
+          "WIN": 19
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "crossed_success_charge",
+      "parameter_overrides": {
+        "check_charge_over_gap": "1/4",
+        "direct_authorized": false,
+        "success": "1"
+      },
+      "regime": "direct_not_authorized",
+      "strict_win_vs_best_legal": "(259/319,1]",
+      "v1_row": 60
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "check_extra_time_over_deadline": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/483,142/467)",
+      "v1_row": 61
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "check_extra_time_over_deadline": "59/100"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/483,142/467)",
+      "v1_row": 62
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "2/25",
+        "beta": "-77/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-17/20",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,8/85)",
+        "tie_region": "{8/85}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 0,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 91,
+          "WIN": 10
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "check_extra_time_over_deadline": "3/5"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 63
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "2/25",
+        "beta": "-77/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-17/20",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,8/85)",
+        "tie_region": "{8/85}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 0,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 91,
+          "WIN": 10
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "check_extra_time_over_deadline": "4/5"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 64
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "inspect_person_over_cap": "1/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/483,142/467)",
+      "v1_row": 65
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "inspect_person_over_cap": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/483,142/467)",
+      "v1_row": 66
+    },
+    {
+      "all_legal_comparison_status": "NOT_COMPARABLE",
+      "direct": {
+        "alpha": null,
+        "beta": null,
+        "domain": "[0,1]",
+        "has_strict_win": null,
+        "reason": "INSPECTION_OVER_PERSON_TIME_CAP",
+        "status": "NOT_COMPARABLE",
+        "strict_win_interval": null,
+        "tie_region": null
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "INSPECTION_OVER_PERSON_TIME_CAP": 101
+        },
+        "defer": {
+          "INSPECTION_OVER_PERSON_TIME_CAP": 101
+        },
+        "direct": {
+          "INSPECTION_OVER_PERSON_TIME_CAP": 101
+        },
+        "escalate": {
+          "INSPECTION_OVER_PERSON_TIME_CAP": 101
+        }
+      },
+      "inspection_eligible": false,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "inspect_person_over_cap": "51/100"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 67
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "2/25",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-97/400",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,32/97)",
+        "tie_region": "{32/97}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 77,
+          "WIN": 24
+        },
+        "defer": {
+          "LOSE": 4,
+          "WIN": 97
+        },
+        "direct": {
+          "LOSE": 68,
+          "WIN": 33
+        },
+        "escalate": {
+          "LOSE": 9,
+          "WIN": 92
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "false_positive_downtime_over_gap": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(8/93,32/97)",
+      "v1_row": 68
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "151/2000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-119/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,151/476)",
+        "tie_region": "{151/476}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 80,
+          "WIN": 21
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 69,
+          "WIN": 32
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "false_positive_downtime_over_gap": "1/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(49/474,151/476)",
+      "v1_row": 69
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "31/500",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-449/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,124/449)",
+        "tie_region": "{124/449}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 89,
+          "WIN": 12
+        },
+        "defer": {
+          "LOSE": 7,
+          "WIN": 94
+        },
+        "direct": {
+          "LOSE": 73,
+          "WIN": 28
+        },
+        "escalate": {
+          "LOSE": 16,
+          "WIN": 85
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "false_positive_downtime_over_gap": "1/5"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(76/501,124/449)",
+      "v1_row": 70
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-103/800",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-799/4000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,284/799)",
+        "tie_region": "{284/799}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 76,
+          "WIN": 25
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 65,
+          "WIN": 36
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_off": "1/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(116/1101,284/799)",
+      "v1_row": 71
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-211/800",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-1339/4000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,284/1339)",
+        "tie_region": "{284/1339}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 100,
+          "WIN": 1
+        },
+        "defer": {
+          "LOSE": 6,
+          "WIN": 95
+        },
+        "direct": {
+          "LOSE": 79,
+          "WIN": 22
+        },
+        "escalate": {
+          "LOSE": 21,
+          "WIN": 80
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_off": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(116/561,284/1339)",
+      "v1_row": 72
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-173/400",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-1007/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/1007)",
+        "tie_region": "{142/1007}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 9,
+          "WIN": 92
+        },
+        "direct": {
+          "LOSE": 86,
+          "WIN": 15
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_off": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 73
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "141/2000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-233/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,141/466)",
+        "tie_region": "{141/466}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 83,
+          "WIN": 18
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 13,
+          "WIN": 88
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_on": "1/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(59/484,141/466)",
+      "v1_row": 74
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "29/400",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-47/200",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,29/94)",
+        "tie_region": "{29/94}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 82,
+          "WIN": 19
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 12,
+          "WIN": 89
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_on": "1/4"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(11/96,29/94)",
+      "v1_row": 75
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "3/40",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-19/80",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,6/19)",
+        "tie_region": "{6/19}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 80,
+          "WIN": 21
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 69,
+          "WIN": 32
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "unresolved_on": "1/2"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(2/19,6/19)",
+      "v1_row": 76
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-23/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-301/1000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,71/301)",
+        "tie_region": "{71/301}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 94,
+          "WIN": 7
+        },
+        "defer": {
+          "LOSE": 6,
+          "WIN": 95
+        },
+        "direct": {
+          "LOSE": 77,
+          "WIN": 24
+        },
+        "escalate": {
+          "LOSE": 17,
+          "WIN": 84
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "sensitivity": "4/5"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(1/6,71/301)",
+      "v1_row": 77
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-103/800",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-799/4000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,284/799)",
+        "tie_region": "{284/799}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 76,
+          "WIN": 25
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 65,
+          "WIN": 36
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "sensitivity": "19/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(116/1101,284/799)",
+      "v1_row": 78
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "31/500",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-449/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,124/449)",
+        "tie_region": "{124/449}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 89,
+          "WIN": 12
+        },
+        "defer": {
+          "LOSE": 7,
+          "WIN": 94
+        },
+        "direct": {
+          "LOSE": 73,
+          "WIN": 28
+        },
+        "escalate": {
+          "LOSE": 16,
+          "WIN": 85
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "specificity": "4/5"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(76/501,124/449)",
+      "v1_row": 79
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "151/2000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-119/500",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,151/476)",
+        "tie_region": "{151/476}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 108,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 80,
+          "WIN": 21
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 69,
+          "WIN": 32
+        },
+        "escalate": {
+          "LOSE": 11,
+          "WIN": 90
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "specificity": "19/20"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(49/474,151/476)",
+      "v1_row": 80
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "2/25",
+        "beta": "-77/100",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-17/20",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,8/85)",
+        "tie_region": "{8/85}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 104,
+      "g": 0,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 101
+        },
+        "direct": {
+          "LOSE": 91,
+          "WIN": 10
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "inspection_branch_authorized": false
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 81
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 75,
+          "WIN": 26
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 5,
+          "WIN": 96
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "escalation_timely_reach": "0"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": "(58/1233,142/467)",
+      "v1_row": 82
+    },
+    {
+      "all_legal_comparison_status": "COMPARABLE",
+      "direct": {
+        "alpha": "71/1000",
+        "beta": "-13/80",
+        "domain": "[0,1]",
+        "has_strict_win": true,
+        "slope": "-467/2000",
+        "status": "COMPARABLE",
+        "strict_win_interval": "[0,142/467)",
+        "tie_region": "{142/467}"
+      },
+      "eligible_no_inspection": [
+        "defer",
+        "escalate",
+        "direct"
+      ],
+      "exact_probe_points": 106,
+      "g": 1,
+      "grid_counts": {
+        "all": {
+          "LOSE": 101
+        },
+        "defer": {
+          "LOSE": 5,
+          "WIN": 96
+        },
+        "direct": {
+          "LOSE": 70,
+          "WIN": 31
+        },
+        "escalate": {
+          "LOSE": 101
+        }
+      },
+      "inspection_eligible": true,
+      "kind": "one_factor",
+      "parameter_overrides": {
+        "escalation_timely_reach": "9/10"
+      },
+      "regime": "disruptive_direct",
+      "strict_win_vs_best_legal": null,
+      "v1_row": 83
+    }
+  ],
+  "runtime": "Python 3.11+ standard library, fractions.Fraction",
+  "schema": "aegisdc-ups-stage3-verification-v1",
+  "scope": "Frozen synthetic rows and analytic examples; no field estimates or simulator acceptance",
+  "sources": {
+    "frozen_spec": {
+      "path": "docs/mainline/39r-ups-a1-stage2-breakeven-v1.json",
+      "sha256": "965b54958da61eb3fb0360bc3f350da7c3eab8e5e31ea20e26470df98d4954ad"
+    },
+    "v1_result": {
+      "path": "evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json",
+      "sha256": "92aa8d52260703e1749dbf314a89cd4b65671547def28c9fda4376ad57370e7c"
+    },
+    "verifier": {
+      "path": "scripts/verify_theorem.py",
+      "sha256": "21491290c36913e6d1ee9edeec12792a3c33f10c64ef676054165d61d0dccb4a"
+    }
+  },
+  "status": "PASS_EXACT_ARITHMETIC_ONLY"
+}
