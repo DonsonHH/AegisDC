@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39r-risk-template-and-it-conditional-consequence-reuse",
+    "bounded_request": "39r-it-network-signal-readback-coverage-and-null-structure",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
     "user_frozen_tracks": [
@@ -941,7 +941,7 @@
       "RSI"
     ],
     "new_test_slices_authorized": false,
-    "local_verification_scope": "DOCUMENT_LINKS_AND_SAVED_EVIDENCE_INTEGRITY_ONLY"
+    "local_verification_scope": "SAVED_POINT_AND_SOURCE_INTEGRITY;ONE_EXISTING_CLI_MISSING_INPUT_GUARD_ONLY"
   },
   "risk_baseline_review": {
     "status": "AWAITING_USER_REVIEW",
@@ -956,8 +956,29 @@
     "time_alignment": "UNRESOLVED",
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
-    "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "A1_FIELD_RECORD_TOOL_AVAILABLE_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem": "it-network-capacity-v1",
+    "selected_problem_status": "IT_RUNTIME_SIGNAL_SEMANTICS_REVIEWED_FOUR_ACTION_STRUCTURE_DEFINED_PARENT_UNMODELED",
+    "coverage_readiness": {
+      "definition": "docs/mainline/39r-coverage-criteria.md",
+      "scope": "SUBPROBLEM_STAGES_SEPARATE_FROM_PRIMARY_DOMAIN_QUANTIFICATION",
+      "reviewed_subproblems": [
+        {
+          "domain_id": "backup",
+          "problem_id": "backup-ups-return-to-service-v1",
+          "structure": "SPECIFIED_WITH_CONDITIONAL_BOUNDARIES",
+          "engineering": "BOUNDED_A2_B1_WITNESSES",
+          "field": "NOT_READY"
+        },
+        {
+          "domain_id": "it_service",
+          "problem_id": "it-network-capacity-v1",
+          "structure": "SPECIFIED_WITH_NULL_INPUTS",
+          "engineering": "SAVED_MATCHED_CONSEQUENCE_AND_RUNTIME_SIGNAL_READBACK_ONLY",
+          "field": "NOT_READY"
+        }
+      ],
+      "other_domains": "NOT_RECOUNTED_UNDER_THIS_REVIEW"
+    }
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -1002,51 +1023,55 @@
     }
   },
   "current_single_step": {
-    "parent_question_id": "backup-support",
-    "problem_id": "backup-ups-return-to-service-v1",
-    "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
-    "primary_sources": "docs/research/20261111-backup-support-sources.md",
+    "choice": "IT_NETWORK_SIGNAL_AND_COVERAGE_CRITERIA",
+    "status": "RUNTIME_SIGNAL_AND_NULL_STRUCTURE_AWAITING_USER_REVIEW",
+    "parent_question_id": "it-dependence",
+    "problem_id": "it-network-capacity-v1",
+    "question": "在同期需求为正且其他资源没有更紧瓶颈时，运行时有效网络容量是否足够？",
+    "document": "docs/mainline/39r-it-dependence-network-capacity.md",
+    "coverage_criteria": "docs/mainline/39r-coverage-criteria.md",
+    "missing_input_probe": "docs/mainline/39r-it-network-field.pending.json",
+    "verification_result": "evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json",
+    "verification_result_sha256": "297dcc0d3a86fbd5c460b05366adee22e21fb682ffbab8b1c3c75ca6dd586677",
+    "historical_matched_consequence": "evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json",
+    "retained_reuse_revision": "1775f9b16fd5345db3d17f2b0713fa89f10d842b",
     "unknown_inputs": [
       "conditional_prior",
-      "observation_likelihood_and_validity",
-      "functional_and_service_verification",
-      "matched_time_basis"
+      "a",
+      "b",
+      "q_I",
+      "q_R",
+      "d_FP",
+      "d_R",
+      "r_E",
+      "d_E",
+      "same_service_loss_charge",
+      "arrival_error_and_authorization"
     ],
-    "record57": "PRESERVED_UNTRACKED_UNRUN",
-    "manuscript_structure": "paper/conditional-inspection-value-structure-20261111.md",
-    "choice": "A1_CLI_BOUNDARIES_AND_FIELD_RECORD",
-    "status": "USER_REPORTED_CLI_AND_ARITHMETIC_REVIEW_PASSED_SCOPE_CLARIFIED",
-    "document": "docs/mainline/39r-ups-field-tool.md",
-    "field_entry": "scripts/verify_theorem.py field --input field-record.json",
-    "field_schema": "docs/mainline/39r-ups-field-record.schema.json",
-    "field_template": "docs/mainline/39r-ups-field-record.template.json",
-    "verification_entry": "scripts/check_theorem_cli.py",
-    "verification_result": "evidence/mainline/engineering/39r-ups-field-cli-v1/result.json",
-    "verification_result_sha256": "2c7026b45dc193f14a3981be48ba9a5d0a56cc7108c1794996d67b09953a6e4f",
     "accounting": {
-      "cli_cases": 10,
-      "facility_entries": 0,
-      "model_calls": 0,
-      "passed": 10,
-      "policy_calls": 0,
-      "registered_research_runs": 0
+      "saved_state_points_read": 5,
+      "field_missing_input_guard_calls": 1,
+      "remote_auth_attempts": 1,
+      "new_facility_entries": 0,
+      "new_policy_calls": 0,
+      "new_model_calls": 0,
+      "new_registered_research_runs": 0,
+      "new_test_slices": 0
     },
-    "pre_implementation_receipt_sha256": "6557e916bcbeb047f1c8f9bedb60fcd46a9edb3c0b961256c2338175df0fb4b4",
-    "pre_implementation_cli_passed": 4,
-    "pre_implementation_cli_cases": 10,
-    "comparison_scope": "DECLARED_SINGLE_LOAD_FIXED_ELIGIBILITY_AND_PARAMETERS;NO_FIELD_ESTIMATION_OR_AUTHORIZATION",
-    "field_input_tool_ready": true,
     "calculation_ready": false,
-    "real_parameter_stage_started": false,
+    "field_ready": false,
+    "action_comparison": "INSUFFICIENT_INPUT",
+    "parent_status": "UNMODELED",
     "new_facility_captures": 0,
     "new_research_runs": 0,
     "new_model_calls": 0,
-    "new_test_slices": 1,
+    "new_test_slices": 0,
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
+    "record57": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
-      "REUSE_PATTERN_IN_IT_DEPENDENCE"
+      "IT_SIGNAL_AND_COVERAGE_USER_REVIEW"
     ],
     "automatic_continuation": false
   },
@@ -1208,5 +1233,25 @@
     "frozen_verifier_sha256": "21491290c36913e6d1ee9edeec12792a3c33f10c64ef676054165d61d0dccb4a",
     "user_review": "USER_REPORTED_CLEAN_CLONE_BYTE_MATCH_AND_ADDITIONAL_UNFROZEN_PROPERTY_CHECKS",
     "reported_random_checks_in_package": false
+  },
+  "ups_field_cli_review_receipt": {
+    "document": "docs/mainline/39r-ups-field-tool.md",
+    "field_entry": "scripts/verify_theorem.py field --input field-record.json",
+    "field_schema": "docs/mainline/39r-ups-field-record.schema.json",
+    "field_template": "docs/mainline/39r-ups-field-record.template.json",
+    "verification_entry": "scripts/check_theorem_cli.py",
+    "verification_result": "evidence/mainline/engineering/39r-ups-field-cli-v1/result.json",
+    "verification_result_sha256": "2c7026b45dc193f14a3981be48ba9a5d0a56cc7108c1794996d67b09953a6e4f",
+    "accounting": {
+      "cli_cases": 10,
+      "facility_entries": 0,
+      "model_calls": 0,
+      "passed": 10,
+      "policy_calls": 0,
+      "registered_research_runs": 0
+    },
+    "pre_implementation_receipt_sha256": "6557e916bcbeb047f1c8f9bedb60fcd46a9edb3c0b961256c2338175df0fb4b4",
+    "review_status": "USER_REPORTED_CLI_CHECKS_PASSED_SCOPE_CLARIFIED",
+    "published_cli_revision": "4686d7d149ad686b56f866bd3b392f78d00163d1"
   }
 }

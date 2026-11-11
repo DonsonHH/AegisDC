@@ -1,0 +1,228 @@
+{
+  "status": "RUNTIME_STATE_DEPENDENCE_VERIFIED_FROM_PINNED_SOURCE_AND_SAVED_POINTS",
+  "scope": "READ_ONLY_PROJECTION_OF_PRIVATE_SAVED_POINTS_NOT_A_NEW_OBSERVATION_OR_EXECUTION",
+  "signal_id": "network.available_capacity",
+  "target": "network",
+  "unit": "1",
+  "snapshot_path": [
+    "domains",
+    "it_service",
+    "capacities",
+    "network"
+  ],
+  "formula": "min(network_service_capacity, actual_network_power_W/network_nominal_power_W)",
+  "mapping_source": {
+    "path": "src/aegis_dc/nonfixed_evidence.py",
+    "execution_reference": "8eeef6b724a130dad12fb21cfe8bf68c46ec47f5",
+    "execution_reference_sha256": "09c601b61527cfaa46782a4cac7b8ef99f7c8121bc43980c021be3df4696ca17",
+    "review_revision": "1775f9b16fd5345db3d17f2b0713fa89f10d842b",
+    "review_sha256": "1ebc0e7588c710c8ea403b18f5378e436274728a4d664142b00790fc25d087c6"
+  },
+  "consequence_reference": {
+    "path": "evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json",
+    "sha256": "d409138f4cc4172ba00f511428d5b258f136a10fd5a86bef8ba84246ac55d618",
+    "gap_s": "9/2",
+    "scope": "SLICE18_MATCHED_AGGREGATES_ONLY"
+  },
+  "slice18_private_trajectory": {
+    "status": "NOT_READ",
+    "reason": "mu01 read-only SSH authentication refused (publickey)",
+    "read_attempts": 1,
+    "matched_summary_retained": true
+  },
+  "same_time_saved_witness": {
+    "scope": "TWO_OLD_INTERVENTION_TRACES_DIFFER_IN_WORK_OUTCOME; NOT_A_MATCHED_EFFECT_COMPARISON_OR_SLICE18_RAW_READ",
+    "cases": [
+      {
+        "path": "evidence/mainline/engineering/23-interventions/capture-01/network-full",
+        "source_revision": "15a940c0fec6c5d2f3ba6758b2a4d685f872b9b3",
+        "runtime_plant_sha256": "e72a5931af942cdb0e67e751a42ac76c3ad310c77e842073a887d4d685d8657b",
+        "original_files_sha256": {
+          "run.json": "ca15c2f1eeadf2b037ad16b13e9186d18001efd782afa58627a312fb30d7720a",
+          "scenario.json": "920f170cfcd64e9c4dcceb642002d2d24a70863abdef0ed54a0aff969dbb8305",
+          "private-state.jsonl": "93a07ed406fdf8e16bd17d3d1429c29d4fba069d24cf5826417822accaafda94"
+        },
+        "initial_network_service_capacity": "1/4",
+        "applied_network_capacity_changes": [
+          {
+            "task_id": "restore-network",
+            "operation_id": "network-restore",
+            "observed_at_s": 1.25,
+            "task_status": "completed",
+            "outcome": "APPLIED",
+            "reason": null,
+            "applied_at_s": 1.25,
+            "parameter_id": "network_service_capacity",
+            "old_value": 0.25,
+            "new_value": 1,
+            "effect_scope": "DECLARED_LOW_ORDER_PARAMETER_RESPONSE_NOT_VERIFIED_REPAIR"
+          }
+        ],
+        "boundary_events": [],
+        "points": [
+          {
+            "time_s": "3",
+            "configured_network_service_capacity": "1",
+            "actual_network_power_W": "100000",
+            "network_nominal_power_W": "100000",
+            "projected_network_available_capacity": "1"
+          }
+        ]
+      },
+      {
+        "path": "evidence/mainline/engineering/23-interventions/capture-01/network-aborted",
+        "source_revision": "15a940c0fec6c5d2f3ba6758b2a4d685f872b9b3",
+        "runtime_plant_sha256": "e72a5931af942cdb0e67e751a42ac76c3ad310c77e842073a887d4d685d8657b",
+        "original_files_sha256": {
+          "run.json": "09b9413bcbdb69432cb3ae59270af13015368f1f2fd0f1067813ea6d0c9f35a4",
+          "scenario.json": "920f170cfcd64e9c4dcceb642002d2d24a70863abdef0ed54a0aff969dbb8305",
+          "private-state.jsonl": "ed047934e95fad15c36b3467237f60f188a91cd3b66766e47081a84dd2867d14"
+        },
+        "initial_network_service_capacity": "1/4",
+        "applied_network_capacity_changes": [],
+        "boundary_events": [
+          {
+            "time_s": 0.75,
+            "parameter_id": "it_access_permit",
+            "value": 0.0,
+            "source_note": "Frozen synthetic safety closure during work."
+          }
+        ],
+        "points": [
+          {
+            "time_s": "3",
+            "configured_network_service_capacity": "1/4",
+            "actual_network_power_W": "25000",
+            "network_nominal_power_W": "100000",
+            "projected_network_available_capacity": "1/4"
+          }
+        ]
+      }
+    ]
+  },
+  "fixed_configuration_saved_witness": {
+    "path": "evidence/mainline/engineering/04-power/run-01-committed-public-validation/cli-outage-restore",
+    "source_revision": "a50b1e5e6f87397a57b226f805992fd5470a6f7f",
+    "runtime_plant_sha256": "80a55e2bd6626adb2050f751fdf398c340f1c5c3a6dedc98045ee3d487e0104e",
+    "original_files_sha256": {
+      "run.json": "537742e96ceb9ec44305bd1780af4ae92449dac9c9c4205b663a10897301853a",
+      "scenario.json": "6641e8014a9e1bf7a601f92b699fdfb79667d46b357240ec60110fa9cb6cd51a",
+      "private-state.jsonl": "06425e0a0b4fecfdf8526656f80cf340a031df5042d72d99dc250212ab5ae3de"
+    },
+    "initial_network_service_capacity": "1",
+    "applied_network_capacity_changes": [],
+    "boundary_events": [
+      {
+        "time_s": 0.25,
+        "parameter_id": "grid_capacity",
+        "value": 0.0,
+        "source_note": "Ticket 04 synthetic source outage, not a research trial."
+      },
+      {
+        "time_s": 1.25,
+        "parameter_id": "grid_capacity",
+        "value": 10000000.0,
+        "source_note": "Ticket 04 synthetic source restoration."
+      }
+    ],
+    "points": [
+      {
+        "time_s": "0",
+        "configured_network_service_capacity": "1",
+        "actual_network_power_W": "100000",
+        "network_nominal_power_W": "100000",
+        "projected_network_available_capacity": "1"
+      },
+      {
+        "time_s": "1/4",
+        "configured_network_service_capacity": "1",
+        "actual_network_power_W": "0",
+        "network_nominal_power_W": "100000",
+        "projected_network_available_capacity": "0"
+      },
+      {
+        "time_s": "5/4",
+        "configured_network_service_capacity": "1",
+        "actual_network_power_W": "100000",
+        "network_nominal_power_W": "100000",
+        "projected_network_available_capacity": "1"
+      }
+    ]
+  },
+  "limits": [
+    "Projection is not an arrived inspection report",
+    "Low reading does not identify the cause",
+    "Observation error, arrival and restore-effect parameters remain unqualified"
+  ],
+  "schema": "aegisdc-it-network-signal-and-structure-readback-v1",
+  "parent_question_id": "it-dependence",
+  "problem_id": "it-network-capacity-v1",
+  "field_missing_input_guard": {
+    "scope": "EMPTY_INPUT_HANDLING_ONLY;NO_IT_SERVICE_METRIC_MAPPED_TO_UPS_TOOL",
+    "command": [
+      "python",
+      "-B",
+      "scripts/verify_theorem.py",
+      "field",
+      "--input",
+      "docs/mainline/39r-it-network-field.pending.json"
+    ],
+    "input_sha256": "e80b165912c562ca1204140103b4455d71ada5fa5f50e1a0de5386d0c94f9202",
+    "exit_code": 0,
+    "status": "INSUFFICIENT_INPUT",
+    "missing_inputs": [
+      "fixed_over_prior",
+      "gates.direct_authorized",
+      "gates.direct_resource_feasible",
+      "gates.escalation_resource_feasible",
+      "gates.inspection_resource_feasible",
+      "leaf_gap_s",
+      "legal_actions",
+      "timestamps.deadline_at",
+      "timestamps.decision_at",
+      "timestamps.direct_completion_at"
+    ],
+    "strict_win_interval": null
+  },
+  "structure": {
+    "status": "FOUR_ACTIONS_AND_SYMBOLIC_ENDPOINTS_WITH_NULLS",
+    "loss_metric": "service_deficit_time_s",
+    "saved_leaf_gap_s": "9/2",
+    "candidates": [
+      "defer",
+      "escalate",
+      "direct",
+      "inspect"
+    ],
+    "actual_legal_actions": null,
+    "unknown_parameters": {
+      "a": null,
+      "b": null,
+      "q_I": null,
+      "q_R": null,
+      "r_E": null,
+      "d_R": null,
+      "d_FP": null,
+      "d_E": null,
+      "k": null
+    },
+    "action_comparison": "INSUFFICIENT_INPUT"
+  },
+  "parent_status": "UNMODELED",
+  "coverage_unchanged": {
+    "risk_modelled_primary_domains": 2,
+    "risk_unmodelled_primary_domains": 6,
+    "inspection_value_modelled_primary_domains": 1,
+    "inspection_value_unmodelled_primary_domains": 7
+  },
+  "accounting": {
+    "saved_state_points_read": 5,
+    "field_missing_input_guard_calls": 1,
+    "remote_auth_attempts": 1,
+    "new_facility_entries": 0,
+    "new_policy_calls": 0,
+    "new_model_calls": 0,
+    "new_registered_research_runs": 0,
+    "new_test_slices": 0
+  }
+}

@@ -35,3 +35,5 @@ Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：
 公开 CLI 边界与 `field` 模板见 `docs/mainline/39r-ups-field-tool.md`；合并结果 `evidence/mainline/engineering/39r-ups-field-cli-v1/result.json` 留存实现前4项通过／6项缺入口及实现后10项通过。单缺项给精确翻转条件，资格未知不排名；旧核验器及原件保留，零设施、模型、注册研究与全CI，父风险UNMODELED，待审。
 
 用户报告冻结核验、10 个 CLI 用例及 `47/80` 边界均通过；已澄清缺失参数范围与观测先验判决的区别。六步模板 `docs/mainline/39r-risk-problem-template.md` 首次用于 `docs/mainline/39r-it-dependence-network-capacity.md`，其[后果复核](../../../evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json)复用已有 6 秒配对，核对 0／4.5 秒缺额。新增设施、模型和注册研究均为零，`it-dependence` 仍未建模，交审后等待单步指导。
+
+IT 网络信号已按执行源及5个保存点回读核对：同刻1／1/4、固定上限1时读数1→0→1；slice-18私轨未读取。四动作符号结构和空参数门见[记录](../../../evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json)，`field`缺项返回`INSUFFICIENT_INPUT`；[三档覆盖](../../../docs/mainline/39r-coverage-criteria.md)单列，旧2/6、1/7保持。零新设施、策略、模型或注册研究，待审。
