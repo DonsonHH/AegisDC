@@ -37,3 +37,5 @@ Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：
 用户报告冻结核验、10 个 CLI 用例及 `47/80` 边界均通过；已澄清缺失参数范围与观测先验判决的区别。六步模板 `docs/mainline/39r-risk-problem-template.md` 首次用于 `docs/mainline/39r-it-dependence-network-capacity.md`，其[后果复核](../../../evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json)复用已有 6 秒配对，核对 0／4.5 秒缺额。新增设施、模型和注册研究均为零，`it-dependence` 仍未建模，交审后等待单步指导。
 
 IT 网络信号已按执行源及5个保存点回读核对：同刻1／1/4、固定上限1时读数1→0→1；slice-18私轨未读取。四动作符号结构和空参数门见[记录](../../../evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json)，`field`缺项返回`INSUFFICIENT_INPUT`；[三档覆盖](../../../docs/mainline/39r-coverage-criteria.md)单列，旧2/6、1/7保持。零新设施、策略、模型或注册研究，待审。
+
+用户报告原轨迹与三份哈希独立核对通过。IT 已补动作→读数与无网络恢复动作的不足见证之区分、连续容量切分和[观测记录契约](../../../docs/mainline/39r-it-network-observation-contract.md)；三档表列已核证据。`a,b,q_I`等仍为空，旧原件与资格保持；纯文档，交审后等待指令。

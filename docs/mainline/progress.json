@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39r-it-network-signal-readback-coverage-and-null-structure",
+    "bounded_request": "39r-it-observation-design-and-evidence-scope-docs",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
     "user_frozen_tracks": [
@@ -941,7 +941,7 @@
       "RSI"
     ],
     "new_test_slices_authorized": false,
-    "local_verification_scope": "SAVED_POINT_AND_SOURCE_INTEGRITY;ONE_EXISTING_CLI_MISSING_INPUT_GUARD_ONLY"
+    "local_verification_scope": "DOCUMENT_LINKS_AND_FROZEN_ARTIFACT_INTEGRITY_ONLY"
   },
   "risk_baseline_review": {
     "status": "AWAITING_USER_REVIEW",
@@ -957,7 +957,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "it-network-capacity-v1",
-    "selected_problem_status": "IT_RUNTIME_SIGNAL_SEMANTICS_REVIEWED_FOUR_ACTION_STRUCTURE_DEFINED_PARENT_UNMODELED",
+    "selected_problem_status": "IT_OBSERVATION_CONTRACT_DEFINED_PARAMETERS_NULL_PARENT_UNMODELED",
     "coverage_readiness": {
       "definition": "docs/mainline/39r-coverage-criteria.md",
       "scope": "SUBPROBLEM_STAGES_SEPARATE_FROM_PRIMARY_DOMAIN_QUANTIFICATION",
@@ -972,7 +972,7 @@
         {
           "domain_id": "it_service",
           "problem_id": "it-network-capacity-v1",
-          "structure": "SPECIFIED_WITH_NULL_INPUTS",
+          "structure": "SPECIFIED_OBSERVATION_CONTRACT_WITH_NULL_INPUTS",
           "engineering": "SAVED_MATCHED_CONSEQUENCE_AND_RUNTIME_SIGNAL_READBACK_ONLY",
           "field": "NOT_READY"
         }
@@ -1023,18 +1023,17 @@
     }
   },
   "current_single_step": {
-    "choice": "IT_NETWORK_SIGNAL_AND_COVERAGE_CRITERIA",
-    "status": "RUNTIME_SIGNAL_AND_NULL_STRUCTURE_AWAITING_USER_REVIEW",
+    "choice": "IT_NETWORK_OBSERVATION_DESIGN_AND_SCOPE_CORRECTIONS",
+    "status": "OBSERVATION_RECORD_CONTRACT_AWAITING_USER_REVIEW",
     "parent_question_id": "it-dependence",
     "problem_id": "it-network-capacity-v1",
     "question": "在同期需求为正且其他资源没有更紧瓶颈时，运行时有效网络容量是否足够？",
-    "document": "docs/mainline/39r-it-dependence-network-capacity.md",
+    "document": "docs/mainline/39r-it-network-observation-contract.md",
+    "subproblem_document": "docs/mainline/39r-it-dependence-network-capacity.md",
     "coverage_criteria": "docs/mainline/39r-coverage-criteria.md",
+    "existing_readback_result": "evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json",
+    "existing_readback_sha256": "297dcc0d3a86fbd5c460b05366adee22e21fb682ffbab8b1c3c75ca6dd586677",
     "missing_input_probe": "docs/mainline/39r-it-network-field.pending.json",
-    "verification_result": "evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json",
-    "verification_result_sha256": "297dcc0d3a86fbd5c460b05366adee22e21fb682ffbab8b1c3c75ca6dd586677",
-    "historical_matched_consequence": "evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json",
-    "retained_reuse_revision": "1775f9b16fd5345db3d17f2b0713fa89f10d842b",
     "unknown_inputs": [
       "conditional_prior",
       "a",
@@ -1048,11 +1047,15 @@
       "same_service_loss_charge",
       "arrival_error_and_authorization"
     ],
+    "observation_parameters": {
+      "a": null,
+      "b": null,
+      "q_I": null
+    },
+    "engineering_scope_unchanged": true,
     "accounting": {
-      "saved_state_points_read": 5,
-      "field_missing_input_guard_calls": 1,
-      "remote_auth_attempts": 1,
       "new_facility_entries": 0,
+      "new_observation_captures": 0,
       "new_policy_calls": 0,
       "new_model_calls": 0,
       "new_registered_research_runs": 0,
@@ -1062,16 +1065,12 @@
     "field_ready": false,
     "action_comparison": "INSUFFICIENT_INPUT",
     "parent_status": "UNMODELED",
-    "new_facility_captures": 0,
-    "new_research_runs": 0,
-    "new_model_calls": 0,
-    "new_test_slices": 0,
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
     "record57": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
-      "IT_SIGNAL_AND_COVERAGE_USER_REVIEW"
+      "IT_OBSERVATION_DESIGN_USER_REVIEW"
     ],
     "automatic_continuation": false
   },
@@ -1253,5 +1252,27 @@
     "pre_implementation_receipt_sha256": "6557e916bcbeb047f1c8f9bedb60fcd46a9edb3c0b961256c2338175df0fb4b4",
     "review_status": "USER_REPORTED_CLI_CHECKS_PASSED_SCOPE_CLARIFIED",
     "published_cli_revision": "4686d7d149ad686b56f866bd3b392f78d00163d1"
+  },
+  "it_network_signal_review_receipt": {
+    "document": "docs/mainline/39r-it-dependence-network-capacity.md",
+    "coverage_criteria": "docs/mainline/39r-coverage-criteria.md",
+    "missing_input_probe": "docs/mainline/39r-it-network-field.pending.json",
+    "verification_result": "evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json",
+    "verification_result_sha256": "297dcc0d3a86fbd5c460b05366adee22e21fb682ffbab8b1c3c75ca6dd586677",
+    "historical_matched_consequence": "evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json",
+    "retained_reuse_revision": "1775f9b16fd5345db3d17f2b0713fa89f10d842b",
+    "accounting": {
+      "saved_state_points_read": 5,
+      "field_missing_input_guard_calls": 1,
+      "remote_auth_attempts": 1,
+      "new_facility_entries": 0,
+      "new_policy_calls": 0,
+      "new_model_calls": 0,
+      "new_registered_research_runs": 0,
+      "new_test_slices": 0
+    },
+    "user_review": "USER_REPORTED_ORIGINAL_TRAJECTORY_AND_HASHES_VERIFIED_SCOPE_CORRECTIONS_REQUESTED",
+    "reviewed_delivery_revision": "e70e25a2c5c250ad9e15b5c74b37c91b6e02ec67",
+    "native_bytes_preserved": true
   }
 }
