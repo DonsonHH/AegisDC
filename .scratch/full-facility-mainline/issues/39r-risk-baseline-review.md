@@ -43,3 +43,5 @@ IT 网络信号已按执行源及5个保存点回读核对：同刻1／1/4、固
 用户复核通过后选择 B。交审[公开实测来源](../../../docs/research/20261111-field-data-candidates.md)与[六域子问题结构](../../../docs/mainline/39r-six-domain-structure.md)：Frontier v4 文件与许可已核入口，Marconi100 提供同站遥测及部分动作代理，现场全链配对未确认；旧量化覆盖保持、零新设施或注册研究，交付后等待审查。
 
 用户认可 B 并授权 Frontier 小样。已交[实测图和时标核验](../../../docs/research/20261111-frontier-field-pilot/README.md)：1 月 8 日 144 点齐全，全年严格缺 3,451 格点、一秒邻近诊断无记录 2,691 格点，复核通过；[联合约束与一般损失](../../../docs/mainline/39r-six-domain-structure.md)及论文结构已修正。Marconi100 的班组、许可与截止未配对，零设施／注册运行，待审。
+
+用户报告独立复算通过。Frontier 报告补了原图 7 目视抽查、约 440 小时与计数差异的边界，以及单日 CSV 状态字典。[论文结构稿](../../../paper/conditional-inspection-value-structure-20261111.md)建议定位为合成设施机制对照与外部量级参照；A2 为建议的后续单步，待用户确定方向。
