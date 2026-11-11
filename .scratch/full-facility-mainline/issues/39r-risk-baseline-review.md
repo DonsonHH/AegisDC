@@ -39,3 +39,5 @@ Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：
 IT 网络信号已按执行源及5个保存点回读核对：同刻1／1/4、固定上限1时读数1→0→1；slice-18私轨未读取。四动作符号结构和空参数门见[记录](../../../evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json)，`field`缺项返回`INSUFFICIENT_INPUT`；[三档覆盖](../../../docs/mainline/39r-coverage-criteria.md)单列，旧2/6、1/7保持。零新设施、策略、模型或注册研究，待审。
 
 用户报告原轨迹与三份哈希独立核对通过。IT 已补动作→读数与无网络恢复动作的不足见证之区分、连续容量切分和[观测记录契约](../../../docs/mainline/39r-it-network-observation-contract.md)；三档表列已核证据。`a,b,q_I`等仍为空，旧原件与资格保持；纯文档，交审后等待指令。
+
+用户复核通过后选择 B。交审[公开实测来源](../../../docs/research/20261111-field-data-candidates.md)与[六域子问题结构](../../../docs/mainline/39r-six-domain-structure.md)：Frontier v4 文件与许可已核入口，Marconi100 提供同站遥测及部分动作代理，现场全链配对未确认；旧量化覆盖保持、零新设施或注册研究，交付后等待审查。

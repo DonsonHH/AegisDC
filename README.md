@@ -2,7 +2,7 @@
 
 **研究扩展已暂停，当前交付[方向纠正包](docs/reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
-当前交审：[IT 观测记录契约](docs/mainline/39r-it-network-observation-contract.md)、[网络证据边界](docs/mainline/39r-it-dependence-network-capacity.md)及[覆盖三档与已核证据](docs/mainline/39r-coverage-criteria.md)。观测参数仍为空，原有限量化计数保持。[UPS 工具与核验](docs/mainline/39r-ups-field-tool.md)和[论文结构稿](paper/conditional-inspection-value-structure-20261111.md)保留。39c、39d、39t数字资格、40–42与AI／RSI保留并暂停。
+当前交审：[公开真实设施数据与配对缺口](docs/research/20261111-field-data-candidates.md)、[六域子问题结构](docs/mainline/39r-six-domain-structure.md)与[覆盖三档](docs/mainline/39r-coverage-criteria.md)。首选 Frontier 实测设施功热对照，Marconi100 用于筛查同站遥测与运维事件；完整现场配对尚未确认。原有限量化计数保持。[IT 观测记录契约](docs/mainline/39r-it-network-observation-contract.md) · [UPS 工具与核验](docs/mainline/39r-ups-field-tool.md) · [论文结构稿](paper/conditional-inspection-value-structure-20261111.md)。39c、39d、39t数字资格、40–42与AI／RSI保留并暂停。
 
 [联合业务评价：实际数据、架构和离线报告](paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[此前完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
 

@@ -112,7 +112,7 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/38-root.json"
       ],
-      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证、记录链及整票未验收；39r风险基线与39t时间基础纠正包待用户审查；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
+      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证、记录链及整票未验收；39r完成UPS和IT子问题阶段工作，另六域结构与公开实测来源交审；现场配对未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
     }
   ],
   "research_trials": {
@@ -209,7 +209,7 @@
   ],
   "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "User paused automatic mainline. Bounded direction correction only:39r eight-domain FEMA-adapted risk/value review baseline(2risk/1value modelled,others UNMODELED),39t minimum time foundation moved ahead of39c;57drafts preserved untouched/unrun. One public-interface test remote red/green passed,0newfacility or registered research. Original180 unchanged with fixed three-limit human label;old raw enums/archive bytes preserved. Await user review;no auto resume.",
+  "liveness_refresh": "Automatic mainline remains paused. User chose route B: public real-facility data search and six remaining structural definitions for review. Frontier v4 and Marconi100 are candidates; same-site inspection/authorization/verification records not confirmed. No new facility or registered research, no change to original 180 or finite risk/value counts. Await review without automatic continuation.",
   "user_review_checkpoint": {
     "ticket": "38",
     "status": "review_received_and_adopted",
@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39r-it-observation-design-and-evidence-scope-docs",
+    "bounded_request": "39r-route-b-public-field-data-search-and-six-domain-structure",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
     "user_frozen_tracks": [
@@ -977,7 +977,16 @@
           "field": "NOT_READY"
         }
       ],
-      "other_domains": "NOT_RECOUNTED_UNDER_THIS_REVIEW"
+      "draft_structure_document": "docs/mainline/39r-six-domain-structure.md",
+      "draft_structure_status": "SIX_STRUCTURAL_DEFINITIONS_SUBMITTED_NOT_ENGINEERING_OR_FIELD_QUALIFIED",
+      "draft_structure_subproblems": [
+        {"domain_id": "power", "problem_id": "power-rectifier-delivery-v1"},
+        {"domain_id": "facility_cooling", "problem_id": "cooling-intake-flow-margin-v1"},
+        {"domain_id": "equipment_environment", "problem_id": "room-work-thermal-gate-v1"},
+        {"domain_id": "control_monitoring", "problem_id": "control-supervisory-evidence-gap-v1"},
+        {"domain_id": "space_access", "problem_id": "access-floor-water-route-v1"},
+        {"domain_id": "people_tools_work", "problem_id": "work-filter-crew-tool-availability-v1"}
+      ]
     }
   },
   "baseline_report_scope_edition": {
@@ -1023,8 +1032,39 @@
     }
   },
   "current_single_step": {
+    "choice": "ROUTE_B_PUBLIC_FIELD_DATA_SEARCH_AND_SIX_DOMAIN_STRUCTURE",
+    "status": "SOURCE_SCREEN_AND_STRUCTURE_AWAITING_USER_REVIEW",
+    "document": "docs/research/20261111-field-data-candidates.md",
+    "structure_document": "docs/mainline/39r-six-domain-structure.md",
+    "coverage_criteria": "docs/mainline/39r-coverage-criteria.md",
+    "first_physical_data_candidate": "https://doi.org/10.6084/m9.figshare.24391240.v4",
+    "same_site_data_candidate": "https://doi.org/10.1038/s41597-023-02174-3",
+    "same_site_matched_field_records": "NOT_CONFIRMED",
+    "new_structure_definitions_awaiting_review": 6,
+    "new_engineering_qualifications": 0,
+    "field_ready": false,
+    "field_calibration": "PENDING",
+    "accounting": {
+      "new_facility_entries": 0,
+      "new_observation_captures": 0,
+      "new_policy_calls": 0,
+      "new_model_calls": 0,
+      "new_registered_research_runs": 0,
+      "new_test_slices": 0
+    },
+    "full_CI_rerun": false,
+    "website_deployed": false,
+    "native_implementation_changed": false,
+    "record57": "PRESERVED_UNTRACKED_UNRUN",
+    "next_order": [
+      "USER_REVIEW_SOURCE_SCREEN_AND_STRUCTURE",
+      "PROPOSE_FRONTIER_SMALL_FIELD_BASELINE_AND_SAME_SITE_PAIRING_AUDIT"
+    ],
+    "automatic_continuation": false
+  },
+  "it_network_observation_review_receipt": {
     "choice": "IT_NETWORK_OBSERVATION_DESIGN_AND_SCOPE_CORRECTIONS",
-    "status": "OBSERVATION_RECORD_CONTRACT_AWAITING_USER_REVIEW",
+    "status": "USER_REPORTED_REVIEW_COMPLETE_OBSERVATION_PARAMETERS_STILL_NULL",
     "parent_question_id": "it-dependence",
     "problem_id": "it-network-capacity-v1",
     "question": "在同期需求为正且其他资源没有更紧瓶颈时，运行时有效网络容量是否足够？",
