@@ -1,0 +1,69 @@
+{
+  "id": "39r-a2-frontier-v6-scale-reference-v1",
+  "scope": "DESCRIPTIVE_REFERENCE_FROM_ARCHIVED_RECORDS",
+  "input_git_revision": "d9a7d84fab2715d31046eb333a7390f250302901",
+  "inputs": {
+    "frontier_csv": {
+      "path": "docs/research/20261111-frontier-field-pilot/frontier-jan08.csv",
+      "bytes": 37375,
+      "sha256": "720f1cf761208e19bebc043e960df355d3ce4a7317538fbf1852ac8f29c13dd9"
+    },
+    "frontier_receipt": {
+      "path": "docs/research/20261111-frontier-field-pilot/result.json",
+      "bytes": 11578,
+      "sha256": "0c3ca2c7a646c23cb7204179b604f615ec740123cda88510a2dd55a053962b3c"
+    },
+    "v6_run": {
+      "path": "evidence/mainline/engineering/29-uncertainty-domain/capture-01/nominal/run.json",
+      "bytes": 10154,
+      "sha256": "d631d945db295da27ba8dfd35689cfb9ffc118b21a5a6d9b0873aa95a3056e03"
+    },
+    "v6_scenario": {
+      "path": "evidence/mainline/engineering/29-uncertainty-domain/capture-01/nominal/scenario.json",
+      "bytes": 144280,
+      "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+    },
+    "v6_trace": {
+      "path": "evidence/mainline/engineering/29-uncertainty-domain/capture-01/nominal/private-state.jsonl",
+      "bytes": 2776693,
+      "sha256": "2fcad3dc5dddaa4144eb062a90b1f6c624c67bffaf888e2db497b1ae4612e2cd"
+    }
+  },
+  "frontier": {
+    "data_doi": "10.6084/m9.figshare.24391240.v4",
+    "article_doi": "10.1038/s41597-024-03913-w",
+    "date": "2023-01-08",
+    "samples": 144,
+    "sample_interval_s": 600,
+    "us_gallon_m3": 0.003785411784,
+    "workbook_rounded_gallon_m3": 0.003785,
+    "density_kg_m3": 1060,
+    "specific_heat_J_kg_K": 3500,
+    "flow_boundary": "secondary subloops 1 through 3, summed at each published timestamp",
+    "power_boundary": "published compute_power_MW; IT submeter coverage and AC/DC equivalence not confirmed"
+  },
+  "v6": {
+    "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "runtime_revision": "718ffa9cc7ed5ca1e6738a284b11112179ffcb91",
+    "runtime_file_sha256": {
+      "src/aegis_dc/plant.py": "c1b533d72d59a084cc682432ab659dfa659e1ca084897ce71df3aa4f8cac94ec",
+      "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351"
+    },
+    "duration_s": 4.0,
+    "maximum_step_s": 0.01,
+    "snapshots": 403,
+    "service_demand": 1,
+    "flow_boundary": "internal water through the hot side of the plate HX, not lake intake or refrigerant",
+    "power_boundary": "delivered compute load on DC side; network/storage and AC conversion losses separate",
+    "delta_boundary": "hot reservoir at HX inlet minus internal HX outlet, not cold reservoir"
+  },
+  "reference_rules": {
+    "scope": "Analogous heat transport functions only; no matched site, metering boundary, fluid or operating window",
+    "sample_selection": "All declared records; refuse invalid rows instead of silently discarding or resampling",
+    "flow_per_compute": "Same-record mass flow divided by positive compute MW, kg/(s MW); report unweighted record min, median and max",
+    "temperature": "Report each Frontier branch and the same-row mass-weighted temperature difference. V6 uses the actual hot-side plate HX drop",
+    "heat_diagnostic": "Sum published Frontier branch heat or use V6 plate heat, then divide by own compute power. Ratios are not an identity or a pass test. Formula reproduction and archived whole-facility balance are separate",
+    "range_comparison": "Descriptive position of the one V6 run's numeric range relative to the single Frontier day, no threshold, matched distribution or statistical inference",
+    "not_comparable": ["power_density", "PUE", "absolute_power_as_acceptance", "single_branch_absolute_flow_as_acceptance", "second_scale_response", "service_shortfall", "power_coefficient_of_variation"]
+  }
+}
