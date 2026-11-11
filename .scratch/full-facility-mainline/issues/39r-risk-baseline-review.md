@@ -41,3 +41,5 @@ IT 网络信号已按执行源及5个保存点回读核对：同刻1／1/4、固
 用户报告原轨迹与三份哈希独立核对通过。IT 已补动作→读数与无网络恢复动作的不足见证之区分、连续容量切分和[观测记录契约](../../../docs/mainline/39r-it-network-observation-contract.md)；三档表列已核证据。`a,b,q_I`等仍为空，旧原件与资格保持；纯文档，交审后等待指令。
 
 用户复核通过后选择 B。交审[公开实测来源](../../../docs/research/20261111-field-data-candidates.md)与[六域子问题结构](../../../docs/mainline/39r-six-domain-structure.md)：Frontier v4 文件与许可已核入口，Marconi100 提供同站遥测及部分动作代理，现场全链配对未确认；旧量化覆盖保持、零新设施或注册研究，交付后等待审查。
+
+用户认可 B 并授权 Frontier 小样。已交[实测图和时标核验](../../../docs/research/20261111-frontier-field-pilot/README.md)：1 月 8 日 144 点齐全，全年严格缺 3,451 格点、一秒邻近诊断无记录 2,691 格点，复核通过；[联合约束与一般损失](../../../docs/mainline/39r-six-domain-structure.md)及论文结构已修正。Marconi100 的班组、许可与截止未配对，零设施／注册运行，待审。

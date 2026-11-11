@@ -2,6 +2,8 @@
 
 核验日期：2026-11-11。优先选 **ORNL Frontier** 校验设施电热量级和热量平衡，再选 **CINECA Marconi100** 检查同站多源证据及人工摘除标记。以下均为各自设施的数据；保留独立的站点、时间、设备和来源身份。当前现场标定仍为 `PENDING`。
 
+后续完成：[Frontier 实测小样与全年时钟审计](20261111-frontier-field-pilot/README.md)。已从 v4 原件核对列和时间，保留实际缺行与时标偏离的区别。这里的表保存初次查源时的访问记录。
+
 | 优先级 / 实际设施 | 入口与核验状态 | 字段及可支持的用途 | 证据边界 |
 |---|---|---|---|
 | **1. ORNL Frontier（2023）** | [原论文及测点表](https://doi.org/10.1038/s41597-024-03913-w)；[Figshare v4](https://doi.org/10.6084/m9.figshare.24391240.v4)；[官方文件](https://ndownloader.figshare.com/files/47812750) 匿名范围 GET 返回 206／8 字节，[ZIP 入口](https://ndownloader.figshare.com/articles/24391240/versions/4)也通过了首字节探针。[原仓 v4 元数据](https://api.figshare.com/v2/articles/24391240/versions/4)为 CC BY 4.0，`Frontier HPC & Facility Data.xlsx` 20,164,974 B，登记 MD5 `f1832f7215e529f12f38d4087620d6e2`；尚未取整件复验。 | `Frontier2023` 有时标、三个二次冷却支路的供回液温度和体积流量、超算和附属系统功率；`Readme` 是列说明。余热和 PUE 是计算列。适合独立约束设施电力、流量、温差与带走热量的量级。 | 论文记录 2023 全年、发布间隔 10 分钟、约 440 小时缺失；同文称 Metasys historian 存储间隔 15 分钟，取数后应核对工作簿时间轴和重采样，缺失不能当停机零值。表覆盖三个运行支路，未含第四备用支路的动态验证。[另发的 Frontier 作业遥测](https://doi.ccs.ornl.gov/dataset/2cfa2292-3f9d-549c-b2d2-c9aff1557218) 为 2024–25 年选定日期，不能与 2023 设施表拼成同次事件。 |
@@ -30,3 +32,9 @@ UPS 还有两个真实数据线索：[腾讯 VRLA 电池研究](https://hub.hku.
 3. **若要进入现场决策验证，目标是一种工况的一份可关联摘录。** 同一匿名设施、资产或服务组、事件实例和时间基准下，保留检查前的独立状态及外生需求、检查机会与实际到达报告（包括未报告）、授权和资源占用、动作发起与完成或中止、截止前的独立复检与后果。正常机会也要纳入；未观测到结果留缺项或删失。先报告逐字段可用率和实际可配对数，再判断哪些参数可辨识。历史处置可能按严重性选择，只有观测到两种动作还不能给净收益；比较须另声明识别条件或冻结独立对照。
 
 本轮仅核查公开目录、字段说明和小范围访问，没有取得配对原件，也没有填入 UPS／IT 参数。**B 可从公开实测开始；同站点检查、授权和复检的完整样本仍待确认。**
+
+## Marconi100：约束耦合的下一道门
+
+用 [Schneider](https://gitlab.com/ecs-lab/exadata/-/raw/main/documentation/plugins/schneider.md) 的面板／测点、[Logics](https://gitlab.com/ecs-lab/exadata/-/raw/main/documentation/plugins/logics.md) 的设备与电表键、[Nagios](https://gitlab.com/ecs-lab/exadata/-/raw/main/documentation/plugins/nagios.md) 的节点与告警标签、[作业表](https://gitlab.com/ecs-lab/exadata/-/raw/main/documentation/plugins/job_table.md) 的节点及作业状态寻找同窗机会。先核时区、实际重叠时间、回路和供电设备到节点的连接，以及记录何时对调度可见。作业表的开始／结束可能是预计值，须与作业状态核实；两块 HMI 的同源读数和事后写入的动作标记均不能充当新的到时证据。不同设备的曲线在同一时刻变化，只能作为候选线索。
+
+要判断两项任务的可行顺序，至少还要有同事件的匿名资源标识、技能和工具、各自释放时间、通路／占用与持续时间、授权和截止。[两域约束的判法](../mainline/39r-six-domain-structure.md#两域联合先判可行顺序)可以在这些量有据时直接使用。公开字典没有核到班组、工作许可或运维截止字段；`nagiosdrained` 只给人工摘除标记，不能据此恢复派工顺序或证明冷却和电气人员是同一班组。下一步可先核分区的小样可取性，若班组记录仍缺，交付只能分为“同站实测锚定的机会”和“声明约束下的排程演示”。截至本次核对，还未下载 Marconi100 原包或确认一个可配对事件。

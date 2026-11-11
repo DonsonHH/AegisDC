@@ -1,0 +1,77 @@
+{
+  "id": "39r-frontier-field-pilot-v1-clock-revision",
+  "revision_basis": "The first complete exact-grid audit observed 760 off-grid timestamps. Add a separate one-second proximity diagnostic; keep the original exact audit and day selection.",
+  "scope": "DESCRIPTIVE_EXTERNAL_FACILITY_DATA_ONLY",
+  "input": {
+    "doi": "10.6084/m9.figshare.24391240.v4",
+    "file_id": 47812750,
+    "url": "https://ndownloader.figshare.com/files/47812750",
+    "bytes": 20164974,
+    "md5": "f1832f7215e529f12f38d4087620d6e2",
+    "license": "CC BY 4.0",
+    "data_sheet": "Frontier2023",
+    "dictionary_sheet": "Readme"
+  },
+  "window": {
+    "source_date": "2023-01-08",
+    "basis": "FIGURE_7_DATE_APPROVED_BEFORE_READING_VALUES",
+    "day_interval": "[00:00, next 00:00) on the date encoded by the workbook",
+    "annual_start": "2023-01-01",
+    "annual_end_exclusive": "2024-01-01",
+    "nominal_grid_seconds": 600,
+    "grid_basis": "Published data descriptor; inspect actual timestamps and report duplicates, irregular steps and off-grid values",
+    "clock_rule": "Never modify or round the source timestamp. Report exact matches and, separately, whether a row lies within one second of a grid point.",
+    "proximity_diagnostic_seconds": 1
+  },
+  "rules": {
+    "series": "Use workbook-documented facility and Frontier power, flow and supply/return temperature; report absent or derived channels explicitly",
+    "gaps": "Count absent timestamps separately from present rows with invalid or missing values. Keep recorded zeros. No imputation or inference of outages from missing rows",
+    "changes": "Compute differences only over consecutive observed samples separated by exactly one nominal step. These are finite changes at release cadence, not physical response times",
+    "heat_check": "Compare the cached heat columns to both signed rho*c_p*Q*(T_return-T_supply) and the inspected workbook convention (rounded gallon conversion and zero on negative temperature difference). The plotted temperature difference stays signed. This is arithmetic, not an independent heat-meter comparison",
+    "limits": "No service delivery, crew time, authorization, second-scale parameters, causal inference or calibration claims. No facility or policy execution"
+  },
+  "article": "https://doi.org/10.1038/s41597-024-03913-w",
+  "layout": {
+    "data_start_row": 3,
+    "columns": {
+      "timestamp": {"col": "A", "header": "Date/Time", "source_unit": "TimeStamp"},
+      "loop1_return_C": {"col": "B", "header": "SubLoop1-Coolant Return Temp", "source_unit": " (deg C)"},
+      "loop1_flow_gpm": {"col": "C", "header": "SubLoop1-Coolant FLow", "source_unit": " (gpm)"},
+      "loop2_return_C": {"col": "D", "header": "SubLoop2-Coolant Return Temp", "source_unit": " (deg C)"},
+      "loop2_flow_gpm": {"col": "E", "header": "SubLoop2-Coolant FLow", "source_unit": "(gpm)"},
+      "loop3_return_C": {"col": "F", "header": "SubLoop3-Coolant Return Temp", "source_unit": " (deg C)"},
+      "loop3_flow_gpm": {"col": "G", "header": "SubLoop3-Coolant FLow", "source_unit": "(gpm)"},
+      "common_supply_C": {"col": "I", "header": "Overall Coolant Supply Temp", "source_unit": "(deg C)"},
+      "loop1_published_heat_MW": {"col": "K", "header": "SubLoop1_WasteHeat", "source_unit": " (MW)"},
+      "loop2_published_heat_MW": {"col": "L", "header": "SubLoop2_WasteHeat", "source_unit": "(MW)"},
+      "loop3_published_heat_MW": {"col": "M", "header": "SubLoop3_WasteHeat", "source_unit": " (MW)"},
+      "compute_power_MW": {"col": "O", "header": "Frontier Compute Power", "source_unit": " (MW)"},
+      "accessory_power_MW": {"col": "P", "header": "Frontier Facility accessory Power", "source_unit": " (MW)"},
+      "total_power_MW": {"col": "Q", "header": "Frontier Total Power", "source_unit": " (MW)"}
+    },
+    "loops": [
+      {"label": "Subloop 1", "flow": "loop1_flow_gpm", "supply": "common_supply_C", "return": "loop1_return_C",
+       "delta": "loop1_delta_C", "waste_heat": "loop1_published_heat_MW"},
+      {"label": "Subloop 2", "flow": "loop2_flow_gpm", "supply": "common_supply_C", "return": "loop2_return_C",
+       "delta": "loop2_delta_C", "waste_heat": "loop2_published_heat_MW"},
+      {"label": "Subloop 3", "flow": "loop3_flow_gpm", "supply": "common_supply_C", "return": "loop3_return_C",
+       "delta": "loop3_delta_C", "waste_heat": "loop3_published_heat_MW"}
+    ],
+    "power_panels": [
+      {"key": "compute_power_MW", "label": "Frontier compute", "title": "Frontier compute power"},
+      {"key": "accessory_power_MW", "label": "Facility accessory", "title": "Facility accessory power"}
+    ],
+    "required_plot_sources": [
+      "compute_power_MW", "accessory_power_MW", "loop1_flow_gpm", "loop2_flow_gpm", "loop3_flow_gpm",
+      "common_supply_C", "loop1_return_C", "loop2_return_C", "loop3_return_C"
+    ]
+  },
+  "heat_arithmetic": {
+    "density_kg_m3": 1060,
+    "specific_heat_J_kg_K": 3500,
+    "us_gal_m3": 0.003785411784,
+    "workbook_gal_m3": 0.003785,
+    "workbook_negative_delta": "SET_HEAT_TO_ZERO",
+    "shared_supply_reference": "Frontier2023 column I, as documented by the data publisher"
+  }
+}

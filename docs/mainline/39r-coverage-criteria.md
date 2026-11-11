@@ -12,15 +12,17 @@
 
 “结构就绪／有限工程资格／现场就绪”沿用[词汇表](../../GLOSSARY.md)的名称；配置上限和运行时有效容量是设施量，不是资格档位。
 
+方向审阅确认八域已有定义；UPS 与 IT 有限工程资格保持。新增 [Frontier 功率与冷却实测](../research/20261111-frontier-field-pilot/README.md)是外部物理参照，不给六个新增子问题授予动作资格或现场就绪。
+
 | 主域／子问题 | 结构就绪 | 有限工程资格 | 现场就绪 | 已核证据 |
 |---|---|---|---|---|
 | 后备／UPS复役 | 条件树和可比域已写明，已有解析边界 | 投入位、合成授权动作与辅助后果有有限见证；现场时钟和实际收益未核 | 未就绪 | [A2](../../evidence/mainline/engineering/39r-ups-a2/result.json)：投入位读取、授权恢复、过期拒绝；[B1](../../evidence/mainline/engineering/39r-ups-b1/result.json)：配对辅助断供各0.2／28秒。 |
 | IT／网络有效服务容量 | 四动作、符号端点与观测分母已写明；`a,b,q_I,q_R,d_R` 等留空 | 历史匹配后果与保存点语义已核；到时测量误差和恢复成效未资格 | 未就绪 | [slice-18 后果](../../evidence/mainline/engineering/39r-it-dependence-reuse-v1/result.json)：配对缺额0／4.5秒；[信号回读](../../evidence/mainline/engineering/39r-it-network-signal-readback-v1/result.json)：23号动作后同刻1／1/4，04号固定上限1且无网络恢复动作时读数1→0→1。 |
-| 供配电／整流段供能不足 | [已定义，待审](39r-six-domain-structure.md#1-供配电整流段供能不足) | 新四动作无匹配对照 | 未就绪 | [既有配电见证](power-verification.md)：输入、转换、交付分列；[原有限风险律](../reviews/20261110-direction-correction/risk-baseline.md)保留。 |
-| 设施冷却／取水流量不足 | [已定义，待审](39r-six-domain-structure.md#2-设施冷却同工况下取水流量不足) | 原算例保留；新切分与分支未资格 | 未就绪 | [既有水力见证](water-verification.md)：流量、阀与供能路径；[原冷却价值算例](../reviews/20261110-direction-correction/risk-baseline.md)仍按原窗口解释。 |
-| 设备环境／室温作业门 | [已定义，待审](39r-six-domain-structure.md#3-设备环境室温限制使作业点不可用) | 新子问题无匹配对照 | 未就绪 | [环境工程见证](environment-verification.md#independent-access-permission-and-unsafe-work)：热门升／降越界和等时规则。 |
-| 控制监控／监督链路与指定证据 | [已定义，待审](39r-six-domain-structure.md#4-控制监控指定证据在监督链路中断时能否到达) | 证据路由与到时后果未资格 | 未就绪 | [本地控制见证](local-control-verification.md)：监督丢失时本地自治；[证据契约](16-observation-contract.md)另定到达时标。 |
-| 空间保障／积水阻断路线 | [已定义，待审](39r-six-domain-structure.md#5-空间保障积水导致通往-it-作业点的路径不可用) | 新四动作无匹配对照 | 未就绪 | [环境工程见证](environment-verification.md#independent-access-permission-and-unsafe-work)：积水、许可与热门独立，阻断与作业中止有记录。 |
-| 人员工具／冷却人员与流量仪预留 | [已定义，待审](39r-six-domain-structure.md#6-人员工具所需合格人员和流量仪能否同时预留) | 新四动作无匹配对照 | 未就绪 | [既有作业契约](21-workforce-contract.md)：同时预留、逾期和不可双占，旅行／等待／作业人秒分列。 |
+| 供配电／整流段供能不足 | [结构已审](39r-six-domain-structure.md#1-供配电整流段供能不足) | 新四动作无匹配对照 | 未就绪 | [既有配电见证](power-verification.md)：输入、转换、交付分列；[原有限风险律](../reviews/20261110-direction-correction/risk-baseline.md)保留。 |
+| 设施冷却／取水流量不足 | [结构已审](39r-six-domain-structure.md#2-设施冷却同工况下取水流量不足) | 原算例保留；新切分与分支未资格 | 未就绪 | [既有水力见证](water-verification.md)：流量、阀与供能路径；[原冷却价值算例](../reviews/20261110-direction-correction/risk-baseline.md)仍按原窗口解释。 |
+| 设备环境／室温作业门 | [结构已审](39r-six-domain-structure.md#3-设备环境室温限制使作业点不可用) | 新子问题无匹配对照 | 未就绪 | [环境工程见证](environment-verification.md#independent-access-permission-and-unsafe-work)：温度门升／降越界和等时规则。 |
+| 控制监控／监督链路与指定证据 | [结构已审](39r-six-domain-structure.md#4-控制监控指定证据在监督链路中断时能否到达) | 证据路由与到时后果未资格 | 未就绪 | [本地控制见证](local-control-verification.md)：监督丢失时本地自治；[证据契约](16-observation-contract.md)另定到达时标。 |
+| 空间保障／积水阻断路线 | [结构已审](39r-six-domain-structure.md#5-空间保障积水导致通往-it-作业点的路径不可用) | 新四动作无匹配对照 | 未就绪 | [环境工程见证](environment-verification.md#independent-access-permission-and-unsafe-work)：积水、许可与温度门独立，阻断与作业中止有记录。 |
+| 人员工具／冷却人员与流量仪预留 | [结构已审](39r-six-domain-structure.md#6-人员工具所需合格人员和流量仪能否同时预留) | 新四动作无匹配对照 | 未就绪 | [既有作业契约](21-workforce-contract.md)：同时预留、逾期和不可双占，旅行／等待／作业人秒分列。 |
 
 结构和工程可以在明确合成假设下推进。若要升级旧的有限量化计数，需对相应主问题实际交付可运行的事件／后果条件律或价值模型，并通过其声明范围的门槛；仅有模板、四动作符号或 `null` 不改 `quantification`。每次交审把三档状态和已核证据分列；仅新增观测设计不提高工程档，原数量口径不被替换。[公开实测来源与同站配对要求](../research/20261111-field-data-candidates.md)另列；候选来源不计现场就绪。
