@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "20261111-B1-UPS-auxiliary-consequence",
+    "bounded_request": "20261111-A1-stage-1-UPS-auxiliary-tree",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
   },
@@ -945,7 +945,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "B1_AUXILIARY_CONSEQUENCE_OBSERVED_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem_status": "A1_SYNTHETIC_AUXILIARY_TREE_COMPUTABLE_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -994,30 +994,6 @@
     "problem_id": "backup-ups-return-to-service-v1",
     "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
     "primary_sources": "docs/research/20261111-backup-support-sources.md",
-    "choice": "B1",
-    "status": "B1_CONSEQUENCE_CONTRACT_AND_PAIRED_PROBE_AWAITING_USER_REVIEW",
-    "document": "docs/mainline/39r-backup-support-consequence.md",
-    "validation_result": "evidence/mainline/engineering/39r-ups-b1/result.json",
-    "result_sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
-    "execution_source_revision": "d06fcb3fcd83d045f18bc71b258eab5a43aec4c8",
-    "probe_accounting": {
-      "probe_batches": 1,
-      "facility_entries": 2,
-      "completed_windows": 2,
-      "completed_simulated_s": 60.0,
-      "policy_calls": 0,
-      "model_calls": 0,
-      "registered_research_runs": 0
-    },
-    "auxiliary_consequence_scope": "SEPARATE_FROM_MAIN_SERVICE_METRIC_AND_ORIGINAL_180",
-    "ac_restoration": "RIGHT_CENSORED_IN_BOTH_CASES",
-    "new_facility_captures": 2,
-    "new_research_runs": 0,
-    "new_model_calls": 0,
-    "full_CI_rerun": false,
-    "website_deployed": false,
-    "native_implementation_changed": false,
-    "calculation_ready": false,
     "unknown_inputs": [
       "conditional_prior",
       "observation_likelihood_and_validity",
@@ -1025,9 +1001,43 @@
       "matched_time_basis"
     ],
     "record57": "PRESERVED_UNTRACKED_UNRUN",
+    "choice": "A1_STAGE_1",
+    "status": "SYNTHETIC_COMPUTABILITY_SHOWN_AWAITING_USER_REVIEW",
+    "document": "docs/mainline/39r-backup-support-a1-aux-tree.md",
+    "validation_result": "evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json",
+    "result_sha256": "fe9cbcb5ae656a11e8b9b8070a7496a92198fec80bf3824e6ebf2f2bae006e15",
+    "source_b1": "evidence/mainline/engineering/39r-ups-b1/result.json",
+    "source_b1_sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
+    "source_b1_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1",
+    "accounting": {
+      "arithmetic_attempts": 1,
+      "facility_entries": 0,
+      "completed_simulated_s": 0,
+      "policy_calls": 0,
+      "inspection_executions": 0,
+      "intervention_executions": 0,
+      "model_calls": 0,
+      "registered_research_runs": 0
+    },
+    "execution_exit_code": 0,
+    "nonzero_by_asset": {
+      "local_controller": true,
+      "internal_pump": true,
+      "intake_pump": true
+    },
+    "comparison_scope": "FIXED_DEFER_VS_CONDITIONAL_RESTORE;SYNTHETIC_AUXILIARY_CONSEQUENCES_NOT_OPTIMIZED_INSPECTION_VALUE",
+    "synthetic_calculation_complete": true,
+    "calculation_ready": false,
+    "real_parameter_stage_started": false,
+    "new_facility_captures": 0,
+    "new_research_runs": 0,
+    "new_model_calls": 0,
+    "full_CI_rerun": false,
+    "website_deployed": false,
+    "native_implementation_changed": false,
     "next_order": [
-      "B1_user_review",
-      "A1_observation_and_time_basis",
+      "A1_stage_1_user_review",
+      "A1_stage_2_real_inputs",
       "remaining_39c_after_39r_39t_review"
     ],
     "automatic_continuation": false
@@ -1088,5 +1098,23 @@
         "scope": "ROUTINE_COMPATIBILITY_NOT_REGISTERED_RESEARCH_OR_PRIVATE_A2_ATTEMPT"
       }
     ]
+  },
+  "ups_b1_consequence_receipt": {
+    "document": "docs/mainline/39r-backup-support-consequence.md",
+    "validation_result": "evidence/mainline/engineering/39r-ups-b1/result.json",
+    "result_sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
+    "execution_source_revision": "d06fcb3fcd83d045f18bc71b258eab5a43aec4c8",
+    "probe_accounting": {
+      "probe_batches": 1,
+      "facility_entries": 2,
+      "completed_windows": 2,
+      "completed_simulated_s": 60.0,
+      "policy_calls": 0,
+      "model_calls": 0,
+      "registered_research_runs": 0
+    },
+    "ac_restoration": "RIGHT_CENSORED_IN_BOTH_CASES",
+    "review_status": "USER_ACCEPTED_BOUNDED_ENGINEERING_CONSEQUENCE",
+    "reviewed_delivery_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1"
   }
 }

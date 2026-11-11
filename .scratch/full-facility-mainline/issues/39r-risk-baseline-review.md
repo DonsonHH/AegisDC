@@ -23,3 +23,5 @@
 A2原生UPS接口冻结v1红100d1fb2／绿d4432d5b一次通过，单一结果evidence/mainline/engineering/39r-ups-a2/result.json；8进入／4窗口24秒、0策略／模型／注册研究；v2仅修留存顺序，342e493f的CI42869801491为652／650通过、2既有可选跳过，旧CI42869253754取消保留；授权拒绝／risk_closed=false／父风险UNMODELED保持，待用户审查。
 
 B1独立辅助后果契约docs/mainline/39r-backup-support-consequence.md，匹配探针d06fcb3f见evidence/mainline/engineering/39r-ups-b1/result.json；2进入／2窗口60秒、服务缺额28／28秒、三辅助负载各断供0.2／28秒、交流恢复右删失，零策略／模型／注册研究；A2获用户有限接受并分列v1／v2，A1与57未启动，父风险UNMODELED，待审。
+
+A1第一段仅试算合成辅助树，B1原件32c9b2a9、先验0.5／灵敏度与特异度各0.9，固定暂缓14.10秒对查后条件恢复1.59秒，各负载差12.51秒；说明docs/mainline/39r-backup-support-a1-aux-tree.md、单一结果evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json；一次算术、零设施或注册研究，父风险UNMODELED，真实参数段待审。

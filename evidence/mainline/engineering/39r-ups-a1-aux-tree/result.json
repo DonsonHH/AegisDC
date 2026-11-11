@@ -1,0 +1,246 @@
+{
+  "schema": "aegisdc-39r-ups-a1-auxiliary-tree-result-v1",
+  "status": "COMPLETED_SYNTHETIC_TREE",
+  "started_utc": "2026-11-11T06:57:07.018503+00:00",
+  "classification": "SYNTHETIC_ARITHMETIC_COMPUTABILITY_ONLY",
+  "frozen_input_sha256": "531e4597c3e8035a9e027079c176e1b3b60840433a948062fb97b231df2983df",
+  "frozen_input": {
+    "schema": "aegisdc-39r-ups-a1-aux-tree-freeze-v1",
+    "problem_id": "backup-ups-return-to-service-v1",
+    "phase": "A1_STAGE_1_SYNTHETIC_COMPUTABILITY",
+    "b1": {
+      "git_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1",
+      "repository_path": "evidence/mainline/engineering/39r-ups-b1/result.json",
+      "sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
+      "git_blob": "5e5ab41f01bd50296840d558ab03c848f3a3170d",
+      "remote_path": "/root/private_data/aegisdc-ups-b1-20261111-01/capture/result.json"
+    },
+    "asset_ids": [
+      "local_controller",
+      "internal_pump",
+      "intake_pump"
+    ],
+    "window_s": [
+      2,
+      30
+    ],
+    "loss": "B1 actual zero-power duration in seconds, independently for each protected auxiliary",
+    "source_field": "cases.<case>.auxiliary_power_interruption.<asset>.zero_power_s",
+    "baseline": "FIXED_NO_INSPECTION_DEFER",
+    "inspection_rule": "IF_REPORTED_GATE_0_AND_SEPARATELY_AUTHORIZED_AND_COMPLETED_BEFORE_CUT_USE_GATE_1_OTHERWISE_DEFER",
+    "synthetic_inputs": {
+      "basis": "DECLARED_SYNTHETIC_NOT_FIELD_ESTIMATES",
+      "p_not_in_service": "1/2",
+      "sensitivity_for_not_in_service": "9/10",
+      "specificity_for_not_in_service": "9/10",
+      "outcomes": [
+        0,
+        1
+      ],
+      "unresolved_report_probability": "0",
+      "report_available_before_cut": true,
+      "independent_authorization_granted": true,
+      "restoration_completed_successfully_before_cut": true,
+      "leaf_mapping": "Successful pre-cut restoration is stipulated to match B1 gate-1 loss; no action timing or physical equivalence is inferred from B1",
+      "work_costs_included": false
+    },
+    "scope": "One fixed-baseline policy contrast, not optimized inspection value. No service valuation, weights, field estimates or registered trials.",
+    "budget": {
+      "arithmetic_attempts": 1,
+      "facility_entries": 0,
+      "retries": 0
+    },
+    "host": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "runner_sha256": "21cec83ba5626eff3e29e0fa1f0fc56e74dd53d5aa57746dfe64aeb991221421"
+  },
+  "runner_sha256": "21cec83ba5626eff3e29e0fa1f0fc56e74dd53d5aa57746dfe64aeb991221421",
+  "runner_source": "\"\"\"Evaluate exactly one synthetic auxiliary consequence tree using the saved B1 pair.\"\"\"\nfrom datetime import datetime, timezone\nfrom decimal import Decimal, localcontext\nfrom fractions import Fraction\nfrom hashlib import sha256\nimport json\nimport os\nfrom pathlib import Path\nimport socket\nimport sys\n\n\ndef now():\n    return datetime.now(timezone.utc).isoformat()\n\n\ndef digest(raw):\n    return sha256(raw).hexdigest()\n\n\ndef need(ok, message):\n    if not ok:\n        raise ValueError(message)\n\n\ndef write(path, value):\n    with path.open('x', encoding='utf-8', newline='\\n') as stream:\n        json.dump(value, stream, indent=2, allow_nan=False)\n        stream.write('\\n')\n        stream.flush()\n        os.fsync(stream.fileno())\n\n\ndef seconds(q):\n    with localcontext() as ctx:\n        ctx.prec=60\n        display=format(Decimal(q.numerator)/Decimal(q.denominator),'.2f')\n    return dict(exact_s=str(q),display_s=display)\n\n\ndef evaluate(spec, raw):\n    b1=json.loads(raw,parse_float=Decimal)\n    need(b1['status']=='COMPLETED_PAIRED_PROBE', 'Use the completed native B1 pair')\n    need(list(b1['frozen_probe']['protected_assets'])==spec['asset_ids'], 'B1 asset identities differ')\n    assets=spec['asset_ids']; start,end=spec['window_s']\n    leaves={}\n    for x,name in ((0,'ups_not_in_service'),(1,'ups_in_service')):\n        case=b1['cases'][name]\n        need(case['ups_in_service']==x and [case['applied_outage_s'],case['end_s']]==[start,end], 'B1 state/window differs')\n        leaves[x]={j:Fraction(case['auxiliary_power_interruption'][j]['zero_power_s']) for j in assets}\n        need(all(0<=v<=end-start for v in leaves[x].values()), 'B1 duration outside the common window')\n    syn=spec['synthetic_inputs']\n    p=Fraction(syn['p_not_in_service']); sen=Fraction(syn['sensitivity_for_not_in_service']); spe=Fraction(syn['specificity_for_not_in_service'])\n    need(all(0<v<1 for v in (p,sen,spe)), 'Use the frozen imperfect synthetic observation model')\n    prior={0:p,1:1-p}\n    likelihood={0:{0:sen,1:1-sen},1:{0:1-spe,1:spe}}\n    can_restore=all(syn[k] is True for k in ('report_available_before_cut','independent_authorization_granted','restoration_completed_successfully_before_cut'))\n    branches=[]\n    d0={j:sum(prior[x]*leaves[x][j] for x in (0,1)) for j in assets}\n    di=dict.fromkeys(assets,Fraction(0))\n    for x in (0,1):\n        for y in (0,1):\n            mass=prior[x]*likelihood[x][y]\n            restore=y==0 and can_restore\n            effective=1 if restore else x\n            branches.append(dict(initial_gate=x,reported_gate=y,conditional_probability=str(likelihood[x][y]),joint_probability=str(mass),\n                action='restore_ups_service' if restore else 'defer',effective_gate=effective,\n                zero_power_s_by_asset={j:seconds(leaves[effective][j]) for j in assets}))\n            for j in assets:di[j]+=mass*leaves[effective][j]\n    need(sum(Fraction(r['joint_probability']) for r in branches)==1, 'Joint mass is not one')\n    contrast={j:d0[j]-di[j] for j in assets}\n    need(all(contrast[j]==(p*sen*(leaves[0][j]-leaves[1][j]) if can_restore else 0) for j in assets),\n        'Branch sum disagrees with the independent true-positive branch identity')\n    return dict(leaf_zero_power_s_by_gate={str(x):{j:seconds(leaves[x][j]) for j in assets} for x in (0,1)},\n        branches=branches, by_asset={j:dict(fixed_defer=seconds(d0[j]),inspect_then_conditional_restore=seconds(di[j]),\n            defer_minus_inspect=seconds(contrast[j]),nonzero=contrast[j]!=0) for j in assets},\n        checks=dict(joint_mass_exactly_one=True,branch_sum_matches_factored_true_positive_difference=True),\n        computability='NONZERO_IN_ALL_THREE_ASSETS' if all(v!=0 for v in contrast.values()) else 'ZERO_FOR_AT_LEAST_ONE_ASSET')\n\n\ndef main():\n    lock_path,out=(Path(s).resolve() for s in sys.argv[1:])\n    lock_raw=lock_path.read_bytes();spec=json.loads(lock_raw);runner=Path(__file__).read_bytes()\n    root=Path('/root/private_data')\n    need(os.name=='posix' and os.geteuid()==0 and root.is_mount() and out.is_relative_to(root), 'Use the authorized private remote environment')\n    need(socket.gethostname()==spec['host'] and sys.version.split()[0]==spec['python'], 'Host or interpreter differs from frozen input')\n    need(digest(runner)==spec['runner_sha256'], 'Runner differs from frozen input')\n    out.mkdir(mode=0o700,exist_ok=False)\n    started=now()\n    write(out/'started.json',dict(utc=started,attempt=1,frozen_input_sha256=digest(lock_raw)))\n    r=dict(schema='aegisdc-39r-ups-a1-auxiliary-tree-result-v1',status='FAILED',started_utc=started,\n        classification='SYNTHETIC_ARITHMETIC_COMPUTABILITY_ONLY',frozen_input_sha256=digest(lock_raw),frozen_input=spec,\n        runner_sha256=digest(runner),runner_source=runner.decode('utf-8'),command='python -B runner.py freeze.json ../capture',\n        private_originals=str(out.parent),accounting=dict(arithmetic_attempts=1,facility_entries=0,completed_simulated_s=0,\n            policy_calls=0,inspection_executions=0,intervention_executions=0,model_calls=0,registered_research_runs=0))\n    try:\n        b1=Path(spec['b1']['remote_path']).read_bytes()\n        need(digest(b1)==spec['b1']['sha256'], 'B1 native result differs')\n        r['evaluation']=evaluate(spec,b1)\n        need(lock_path.read_bytes()==lock_raw and digest(Path(spec['b1']['remote_path']).read_bytes())==spec['b1']['sha256'],\n            'Frozen input changed during calculation')\n        r['status']='COMPLETED_SYNTHETIC_TREE'\n    except BaseException as error:\n        r['error']=dict(type=type(error).__name__,message=str(error))\n        raise\n    finally:\n        r['finished_utc']=now()\n        write(out/'result.json',r)\n        print(json.dumps(dict(status=r['status'],result_sha256=digest((out/'result.json').read_bytes()),\n            by_asset=r.get('evaluation',{}).get('by_asset')),separators=(',',':')),flush=True)\n\n\nif __name__=='__main__':\n    main()\n",
+  "command": "python -B runner.py freeze.json ../capture",
+  "private_originals": "/root/private_data/aegisdc-ups-a1-aux-tree-20261111-01",
+  "accounting": {
+    "arithmetic_attempts": 1,
+    "facility_entries": 0,
+    "completed_simulated_s": 0,
+    "policy_calls": 0,
+    "inspection_executions": 0,
+    "intervention_executions": 0,
+    "model_calls": 0,
+    "registered_research_runs": 0
+  },
+  "evaluation": {
+    "leaf_zero_power_s_by_gate": {
+      "0": {
+        "local_controller": {
+          "exact_s": "28",
+          "display_s": "28.00"
+        },
+        "internal_pump": {
+          "exact_s": "28",
+          "display_s": "28.00"
+        },
+        "intake_pump": {
+          "exact_s": "28",
+          "display_s": "28.00"
+        }
+      },
+      "1": {
+        "local_controller": {
+          "exact_s": "10000000000000009/50000000000000000",
+          "display_s": "0.20"
+        },
+        "internal_pump": {
+          "exact_s": "10000000000000009/50000000000000000",
+          "display_s": "0.20"
+        },
+        "intake_pump": {
+          "exact_s": "10000000000000009/50000000000000000",
+          "display_s": "0.20"
+        }
+      }
+    },
+    "branches": [
+      {
+        "initial_gate": 0,
+        "reported_gate": 0,
+        "conditional_probability": "9/10",
+        "joint_probability": "9/20",
+        "action": "restore_ups_service",
+        "effective_gate": 1,
+        "zero_power_s_by_asset": {
+          "local_controller": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "internal_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "intake_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          }
+        }
+      },
+      {
+        "initial_gate": 0,
+        "reported_gate": 1,
+        "conditional_probability": "1/10",
+        "joint_probability": "1/20",
+        "action": "defer",
+        "effective_gate": 0,
+        "zero_power_s_by_asset": {
+          "local_controller": {
+            "exact_s": "28",
+            "display_s": "28.00"
+          },
+          "internal_pump": {
+            "exact_s": "28",
+            "display_s": "28.00"
+          },
+          "intake_pump": {
+            "exact_s": "28",
+            "display_s": "28.00"
+          }
+        }
+      },
+      {
+        "initial_gate": 1,
+        "reported_gate": 0,
+        "conditional_probability": "1/10",
+        "joint_probability": "1/20",
+        "action": "restore_ups_service",
+        "effective_gate": 1,
+        "zero_power_s_by_asset": {
+          "local_controller": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "internal_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "intake_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          }
+        }
+      },
+      {
+        "initial_gate": 1,
+        "reported_gate": 1,
+        "conditional_probability": "9/10",
+        "joint_probability": "9/20",
+        "action": "defer",
+        "effective_gate": 1,
+        "zero_power_s_by_asset": {
+          "local_controller": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "internal_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          },
+          "intake_pump": {
+            "exact_s": "10000000000000009/50000000000000000",
+            "display_s": "0.20"
+          }
+        }
+      }
+    ],
+    "by_asset": {
+      "local_controller": {
+        "fixed_defer": {
+          "exact_s": "1410000000000000009/100000000000000000",
+          "display_s": "14.10"
+        },
+        "inspect_then_conditional_restore": {
+          "exact_s": "1590000000000000171/1000000000000000000",
+          "display_s": "1.59"
+        },
+        "defer_minus_inspect": {
+          "exact_s": "12509999999999999919/1000000000000000000",
+          "display_s": "12.51"
+        },
+        "nonzero": true
+      },
+      "internal_pump": {
+        "fixed_defer": {
+          "exact_s": "1410000000000000009/100000000000000000",
+          "display_s": "14.10"
+        },
+        "inspect_then_conditional_restore": {
+          "exact_s": "1590000000000000171/1000000000000000000",
+          "display_s": "1.59"
+        },
+        "defer_minus_inspect": {
+          "exact_s": "12509999999999999919/1000000000000000000",
+          "display_s": "12.51"
+        },
+        "nonzero": true
+      },
+      "intake_pump": {
+        "fixed_defer": {
+          "exact_s": "1410000000000000009/100000000000000000",
+          "display_s": "14.10"
+        },
+        "inspect_then_conditional_restore": {
+          "exact_s": "1590000000000000171/1000000000000000000",
+          "display_s": "1.59"
+        },
+        "defer_minus_inspect": {
+          "exact_s": "12509999999999999919/1000000000000000000",
+          "display_s": "12.51"
+        },
+        "nonzero": true
+      }
+    },
+    "checks": {
+      "joint_mass_exactly_one": true,
+      "branch_sum_matches_factored_true_positive_difference": true
+    },
+    "computability": "NONZERO_IN_ALL_THREE_ASSETS"
+  },
+  "finished_utc": "2026-11-11T06:57:07.033783+00:00"
+}
