@@ -31,3 +31,5 @@ A1盈亏边界v1锁定0345d2d9；docs/mainline/39r-ups-a1-stage2-breakeven.md与
 Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：两方案可行时胜R的非空充要条件max(d_R−d_I,r_I−q_R)>k，全部合法不查动作取交集；同形叶子与观测组合明确，论文重定标题及180次证据范围；仅文档，v1原件、冻结范围与父风险UNMODELED保持，待审。
 
 用户报告 Stage 3 定理独立核对通过。精确算术入口 `scripts/verify_theorem.py` 复核原83组×101先验点、精确分界和三个解析例，合并结果见 `evidence/mainline/engineering/39r-ups-a1-stage3-verification-v1/result.json`。论文附录和现场判决表已补；零新增设施、策略、模型和注册研究，父问题仍未建模，交付后待用户指导。
+
+公开 CLI 边界与 `field` 模板见 `docs/mainline/39r-ups-field-tool.md`；合并结果 `evidence/mainline/engineering/39r-ups-field-cli-v1/result.json` 留存实现前4项通过／6项缺入口及实现后10项通过。单缺项给精确翻转条件，资格未知不排名；旧核验器及原件保留，零设施、模型、注册研究与全CI，父风险UNMODELED，待审。

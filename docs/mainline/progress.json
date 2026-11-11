@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39r-ups-a1-stage3-exact-verification-delivery",
+    "bounded_request": "39r-ups-cli-boundaries-and-field-template-v1",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
     "user_frozen_tracks": [
@@ -940,7 +940,8 @@
       "AI",
       "RSI"
     ],
-    "new_test_slices_authorized": false
+    "new_test_slices_authorized": false,
+    "local_verification_scope": "ONE_PUBLIC_CLI_CHECK_BATCH_WITH_PRE_IMPLEMENTATION_RECEIPT;FROZEN_REPLAY_COMPATIBILITY_ONLY"
   },
   "risk_baseline_review": {
     "status": "AWAITING_USER_REVIEW",
@@ -956,7 +957,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "A1_THEOREM_WITH_EXECUTABLE_VERIFICATION_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem_status": "A1_FIELD_RECORD_TOOL_AVAILABLE_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -1013,37 +1014,39 @@
     ],
     "record57": "PRESERVED_UNTRACKED_UNRUN",
     "manuscript_structure": "paper/conditional-inspection-value-structure-20261111.md",
-    "choice": "A1_STAGE_3_EXECUTABLE_VERIFICATION",
-    "status": "EXACT_ARITHMETIC_PACKAGE_AND_REVISED_PAPER_AWAITING_USER_REVIEW",
-    "user_theorem_review": "USER_REPORTED_INDEPENDENT_100_CASES_AND_PROOF_PASS",
-    "document": "docs/mainline/39r-ups-a1-stage3-theorem.md",
-    "verification_entry": "scripts/verify_theorem.py",
-    "verification_result": "evidence/mainline/engineering/39r-ups-a1-stage3-verification-v1/result.json",
-    "verification_result_sha256": "66e997de6fd10e82e729a4689b3e38bd93491f2a078fe32c973cfe095d77ec9c",
-    "existing_boundary_result": "evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json",
-    "existing_boundary_sha256": "92aa8d52260703e1749dbf314a89cd4b65671547def28c9fda4376ad57370e7c",
-    "evidence_basis_revision": "19d2c25fd4a8744b3b853284a93c7bdddfb11a0e",
-    "comparison_scope": "ELIGIBLE_DIRECT_VS_CHECK_EXACT_ENDPOINT_CRITERION;ALL_LEGAL_COMPARATORS_INTERSECTION",
+    "choice": "A1_CLI_BOUNDARIES_AND_FIELD_RECORD",
+    "status": "FIELD_TEMPLATE_AND_CLI_CHECKS_AWAITING_USER_REVIEW",
+    "document": "docs/mainline/39r-ups-field-tool.md",
+    "field_entry": "scripts/verify_theorem.py field --input field-record.json",
+    "field_schema": "docs/mainline/39r-ups-field-record.schema.json",
+    "field_template": "docs/mainline/39r-ups-field-record.template.json",
+    "verification_entry": "scripts/check_theorem_cli.py",
+    "verification_result": "evidence/mainline/engineering/39r-ups-field-cli-v1/result.json",
+    "verification_result_sha256": "2c7026b45dc193f14a3981be48ba9a5d0a56cc7108c1794996d67b09953a6e4f",
     "accounting": {
-      "arithmetic_attempts": 1,
+      "cli_cases": 10,
       "facility_entries": 0,
-      "policy_calls": 0,
       "model_calls": 0,
-      "registered_research_runs": 0,
-      "test_runs": 0
+      "passed": 10,
+      "policy_calls": 0,
+      "registered_research_runs": 0
     },
+    "pre_implementation_receipt_sha256": "6557e916bcbeb047f1c8f9bedb60fcd46a9edb3c0b961256c2338175df0fb4b4",
+    "pre_implementation_cli_passed": 4,
+    "pre_implementation_cli_cases": 10,
+    "comparison_scope": "DECLARED_SINGLE_LOAD_FIXED_ELIGIBILITY_AND_PARAMETERS;NO_FIELD_ESTIMATION_OR_AUTHORIZATION",
+    "field_input_tool_ready": true,
     "calculation_ready": false,
-    "arithmetic_verifier_ready": true,
     "real_parameter_stage_started": false,
     "new_facility_captures": 0,
     "new_research_runs": 0,
     "new_model_calls": 0,
-    "new_test_slices": 0,
+    "new_test_slices": 1,
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
     "next_order": [
-      "STAGE3_VERIFICATION_USER_REVIEW"
+      "FIELD_TOOL_USER_REVIEW"
     ],
     "automatic_continuation": false
   },
@@ -1165,5 +1168,26 @@
     "review_status": "USER_REPORTED_INDEPENDENT_ARITHMETIC_RECOMPUTATION_MATCHED",
     "reviewed_delivery_revision": "19d2c25fd4a8744b3b853284a93c7bdddfb11a0e",
     "native_bytes_preserved": true
+  },
+  "ups_a1_stage3_verification_receipt": {
+    "document": "docs/mainline/39r-ups-a1-stage3-theorem.md",
+    "verification_entry": "scripts/verify_theorem.py",
+    "verification_result": "evidence/mainline/engineering/39r-ups-a1-stage3-verification-v1/result.json",
+    "verification_result_sha256": "66e997de6fd10e82e729a4689b3e38bd93491f2a078fe32c973cfe095d77ec9c",
+    "existing_boundary_result": "evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json",
+    "existing_boundary_sha256": "92aa8d52260703e1749dbf314a89cd4b65671547def28c9fda4376ad57370e7c",
+    "accounting": {
+      "arithmetic_attempts": 1,
+      "facility_entries": 0,
+      "policy_calls": 0,
+      "model_calls": 0,
+      "registered_research_runs": 0,
+      "test_runs": 0
+    },
+    "recorded_verifier_revision": "2e4a1faa6a80e272fbc16426fda9bbb605afd1d0",
+    "frozen_verifier_path": "scripts/verify_theorem_v1.py",
+    "frozen_verifier_sha256": "21491290c36913e6d1ee9edeec12792a3c33f10c64ef676054165d61d0dccb4a",
+    "user_review": "USER_REPORTED_CLEAN_CLONE_BYTE_MATCH_AND_ADDITIONAL_UNFROZEN_PROPERTY_CHECKS",
+    "reported_random_checks_in_package": false
   }
 }

@@ -1,0 +1,453 @@
+{
+  "command": "python -B scripts/check_theorem_cli.py --check evidence/mainline/engineering/39r-ups-field-cli-v1/result.json",
+  "pre_implementation": {
+    "sha256": "6557e916bcbeb047f1c8f9bedb60fcd46a9edb3c0b961256c2338175df0fb4b4",
+    "verification": {
+      "accounting": {
+        "cli_cases": 10,
+        "facility_entries": 0,
+        "model_calls": 0,
+        "passed": 4,
+        "policy_calls": 0,
+        "registered_research_runs": 0
+      },
+      "cases": [
+        {
+          "actual_exit": 0,
+          "case": "pair_decimal",
+          "expected": {
+            "alpha": "71/1000",
+            "beta": "-13/80",
+            "strict_win_interval": "[0,142/467)",
+            "tie_region": "{142/467}"
+          },
+          "expected_exit": 0,
+          "observed": {
+            "alpha": "71/1000",
+            "beta": "-13/80",
+            "strict_win_interval": "[0,142/467)",
+            "tie_region": "{142/467}"
+          },
+          "passed": true
+        },
+        {
+          "actual_exit": 1,
+          "case": "pair_probability_above_one",
+          "expected": "s must be in [0,1]",
+          "expected_exit": 1,
+          "observed": "Verification failed: s must be in [0,1]",
+          "passed": true
+        },
+        {
+          "actual_exit": 1,
+          "case": "pair_negative_fraction",
+          "expected": "s must be in [0,1]",
+          "expected_exit": 1,
+          "observed": "Verification failed: s must be in [0,1]",
+          "passed": true
+        },
+        {
+          "actual_exit": 2,
+          "case": "pair_invalid_binary_gate",
+          "expected": "invalid choice",
+          "expected_exit": 2,
+          "observed": "verify_theorem.py pair: error: argument --g: invalid choice: 2 (choose from 0, 1)",
+          "passed": true
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_reference",
+          "expected": {
+            "best_no_inspection": {
+              "strict_win_interval": "(58/483,142/467)"
+            },
+            "comparisons": {
+              "direct": {
+                "alpha": "71/1000",
+                "beta": "-13/80",
+                "strict_win_interval": "[0,142/467)"
+              }
+            },
+            "status": "COMPARABLE"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_no_disturbance",
+          "expected": {
+            "comparisons": {
+              "direct": {
+                "strict_win_interval": null
+              }
+            },
+            "direct_dominance": {
+              "status": "SATISFIED"
+            },
+            "status": "COMPARABLE"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_unknown_q_r",
+          "expected": {
+            "best_no_inspection": {
+              "strict_win_interval": null
+            },
+            "comparisons": {
+              "direct": {
+                "missing_inputs": [
+                  "parameters.q_R"
+                ],
+                "single_missing_boundary": {
+                  "could_flip_nonempty_strict_win": true,
+                  "no_strict_win_parameter_range": "[47/80,1]",
+                  "parameter": "parameters.q_R"
+                }
+              }
+            },
+            "status": "INSUFFICIENT_INPUT"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_unknown_grant",
+          "expected": {
+            "best_no_inspection": {
+              "strict_win_interval": null
+            },
+            "eligibility": {
+              "direct": {
+                "missing_inputs": [
+                  "gates.direct_authorized"
+                ],
+                "status": "UNKNOWN"
+              }
+            },
+            "status": "INSUFFICIENT_INPUT"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_deadline_equality",
+          "expected": {
+            "best_no_inspection": {
+              "strict_win_interval": "(58/483,1]"
+            },
+            "comparisons": {
+              "direct": {
+                "status": "NOT_COMPARABLE"
+              }
+            },
+            "eligibility": {
+              "direct": {
+                "reasons": [
+                  "DEADLINE_NOT_MET"
+                ],
+                "status": "INELIGIBLE"
+              }
+            },
+            "status": "COMPARABLE"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        },
+        {
+          "actual_exit": 2,
+          "case": "field_blank_template",
+          "expected": {
+            "best_no_inspection": {
+              "strict_win_interval": null
+            },
+            "status": "INSUFFICIENT_INPUT"
+          },
+          "expected_exit": 0,
+          "observed": "verify_theorem.py: error: argument mode: invalid choice: 'field' (choose from 'pair', 'verify-v1')",
+          "passed": false
+        }
+      ],
+      "sources": {
+        "docs/mainline/39r-ups-field-record.schema.json": "4a009db75a02238bfb659c5d0b780cdf7067c09418878ff98627b07c3c3d08c4",
+        "docs/mainline/39r-ups-field-record.template.json": "ca69075e98e857a305585d66a590c859a9a9385144393cc0bcbf6ae59895b628",
+        "scripts/check_theorem_cli.py": "d9ee44ac1b81e70802c2dca5954fdc5f60661bd10d36677d98467427c42011b3",
+        "scripts/verify_theorem.py": "21491290c36913e6d1ee9edeec12792a3c33f10c64ef676054165d61d0dccb4a"
+      },
+      "status": "FAILED_CLI_CHECK"
+    }
+  },
+  "schema": "aegisdc-ups-field-cli-verification-v1",
+  "scope": "Public CLI boundaries and declared field fixtures only; no model calibration",
+  "verification": {
+    "accounting": {
+      "cli_cases": 10,
+      "facility_entries": 0,
+      "model_calls": 0,
+      "passed": 10,
+      "policy_calls": 0,
+      "registered_research_runs": 0
+    },
+    "cases": [
+      {
+        "actual_exit": 0,
+        "case": "pair_decimal",
+        "expected": {
+          "alpha": "71/1000",
+          "beta": "-13/80",
+          "strict_win_interval": "[0,142/467)",
+          "tie_region": "{142/467}"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "alpha": "71/1000",
+          "beta": "-13/80",
+          "strict_win_interval": "[0,142/467)",
+          "tie_region": "{142/467}"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 1,
+        "case": "pair_probability_above_one",
+        "expected": "s must be in [0,1]",
+        "expected_exit": 1,
+        "observed": "Verification failed: s must be in [0,1]",
+        "passed": true
+      },
+      {
+        "actual_exit": 1,
+        "case": "pair_negative_fraction",
+        "expected": "s must be in [0,1]",
+        "expected_exit": 1,
+        "observed": "Verification failed: s must be in [0,1]",
+        "passed": true
+      },
+      {
+        "actual_exit": 2,
+        "case": "pair_invalid_binary_gate",
+        "expected": "invalid choice",
+        "expected_exit": 2,
+        "observed": "verify_theorem.py pair: error: argument --g: invalid choice: 2 (choose from 0, 1)",
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_reference",
+        "expected": {
+          "best_no_inspection": {
+            "strict_win_interval": "(58/483,142/467)"
+          },
+          "comparisons": {
+            "direct": {
+              "alpha": "71/1000",
+              "beta": "-13/80",
+              "strict_win_interval": "[0,142/467)"
+            }
+          },
+          "status": "COMPARABLE"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "best_no_inspection": {
+            "strict_win_interval": "(58/483,142/467)"
+          },
+          "comparisons": {
+            "direct": {
+              "alpha": "71/1000",
+              "beta": "-13/80",
+              "strict_win_interval": "[0,142/467)"
+            }
+          },
+          "status": "COMPARABLE"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_no_disturbance",
+        "expected": {
+          "comparisons": {
+            "direct": {
+              "strict_win_interval": null
+            }
+          },
+          "direct_dominance": {
+            "status": "SATISFIED"
+          },
+          "status": "COMPARABLE"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "comparisons": {
+            "direct": {
+              "strict_win_interval": null
+            }
+          },
+          "direct_dominance": {
+            "status": "SATISFIED"
+          },
+          "status": "COMPARABLE"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_unknown_q_r",
+        "expected": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "comparisons": {
+            "direct": {
+              "missing_inputs": [
+                "parameters.q_R"
+              ],
+              "single_missing_boundary": {
+                "could_flip_nonempty_strict_win": true,
+                "no_strict_win_parameter_range": "[47/80,1]",
+                "parameter": "parameters.q_R"
+              }
+            }
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "comparisons": {
+            "direct": {
+              "missing_inputs": [
+                "parameters.q_R"
+              ],
+              "single_missing_boundary": {
+                "could_flip_nonempty_strict_win": true,
+                "no_strict_win_parameter_range": "[47/80,1]",
+                "parameter": "parameters.q_R"
+              }
+            }
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_unknown_grant",
+        "expected": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "eligibility": {
+            "direct": {
+              "missing_inputs": [
+                "gates.direct_authorized"
+              ],
+              "status": "UNKNOWN"
+            }
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "eligibility": {
+            "direct": {
+              "missing_inputs": [
+                "gates.direct_authorized"
+              ],
+              "status": "UNKNOWN"
+            }
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_deadline_equality",
+        "expected": {
+          "best_no_inspection": {
+            "strict_win_interval": "(58/483,1]"
+          },
+          "comparisons": {
+            "direct": {
+              "status": "NOT_COMPARABLE"
+            }
+          },
+          "eligibility": {
+            "direct": {
+              "reasons": [
+                "DEADLINE_NOT_MET"
+              ],
+              "status": "INELIGIBLE"
+            }
+          },
+          "status": "COMPARABLE"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "best_no_inspection": {
+            "strict_win_interval": "(58/483,1]"
+          },
+          "comparisons": {
+            "direct": {
+              "status": "NOT_COMPARABLE"
+            }
+          },
+          "eligibility": {
+            "direct": {
+              "reasons": [
+                "DEADLINE_NOT_MET"
+              ],
+              "status": "INELIGIBLE"
+            }
+          },
+          "status": "COMPARABLE"
+        },
+        "passed": true
+      },
+      {
+        "actual_exit": 0,
+        "case": "field_blank_template",
+        "expected": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "expected_exit": 0,
+        "observed": {
+          "best_no_inspection": {
+            "strict_win_interval": null
+          },
+          "status": "INSUFFICIENT_INPUT"
+        },
+        "passed": true
+      }
+    ],
+    "sources": {
+      "docs/mainline/39r-ups-field-record.schema.json": "4a009db75a02238bfb659c5d0b780cdf7067c09418878ff98627b07c3c3d08c4",
+      "docs/mainline/39r-ups-field-record.template.json": "ca69075e98e857a305585d66a590c859a9a9385144393cc0bcbf6ae59895b628",
+      "scripts/check_theorem_cli.py": "d9ee44ac1b81e70802c2dca5954fdc5f60661bd10d36677d98467427c42011b3",
+      "scripts/verify_theorem.py": "d9d5cf96a5614f57fd512cbdb50244e8d7415b8dcd2d2798ed78d83379849e49",
+      "scripts/verify_theorem_field.py": "4e175a96a197b765cb7d6f44c2588a896cd46f15c8398324c6218940d709ae0f",
+      "scripts/verify_theorem_v1.py": "21491290c36913e6d1ee9edeec12792a3c33f10c64ef676054165d61d0dccb4a"
+    },
+    "status": "PASS_CLI_ONLY"
+  }
+}
