@@ -1,0 +1,133 @@
+{
+  "id": "39r-ups-a1-stage2-breakeven-v1",
+  "schema": "aegisdc-ups-auxiliary-breakeven-freeze-v1",
+  "base_revision": "1e1d2bc61e2847b4b4229b34797ea486663e8e50",
+  "b1": {
+    "repository_path": "evidence/mainline/engineering/39r-ups-b1/result.json",
+    "git_revision": "32c9b2a99245f52baca6e108f49dbc29bbe637a1",
+    "git_blob": "5e5ab41f01bd50296840d558ab03c848f3a3170d",
+    "sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
+    "remote_path": "/root/private_data/aegisdc-ups-b1-20261111-01/capture/result.json"
+  },
+  "asset_ids": [
+    "local_controller",
+    "internal_pump",
+    "intake_pump"
+  ],
+  "window_s": [
+    2,
+    30
+  ],
+  "actions": {
+    "defer": "No inspection or restoration; retain the state leaf.",
+    "escalate": "Permitted request; timely authorized follow-through fraction times success on the off state; no disturbance to the on state in v1.",
+    "direct": "Use only if independently authorized, timely, and within the person-time cap.",
+    "inspect": "Unresolved or reported on: defer. Reported off: attempt only with independent authorization and before-deadline completion feasibility; unsuccessful or blocked outcomes retain the off leaf."
+  },
+  "units": {
+    "gap": "B1 zero-power duration difference in seconds of the SAME auxiliary load, never pooled",
+    "check_charge": "Dimensionless fraction k of each load gap: required same-unit advantage; not a measured extra interruption or a conversion of cooling service or labor.",
+    "disturbance": "Extra zero-power seconds on already-on branches, as a fraction of the same load gap; synthetic only and at most the gap.",
+    "person": "Person-time / declared person-time cap; every declared branch must fit, equality allowed. Expected consumption is recorded separately.",
+    "time": "Elapsed / available pre-cut time; completion must be strictly before the cutoff. Check extra time includes arrival, verification and reporting; no credit for late completion in this model."
+  },
+  "reference": {
+    "sensitivity": "9/10",
+    "specificity": "9/10",
+    "unresolved_off": "1/10",
+    "unresolved_on": "1/10",
+    "success": "3/4",
+    "check_charge_over_gap": "1/50",
+    "direct_authorized": true,
+    "inspection_branch_authorized": true,
+    "direct_downtime_over_gap": "1/10",
+    "false_positive_downtime_over_gap": "1/10",
+    "direct_time_over_deadline": "2/5",
+    "check_extra_time_over_deadline": "1/10",
+    "escalation_timely_reach": "1/2",
+    "inspect_person_over_cap": "1/10",
+    "restore_person_over_cap": "1/2",
+    "escalate_person_over_cap": "13/20"
+  },
+  "direct_regimes": {
+    "harmless_direct": {
+      "direct_downtime_over_gap": "0",
+      "false_positive_downtime_over_gap": "0"
+    },
+    "disruptive_direct": {},
+    "direct_not_authorized": {
+      "direct_authorized": false
+    }
+  },
+  "success_grid": [
+    "0",
+    "1/4",
+    "1/2",
+    "3/4",
+    "1"
+  ],
+  "charge_grid": [
+    "0",
+    "1/50",
+    "1/10",
+    "1/4"
+  ],
+  "p_grid_divisions": 100,
+  "one_factor_sweeps": {
+    "check_extra_time_over_deadline": [
+      "0",
+      "59/100",
+      "3/5",
+      "4/5"
+    ],
+    "inspect_person_over_cap": [
+      "1/20",
+      "1/2",
+      "51/100"
+    ],
+    "false_positive_downtime_over_gap": [
+      "0",
+      "1/20",
+      "1/5"
+    ],
+    "unresolved_off": [
+      "1/20",
+      "1/4",
+      "1/2"
+    ],
+    "unresolved_on": [
+      "1/20",
+      "1/4",
+      "1/2"
+    ],
+    "sensitivity": [
+      "4/5",
+      "19/20"
+    ],
+    "specificity": [
+      "4/5",
+      "19/20"
+    ],
+    "inspection_branch_authorized": [
+      false
+    ],
+    "escalation_timely_reach": [
+      "0",
+      "9/10"
+    ]
+  },
+  "observation_basis": "Sensitivity/specificity are conditional on a resolved report; state-specific unresolved probabilities are positive. All parameters are declared synthetic axes, not field estimates.",
+  "success_basis": "For an off state, q is conditional success after a timely authorized attempt. Success is stipulated to use the B1 on leaf. Failure, refusal, unresolved report and missed deadline retain the off leaf; their lost benefit is not charged again.",
+  "comparison": "For each auxiliary separately: strictly beat every eligible no-inspection comparator after the same-unit hurdle. Tie, loss and ineligibility are distinct. Nothing is added to the main service measure.",
+  "budget": {
+    "arithmetic_attempts": 1,
+    "facility_entries": 0,
+    "policy_calls": 0,
+    "model_calls": 0,
+    "registered_research_runs": 0,
+    "retries": 0
+  },
+  "host": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+  "python": "3.12.7",
+  "runner_sha256": "48d9d940e5f3fc6a983c91d23884bd0a86d0391bba652b41bd8702828a6d38cc"
+}
