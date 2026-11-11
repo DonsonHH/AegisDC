@@ -927,7 +927,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "20261111-A2-UPS-native-interface",
+    "bounded_request": "20261111-B1-UPS-auxiliary-consequence",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED"
   },
@@ -945,7 +945,7 @@
     "automatic_dispatch": false,
     "validation": "docs/reviews/20261110-direction-correction/result.json",
     "selected_problem": "backup-ups-return-to-service-v1",
-    "selected_problem_status": "A2_NATIVE_INTERFACE_QUALIFIED_PARENT_RISK_REMAINS_UNMODELED"
+    "selected_problem_status": "B1_AUXILIARY_CONSEQUENCE_OBSERVED_PARENT_RISK_REMAINS_UNMODELED"
   },
   "baseline_report_scope_edition": {
     "markdown": "paper/preset-dispatch-scope-review-20261110/report.md",
@@ -990,64 +990,80 @@
     }
   },
   "current_single_step": {
-    "choice": "A2",
     "parent_question_id": "backup-support",
     "problem_id": "backup-ups-return-to-service-v1",
     "question": "检修工单结束后，UPS是否仍未恢复投入，导致声明失电情景中受保护辅助负载失去备用支持？",
-    "status": "A2_BOUNDED_ENGINEERING_PASSED_AWAITING_USER_GUIDANCE",
-    "document": "docs/mainline/39r-backup-support-question.md",
     "primary_sources": "docs/research/20261111-backup-support-sources.md",
+    "choice": "B1",
+    "status": "B1_CONSEQUENCE_CONTRACT_AND_PAIRED_PROBE_AWAITING_USER_REVIEW",
+    "document": "docs/mainline/39r-backup-support-consequence.md",
+    "validation_result": "evidence/mainline/engineering/39r-ups-b1/result.json",
+    "result_sha256": "6507694d5385ceb484cb46cd32684656f352d9cce3f49e7112bfe4ab7671be49",
+    "execution_source_revision": "d06fcb3fcd83d045f18bc71b258eab5a43aec4c8",
+    "probe_accounting": {
+      "probe_batches": 1,
+      "facility_entries": 2,
+      "completed_windows": 2,
+      "completed_simulated_s": 60.0,
+      "policy_calls": 0,
+      "model_calls": 0,
+      "registered_research_runs": 0
+    },
+    "auxiliary_consequence_scope": "SEPARATE_FROM_MAIN_SERVICE_METRIC_AND_ORIGINAL_180",
+    "ac_restoration": "RIGHT_CENSORED_IN_BOTH_CASES",
+    "new_facility_captures": 2,
+    "new_research_runs": 0,
+    "new_model_calls": 0,
+    "full_CI_rerun": false,
+    "website_deployed": false,
+    "native_implementation_changed": false,
+    "calculation_ready": false,
     "unknown_inputs": [
       "conditional_prior",
       "observation_likelihood_and_validity",
       "functional_and_service_verification",
       "matched_time_basis"
     ],
-    "calculation_ready": false,
-    "native_implementation_changed": true,
-    "new_research_runs": 0,
-    "new_facility_captures": 4,
-    "new_model_calls": 0,
-    "full_CI_rerun": true,
-    "website_deployed": false,
     "record57": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
-      "A2_native_interface_review",
+      "B1_user_review",
       "A1_observation_and_time_basis",
       "remaining_39c_after_39r_39t_review"
     ],
-    "automatic_continuation": false,
-    "engineering_budget": {
-      "tests_per_attempt": 1,
-      "expected_red_attempts": 1,
-      "green_attempts": 1,
-      "green_maximum_facility_entries": 7,
-      "green_completed_windows": 4,
-      "green_completed_simulated_s": 24,
-      "new_registered_research_runs": 0
+    "automatic_continuation": false
+  },
+  "ups_a2_test_provenance": {
+    "native_result": "evidence/mainline/engineering/39r-ups-a2/result.json",
+    "native_result_sha256": "5f2355a9638653bd1188b1e2fb4472702349e5041a48cc79ab062033151751a8",
+    "original_field": "unchanged_test",
+    "original_field_scope": "UNCHANGED_BETWEEN_V1_RED_AND_GREEN_ONLY",
+    "frozen_v1_test": {
+      "path": "tests/test_ups_return_to_service.py",
+      "revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
+      "bytes": 10562,
+      "sha256": "98a754f2fdd4db1c1c08caf7dce3a3ac93bd89c046ad4286abbece591a6eddd6",
+      "git_blob": "8a5e96f6ea4f4e6ba5923cc2923705dca21cf78a",
+      "red_revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
+      "green_revision": "d4432d5b9fe1bcfcd88eaa6e349f0cf68e094cef",
+      "scope": "SAME_FROZEN_TEST_IN_ORIGINAL_RED_GREEN_BATCH",
+      "superseded_by": {
+        "revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
+        "git_blob": "ec890f18d66dc6b5e465c5035ad6405ac7de02cb",
+        "sha256": "54ed8d9f7926fdbec74dc1c1422238d132fa008524f76c5d7dd8b4d993b85f9b"
+      }
     },
-    "validation_tool": "scripts/ups_interface_validation.py",
-    "validation_test": "tests/test_ups_return_to_service.py",
-    "validation_result": "evidence/mainline/engineering/39r-ups-a2/result.json",
-    "qualified_source_revision": "d4432d5b9fe1bcfcd88eaa6e349f0cf68e094cef",
-    "red_source_revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
-    "engineering_interface_entries": 8,
-    "completed_engineering_windows": 4,
-    "completed_engineering_simulated_s": 24,
-    "routine_compatibility_ci": {
-      "run_id": 42869801491,
-      "url": "https://github.com/DonsonHH/AegisDC/actions/runs/42869801491",
-      "source_revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
-      "status": "completed",
-      "conclusion": "success",
-      "discovered": 652,
-      "executed": 650,
-      "failures": 0,
-      "errors": 0,
-      "existing_optional_torch_skips": 2,
-      "unexpected_skips": 0,
-      "scope": "ROUTINE_COMPATIBILITY_NOT_REGISTERED_RESEARCH_OR_PRIVATE_A2_ATTEMPT"
+    "current_test": {
+      "path": "tests/test_ups_return_to_service.py",
+      "revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
+      "bytes": 10730,
+      "sha256": "54ed8d9f7926fdbec74dc1c1422238d132fa008524f76c5d7dd8b4d993b85f9b",
+      "git_blob": "ec890f18d66dc6b5e465c5035ad6405ac7de02cb",
+      "scope": "RETENTION_ORDER_V2_VERIFIED_BY_COMPATIBILITY_CI;NOT_USED_BY_ORIGINAL_RED_GREEN",
+      "ci_run_id": 42869801491
     },
+    "review_status": "USER_ACCEPTED_BOUNDED_ENGINEERING_20261111",
+    "reviewed_delivery_revision": "d06fcb3fcd83d045f18bc71b258eab5a43aec4c8",
+    "qualified_native_source_revision": "d4432d5b9fe1bcfcd88eaa6e349f0cf68e094cef",
     "routine_ci_attempts": [
       {
         "run_id": 42869253754,
@@ -1071,28 +1087,6 @@
         "unexpected_skips": 0,
         "scope": "ROUTINE_COMPATIBILITY_NOT_REGISTERED_RESEARCH_OR_PRIVATE_A2_ATTEMPT"
       }
-    ],
-    "test_retention_revision": {
-      "reason": "Save returned native evidence before assertions",
-      "original_red_green_test_revision": "100d1fb24a62cf53d26eb299f8f6f9633c1bdd0b",
-      "original_native_result_unchanged": true,
-      "behavior_assertions_and_inputs_unchanged": true,
-      "verification_route": "NEW_SOURCE_CI;NO_PRIVATE_RED_GREEN_RERUN",
-      "current_test_revision": "342e493f4651b5736dd2506201f2dddf4e8b5c0e",
-      "current_test_sha256": "54ed8d9f7926fdbec74dc1c1422238d132fa008524f76c5d7dd8b4d993b85f9b",
-      "standards_finding": "P2_CLOSED_BY_INDEPENDENT_STATIC_DELTA_REVIEW"
-    },
-    "engineering_accounting_scope": "39r-A2_PRIVATE_QUALIFICATION;SEPARATE_FROM_39c_CAPTURE_TOTAL_AND_ROUTINE_CI",
-    "review_axes": {
-      "Standards": {
-        "findings": 1,
-        "corrected": 1,
-        "open": 0
-      },
-      "Spec": {
-        "findings": 0,
-        "open": 0
-      }
-    }
+    ]
   }
 }

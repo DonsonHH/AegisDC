@@ -1,0 +1,288 @@
+{
+  "schema": "aegisdc-ups-b1-consequence-probe-v1",
+  "classification": "MATCHED_ENGINEERING_PROBE_NOT_REGISTERED_RESEARCH",
+  "status": "COMPLETED_PAIRED_PROBE",
+  "started_utc": "2026-11-11T05:40:27.773987+00:00",
+  "frozen_manifest_sha256": "c487a10e3ac819c3d621b7ea345b43720a5a6465473a1c378b027906fadbaa82",
+  "source_commit": "d06fcb3fcd83d045f18bc71b258eab5a43aec4c8",
+  "frozen_probe": {
+    "scenario": "configs/full-facility-mainline-reserve-v6.json",
+    "case_order": [
+      1,
+      0
+    ],
+    "duration_s": 30,
+    "step_s": 0.01,
+    "maximum_entries": 2,
+    "equality_atol": 1e-09,
+    "outage": {
+      "time_s": 2,
+      "parameter_id": "grid_capacity",
+      "value": 0,
+      "source_note": "B1 frozen matched probe: mains lost at t=2 s and not restored by the operator within the horizon."
+    },
+    "protected_assets": [
+      "local_controller",
+      "internal_pump",
+      "intake_pump"
+    ],
+    "declared_difference": "Only initial ups_in_service bit changes. No repair, inspection, dispatch, observation or probability model.",
+    "window_basis": "Prior review gave 30 s and aggregate service; t=2 s and maximum step 0.01 s are explicitly declared reproduction inputs, not recovered prior-run metadata.",
+    "accounting_scope": "One engineering pair, not an independent research sample or a replay of the registered 180."
+  },
+  "source_archive_sha256": "a0749df039518c1f9ae4c94c75ab325903fafa0aeb5b80ac4dfc7b6a6f430b72",
+  "source_file_roots": [
+    "src/aegis_dc",
+    "src/patrol_rsi/__init__.py",
+    "src/patrol_rsi/contracts.py",
+    "configs/full-facility-mainline-reserve-v6.json",
+    "configs/materials/reference-r134a-saturation.json"
+  ],
+  "frozen_inputs": {
+    "configs/full-facility-mainline-reserve-v6.json": {
+      "bytes": 144280,
+      "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+      "git_blob": "9617ca0e5b15d48ef16ef629d395c037d7c47b66"
+    },
+    "configs/materials/reference-r134a-saturation.json": {
+      "bytes": 226640,
+      "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+      "git_blob": "4b4a147da4124b9fd515f2a0f6726977a8045cf0"
+    }
+  },
+  "runner_sha256": "bdd1762df225ac44c4cce80e31d240b10df533f31721196a0a2ec9cbbd15ee89",
+  "runner_source": "\"\"\"One frozen two-case UPS consequence probe on the authorized CPU container.\"\"\"\nfrom copy import deepcopy\nfrom datetime import datetime, timezone\nfrom hashlib import sha1, sha256\nimport json\nimport math\nimport os\nfrom pathlib import Path\nimport socket\nimport sys\nimport traceback\nfrom zipfile import ZipFile\n\n\ndef now():\n    return datetime.now(timezone.utc).isoformat()\n\n\ndef digest(data):\n    return sha256(data).hexdigest()\n\n\ndef need(ok, message):\n    if not ok:\n        raise ValueError(message)\n\n\ndef write_json(path, value):\n    with path.open('x', encoding='utf-8', newline='\\n') as stream:\n        json.dump(value, stream, indent=2, allow_nan=False)\n        stream.write('\\n')\n\n\ndef event(path, **row):\n    with path.open('a', encoding='utf-8', newline='\\n') as stream:\n        stream.write(json.dumps(dict(utc=now(), **row), allow_nan=False)+'\\n')\n        stream.flush()\n        os.fsync(stream.fileno())\n\n\ndef thermal(point):\n    d=point['domains']\n    return dict(time_s=point['time_s'], generator_mode=d['backup']['generator_mode'],\n        generator_ready_at_s=d['backup']['generator_ready_at_s'],\n        hot_water_K=d['facility_cooling']['hot_temperature_K'],\n        cold_water_K=d['facility_cooling']['cold_temperature_K'],\n        coolant_K=d['equipment_environment']['refrigerant']['temperature_K'],\n        solid_K=d['equipment_environment']['solid_temperature_K'],\n        room_K=d['equipment_environment']['room_temperature_K'],\n        controller_mode=d['control_monitoring']['mode'],\n        compute_permitted=d['control_monitoring']['compute_permitted'])\n\n\ndef summarize(case_path, spec, expected_code, flag):\n    manifest=json.loads((case_path/'run.json').read_bytes())\n    data={}\n    artifacts={}\n    for name, record in manifest['artifacts'].items():\n        raw=(case_path/name).read_bytes()\n        need(digest(raw)==record['sha256'], 'Saved artifact hash differs: '+name)\n        data[name]=json.loads(raw) if name=='scenario.json' else [json.loads(x) for x in raw.splitlines()]\n        need((1 if name=='scenario.json' else len(data[name]))==record['records'], 'Saved record count differs')\n        artifacts[name]=dict(record, bytes=len(raw))\n    need(manifest['code_identity']['files']==expected_code, 'Executed source differs from the pinned Git blobs')\n    need(manifest['inputs']['boundary_events']==[spec['outage']], 'Saved boundary input differs')\n    need(manifest['inputs']['duration_s']==spec['duration_s'] and manifest['inputs']['maximum_step_s']==spec['step_s'], 'Saved time input differs')\n    need(manifest['dispatch_interface']=='DISABLED_FOR_THIS_RUN' and manifest['research_trials']==0 and manifest['model_calls']==0,\n        'Unexpected dispatch, research or model activity')\n    trace=data['private-state.jsonl']; balances=data['balances.jsonl']\n    need(len(trace)==len(balances)+1 and trace[0]['time_s']==0 and trace[-1]['time_s']==spec['duration_s'], 'Incomplete capture')\n    cut=[r for r in manifest['events'] if r.get('parameter_id')=='grid_capacity' and r.get('value')==0]\n    need(len(cut)==1, 'Expected exactly one applied mains outage')\n    start=cut[0]['applied_at_s']; end=trace[-1]['time_s']\n    need(start==spec['outage']['time_s'], 'Outage did not apply at the frozen time')\n    assets=spec['protected_assets']; post=[]; windows=[]\n    controller=next(r['value'] for r in data['scenario.json']['parameters'] if r['id']=='controller_power')\n    for left,right,row in zip(trace,trace[1:],balances):\n        a,b=left['time_s'],right['time_s']\n        need(a==row['start_s'] and b==row['end_s'] and b>a, 'Trace and balance clocks differ')\n        need(not a<start<b, 'An integration interval straddled the applied outage')\n        if a<start:continue\n        p=left['domains']['power']; post.append((b-a,p,left))\n        need(left['domains']['backup']['ups_in_service']==flag, 'UPS factor changed during the probe')\n        if p['actual_powers_W']['local_controller']>=controller:\n            if windows and windows[-1][1]==a:windows[-1][1]=b\n            else:windows.append([a,b])\n    need(post and math.isclose(math.fsum(x[0] for x in post),end-start,rel_tol=0,abs_tol=spec['equality_atol']), 'Post-outage interval coverage differs')\n    for key in ('delivered_service_unit_s','service_deficit_time_s'):\n        need(math.isclose(math.fsum(r[key] for r in balances),manifest['summary'][key],rel_tol=0,abs_tol=spec['equality_atol']),\n            'Service summary does not match saved balance rows')\n    auxiliaries={}\n    for name in assets:\n        zero=[(dt,p) for dt,p,_ in post if p['actual_powers_W'][name]==0]\n        auxiliaries[name]=dict(zero_power_s=math.fsum(dt for dt,_ in zero),\n            zero_power_requested_s=math.fsum(dt for dt,p in zero if p['requested_powers_W'][name]>0),\n            zero_power_without_native_request_s=math.fsum(dt for dt,p in zero if p['requested_powers_W'][name]==0))\n    peak=max(post,key=lambda r:r[1]['ups_output_W'])\n    ac=lambda r:r['domains']['power']['grid_draw_W']+r['domains']['power']['generator_output_W']\n    restored=next((r for r in trace if r['time_s']>=start and ac(r)>0),None)\n    summary=manifest['summary']\n    return dict(ups_in_service=flag, applied_outage_s=start, end_s=end,\n        service_deficit_time_s=summary['service_deficit_time_s'],delivered_service_unit_s=summary['delivered_service_unit_s'],\n        demand_service_unit_s=summary['demand_service_unit_s'], post_outage_usable_ac_zero=all(ac(r)==0 for _,_,r in post),\n        post_outage_rectifier_input_zero=all(p['rectifier_input_W']==0 for _,p,_ in post),\n        peak_ups_output_W=peak[1]['ups_output_W'],peak_ups_protected_output_W=max(p['ups_protected_output_W'] for _,p,_ in post),\n        ups_peak_time_s=peak[2]['time_s'],auxiliary_powers_at_ups_peak_W={k:peak[1]['actual_powers_W'][k] for k in assets},\n        ups_initial_J=trace[0]['domains']['backup']['ups_energy_J'],ups_terminal_J=trace[-1]['domains']['backup']['ups_energy_J'],\n        ups_output_energy_J=summary['ups_output_energy_J'],auxiliary_power_interruption=auxiliaries,\n        controller_power=dict(required_W=controller,full_supply_intervals_s=windows,\n            first_full_supply_at_s=windows[0][0] if windows else None,\n            first_full_supply_delay_s=windows[0][0]-start if windows else None,\n            observed_full_supply_s=math.fsum(b-a for a,b in windows),\n            powered_interval_right_censored=bool(windows and windows[-1][1]==end and trace[-1]['domains']['power']['actual_powers_W']['local_controller']>=controller),\n            time_to_first_full_supply_right_censored=not windows),\n        ac_restoration=dict(status='OBSERVED' if restored else 'RIGHT_CENSORED_AT_HORIZON',\n            time_s=restored['time_s'] if restored else None,initial_state=thermal(restored) if restored else None),\n        terminal_state=thermal(trace[-1]),scenario_sha256=manifest['scenario_sha256'],\n        original_artifacts=dict(run_manifest_sha256=digest((case_path/'run.json').read_bytes()),files=artifacts))\n\n\ndef main():\n    lock_path,archive,out=map(lambda p:Path(p).resolve(),sys.argv[1:])\n    root=Path('/root/private_data')\n    runner_path=Path(__file__).resolve()\n    frozen=lock_path.read_bytes(); lock=json.loads(frozen); recipe=runner_path.read_bytes()\n    need(os.name=='posix' and os.geteuid()==0 and root.is_mount() and out.is_relative_to(root),\n        'Use the authorized remote private mount for evaluation')\n    need(socket.gethostname()==lock['environment']['hostname'] and sys.version.split()[0]==lock['environment']['python'],\n        'Execution host/interpreter differs from the frozen identity')\n    need(digest(recipe)==lock['runner_sha256'] and digest(archive.read_bytes())==lock['archive_sha256'], 'Runner or bundle differs')\n    spec=lock['probe']; need(spec['case_order']==[1,0] and spec['maximum_entries']==2, 'Use the single frozen pair')\n    out.mkdir(mode=0o700,exist_ok=False); snapshot=out/'snapshot'; snapshot.mkdir()\n    journal=out/'journal.jsonl'\n    result=dict(schema='aegisdc-ups-b1-consequence-probe-v1',classification='MATCHED_ENGINEERING_PROBE_NOT_REGISTERED_RESEARCH',\n        status='FAILED',started_utc=now(),frozen_manifest_sha256=digest(frozen),source_commit=lock['source_commit'],\n        frozen_probe=spec,source_archive_sha256=lock['archive_sha256'],source_file_roots=lock['file_roots'],\n        frozen_inputs={p:v for p,v in lock['files'].items() if p.startswith('configs/')},\n        runner_sha256=digest(recipe),runner_source=recipe.decode('utf-8'),command='python -B runner.py freeze.json source.zip ../capture',\n        environment=dict(lock['environment'],cpu_max=Path('/sys/fs/cgroup/cpu.max').read_text().strip(),\n            memory_max=Path('/sys/fs/cgroup/memory.max').read_text().strip()),\n        accounting=dict(probe_batches=1,facility_entries=0,completed_windows=0,completed_simulated_s=0,\n            policy_calls=0,model_calls=0,registered_research_runs=0),cases={},\n        private_originals=str(out),private_input_bundle=str(lock_path.parent),reported_prior_probe=lock['reported_prior_probe'])\n    try:\n        with ZipFile(archive) as z:\n            names=[x.filename for x in z.infolist() if not x.is_dir()]\n            need(len(names)==len(set(names)) and set(names)==set(lock['files']), 'Archive file set differs')\n            for p in names:\n                path=Path(p); raw=z.read(p); pin=lock['files'][p]\n                need(not path.is_absolute() and '..' not in path.parts, 'Archive path escape')\n                blob=sha1(f'blob {len(raw)}\\0'.encode()+raw).hexdigest()\n                need(len(raw)==pin['bytes'] and digest(raw)==pin['sha256'] and blob==pin['git_blob'], 'Pinned source differs: '+p)\n                dest=snapshot/path;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(raw)\n        os.chdir(snapshot);sys.path.insert(0,str(snapshot/'src'))\n        from aegis_dc.plant import save_run,simulate_scenario\n        from aegis_dc.scenario import load_scenario\n        base=load_scenario(snapshot/spec['scenario'])\n        expected_code={p:r['sha256'] for p,r in lock['files'].items()\n            if (Path(p).parent==Path('src/aegis_dc') and p.endswith('.py')) or p=='src/patrol_rsi/contracts.py'}\n        for flag in spec['case_order']:\n            name='ups_in_service' if flag else 'ups_not_in_service'\n            config=deepcopy(base)\n            next(p for p in config['parameters'] if p['id']=='ups_in_service')['value']=flag\n            declared_config=deepcopy(config)\n            result['accounting']['facility_entries']+=1; event(journal,case=name,status='STARTED')\n            run=simulate_scenario(config,duration_s=spec['duration_s'],step_s=spec['step_s'],boundary_events=[spec['outage']])\n            save_run(run,out/name)\n            end=run['trace'][-1]['time_s']; event(journal,case=name,status='RETURNED_SAVED',actual_end_s=end)\n            if end==spec['duration_s']:\n                result['accounting']['completed_windows']+=1\n                result['accounting']['completed_simulated_s']+=end\n            need(json.loads((out/name/'scenario.json').read_bytes())==declared_config, 'Saved scenario differs from the single-factor input')\n            result['cases'][name]=summarize(out/name,spec,expected_code,flag)\n            event(journal,case=name,status='SAVED_AND_CHECKED')\n        on,off=(result['cases'][k] for k in ('ups_in_service','ups_not_in_service'))\n        sd=on['service_deficit_time_s']-off['service_deficit_time_s']\n        dd=on['delivered_service_unit_s']-off['delivered_service_unit_s']\n        result['comparison']=dict(service_deficit_on_minus_off_s=sd,delivery_on_minus_off_unit_s=dd,\n            service_difference_observed=abs(sd)>spec['equality_atol'] or abs(dd)>spec['equality_atol'],\n            auxiliary_zero_power_on_minus_off_s={a:on['auxiliary_power_interruption'][a]['zero_power_s']-off['auxiliary_power_interruption'][a]['zero_power_s'] for a in spec['protected_assets']},\n            both_outage_ac_zero=on['post_outage_usable_ac_zero'] and off['post_outage_usable_ac_zero'],\n            both_outage_rectifier_zero=on['post_outage_rectifier_input_zero'] and off['post_outage_rectifier_input_zero'])\n        need(all(digest((snapshot/p).read_bytes())==r['sha256'] for p,r in lock['files'].items())\n            and lock_path.read_bytes()==frozen and runner_path.read_bytes()==recipe, 'Frozen inputs changed during evaluation')\n        result['status']='COMPLETED_PAIRED_PROBE'\n    except BaseException as error:\n        result['error']=dict(type=type(error).__name__,message=str(error))\n        traceback.print_exc()\n        raise\n    finally:\n        event(journal,status=result['status'])\n        result['finished_utc']=now();result['attempt_journal_sha256']=digest(journal.read_bytes())\n        write_json(out/'result.json',result)\n        print(json.dumps(dict(status=result['status'],accounting=result['accounting'],result_sha256=digest((out/'result.json').read_bytes())),allow_nan=False),flush=True)\n\n\nif __name__=='__main__':\n    main()\n",
+  "command": "python -B runner.py freeze.json source.zip ../capture",
+  "environment": {
+    "hostname": "crdnotebook-2108427285948563457-scnnxa6cio-81507",
+    "python": "3.12.7",
+    "cpu_max": "50000 100000",
+    "memory_max": "4294967296"
+  },
+  "accounting": {
+    "probe_batches": 1,
+    "facility_entries": 2,
+    "completed_windows": 2,
+    "completed_simulated_s": 60.0,
+    "policy_calls": 0,
+    "model_calls": 0,
+    "registered_research_runs": 0
+  },
+  "cases": {
+    "ups_in_service": {
+      "ups_in_service": 1,
+      "applied_outage_s": 2,
+      "end_s": 30.0,
+      "service_deficit_time_s": 28.0,
+      "delivered_service_unit_s": 2.0,
+      "demand_service_unit_s": 30.0,
+      "post_outage_usable_ac_zero": true,
+      "post_outage_rectifier_input_zero": true,
+      "peak_ups_output_W": 41728.571428571435,
+      "peak_ups_protected_output_W": 41628.571428571435,
+      "ups_peak_time_s": 2.2,
+      "auxiliary_powers_at_ups_peak_W": {
+        "local_controller": 1000.0,
+        "internal_pump": 19200.0,
+        "intake_pump": 21428.57142857143
+      },
+      "ups_initial_J": 18000000,
+      "ups_terminal_J": 17357554.037266076,
+      "ups_output_energy_J": 591274.2857142858,
+      "auxiliary_power_interruption": {
+        "local_controller": {
+          "zero_power_s": 0.20000000000000018,
+          "zero_power_requested_s": 0.20000000000000018,
+          "zero_power_without_native_request_s": 0.0
+        },
+        "internal_pump": {
+          "zero_power_s": 0.20000000000000018,
+          "zero_power_requested_s": 0.20000000000000018,
+          "zero_power_without_native_request_s": 0.0
+        },
+        "intake_pump": {
+          "zero_power_s": 0.20000000000000018,
+          "zero_power_requested_s": 0.20000000000000018,
+          "zero_power_without_native_request_s": 0.0
+        }
+      },
+      "controller_power": {
+        "required_W": 1000,
+        "full_supply_intervals_s": [
+          [
+            2.2,
+            30.0
+          ]
+        ],
+        "first_full_supply_at_s": 2.2,
+        "first_full_supply_delay_s": 0.20000000000000018,
+        "observed_full_supply_s": 27.8,
+        "powered_interval_right_censored": true,
+        "time_to_first_full_supply_right_censored": false
+      },
+      "ac_restoration": {
+        "status": "RIGHT_CENSORED_AT_HORIZON",
+        "time_s": null,
+        "initial_state": null
+      },
+      "terminal_state": {
+        "time_s": 30.0,
+        "generator_mode": "starting",
+        "generator_ready_at_s": 32.0,
+        "hot_water_K": 300.25687700775484,
+        "cold_water_K": 296.2024667101796,
+        "coolant_K": 298.78415940312664,
+        "solid_K": 299.01150285658105,
+        "room_K": 298.4947848440091,
+        "controller_mode": "normal",
+        "compute_permitted": true
+      },
+      "scenario_sha256": "d08a753a22f933770fe51dc78508471e0e3fb9a46bbbc4bfa937090d13a4eed2",
+      "original_artifacts": {
+        "run_manifest_sha256": "de3f1a8f226de735c552e13aedaf8ed233baaa5c0a83b4961dce96e35b243f86",
+        "files": {
+          "scenario.json": {
+            "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+            "records": 1,
+            "bytes": 144280
+          },
+          "private-state.jsonl": {
+            "sha256": "fa2e260b427b5cd4cef2c3e6fbf8ddf638e0b3fbe39dcfad202cc042e1ee8114",
+            "records": 3015,
+            "bytes": 21029477
+          },
+          "balances.jsonl": {
+            "sha256": "2b4b18c1ee86ef0ae037fb530cab386b212fd70f72f12ab7e63dd473615ddc4c",
+            "records": 3014,
+            "bytes": 10177700
+          }
+        }
+      }
+    },
+    "ups_not_in_service": {
+      "ups_in_service": 0,
+      "applied_outage_s": 2,
+      "end_s": 30.0,
+      "service_deficit_time_s": 28.0,
+      "delivered_service_unit_s": 2.0,
+      "demand_service_unit_s": 30.0,
+      "post_outage_usable_ac_zero": true,
+      "post_outage_rectifier_input_zero": true,
+      "peak_ups_output_W": 100.0,
+      "peak_ups_protected_output_W": 0.0,
+      "ups_peak_time_s": 2,
+      "auxiliary_powers_at_ups_peak_W": {
+        "local_controller": 0.0,
+        "internal_pump": 0.0,
+        "intake_pump": 0.0
+      },
+      "ups_initial_J": 18000000,
+      "ups_terminal_J": 17997200.0,
+      "ups_output_energy_J": 2800.0,
+      "auxiliary_power_interruption": {
+        "local_controller": {
+          "zero_power_s": 28.0,
+          "zero_power_requested_s": 28.0,
+          "zero_power_without_native_request_s": 0.0
+        },
+        "internal_pump": {
+          "zero_power_s": 28.0,
+          "zero_power_requested_s": 28.0,
+          "zero_power_without_native_request_s": 0.0
+        },
+        "intake_pump": {
+          "zero_power_s": 28.0,
+          "zero_power_requested_s": 28.0,
+          "zero_power_without_native_request_s": 0.0
+        }
+      },
+      "controller_power": {
+        "required_W": 1000,
+        "full_supply_intervals_s": [],
+        "first_full_supply_at_s": null,
+        "first_full_supply_delay_s": null,
+        "observed_full_supply_s": 0.0,
+        "powered_interval_right_censored": false,
+        "time_to_first_full_supply_right_censored": true
+      },
+      "ac_restoration": {
+        "status": "RIGHT_CENSORED_AT_HORIZON",
+        "time_s": null,
+        "initial_state": null
+      },
+      "terminal_state": {
+        "time_s": 30.0,
+        "generator_mode": "starting",
+        "generator_ready_at_s": 32.0,
+        "hot_water_K": 300.5295616763055,
+        "cold_water_K": 296.2962145993765,
+        "coolant_K": 305.35293576169016,
+        "solid_K": 305.3529358242104,
+        "room_K": 298.48729172079146,
+        "controller_mode": "unpowered_fail_safe",
+        "compute_permitted": false
+      },
+      "scenario_sha256": "60674ebc8bbf256c3c289b1133e53e761a07eb742c0899a891f6072a8f79667a",
+      "original_artifacts": {
+        "run_manifest_sha256": "d4b313b5347d1a68937a391b641b00a955b2b60ce8347ccdc60f1c0d6e1d8c5a",
+        "files": {
+          "scenario.json": {
+            "sha256": "34196d1b380574f539afdb3b3dafced84f829f5cf0e8d49f159b3f3f816eae45",
+            "records": 1,
+            "bytes": 144280
+          },
+          "private-state.jsonl": {
+            "sha256": "3681007274ebe727ce4e0bcf0c2fab5f08d0a6aa26e9c977d59e059d7473c595",
+            "records": 3014,
+            "bytes": 20361545
+          },
+          "balances.jsonl": {
+            "sha256": "2921b5aab1599dcb0cefc4114c254b053cffb9c8c236d0b7d2770ef6f57b3d69",
+            "records": 3013,
+            "bytes": 9414515
+          }
+        }
+      }
+    }
+  },
+  "private_originals": "/root/private_data/aegisdc-ups-b1-20261111-01/capture",
+  "private_input_bundle": "/root/private_data/aegisdc-ups-b1-20261111-01/incoming",
+  "reported_prior_probe": {
+    "source": "User review; original probe trace unavailable",
+    "horizon_s": 30,
+    "service_deficit_s": [
+      28,
+      28
+    ],
+    "delivered_service_unit_s": [
+      2,
+      2
+    ],
+    "ups_peak_W": [
+      41729,
+      100
+    ],
+    "reported_terminal_ups_J": [
+      17764168,
+      17999455
+    ],
+    "comparison_order": [
+      "ups_in_service",
+      "ups_not_in_service"
+    ]
+  },
+  "comparison": {
+    "service_deficit_on_minus_off_s": 0.0,
+    "delivery_on_minus_off_unit_s": 0.0,
+    "service_difference_observed": false,
+    "auxiliary_zero_power_on_minus_off_s": {
+      "local_controller": -27.8,
+      "internal_pump": -27.8,
+      "intake_pump": -27.8
+    },
+    "both_outage_ac_zero": true,
+    "both_outage_rectifier_zero": true
+  },
+  "finished_utc": "2026-11-11T05:42:38.940572+00:00",
+  "attempt_journal_sha256": "77b225170d3226b1c09ae669e1af54bbc3dfc05d8e443654283d8f30df52da5b"
+}
