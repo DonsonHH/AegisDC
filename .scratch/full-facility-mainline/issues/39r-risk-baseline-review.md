@@ -27,3 +27,5 @@ B1独立辅助后果契约docs/mainline/39r-backup-support-consequence.md，匹�
 A1第一段只核对合成树能产生非零差；原始算术记录evidence/mainline/engineering/39r-ups-a1-aux-tree/result.json原样保留，点值不作为证据或对外材料；一次算术、零设施或注册研究，父风险UNMODELED。
 
 A1盈亏边界v1锁定0345d2d9；docs/mainline/39r-ups-a1-stage2-breakeven.md与evidence/mainline/engineering/39r-ups-a1-stage2-breakeven-v1/result.json保存四动作逐负载赢输区、83组×101先验点的精确核算；零设施或注册研究；三案例论文骨架paper/conditional-inspection-value-structure-20261111.md，主线冻结范围见进度账，待用户审阅。
+
+Stage 3 证明与现场证据清单docs/mainline/39r-ups-a1-stage3-theorem.md：两方案可行时胜R的非空充要条件max(d_R−d_I,r_I−q_R)>k，全部合法不查动作取交集；同形叶子与观测组合明确，论文重定标题及180次证据范围；仅文档，v1原件、冻结范围与父风险UNMODELED保持，待审。

@@ -2,7 +2,7 @@
 
 ## User-directed review gate (2026-11-11)
 
-Automatic mainline execution is paused. Follow the user-directed scope in `docs/mainline/progress.json`. Retain 39c, 39d, 39t numeric qualification, 40–42, and AI/RSI without advancing them. This delivery is the [UPS breakeven boundary](docs/mainline/39r-ups-a1-stage2-breakeven.md) and [paper structure](paper/conditional-inspection-value-structure-20261111.md); after delivery wait for the user's next instruction. Keep draft57 untouched. Remaining authorized engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and originals remain unchanged.
+Automatic mainline execution is paused. Follow the user-directed scope and delivery links in `docs/mainline/progress.json`. Retain 39c, 39d, 39t numeric qualification, 40–42, and AI/RSI without advancing them. After the current delivery, wait for the user's next instruction. Keep draft57 untouched. Remaining authorized engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and originals remain unchanged.
 
 ## Compute and storage (user requirement, 2026-11-09)
 
