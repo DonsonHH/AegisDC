@@ -1,6 +1,6 @@
 {
   "schema": "aegisdc-workspace-maintenance-v1",
-  "status": "IMPLEMENTATION_VERIFIED_PENDING_FRESH_DELIVERY",
+  "status": "PASS_BOUNDED_MAINTENANCE_DELIVERED",
   "date": "2026-11-12",
   "classification": "MAINTENANCE_NOT_RESEARCH_OR_39C_ACCEPTANCE",
   "baseline_commit": "add833644e5d321153dc9f1be5f2377db9ccfc27",
@@ -196,8 +196,96 @@
       "new_facility_entries": 0
     },
     "fresh_delivery": {
-      "status": "PENDING",
-      "declared_scope": "all committed blobs and protected baseline; runtime equality to verified execution"
+      "status": "PASS",
+      "classification": "FILE_AND_GIT_INTEGRITY_ONLY_NO_PROJECT_EXECUTION",
+      "delivery_commit": "da4fc879058f3b737912e3e45387b5681d12dbba",
+      "github_origin": "https://github.com/DonsonHH/AegisDC.git",
+      "checked_blobs": 8829,
+      "checked_bytes": 1345175346,
+      "unchanged_original_files": 8815,
+      "changed_original_files": [
+        "README.md",
+        "docs/NEXT.md",
+        "pyproject.toml",
+        "src/aegis_dc/__main__.py",
+        "src/aegis_dc/business_endpoints.py",
+        "src/aegis_dc/plant.py",
+        "src/aegis_dc/replay.py"
+      ],
+      "runtime_files_equal_to_verified_execution": 53,
+      "checked_local_links": 41,
+      "baseline": "add833644e5d321153dc9f1be5f2377db9ccfc27",
+      "new_research_trials": 0,
+      "verifier_sha256": "9c54bf98adf20da7fb3d230bffbc1109a911006f4396fdad6507d9b8f3eb5d64",
+      "manifest_sha256": "a780462588d0a63b790cdda784fda1de7dae090040dcbd79853a03398b7862f0",
+      "execution_location": "Desktop permitted integrity checks only; no project imports, tests, simulation, or dependency installation",
+      "initial_failure": {
+        "status": "FAILED_RETAINED",
+        "first_path": "cleanup.json",
+        "reason": "Git checkout line-ending conversion; original committed blob unchanged",
+        "receipt_remote": "fresh-integrity/fresh-integrity-failure-01.json"
+      },
+      "checkout_conversion": {
+        "scope": "DISPOSABLE_FRESH_CHECKOUT_ONLY_ORIGINAL_BLOBS_UNCHANGED",
+        "corrections": [
+          {
+            "path": "cleanup.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "37cb99bec341befcdd4fb85bd6634bc0990b127c6c8584e49b162bc5d8d17959",
+            "committed_sha256": "c71f9c2ad403f98bc926ce7dc74a8c2fa273d5059dea1b39d831b6932fb81cc5"
+          },
+          {
+            "path": "docs/maintenance/20261112-workspace/result.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "caca695ac5dd13b6596c406d422a69f49b87da35dd16054b2bf3dc967eec7b19",
+            "committed_sha256": "6bf45ea70ced63d5cb9f069e3f9371aca3ee4e0f04d9c743c5aeb20ff1472c34"
+          },
+          {
+            "path": "docs/reviews/20261110-direction-correction/default-branch.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "bd5391d9a643ce3a620acb27eb3c18be0dc063f65abcdb9358a6e8440cd3713e",
+            "committed_sha256": "dcc9d2370e44f2982efc024c422377a8b706a754ebd158047f56545315c5b844"
+          },
+          {
+            "path": "docs/reviews/20261110-direction-correction/scope-update-audit.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "5a6885c44e4bbeb977f359282327433b60097a95b6071a09d518cb1eead6fbf6",
+            "committed_sha256": "a6d7495690bd4b7b483f4c063aec0c729abcac166dfc684f606000581ddc6666"
+          },
+          {
+            "path": "docs/reviews/facility-cases-remote-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "3d564dafd182b4aeec9c670d90875b811110b57a5945e0d8cbb1417161d15a0f",
+            "committed_sha256": "b426eab9f393d7140aa71f6d84250eb960cb9536849ca9e1d7941821292dbc44"
+          },
+          {
+            "path": "docs/reviews/postmeeting-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "aa85ccdc10fbe7d79c78b56ac3fb9cb3116a6f891b3bf6b0419c4e267f5d2981",
+            "committed_sha256": "2c1c30b77d6acc002ff8cbb8afe3f471e317f5d2ccfa5bf88d626cb9ffe15b87"
+          },
+          {
+            "path": "docs/reviews/premeeting-20261103.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "cb60295b12c7fa62af71123ef16058cb31cef9b32867264b1d31bc058cdbe55a",
+            "committed_sha256": "07a4e1c51cc8234469899aa5a032eb1e351ec9e435b3aea33b3204684ae3118c"
+          },
+          {
+            "path": "docs/reviews/remote-publication-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "28cbf58b74c8699dd711b15a821d571685fa816f2f9284d1bae832450fb32efb",
+            "committed_sha256": "8ad59bee18a6a75748e27d4d42e775a63b9b38f3fec175261ceeccdc2148cd46"
+          }
+        ],
+        "correction_count": 8,
+        "tool_sha256": "a89974fc83c9ea531d16f3a994d428a1a06b7b54e7320ff0bfa6f195f1811470"
+      },
+      "github_clone_route": {
+        "remote_direct": "45-second bounded attempt timed out; empty clone log retained",
+        "completed": "Fresh local GitHub clone; exact committed bytes materialized before hash validation",
+        "originals_rewritten": false,
+        "skipped_hash_failures": 0
+      }
     }
   },
   "review": {
@@ -206,8 +294,9 @@
     "spec": {
       "implementation_findings": 0,
       "delivery_followups": [
-        "navigation and roadmap delivered",
-        "fresh verification pending"
+        "workspace navigation and bounded roadmap delivered",
+        "installed console command validated",
+        "fresh delivery 8829 blobs and 53 runtime files verified"
       ]
     },
     "standards": {
@@ -215,19 +304,24 @@
       "judgment_findings": 1,
       "resolution": "5eef495b: co-locate CLI names and help in ordered mapping"
     },
-    "architecture": "no confidently unused production module; preserve legacy code and pinned historical scripts"
+    "architecture": "no confidently unused production module; preserve legacy code and pinned historical scripts",
+    "final_doc_review": "da4fc879: Spec0 implementation/document findings; Standards0 open; only pending fresh receipt now completed"
   },
   "tools": {
     "runner_sha256": "1cd07620c952007ac2f2dc78f8c869fef343cb3ab1c1912ffebcf60c75d72e46",
     "runner_remote": "verify.py",
     "authoring": "Codex apply_patch and PowerShell; no local project execution",
-    "plugin": "code-simplifier not installed: plugin search tool unavailable"
+    "plugin": "code-simplifier not installed: plugin search tool unavailable",
+    "integrity_verifier_sha256": "9c54bf98adf20da7fb3d230bffbc1109a911006f4396fdad6507d9b8f3eb5d64",
+    "integrity_private_directory": "fresh-integrity/"
   },
   "delivery_policy": "Frozen originals retained; caches excluded; private full manifests/logs and runner retained remotely. New runtime identity requires matching revision for exact replay.",
   "publication": {
     "branch": "donson/workspace-maintenance-20261112",
     "base": "donson/mainline-39c-endpoints",
     "main_merged": false,
-    "ci": "SKIPPED_BY_COMMIT_MESSAGE; remote bounded regression recorded above"
+    "ci": "SKIPPED_BY_COMMIT_MESSAGE; remote bounded regression recorded above",
+    "pull_request": "https://github.com/DonsonHH/AegisDC/pull/3",
+    "pull_request_state": "DRAFT_FOR_USER_REVIEW"
   }
 }

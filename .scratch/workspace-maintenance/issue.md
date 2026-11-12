@@ -1,6 +1,6 @@
 # Workspace maintenance — 2026-11-12
 
-Status: claimed
+Status: resolved
 
 Owner: `/root`, `donson/workspace-maintenance-20261112`
 
@@ -22,4 +22,4 @@ The three frozen slice 57 contract/fixture/test files, all existing evidence, fo
 
 ## Evidence
 
-Pending: `docs/maintenance/20261112-workspace/result.json`.
+Accepted maintenance evidence: [result.json](../../docs/maintenance/20261112-workspace/result.json), remote red 133471 / green 133472 (71 executed, zero candidate failures/errors/skips), installed CLI 133473, and fresh GitHub delivery da4fc879 (8,829 committed blobs; 53 runtime files equal to verified execution). Research acceptance remains unchanged; GitHub PR #3 awaits user review.
