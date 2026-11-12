@@ -7,23 +7,34 @@ PROGRAM_FIELDS = {'schema', 'id', 'facility_id', 'basis', 'time_unit', 'source_n
 EPISODE_FIELDS = {'id', 'question_id', 'task_id', 'opened_at_s', 'source_note'}
 INSTANCE_PROGRAMS = ('aegisdc-business-instance-closure-evaluation-v1',
                      'aegisdc-business-instance-closure-evaluation-v2')
+PROGRAM_FAMILIES = {
+    'composite': ('aegisdc-business-composite-evaluation-v1',),
+    'cost': ('aegisdc-business-cost-evaluation-v1', 'aegisdc-business-cost-evaluation-v2'),
+    'diagnostic': ('aegisdc-business-diagnostic-evaluation-v1',
+                   'aegisdc-business-diagnostic-evaluation-v2',
+                   'aegisdc-business-diagnostic-evaluation-v3'),
+}
+
+
+def _program_family(schema):
+    # Equality membership also preserves the existing refusal for JSON arrays
+    # or objects used as schema values. Unknown versions reach closure validation.
+    return next((family for family, versions in PROGRAM_FAMILIES.items() if schema in versions), 'closure')
 
 
 def validate_business_program(program, facility_id, duration_s, dispatch_program, *, scenario=None, boundary_events=(),
                               execution_binding=None):
     """Validate evaluation-only bindings before any physical execution begins."""
     _plain_json(program)
-    if type(program) is dict and program.get('schema') == 'aegisdc-business-composite-evaluation-v1':
+    family = _program_family(program.get('schema')) if type(program) is dict else 'closure'
+    if family == 'composite':
         from .composite_endpoints import validate_composite_program
         return validate_composite_program(program, facility_id, duration_s, dispatch_program,
                                           scenario, boundary_events, execution_binding)
-    if type(program) is dict and program.get('schema') in ('aegisdc-business-cost-evaluation-v1',
-                                                         'aegisdc-business-cost-evaluation-v2'):
+    if family == 'cost':
         from .cost_endpoints import validate_cost_program
         return validate_cost_program(program, facility_id)
-    if type(program) is dict and program.get('schema') in ('aegisdc-business-diagnostic-evaluation-v1',
-                                                        'aegisdc-business-diagnostic-evaluation-v2',
-                                                        'aegisdc-business-diagnostic-evaluation-v3'):
+    if family == 'diagnostic':
         from .diagnostic_endpoints import validate_diagnostic_evaluation
         return validate_diagnostic_evaluation(program,facility_id,duration_s,dispatch_program,scenario,boundary_events)
     _fields(program, PROGRAM_FIELDS, 'Business closure evaluation program')
@@ -182,14 +193,14 @@ def evaluate_business_closure(result, program):
 
 
 def evaluate_business_endpoints(result, program):
-    if program['schema'] == 'aegisdc-business-composite-evaluation-v1':
+    family = _program_family(program['schema'])
+    if family == 'composite':
         from .composite_endpoints import evaluate_composite_endpoints
         return evaluate_composite_endpoints(result, program)
-    if program['schema'] in ('aegisdc-business-cost-evaluation-v1', 'aegisdc-business-cost-evaluation-v2'):
+    if family == 'cost':
         from .cost_endpoints import evaluate_actual_costs
         return evaluate_actual_costs(result, program)
-    if program['schema'] in ('aegisdc-business-diagnostic-evaluation-v1','aegisdc-business-diagnostic-evaluation-v2',
-                             'aegisdc-business-diagnostic-evaluation-v3'):
+    if family == 'diagnostic':
         from .diagnostic_endpoints import evaluate_diagnostic_events
         return evaluate_diagnostic_events(result,program)
     return evaluate_business_closure(result,program)

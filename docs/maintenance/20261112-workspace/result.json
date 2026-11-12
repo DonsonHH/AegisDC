@@ -1,0 +1,327 @@
+{
+  "schema": "aegisdc-workspace-maintenance-v1",
+  "status": "PASS_BOUNDED_MAINTENANCE_DELIVERED",
+  "date": "2026-11-12",
+  "classification": "MAINTENANCE_NOT_RESEARCH_OR_39C_ACCEPTANCE",
+  "baseline_commit": "add833644e5d321153dc9f1be5f2377db9ccfc27",
+  "execution_commit": "5eef495b7b5d86efe9b632df8146dd3a034f31e4",
+  "branch": "donson/workspace-maintenance-20261112",
+  "private_root": "/share/home/renly/renly-patrol-rsi/mainline/maintenance-20261112",
+  "scope": [
+    "runtime source identity consolidation",
+    "CLI readability and lazy loading",
+    "installed aegis-dc entry",
+    "shared closed business schema families",
+    "workspace and tool navigation",
+    "proposed research roadmap"
+  ],
+  "baseline_inventory": {
+    "tracked_files": 8822,
+    "evidence_files": 7048,
+    "paper_files": 601,
+    "docs_files": 629,
+    "source_files": 83,
+    "scripts_files": 212,
+    "tests_and_fixtures": 150
+  },
+  "immutable_scope": {
+    "slice57": {
+      "docs/mainline/39c-business-record-replay-contract-57.md": "3300ea819f2c9ab3ac561cd3d9b331f4874a233e242e1b74bdb57cf6a698e2dd",
+      "tests/fixtures/39c-business-record-replay-57.json": "9b63097411f9971b7bc796605f7170066ae003a91b2c839b4e8ade123530e70f",
+      "tests/test_business_recorded_replay.py": "8339d2d714d27f06da0cae6a2b4e7fea88d278380e0b63b782948c68f5a04bca"
+    },
+    "existing_evidence": "UNCHANGED",
+    "formal_protocols": "UNCHANGED",
+    "progress_json": "UNCHANGED",
+    "legacy_source": "UNCHANGED",
+    "configs_and_original_tests": "UNCHANGED",
+    "untracked_reports": "RETAINED_NOT_PUBLISHED",
+    "other_chat_worktree": "RETAINED",
+    "original_registered_trials": 180,
+    "new_registered_trials": 0,
+    "ai_rsi": "FROZEN"
+  },
+  "runtime_sha256": {
+    "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+    "src/aegis_dc/__main__.py": "1e63bc1e11bf3d4a14581923b86e29ab669921e9f91715997255c211f1f9d09e",
+    "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+    "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+    "src/aegis_dc/business_endpoints.py": "cf017cc039fdc0c4236ffed5d03138c0d9bfb34522779ac40a2243619304f54f",
+    "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+    "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+    "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+    "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+    "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+    "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+    "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+    "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+    "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+    "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+    "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+    "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+    "src/aegis_dc/inspection_execution.py": "a4fd97a4915b6c8a76d6c158c55da68c7be114518671e1e13246d8db8cdcf685",
+    "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+    "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+    "src/aegis_dc/intervention_execution.py": "b55542562e46b37accadeeec98bf00af05b937985e08c08520c633944bda4663",
+    "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+    "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+    "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+    "src/aegis_dc/nonfixed_evidence.py": "1ebc0e7588c710c8ea403b18f5378e436274728a4d664142b00790fc25d087c6",
+    "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+    "src/aegis_dc/plant.py": "25c06a1c7a95f2ceae8f2751c3bf83fb2da1e71db2806209535506a84d45d283",
+    "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+    "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+    "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+    "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+    "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+    "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+    "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+    "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+    "src/aegis_dc/replay.py": "71ee0022222432df8468f3010213ec7e2d80fd012a67db5371308e39f677c332",
+    "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+    "src/aegis_dc/risk_baseline.py": "be1b0c066ea6fcd99292370a79ab57237bf439848b6aea8200e125d1e8fe2b26",
+    "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+    "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+    "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+    "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+    "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+    "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+    "src/aegis_dc/source_identity.py": "cc845f24bfb90ffd4f39988eebcaaf5f2c034947b33aac3599163df899f6dd1d",
+    "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+    "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+    "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+    "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+    "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+    "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+    "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+    "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+  },
+  "verification": {
+    "red": {
+      "classification": "BOUNDED_MAINTENANCE_REGRESSION_NOT_39C_ROOT_OR_RESEARCH",
+      "source": "d471bb27ac8a2666484a5991cabdb6f849c0c047",
+      "job_id": "133471",
+      "node": "gpu02",
+      "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]",
+      "executable_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+      "numpy": "2.3.5",
+      "runner_sha256": "1cd07620c952007ac2f2dc78f8c869fef343cb3ab1c1912ffebcf60c75d72e46",
+      "selected_files": [
+        "test_mainline_replay.py",
+        "test_replay_reader_authority.py",
+        "test_replay_execution_binding.py",
+        "test_business_recorded_replay.py",
+        "test_full_loop_replay.py",
+        "test_composite_business_endpoint.py",
+        "test_composite_business_qualification.py",
+        "test_business_actual_cost.py",
+        "test_business_state_diagnostic.py",
+        "test_business_temporal_endpoints.py",
+        "test_business_instance_closure.py",
+        "test_business_closure_endpoint.py",
+        "test_business_closure_qualification.py",
+        "test_facility_foundation.py",
+        "test_full_facility_scenario.py",
+        "test_aegis_cli_loading.py"
+      ],
+      "new_registered_research_trials": 0,
+      "model_calls": 0,
+      "instrumented_facility_entries": 39,
+      "completed_facility_windows": 29,
+      "completed_facility_seconds": 118.0,
+      "facility_entry_scope": "in-process tests; CLI children not instrumented",
+      "status": "EXPECTED_RED",
+      "discovered": 71,
+      "executed": 71,
+      "failures": [
+        "test_aegis_cli_loading.AegisCLILoadingTests.test_status_keeps_private_executor_unloaded"
+      ],
+      "errors": [],
+      "skips": 0,
+      "source_unchanged": true,
+      "manifest_sha256": "1e8cef04f16e681076306d9adcd9e1c98b684ee00626a8967a6d8c63346de92b",
+      "test_log_sha256": "7a2a838da6f3d2c54a4aaab968ec1c46fc0a009303d3b169880be53c4a008bab"
+    },
+    "green": {
+      "classification": "BOUNDED_MAINTENANCE_REGRESSION_NOT_39C_ROOT_OR_RESEARCH",
+      "source": "5eef495b7b5d86efe9b632df8146dd3a034f31e4",
+      "job_id": "133472",
+      "node": "gpu02",
+      "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]",
+      "executable_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+      "numpy": "2.3.5",
+      "runner_sha256": "1cd07620c952007ac2f2dc78f8c869fef343cb3ab1c1912ffebcf60c75d72e46",
+      "selected_files": [
+        "test_mainline_replay.py",
+        "test_replay_reader_authority.py",
+        "test_replay_execution_binding.py",
+        "test_business_recorded_replay.py",
+        "test_full_loop_replay.py",
+        "test_composite_business_endpoint.py",
+        "test_composite_business_qualification.py",
+        "test_business_actual_cost.py",
+        "test_business_state_diagnostic.py",
+        "test_business_temporal_endpoints.py",
+        "test_business_instance_closure.py",
+        "test_business_closure_endpoint.py",
+        "test_business_closure_qualification.py",
+        "test_facility_foundation.py",
+        "test_full_facility_scenario.py",
+        "test_aegis_cli_loading.py"
+      ],
+      "new_registered_research_trials": 0,
+      "model_calls": 0,
+      "instrumented_facility_entries": 39,
+      "completed_facility_windows": 29,
+      "completed_facility_seconds": 118.0,
+      "facility_entry_scope": "in-process tests; CLI children not instrumented",
+      "status": "PASS",
+      "discovered": 71,
+      "executed": 71,
+      "failures": [],
+      "errors": [],
+      "skips": 0,
+      "source_unchanged": true,
+      "manifest_sha256": "c358832fd5a9e03002d9911986394b9b4bc2c6de8338122fd22e7e8f4eae1194",
+      "test_log_sha256": "0fdf5c560954db7cc525795a02ace35b0b14588c4263ceb4be414bc4f9ed7909"
+    },
+    "console": {
+      "job_id": "133473",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_s": 1,
+      "isolated_environment": "console-env",
+      "command": "console-env/bin/aegis-dc status; console-env/bin/python -m aegis_dc status; cmp outputs; console-env/bin/patrol-rsi --help",
+      "stdout_sha256": "1c04aea288102f369f2f2996ad9eb9485dda91853229c3ebada8890e39c36f9c",
+      "new_facility_entries": 0
+    },
+    "fresh_delivery": {
+      "status": "PASS",
+      "classification": "FILE_AND_GIT_INTEGRITY_ONLY_NO_PROJECT_EXECUTION",
+      "delivery_commit": "da4fc879058f3b737912e3e45387b5681d12dbba",
+      "github_origin": "https://github.com/DonsonHH/AegisDC.git",
+      "checked_blobs": 8829,
+      "checked_bytes": 1345175346,
+      "unchanged_original_files": 8815,
+      "changed_original_files": [
+        "README.md",
+        "docs/NEXT.md",
+        "pyproject.toml",
+        "src/aegis_dc/__main__.py",
+        "src/aegis_dc/business_endpoints.py",
+        "src/aegis_dc/plant.py",
+        "src/aegis_dc/replay.py"
+      ],
+      "runtime_files_equal_to_verified_execution": 53,
+      "checked_local_links": 41,
+      "baseline": "add833644e5d321153dc9f1be5f2377db9ccfc27",
+      "new_research_trials": 0,
+      "verifier_sha256": "9c54bf98adf20da7fb3d230bffbc1109a911006f4396fdad6507d9b8f3eb5d64",
+      "manifest_sha256": "a780462588d0a63b790cdda784fda1de7dae090040dcbd79853a03398b7862f0",
+      "execution_location": "Desktop permitted integrity checks only; no project imports, tests, simulation, or dependency installation",
+      "initial_failure": {
+        "status": "FAILED_RETAINED",
+        "first_path": "cleanup.json",
+        "reason": "Git checkout line-ending conversion; original committed blob unchanged",
+        "receipt_remote": "fresh-integrity/fresh-integrity-failure-01.json"
+      },
+      "checkout_conversion": {
+        "scope": "DISPOSABLE_FRESH_CHECKOUT_ONLY_ORIGINAL_BLOBS_UNCHANGED",
+        "corrections": [
+          {
+            "path": "cleanup.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "37cb99bec341befcdd4fb85bd6634bc0990b127c6c8584e49b162bc5d8d17959",
+            "committed_sha256": "c71f9c2ad403f98bc926ce7dc74a8c2fa273d5059dea1b39d831b6932fb81cc5"
+          },
+          {
+            "path": "docs/maintenance/20261112-workspace/result.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "caca695ac5dd13b6596c406d422a69f49b87da35dd16054b2bf3dc967eec7b19",
+            "committed_sha256": "6bf45ea70ced63d5cb9f069e3f9371aca3ee4e0f04d9c743c5aeb20ff1472c34"
+          },
+          {
+            "path": "docs/reviews/20261110-direction-correction/default-branch.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "bd5391d9a643ce3a620acb27eb3c18be0dc063f65abcdb9358a6e8440cd3713e",
+            "committed_sha256": "dcc9d2370e44f2982efc024c422377a8b706a754ebd158047f56545315c5b844"
+          },
+          {
+            "path": "docs/reviews/20261110-direction-correction/scope-update-audit.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "5a6885c44e4bbeb977f359282327433b60097a95b6071a09d518cb1eead6fbf6",
+            "committed_sha256": "a6d7495690bd4b7b483f4c063aec0c729abcac166dfc684f606000581ddc6666"
+          },
+          {
+            "path": "docs/reviews/facility-cases-remote-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "3d564dafd182b4aeec9c670d90875b811110b57a5945e0d8cbb1417161d15a0f",
+            "committed_sha256": "b426eab9f393d7140aa71f6d84250eb960cb9536849ca9e1d7941821292dbc44"
+          },
+          {
+            "path": "docs/reviews/postmeeting-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "aa85ccdc10fbe7d79c78b56ac3fb9cb3116a6f891b3bf6b0419c4e267f5d2981",
+            "committed_sha256": "2c1c30b77d6acc002ff8cbb8afe3f471e317f5d2ccfa5bf88d626cb9ffe15b87"
+          },
+          {
+            "path": "docs/reviews/premeeting-20261103.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "cb60295b12c7fa62af71123ef16058cb31cef9b32867264b1d31bc058cdbe55a",
+            "committed_sha256": "07a4e1c51cc8234469899aa5a032eb1e351ec9e435b3aea33b3204684ae3118c"
+          },
+          {
+            "path": "docs/reviews/remote-publication-20261104.json",
+            "reason": "GIT_CHECKOUT_LINE_ENDING_CONVERSION",
+            "checkout_sha256": "28cbf58b74c8699dd711b15a821d571685fa816f2f9284d1bae832450fb32efb",
+            "committed_sha256": "8ad59bee18a6a75748e27d4d42e775a63b9b38f3fec175261ceeccdc2148cd46"
+          }
+        ],
+        "correction_count": 8,
+        "tool_sha256": "a89974fc83c9ea531d16f3a994d428a1a06b7b54e7320ff0bfa6f195f1811470"
+      },
+      "github_clone_route": {
+        "remote_direct": "45-second bounded attempt timed out; empty clone log retained",
+        "completed": "Fresh local GitHub clone; exact committed bytes materialized before hash validation",
+        "originals_rewritten": false,
+        "skipped_hash_failures": 0
+      }
+    }
+  },
+  "review": {
+    "baseline": "add83364",
+    "reviewed_implementation": "eaf4fa31",
+    "spec": {
+      "implementation_findings": 0,
+      "delivery_followups": [
+        "workspace navigation and bounded roadmap delivered",
+        "installed console command validated",
+        "fresh delivery 8829 blobs and 53 runtime files verified"
+      ]
+    },
+    "standards": {
+      "hard_violations": 0,
+      "judgment_findings": 1,
+      "resolution": "5eef495b: co-locate CLI names and help in ordered mapping"
+    },
+    "architecture": "no confidently unused production module; preserve legacy code and pinned historical scripts",
+    "final_doc_review": "da4fc879: Spec0 implementation/document findings; Standards0 open; only pending fresh receipt now completed"
+  },
+  "tools": {
+    "runner_sha256": "1cd07620c952007ac2f2dc78f8c869fef343cb3ab1c1912ffebcf60c75d72e46",
+    "runner_remote": "verify.py",
+    "authoring": "Codex apply_patch and PowerShell; no local project execution",
+    "plugin": "code-simplifier not installed: plugin search tool unavailable",
+    "integrity_verifier_sha256": "9c54bf98adf20da7fb3d230bffbc1109a911006f4396fdad6507d9b8f3eb5d64",
+    "integrity_private_directory": "fresh-integrity/"
+  },
+  "delivery_policy": "Frozen originals retained; caches excluded; private full manifests/logs and runner retained remotely. New runtime identity requires matching revision for exact replay.",
+  "publication": {
+    "branch": "donson/workspace-maintenance-20261112",
+    "base": "donson/mainline-39c-endpoints",
+    "main_merged": false,
+    "ci": "SKIPPED_BY_COMMIT_MESSAGE; remote bounded regression recorded above",
+    "pull_request": "https://github.com/DonsonHH/AegisDC/pull/3",
+    "pull_request_state": "DRAFT_FOR_USER_REVIEW"
+  }
+}

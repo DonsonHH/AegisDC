@@ -9,7 +9,6 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import platform
-import subprocess
 import sys
 from uuid import uuid4
 
@@ -21,6 +20,7 @@ from .plant import (ENGINEERING_COMMAND_PARAMETERS, _action_commands, save_run, 
                     validate_boundary_events)
 from .policy_execution import PolicySession
 from .scenario import validate_scenario
+from .source_identity import runtime_source_identity
 from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, bind_execution_inputs, completed_request, declaration_header,
                             engineering_run_header, lifecycle_rows, terminal_header, trace_rows)
 
@@ -74,17 +74,7 @@ def _runtime_cache(path):
 
 def execution_source_identity():
     """Identity of executed runtime bytes and interpreter, excluding caches."""
-    paths = sorted((ROOT / 'src/aegis_dc').glob('*.py')) + [ROOT / 'src/patrol_rsi/contracts.py']
-    files = {path.relative_to(ROOT).as_posix(): _file_sha(path) for path in paths}
-    try:
-        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain', '--',
-                                             'src/aegis_dc', 'src/patrol_rsi/contracts.py'],
-                                            cwd=ROOT, text=True).strip())
-    except (OSError, subprocess.CalledProcessError):
-        commit, dirty = None, None
-    return dict(schema='aegisdc-execution-source-v1', git_commit=commit,
-                implementation_has_changes=dirty, files=files, source_tree_sha256=digest(files),
+    return dict(schema='aegisdc-execution-source-v1', **runtime_source_identity(ROOT),
                 python=dict(implementation=platform.python_implementation(), version=sys.version,
                             executable_sha256=_file_sha(Path(sys.executable))))
 

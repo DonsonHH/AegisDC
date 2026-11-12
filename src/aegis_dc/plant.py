@@ -8,7 +8,6 @@ from hashlib import sha256
 import math
 import json
 from pathlib import Path
-import subprocess
 
 from patrol_rsi.contracts import digest
 from .environment import condensation_risk, floor_water_step
@@ -20,6 +19,7 @@ from .reserve import (RESERVE_MODEL, RESERVE_PROFILE, RESERVE_QUANTITIES, RESERV
 from .runtime_contract import ENVIRONMENT_MODELS, WATER_MODELS
 from .local_control import CONTROL_PROFILE, CONTROL_QUANTITIES, CONTROL_BINARY_PARAMETERS, sample_local_control
 from .scenario import validate_scenario
+from .source_identity import runtime_source_identity
 from .thermodynamics import SaturationTable, finite_number
 from .time_coordinates import TIME_COORDINATE_CONVENTION, same_time, time_due
 from .workforce import Workforce
@@ -96,21 +96,6 @@ def validate_boundary_events(scenario, events, *, duration_s):
     runtime = scenario['runtime']
     return _boundary_events(events, parameters, duration, model=runtime['model'],
         control_profile=runtime.get('local_control_profile'), reserve_profile=runtime.get('reserve_profile'))
-
-
-def _code_identity():
-    paths = sorted((ROOT / 'src/aegis_dc').glob('*.py')) + [ROOT / 'src/patrol_rsi/contracts.py']
-    files = {str(path.relative_to(ROOT)).replace('\\', '/'): sha256(path.read_bytes()).hexdigest()
-             for path in paths}
-    try:
-        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
-        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain', '--',
-                                             'src/aegis_dc', 'src/patrol_rsi/contracts.py'],
-                                            cwd=ROOT, text=True).strip())
-    except (OSError, subprocess.CalledProcessError):
-        commit, dirty = None, None
-    return {'git_commit': commit, 'implementation_has_changes': dirty,
-            'source_tree_sha256': digest(files), 'files': files}
 
 
 def _action_commands(rows, parameters, duration, **profiles):
@@ -858,7 +843,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             'state_visibility': 'PRIVATE_PLANT_EVALUATOR_ONLY', 'dispatch_interface': 'PUBLIC_SELECTION_WITH_PRIVATE_EXECUTION' if dispatch is not None else 'DISABLED_FOR_THIS_RUN',
             'field_calibration': 'PENDING', 'research_gain_claim': 'NOT_ESTABLISHED',
             'research_trials': 0, 'model_calls': 0, 'training_calls': 0,
-            'scenario_sha256': digest(scenario), 'source_config': scenario, 'code_identity': _code_identity(),
+            'scenario_sha256': digest(scenario), 'source_config': scenario,
+            'code_identity': runtime_source_identity(ROOT),
             'property_reference': {'sha256': table.sha256, 'source': table.source, 'validity': table.validity},
             'time_coordinate_convention': deepcopy(TIME_COORDINATE_CONVENTION),
             **({'workforce_public_feedback': workforce.public_feedback(duration)} if work_program is not None else {}),
