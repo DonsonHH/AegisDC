@@ -1,0 +1,601 @@
+{
+  "status": "CONFIGURATION_ARITHMETIC_ONLY",
+  "protocol_id": "39r-joint-cooling-access-feasibility-v1",
+  "protocol": {
+    "bytes": 2730,
+    "sha256": "c9b6bd396a919e04c09579d39d06791a3b5b1f13b8b52304353abc631fbb8672"
+  },
+  "script": {
+    "bytes": 8569,
+    "sha256": "d4957788c6720f64fa669d9bb5e0474d65208f253a7bd8a6b7e7bf6b685c1ada"
+  },
+  "input_git_revision": "ec0dd26934978c96778433302000f2d814007593",
+  "inputs": {
+    "v6": {
+      "path": "configs/full-facility-mainline-reserve-v6.json",
+      "bytes": 144280,
+      "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+    },
+    "timing_case": {
+      "path": "evidence/mainline/engineering/29-uncertainty-domain/prepared-01/cases/nominal.json",
+      "bytes": 203996,
+      "sha256": "1ea5c3c8705b21c857a7a3988a008c8ba84c6dfcc8a1ad1862373dcda22971df"
+    }
+  },
+  "model": {
+    "release_s": 0,
+    "shift_end_s": 3600,
+    "tasks": {
+      "A": {
+        "interface_id": "inspect_facility_cooling",
+        "target_id": "intake_pump",
+        "location": "loc_lake",
+        "work_s": 30,
+        "work_parameter": "inspection_time"
+      },
+      "B": {
+        "interface_id": "inspect_space_access",
+        "target_id": "it_access_gate",
+        "location": "loc_control",
+        "work_s": 30,
+        "work_parameter": "inspection_time"
+      }
+    },
+    "routes": {
+      "start_to_A": [
+        {
+          "edge": "a3",
+          "from": "loc_hx",
+          "to": "loc_lake",
+          "walk_s": 120,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_long"
+        }
+      ],
+      "start_to_B": [
+        {
+          "edge": "a2",
+          "from": "loc_hx",
+          "to": "loc_control",
+          "walk_s": 60,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_short"
+        }
+      ],
+      "A_to_B": [
+        {
+          "edge": "a3",
+          "from": "loc_lake",
+          "to": "loc_hx",
+          "walk_s": 120,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_long"
+        },
+        {
+          "edge": "a2",
+          "from": "loc_hx",
+          "to": "loc_control",
+          "walk_s": 60,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_short"
+        }
+      ],
+      "B_to_A": [
+        {
+          "edge": "a2",
+          "from": "loc_control",
+          "to": "loc_hx",
+          "walk_s": 60,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_short"
+        },
+        {
+          "edge": "a3",
+          "from": "loc_hx",
+          "to": "loc_lake",
+          "walk_s": 120,
+          "access_check_s": 0.25,
+          "walk_parameter": "walk_long"
+        }
+      ]
+    },
+    "worker_id": "worker_cooling",
+    "tool_id": "tool_flow_meter",
+    "start_location": "loc_hx",
+    "qualification_id": "qualified_cooling_inspection",
+    "timing_profile_id": "V6-29-public-work-timing-v1"
+  },
+  "cases": [
+    {
+      "id": "slack",
+      "deadline_s": {
+        "A": 420,
+        "B": 420
+      },
+      "permit_from_s": {
+        "A": 0,
+        "B": 0
+      },
+      "person_budget_s": 500,
+      "verdict": "BOTH_FEASIBLE",
+      "feasible_orders": [
+        "AB",
+        "BA"
+      ],
+      "orders": {
+        "AB": {
+          "status": "FEASIBLE",
+          "reasons": [],
+          "schedule": {
+            "A": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 120.25,
+              "route": [
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 120.25,
+              "finish_s": 150.25,
+              "permit_wait_s": 0.0
+            },
+            "B": {
+              "departure_s": 150.25,
+              "arrival_after_access_checks_s": 330.75,
+              "route": [
+                "a3",
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 330.75,
+              "finish_s": 360.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 360.75,
+          "tool_s": 360.75,
+          "person_breakdown_s": {
+            "walk": 300,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        },
+        "BA": {
+          "status": "FEASIBLE",
+          "reasons": [],
+          "schedule": {
+            "B": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 60.25,
+              "route": [
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 60.25,
+              "finish_s": 90.25,
+              "permit_wait_s": 0.0
+            },
+            "A": {
+              "departure_s": 90.25,
+              "arrival_after_access_checks_s": 270.75,
+              "route": [
+                "a2",
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 270.75,
+              "finish_s": 300.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 300.75,
+          "tool_s": 300.75,
+          "person_breakdown_s": {
+            "walk": 240,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        }
+      },
+      "single_tasks": {
+        "A": "FEASIBLE",
+        "B": "FEASIBLE"
+      }
+    },
+    {
+      "id": "travel_deadline",
+      "deadline_s": {
+        "A": 330,
+        "B": 330
+      },
+      "permit_from_s": {
+        "A": 0,
+        "B": 0
+      },
+      "person_budget_s": 500,
+      "verdict": "ONE_ORDER_FEASIBLE",
+      "feasible_orders": [
+        "BA"
+      ],
+      "orders": {
+        "AB": {
+          "status": "INFEASIBLE",
+          "reasons": [
+            "DEADLINE:B"
+          ],
+          "schedule": {
+            "A": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 120.25,
+              "route": [
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 330,
+              "start_s": 120.25,
+              "finish_s": 150.25,
+              "permit_wait_s": 0.0
+            },
+            "B": {
+              "departure_s": 150.25,
+              "arrival_after_access_checks_s": 330.75,
+              "route": [
+                "a3",
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 330,
+              "start_s": 330.75,
+              "finish_s": 360.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 360.75,
+          "tool_s": 360.75,
+          "person_breakdown_s": {
+            "walk": 300,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        },
+        "BA": {
+          "status": "FEASIBLE",
+          "reasons": [],
+          "schedule": {
+            "B": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 60.25,
+              "route": [
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 330,
+              "start_s": 60.25,
+              "finish_s": 90.25,
+              "permit_wait_s": 0.0
+            },
+            "A": {
+              "departure_s": 90.25,
+              "arrival_after_access_checks_s": 270.75,
+              "route": [
+                "a2",
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 330,
+              "start_s": 270.75,
+              "finish_s": 300.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 300.75,
+          "tool_s": 300.75,
+          "person_breakdown_s": {
+            "walk": 240,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        }
+      },
+      "single_tasks": {
+        "A": "FEASIBLE",
+        "B": "FEASIBLE"
+      }
+    },
+    {
+      "id": "permit_wait",
+      "deadline_s": {
+        "A": 420,
+        "B": 420
+      },
+      "permit_from_s": {
+        "A": 0,
+        "B": 225
+      },
+      "person_budget_s": 500,
+      "verdict": "ONE_ORDER_FEASIBLE",
+      "feasible_orders": [
+        "AB"
+      ],
+      "orders": {
+        "AB": {
+          "status": "FEASIBLE",
+          "reasons": [],
+          "schedule": {
+            "A": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 120.25,
+              "route": [
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 120.25,
+              "finish_s": 150.25,
+              "permit_wait_s": 0.0
+            },
+            "B": {
+              "departure_s": 150.25,
+              "arrival_after_access_checks_s": 330.75,
+              "route": [
+                "a3",
+                "a2"
+              ],
+              "permit_from_s": 225,
+              "deadline_s": 420,
+              "start_s": 330.75,
+              "finish_s": 360.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 360.75,
+          "tool_s": 360.75,
+          "person_breakdown_s": {
+            "walk": 300,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        },
+        "BA": {
+          "status": "INFEASIBLE",
+          "reasons": [
+            "DEADLINE:A"
+          ],
+          "schedule": {
+            "B": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 60.25,
+              "route": [
+                "a2"
+              ],
+              "permit_from_s": 225,
+              "deadline_s": 420,
+              "start_s": 225,
+              "finish_s": 255,
+              "permit_wait_s": 164.75
+            },
+            "A": {
+              "departure_s": 255,
+              "arrival_after_access_checks_s": 435.5,
+              "route": [
+                "a2",
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 435.5,
+              "finish_s": 465.5,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 465.5,
+          "tool_s": 465.5,
+          "person_breakdown_s": {
+            "walk": 240,
+            "access_check": 0.75,
+            "permit_wait": 164.75,
+            "work": 60
+          }
+        }
+      },
+      "single_tasks": {
+        "A": "FEASIBLE",
+        "B": "FEASIBLE"
+      }
+    },
+    {
+      "id": "person_budget",
+      "deadline_s": {
+        "A": 420,
+        "B": 420
+      },
+      "permit_from_s": {
+        "A": 0,
+        "B": 0
+      },
+      "person_budget_s": 280,
+      "verdict": "NEITHER_FEASIBLE",
+      "feasible_orders": [],
+      "orders": {
+        "AB": {
+          "status": "INFEASIBLE",
+          "reasons": [
+            "PERSON_BUDGET"
+          ],
+          "schedule": {
+            "A": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 120.25,
+              "route": [
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 120.25,
+              "finish_s": 150.25,
+              "permit_wait_s": 0.0
+            },
+            "B": {
+              "departure_s": 150.25,
+              "arrival_after_access_checks_s": 330.75,
+              "route": [
+                "a3",
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 330.75,
+              "finish_s": 360.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 360.75,
+          "tool_s": 360.75,
+          "person_breakdown_s": {
+            "walk": 300,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        },
+        "BA": {
+          "status": "INFEASIBLE",
+          "reasons": [
+            "PERSON_BUDGET"
+          ],
+          "schedule": {
+            "B": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 60.25,
+              "route": [
+                "a2"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 60.25,
+              "finish_s": 90.25,
+              "permit_wait_s": 0.0
+            },
+            "A": {
+              "departure_s": 90.25,
+              "arrival_after_access_checks_s": 270.75,
+              "route": [
+                "a2",
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 270.75,
+              "finish_s": 300.75,
+              "permit_wait_s": 0.0
+            }
+          },
+          "person_s": 300.75,
+          "tool_s": 300.75,
+          "person_breakdown_s": {
+            "walk": 240,
+            "access_check": 0.75,
+            "permit_wait": 0.0,
+            "work": 60
+          }
+        }
+      },
+      "single_tasks": {
+        "A": "FEASIBLE",
+        "B": "FEASIBLE"
+      }
+    },
+    {
+      "id": "missing_permit",
+      "deadline_s": {
+        "A": 420,
+        "B": 420
+      },
+      "permit_from_s": {
+        "A": 0,
+        "B": null
+      },
+      "person_budget_s": 500,
+      "verdict": "INSUFFICIENT_EVIDENCE",
+      "feasible_orders": [],
+      "orders": {
+        "AB": {
+          "status": "UNKNOWN",
+          "reasons": [
+            "WORK_PERMIT_UNKNOWN:B"
+          ],
+          "schedule": {
+            "A": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 120.25,
+              "route": [
+                "a3"
+              ],
+              "permit_from_s": 0,
+              "deadline_s": 420,
+              "start_s": 120.25,
+              "finish_s": 150.25,
+              "permit_wait_s": 0.0
+            },
+            "B": {
+              "departure_s": 150.25,
+              "arrival_after_access_checks_s": 330.75,
+              "route": [
+                "a3",
+                "a2"
+              ],
+              "permit_from_s": null,
+              "deadline_s": 420,
+              "start_s": null,
+              "finish_s": null,
+              "permit_wait_s": null
+            }
+          },
+          "person_s": null,
+          "tool_s": null,
+          "person_breakdown_s": null
+        },
+        "BA": {
+          "status": "UNKNOWN",
+          "reasons": [
+            "WORK_PERMIT_UNKNOWN:B"
+          ],
+          "schedule": {
+            "B": {
+              "departure_s": 0,
+              "arrival_after_access_checks_s": 60.25,
+              "route": [
+                "a2"
+              ],
+              "permit_from_s": null,
+              "deadline_s": 420,
+              "start_s": null,
+              "finish_s": null,
+              "permit_wait_s": null
+            }
+          },
+          "person_s": null,
+          "tool_s": null,
+          "person_breakdown_s": null
+        }
+      },
+      "single_tasks": {
+        "A": "FEASIBLE",
+        "B": "UNKNOWN"
+      }
+    }
+  ],
+  "new_facility_runs": 0,
+  "new_policy_calls": 0,
+  "registered_research_runs": 0,
+  "service_benefit": "NOT_EVALUATED",
+  "field_calibration": "PENDING"
+}

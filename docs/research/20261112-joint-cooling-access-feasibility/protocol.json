@@ -1,0 +1,46 @@
+{
+  "id": "39r-joint-cooling-access-feasibility-v1",
+  "scope": "CONFIGURATION_ARITHMETIC_ONLY",
+  "input_git_revision": "ec0dd26934978c96778433302000f2d814007593",
+  "inputs": {
+    "v6": {
+      "path": "configs/full-facility-mainline-reserve-v6.json",
+      "bytes": 144280,
+      "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+    },
+    "timing_case": {
+      "path": "evidence/mainline/engineering/29-uncertainty-domain/prepared-01/cases/nominal.json",
+      "bytes": 203996,
+      "sha256": "1ea5c3c8705b21c857a7a3988a008c8ba84c6dfcc8a1ad1862373dcda22971df"
+    }
+  },
+  "facility_id": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+  "timing_profile_id": "V6-29-public-work-timing-v1",
+  "worker_id": "worker_cooling",
+  "tool_id": "tool_flow_meter",
+  "qualification_id": "qualified_cooling_inspection",
+  "start_location": "loc_hx",
+  "excluded_locations": ["loc_it"],
+  "tasks": {
+    "A": {"interface_id": "inspect_facility_cooling", "target_id": "intake_pump"},
+    "B": {"interface_id": "inspect_space_access", "target_id": "it_access_gate"}
+  },
+  "routes": {"start_to_A": ["a3"], "start_to_B": ["a2"], "A_to_B": ["a3", "a2"], "B_to_A": ["a2", "a3"]},
+  "declared_assumptions": {
+    "release_s": 0,
+    "worker_and_tool_available_at_release": true,
+    "authorized_access_edges": ["a2", "a3"],
+    "work_permit_scope": "Work at the already accessible task location, separate from route authorization; no entry into loc_it.",
+    "execution": "One worker carries the shared tool throughout each candidate sequence; routes stay open, no overlap, interruptions, additional jobs or return leg.",
+    "cost": "Occupied person-seconds count walking, per-edge access checks, waiting under reservation and work once each. Tool stays reserved across that same span.",
+    "deadline": "Compare on-site work completion inclusive of the deadline; excludes feedback, response, verification of service restoration and return travel.",
+    "missing_evidence": "Null work permit opening leaves affected completion and full-order occupancy unknown."
+  },
+  "cases": [
+    {"id": "slack", "deadline_s": {"A": 420, "B": 420}, "permit_from_s": {"A": 0, "B": 0}, "person_budget_s": 500},
+    {"id": "travel_deadline", "deadline_s": {"A": 330, "B": 330}, "permit_from_s": {"A": 0, "B": 0}, "person_budget_s": 500},
+    {"id": "permit_wait", "deadline_s": {"A": 420, "B": 420}, "permit_from_s": {"A": 0, "B": 225}, "person_budget_s": 500},
+    {"id": "person_budget", "deadline_s": {"A": 420, "B": 420}, "permit_from_s": {"A": 0, "B": 0}, "person_budget_s": 280},
+    {"id": "missing_permit", "deadline_s": {"A": 420, "B": 420}, "permit_from_s": {"A": 0, "B": null}, "person_budget_s": 500}
+  ]
+}
