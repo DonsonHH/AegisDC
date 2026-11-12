@@ -19,6 +19,7 @@ from .composite_endpoints import execution_input_binding
 from .cost_endpoints import _audit_timing
 from .plant import (ENGINEERING_COMMAND_PARAMETERS, _action_commands, save_run, simulate_scenario,
                     validate_boundary_events)
+from .policy_execution import PolicySession
 from .scenario import validate_scenario
 from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, bind_execution_inputs, completed_request, declaration_header,
                             engineering_run_header, lifecycle_rows, terminal_header, trace_rows)
@@ -308,6 +309,13 @@ def _bind_business_trajectory(record, scenario, frozen, request, execution_input
         times = {name: float(value) if request[name] is not None else value for name, value in execution_inputs.items()}
         expected = dict(**times, boundary_events=events, work_requests=frozen['work_requests'],
                         dispatch_program=frozen['dispatch_program'], business_program=frozen['business_program'])
+        # Native dispatch materializes these inputs before time advances. Bind their
+        # contents too; accepting the names alone would miss changed declarations.
+        dispatch = PolicySession(frozen['dispatch_program'], duration)
+        for name in ('work_program', 'inspection_program', 'intervention_program'):
+            declaration = getattr(dispatch, name)
+            if declaration is not None:
+                expected[name] = declaration
         if commands:
             expected['action_commands'] = commands
         if ('business_program' in run or digest(inputs) != digest(expected)
