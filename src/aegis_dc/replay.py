@@ -14,7 +14,11 @@ import sys
 from uuid import uuid4
 
 from patrol_rsi.contracts import digest, strict_json
-from .plant import ENGINEERING_COMMAND_PARAMETERS, save_run, simulate_scenario
+from .business_endpoints import evaluate_business_endpoints, validate_business_program
+from .composite_endpoints import execution_input_binding
+from .cost_endpoints import _audit_timing
+from .plant import (ENGINEERING_COMMAND_PARAMETERS, _action_commands, save_run, simulate_scenario,
+                    validate_boundary_events)
 from .scenario import validate_scenario
 from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, bind_execution_inputs, completed_request, declaration_header,
                             engineering_run_header, lifecycle_rows, terminal_header, trace_rows)
@@ -22,6 +26,14 @@ from .replay_format import (LIFECYCLE_SCHEMA, balance_rows, balance_time_axis, b
 ROOT = Path(__file__).resolve().parents[2]
 INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v1'
 ONLINE_INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v2'
+BUSINESS_INPUT_SCHEMA = 'aegisdc-facility-replay-inputs-v3'
+RUNTIME_IDENTITY_FIELDS = ('schema', 'files', 'source_tree_sha256', 'python')
+REVISION_FIELDS = ('git_commit', 'implementation_has_changes')
+RUN_SOURCE_FIELDS = ('files', 'source_tree_sha256', *REVISION_FIELDS)
+COMPOSITE_RESULT_SCHEMA = 'aegisdc-business-composite-result-v1'
+STANDALONE_COST_SCHEMAS = ('aegisdc-business-cost-result-v1', 'aegisdc-business-cost-result-v2')
+AUDIT_TIMING_FIELDS = (('elapsed_ns', 'selector_elapsed_ns'),
+                       ('condition_assessment_elapsed_ns', 'condition_assessment_elapsed_ns'))
 
 
 class AttemptReadError(ValueError):
@@ -78,10 +90,12 @@ def execution_source_identity():
 
 def _inputs(value):
     fields = {'schema', 'seed', 'exogenous_events', 'action_commands', 'work_requests'}
-    if not isinstance(value, dict) or value.get('schema') not in (INPUT_SCHEMA, ONLINE_INPUT_SCHEMA):
+    if not isinstance(value, dict) or value.get('schema') not in (INPUT_SCHEMA, ONLINE_INPUT_SCHEMA, BUSINESS_INPUT_SCHEMA):
         raise ValueError('Use the closed versioned facility replay inputs contract')
-    online = value['schema'] == ONLINE_INPUT_SCHEMA
-    if set(value) != fields | ({'dispatch_program'} if online else set()):
+    online = value['schema'] != INPUT_SCHEMA
+    business = value['schema'] == BUSINESS_INPUT_SCHEMA
+    program_fields = ({'dispatch_program'} if online else set()) | ({'business_program'} if business else set())
+    if set(value) != fields | program_fields:
         raise ValueError('Use the closed versioned facility replay inputs contract')
     if value['seed'] is not None and type(value['seed']) is not int:
         raise ValueError('Seed must be an explicit integer or null for a frozen event schedule')
@@ -90,10 +104,15 @@ def _inputs(value):
             raise ValueError('Declare a frozen list for ' + field)
     if online and (not isinstance(value['dispatch_program'], dict) or value['work_requests']):
         raise ValueError('Online replay requires a dispatch program and empty legacy work requests')
+    if business and not isinstance(value['business_program'], dict):
+        raise ValueError('Business replay requires a private business program')
     result = deepcopy(value)
     for row in result['exogenous_events']:
         if not isinstance(row, dict) or row.get('parameter_id') in ENGINEERING_COMMAND_PARAMETERS:
             raise ValueError('Control parameters belong to action_commands, not exogenous_events')
+    if business:
+        # The diagnostic reference binds the submitted schedule, before plant normalization.
+        return result
     for field in ('exogenous_events', 'action_commands'):
         result[field].sort(key=lambda row: (row['time_s'], row['parameter_id']))
     result['work_requests'].sort(key=lambda row: (row['time_s'], row['id']))
@@ -210,7 +229,7 @@ def _run_recorded(scenario, directory, *, inputs, duration_s=None, step_s=None,
             raise ValueError(preflight_error)
         if required_source:
             stage = 'replay_origin.source_identity'
-            for field in ('schema', 'files', 'source_tree_sha256', 'python'):
+            for field in RUNTIME_IDENTITY_FIELDS:
                 if record['source_identity'][field] != required_source[field]:
                     raise ValueError('Replay execution source mismatch: ' + field)
             record['replay_source_rule'] = 'EXACT_RUNTIME_BYTES_AND_INTERPRETER'
@@ -233,7 +252,7 @@ def _run_recorded(scenario, directory, *, inputs, duration_s=None, step_s=None,
         frozen = _inputs(inputs)
         _write_json(directory / 'frozen-inputs.json', frozen)
         parameters = {row['id']: row['value'] for row in scenario['parameters']}
-        online_options = {'dispatch_program': frozen['dispatch_program']} if frozen['schema'] == ONLINE_INPUT_SCHEMA else {}
+        online_options = {name: frozen[name] for name in ('dispatch_program', 'business_program') if name in frozen}
         record.update(seed=frozen['seed'], scenario_sha256=digest(scenario),
                       inputs_sha256=digest(frozen),
                       duration_s=parameters['duration'] if duration_s is None else duration_s,
@@ -274,6 +293,43 @@ def read_attempt(directory):
         raise
     except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError) as error:
         raise AttemptReadError('origin_structure', None, str(error)) from error
+
+
+def _bind_business_trajectory(record, scenario, frozen, request, execution_inputs, run):
+    artifact = 'trajectory/run.json'
+    inputs, duration = run['inputs'], execution_inputs['duration_s']
+    try:
+        parameters = {row['id']: row for row in scenario['parameters']}
+        runtime = scenario['runtime']
+        events = validate_boundary_events(scenario, frozen['exogenous_events'], duration_s=duration)
+        commands = _action_commands(frozen['action_commands'], parameters, duration, model=runtime['model'],
+                                    control_profile=runtime.get('local_control_profile'),
+                                    reserve_profile=runtime.get('reserve_profile'))
+        times = {name: float(value) if request[name] is not None else value for name, value in execution_inputs.items()}
+        expected = dict(**times, boundary_events=events, work_requests=frozen['work_requests'],
+                        dispatch_program=frozen['dispatch_program'], business_program=frozen['business_program'])
+        if commands:
+            expected['action_commands'] = commands
+        if ('business_program' in run or digest(inputs) != digest(expected)
+                or digest(run['source_config']) != record['scenario_sha256'] or run['facility_id'] != scenario['id']
+                or digest(run['summary']['duration_s']) != digest(times['duration_s'])):
+            raise ValueError('Actual business trajectory inputs, facility or window differ from the frozen attempt')
+        program = validate_business_program(
+            frozen['business_program'], scenario['id'], duration, frozen['dispatch_program'],
+            scenario=scenario, boundary_events=frozen['exogenous_events'],
+            execution_binding=execution_input_binding(scenario, inputs))
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError) as error:
+        raise AttemptReadError('trajectory_business_program', artifact, str(error)) from error
+    try:
+        counts = {'scenario.json': 1, 'private-state.jsonl': len(run['trace']), 'balances.jsonl': len(run['balances'])}
+        expected = {name: dict(sha256=record['artifacts']['trajectory/' + name], records=count)
+                    for name, count in counts.items()}
+        if digest(run['artifacts']) != digest(expected):
+            raise ValueError('Private trajectory inventory differs from its verified artifacts')
+        if digest(run['business_evaluation']) != digest(evaluate_business_endpoints(run, program)):
+            raise ValueError('Saved business result differs from re-extracted private endpoints')
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError) as error:
+        raise AttemptReadError('trajectory_business_result', artifact, str(error)) from error
 
 
 def _read_attempt(directory):
@@ -348,17 +404,27 @@ def _read_attempt(directory):
             balance_time_axis(run['balances'], run['trace'], **execution_inputs)
         except ValueError as error:
             raise AttemptReadError('trajectory_balances', 'trajectory/balances.jsonl', str(error)) from error
-        if any(run['code_identity'][field] != source[field]
-               for field in ('files', 'source_tree_sha256', 'git_commit', 'implementation_has_changes')) \
+        if any(run['code_identity'][field] != source[field] for field in RUN_SOURCE_FIELDS) \
                 or run['scenario_sha256'] != record['scenario_sha256'] or run['source_config'] != scenario:
             raise ValueError('Private trajectory and frozen execution source/config identity differ')
-        if run['inputs']['boundary_events'] != frozen['exogenous_events'] \
-                or run['inputs'].get('action_commands', []) != frozen['action_commands'] \
-                or run['inputs']['work_requests'] != frozen['work_requests'] \
-                or run['inputs']['duration_s'] != record['duration_s'] \
-                or run['inputs']['maximum_step_s'] != record['maximum_step_s']:
-            raise ValueError('Private trajectory input identity differs from the frozen attempt')
         actual_inputs = run['inputs']
+        if frozen['schema'] == BUSINESS_INPUT_SCHEMA:
+            if not record['schema'].endswith('-v2') or digest(submitted) != digest(frozen) or record['seed'] != frozen['seed']:
+                raise AttemptReadError('submitted_input', 'inputs.json',
+                                       'Submitted business inputs or seed differ from the frozen v3 attempt')
+            _bind_business_trajectory(record, scenario, frozen, request, execution_inputs, run)
+        else:
+            if {'business_program', 'business_evaluation'} & (set(actual_inputs) | set(run)):
+                raise AttemptReadError('trajectory_business_program', 'trajectory/run.json',
+                                       'Legacy replay inputs cannot carry a business program or result')
+            if isinstance(submitted, dict) and {'business_program', 'business_evaluation'} & set(submitted):
+                raise AttemptReadError('submitted_input', 'inputs.json', 'Legacy submitted inputs cannot carry business fields')
+            if actual_inputs['boundary_events'] != frozen['exogenous_events'] \
+                    or actual_inputs.get('action_commands', []) != frozen['action_commands'] \
+                    or actual_inputs['work_requests'] != frozen['work_requests'] \
+                    or actual_inputs['duration_s'] != record['duration_s'] \
+                    or actual_inputs['maximum_step_s'] != record['maximum_step_s']:
+                raise ValueError('Private trajectory input identity differs from the frozen attempt')
         if ('dispatch_program' in actual_inputs) != ('dispatch_program' in frozen) or (
             'dispatch_program' in frozen and digest(actual_inputs['dispatch_program']) != digest(frozen['dispatch_program'])
         ):
@@ -391,6 +457,9 @@ def replay_attempt(original, directory, *, action_commands=None):
                              preflight_stage='replay_origin.failed_origin')
     execution_inputs = prior['execution_inputs']
     inputs = deepcopy(prior['inputs'])
+    if inputs['schema'] == BUSINESS_INPUT_SCHEMA:
+        # Reuse the original request so plant defaults keep their native JSON number type.
+        execution_inputs = prior['request']
     command_file = isinstance(action_commands, (str, Path))
     if action_commands is not None and not command_file:
         inputs['action_commands'] = action_commands
@@ -403,3 +472,114 @@ def replay_attempt(original, directory, *, action_commands=None):
                                         mode='EXACT_REEXECUTION' if action_commands is None
                                         else 'PAIRED_EXOGENOUS_NEW_ENGINEERING_COMMANDS'),
                          source_files={'action_commands': action_commands} if command_file else None)
+
+
+def _comparison_identity(original, replayed):
+    first, second = original['record'], replayed['record']
+    expected_link = dict(attempt_id=first.get('attempt_id'), attempt_sha256=original['record_sha256'],
+                         mode='EXACT_REEXECUTION')
+    if first['status'] != 'COMPLETED' or second['status'] != 'COMPLETED' \
+            or second['attempt_id'] == first['attempt_id'] or second['replay_of'] != expected_link:
+        raise AttemptReadError('comparison_origin', 'attempt.json',
+                               'Comparison requires two completed attempts linked by exact replay')
+    if second['schema'].endswith('-v2'):
+        snapshots = {'attempt.json': original['record_sha256'],
+                     **{name: first['artifacts'][name] for name in ('declaration.json', 'lifecycle.jsonl')}}
+        if any(second['artifacts'].get('origin/' + name) != value for name, value in snapshots.items()):
+            raise AttemptReadError('comparison_origin', 'attempt.json', 'Replay origin snapshot differs')
+    if any(digest(original[field]) != digest(replayed[field]) for field in ('scenario', 'inputs', 'execution_inputs')):
+        raise AttemptReadError('comparison_input', 'frozen-inputs.json', 'Replay scenario or frozen execution inputs differ')
+    left, right = first['source_identity'], second['source_identity']
+    relationship = ('SAME_COMMIT' if left['git_commit'] == right['git_commit']
+                    else 'DIFFERENT_COMMIT_SAME_RUNTIME_BYTES')
+    if second.get('replay_source_rule') != 'EXACT_RUNTIME_BYTES_AND_INTERPRETER' \
+            or second.get('replay_revision_relationship') != relationship \
+            or any(left[key] != right[key] for key in RUNTIME_IDENTITY_FIELDS):
+        raise AttemptReadError('comparison_source', 'attempt.json', 'Replay runtime bytes or interpreter identity differs')
+    return relationship, [key for key in REVISION_FIELDS if left[key] != right[key]]
+
+
+def _timing_slots(run, cost, cost_path):
+    """Identify only declared timing values after checking the unmodified raw copies."""
+    audits = run.get('policy_computation_audit', [])
+    if not isinstance(audits, list) or any(not isinstance(row, dict) for row in audits):
+        raise ValueError('Malformed policy computation audit')
+    computation = None
+    if cost is not None:
+        computation = cost['computation']
+        if digest(computation['audit_record_details']) != digest(audits):
+            raise ValueError('Cost audit is not an exact copy of the raw policy audit')
+    slots = []
+    for key, aggregate in AUDIT_TIMING_FIELDS:
+        # This also checks the type and sign of every present raw value, including partial coverage.
+        expected = _audit_timing(audits, key)
+        for index, row in enumerate(audits):
+            if key in row:
+                slots.append((f'policy_computation_audit[{index}].{key}', row, key))
+                if computation is not None:
+                    slots.append((f'{cost_path}.computation.audit_record_details[{index}].{key}',
+                                  computation['audit_record_details'][index], key))
+        if computation is not None:
+            measurement = computation[aggregate]
+            if digest(measurement) != digest(expected):
+                raise ValueError('Cost timing aggregate disagrees with the raw policy audit: ' + aggregate)
+            if measurement['value'] is not None:
+                slots.append((f'{cost_path}.computation.{aggregate}.value', measurement, 'value'))
+    return slots
+
+
+def _comparison_run(attempt, revision_fields):
+    run = deepcopy(attempt['run'])
+    evaluation = run.get('business_evaluation')
+    cost, cost_path = None, None
+    source_copies = {'code_identity': run['code_identity']}
+    if evaluation is not None:
+        source_copies['business_evaluation.execution_code_identity'] = evaluation['execution_code_identity']
+        if evaluation['schema'] == COMPOSITE_RESULT_SCHEMA:
+            for name in ('diagnostic', 'instance_closure', 'costs'):
+                source_copies[f'business_evaluation.components.{name}.execution_code_identity'] = \
+                    evaluation['components'][name]['execution_code_identity']
+            cost, cost_path = evaluation['components']['costs'], 'business_evaluation.components.costs'
+        elif evaluation['schema'] in STANDALONE_COST_SCHEMAS:
+            cost, cost_path = evaluation, 'business_evaluation'
+    expected = digest(run['code_identity'])
+    if any(digest(identity) != expected for identity in source_copies.values()):
+        raise AttemptReadError('comparison_source', 'trajectory/run.json', 'Business execution source copy differs')
+    try:
+        slots = _timing_slots(run, cost, cost_path)
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError, ArithmeticError) as error:
+        raise AttemptReadError('comparison_timing', 'trajectory/run.json', str(error)) from error
+    times = {}
+    for path, row, key in slots:
+        times[path] = row[key]
+        row[key] = 0
+    source_paths = []
+    for path, identity in source_copies.items():
+        for key in revision_fields:
+            source_paths.append(f'{path}.{key}')
+            identity[key] = None
+    return digest(run), times, source_paths, cost_path
+
+
+def compare_attempts(original, replayed):
+    """Compare fresh, linked engineering attempts without executing the plant."""
+    first, second = read_attempt(original), read_attempt(replayed)
+    relationship, revision_fields = _comparison_identity(first, second)
+    left, left_times, left_sources, left_cost = _comparison_run(first, revision_fields)
+    right, right_times, right_sources, right_cost = _comparison_run(second, revision_fields)
+    equal = left == right
+    return dict(schema='aegisdc-recorded-semantic-comparison-v1',
+                status='EXACT_REPLAY_SEMANTICS_MATCH' if equal else 'SEMANTIC_MISMATCH',
+                strict_values_match=equal, original_attempt_sha256=first['record_sha256'],
+                replay_attempt_sha256=second['record_sha256'],
+                semantic_sha256=dict(original=left, replay=right),
+                source=dict(rule='EXACT_RUNTIME_BYTES_AND_INTERPRETER', revision_relationship=relationship,
+                            runtime_tree_sha256=first['record']['source_identity']['source_tree_sha256'],
+                            original_commit=first['record']['source_identity']['git_commit'],
+                            replay_commit=second['record']['source_identity']['git_commit'],
+                            normalized_revision_paths=sorted(set(left_sources) | set(right_sources))),
+                timing=dict(rule='DECLARED_NS_VALUES_ONLY_AFTER_RAW_AUDIT_AND_AGGREGATE_VALIDATION',
+                            original_cost_root=left_cost, replay_cost_root=right_cost,
+                            original_masked_values=len(left_times), replay_masked_values=len(right_times),
+                            changed_value_paths=sorted(path for path in left_times.keys() & right_times.keys()
+                                                       if left_times[path] != right_times[path])))

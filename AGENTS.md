@@ -2,7 +2,7 @@
 
 ## User-directed review gate (2026-11-11)
 
-Automatic mainline execution is paused. Follow the user-directed scope and delivery links in `docs/mainline/progress.json`. Retain 39c, 39d, 39t numeric qualification, 40–42, and AI/RSI without advancing them. After the current delivery, wait for the user's next instruction. Keep draft57 untouched. Remaining authorized engineering work follows the [lightweight template](docs/agents/lightweight-engineering.md); formal research protocols and originals remain unchanged.
+Follow the user-authorized slice in [progress.json](docs/mainline/progress.json). The automatic goal is paused; the user reopened 39c starting with slice 57. Preserve the three frozen slice 57 files byte for byte. Keep 39d, 39t numeric qualification, 40–42 and AI/RSI frozen. Deliver each authorized engineering slice with the [lightweight template](docs/agents/lightweight-engineering.md), then wait for the next user direction. Preserve formal research protocols and originals.
 
 ## Compute and storage (user requirement, 2026-11-09)
 
