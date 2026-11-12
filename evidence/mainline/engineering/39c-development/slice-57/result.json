@@ -2,7 +2,7 @@
   "schema": "aegisdc-39c-business-record-replay-slice-57-receipt-v1",
   "ticket": "39c",
   "slice": 57,
-  "status": "FIRST_GREEN_FAILED_SAVED_READER_CORRECTION_PASSED_EXACT_REPLAY_PENDING",
+  "status": "PASS_EXACT_RECORDED_REPLAY_FINITE_FIXTURE",
   "scope": "FINITE_SYNTHETIC_ENGINEERING_FIXTURE_NOT_A_RESEARCH_TRIAL_OR_FULL_TICKET_ACCEPTANCE",
   "full_ticket_accepted": false,
   "original54_status": "FAILED_RETAINED",
@@ -599,21 +599,25 @@
     "red_test_invocations_planned": 1,
     "red_test_invocations_actual": 2,
     "red_facility_entries": 0,
-    "green_test_invocations_planned": 1,
-    "green_test_invocations_actual": 1,
-    "facility_entries": 1,
-    "completed_windows": 1,
-    "completed_native_duration_s": 6,
-    "returned_decisions": 8,
-    "native_replay_entries": 0,
-    "semantic_comparisons": 0,
-    "standalone_saved_integrity_reads": 1,
+    "green_test_invocations_original": 1,
+    "green_test_invocations_r1": 1,
+    "r1_facility_entries": 2,
+    "r1_completed_windows": 2,
+    "r1_completed_native_duration_s": 12.0,
+    "r1_returned_decisions": 16,
+    "facility_entries": 3,
+    "facility_entry_budget": 3,
+    "completed_windows": 3,
+    "completed_native_duration_s": 18.0,
+    "returned_decisions": 24,
+    "native_replay_entries": 1,
+    "semantic_comparisons": 1,
     "new_registered_research_trials": 0,
     "model_calls": 0,
     "training_calls": 0,
     "gpu_used": false,
     "full_ci_rerun": false,
-    "deviation": "The Git index warning from red-76 was mistaken for a pre-test failure. A second red root was started before verifying the first terminal record. Both exact tests ran and are retained."
+    "automatic_retry": false
   },
   "proposed_execution_revision": {
     "id": "57-R1",
@@ -634,5 +638,728 @@
     "watchdog_basis": "The first 6 s window and reader refusal took about 101 s under the existing CPU quota.",
     "no_automatic_retry": true,
     "new_registered_research_trials": 0
+  },
+  "original_receipt": {
+    "revision": "77231b36ef85bc685b64f614c7881d827411eef2",
+    "sha256": "ac310ac4807c4c05f491ce6689af7d21c1dc05c4b5abe9b5f3fb3c04ffb259a5",
+    "path": "evidence/mainline/engineering/39c-development/slice-57/result.json",
+    "status": "FIRST_GREEN_FAILED_SAVED_READER_CORRECTION_PASSED_EXACT_REPLAY_PENDING"
+  },
+  "original_accounting": {
+    "red_test_invocations_planned": 1,
+    "red_test_invocations_actual": 2,
+    "red_facility_entries": 0,
+    "green_test_invocations_planned": 1,
+    "green_test_invocations_actual": 1,
+    "facility_entries": 1,
+    "completed_windows": 1,
+    "completed_native_duration_s": 6,
+    "returned_decisions": 8,
+    "native_replay_entries": 0,
+    "semantic_comparisons": 0,
+    "standalone_saved_integrity_reads": 1,
+    "new_registered_research_trials": 0,
+    "model_calls": 0,
+    "training_calls": 0,
+    "gpu_used": false,
+    "full_ci_rerun": false,
+    "deviation": "The Git index warning from red-76 was mistaken for a pre-test failure. A second red root was started before verifying the first terminal record. Both exact tests ran and are retained."
+  },
+  "execution_revision_57_r1": {
+    "id": "57-R1",
+    "status": "PASS_EXACT_RECORDED_REPLAY_FINITE_FIXTURE",
+    "user_authorization": {
+      "status": "APPROVED",
+      "prior_facility_entries": 1,
+      "max_new_facility_entries": 2,
+      "max_cumulative_facility_entries": 3,
+      "green_test_invocations": 1,
+      "watchdog_s": 360,
+      "repeat_red": false,
+      "require_clean_runtime": true,
+      "require_same_invocation": true,
+      "capture_source_at_record_return": true,
+      "capture_source_at_replay_return": true,
+      "no_automatic_retry": true
+    },
+    "directory": "/root/private_data/aegisdc-39c-slice57-20261112-v1/green-78-correction",
+    "git_revision": "85234dabb94d216690d473d0cf94e64cea31861d",
+    "manifest": {
+      "bytes": 14821,
+      "sha256": "b262b5d2922801afcc0cfe14fdc8f811fb7e2fddb62137f9936dd0d979813d82"
+    },
+    "bundle": {
+      "bytes": 757760,
+      "sha256": "720089275399457925853dabfbd9f74465fcb4f63e7f65790a54e39660323e5d"
+    },
+    "frozen_tools": {
+      "source_archive": {
+        "bytes": 353512,
+        "sha256": "834bd33523d9643e0b2b3725d2bb895d2787f343f7c9ec1a2bf311f4cc7c75c0"
+      },
+      "revision_pack": {
+        "bytes": 356893,
+        "sha256": "5dec567104d2b277ec49ebe48349fcf2412f8d6fcb5b6f8a94856ecad3cafef7"
+      },
+      "runner": {
+        "bytes": 9012,
+        "sha256": "406601149f14d4b8cfc027f3fc4f5304ed847033c57554899cac42043bb52326"
+      },
+      "stager": {
+        "bytes": 4934,
+        "sha256": "24dab21b2d73f1b7b447002937f2722c5148bf2a672e930c077500935b721e14"
+      }
+    },
+    "checked_prior_green_terminal": {
+      "exit_code": 1,
+      "phase_sha256": "7e8e228c8b2d06cf0117143ffa9dff9e88f3bd0c82576f27654ec15f8b01100d"
+    },
+    "execution": {
+      "command.txt": {
+        "bytes": 171,
+        "sha256": "190ab7655ede423ef998336c2628ddede0ffb159708ff3cd39ecfdd59e42b27f",
+        "text": "PYTHONPATH=\"$PWD/snapshot/src\" CUDA_VISIBLE_DEVICES=\"\" timeout -k 5 360 /opt/conda/bin/python3 -B runner.py snapshot manifest.json originals 2>stderr.log | tee stdout.log"
+      },
+      "prepared-at-utc": {
+        "bytes": 21,
+        "sha256": "143cc813dd39c80c36a9c5a780ff0064851e466e38df87bf4a923bd336768d3d",
+        "text": "2026-11-12T07:54:40Z"
+      },
+      "started-at-utc": {
+        "bytes": 21,
+        "sha256": "e8c5b45c28aeade05a99c7a5b5e07d217fbe5f7e257be21c4069c9a9af77b543",
+        "text": "2026-11-12T07:54:42Z"
+      },
+      "finished-at-utc": {
+        "bytes": 21,
+        "sha256": "cfd18a53ae409e5af96ecb62ae8bcb78103229162c667ec9a344ef4d7851ecc7",
+        "text": "2026-11-12T07:58:45Z"
+      },
+      "exit-code": {
+        "bytes": 2,
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "text": "0"
+      },
+      "interpreter.txt": {
+        "bytes": 14,
+        "sha256": "d87e6eea94f61efbf4679056c60ceef0a2c35a63e575ab4527b88b7aeb6a3667",
+        "text": "Python 3.12.7"
+      },
+      "runtime-porcelain-before.txt": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      },
+      "stdout.log": {
+        "bytes": 211,
+        "sha256": "835d81781bddf2e47a012344871a36c24ff493e8c0bbe1ec8dee302d25e6ea8a"
+      },
+      "stderr.log": {
+        "bytes": 332,
+        "sha256": "130615842ffe9f291dc827bbb2fd9989fcd4735fe3e77870dbd1ab3b24224e8d"
+      }
+    },
+    "phase_result": {
+      "status": "PASS",
+      "phase": "green",
+      "execution_revision": "57-R1",
+      "git_revision": "85234dabb94d216690d473d0cf94e64cea31861d",
+      "input_manifest": {
+        "bytes": 14821,
+        "sha256": "b262b5d2922801afcc0cfe14fdc8f811fb7e2fddb62137f9936dd0d979813d82"
+      },
+      "runner": {
+        "bytes": 9012,
+        "sha256": "406601149f14d4b8cfc027f3fc4f5304ed847033c57554899cac42043bb52326"
+      },
+      "python": "3.12.7",
+      "selected_tests": 1,
+      "unittest_successful": true,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "direct_public_calls": {
+        "record": 1,
+        "replay": 1,
+        "read": 3,
+        "compare": 1
+      },
+      "facility_entries": 2,
+      "budget_refusals": 0,
+      "native_returns": [
+        {
+          "duration_s": 6.0,
+          "returned_decisions": 8,
+          "registered_research_runs": 0,
+          "model_calls": 0,
+          "training_calls": 0
+        },
+        {
+          "duration_s": 6.0,
+          "returned_decisions": 8,
+          "registered_research_runs": 0,
+          "model_calls": 0,
+          "training_calls": 0
+        }
+      ],
+      "runtime_clean_and_unchanged_at_end": true,
+      "immediate_pair_source_receipts_verified": true,
+      "artifacts": {
+        "recorded/attempt.json": {
+          "bytes": 7984,
+          "sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305"
+        },
+        "recorded/declaration.json": {
+          "bytes": 1010,
+          "sha256": "e0b110fcb4b320db82d46c514fe133979c287b1f9e07203b954c84eaaa0b1874"
+        },
+        "recorded/lifecycle.jsonl": {
+          "bytes": 363,
+          "sha256": "bf9e95f65131ca8251105f1bacedfe073deb49627965311ed504f3db681d546b"
+        },
+        "replayed/attempt.json": {
+          "bytes": 8709,
+          "sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3"
+        },
+        "replayed/declaration.json": {
+          "bytes": 1276,
+          "sha256": "c341e788d1481cc24c05137d6601f67df2e0ed28549c3cc64bd78b174acbc427"
+        },
+        "replayed/lifecycle.jsonl": {
+          "bytes": 363,
+          "sha256": "8c6127724b52e8511af94cfb658f0bdd92e3e99742a394f9129be81aec79c45e"
+        },
+        "pre-run-source-identity.json": {
+          "bytes": 6018,
+          "sha256": "46fdb32e0c5ff10d395aeb18e0fb8e94e9e55d0af9a9bf4161094150c31b6d73"
+        },
+        "record-source-receipt.json": {
+          "bytes": 6469,
+          "sha256": "50bfe53c7ac7dc7790f0df7b136e180269425f657cb56854191fae8d9b592f79"
+        },
+        "replay-source-receipt.json": {
+          "bytes": 6469,
+          "sha256": "ff52ee118a156f64780cf2ae6caea02c18e67edf1e5f69aadd6063be58d0ef85"
+        },
+        "semantic-comparison.json": {
+          "bytes": 3996,
+          "sha256": "766dd459b4194cf73fc7334fd73d7a7c9ac92eea4f5eb72467729059c3a9f226"
+        },
+        "qualification.json": {
+          "bytes": 280,
+          "sha256": "76da374b04c1c407e5e34175f766021aa9551e444ca7298cde96242f80f9b2d2"
+        },
+        "frozen-record-call.json": {
+          "bytes": 262147,
+          "sha256": "809231cba96f7d55b1a915f483640ee5b9f3f3bd89e29ef97473484dc388a995"
+        },
+        "execution-events.jsonl": {
+          "bytes": 1766,
+          "sha256": "c019e4589d6a76cfd7783af0735f44c55731ed5d3ba828c51d3cef55e3aebaa3"
+        },
+        "original-actual-summary.json": {
+          "bytes": 193044,
+          "sha256": "4bc830c994bf7e85ab23e2dd69844c01e6ac30614f763687c16238bd371b26e2"
+        },
+        "replay-actual-summary.json": {
+          "bytes": 193044,
+          "sha256": "4bc830c994bf7e85ab23e2dd69844c01e6ac30614f763687c16238bd371b26e2"
+        },
+        "original-business-result.json": {
+          "bytes": 85382,
+          "sha256": "44bd00e2e73bcacbd9e616e4f49976b5c9689b009f67ad8bfb20cabcb9ecfb7c"
+        },
+        "replay-business-result.json": {
+          "bytes": 85382,
+          "sha256": "40cc36b0b6ed4c9a191edf0159c7e94a14e3faf32c01a15d35bedbd1b91e8448"
+        }
+      },
+      "private_originals_directory": "/root/private_data/aegisdc-39c-slice57-20261112-v1/green-78-correction/originals"
+    },
+    "phase_result_file": {
+      "bytes": 3706,
+      "sha256": "25afa4fd18fb409d236d8b80382969a235814dcf378659cf29566b9f9cf59ae8"
+    },
+    "event_ledger": {
+      "file": {
+        "bytes": 1766,
+        "sha256": "c019e4589d6a76cfd7783af0735f44c55731ed5d3ba828c51d3cef55e3aebaa3"
+      },
+      "events": [
+        {
+          "kind": "TEST_STARTED",
+          "at_utc": "2026-11-12T07:54:43.029459+00:00",
+          "selected_tests": 1,
+          "max_facility_entries": 2
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:54:43.421385+00:00",
+          "role": "record",
+          "count": 1
+        },
+        {
+          "kind": "FACILITY_ENTERED",
+          "at_utc": "2026-11-12T07:54:44.144702+00:00",
+          "entry": 1
+        },
+        {
+          "kind": "FACILITY_RETURNED",
+          "at_utc": "2026-11-12T07:56:25.740356+00:00",
+          "duration_s": 6.0,
+          "returned_decisions": 8,
+          "registered_research_runs": 0,
+          "model_calls": 0,
+          "training_calls": 0
+        },
+        {
+          "kind": "IMMEDIATE_SOURCE_RECEIPT",
+          "at_utc": "2026-11-12T07:56:28.264641+00:00",
+          "role": "record",
+          "attempt_sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+          "matches": true
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:56:28.270631+00:00",
+          "role": "read",
+          "count": 1
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:56:31.743763+00:00",
+          "role": "replay",
+          "count": 1
+        },
+        {
+          "kind": "FACILITY_ENTERED",
+          "at_utc": "2026-11-12T07:56:36.054840+00:00",
+          "entry": 2
+        },
+        {
+          "kind": "FACILITY_RETURNED",
+          "at_utc": "2026-11-12T07:58:16.749877+00:00",
+          "duration_s": 6.0,
+          "returned_decisions": 8,
+          "registered_research_runs": 0,
+          "model_calls": 0,
+          "training_calls": 0
+        },
+        {
+          "kind": "IMMEDIATE_SOURCE_RECEIPT",
+          "at_utc": "2026-11-12T07:58:19.379542+00:00",
+          "role": "replay",
+          "attempt_sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+          "matches": true
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:58:19.439370+00:00",
+          "role": "read",
+          "count": 2
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:58:23.621870+00:00",
+          "role": "compare",
+          "count": 1
+        },
+        {
+          "kind": "DIRECT_CALL",
+          "at_utc": "2026-11-12T07:58:41.241291+00:00",
+          "role": "read",
+          "count": 3
+        },
+        {
+          "kind": "TEST_TERMINAL",
+          "at_utc": "2026-11-12T07:58:44.933967+00:00",
+          "status": "PASS"
+        }
+      ]
+    },
+    "pre_run_source_file": {
+      "bytes": 6018,
+      "sha256": "46fdb32e0c5ff10d395aeb18e0fb8e94e9e55d0af9a9bf4161094150c31b6d73"
+    },
+    "recorded_pair": {
+      "record": {
+        "file": {
+          "bytes": 7984,
+          "sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305"
+        },
+        "manifest": {
+          "schema": "aegisdc-facility-attempt-v2",
+          "attempt_id": "7e1b00b0-de9d-4047-aa04-1a80f7745afe",
+          "attempt_kind": "engineering_fixture",
+          "execution_kind": "ENGINEERING_FIXTURE",
+          "state_visibility": "PRIVATE_PLANT_EVALUATOR_ONLY",
+          "research_registration": null,
+          "research_trials": 0,
+          "model_calls": 0,
+          "training_calls": 0,
+          "field_calibration": "PENDING",
+          "research_gain_claim": "NOT_ESTABLISHED",
+          "source_identity": {
+            "schema": "aegisdc-execution-source-v1",
+            "git_commit": "85234dabb94d216690d473d0cf94e64cea31861d",
+            "implementation_has_changes": false,
+            "files": {
+              "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+              "src/aegis_dc/__main__.py": "79ef758066242930f65472bdf1b8886c59cad5a64847ef0f82872e49ad493653",
+              "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+              "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+              "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+              "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+              "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+              "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+              "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+              "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+              "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+              "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+              "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+              "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+              "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+              "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+              "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+              "src/aegis_dc/inspection_execution.py": "a4fd97a4915b6c8a76d6c158c55da68c7be114518671e1e13246d8db8cdcf685",
+              "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+              "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+              "src/aegis_dc/intervention_execution.py": "b55542562e46b37accadeeec98bf00af05b937985e08c08520c633944bda4663",
+              "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+              "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+              "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+              "src/aegis_dc/nonfixed_evidence.py": "1ebc0e7588c710c8ea403b18f5378e436274728a4d664142b00790fc25d087c6",
+              "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+              "src/aegis_dc/plant.py": "4e96d20fd85e73f9d47b1b958985996b898fa01a3ee8d978803d687c58bcb294",
+              "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+              "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+              "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+              "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+              "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+              "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+              "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+              "src/aegis_dc/replay.py": "5df83d0fed6d4c9e307a5d2633c12565e71ba25171115900371c291037ec2a47",
+              "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+              "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+              "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+              "src/aegis_dc/risk_baseline.py": "be1b0c066ea6fcd99292370a79ab57237bf439848b6aea8200e125d1e8fe2b26",
+              "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+              "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+              "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+              "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+              "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+              "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+              "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+              "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+              "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+              "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+              "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+              "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+              "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+            },
+            "source_tree_sha256": "abbe557bf3ec34119f77fe37fd06a2373971e1262f0db4b13d1fccb79289defc",
+            "python": {
+              "implementation": "CPython",
+              "version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+              "executable_sha256": "82d0855bea80381cd7f02aad8e3bf74d55a184a13fc388bb1b7d373262f40e09"
+            }
+          },
+          "replay_of": null,
+          "retry_of": null,
+          "origin_validation": null,
+          "seed": null,
+          "scenario_sha256": "200ec0c6e361f435ece4e1486dd3dc4a9068c2bfd1f2691f0c0a162ed8fdc782",
+          "inputs_sha256": "6a24c3365a41ae0ae9fb8006d812e2670f251a4fa645941c1dfd68620a818abf",
+          "duration_s": 6,
+          "maximum_step_s": 0.01,
+          "randomness": "DECLARED_PRODUCER_REALIZATIONS_FROZEN_IN_DISPATCH_PROGRAM",
+          "status": "COMPLETED",
+          "failure": null,
+          "artifacts": {
+            "declaration.json": "e0b110fcb4b320db82d46c514fe133979c287b1f9e07203b954c84eaaa0b1874",
+            "frozen-inputs.json": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+            "inputs.json": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+            "lifecycle.jsonl": "bf9e95f65131ca8251105f1bacedfe073deb49627965311ed504f3db681d546b",
+            "request.json": "302f6908bd8546e6d7d4d3a0f103719685621e8e7110608547d7fbed94184bc1",
+            "scenario-input.json": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+            "trajectory/balances.jsonl": "d8f8e525fcb740cfaceb279efb8f48e7dadfd80eb89d01cf80a5fa8614187727",
+            "trajectory/private-state.jsonl": "ba416d6ed43d17e90255ba6af0cc061ca00b64b8802f33fabaad75264dfbd66c",
+            "trajectory/run.json": "c988ecdf75748cec6e42bbd1a08cf93fb53f376ca6491741240870084efbc617",
+            "trajectory/scenario.json": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7"
+          }
+        },
+        "immediate_source": {
+          "file": {
+            "bytes": 6469,
+            "sha256": "50bfe53c7ac7dc7790f0df7b136e180269425f657cb56854191fae8d9b592f79"
+          },
+          "observed_at_utc": "2026-11-12T07:56:28.262752+00:00",
+          "identity_sha256": "c5343d41b8d953ec0e2aec2c4676e3d8a384f342e80d5a6cca0fc2e7cae9b1d9",
+          "verified": true
+        }
+      },
+      "replay": {
+        "file": {
+          "bytes": 8709,
+          "sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3"
+        },
+        "manifest": {
+          "schema": "aegisdc-facility-attempt-v2",
+          "attempt_id": "e6f258fe-f6f2-46f6-9ba5-f71615424f2e",
+          "attempt_kind": "engineering_fixture",
+          "execution_kind": "ENGINEERING_FIXTURE",
+          "state_visibility": "PRIVATE_PLANT_EVALUATOR_ONLY",
+          "research_registration": null,
+          "research_trials": 0,
+          "model_calls": 0,
+          "training_calls": 0,
+          "field_calibration": "PENDING",
+          "research_gain_claim": "NOT_ESTABLISHED",
+          "source_identity": {
+            "schema": "aegisdc-execution-source-v1",
+            "git_commit": "85234dabb94d216690d473d0cf94e64cea31861d",
+            "implementation_has_changes": false,
+            "files": {
+              "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+              "src/aegis_dc/__main__.py": "79ef758066242930f65472bdf1b8886c59cad5a64847ef0f82872e49ad493653",
+              "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+              "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+              "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+              "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+              "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+              "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+              "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+              "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+              "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+              "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+              "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+              "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+              "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+              "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+              "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+              "src/aegis_dc/inspection_execution.py": "a4fd97a4915b6c8a76d6c158c55da68c7be114518671e1e13246d8db8cdcf685",
+              "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+              "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+              "src/aegis_dc/intervention_execution.py": "b55542562e46b37accadeeec98bf00af05b937985e08c08520c633944bda4663",
+              "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+              "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+              "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+              "src/aegis_dc/nonfixed_evidence.py": "1ebc0e7588c710c8ea403b18f5378e436274728a4d664142b00790fc25d087c6",
+              "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+              "src/aegis_dc/plant.py": "4e96d20fd85e73f9d47b1b958985996b898fa01a3ee8d978803d687c58bcb294",
+              "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+              "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+              "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+              "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+              "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+              "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+              "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+              "src/aegis_dc/replay.py": "5df83d0fed6d4c9e307a5d2633c12565e71ba25171115900371c291037ec2a47",
+              "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+              "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+              "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+              "src/aegis_dc/risk_baseline.py": "be1b0c066ea6fcd99292370a79ab57237bf439848b6aea8200e125d1e8fe2b26",
+              "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+              "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+              "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+              "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+              "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+              "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+              "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+              "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+              "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+              "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+              "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+              "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+              "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+            },
+            "source_tree_sha256": "abbe557bf3ec34119f77fe37fd06a2373971e1262f0db4b13d1fccb79289defc",
+            "python": {
+              "implementation": "CPython",
+              "version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+              "executable_sha256": "82d0855bea80381cd7f02aad8e3bf74d55a184a13fc388bb1b7d373262f40e09"
+            }
+          },
+          "replay_of": {
+            "attempt_id": "7e1b00b0-de9d-4047-aa04-1a80f7745afe",
+            "attempt_sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+            "mode": "EXACT_REEXECUTION"
+          },
+          "retry_of": null,
+          "origin_validation": {
+            "directory": "/root/private_data/aegisdc-39c-slice57-20261112-v1/green-78-correction/originals/recorded",
+            "stage": "replay_origin"
+          },
+          "replay_source_rule": "EXACT_RUNTIME_BYTES_AND_INTERPRETER",
+          "replay_revision_relationship": "SAME_COMMIT",
+          "seed": null,
+          "scenario_sha256": "200ec0c6e361f435ece4e1486dd3dc4a9068c2bfd1f2691f0c0a162ed8fdc782",
+          "inputs_sha256": "6a24c3365a41ae0ae9fb8006d812e2670f251a4fa645941c1dfd68620a818abf",
+          "duration_s": 6,
+          "maximum_step_s": 0.01,
+          "randomness": "DECLARED_PRODUCER_REALIZATIONS_FROZEN_IN_DISPATCH_PROGRAM",
+          "status": "COMPLETED",
+          "failure": null,
+          "artifacts": {
+            "declaration.json": "c341e788d1481cc24c05137d6601f67df2e0ed28549c3cc64bd78b174acbc427",
+            "frozen-inputs.json": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+            "inputs.json": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+            "lifecycle.jsonl": "8c6127724b52e8511af94cfb658f0bdd92e3e99742a394f9129be81aec79c45e",
+            "origin/attempt.json": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+            "origin/declaration.json": "e0b110fcb4b320db82d46c514fe133979c287b1f9e07203b954c84eaaa0b1874",
+            "origin/lifecycle.jsonl": "bf9e95f65131ca8251105f1bacedfe073deb49627965311ed504f3db681d546b",
+            "request.json": "302f6908bd8546e6d7d4d3a0f103719685621e8e7110608547d7fbed94184bc1",
+            "scenario-input.json": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+            "trajectory/balances.jsonl": "d8f8e525fcb740cfaceb279efb8f48e7dadfd80eb89d01cf80a5fa8614187727",
+            "trajectory/private-state.jsonl": "ba416d6ed43d17e90255ba6af0cc061ca00b64b8802f33fabaad75264dfbd66c",
+            "trajectory/run.json": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+            "trajectory/scenario.json": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7"
+          }
+        },
+        "immediate_source": {
+          "file": {
+            "bytes": 6469,
+            "sha256": "ff52ee118a156f64780cf2ae6caea02c18e67edf1e5f69aadd6063be58d0ef85"
+          },
+          "observed_at_utc": "2026-11-12T07:58:19.377274+00:00",
+          "identity_sha256": "c5343d41b8d953ec0e2aec2c4676e3d8a384f342e80d5a6cca0fc2e7cae9b1d9",
+          "verified": true
+        }
+      }
+    },
+    "semantic_comparison": {
+      "schema": "aegisdc-recorded-semantic-comparison-v1",
+      "status": "EXACT_REPLAY_SEMANTICS_MATCH",
+      "strict_values_match": true,
+      "original_attempt_sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+      "replay_attempt_sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+      "semantic_sha256": {
+        "original": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373",
+        "replay": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373"
+      },
+      "source": {
+        "rule": "EXACT_RUNTIME_BYTES_AND_INTERPRETER",
+        "revision_relationship": "SAME_COMMIT",
+        "runtime_tree_sha256": "abbe557bf3ec34119f77fe37fd06a2373971e1262f0db4b13d1fccb79289defc",
+        "original_commit": "85234dabb94d216690d473d0cf94e64cea31861d",
+        "replay_commit": "85234dabb94d216690d473d0cf94e64cea31861d",
+        "normalized_revision_paths": []
+      },
+      "timing": {
+        "rule": "DECLARED_NS_VALUES_ONLY_AFTER_RAW_AUDIT_AND_AGGREGATE_VALIDATION",
+        "original_cost_root": "business_evaluation.components.costs",
+        "replay_cost_root": "business_evaluation.components.costs",
+        "original_masked_values": 34,
+        "replay_masked_values": 34,
+        "changed_value_paths": [
+          "business_evaluation.components.costs.computation.audit_record_details[0].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[0].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[1].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[1].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[2].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[2].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[3].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[3].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[4].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[4].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[5].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[5].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[6].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[6].elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[7].condition_assessment_elapsed_ns",
+          "business_evaluation.components.costs.computation.audit_record_details[7].elapsed_ns",
+          "business_evaluation.components.costs.computation.condition_assessment_elapsed_ns.value",
+          "business_evaluation.components.costs.computation.selector_elapsed_ns.value",
+          "policy_computation_audit[0].condition_assessment_elapsed_ns",
+          "policy_computation_audit[0].elapsed_ns",
+          "policy_computation_audit[1].condition_assessment_elapsed_ns",
+          "policy_computation_audit[1].elapsed_ns",
+          "policy_computation_audit[2].condition_assessment_elapsed_ns",
+          "policy_computation_audit[2].elapsed_ns",
+          "policy_computation_audit[3].condition_assessment_elapsed_ns",
+          "policy_computation_audit[3].elapsed_ns",
+          "policy_computation_audit[4].condition_assessment_elapsed_ns",
+          "policy_computation_audit[4].elapsed_ns",
+          "policy_computation_audit[5].condition_assessment_elapsed_ns",
+          "policy_computation_audit[5].elapsed_ns",
+          "policy_computation_audit[6].condition_assessment_elapsed_ns",
+          "policy_computation_audit[6].elapsed_ns",
+          "policy_computation_audit[7].condition_assessment_elapsed_ns",
+          "policy_computation_audit[7].elapsed_ns"
+        ]
+      }
+    },
+    "semantic_comparison_file": {
+      "bytes": 3996,
+      "sha256": "766dd459b4194cf73fc7334fd73d7a7c9ac92eea4f5eb72467729059c3a9f226"
+    },
+    "compact_actual_endpoints": {
+      "record": {
+        "actual_summary_file": {
+          "bytes": 193044,
+          "sha256": "4bc830c994bf7e85ab23e2dd69844c01e6ac30614f763687c16238bd371b26e2"
+        },
+        "business_result_file": {
+          "bytes": 85382,
+          "sha256": "44bd00e2e73bcacbd9e616e4f49976b5c9689b009f67ad8bfb20cabcb9ecfb7c"
+        },
+        "business_components_sha256": {
+          "diagnostic": "66359bcaa332e592c2dde52d2685c4cb860d114bc347f6d80a17a4a9362dd95d",
+          "instance_closure": "0b7da7b98c73026a4d43119da114e3da12c18950e1c7cb55684f1d598cd5992f",
+          "costs": "ad6d4f69396b6506feac6986507e6742333f033f11b1aa198c3ff7b6bf86fc3d"
+        },
+        "actual_input_sha256": "9abe4985dcf19326e7eb3e23a5169d9307f19d8acdbd57b968fa41d5bedb00eb",
+        "actual_event_times_s": [
+          1.0,
+          2.0
+        ],
+        "observations": {
+          "duration_s": 6.0,
+          "service_deficit_s": 3.5,
+          "flow_confirmation_s": 0.5,
+          "own_recheck_complete_s": 5,
+          "own_recheck_report_s": 5.5,
+          "physical_closure_s": null,
+          "management_acceptance_s": 5.75,
+          "risk_closed": false,
+          "personnel_person_s": 4.5,
+          "tool_occupation_tool_s": 4.5,
+          "issue_fees": 2
+        }
+      },
+      "replay": {
+        "actual_summary_file": {
+          "bytes": 193044,
+          "sha256": "4bc830c994bf7e85ab23e2dd69844c01e6ac30614f763687c16238bd371b26e2"
+        },
+        "business_result_file": {
+          "bytes": 85382,
+          "sha256": "40cc36b0b6ed4c9a191edf0159c7e94a14e3faf32c01a15d35bedbd1b91e8448"
+        },
+        "business_components_sha256": {
+          "diagnostic": "66359bcaa332e592c2dde52d2685c4cb860d114bc347f6d80a17a4a9362dd95d",
+          "instance_closure": "0b7da7b98c73026a4d43119da114e3da12c18950e1c7cb55684f1d598cd5992f",
+          "costs": "b7062c1163e340fe5adfd06849da6184500031e3af0a19290630e58bda53918d"
+        },
+        "actual_input_sha256": "9abe4985dcf19326e7eb3e23a5169d9307f19d8acdbd57b968fa41d5bedb00eb",
+        "actual_event_times_s": [
+          1.0,
+          2.0
+        ],
+        "observations": {
+          "duration_s": 6.0,
+          "service_deficit_s": 3.5,
+          "flow_confirmation_s": 0.5,
+          "own_recheck_complete_s": 5,
+          "own_recheck_report_s": 5.5,
+          "physical_closure_s": null,
+          "management_acceptance_s": 5.75,
+          "risk_closed": false,
+          "personnel_person_s": 4.5,
+          "tool_occupation_tool_s": 4.5,
+          "issue_fees": 2
+        }
+      }
+    }
   }
 }

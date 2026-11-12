@@ -1,10 +1,10 @@
 # 固定研究主线：完整设施中的风险驱动检查与处置
 
-**当前票是 39c，本轮只做第 57 项。** [录制／读取回执](../evidence/mainline/engineering/39c-development/slice-57/result.json)保留首次绿测失败和重复红测；修正后读取原件通过，精确重放待审查修订预算。长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+**当前票是 39c，57-R1 的固定夹具精确重放已通过。** [回执](../evidence/mainline/engineering/39c-development/slice-57/result.json)绑定两份即时源码身份与相同的语义哈希，保留首次绿测失败及重复红测。负向资格和整票验收仍开放，长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
-当前单步交审：[两域共同作业时长的敏感性](research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。以算术给出 330、420、600 秒截止的边界，并单列原 500 人秒预算的影响；[执行器对账](research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)仍只覆盖 30 秒声明值。[A2 量级参照及全年背景](research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测和缺测小样](research/20261111-frontier-field-pilot/README.md)。
+此前交审：[两域共同作业时长的敏感性](research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。以算术给出 330、420、600 秒截止的边界，并单列原 500 人秒预算的影响；[执行器对账](research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)仍只覆盖 30 秒声明值。[A2 量级参照及全年背景](research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测和缺测小样](research/20261111-frontier-field-pilot/README.md)。
 
-[联合业务评价：实际数据、架构和离线报告](../paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；累计100进入／45窗口164.25秒／207返回。业务记录／精确重放与整39c门槛仍开放；[本次完整云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
+[联合业务评价：实际数据、架构和离线报告](../paper/preset-dispatch-scope-review-20261110/engineering-checkpoint.md)已交付。诊断／关闭／成本来自同一次运行；双人逐边门禁、无人和服务负例保存资格通过，原54 FAILED及原图／原HTML导出错误均保留并单列纠正。彩图／灰度及390窄屏、1440大屏、图表放大实际查看通过；当时累计100进入／45窗口164.25秒／207返回。[该检查点云端回归](https://github.com/DonsonHH/AegisDC/actions/runs/42832618941)650发现／648执行、零失败错误、2既有Torch可选跳过；整39c零跳过根与fresh仍待完成。
 
 [最新51／52私有管理端点](../evidence/mainline/engineering/39c-development/slice-52/README.md)及独立有限复核通过：完整保留实例证据与自身作业时标，另验证过期、历史有效但无当前选中、升级优先、实际样本审查误报。52为4窗口26秒／32返回；累计89进入／41窗口139.25秒／172返回。诊断兼容、联合评价／完整重放和整票门槛仍开放。后文旧快照按各自时点阅读。 [本次CI](https://github.com/DonsonHH/AegisDC/actions/runs/42814484451)648发现／646执行、零失败错误、2既有Torch可选跳过；不替代整39c零跳过根。
 

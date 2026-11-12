@@ -18,7 +18,7 @@
 
 ## Evidence
 
-2026-11-12 用户恢复第 57 项：[轻量回执](../../../evidence/mainline/engineering/39c-development/slice-57/result.json)。两次红测均在输入验证处拒绝、零设施进入，其中一次超出计划；首绿在 1 个 6 秒窗口、8 次返回后被读取器误拒，修正后同一原件读取通过、零新增设施进入。精确重放未执行，等待同源码双运行的 57-R1 预算授权；所有整票验收框保持开放。
+2026-11-12 第 57 项：[轻量回执](../../../evidence/mainline/engineering/39c-development/slice-57/result.json)。57-R1 在干净的同一运行时一次通过，录制和重放的即时源码身份均核对一致；新增 2 次进入、12 秒、16 次返回，严格语义哈希相同。首绿读取失败和两份零进入红测均留存，57 累计 3 次进入。负向资格及所有整票验收框保持开放。
 
 Protocol28 [green result](../../../evidence/mainline/engineering/39c-development/slice-28/green/result.json) passed: one public call, no facility or research trial. Escalation wins over simultaneous authorized acceptance, keeps question-1 open and retains both dispositions/times. Old question-0 remains VERIFIED_CLOSED; shared budget still blocks new work. Red preserved. Input JSON key order differs because RECORD_FIELDS is a set, but canonical JSON SHA is identical and both raw byte strings remain.
 

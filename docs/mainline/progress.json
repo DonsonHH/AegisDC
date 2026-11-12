@@ -112,7 +112,7 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/38-root.json"
       ],
-      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证，57首绿读取失败留档，修正读取通过，精确重放及整票未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，新增Frontier功率和冷却外部实测小样；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
+      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证，57-R1固定夹具精确重放通过，原首绿失败留档，负向资格与整票未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，新增Frontier功率和冷却外部实测小样；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
     }
   ],
   "research_trials": {
@@ -209,7 +209,7 @@
   ],
   "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "The user reopened 39c from slice 57. The first green attempt recorded one six-second window, then failed reading dispatch-derived inputs. The corrected reader verified the saved original with zero new facility entries. Exact replay needs a new same-source pair and a revised budget; the automatic goal remains paused.",
+  "liveness_refresh": "The user approved 57-R1 with at most two new facility entries. One unchanged test recorded and replayed the fixed fixture at the same clean runtime, saved both immediate source identities, and passed exact semantic comparison. Original failures remain recorded. The automatic goal remains paused and later 39c qualifications await user direction.",
   "user_review_checkpoint": {
     "ticket": "38",
     "status": "review_received_and_adopted",
@@ -357,7 +357,7 @@
   },
   "business_endpoint_preparation": {
     "ticket": "39c",
-    "status": "SLICE_57_REOPENED_CORRECTED_SAVED_READ_ONLY",
+    "status": "SLICE_57_R1_FINITE_RECORDED_REPLAY_PASSED",
     "path": "docs/mainline/39c-business-endpoints-plan.md",
     "new_trials": 0,
     "next": "evidence/mainline/engineering/39c-development/slice-57/result.json",
@@ -365,15 +365,15 @@
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
   "development_39c": {
-    "status": "SLICE_57_FIRST_GREEN_FAILED_READER_FIXED_EXACT_REPLAY_OPEN",
+    "status": "SLICE_57_R1_EXACT_REPLAY_PASSED_NEGATIVE_QUALIFICATIONS_OPEN",
     "red_job": "133147",
     "red_source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
     "green_job": "133150",
     "green_source": "59acded75e88963020d7e66583c07b5831766834",
-    "facility_interface_entries": 101,
-    "completed_native_horizons": 46,
-    "completed_native_duration_s": 170.25,
-    "returned_decisions": 215,
+    "facility_interface_entries": 103,
+    "completed_native_horizons": 48,
+    "completed_native_duration_s": 182.25,
+    "returned_decisions": 231,
     "internal_choice_calls": "NOT_INSTRUMENTED",
     "direct_public_choice_calls": 38,
     "model_calls": 0,
@@ -382,16 +382,23 @@
     "full_ticket_accepted": false,
     "recorded_replay_slice_57": {
       "result": "evidence/mainline/engineering/39c-development/slice-57/result.json",
-      "result_sha256": "ac310ac4807c4c05f491ce6689af7d21c1dc05c4b5abe9b5f3fb3c04ffb259a5",
+      "result_sha256": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7",
       "red_test_invocations_planned": 1,
       "red_test_invocations_actual": 2,
       "first_green": "FAILED_READER_REJECTION_AFTER_ONE_NATIVE_WINDOW",
       "saved_read": "PASS_SAVED_READ_ONLY",
-      "exact_replay": "NOT_RUN",
-      "proposed_revision": "57-R1",
-      "proposed_revision_status": "AWAITING_USER_AUTHORIZATION",
-      "proposed_additional_facility_entries": 2,
-      "proposed_cumulative_slice_facility_entries": 3
+      "exact_replay": "EXACT_REPLAY_SEMANTICS_MATCH",
+      "execution_revision": "57-R1",
+      "execution_revision_status": "APPROVED_AND_PASSED_ONCE",
+      "source_revision": "85234dabb94d216690d473d0cf94e64cea31861d",
+      "immediate_pair_source_receipts_verified": true,
+      "semantic_sha256": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373",
+      "r1_facility_entries": 2,
+      "r1_completed_windows": 2,
+      "r1_native_duration_s": 12,
+      "r1_returned_decisions": 16,
+      "cumulative_slice_facility_entries": 3,
+      "cumulative_slice_facility_entry_budget": 3
     },
     "qualification_attempts": 7,
     "qualification_tests_executed": 14,
@@ -940,9 +947,9 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39c-slice57-record-read-exact-replay",
+    "bounded_request": "39c-slice57-r1-same-source-exact-replay",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
-    "record57_drafts": "TRACKED_BYTE_IDENTICAL_USED_FOR_RED_AND_FIRST_GREEN",
+    "record57_drafts": "TRACKED_BYTE_IDENTICAL_USED_FOR_RED_FIRST_GREEN_AND_57_R1",
     "user_frozen_tracks": [
       "39d",
       "39t_numeric_qualification",
@@ -953,7 +960,7 @@
       "RSI"
     ],
     "new_test_slices_authorized": false,
-    "next_39c_action": "AUTHORIZE_57_R1_SAME_SOURCE_PAIR_BEFORE_ANY_NEW_NATIVE_ENTRY",
+    "next_39c_action": "WAIT_FOR_USER_REVIEW_BEFORE_NEGATIVE_READER_COMPARISON_CLI_QUALIFICATIONS",
     "local_verification_scope": "DOCUMENT_LINKS_AND_FROZEN_ARTIFACT_INTEGRITY_ONLY"
   },
   "risk_baseline_review": {
@@ -1012,7 +1019,7 @@
     {
       "ticket": "39c",
       "owner": "/root",
-      "status": "AWAITING_REVISED_SLICE_57_BUDGET",
+      "status": "SLICE_57_R1_PASSED_AWAITING_USER_REVIEW",
       "report": "evidence/mainline/engineering/39c-development/slice-57/result.json"
     },
     {
