@@ -6,7 +6,12 @@ from pathlib import Path
 from patrol_rsi.contracts import strict_json
 
 ROOT = Path(__file__).resolve().parents[2]
-PROGRAM_INPUTS = ('work_program', 'inspection_program', 'intervention_program', 'dispatch_program')
+PROGRAM_INPUTS = {
+    'work_program': 'Versioned current-frame crew submissions; private evaluator input',
+    'inspection_program': 'Actual work-bound inspection profile and private observation realization',
+    'intervention_program': 'Named authorized completion-gated research actions; private evaluator input',
+    'dispatch_program': 'Declared same-facility evidence-only policy and private observation inputs; engineering only',
+}
 
 
 def _parser():
@@ -26,13 +31,7 @@ def _parser():
     run.add_argument('--duration', type=float)
     run.add_argument('--step', type=float)
     run.add_argument('--inputs', type=Path, help='Declared engineering work requests and timed boundary events')
-    program_help = (
-        'Versioned current-frame crew submissions; private evaluator input',
-        'Actual work-bound inspection profile and private observation realization',
-        'Named authorized completion-gated research actions; private evaluator input',
-        'Declared same-facility evidence-only policy and private observation inputs; engineering only',
-    )
-    for name, help_text in zip(PROGRAM_INPUTS, program_help):
+    for name, help_text in PROGRAM_INPUTS.items():
         run.add_argument('--' + name.replace('_', '-'), type=Path, help=help_text)
 
     record = sub.add_parser('record', help='Freeze and execute one private engineering attempt, including failures')
