@@ -9,7 +9,7 @@
 | **S-LON** | Google Cloud Service Health，[伦敦事件 Xs2XTHzAVC9YnafnPyzj](https://status.cloud.google.com/incidents/Xs2XTHzAVC9YnafnPyzj)。采用页面最新可见的 **2026-11-04 13:15 PST** Incident Report；同页较早报告保留为历史版本，不混合引用。 | 正文核查：2026-11-12。原始 HTTP 内容捕获：`2026-11-12T13:11:58.4900537Z`。 |
 | **S-NLD** | Google Cloud Service Health，[荷兰事件 3BvH3LVGcupoYqV6F4Nw](https://status.cloud.google.com/incidents/3BvH3LVGcupoYqV6F4Nw)。采用页面最新可见的 **2026-07-25 06:16 PDT** Incident Report；7 月 17 日 Preliminary Incident Report 为单独历史版本。 | 正文核查：2026-11-12。原始 HTTP 内容捕获：`2026-11-12T13:11:59.1957976Z`。 |
 
-这是发布方的**公开事后复盘**，不是原始遥测、控制代码、现场操作日志或授权文件。最新可见版本不表示其所有预计整改已完成。正文位置使用“版本时间＋章节＋段落序号／事件名称”定位，避免依赖搜索工具临时行号。
+这是发布方的**公开事后复盘**，不是原始遥测、控制代码、现场操作日志或授权文件。最新可见版本不表示其所有预计整改已完成。定位优先使用“版本时间＋章节＋段首短语／事件名称”；段落号仅作辅助，因为 HTML 正文段落与网页文本抽取的分段可能不同。本轮 L05、L07、N02 按保留网页的正文段落重新定位。
 
 原始网页不复制进本页。伦敦快照 90,410 bytes，SHA-256 `f242a534dffdba18e160a9fd36168a39e4fff469645382d9ba2305d25b3ee1dc`；荷兰快照 65,692 bytes，SHA-256 `b3babfa706d643951d40e5babd2320e4b94972dfc8894c2a904e901135644b36`。捕获、私有保留位置与核验状态统一见 [R1 回执](result.json)。
 
@@ -23,10 +23,10 @@
 | **L02** | B 断路器为修理而断开；14 日测试后，实际处于 A 供电的维护降级状态。 | S-LON，Root Cause，第 4 段 | 事前实际工况；工单及知晓时刻未提供。 |
 | **L03** | 相同 PLC 逻辑共享上游电压信息，未正确结合断路器位置。 | S-LON，Root Cause，第 6–7 段 | 配置／测量缺陷，由事后调查确认。 |
 | **L04** | 外部地下电缆故障中断 A 馈线。 | S-LON，Root Cause，第 5 段 | 外生触发；不是事前预测标签。 |
-| **L05** | 未发发电机自动启动信号；现场通过 PLC 的远程切换也受抑制。 | S-LON，Root Cause，第 8 段 | 事发后的实际响应。 |
+| **L05** | 未发发电机自动启动信号；现场通过 PLC 的远程切换也受抑制。 | S-LON（11 月 4 日版），Root Cause：自动启动依据见段首 `Following the loss` 及 `The investigation`（含未发启动命令的说明）；远程切换见段首 `The onsite facilities team` | 事发后的实际响应。 |
 | **L06** | UPS 自治描述为“约五分钟”。 | S-LON，Root Cause，第 3 段 | 背景能力描述，非该次逐时剩余电量。 |
-| **L07** | 切至备用市电恢复负荷，但过程中电池已耗尽。 | S-LON，Root Cause，第 9 段 | 事后处置结果，不给定更早行动可行性。 |
-| **L08** | 触发、影响起点和多数工作负荷恢复是不同时间事件。 | S-LON，Summary；Remediation and Prevention 事件表；Detailed Description of Impact | 时标口径，见下一节。 |
+| **L07** | 切至备用市电恢复负荷，但过程中电池已耗尽。 | S-LON（11 月 4 日版），Root Cause，段首 `The onsite facilities team`；该段后半说明电池耗尽及备用市电恢复，按正文计数为第 8 段 | 事后处置结果，不给定更早行动可行性。 |
+| **L08** | 触发、影响和恢复是不同事件；同版事件表与 GCE／Persistent Disk 影响说明对失电／不可用起点还存在未消歧叙述。 | S-LON，Summary；Remediation and Prevention 事件表；Google Compute Engine and Persistent Disk 的 Impact，段首 `Upon power loss` | 时标口径及来源内部歧义，见下一节。 |
 | **L09** | 后续记录了 PLC 修正、测试、EOP 更新和带预计日期的事项。 | S-LON，Remediation and Prevention，Data Center Action Items | 事后整改／计划；不回填为事前能力。 |
 
 以上 L01–L09 均仅按 [S-LON 官方报告](https://status.cloud.google.com/incidents/Xs2XTHzAVC9YnafnPyzj)的声明范围登记；没有推定 Google 内部文件的历史可见性或核查者权限。
@@ -36,7 +36,7 @@
 | 事实 ID | 精简转述 | 来源位置 | 报告所描述的时间／性质 |
 |---|---|---|---|
 | **N01** | 瞬变后 A 侧 DRUPS 接管失败，第三排转供因过载保护失电。 | S-NLD，Root Cause，第 1–3 段 | 供电故障链；部分原因仍在调查。 |
-| **N02** | 控制器离线使泵未重启，施工使备用冷却不可用。 | S-NLD，Root Cause，第 4 段 | 配置／状态与冷却链，事后披露。 |
+| **N02** | 控制器离线使泵未重启，施工使备用冷却不可用。 | S-NLD（7 月 25 日版），Root Cause，第 3 正文段，段首 `During the voltage transient event`；该段包含控制器、分配泵及备用冷却说明 | 配置／状态与冷却链，事后披露。 |
 | **N03** | 恢复中人工切泵至手动；临时 UPS 是事故后部署。 | S-NLD，Remediation and Prevention，第 1–2 段 | 恢复动作与新增保障，不是事前现成能力。 |
 | **N04** | 时区标签、页面窗口和产品恢复时标不一致。 | S-NLD，页面首部；事件表；Detailed Description of Impact | 原文时标口径，见下节。 |
 | **N05** | 后续调查、告警及流程改进带预计日期。 | S-NLD，Remediation and Prevention，行动列表 | 计划状态，不以日期已过判定完成。 |
@@ -47,7 +47,8 @@ N01–N05 同样区分事后报告不可作为历史 PRE 输入、其他历史�
 
 | 关联 ID | 原文口径 | R1 处理 |
 |---|---|---|
-| **L06／L08** | 触发为 10-19 22:53，影响为 23:00；多数工作负荷恢复为 10-20 05:08，均按 US/Pacific。报告另给伦敦 BST。 | 不将背景自治时长或两个事件时间差直接设为精确操作截止。保留事件名与原时区；不据此推算核查者开始行动的时刻。 |
+| **L06／L08：事件表** | 11 月 4 日版事件表将 10-19 22:53 标作触发，23:00 标作电池耗尽、主机／存储／网络失电及影响开始；多数工作负荷恢复为 10-20 05:08，按 US/Pacific，另列 BST。 | 保存这些“报告所列时刻”，不把背景自治时长或时间差设为精确行动截止；与下行并列，不能独自用作统一损失起点。 |
+| **L08：同版内部冲突** | 同一报告的 Google Compute Engine and Persistent Disk 影响说明，将 10-19 22:53 US/Pacific（06:53 BST）与相关 VM、Persistent Disk／Hyperdisk 卷已不可用联系起来；这与事件表的 23:00 失电／影响起点尚未消歧。 | 状态为 `UNRESOLVED_WITHIN_SOURCE`。两种叙述同时保留，不自行选择或归因为不同范围／笔误；不计算七分钟处置余量，也不把两个时刻当作已验证的上下界。需要原始事件、产品影响及测量口径对账。 |
 | **N04：标签** | 页面为 US/Pacific，7 月事件表标 PST，更新标签标 PDT。 | 保留标签冲突；尚未确认绝对 UTC 对齐，不静默选一个缩写换算。 |
 | **N04：窗口** | 页面为 07-15 16:57 至 07-16 05:25；最终影响说明为 16:39 至次日 07:34；BMS 事件表另有次日 08:42 健康确认。 | 分别登记“页面状态窗口／最终影响窗口／产品恢复事件”，不挑一个替代其他口径，也不把产品时标合成全设施轨迹。 |
 | **L09／N05** | 报告区分已完成项与 ETA／Estimated Completion Date。 | 引用时保存报告给出的状态。没有新的完成回执，就不将预计日期升级为完成事实；也不把事故后的修复或演练证明为事故前已执行。 |
