@@ -1,8 +1,10 @@
 # AegisDC research execution
 
-## User-directed review gate (2026-11-11)
+## User-directed research reset (2026-11-12)
 
-Follow the user-authorized slice in [progress.json](docs/mainline/progress.json). The automatic goal is paused; the user reopened 39c starting with slice 57. Preserve the three frozen slice 57 files byte for byte. Keep 39d, 39t numeric qualification, 40–42 and AI/RSI frozen. Deliver each authorized engineering slice with the [lightweight template](docs/agents/lightweight-engineering.md), then wait for the next user direction. Preserve formal research protocols and originals.
+The user replaced the old milestone queue with a new review-gated research design. Read [MAINLINE](docs/MAINLINE.md), [the R0–R6 proposal](docs/mainline/review-gated/plan.md) and [progress.json](docs/mainline/progress.json) before research work. R0 is awaiting user review; research execution remains paused. Each later gate needs explicit user direction after review of its predecessor. Do not resume old 39c–42 work from an old ready status. PR #3 was authorized and merged into the current 39c branch as maintenance only.
+
+Preserve the three frozen slice 57 files, formal protocols, original results and failures byte for byte. The [pre-reset snapshots](docs/mainline/history/20261112-before-reset/README.md) are historical evidence, not the active queue. New engineering work, once authorized, uses the [lightweight template](docs/agents/lightweight-engineering.md). Incident-source reading and proposed counterfactual/RSI designs do not authorize simulations or model experiments.
 
 ## Compute and storage (user requirement, 2026-11-09)
 
@@ -10,13 +12,13 @@ Use the existing remote servers for dependency installation, training, inference
 
 For server access, environment setup, jobs, result storage or cleanup, read `docs/agents/compute-storage.md`. Cluster work must follow the installed `use-renly-slurm` skill, including live identity/topology/queue discovery and Slurm allocation for computation. Keep detailed outputs and checkpoints on the private server; retrieve necessary figures and summaries. Preserve current directories, uncommitted/unpushed work, unique data and required reproduction evidence. Before deleting a local-only large artifact, verify the remote copy's identity and readability. Remove historical worktrees through normal Git operations; retain uncertain content and record why. These storage rules do not change the research objective or acceptance gates.
 
-For research continuation, read `docs/MAINLINE.md`, then `docs/mainline/progress.json` and the current ticket. Keep the complete-facility objective and its acceptance gates through context changes. A plan, component test, demo, or passing CI is a milestone, not completion of the research goal.
+For research continuation, follow the approved gate and its acceptance criteria through context changes. A plan, component test, demo, or passing CI is a milestone, not completion of the research goal. The new plan's scientific choices remain proposals until user review.
 
-Work the ready frontier in dependency order; the primary current ticket is the earliest ready item. Independent ready tickets may run in parallel within the same mainline, each with one owner/worktree. Record accepted artifacts and their checks before resolving it. Report a negative result as a research result; revise hypotheses through an explicit protocol revision instead of changing the target or reusing sealed outcomes.
+Work only the explicitly authorized gate; record its artifacts and checks before presenting it for review. Acceptance of one gate does not automatically authorize the next. Report negative results honestly and revise hypotheses through an explicit protocol revision instead of changing the target or reusing sealed outcomes.
 
 Before claiming, inspect the active-work hints in progress and confirm live agent/worktree state. A ticket's claimed status may still be only on its unmerged worktree; do not duplicate a live assigned implementation or restart it solely because an observation timed out.
 
-Use one Zhengzhou-inspired **synthetic research facility** with eight operational domains. Keep source facts, design claims, modeling assumptions, and unresolved site data explicit. Maintain physical, functional, control/information and access relations with shared entity identities. Personnel are domain actors; AI decision modules are a later, independently evaluated choice.
+The existing Zhengzhou-inspired eight-domain synthetic facility is a reusable research asset. Its reuse and any incident-model scope must satisfy the new approved design; old acceptance does not certify a Google site reconstruction. Keep source facts, design claims, assumptions and unknowns explicit. Preserve physical, functional, control/information and access semantics. Distinguish method effectiveness, conditional counterfactual claims, ordinary feedback improvement and independently tested RSI increment.
 
 Keep actual state private to the plant/evaluator. Dispatch receives only records available at decision time and declared static knowledge. Correlated/copied records need shared provenance. Existing local automatic protection remains part of the plant.
 
@@ -26,7 +28,7 @@ New work belongs in the AegisDC implementation and new mainline records. Preserv
 
 ### Issue tracker
 
-Version-controlled local Markdown tickets and dependencies: `docs/agents/issue-tracker.md`. Run the dependency frontier, not an arbitrary future ticket.
+Current authority is the R0–R6 gate ledger above. `docs/agents/issue-tracker.md` describes retained legacy ticket mechanics; old ready tickets cannot bypass the user-review gate.
 
 ### Domain docs
 

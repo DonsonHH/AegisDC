@@ -1,4 +1,4 @@
-> 当前导航（2026-11-12）：研究状态见 [MAINLINE](MAINLINE.md) 与 [progress.json](mainline/progress.json)，代码维护见 [工作区地图](WORKSPACE.md)。下文保留历史交审记录；其中“57草稿未执行”等语句仅描述原记录时点。当前57-R1与58已交付，39c整票仍未验收。
+> 当前唯一下一步（2026-11-12）：等待用户 review [R0 新主线提案](mainline/review-gated/plan.md)，参见 [11.12 meeting](meetings/2026-11-12-research-mainline-reset.md)。PR #3 已合入当前39c；科研执行仍暂停。下文全为历史交审记录，不再是当前队列；“57草稿未执行”等语句只描述原时点，57-R1与58后来已交付，旧39c整票仍未验收。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

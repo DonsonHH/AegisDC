@@ -1,16 +1,20 @@
 # AegisDC
 
-在一个郑州工程参照启发的**八域合成算力设施**中，研究到时证据、专业核查和受资源约束的处置如何影响服务保障。设施真实状态留在私有评估器；决策者只使用当时可用的记录。项目不控制真实设备。
+现有实现是一套郑州工程参照启发的**八域合成算力设施**。新研究拟以真实事故机制为依据，验证专业核查、受约束处置及自改进的效果；旧设施作为待按新问题核验的复用资产。设施真实状态留在私有评估器，决策者只使用当时可用的记录。项目不控制真实设备。
 
-**从这里开始：** [工作区地图](docs/WORKSPACE.md) · [研究主线](docs/MAINLINE.md) · [当前进度](docs/mainline/progress.json) · [脚本导航](scripts/README.md) · [本轮整理及后续研究建议](docs/maintenance/20261112-workspace/README.md)
+**从这里开始：** [新研究主线](docs/MAINLINE.md) · [R0–R6 提案](docs/mainline/review-gated/plan.md) · [11.12 meeting](docs/meetings/2026-11-12-research-mainline-reset.md) · [当前进度](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md) · [脚本导航](scripts/README.md)
 
 ## 当前状态
 
-截至本轮维护基线（2026-11-12），最新研究在 `donson/mainline-39c-endpoints` 的 `add83364`；GitHub `main` 仍在 `42252bf8`。本轮代码整理发布到 `donson/workspace-maintenance-20261112`，没有自动合并尚未验收的研究工作。
+**当前 R0 新主线提案等待用户 review，科研执行暂停。** 11 月 12 日用户要求重新确定研究问题、底线和逐关验收，旧票进度不再自动驱动工作。[事故可验证性核查](docs/research/20261112-incident-counterfactual-method.md)区分事故机制、条件反事实效果和 RSI 独立增量；没有运行事故仿真或模型实验。
+
+维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
+
+以下为保留的历史研究状态，不能用其通过数量推算新主线进度：
 
 - **39c 整票未验收。** [独立复核](docs/mainline/audits/20261112-39c-whole-ticket/README.md)保留五项开放问题。[57-R1 精确重放](evidence/mainline/engineering/39c-development/slice-57/result.json)及[58 零设施负向资格](evidence/mainline/engineering/39c-development/slice-58/result.json)的有限通过保持；完整根回归和 fresh 门槛仍开放。
 - **原 180 次注册比较保持负结果。** 主平均改善 0.03515625 秒，低于 0.25 秒实际收益门槛。解释始终带上：**验证关闭未入环、仅 2 个预设实例、无现场标定**。[更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)与[固定范围](docs/mainline/preset-study-scope.json)说明它能回答的问题。
-- **研究扩展冻结。** 39d、39t 数字资格、40–42、AI／RSI 等待用户后续方向；本轮仅维护代码与导航。工程回归不代表科研目标完成。
+- **旧队列冻结。** 39d、39t 数字资格、40–42、AI／RSI 未自动恢复；具体复用内容由新主线逐项决定。[重整前原始状态](docs/mainline/history/20261112-before-reset/README.md)保留旧接受范围和缺口。
 
 最新研究材料：[论文结构稿](paper/conditional-inspection-value-structure-20261111.md) · [两域联合可行性与作业时长边界](docs/research/20261112-joint-cooling-access-feasibility/README.md) · [Frontier 实测与缺测](docs/research/20261111-frontier-field-pilot/README.md) · [V6 量级及全年参照](docs/research/20261112-frontier-v6-scale-reference/README.md) · [八域覆盖三档](docs/mainline/39r-coverage-criteria.md)。这些材料分别说明有限工程、外部参照与尚缺证据，不合并为现场收益结论。
 

@@ -2,11 +2,13 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
+11.12 更新：PR #3 已合入当前39c分支；研究已切换为 [R0–R6 review 主线](mainline/review-gated/plan.md)，当前只等待 R0 review。下面的代码资产导航仍适用，历史票不再自动驱动执行。
+
 ## 从哪里进入
 
 | 目的 | 入口 |
 |---|---|
-| 了解当前研究、证据边界和下一步提议 | [维护与研究路线](maintenance/20261112-workspace/README.md) |
+| 了解当前研究、证据边界和下一步提议 | [R0–R6 新主线提案](mainline/review-gated/plan.md) |
 | 查看当前主线状态 | `python -m aegis_dc status`；安装后也可用 `aegis-dc status` |
 | 看完整设施的场景契约 | `src/aegis_dc/scenario.py`、`configs/full-facility-mainline-reserve-v6.json` |
 | 修改设施行为 | `src/aegis_dc/plant.py` 与对应物理模块 |
@@ -62,7 +64,7 @@ flowchart LR
 
 ## 分支与查找
 
-维护开始时，GitHub `main` 在 `42252bf8`；最新 39c 分支为 `donson/mainline-39c-endpoints`，本地和云端同为 `add83364`，领先 main 166 个提交。本轮从最新分支建立 `donson/workspace-maintenance-20261112`。整理结果的远端验证不接受这 166 个提交所对应的整项研究工作；合入 main 需要单独处理原有的研究交付门槛。
+维护开始时，GitHub `main` 在 `42252bf8`；当时最新 39c 分支为 `donson/mainline-39c-endpoints` 的 `add83364`，领先 main 166 个提交。维护分支已通过 PR #3 合入当前39c，合并提交 `4a9dfdbe`。维护通过不接受旧整项研究；旧进度已存入[历史快照](mainline/history/20261112-before-reset/README.md)，新主线接受条件由 R0–R6 确定。没有自动合入 main。
 
 另一个聊天仍使用 `mainline23-intervention/Renly` 工作树。即使其分支提交已经发布，也不应删除仍作为聊天工作目录的路径。
 
