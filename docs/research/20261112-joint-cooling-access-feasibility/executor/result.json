@@ -1,0 +1,326 @@
+{
+  "status": "PASS",
+  "scope": "39r travel_deadline executor reconciliation",
+  "input_git_revision": "b2ae76cadea3a31543b2dbe1e19305dd44738518",
+  "script": {
+    "bytes": 14096,
+    "sha256": "702aed9db7e5ee9c2a878c3efc70264ea304cd7f5840583e98474573696c1a53"
+  },
+  "source_manifest": {
+    "bytes": 13703,
+    "sha256": "778dd360c93dc8803430329c3aa3831f4c28da820590b653e7fada38d3c7cf08"
+  },
+  "source_archive_sha256": "55021d686c8b8af7dd0c28fdf19bece2f091a9ff9a37af61e22e51756ebe94ad",
+  "inputs": {
+    "configs/full-facility-mainline-reserve-v6.json": {
+      "bytes": 144280,
+      "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+    },
+    "evidence/mainline/engineering/29-uncertainty-domain/prepared-01/cases/nominal.json": {
+      "bytes": 203996,
+      "sha256": "1ea5c3c8705b21c857a7a3988a008c8ba84c6dfcc8a1ad1862373dcda22971df"
+    },
+    "configs/full-facility-decision-v1/common-ledger.json": {
+      "bytes": 9432,
+      "sha256": "8b6cb367471a483a0b9bd8079980af34ad8a2815c3c1528a12dba4d0e7d79581"
+    },
+    "docs/research/20261112-joint-cooling-access-feasibility/result.json": {
+      "bytes": 15352,
+      "sha256": "a8ebb05573fe8e57c9ffb5986a49969391f30ec16477b02e48558a4d367b6ba8"
+    }
+  },
+  "python": "3.12.7",
+  "budget": {
+    "facility_entries": 1,
+    "isolated_executor_entries": 1
+  },
+  "conditions": {
+    "deadline_s": 330,
+    "native_prefix_s": 151,
+    "native_max_step_s": 0.01,
+    "declared_person_budget_s_nonbinding": 500,
+    "forecast_b_completion_ab_s": 360.75
+  },
+  "actual_counts": {
+    "facility_entries": 1,
+    "completed_native_horizons": 1,
+    "completed_native_seconds": 151.0,
+    "isolated_executor_entries": 1,
+    "registered_research_runs": 0,
+    "policy_calls": 0
+  },
+  "field_calibration": "PENDING",
+  "service_benefit": "NOT_EVALUATED",
+  "private_originals_directory": "/root/private_data/aegisdc-39r-joint-executor-20261112-v1/attempt-01/originals",
+  "programs": {
+    "bytes": 223565,
+    "sha256": "f0a1797bb0290e8476101e6e54b1daedf89c7d0dcae36af4654e916407b4560d"
+  },
+  "native_ab": {
+    "tasks": {
+      "A": {
+        "issued_at_s": 0.0,
+        "started_at_s": 0.0,
+        "arrived_at_s": 120.25,
+        "work_started_at_s": 120.25,
+        "scheduled_completion_at_s": 150.25,
+        "completed_at_s": 150.25,
+        "finished_at_s": 150.25,
+        "reason": null,
+        "status": "completed",
+        "queue_wait_s": 0.0
+      },
+      "B": {
+        "issued_at_s": 0.0,
+        "started_at_s": null,
+        "arrived_at_s": null,
+        "work_started_at_s": null,
+        "scheduled_completion_at_s": null,
+        "completed_at_s": null,
+        "finished_at_s": 150.25,
+        "reason": "shift_or_deadline_unavailable",
+        "status": "rejected",
+        "queue_wait_s": null
+      }
+    },
+    "meter_and_worker": [
+      {
+        "time_s": 0.0,
+        "worker_location_id": null,
+        "worker_status": "travelling",
+        "tool_reserved_by": "A",
+        "queued": [
+          "B"
+        ]
+      },
+      {
+        "time_s": 120,
+        "worker_location_id": null,
+        "worker_status": "waiting",
+        "tool_reserved_by": "A",
+        "queued": [
+          "B"
+        ]
+      },
+      {
+        "time_s": 120.25,
+        "worker_location_id": "loc_lake",
+        "worker_status": "working",
+        "tool_reserved_by": "A",
+        "queued": [
+          "B"
+        ]
+      },
+      {
+        "time_s": 150.25,
+        "worker_location_id": "loc_lake",
+        "worker_status": "idle",
+        "tool_reserved_by": null,
+        "queued": []
+      }
+    ],
+    "occupations": {
+      "worker_travel_person_s": 120.0,
+      "worker_wait_person_s": 0.25,
+      "access_check_person_s": 0.25,
+      "rendezvous_wait_person_s": 0.0,
+      "queue_wait_person_s": 0.0,
+      "worker_work_person_s": 30.0,
+      "tool_occupation_tool_s": 150.25,
+      "tool_work_tool_s": 30.0
+    },
+    "feedback": [
+      {
+        "task_id": "A",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 150.25,
+        "arrived_at_s": 150.75,
+        "status": "completed",
+        "reason": null,
+        "location_id": "loc_lake",
+        "origin_id": "workforce:A",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      },
+      {
+        "task_id": "B",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 150.25,
+        "arrived_at_s": 150.75,
+        "status": "rejected",
+        "reason": "DECLARED_TASK_ADMISSION_REFUSAL",
+        "location_id": null,
+        "origin_id": "workforce:B",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      }
+    ],
+    "source_tree_sha256": "6334254a5d3fcf523ea78a6f1e916d3d23d8f11730581dbca83429edaff75937",
+    "integration_steps": 15169,
+    "artifacts": {
+      "scenario.json": {
+        "bytes": 144280,
+        "sha256": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085"
+      },
+      "private-state.jsonl": {
+        "bytes": 107892267,
+        "sha256": "834a69e4dcd09782b08ae8a53f1e5aaec8ed5ae115db1f246480797d7bf3c118"
+      },
+      "balances.jsonl": {
+        "bytes": 51729305,
+        "sha256": "53087a00bd49e3aeeb4830968fed0533b17f46ab21f920f5106671945355f7e9"
+      },
+      "run.json": {
+        "bytes": 133365,
+        "sha256": "946754b916c9c443bbd6c87db608b3abd28a62797790113f1c550d70ffc77a6c"
+      }
+    }
+  },
+  "executor_ba": {
+    "tasks": {
+      "B": {
+        "issued_at_s": 0,
+        "started_at_s": 0,
+        "arrived_at_s": 60.25,
+        "work_started_at_s": 60.25,
+        "scheduled_completion_at_s": 90.25,
+        "completed_at_s": 90.25,
+        "finished_at_s": 90.25,
+        "reason": null,
+        "status": "completed",
+        "queue_wait_s": 0
+      },
+      "A": {
+        "issued_at_s": 0,
+        "started_at_s": 90.25,
+        "arrived_at_s": 270.75,
+        "work_started_at_s": 270.75,
+        "scheduled_completion_at_s": 300.75,
+        "completed_at_s": 300.75,
+        "finished_at_s": 300.75,
+        "reason": null,
+        "status": "completed",
+        "queue_wait_s": 90.25
+      }
+    },
+    "meter_and_worker": [
+      {
+        "time_s": 0,
+        "worker_location_id": null,
+        "worker_status": "travelling",
+        "tool_reserved_by": "B",
+        "queued": [
+          "A"
+        ]
+      },
+      {
+        "time_s": 60,
+        "worker_location_id": null,
+        "worker_status": "waiting",
+        "tool_reserved_by": "B",
+        "queued": [
+          "A"
+        ]
+      },
+      {
+        "time_s": 60.25,
+        "worker_location_id": "loc_control",
+        "worker_status": "working",
+        "tool_reserved_by": "B",
+        "queued": [
+          "A"
+        ]
+      },
+      {
+        "time_s": 90.25,
+        "worker_location_id": null,
+        "worker_status": "travelling",
+        "tool_reserved_by": "A",
+        "queued": []
+      },
+      {
+        "time_s": 150.25,
+        "worker_location_id": null,
+        "worker_status": "waiting",
+        "tool_reserved_by": "A",
+        "queued": []
+      },
+      {
+        "time_s": 150.5,
+        "worker_location_id": null,
+        "worker_status": "travelling",
+        "tool_reserved_by": "A",
+        "queued": []
+      },
+      {
+        "time_s": 270.5,
+        "worker_location_id": null,
+        "worker_status": "waiting",
+        "tool_reserved_by": "A",
+        "queued": []
+      },
+      {
+        "time_s": 270.75,
+        "worker_location_id": "loc_lake",
+        "worker_status": "working",
+        "tool_reserved_by": "A",
+        "queued": []
+      },
+      {
+        "time_s": 300.75,
+        "worker_location_id": "loc_lake",
+        "worker_status": "idle",
+        "tool_reserved_by": null,
+        "queued": []
+      },
+      {
+        "time_s": 330,
+        "worker_location_id": "loc_lake",
+        "worker_status": "idle",
+        "tool_reserved_by": null,
+        "queued": []
+      }
+    ],
+    "occupations": {
+      "worker_travel_person_s": 240.0,
+      "worker_wait_person_s": 0.75,
+      "access_check_person_s": 0.75,
+      "rendezvous_wait_person_s": 0.0,
+      "queue_wait_person_s": 0.0,
+      "worker_work_person_s": 60.0,
+      "tool_occupation_tool_s": 300.75,
+      "tool_work_tool_s": 60.0
+    },
+    "feedback": [
+      {
+        "task_id": "B",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 90.25,
+        "arrived_at_s": 90.75,
+        "status": "completed",
+        "reason": null,
+        "location_id": "loc_control",
+        "origin_id": "workforce:B",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      },
+      {
+        "task_id": "A",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 300.75,
+        "arrived_at_s": 301.25,
+        "status": "completed",
+        "reason": null,
+        "location_id": "loc_lake",
+        "origin_id": "workforce:A",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      }
+    ],
+    "artifact": {
+      "bytes": 5975,
+      "sha256": "7ea4c6719ee66287280e0dab81ab3f0d5476d83d884ca248280711c7d47c8a1f"
+    },
+    "access_assumption": "The two task routes are open; loc_it is excluded."
+  }
+}
