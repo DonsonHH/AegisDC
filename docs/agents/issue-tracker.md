@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-12 supersession:** the user replaced the old executable queue with [R0–R6](../mainline/review-gated/plan.md). Follow [progress.json](../mainline/progress.json): R0 direction is accepted; documentary R1 is delivered for review, with R2 and experiments unauthorized. The mechanics below describe legacy tickets and any later explicitly authorized implementation tickets; neither a legacy ready status nor acceptance of one gate authorizes the next gate.
+**2026-11-12 supersession:** the user replaced the old executable queue with [R0–R6](../mainline/review-gated/plan.md). Follow [progress.json](../mainline/progress.json): corrected R1 is accepted as a documentary baseline; only the London PRE R2 contract draft is delivered for review. Implementation, qualification execution and experiments are unauthorized. The mechanics below describe legacy tickets and any later explicitly authorized implementation tickets; neither a legacy ready status nor acceptance of one gate authorizes the next gate.
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

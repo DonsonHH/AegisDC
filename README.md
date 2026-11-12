@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**R0 方向已接受，[资料型 R1](docs/mainline/review-gated/R1/README.md)已交付，等待用户 review；R2 与实验未授权。** 本轮整理来源、决策信息、动作约束、最小因果接口和可识别性，伦敦事前核查优先、事中响应分开。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；没有运行事故仿真或模型实验。旧票进度不再自动驱动工作。
+**修正后的 [R1 资料基线](docs/mainline/review-gated/R1/README.md)已接受；[R2 模型资格契约草案](docs/mainline/review-gated/R2/qualification-contract.md)等待 review。实现、实验及荷兰／事中响应扩展均未授权。** 本轮仅界定事实、合成假设、拟议独立检查和信息边界。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；没有运行事故仿真或模型实验。旧票进度不再自动驱动工作。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

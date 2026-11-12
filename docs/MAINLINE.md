@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**R0 研究方向已接受；资料型 R1 已交付，等待用户 review。R2 与实验仍未授权。** 本轮仅整理来源、决策信息、动作约束、最小因果接口和可识别性；伦敦事前核查优先，事中响应分开。旧 01–42／39c 等进度不再作为自动执行队列，旧证据和未关闭问题保留。
+**修正后的 R1 已接受为资料与可识别性基线；R2 仅模型资格契约草案已交付，等待 review。模型实现与实验未授权。** 本轮仅限伦敦式受限合成机制的事前核查，不扩展荷兰或事中响应。旧 01–42／39c 等进度不再作为自动执行队列，旧证据和未关闭问题保留。
 
-本轮审阅：[R1 资料包](mainline/review-gated/R1/README.md) · [来源台账](mainline/review-gated/R1/sources.md)。详细方案：[R0–R6 计划及关卡前置条件](mainline/review-gated/plan.md)。唯一执行状态：[progress.json](mainline/progress.json)。依据：[11.12 meeting](meetings/2026-11-12-research-mainline-reset.md)。
+本轮审阅：[R2 模型资格契约草案](mainline/review-gated/R2/qualification-contract.md)。已接受基线：[R1 资料包](mainline/review-gated/R1/README.md) · [来源台账](mainline/review-gated/R1/sources.md)。详细方案：[R0–R6 计划及关卡前置条件](mainline/review-gated/plan.md)。唯一执行状态：[progress.json](mainline/progress.json)。依据：[11.12 meeting](meetings/2026-11-12-research-mainline-reset.md)。
 
 ## 拟研究的问题
 
@@ -15,8 +15,8 @@
 | 关卡 | 核心交付 | 当前权限 |
 |---|---|---|
 | R0 | 研究方向与底线；具体模型／协议／数值标准保留后继审查 | 方向已接受 |
-| R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 资料已交付，等待 review；到此停止 |
-| R2 | 未干预机制重构及模型资格 | 未授权 |
+| R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
+| R2 | 伦敦 PRE 受限合成模型资格 | 仅契约草案待 review；实现与检查执行未授权 |
 | R3 | 固定方法、强基线与冻结协议 | 未授权 |
 | R4 | 方法效果、反事实适用域及消融 | 未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
