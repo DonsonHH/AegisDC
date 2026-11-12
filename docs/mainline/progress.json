@@ -112,7 +112,7 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/38-root.json"
       ],
-      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证，57-R1固定夹具精确重放与58零设施负向资格通过，原首绿失败留档，整票五项仍未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，新增Frontier功率和冷却外部实测小样；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
+      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点、57-R1固定夹具精确重放与58零设施负向资格通过，58经用户核验；整票独立复核已完成但仍有事件身份、路程和文件来源绑定等缺口，五项未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，Frontier为外部功率和冷却实测参照；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
     }
   ],
   "research_trials": {
@@ -209,7 +209,7 @@
   ],
   "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "The user confirmed 57-R1 and authorized zero-entry negative qualification. Slice 58 ran one test with 24 saved-copy cases and no facility calls. All originals and 57's spent budget are unchanged. The automatic goal remains paused; the five acceptance criteria still need independent whole-ticket review.",
+  "liveness_refresh": "The user confirmed slice 58 at 8a366e9b. Independent Spec and Standards reviewed all five criteria against that revision. Open findings remain, including event identity, unmeasured metric distance, and binding raw successful CLI submissions. All four inventories match their frozen baselines. No new tests, facility entries, research runs or root CI. Automatic execution remains paused.",
   "user_review_checkpoint": {
     "ticket": "38",
     "status": "review_received_and_adopted",
@@ -357,15 +357,15 @@
   },
   "business_endpoint_preparation": {
     "ticket": "39c",
-    "status": "SLICE_58_ZERO_ENTRY_NEGATIVE_QUALIFICATION_PASSED",
+    "status": "WHOLE_TICKET_REVIEW_RECORDED_FINDINGS_OPEN",
     "path": "docs/mainline/39c-business-endpoints-plan.md",
     "new_trials": 0,
-    "next": "evidence/mainline/engineering/39c-development/slice-58/result.json",
+    "next": "docs/mainline/audits/20261112-39c-whole-ticket/README.md",
     "contract": "docs/mainline/39c-closure-endpoint-contract-01.md",
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
   "development_39c": {
-    "status": "SLICE_58_NEGATIVE_QUALIFICATIONS_PASSED_WHOLE_TICKET_OPEN",
+    "status": "INDEPENDENT_WHOLE_TICKET_REVIEW_COMPLETE_FINDINGS_OPEN",
     "red_job": "133147",
     "red_source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
     "green_job": "133150",
@@ -414,7 +414,30 @@
       "blocked_facility_calls": 0,
       "saved_originals_unchanged": true,
       "whole_ticket_root_regression_run": false,
-      "whole_ticket_accepted": false
+      "whole_ticket_accepted": false,
+      "user_review": {
+        "status": "CONFIRMED_PASS",
+        "reviewed_delivery_revision": "8a366e9b7d7bc76d1dbe7e53e29c8284682f7ab3"
+      }
+    },
+    "whole_ticket_independent_review": {
+      "status": "REVIEW_COMPLETE_FINDINGS_OPEN",
+      "report": "docs/mainline/audits/20261112-39c-whole-ticket/README.md",
+      "report_sha256": "3e898e9db4f3b3769eb625be64e43ab22c375339c8c30d04521bfd460c2896d2",
+      "reviewed_revision": "8a366e9b7d7bc76d1dbe7e53e29c8284682f7ab3",
+      "base_revision": "42252bf8a9242f9141212fa4922318ca82ed310c",
+      "criteria_mapped": 5,
+      "criteria_accepted": 0,
+      "spec_open": ["SPEC-01", "SPEC-02"],
+      "standards_open": ["STD-01", "STD-02", "STD-03"],
+      "prevention_effect": "NOT_IDENTIFIED_NO_PAIRED_COUNTERFACTUAL",
+      "origins_inventory_receipt": "docs/mainline/audits/20261112-39c-whole-ticket/origins-inventory.json",
+      "origins_inventory_receipt_sha256": "5228d7645b72ce214563cb121992dda6341b205061cb8de8bdfcb704863b1c41",
+      "facility_entries": 0,
+      "test_invocations": 0,
+      "registered_research_trials": 0,
+      "whole_ticket_root_regression_run": false,
+      "fresh_github_delivery_verified": false
     },
     "qualification_attempts": 7,
     "qualification_tests_executed": 14,
@@ -963,7 +986,7 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39c-slice58-zero-entry-negative-reader-comparison-cli",
+    "bounded_request": "39c-independent-whole-ticket-spec-standards-review",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
     "record57_drafts": "TRACKED_BYTE_IDENTICAL_USED_FOR_RED_FIRST_GREEN_AND_57_R1",
     "user_frozen_tracks": [
@@ -976,7 +999,7 @@
       "RSI"
     ],
     "new_test_slices_authorized": false,
-    "next_39c_action": "WAIT_FOR_USER_REVIEW_BEFORE_WHOLE_TICKET_SPEC_STANDARDS_REVIEW",
+    "next_39c_action": "WAIT_FOR_USER_REVIEW_AND_FINDING_TRIAGE_BEFORE_ZERO_SKIP_ROOT",
     "local_verification_scope": "DOCUMENT_LINKS_AND_FROZEN_ARTIFACT_INTEGRITY_ONLY"
   },
   "risk_baseline_review": {
@@ -1035,8 +1058,8 @@
     {
       "ticket": "39c",
       "owner": "/root",
-      "status": "SLICE_58_PASSED_AWAITING_USER_REVIEW",
-      "report": "evidence/mainline/engineering/39c-development/slice-58/result.json"
+      "status": "WHOLE_TICKET_REVIEW_COMPLETE_FINDINGS_OPEN",
+      "report": "docs/mainline/audits/20261112-39c-whole-ticket/README.md"
     },
     {
       "ticket": "39r",

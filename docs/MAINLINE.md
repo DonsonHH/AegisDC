@@ -1,6 +1,6 @@
 # 固定研究主线：完整设施中的风险驱动检查与处置
 
-**当前票是 39c，第 58 项的[零设施负向资格](../evidence/mainline/engineering/39c-development/slice-58/result.json)已通过。** 24 项检查覆盖缺失、旧版注入、错配、计时与 CLI。[57-R1](../evidence/mainline/engineering/39c-development/slice-57/result.json)的原件、精确重放结果和原失败保持。整票五项仍待独立复核，长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+**当前票是 39c，[整票独立复核](mainline/audits/20261112-39c-whole-ticket/README.md)已完成，五项仍开放。** [第 58 项](../evidence/mainline/engineering/39c-development/slice-58/result.json)经用户核验通过；[57-R1](../evidence/mainline/engineering/39c-development/slice-57/result.json)的原件、精确重放结果和原失败保持。处置复核发现前不启动根回归，长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
 此前交审：[两域共同作业时长的敏感性](research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。以算术给出 330、420、600 秒截止的边界，并单列原 500 人秒预算的影响；[执行器对账](research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)仍只覆盖 30 秒声明值。[A2 量级参照及全年背景](research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测和缺测小样](research/20261111-frontier-field-pilot/README.md)。
 
@@ -62,7 +62,7 @@
 
 2026年11月10日较早快照：[39c实例审查阅读检查点](../paper/preset-dispatch-scope-review-20261110/review-checkpoint.md)及[离线HTML](../paper/preset-dispatch-scope-review-20261110/review-checkpoint.html)保存24条件实际数据与架构图，有限Spec通过、Standards记账发现已纠正。协议20–33共38次公开选择，无新增设施或注册研究；原37次设施进入／72.5秒／81返回保持。提前量、成本、联合重放及整票根／fresh仍未完成，39d保持依赖。以下旧检查点按各自时点阅读；133407早已开始前取消，容器修订及全部原件保留。
 
-2026年11月9日总体审阅之后，39a跨阶段复核与[39b动态检查处置](mainline/39b-root-acceptance.md)取得有限接受，39c继续开发。用户本次纠正后，当前改为39r风险基线与39t时间基础交审，39c剩余开发等待它们；本包发布后等待用户单步指导。[任务图](../.scratch/full-facility-mainline/map.md)与progress记录新顺序，[11月9日采纳表](reviews/20261109-user-review/response.md)保留为历史决定。39b远端609项完整回归和一次406文件fresh核验通过，原失败保留。38的AI可检验性接受保持；原180次、协议、失败、主要负结果和原有限接受范围不变。计算与数据按[远端规则](agents/compute-storage.md)执行。
+2026年11月9日总体审阅之后，39a跨阶段复核与[39b动态检查处置](mainline/39b-root-acceptance.md)取得有限接受，39c继续开发。当时先将39r风险基线与39t时间基础交审，之后用户按单步指令恢复39c。[任务图](../.scratch/full-facility-mainline/map.md)与progress记录顺序，[11月9日采纳表](reviews/20261109-user-review/response.md)保留为历史决定。39b远端609项完整回归和一次406文件fresh核验通过，原失败保留。38的AI可检验性接受保持；原180次、协议、失败、主要负结果和原有限接受范围不变。计算与数据按[远端规则](agents/compute-storage.md)执行。
 
 M0–M6已按各自有限范围接受。按用户要求，01–35已对照会后决策完成实质审计并修正两项问题；原定180次运行与37导师报告完成，R6未测指标仍保留。38修订审计接受窄结构化AI选单的可检验性，原资格否决撤回并保存独立发现；AI/RSI效果仍未测。按用户要求在[38后形成阅读检查点](mainline/checkpoint38.md)，下一主票39尚未运行，40–42保持依赖，总目标未关闭。
 

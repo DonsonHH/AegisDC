@@ -1,6 +1,6 @@
 # AegisDC
 
-**39c 已通过固定夹具的[精确重放](evidence/mainline/engineering/39c-development/slice-57/result.json)与[零设施负向资格](evidence/mainline/engineering/39c-development/slice-58/result.json)。** 第 58 项在保存原件的副本上通过 24 项检查。整票五项仍待独立复核。[180次预设派工策略比较：范围更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+**[39c 整票独立复核](docs/mainline/audits/20261112-39c-whole-ticket/README.md)已完成，五项仍未验收。** [57-R1 精确重放](evidence/mainline/engineering/39c-development/slice-57/result.json)保持通过，[58 零设施负向资格](evidence/mainline/engineering/39c-development/slice-58/result.json)经用户核验通过。整票仍有事件身份、路程和文件来源绑定等缺口。[180次预设派工策略比较：范围更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
 当前交审：[两域联合可行性的作业时长边界](docs/research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。在 330 秒共同截止与原例约束下，仅 B→A 可行的区间为每项作业 14.625 < h ≤ 44.625 秒；原[执行器对账](docs/research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)覆盖声明的 30 秒点。[A2 量级参照及全年背景](docs/research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测与缺测图](docs/research/20261111-frontier-field-pilot/README.md) · [八域结构与联合约束](docs/mainline/39r-six-domain-structure.md) · [覆盖三档](docs/mainline/39r-coverage-criteria.md) · [IT 观测契约](docs/mainline/39r-it-network-observation-contract.md) · [UPS 单域核验](docs/mainline/39r-ups-field-tool.md) · [论文结构稿](paper/conditional-inspection-value-structure-20261111.md)。现场标定仍待验证；39c、39d、39t数字资格、40–42与AI／RSI保留并暂停。
 
@@ -116,6 +116,6 @@ python -m patrol_rsi verify --output runs/verification-new
 
 `status`读取会前状态，`verify`执行工程/证据校验；没有自动训练或LLM调用，计算校验仍须远端执行。`demo/explain/respond/study`等历史命令的用法保留在[归档README](https://github.com/DonsonHH/AegisDC/blob/pre-meeting-20261103/README.md)。不要将兼容CLI的默认Tour理解为新主线。
 
-1–38的原有限接受与冻结原件保持，39a／39b有限接受保持；它们不代表全场风险基线、现场标定或完整业务评价已完成。第 57 项固定案例已完成精确重放，第 58 项通过限定的负向资格；整票复核、零跳过根回归和新检出验收尚待完成。39t 数字资格、39d 和原 39–42 继续冻结。38仅接受窄结构化AI因素的可检验性，AI／RSI效果仍未测。[方向纠正包](docs/reviews/20261110-direction-correction/README.md) · [主线进度](docs/mainline/progress.json)
+1–38的原有限接受与冻结原件保持，39a／39b有限接受保持；它们不代表全场风险基线、现场标定或完整业务评价已完成。39c 五项已分别映射到契约、实际验证和证据边界；剩余缺口、零跳过根回归和新检出验收仍开放。39t 数字资格、39d 和原 39–42 继续冻结。38仅接受窄结构化AI因素的可检验性，AI／RSI效果仍未测。[方向纠正包](docs/reviews/20261110-direction-correction/README.md) · [主线进度](docs/mainline/progress.json)
 
 [1–38跨阶段复核](docs/mainline/audits/20261109-integrated/review-report.md)另列[逐项证据表](docs/mainline/audits/20261109-integrated/coverage-01-38.md)与[会后要求补全表](docs/mainline/audits/20261109-integrated/meeting-gaps.md)。原180次保持不变；保存数据在Slurm补读，区分工程实现、正式覆盖和未测，不能以表格代替39b–39d实质工作。
