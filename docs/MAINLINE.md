@@ -1,6 +1,6 @@
 # 固定研究主线：完整设施中的风险驱动检查与处置
 
-**研究扩展已暂停，当前交付[方向纠正包](reviews/20261110-direction-correction/README.md)，等待用户审查与单步指导。** 风险基线／时间基础39r、39t先于39c剩余工程；57草稿保留未执行。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+**当前票是 39c，本轮只做第 57 项。** [录制／读取回执](../evidence/mainline/engineering/39c-development/slice-57/result.json)保留首次绿测失败和重复红测；修正后读取原件通过，精确重放待审查修订预算。长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
 当前单步交审：[两域共同作业时长的敏感性](research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。以算术给出 330、420、600 秒截止的边界，并单列原 500 人秒预算的影响；[执行器对账](research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)仍只覆盖 30 秒声明值。[A2 量级参照及全年背景](research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测和缺测小样](research/20261111-frontier-field-pilot/README.md)。
 

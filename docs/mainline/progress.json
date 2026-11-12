@@ -10,7 +10,7 @@
   "spec": ".scratch/full-facility-mainline/spec.md",
   "ticket_directory": ".scratch/full-facility-mainline/issues",
   "ticket_status_source": "ticket Markdown Status and Evidence",
-  "current_ticket": "39r",
+  "current_ticket": "39c",
   "current_milestone": "M7",
   "milestones": [
     {
@@ -112,7 +112,7 @@
       "acceptance_evidence": [
         "docs/mainline/evidence/38-root.json"
       ],
-      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证、记录链及整票未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，新增Frontier功率和冷却外部实测小样；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
+      "progress_scope": "38仅技术进入资格；39a/39b有限接受；39c联合端点与成本有限验证，57首绿读取失败留档，修正读取通过，精确重放及整票未验收；39r八域子问题结构经审阅，UPS与IT有有限工程见证，新增Frontier功率和冷却外部实测小样；同站作业配对仍未确认；39t仅时间基础描述；39d后续数值/敏感性与原39–42研究未运行或未接受；AI/RSI效果未测。"
     }
   ],
   "research_trials": {
@@ -209,7 +209,7 @@
   ],
   "active_implementations": [],
   "prepared_implementations": [],
-  "liveness_refresh": "Automatic mainline remains paused. User reported the travel_deadline executor audit passed. This step adds a deadline and person-budget sensitivity boundary for the declared common task duration, with no new execution or calibration. The local advisor report is marked pending archive.",
+  "liveness_refresh": "The user reopened 39c from slice 57. The first green attempt recorded one six-second window, then failed reading dispatch-derived inputs. The corrected reader verified the saved original with zero new facility entries. Exact replay needs a new same-source pair and a revised budget; the automatic goal remains paused.",
   "user_review_checkpoint": {
     "ticket": "38",
     "status": "review_received_and_adopted",
@@ -357,29 +357,42 @@
   },
   "business_endpoint_preparation": {
     "ticket": "39c",
-    "status": "PAUSED_FOR_RISK_TIME_BASELINE_AND_USER_REVIEW",
+    "status": "SLICE_57_REOPENED_CORRECTED_SAVED_READ_ONLY",
     "path": "docs/mainline/39c-business-endpoints-plan.md",
     "new_trials": 0,
-    "next": "docs/reviews/20261110-direction-correction/README.md",
+    "next": "evidence/mainline/engineering/39c-development/slice-57/result.json",
     "contract": "docs/mainline/39c-closure-endpoint-contract-01.md",
     "protocol": "docs/mainline/39c-closure-endpoint-protocol-01.json"
   },
   "development_39c": {
-    "status": "FINITE_JOINT_ENDPOINTS_QUALIFIED_RECORDED_REPLAY_OPEN",
+    "status": "SLICE_57_FIRST_GREEN_FAILED_READER_FIXED_EXACT_REPLAY_OPEN",
     "red_job": "133147",
     "red_source": "3e6fd367cea3b34348b61e0d7c6650728f639aa6",
     "green_job": "133150",
     "green_source": "59acded75e88963020d7e66583c07b5831766834",
-    "facility_interface_entries": 100,
-    "completed_native_horizons": 45,
-    "completed_native_duration_s": 164.25,
-    "returned_decisions": 207,
+    "facility_interface_entries": 101,
+    "completed_native_horizons": 46,
+    "completed_native_duration_s": 170.25,
+    "returned_decisions": 215,
     "internal_choice_calls": "NOT_INSTRUMENTED",
     "direct_public_choice_calls": 38,
     "model_calls": 0,
     "new_registered_trials": 0,
     "report": "evidence/mainline/engineering/39c-development/README.md",
     "full_ticket_accepted": false,
+    "recorded_replay_slice_57": {
+      "result": "evidence/mainline/engineering/39c-development/slice-57/result.json",
+      "result_sha256": "ac310ac4807c4c05f491ce6689af7d21c1dc05c4b5abe9b5f3fb3c04ffb259a5",
+      "red_test_invocations_planned": 1,
+      "red_test_invocations_actual": 2,
+      "first_green": "FAILED_READER_REJECTION_AFTER_ONE_NATIVE_WINDOW",
+      "saved_read": "PASS_SAVED_READ_ONLY",
+      "exact_replay": "NOT_RUN",
+      "proposed_revision": "57-R1",
+      "proposed_revision_status": "AWAITING_USER_AUTHORIZATION",
+      "proposed_additional_facility_entries": 2,
+      "proposed_cumulative_slice_facility_entries": 3
+    },
     "qualification_attempts": 7,
     "qualification_tests_executed": 14,
     "qualification_failed_attempts": 3,
@@ -927,11 +940,10 @@
   "execution_control": {
     "mode": "USER_DIRECTED_SINGLE_STEP",
     "automatic_goal": "PAUSED",
-    "bounded_request": "39r-joint-common-task-duration-sensitivity",
+    "bounded_request": "39c-slice57-record-read-exact-replay",
     "after_delivery": "WAIT_FOR_USER_REVIEW_NO_AUTOMATIC_CONTINUATION",
-    "paused57_drafts": "PRESERVED_UNCOMMITTED_NOT_EXECUTED",
+    "record57_drafts": "TRACKED_BYTE_IDENTICAL_USED_FOR_RED_AND_FIRST_GREEN",
     "user_frozen_tracks": [
-      "39c",
       "39d",
       "39t_numeric_qualification",
       "40",
@@ -941,6 +953,7 @@
       "RSI"
     ],
     "new_test_slices_authorized": false,
+    "next_39c_action": "AUTHORIZE_57_R1_SAME_SOURCE_PAIR_BEFORE_ANY_NEW_NATIVE_ENTRY",
     "local_verification_scope": "DOCUMENT_LINKS_AND_FROZEN_ARTIFACT_INTEGRITY_ONLY"
   },
   "risk_baseline_review": {
@@ -997,6 +1010,12 @@
   },
   "review_ready_implementations": [
     {
+      "ticket": "39c",
+      "owner": "/root",
+      "status": "AWAITING_REVISED_SLICE_57_BUDGET",
+      "report": "evidence/mainline/engineering/39c-development/slice-57/result.json"
+    },
+    {
       "ticket": "39r",
       "owner": "/root",
       "status": "AWAITING_USER_REVIEW",
@@ -1014,7 +1033,7 @@
     "stage": "AWAITING_USER_REVIEW",
     "source_risk_coverage": "2conditional primary domains,6UNMODELED",
     "value_coverage": "1conditional primary domain,7UNMODELED",
-    "record57": "PRESERVED_UNCOMMITTED_UNRUN",
+    "record57_at_delivery": "PRESERVED_UNCOMMITTED_UNRUN",
     "new_registered_research": 0,
     "default_branch": "donson/mainline-39c-endpoints",
     "default_branch_receipt": "docs/reviews/20261110-direction-correction/default-branch.json",
@@ -1157,7 +1176,7 @@
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
-    "record57": "PRESERVED_UNTRACKED_UNRUN",
+    "record57_at_delivery": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
       "USER_REVIEW_JOINT_WORK_DURATION_BOUNDARIES",
       "39C_REMAINING_QUALIFICATION_AFTER_USER_DIRECTION"
@@ -1210,7 +1229,7 @@
     "full_CI_rerun": false,
     "website_deployed": false,
     "native_implementation_changed": false,
-    "record57": "PRESERVED_UNTRACKED_UNRUN",
+    "record57_at_delivery": "PRESERVED_UNTRACKED_UNRUN",
     "next_order": [
       "IT_OBSERVATION_DESIGN_USER_REVIEW"
     ],
