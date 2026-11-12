@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**当前 R0 新主线提案等待用户 review，科研执行暂停。** 11 月 12 日用户要求重新确定研究问题、底线和逐关验收，旧票进度不再自动驱动工作。[事故可验证性核查](docs/research/20261112-incident-counterfactual-method.md)区分事故机制、条件反事实效果和 RSI 独立增量；没有运行事故仿真或模型实验。
+**R0 方向已接受，[资料型 R1](docs/mainline/review-gated/R1/README.md)已交付，等待用户 review；R2 与实验未授权。** 本轮整理来源、决策信息、动作约束、最小因果接口和可识别性，伦敦事前核查优先、事中响应分开。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；没有运行事故仿真或模型实验。旧票进度不再自动驱动工作。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

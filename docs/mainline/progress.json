@@ -4,11 +4,11 @@
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
   "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R0",
-  "current_milestone": "R0_DIRECTION_REVIEW",
+  "current_ticket": "R1",
+  "current_milestone": "R1_DOCUMENT_DELIVERY_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "RESEARCH_DESIGN_ONLY_NO_MODEL_EXPERIMENTS",
+  "agent_stage": "R1_DOCUMENTS_ONLY_NO_MODEL_EXPERIMENTS",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -24,29 +24,39 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "PR3 re-review and merge into current39c",
-      "source research and 11.12 meeting",
-      "new mainline proposal and state reset"
+      "R0 direction accepted with gate prerequisites from review",
+      "R1 primary sources and versions",
+      "R1 decision-time information",
+      "R1 action constraints",
+      "R1 minimum causal interfaces",
+      "R1 identifiability; London pre-event priority; response separate"
     ],
-    "after_delivery": "WAIT_FOR_USER_R0_REVIEW",
+    "after_delivery": "WAIT_FOR_USER_R1_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
-    "legacy_queue_auto_resume": false
+    "legacy_queue_auto_resume": false,
+    "document_work_authorized": false,
+    "R2_authorized": false,
+    "document_authorization_status": "R1_SCOPE_DELIVERED_STOPPED_FOR_REVIEW"
   },
   "gates": [
     {
       "id": "R0",
       "name": "direction_and_limits",
-      "status": "AWAITING_USER_REVIEW",
+      "status": "ACCEPTED_DIRECTION",
       "requires_explicit_user_review": true,
-      "execution_authorized": false
+      "execution_authorized": false,
+      "acceptance_scope": "Direction accepted; later model, protocol, numerical thresholds and experiments retain their own review prerequisites"
     },
     {
       "id": "R1",
       "name": "facts_and_identifiability",
-      "status": "NOT_AUTHORIZED",
+      "status": "DELIVERED_AWAITING_USER_REVIEW",
       "requires_explicit_user_review": true,
-      "execution_authorized": false
+      "execution_authorized": false,
+      "document_work_authorized": false,
+      "delivery": "docs/mainline/review-gated/R1/README.md",
+      "result": "docs/mainline/review-gated/R1/result.json"
     },
     {
       "id": "R2",
@@ -85,7 +95,24 @@
     }
   ],
   "active_implementations": [],
-  "review_decisions": [],
+  "review_decisions": [
+    {
+      "id": "20261112-R0-direction-R1-documents",
+      "source": "Explicit user message in this chat",
+      "decision": "Accept R0 research direction; authorize R1 documents only",
+      "scope": [
+        "sources",
+        "decision information",
+        "action constraints",
+        "minimum causal interfaces",
+        "identifiability"
+      ],
+      "priority": "London pre-event audit; post-onset response separately",
+      "stop": "Complete R1 then wait for review; no R2 or experiments",
+      "experimental_authorization": false,
+      "reviewed_direction_commit": "c64e4e7b1a3feb59692fcc0bb945b395f337b461"
+    }
+  ],
   "legacy": {
     "snapshot": "docs/mainline/history/20261112-before-reset/README.md",
     "previous_current_ticket": "39c",
@@ -116,5 +143,26 @@
     "prior_remote_regression": "71/71 PASS; no failure/error/skip; source unchanged",
     "research_acceptance_implied": false
   },
-  "completion_rule": "Only explicit gate review plus matching evidence advances the new mainline. This R0 proposal is not completed research."
+  "completion_rule": "Only explicit gate review plus matching evidence advances the new mainline. This R0 proposal is not completed research.",
+  "r1_document_delivery": {
+    "status": "AWAITING_USER_REVIEW",
+    "scope": [
+      "sources",
+      "decision information",
+      "action constraints",
+      "minimum causal interfaces",
+      "identifiability"
+    ],
+    "primary_case": "London pre-event readiness",
+    "post_onset_response": "SEPARATE",
+    "secondary_case": "Netherlands sources and transfer limits only",
+    "actual_historical_decision_packet": "NOT_ESTABLISHED",
+    "historical_preventability": "NOT_IDENTIFIED",
+    "method_gain": "NOT_EVALUATED",
+    "rsi_gain": "NOT_EVALUATED",
+    "new_research_trials": 0,
+    "new_project_tests": 0,
+    "new_research_model_calls": 0,
+    "R2_started": false
+  }
 }

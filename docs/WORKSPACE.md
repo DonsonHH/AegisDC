@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.12 更新：PR #3 已合入当前39c分支；研究已切换为 [R0–R6 review 主线](mainline/review-gated/plan.md)，当前只等待 R0 review。下面的代码资产导航仍适用，历史票不再自动驱动执行。
+11.12 更新：PR #3 已合入当前39c分支；[R0–R6 review 主线](mainline/review-gated/plan.md)的方向已接受，当前等待 [R1 资料包](mainline/review-gated/R1/README.md) review。R2 与实验未授权。下面的代码资产导航仍适用，历史票不再自动驱动执行。
 
 ## 从哪里进入
 

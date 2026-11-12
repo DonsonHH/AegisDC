@@ -1,0 +1,160 @@
+{
+  "schema": "aegisdc-r1-document-delivery-v1",
+  "status": "DELIVERED_AWAITING_USER_REVIEW",
+  "date": "2026-11-12",
+  "baseline_commit": "c64e4e7b1a3feb59692fcc0bb945b395f337b461",
+  "authorization": {
+    "r0": "RESEARCH_DIRECTION_ACCEPTED",
+    "r1": "SOURCES_DECISION_INFORMATION_ACTION_CONSTRAINTS_MINIMUM_CAUSAL_INTERFACES_IDENTIFIABILITY_ONLY",
+    "priority": "LONDON_PRE_EVENT",
+    "response": "SEPARATE",
+    "R2": false,
+    "experiments": false,
+    "stop": "WAIT_FOR_USER_R1_REVIEW"
+  },
+  "sources": [
+    {
+      "id": "london",
+      "url": "https://status.cloud.google.com/incidents/Xs2XTHzAVC9YnafnPyzj",
+      "retrieved_at_utc": "2026-11-12T13:11:58.4900537Z",
+      "http_status": 200,
+      "bytes": 90410,
+      "sha256": "f242a534dffdba18e160a9fd36168a39e4fff469645382d9ba2305d25b3ee1dc",
+      "scope": "Raw HTTP response body; complete page contains multiple report editions; fact extraction names the selected edition",
+      "source_id": "S-LON",
+      "selected_report_edition": "2026-11-04 13:15 PST",
+      "remote_path": "/share/home/renly/renly-patrol-rsi/mainline/R1-documents-20261112/london.html",
+      "remote_sha256_verified": true,
+      "remote_readable_verified": true
+    },
+    {
+      "id": "netherlands",
+      "url": "https://status.cloud.google.com/incidents/3BvH3LVGcupoYqV6F4Nw",
+      "retrieved_at_utc": "2026-11-12T13:11:59.1957976Z",
+      "http_status": 200,
+      "bytes": 65692,
+      "sha256": "b3babfa706d643951d40e5babd2320e4b94972dfc8894c2a904e901135644b36",
+      "scope": "Raw HTTP response body; complete page contains multiple report editions; fact extraction names the selected edition",
+      "source_id": "S-NLD",
+      "selected_report_edition": "2026-07-25 06:16 PDT",
+      "remote_path": "/share/home/renly/renly-patrol-rsi/mainline/R1-documents-20261112/netherlands.html",
+      "remote_sha256_verified": true,
+      "remote_readable_verified": true
+    }
+  ],
+  "private_root": "/share/home/renly/renly-patrol-rsi/mainline/R1-documents-20261112",
+  "source_capture_receipt_sha256": "d2859ca41634bfc5caaf3baf84ec73061171a56cb43da7722b3bb0d39e1a62a9",
+  "findings": {
+    "reported_mechanism": "SOURCE_BACKED_NOT_AN_INDEPENDENT_RECONSTRUCTION",
+    "historical_pre_event_information_set": "NOT_ESTABLISHED",
+    "historical_permissions_and_action_times": "NOT_ESTABLISHED",
+    "historical_preventability": "NOT_IDENTIFIED",
+    "method_gain": "NOT_EVALUATED",
+    "RSI_gain": "NOT_EVALUATED",
+    "allowed_future_scope": "REQUIRES_USER_REVIEW_AND_NEW_EXPLICIT_AUTHORIZATION"
+  },
+  "actual_work": {
+    "new_project_tests": 0,
+    "new_simulations": 0,
+    "new_registered_research_trials": 0,
+    "new_research_model_calls": 0,
+    "new_slurm_jobs": 0,
+    "assigned_simulation_parameters": 0,
+    "source_capture_documents": 2,
+    "activity": "Primary source reading, document authoring, SSH source retention and file integrity only"
+  },
+  "checks": {
+    "status": "PASS_DOCUMENT_STRUCTURE_AND_INTEGRITY",
+    "source_capture_files": 2,
+    "source_facts": 14,
+    "decision_information_rows": 12,
+    "pre_event_action_rows": 5,
+    "response_action_rows": 4,
+    "causal_interface_rows": 10,
+    "gap_rows": 10,
+    "all_ids_resolve": true,
+    "gate_consistent": true,
+    "runtime_files_unchanged": 53,
+    "slice57_files_unchanged": 3,
+    "new_project_tests": 0,
+    "new_research_trials": 0,
+    "scope": "File and document integrity only; no project modules imported or executed",
+    "local_document_links_checked": 118
+  },
+  "review": {
+    "spec": {
+      "original_findings": 1,
+      "description": "R2 previously required both incident mechanisms despite London-first scope",
+      "correction": "R2 now scoped to explicitly authorized mechanism/normal-negative conditions; Netherlands and RESP require their own scope authorization",
+      "open_findings": 0
+    },
+    "standards": {
+      "hard_violations": 0,
+      "open_findings": 0,
+      "delivery_followup": "Source/result links verified after receipt generation"
+    }
+  },
+  "tools": {
+    "verifier": ".work/r1-20261112/check_r1_docs.py",
+    "verifier_sha256": "3307bb8b262dc88756f672934fbc44bb9cbe799abe95226e4741b2024891f1c6",
+    "verification_python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "scope": "No project imports; document/schema-field/link/file integrity only"
+  },
+  "artifacts": {
+    "AGENTS.md": {
+      "bytes": 6014,
+      "sha256": "d8466164e95286a03197f64f938df7fd7c1f788b7f9a5d880dbb6d45cd5e5157"
+    },
+    "README.md": {
+      "bytes": 5358,
+      "sha256": "79268df2e60ce31850dae564d2a7dedaada72995feefe6e5f984f1c894054493"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 3349,
+      "sha256": "de4c09b5d8a4d791bb9bf4a43984dcdee2447c012d1bf4920530b2150804ff88"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14692,
+      "sha256": "0ab763c0b43dbe52d0e296c8d9f1e2dc50405d9375502a946b6adb890757ac1e"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 5880,
+      "sha256": "d37b038054eea0d872bbafd51bb425bc5d5c5c5145830326d4b98050fdd4fe80"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2833,
+      "sha256": "54df74bc511f893b6dfebbcd768605ea94d30ce5129ca082d670c026a7ed61b3"
+    },
+    "docs/current-research.json": {
+      "bytes": 1718,
+      "sha256": "b6b7f451bbc81c3cc68a29dc37b0f493f2ae4a3dcebedc2dfba3e31928a427ce"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 5938,
+      "sha256": "5495c56d8531baeece26800d2af065ef0d082c4d2bfd1746c96d141a6ebf6a7d"
+    },
+    "docs/mainline/review-gated/R1/README.md": {
+      "bytes": 18794,
+      "sha256": "a520a18695a2fecc851a7f85f7677d1aa5e481b4f26c67fbd07497c2f23d12b3"
+    },
+    "docs/mainline/review-gated/R1/sources.md": {
+      "bytes": 7830,
+      "sha256": "0150b83a742f048eff94540db13c6da3ccd564ceda77b717d371464330a36eb4"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 14770,
+      "sha256": "fbd6259a8ace878436f045bde2f6f0908d0ab49679a195af0307fc656caf5285"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 7409,
+      "sha256": "ba63a4b6cc9c86f78a78b73b1103e2c856c5a6e1cde1e96cc5aa052f2d804648"
+    }
+  },
+  "preservation": {
+    "runtime_tests_configs_evidence_legacy_tickets_history": "UNCHANGED",
+    "frozen_slice57": "3_FILES_BYTE_IDENTICAL",
+    "prior_R0_delivery_record": "UNCHANGED; interpret at its original committed revision",
+    "untracked_reports": "RETAINED_NOT_PUBLISHED"
+  },
+  "publication_policy": "Same current39c branch; skip CI for documentation-only delivery; no acceptance or authorization of R2."
+}

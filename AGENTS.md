@@ -2,7 +2,7 @@
 
 ## User-directed research reset (2026-11-12)
 
-The user replaced the old milestone queue with a new review-gated research design. Read [MAINLINE](docs/MAINLINE.md), [the R0–R6 proposal](docs/mainline/review-gated/plan.md) and [progress.json](docs/mainline/progress.json) before research work. R0 is awaiting user review; research execution remains paused. Each later gate needs explicit user direction after review of its predecessor. Do not resume old 39c–42 work from an old ready status. PR #3 was authorized and merged into the current 39c branch as maintenance only.
+The user replaced the old milestone queue with a new review-gated research design. Read [MAINLINE](docs/MAINLINE.md), [the R0–R6 plan](docs/mainline/review-gated/plan.md) and [progress.json](docs/mainline/progress.json) before research work. The user accepted R0's direction and authorized only documentary R1: sources, decision information, action constraints, minimum causal interfaces and identifiability. Prioritize London pre-event readiness; keep post-onset response separate. Stop after R1 delivery for user review. R2, implementation and experiments remain unauthorized. Do not resume old 39c–42 work from an old ready status. PR #3 was merged into the current 39c branch as maintenance only.
 
 Preserve the three frozen slice 57 files, formal protocols, original results and failures byte for byte. The [pre-reset snapshots](docs/mainline/history/20261112-before-reset/README.md) are historical evidence, not the active queue. New engineering work, once authorized, uses the [lightweight template](docs/agents/lightweight-engineering.md). Incident-source reading and proposed counterfactual/RSI designs do not authorize simulations or model experiments.
 
