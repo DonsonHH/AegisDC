@@ -1,0 +1,942 @@
+{
+  "schema": "aegisdc-39c-negative-qualification-receipt-v1",
+  "ticket": "39c",
+  "slice": 58,
+  "status": "PASS_ZERO_FACILITY_NEGATIVE_QUALIFICATION",
+  "full_ticket_accepted": false,
+  "scope": "SAVED_COPIES_ONLY_NO_NEW_FACILITY_EXECUTION",
+  "frozen_execution": {
+    "selected_tests": 1,
+    "planned_cases": 24,
+    "facility_entries_budget": 0,
+    "watchdog_s": 480,
+    "allow_new_research": false,
+    "automatic_retry": false
+  },
+  "git_revision": "15581be927683a791dfc4df4cc869a48e62db23e",
+  "test": {
+    "path": "evidence/mainline/engineering/39c-development/slice-58/verify_negative.py",
+    "bytes": 17597,
+    "sha256": "3b75aa4a9e7ef7f684f11eee1f1fe8620a5edaf3b78aad0f47aff0d324415f31"
+  },
+  "prior_57_r1": {
+    "receipt": {
+      "bytes": 66529,
+      "sha256": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7"
+    },
+    "phase_result": {
+      "bytes": 3706,
+      "sha256": "25afa4fd18fb409d236d8b80382969a235814dcf378659cf29566b9f9cf59ae8"
+    },
+    "recorded_attempt_sha256": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+    "replayed_attempt_sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+    "facility_entries": 3,
+    "facility_entry_budget": 3
+  },
+  "source_snapshot": {
+    "manifest": {
+      "bytes": 18737,
+      "sha256": "ab3ff35ea2b530939f9d03d66cf7edfc89652d73a591df59bf81401a07e2f22a"
+    },
+    "bundle": {
+      "bytes": 1525760,
+      "sha256": "3f0f8467b9b575688efd414b10cbe556c9bc0a3dfd0b948b557b78510003bce6"
+    },
+    "source_archive": {
+      "bytes": 1131455,
+      "sha256": "4adb1567b2cc4616e98a60f36d44eb920dcb373f93ef5f19501db8b45e7fa888"
+    },
+    "revision_pack": {
+      "bytes": 357043,
+      "sha256": "c0cdc18dcc62410ae47efd9d17184fb34be3156ad667870869a1cb5e7722eba6"
+    },
+    "stager": {
+      "bytes": 3756,
+      "sha256": "a64341936fde9f82aae17f91d2422c4b4381f84d4182abe24ab5a7d2edbbf757"
+    }
+  },
+  "private_originals": {
+    "qualification": "/root/private_data/aegisdc-39c-slice57-20261112-v1/negative-79/originals",
+    "preserved_57_r1": "/root/private_data/aegisdc-39c-slice57-20261112-v1/green-78-correction/originals"
+  },
+  "execution": {
+    "command.txt": {
+      "bytes": 276,
+      "sha256": "356e0f50a16fcd19a319be88374d79184613da74db209b9adb8ac885ade111b6",
+      "text": "PYTHONPATH=\"$PWD/snapshot/src\" CUDA_VISIBLE_DEVICES=\"\" timeout -k 5 480 /opt/conda/bin/python3 -B snapshot/evidence/mainline/engineering/39c-development/slice-58/verify_negative.py --57-r1-originals ../green-78-correction/originals --output originals >stdout.log 2>stderr.log"
+    },
+    "prepared-at-utc": {
+      "bytes": 21,
+      "sha256": "41a924acaf6e15d2fdfcbfb463166c5d7dabefc9f3dab5676c2eab8f9b1fd0b5",
+      "text": "2026-11-12T09:37:36Z"
+    },
+    "started-at-utc": {
+      "bytes": 21,
+      "sha256": "ac23d8a294fd03569072eb318563b031624d770dd6d24536babaf36ca19a6006",
+      "text": "2026-11-12T09:37:38Z"
+    },
+    "finished-at-utc": {
+      "bytes": 21,
+      "sha256": "663ecd9af4648bb876e48af0ccd58b0449923c6c99a7240bbb290837eb2a1ee2",
+      "text": "2026-11-12T09:39:45Z"
+    },
+    "exit-code": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "text": "0"
+    },
+    "interpreter.txt": {
+      "bytes": 14,
+      "sha256": "d87e6eea94f61efbf4679056c60ceef0a2c35a63e575ab4527b88b7aeb6a3667",
+      "text": "Python 3.12.7"
+    },
+    "runtime-porcelain-before.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    "stdout.log": {
+      "bytes": 42,
+      "sha256": "73fd8cca155ddf8bdad47350958899446f283975742c620fb19b3caf80125fd2"
+    },
+    "stderr.log": {
+      "bytes": 277,
+      "sha256": "b0d22c9aebee9eb79f16dc57fc6f00a78122ab31c6a3cf5898bcefdf1d925602"
+    }
+  },
+  "case_groups": {
+    "missing": 5,
+    "injection": 3,
+    "mismatch": 6,
+    "timing": 8,
+    "cli": 2
+  },
+  "cli_terminal_details": {
+    "cli_record_missing_program": {
+      "stdout": {
+        "bytes": 7492,
+        "sha256": "a83877311c2b54f17554b75efa90cf7283218410976f912e1c72a9f8b972582f"
+      },
+      "terminal": {
+        "bytes": 7492,
+        "sha256": "a83877311c2b54f17554b75efa90cf7283218410976f912e1c72a9f8b972582f"
+      },
+      "failure": {
+        "stage": "validate_inputs",
+        "type": "ValueError",
+        "message": "Use the closed versioned facility replay inputs contract"
+      },
+      "intended_reason_matches": true
+    },
+    "cli_replay_invalid_component": {
+      "stdout": {
+        "bytes": 7934,
+        "sha256": "3481eeea17a069c5e86c1eafa0094c22ebca80b548e0e05e07687d7f6672e290"
+      },
+      "terminal": {
+        "bytes": 7934,
+        "sha256": "3481eeea17a069c5e86c1eafa0094c22ebca80b548e0e05e07687d7f6672e290"
+      },
+      "failure": {
+        "stage": "replay_origin.trajectory_business_result",
+        "type": "ValueError",
+        "message": "Invalid replay origin: Saved business result differs from re-extracted private endpoints"
+      },
+      "intended_reason_matches": true
+    }
+  },
+  "phase_result": {
+    "bytes": 38101,
+    "sha256": "c549e6d2a5843862d7c9beeb8e2334e0c6c6e49c3bbe83432842a705ede7a242"
+  },
+  "qualification": {
+    "status": "PASS_ZERO_FACILITY_NEGATIVE_QUALIFICATION",
+    "selected_tests": 1,
+    "terminal_tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "case_count": 24,
+    "passed_cases": 24,
+    "controls": {
+      "v1": "c702fbdc52b16d003acebf599e578160a0afa9ae1f05b6aefe99c1301728ee34",
+      "v2": "e6d5012d053df384cf84679607d41c0b8c09ed5ae971d014335950113893b8fe",
+      "57-R1_pair_semantic_sha256": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373"
+    },
+    "cases": [
+      {
+        "case": "missing_frozen_business_program",
+        "group": "missing",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "replay",
+          "artifact": "frozen-inputs.json",
+          "original_artifact_sha256": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+          "mutated_artifact_sha256": "00d0cee212f874466f2e5c5204b760d20ef6d33ae1a37f498cfd5f3b66c29f56",
+          "mutated_attempt_sha256": "b2c47aa6ce0a4f79f5f8f32e686baa00909b036c84c5e6670c84a79e692b6bb6",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message_fragment": "closed versioned facility replay inputs contract"
+        },
+        "observed": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message": "Use the closed versioned facility replay inputs contract"
+        },
+        "passed": true
+      },
+      {
+        "case": "missing_actual_business_program",
+        "group": "missing",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "ce56111da6fcd3d90c7a9d366e29b666cd95fe2e9a5e0c879027435d859e0ca2",
+          "mutated_attempt_sha256": "bf958ea543372d37d43b811e456ca668e4c7d63a0e4e25f49e84271548baa4cb",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "differ from the frozen attempt"
+        },
+        "observed": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message": "Actual business trajectory inputs, facility or window differ from the frozen attempt"
+        },
+        "passed": true
+      },
+      {
+        "case": "missing_frozen_dispatch_program",
+        "group": "missing",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "replay",
+          "artifact": "frozen-inputs.json",
+          "original_artifact_sha256": "5436f5fa76a924f7280e08db1bd05cc05f941902e95960eba640c30ad8307fdc",
+          "mutated_artifact_sha256": "d4e89ecafe3a85aa3f997e23338b65b5bd8787349b16dceb0bb8721dbf6d1a56",
+          "mutated_attempt_sha256": "4162385efd4b2d1f23e159ad49a10f7dc140ace74ca241c905894b13be1d231b",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message_fragment": "closed versioned facility replay inputs contract"
+        },
+        "observed": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message": "Use the closed versioned facility replay inputs contract"
+        },
+        "passed": true
+      },
+      {
+        "case": "missing_actual_dispatch_program",
+        "group": "missing",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "0881b1b8b9f7e030549a9f27988d5a62205f414b14d86ecec795d9f8d00b45bd",
+          "mutated_attempt_sha256": "d92ada819ac16c9f0433368b4cf83f9d955e2d21eeec3b66df94f2246e9d5768",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "differ from the frozen attempt"
+        },
+        "observed": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message": "Actual business trajectory inputs, facility or window differ from the frozen attempt"
+        },
+        "passed": true
+      },
+      {
+        "case": "missing_saved_business_result",
+        "group": "missing",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "9c0b20883f70d3d317fa38a18eb5d6e48764fbd8ef8acfcb25c265a50abf0969",
+          "mutated_attempt_sha256": "b9fe72a2777b58f82494c913890e374d674f6ccb5aa42db2de17b461abde1285",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "business_evaluation"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "'business_evaluation'"
+        },
+        "passed": true
+      },
+      {
+        "case": "legacy_v1_injected_frozen_program",
+        "group": "injection",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "v1",
+          "artifact": "frozen-inputs.json",
+          "original_artifact_sha256": "54b54909ab44363eb5e0ffd4cf07f6ac44a42e347ff9877665151b60696dc389",
+          "mutated_artifact_sha256": "445a5a7c77bd0da057cccf0461ae9561d2ab1772e134e24c395a5a6939d96e63",
+          "mutated_attempt_sha256": "ff332936379bdb11e0d949abf2af6404fe1049a8e5f6dccf9fbcd2a8c6b4c101",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message_fragment": "closed versioned facility replay inputs contract"
+        },
+        "observed": {
+          "stage": "frozen_input",
+          "artifact": "frozen-inputs.json",
+          "message": "Use the closed versioned facility replay inputs contract"
+        },
+        "passed": true
+      },
+      {
+        "case": "legacy_v2_injected_saved_result",
+        "group": "injection",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "v2",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "4469b2fc0af052c2d7167c7580cd79168e603dc84748ad44ea5b91ac6ffd766a",
+          "mutated_artifact_sha256": "c270a0d7b3af14a4cde1b6f120e6e87a2dd75f5ef12a72a0a15776ed41b99543",
+          "mutated_attempt_sha256": "15fe91a76e7f3e685b859f93c624be836b20e17e6b03671523b6bc0e1ee60f7f",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Legacy replay inputs cannot carry"
+        },
+        "observed": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message": "Legacy replay inputs cannot carry a business program or result"
+        },
+        "passed": true
+      },
+      {
+        "case": "legacy_v2_injected_submitted_program",
+        "group": "injection",
+        "api": "read_attempt",
+        "mutation": {
+          "source": "v2",
+          "artifact": "inputs.json",
+          "original_artifact_sha256": "acd925286e41f7fba37cc6a30ef9675df61e1906ff339fed5c9548a7d7a86d9d",
+          "mutated_artifact_sha256": "e6d811a3a718510c55dc2c5c81a252cd399bef61d360a7e0cf37826786454de7",
+          "mutated_attempt_sha256": "95abf124b6d75001b499ecf03697b337d91fe85666debb81fe3faad0c46d5bc4",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "submitted_input",
+          "artifact": "inputs.json",
+          "message_fragment": "Legacy submitted inputs"
+        },
+        "observed": {
+          "stage": "submitted_input",
+          "artifact": "inputs.json",
+          "message": "Legacy submitted inputs cannot carry business fields"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_derived_work_program",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "810a6ff665d07c7b68196d9a89d013002a75e22acbbfb809ed749194c280c7f7",
+          "mutated_attempt_sha256": "06ecfc54a80ecc237d68aedfcb6b0238fc82d6c51ed9425097aae7d40a9b4ca3",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "differ from the frozen attempt"
+        },
+        "observed": {
+          "stage": "trajectory_business_program",
+          "artifact": "trajectory/run.json",
+          "message": "Actual business trajectory inputs, facility or window differ from the frozen attempt"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_interpreter_pair",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "attempt.json",
+          "original_artifact_sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+          "mutated_artifact_sha256": "ff8948a39c1d33f7f9713a4a288f2ab9e3cb712a76015fb73e0c4a319ebd097f",
+          "mutated_attempt_sha256": "ff8948a39c1d33f7f9713a4a288f2ab9e3cb712a76015fb73e0c4a319ebd097f",
+          "artifact_hash_refreshed": false
+        },
+        "copy_readable_before_pair_check": true,
+        "expected": {
+          "stage": "comparison_source",
+          "artifact": "attempt.json",
+          "message_fragment": "interpreter identity differs"
+        },
+        "observed": {
+          "stage": "comparison_source",
+          "artifact": "attempt.json",
+          "message": "Replay runtime bytes or interpreter identity differs"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_original_link",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "attempt.json",
+          "original_artifact_sha256": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+          "mutated_artifact_sha256": "37250f8de371c40b550933a2602c45759de130b32858152fccf1930024d6f14e",
+          "mutated_attempt_sha256": "37250f8de371c40b550933a2602c45759de130b32858152fccf1930024d6f14e",
+          "artifact_hash_refreshed": false
+        },
+        "copy_readable_before_pair_check": true,
+        "expected": {
+          "stage": "comparison_origin",
+          "artifact": "attempt.json",
+          "message_fragment": "linked by exact replay"
+        },
+        "observed": {
+          "stage": "comparison_origin",
+          "artifact": "attempt.json",
+          "message": "Comparison requires two completed attempts linked by exact replay"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_request_window",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "request.json",
+          "original_artifact_sha256": "302f6908bd8546e6d7d4d3a0f103719685621e8e7110608547d7fbed94184bc1",
+          "mutated_artifact_sha256": "c307fcbd4d9edd07d7b2d39b89ced2526e8bce23f67c9079b85f5ce4000d306f",
+          "mutated_attempt_sha256": "8500a961dec6174a6d668756b24fd2b880c4034302256294196b01e37de28b09",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "request",
+          "artifact": "request.json",
+          "message_fragment": "Request effective duration_s differs"
+        },
+        "observed": {
+          "stage": "request",
+          "artifact": "request.json",
+          "message": "Request effective duration_s differs from the frozen actual execution"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_component_program",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "275b3e8df5d4923c364f241c720ff289ad937caa214a8f1277cef84eda4c3493",
+          "mutated_attempt_sha256": "9ada21f5bbeccca2c077a0fe2aa79f2ad74daf9edb11cc9049c1aa41f7f11e87",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Saved business result differs from re-extracted private endpoints"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Saved business result differs from re-extracted private endpoints"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_component_source",
+        "group": "mismatch",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "9b7843eb1f5c9737bc847109ccbfc3c1983ee31ccc1a07eff79d2c8bfbf16260",
+          "mutated_attempt_sha256": "f1bf16e4d25e50fc8ac52a6c41c6c9e55bdbb4aeebe90abd5e97d84047fcf3c3",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Saved business result differs from re-extracted private endpoints"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Saved business result differs from re-extracted private endpoints"
+        },
+        "passed": true
+      },
+      {
+        "case": "invalid_ns_negative",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "af6afa554bc2c2acc94068cbd2bb113b4d9894a546109a41fa779852bff6cc6b",
+          "mutated_attempt_sha256": "a75e6f7648b0cbc19f38a2d70f5e2abf429b94e2416c874be491fc4f2a381474",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "must be a nonnegative integer"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Recorded computational counter must be a nonnegative integer"
+        },
+        "passed": true
+      },
+      {
+        "case": "invalid_ns_float",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "cf9b7f2ad250a5b2cc2a1edb549c708a091a96ee79dc1b1943f87de7602e6551",
+          "mutated_attempt_sha256": "05c357f86b65e080838219822a628fede66db671f502bb5597b8cceb58d912d1",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "must be a nonnegative integer"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Recorded computational counter must be a nonnegative integer"
+        },
+        "passed": true
+      },
+      {
+        "case": "invalid_ns_bool",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "9d9f715401ade87685c350f883f487dace4d239d8a420903fb602382d72a3b9d",
+          "mutated_attempt_sha256": "57f554e94c73054c4a04d5b76f8b2be3de61a5396c4ccb56cf4b24391478691a",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "must be a nonnegative integer"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Recorded computational counter must be a nonnegative integer"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_raw_timing_copy",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "87e01fbfd33c02d97c6d0963f4178f87e3552e14bdf56111e069d869b686f716",
+          "mutated_attempt_sha256": "c394e2daa44442597940472f071eba09bce45b583fd810cd429a50e21b1304d2",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Saved business result differs from re-extracted private endpoints"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Saved business result differs from re-extracted private endpoints"
+        },
+        "passed": true
+      },
+      {
+        "case": "wrong_aggregate",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "a8e44e69b3ba088451f15d6aaa0def87eaa5e68af126f0abea66c11456f437e5",
+          "mutated_attempt_sha256": "a8a37cb2de9102377598ae41e85093d554f9655fd9eaee4c14696c7496845a1c",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Saved business result differs from re-extracted private endpoints"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Saved business result differs from re-extracted private endpoints"
+        },
+        "passed": true
+      },
+      {
+        "case": "partial_timing_with_stale_aggregate",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "e46a10be8d0e5deb522b1cb107b17ac2cfcfb870ffb6db29738aa60154f4f653",
+          "mutated_attempt_sha256": "a4354b376da12039a799cc65ffd711b945f93dfce01eb18a739ff941144fc5a7",
+          "artifact_hash_refreshed": true
+        },
+        "copy_readable_before_pair_check": false,
+        "expected": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message_fragment": "Saved business result differs from re-extracted private endpoints"
+        },
+        "observed": {
+          "stage": "trajectory_business_result",
+          "artifact": "trajectory/run.json",
+          "message": "Saved business result differs from re-extracted private endpoints"
+        },
+        "passed": true
+      },
+      {
+        "case": "valid_partial_coverage_cannot_compare_equal",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "1754eadda8494f0147355bba9c5ba029ac7af2babfd58dc74e8e15186a3f4ad9",
+          "mutated_attempt_sha256": "d3256793d7eced87b4906ac4e03d8d51f371dce9853e7f49642764e1d0108b64",
+          "artifact_hash_refreshed": true
+        },
+        "expected": {
+          "status": "SEMANTIC_MISMATCH",
+          "replay_masked_values": 31
+        },
+        "observed": {
+          "status": "SEMANTIC_MISMATCH",
+          "strict_values_match": false,
+          "timing": {
+            "rule": "DECLARED_NS_VALUES_ONLY_AFTER_RAW_AUDIT_AND_AGGREGATE_VALIDATION",
+            "original_cost_root": "business_evaluation.components.costs",
+            "replay_cost_root": "business_evaluation.components.costs",
+            "original_masked_values": 34,
+            "replay_masked_values": 31,
+            "changed_value_paths": [
+              "business_evaluation.components.costs.computation.audit_record_details[0].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[1].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[1].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[2].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[2].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[3].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[3].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[4].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[4].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[5].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[5].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[6].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[6].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[7].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[7].elapsed_ns",
+              "business_evaluation.components.costs.computation.condition_assessment_elapsed_ns.value",
+              "policy_computation_audit[0].condition_assessment_elapsed_ns",
+              "policy_computation_audit[1].condition_assessment_elapsed_ns",
+              "policy_computation_audit[1].elapsed_ns",
+              "policy_computation_audit[2].condition_assessment_elapsed_ns",
+              "policy_computation_audit[2].elapsed_ns",
+              "policy_computation_audit[3].condition_assessment_elapsed_ns",
+              "policy_computation_audit[3].elapsed_ns",
+              "policy_computation_audit[4].condition_assessment_elapsed_ns",
+              "policy_computation_audit[4].elapsed_ns",
+              "policy_computation_audit[5].condition_assessment_elapsed_ns",
+              "policy_computation_audit[5].elapsed_ns",
+              "policy_computation_audit[6].condition_assessment_elapsed_ns",
+              "policy_computation_audit[6].elapsed_ns",
+              "policy_computation_audit[7].condition_assessment_elapsed_ns",
+              "policy_computation_audit[7].elapsed_ns"
+            ]
+          },
+          "semantic_sha256": {
+            "original": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373",
+            "replay": "0f504b0a2cd9cc35f2dc9e2702e114c9013e6e19602fb0fb92e844f43341e5f3"
+          }
+        },
+        "passed": true
+      },
+      {
+        "case": "timing_named_leaf_outside_allowlist_is_strict",
+        "group": "timing",
+        "api": "compare_attempts",
+        "mutation": {
+          "source": "replay",
+          "artifact": "trajectory/run.json",
+          "original_artifact_sha256": "ec5ce80ef5c923c851e3776dc6c076b64332c33d9c3e867c0692435252f0aa9f",
+          "mutated_artifact_sha256": "aea6caa3637cc9534fd0af4bb4489953849c65c1aec67e32174a29b50f931b36",
+          "mutated_attempt_sha256": "29347617bb1c67f846f5f3d14298e65fffb3394e3da56cf0963c7c8ea29995d1",
+          "artifact_hash_refreshed": true
+        },
+        "expected": {
+          "status": "SEMANTIC_MISMATCH",
+          "replay_masked_values": 34
+        },
+        "observed": {
+          "status": "SEMANTIC_MISMATCH",
+          "strict_values_match": false,
+          "timing": {
+            "rule": "DECLARED_NS_VALUES_ONLY_AFTER_RAW_AUDIT_AND_AGGREGATE_VALIDATION",
+            "original_cost_root": "business_evaluation.components.costs",
+            "replay_cost_root": "business_evaluation.components.costs",
+            "original_masked_values": 34,
+            "replay_masked_values": 34,
+            "changed_value_paths": [
+              "business_evaluation.components.costs.computation.audit_record_details[0].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[0].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[1].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[1].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[2].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[2].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[3].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[3].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[4].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[4].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[5].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[5].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[6].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[6].elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[7].condition_assessment_elapsed_ns",
+              "business_evaluation.components.costs.computation.audit_record_details[7].elapsed_ns",
+              "business_evaluation.components.costs.computation.condition_assessment_elapsed_ns.value",
+              "business_evaluation.components.costs.computation.selector_elapsed_ns.value",
+              "policy_computation_audit[0].condition_assessment_elapsed_ns",
+              "policy_computation_audit[0].elapsed_ns",
+              "policy_computation_audit[1].condition_assessment_elapsed_ns",
+              "policy_computation_audit[1].elapsed_ns",
+              "policy_computation_audit[2].condition_assessment_elapsed_ns",
+              "policy_computation_audit[2].elapsed_ns",
+              "policy_computation_audit[3].condition_assessment_elapsed_ns",
+              "policy_computation_audit[3].elapsed_ns",
+              "policy_computation_audit[4].condition_assessment_elapsed_ns",
+              "policy_computation_audit[4].elapsed_ns",
+              "policy_computation_audit[5].condition_assessment_elapsed_ns",
+              "policy_computation_audit[5].elapsed_ns",
+              "policy_computation_audit[6].condition_assessment_elapsed_ns",
+              "policy_computation_audit[6].elapsed_ns",
+              "policy_computation_audit[7].condition_assessment_elapsed_ns",
+              "policy_computation_audit[7].elapsed_ns"
+            ]
+          },
+          "semantic_sha256": {
+            "original": "05697b9aa3a3fda46cc221f453b771c34adfb9145fd37939267ff2133cafe373",
+            "replay": "2d0f5b95939cf207feaca0a3b328cceac24e34ade210f2002e7a09b98718c2e0"
+          }
+        },
+        "passed": true
+      },
+      {
+        "case": "cli_record_missing_program",
+        "group": "cli",
+        "api": "python -m aegis_dc record",
+        "expected": {
+          "exit_code": 1,
+          "status": "FAILED",
+          "execution_kind": "NOT_STARTED",
+          "stage": "validate_inputs"
+        },
+        "observed": {
+          "exit_code": 1,
+          "status": "FAILED",
+          "execution_kind": "NOT_STARTED",
+          "stage": "validate_inputs"
+        },
+        "terminal_sha256": "a83877311c2b54f17554b75efa90cf7283218410976f912e1c72a9f8b972582f",
+        "retained_artifact_sha256": {
+          "submitted-inputs.json": "00d0cee212f874466f2e5c5204b760d20ef6d33ae1a37f498cfd5f3b66c29f56",
+          "submitted-scenario.json": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7"
+        },
+        "passed": true
+      },
+      {
+        "case": "cli_replay_invalid_component",
+        "group": "cli",
+        "api": "python -m aegis_dc replay",
+        "expected": {
+          "exit_code": 1,
+          "status": "FAILED",
+          "execution_kind": "NOT_STARTED",
+          "stage": "replay_origin.trajectory_business_result"
+        },
+        "observed": {
+          "exit_code": 1,
+          "status": "FAILED",
+          "execution_kind": "NOT_STARTED",
+          "stage": "replay_origin.trajectory_business_result"
+        },
+        "terminal_sha256": "3481eeea17a069c5e86c1eafa0094c22ebca80b548e0e05e07687d7f6672e290",
+        "retained_artifact_sha256": {
+          "origin/attempt.json": "9ada21f5bbeccca2c077a0fe2aa79f2ad74daf9edb11cc9049c1aa41f7f11e87",
+          "origin/declaration.json": "c341e788d1481cc24c05137d6601f67df2e0ed28549c3cc64bd78b174acbc427",
+          "origin/lifecycle.jsonl": "8c6127724b52e8511af94cfb658f0bdd92e3e99742a394f9129be81aec79c45e",
+          "origin/trajectory/run.json": "275b3e8df5d4923c364f241c720ff289ad937caa214a8f1277cef84eda4c3493"
+        },
+        "passed": true
+      }
+    ],
+    "facility_entries_budget": 0,
+    "facility_entries": 0,
+    "blocked_facility_calls": 0,
+    "model_calls": 0,
+    "training_calls": 0,
+    "registered_research_trials": 0,
+    "source_identity": {
+      "schema": "aegisdc-execution-source-v1",
+      "git_commit": "15581be927683a791dfc4df4cc869a48e62db23e",
+      "implementation_has_changes": false,
+      "files": {
+        "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+        "src/aegis_dc/__main__.py": "79ef758066242930f65472bdf1b8886c59cad5a64847ef0f82872e49ad493653",
+        "src/aegis_dc/action_value.py": "e85f6d7a91ac19cc6278e579633f9c3eff2338549ab44465c5cfbc1c28cf4d78",
+        "src/aegis_dc/belief.py": "199ad1c7da1572900f147af206d314df0f0cfb021a1c222152e6802fb8582fb1",
+        "src/aegis_dc/business_endpoints.py": "6743ba1d043883cbfe48ec7bb35436c8918172010c82df683c7a58d703ddfe8f",
+        "src/aegis_dc/composite_endpoints.py": "1380caf71ac99b6c1d2414d77a4090c8427206ef1f07e9da998bbe023f2ad44b",
+        "src/aegis_dc/condition_assessment.py": "3fc30835600ae42aa580a2f77487548a90ed1e8e58df66c45f9d7079206b6126",
+        "src/aegis_dc/cost_attribution.py": "909f062b97da7622c2e6daa4227111a4c529da8f1857478b391f7d99590b8deb",
+        "src/aegis_dc/cost_endpoints.py": "de82ea728751b097c2977b22ea01b566bd55c9ed202df61a1af5159d54ae4ef9",
+        "src/aegis_dc/decision_view.py": "660d355106ea749a92556ae0a4c27bb1cf46057cc2b741d08944875590670362",
+        "src/aegis_dc/diagnostic_endpoints.py": "80fa9ac79d3c493709b28550a1d1ef45d8e8f9e98c7952b5c4acf27d671625c5",
+        "src/aegis_dc/dispatch_policy.py": "97120d793d7a247ade16f4e36cb840473360e0f78afe08c94d4d946b0f4e0901",
+        "src/aegis_dc/environment.py": "94f7d9f668ebed6b9dc414939f13e55d4da8dd23f5b1cd8e5e997cd41c1efae0",
+        "src/aegis_dc/evidence_ledger.py": "e22b9a4640e42eb9bd0c28b1f913757c74d95126bdb9324aefc92a3935d16917",
+        "src/aegis_dc/evidence_projection.py": "5700238c2952512653ec073b33c03786d90977b280149ac88a4700615cf66f3b",
+        "src/aegis_dc/facility.py": "8ac79876dca6c02390e14006cae3a6d1d5c315bff4080d0f41812bd3a731ea7a",
+        "src/aegis_dc/heat_transfer.py": "f868814d308a2968c40e02817652e984dc277d29eb10062939dd3e66fd6a5e45",
+        "src/aegis_dc/inspection_execution.py": "a4fd97a4915b6c8a76d6c158c55da68c7be114518671e1e13246d8db8cdcf685",
+        "src/aegis_dc/instance_false_alarm.py": "443abafafbd4890f64d75d864b3aacf1e53c8607ed3232bccf35424369038347",
+        "src/aegis_dc/instance_reviews.py": "6cadfb9358149f553d55a9865d6731000f06b76bc3932149ce4b5fcc71954dcb",
+        "src/aegis_dc/intervention_execution.py": "b55542562e46b37accadeeec98bf00af05b937985e08c08520c633944bda4663",
+        "src/aegis_dc/live_sensor_execution.py": "d0b433ea17d1b3035b94ba9998d2ea98eeccb2f41adb8da4054040e685d2fcbb",
+        "src/aegis_dc/local_control.py": "de86cd107de67451f877ab1f96f7a36ac69be260fe5e39a17f9e181bcbde829e",
+        "src/aegis_dc/lookahead_policy.py": "fde2446787baf57692491eedc36d8cc34121c94279c46291bc597d319b53e559",
+        "src/aegis_dc/nonfixed_evidence.py": "1ebc0e7588c710c8ea403b18f5378e436274728a4d664142b00790fc25d087c6",
+        "src/aegis_dc/parameter_domain.py": "49a67b0c2b41fe0da436e795e2a60fe2ec568e344ec5f432024a40db5fa7d7c2",
+        "src/aegis_dc/plant.py": "4e96d20fd85e73f9d47b1b958985996b898fa01a3ee8d978803d687c58bcb294",
+        "src/aegis_dc/policy_budget.py": "b86a294927d7258bf39173e76cde635dbb9ed347c044d028993b1814426ad01e",
+        "src/aegis_dc/policy_execution.py": "650b9d2787bd1218eb97e4c9aedb52252b35725ca2eabb9812870aa572a3c681",
+        "src/aegis_dc/power.py": "fc0cc5446fc16b90f4a50f1f07f458d6c8100ff2ad007b897fe6dbfb74bf3351",
+        "src/aegis_dc/problem_actions.py": "5f9e18ebef8212c8a334d48116dbfe588aff0a615c3fa29dd7d85850c9b2ea40",
+        "src/aegis_dc/problem_closure.py": "aef2bf0207013f0473e1cf9157853c15d64b4d02d6d8ca8ddd0ef94e15bc2f4c",
+        "src/aegis_dc/problem_tasks.py": "68189affefbdf3602ab3f15e04099f9ae82aa0b6e6a8f9bcfaeae0c2edba179a",
+        "src/aegis_dc/refrigerant_initialization.py": "c5bb7bd823b1f8f249372e2eda34cb37882101914a8c76c4ab117b0863bba575",
+        "src/aegis_dc/replay.py": "5df83d0fed6d4c9e307a5d2633c12565e71ba25171115900371c291037ec2a47",
+        "src/aegis_dc/replay_format.py": "6fb56121b385564ee9be8a91d38ed1d47f92c298d17848d071aa15c4db03f859",
+        "src/aegis_dc/reserve.py": "cff71063748daddc7a88d2431db7c919625464a49465e6e640a34634ff0fc1b6",
+        "src/aegis_dc/risk.py": "6e31ae9dc40c574b3308ba0c421fb9e2e85bebbae0a8177dfd1fa6e9fb2b7c61",
+        "src/aegis_dc/risk_baseline.py": "be1b0c066ea6fcd99292370a79ab57237bf439848b6aea8200e125d1e8fe2b26",
+        "src/aegis_dc/risk_condition_policy.py": "a02df696e04138f1d676e806c75e2e1f9105b5b29508f2db4e808d04225839f4",
+        "src/aegis_dc/risk_scenarios.py": "b2114286fc36fcb20ce8c12815aab157dca3a04375fe6015a1be71f10b0fee0f",
+        "src/aegis_dc/runtime_contract.py": "ea756465ac62ab80f48303b16c7acfa6bbbab115a0904c4af1ed6b86643c2c2b",
+        "src/aegis_dc/scenario.py": "9e6aafb416e42e6805fa9684c0dcffbabe01a9678e9e3f114155c52ec76bd733",
+        "src/aegis_dc/sensor_channels.py": "e5bca914ef1c40e39ec4ba4ccd7cbc3fe58118ae41a9a09db43bc97b9050da38",
+        "src/aegis_dc/temporal_endpoints.py": "dd2e28c2b4ecf19307d472567e08e6acf9a36a4f2ca5caec50e9649b47bb48af",
+        "src/aegis_dc/thermodynamics.py": "3011277e3db76cfa6b2a6055351ea423e9108ab90a64d69455584ca87b6fc351",
+        "src/aegis_dc/time_coordinates.py": "beae4bb217fc81cea8e924cbc2f0f649fdc1d32d30baa2bc77c9f8908aa4c6c3",
+        "src/aegis_dc/verified_closure.py": "b95473e049492efefc0dbe241051e03825df9f848c338b1eba52a0cc43484f37",
+        "src/aegis_dc/water_envelope.py": "6a910da87b5c56e1bac0c555ae1821a25c3f36430249c7f89b39451107f1d1eb",
+        "src/aegis_dc/workforce.py": "cb6baa6b6b291a5f2e174b7a6a3159ac8f95aef9732836a0e2c7e08d0ed500cf",
+        "src/aegis_dc/workforce_dispatch.py": "f5f917aac2376791b2ef3c5bffcd4ea53a5e76876f8e6f6fbcaca3432cc15095",
+        "src/patrol_rsi/contracts.py": "73b8794b806326811aa2a64e8521dd4b86f8c3c39297e3a8dbca0183aa1d0aee"
+      },
+      "source_tree_sha256": "abbe557bf3ec34119f77fe37fd06a2373971e1262f0db4b13d1fccb79289defc",
+      "python": {
+        "implementation": "CPython",
+        "version": "3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 13:27:36) [GCC 11.2.0]",
+        "executable_sha256": "82d0855bea80381cd7f02aad8e3bf74d55a184a13fc388bb1b7d373262f40e09"
+      }
+    },
+    "source_unchanged": true,
+    "originals_unchanged": {
+      "record": true,
+      "replay": true,
+      "v1": true,
+      "v2": true
+    },
+    "input_attempt_hashes": {
+      "record": "531fa8c34341f083ac320d2d47bce85eb37d980829db2ba545962bcc51f11305",
+      "replay": "65eb4d7a6f4022de14453293467d2d458e659c53d8606c95e06299a22f9cadd3",
+      "v1": "c702fbdc52b16d003acebf599e578160a0afa9ae1f05b6aefe99c1301728ee34",
+      "v2": "e6d5012d053df384cf84679607d41c0b8c09ed5ae971d014335950113893b8fe"
+    },
+    "prior_receipt_sha256": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7",
+    "test_sha256": "3b75aa4a9e7ef7f684f11eee1f1fe8620a5edaf3b78aad0f47aff0d324415f31"
+  },
+  "policy": {
+    "whole_39c_root_regression_run": false,
+    "automatic_retry": false
+  }
+}

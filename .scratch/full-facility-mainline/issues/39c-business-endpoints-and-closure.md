@@ -18,6 +18,8 @@
 
 ## Evidence
 
+2026-11-12 第 58 项：[轻量回执](../../../evidence/mainline/engineering/39c-development/slice-58/result.json)。冻结源码 15581be9 上一条测试通过 24 个用例，覆盖缺失、旧版注入、来源／窗口／组件错配、计时与 CLI；零设施进入，57-R1 和两份旧版原件均未改。整票五个验收框仍开放，下一步按框映射证据并独立复核。
+
 2026-11-12 第 57 项：[轻量回执](../../../evidence/mainline/engineering/39c-development/slice-57/result.json)。57-R1 在干净的同一运行时一次通过，录制和重放的即时源码身份均核对一致；新增 2 次进入、12 秒、16 次返回，严格语义哈希相同。首绿读取失败和两份零进入红测均留存，57 累计 3 次进入。负向资格及所有整票验收框保持开放。
 
 Protocol28 [green result](../../../evidence/mainline/engineering/39c-development/slice-28/green/result.json) passed: one public call, no facility or research trial. Escalation wins over simultaneous authorized acceptance, keeps question-1 open and retains both dispositions/times. Old question-0 remains VERIFIED_CLOSED; shared budget still blocks new work. Red preserved. Input JSON key order differs because RECORD_FIELDS is a set, but canonical JSON SHA is identical and both raw byte strings remain.

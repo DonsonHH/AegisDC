@@ -1,6 +1,6 @@
 # 固定研究主线：完整设施中的风险驱动检查与处置
 
-**当前票是 39c，57-R1 的固定夹具精确重放已通过。** [回执](../evidence/mainline/engineering/39c-development/slice-57/result.json)绑定两份即时源码身份与相同的语义哈希，保留首次绿测失败及重复红测。负向资格和整票验收仍开放，长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
+**当前票是 39c，第 58 项的[零设施负向资格](../evidence/mainline/engineering/39c-development/slice-58/result.json)已通过。** 24 项检查覆盖缺失、旧版注入、错配、计时与 CLI。[57-R1](../evidence/mainline/engineering/39c-development/slice-57/result.json)的原件、精确重放结果和原失败保持。整票五项仍待独立复核，长期目标保持暂停。[180次预设派工策略比较：范围更正版报告](../paper/preset-dispatch-scope-review-20261110/report.html)保留六个比较臂，其中主对照为两个策略；结论同时限定验证关闭未入环、候选仅2预设实例、无现场标定，不回答会议R1/R4的全场价值问题。
 
 此前交审：[两域共同作业时长的敏感性](research/20261112-joint-cooling-access-feasibility/README.md#作业时长敏感性)。以算术给出 330、420、600 秒截止的边界，并单列原 500 人秒预算的影响；[执行器对账](research/20261112-joint-cooling-access-feasibility/README.md#travel_deadline-执行器对账)仍只覆盖 30 秒声明值。[A2 量级参照及全年背景](research/20261112-frontier-v6-scale-reference/README.md) · [Frontier 实测和缺测小样](research/20261111-frontier-field-pilot/README.md)。
 
