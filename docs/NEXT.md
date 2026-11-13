@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-13）：等待用户 review [R2 关系表／取值域 v1](mainline/review-gated/R2/relations-v1.md)及[独立预期／覆盖矩阵 v1](mainline/review-gated/R2/coverage-v1.md)。狭义契约已接受，但模型实现、检查执行与实验仍未授权；不扩展荷兰或事中响应。下文为历史记录。
+> 当前唯一下一步（2026-11-13）：等待用户 review [R2 关系表／取值域 v2](mainline/review-gated/R2/relations-v2.md)及[独立预期／覆盖矩阵 v2](mainline/review-gated/R2/coverage-v2.md)。狭义契约已接受，但模型实现、检查执行与实验仍未授权；不扩展荷兰或事中响应。下文为历史记录。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

@@ -5,10 +5,10 @@
   "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R2",
-  "current_milestone": "R2_FIXED_TABLES_REVIEW",
+  "current_milestone": "R2_V2_SPECIFICATION_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "R2_RELATIONS_EXPECTATIONS_COVERAGE_ONLY_NO_EXECUTION",
+  "agent_stage": "R2_V2_DOCUMENT_REVISION_ONLY_NO_EXECUTION",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -24,17 +24,18 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Accept corrected narrow R2 contract",
-      "Fix London PRE relation tables, domains, independent expectations and coverage only",
-      "No model implementation, checks, experiments, Netherlands or RESP; stop for review"
+      "Preserve fdc27961 v1 and accepted97903506 contract",
+      "Document-only v2 voltage-zero lifecycle and Q03 event mapping",
+      "Adopt partial Q11 specification scope; defer uncovered workflows without waiver",
+      "Stop for focused review before any implementation or qualification execution"
     ],
-    "after_delivery": "WAIT_FOR_USER_R2_TABLES_REVIEW",
+    "after_delivery": "WAIT_FOR_USER_R2_V2_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "R2_TABLES_FIXED_DELIVERED_STOPPED_FOR_REVIEW",
+    "document_authorization_status": "R2_V2_REVISION_DELIVERED_STOPPED_FOR_REVIEW",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -63,15 +64,15 @@
     {
       "id": "R2",
       "name": "model_qualification",
-      "status": "CONTRACT_ACCEPTED_TABLES_AWAITING_USER_REVIEW",
+      "status": "CONTRACT_ACCEPTED_V2_SPECIFICATION_AWAITING_USER_REVIEW",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "document_work_authorized": false,
       "contract": "docs/mainline/review-gated/R2/qualification-contract.md",
       "contract_accepted": true,
       "accepted_contract_revision": "9790350628e6c21096f4575b47d4bb55fe3a5701",
-      "tables": "docs/mainline/review-gated/R2/relations-v1.md",
-      "coverage": "docs/mainline/review-gated/R2/coverage-v1.md"
+      "tables": "docs/mainline/review-gated/R2/relations-v2.md",
+      "coverage": "docs/mainline/review-gated/R2/coverage-v2.md"
     },
     {
       "id": "R3",
@@ -171,6 +172,20 @@
       "contract_accepted": true,
       "implementation_authorized": false,
       "qualification_execution_authorized": false
+    },
+    {
+      "id": "20261113-v1-review-adopted-v2-only",
+      "source": "Explicit user goal in this chat",
+      "reviewed_revision": "fdc27961dc22da929696c647a13d614a92228ee8",
+      "decision": "Adopt review; revise specifications in new version; accept Q11 partial written scope only",
+      "changes": [
+        "Voltage0/1 complete lifecycle",
+        "Q03 full PRE freeze/challenge/judgment mapping",
+        "Q11 deferred obligations not PASS or N/A"
+      ],
+      "implementation_authorized": false,
+      "qualification_execution_authorized": false,
+      "stop": "Submit v2 for focused user review; subsequent implementation/checker/execution require new authorization"
     }
   ],
   "legacy": {
@@ -203,7 +218,7 @@
     "prior_remote_regression": "71/71 PASS; no failure/error/skip; source unchanged",
     "research_acceptance_implied": false
   },
-  "completion_rule": "Only explicit gate review plus matching evidence advances the new mainline. This R0 proposal is not completed research.",
+  "completion_rule": "Document delivery or partial-scope acceptance does not confer model qualification or execution authorization; preserve original contract obligations.",
   "r1_document_delivery": {
     "status": "ACCEPTED_DOCUMENTARY_IDENTIFIABILITY_BASELINE",
     "scope": [
@@ -242,14 +257,45 @@
   },
   "r2_tables_delivery": {
     "status": "FIXED_FOR_USER_REVIEW_NOT_EXECUTION",
-    "version": "v1",
-    "relations": "docs/mainline/review-gated/R2/relations-v1.md",
-    "coverage": "docs/mainline/review-gated/R2/coverage-v1.md",
-    "delivery": "docs/mainline/review-gated/R2/tables-v1-delivery.json",
+    "version": "v2",
+    "relations": "docs/mainline/review-gated/R2/relations-v2.md",
+    "coverage": "docs/mainline/review-gated/R2/coverage-v2.md",
+    "delivery": "docs/mainline/review-gated/R2/tables-v2-delivery.json",
     "table_acceptance": false,
     "implementation_started": false,
     "checks_executed": 0,
     "experiments": 0,
     "model_qualified": false
+  },
+  "r2_tables_delivery_history": [
+    {
+      "status": "FIXED_FOR_USER_REVIEW_NOT_EXECUTION",
+      "version": "v1",
+      "relations": "docs/mainline/review-gated/R2/relations-v1.md",
+      "coverage": "docs/mainline/review-gated/R2/coverage-v1.md",
+      "delivery": "docs/mainline/review-gated/R2/tables-v1-delivery.json",
+      "table_acceptance": false,
+      "implementation_started": false,
+      "checks_executed": 0,
+      "experiments": 0,
+      "model_qualified": false
+    }
+  ],
+  "q11_scope_decision": {
+    "status": "ACCEPTED_PARTIAL_SPEC",
+    "defined": [
+      "read-only inconclusive/channel failure outcomes",
+      "public request refusal and related non-success results"
+    ],
+    "deferred": [
+      "escalation workflow",
+      "revision implementation including not implemented",
+      "reverification including not passed"
+    ],
+    "deferred_status": "DEFERRED_UNCOVERED",
+    "execution_status": "NOT_RUN",
+    "original_contract_obligations_retained": true,
+    "automatic_waiver": false,
+    "mechanical_failure_substitutes_workflow": false
   }
 }

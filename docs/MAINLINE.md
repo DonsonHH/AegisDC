@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**修正后的狭义 R2 契约已接受；伦敦 PRE 关系表、取值域、独立预期与覆盖矩阵 v1 已固定，等待 review。模型实现、检查执行与实验未授权。** 本轮仅限伦敦式受限合成机制的事前核查，不扩展荷兰或事中响应。旧 01–42／39c 等进度不再作为自动执行队列，旧证据和未关闭问题保留。
+**修正后的狭义 R2 契约已接受；伦敦 PRE 关系表、取值域、独立预期与覆盖矩阵 v2 已固定，等待 review。模型实现、检查执行与实验未授权。** 本轮仅限伦敦式受限合成机制的事前核查，不扩展荷兰或事中响应。旧 01–42／39c 等进度不再作为自动执行队列，旧证据和未关闭问题保留。
 
-本轮审阅：[关系表与取值域 v1](mainline/review-gated/R2/relations-v1.md) · [独立预期与覆盖矩阵 v1](mainline/review-gated/R2/coverage-v1.md)。已接受契约：[R2](mainline/review-gated/R2/qualification-contract.md)。已接受基线：[R1 资料包](mainline/review-gated/R1/README.md) · [来源台账](mainline/review-gated/R1/sources.md)。详细方案：[R0–R6 计划及关卡前置条件](mainline/review-gated/plan.md)。唯一执行状态：[progress.json](mainline/progress.json)。依据：[11.12 meeting](meetings/2026-11-12-research-mainline-reset.md)。
+本轮审阅：[关系表与取值域 v2](mainline/review-gated/R2/relations-v2.md) · [独立预期与覆盖矩阵 v2](mainline/review-gated/R2/coverage-v2.md)。已接受契约：[R2](mainline/review-gated/R2/qualification-contract.md)。已接受基线：[R1 资料包](mainline/review-gated/R1/README.md) · [来源台账](mainline/review-gated/R1/sources.md)。详细方案：[R0–R6 计划及关卡前置条件](mainline/review-gated/plan.md)。唯一执行状态：[progress.json](mainline/progress.json)。依据：[11.12 meeting](meetings/2026-11-12-research-mainline-reset.md)。
 
 ## 拟研究的问题
 
@@ -16,7 +16,7 @@
 |---|---|---|
 | R0 | 研究方向与底线；具体模型／协议／数值标准保留后继审查 | 方向已接受 |
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
-| R2 | 伦敦 PRE 受限合成模型资格 | 狭义契约已接受；表与预期 v1 待 review，尚未执行资格 |
+| R2 | 伦敦 PRE 受限合成模型资格 | 狭义契约已接受；表与预期 v2 待 review，尚未执行资格 |
 | R3 | 固定方法、强基线与冻结协议 | 未授权 |
 | R4 | 方法效果、反事实适用域及消融 | 未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |

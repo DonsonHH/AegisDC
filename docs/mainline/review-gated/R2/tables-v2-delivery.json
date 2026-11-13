@@ -1,0 +1,146 @@
+{
+  "schema": "aegisdc-r2-written-tables-v2",
+  "date": "2026-11-13",
+  "status": "FIXED_FOR_FOCUSED_USER_REVIEW_NOT_EXECUTION",
+  "baseline_commit": "fdc27961dc22da929696c647a13d614a92228ee8",
+  "accepted_contract_commit": "9790350628e6c21096f4575b47d4bb55fe3a5701",
+  "preserved": {
+    "docs/mainline/review-gated/R2/relations-v1.md": {
+      "revision": "fdc27961dc22da929696c647a13d614a92228ee8",
+      "sha256": "e3ec7c5b1607d93a23996e6e3b597d02910ccaf06f66e68e936f319c74a31787",
+      "working_and_staged_bytes_unchanged": true
+    },
+    "docs/mainline/review-gated/R2/coverage-v1.md": {
+      "revision": "fdc27961dc22da929696c647a13d614a92228ee8",
+      "sha256": "82b67c18be7c712bc7acb636c78c29133fdcaa66435663c109b747ec6a1f8806",
+      "working_and_staged_bytes_unchanged": true
+    },
+    "docs/mainline/review-gated/R2/tables-v1-delivery.json": {
+      "revision": "fdc27961dc22da929696c647a13d614a92228ee8",
+      "sha256": "7b22efee06b514033bcc5a6c528dd7250248b60c95f86c164b4259c51f9cc66d",
+      "working_and_staged_bytes_unchanged": true
+    },
+    "docs/mainline/review-gated/R2/qualification-contract.md": {
+      "revision": "9790350628e6c21096f4575b47d4bb55fe3a5701",
+      "sha256": "79e7ada63104df33d65563c3f549ed37d467bb33ca2767ee6a8895fd895ea12c",
+      "working_and_staged_bytes_unchanged": true
+    }
+  },
+  "requirements": [
+    {
+      "id": "VOLTAGE_LIFECYCLE",
+      "evidence": [
+        "relations-v2.md section6 W0/W3",
+        "coverage-v2.md V(v),I13-I17"
+      ],
+      "original_I07": "BYTE_IDENTICAL_ROW",
+      "scope": "One request per paired world; e0-e4 sequential"
+    },
+    {
+      "id": "Q03_EVENT_MAPPING",
+      "evidence": [
+        "relations-v2.md section7 T-LON/T-REF",
+        "coverage-v2.md section2.1"
+      ],
+      "mapping": [
+        "T-LON j_at = M02",
+        "T-REF j_before = M09",
+        "T-REF j_at = M01"
+      ],
+      "M12_M13": "STATIC_ONLY_NOT_Q03_CHALLENGE_PAIR"
+    },
+    {
+      "id": "Q11_PARTIAL_SCOPE",
+      "defined": "ACCEPTED_PARTIAL_SPEC",
+      "execution": "NOT_RUN",
+      "deferred": "DEFERRED_UNCOVERED",
+      "original_obligations_retained": true,
+      "waived": false,
+      "mechanical_failure_substitute": false
+    }
+  ],
+  "checks": {
+    "classification": "DOCUMENT_LINK_IDENTIFIER_AND_BYTE_INTEGRITY_ONLY",
+    "preserved_M_rows": 15,
+    "preserved_I_rows": 12,
+    "new_voltage_lifecycle_rows": 5,
+    "Q03_judgment_rows": 6,
+    "runtime_files_unchanged": 53,
+    "slice57_files_unchanged": 3,
+    "local_link_target_paths": 141,
+    "anchors_individually_checked": false,
+    "relations_evaluated_by_program": false
+  },
+  "independent_document_reviews": {
+    "spec_findings": 0,
+    "standards_findings": 0,
+    "scope": "Focused reading and manual reasoning only; not qualification execution"
+  },
+  "actual_execution": {
+    "model_implemented": false,
+    "checker_implemented": false,
+    "qualification_checks_executed": 0,
+    "project_tests": 0,
+    "research_experiments": 0,
+    "research_model_calls": 0,
+    "model_qualified": false
+  },
+  "authorization": {
+    "v2_accepted": false,
+    "implementation": false,
+    "qualification_execution": false,
+    "Netherlands": false,
+    "RESP": false
+  },
+  "artifacts": {
+    "AGENTS.md": {
+      "bytes": 6357,
+      "sha256": "9344301950dcadd524edfb16370cae49da782e72833194593a8eff4954f2d983"
+    },
+    "README.md": {
+      "bytes": 5573,
+      "sha256": "b4f879d9bdf9e47f9d00509113a335f7316821dfad87a58c920877752dae2e8f"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 3670,
+      "sha256": "ed2bdb44bd9ee33b30d2debbca61158549a98826405b6c097ef5b62f8549e016"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14644,
+      "sha256": "439f59fd254cc8983a0eabe189d6115f82f468eb7507b6a8f6ad34f942cd434c"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 6039,
+      "sha256": "1d07abcbac1ee6a02efb7d4938e211fcfa50b4ca65c0bc8b5a4d26bcf189fecb"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2972,
+      "sha256": "ab6d06d6331b26eed32c5d237d34634fd8df2fd1ce0fd43103456df0fc1bb331"
+    },
+    "docs/current-research.json": {
+      "bytes": 1740,
+      "sha256": "6693a1eef77461dddc7369cd3a19b28cf1b46c517564a74dc725a775223e01da"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 12000,
+      "sha256": "8031633bf478b7caa864f3d5d1fe07c380f9d956a7dae4868b85473cbc992b46"
+    },
+    "docs/mainline/review-gated/R2/coverage-v2.md": {
+      "bytes": 17400,
+      "sha256": "e77b380820bc6dd669358b071c447e551c9b33c07a4d0d265b1dcb737d5a509a"
+    },
+    "docs/mainline/review-gated/R2/relations-v2.md": {
+      "bytes": 18117,
+      "sha256": "28ce0eccdb468ce477c41de6085de8aaa578f49240f6f497bbce66fa21007e29"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 15456,
+      "sha256": "48bd7048c2e7a6f2f531eb3aebbbac3f69c64b7a968cd9f9b5d507f1a7ea1448"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 12695,
+      "sha256": "01d177be9ada2af1a853bf97bad9ac1b76ce0610987cd80fd1c3ce3e57c314c8"
+    }
+  },
+  "stop": "Submit v2 for focused user review; no automatic implementation/checker/qualification execution"
+}
