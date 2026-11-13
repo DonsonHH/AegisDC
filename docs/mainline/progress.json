@@ -5,10 +5,10 @@
   "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R2",
-  "current_milestone": "R2_CONTRACT_DRAFT_REVIEW",
+  "current_milestone": "R2_FIXED_TABLES_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "R2_CONTRACT_ONLY_NO_IMPLEMENTATION_OR_EXPERIMENTS",
+  "agent_stage": "R2_RELATIONS_EXPECTATIONS_COVERAGE_ONLY_NO_EXECUTION",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -24,19 +24,21 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Accept corrected R1 as documentary and identifiability baseline",
-      "Draft London PRE restricted-synthetic R2 qualification contract only",
-      "Facts, assumptions, independent checks and information boundaries; stop for review"
+      "Accept corrected narrow R2 contract",
+      "Fix London PRE relation tables, domains, independent expectations and coverage only",
+      "No model implementation, checks, experiments, Netherlands or RESP; stop for review"
     ],
-    "after_delivery": "WAIT_FOR_USER_R2_CONTRACT_REVIEW",
+    "after_delivery": "WAIT_FOR_USER_R2_TABLES_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "R2_CONTRACT_DRAFT_DELIVERED_STOPPED_FOR_REVIEW",
+    "document_authorization_status": "R2_TABLES_FIXED_DELIVERED_STOPPED_FOR_REVIEW",
     "R2_contract_drafting_authorized": true,
-    "R2_implementation_authorized": false
+    "R2_implementation_authorized": false,
+    "R2_relation_tables_authorized": true,
+    "R2_qualification_execution_authorized": false
   },
   "gates": [
     {
@@ -61,11 +63,15 @@
     {
       "id": "R2",
       "name": "model_qualification",
-      "status": "CONTRACT_DRAFT_AWAITING_USER_REVIEW",
+      "status": "CONTRACT_ACCEPTED_TABLES_AWAITING_USER_REVIEW",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "document_work_authorized": false,
-      "contract": "docs/mainline/review-gated/R2/qualification-contract.md"
+      "contract": "docs/mainline/review-gated/R2/qualification-contract.md",
+      "contract_accepted": true,
+      "accepted_contract_revision": "9790350628e6c21096f4575b47d4bb55fe3a5701",
+      "tables": "docs/mainline/review-gated/R2/relations-v1.md",
+      "coverage": "docs/mainline/review-gated/R2/coverage-v1.md"
     },
     {
       "id": "R3",
@@ -156,6 +162,15 @@
       "contract_accepted": false,
       "implementation_authorized": false,
       "qualification_execution_authorized": false
+    },
+    {
+      "id": "20261113-R2-contract-accepted-tables-only",
+      "source": "Explicit user message in this chat",
+      "reviewed_revision": "9790350628e6c21096f4575b47d4bb55fe3a5701",
+      "decision": "Accept corrected narrow R2 contract; authorize relation/domain/expectation/coverage specification only",
+      "contract_accepted": true,
+      "implementation_authorized": false,
+      "qualification_execution_authorized": false
     }
   ],
   "legacy": {
@@ -213,7 +228,7 @@
     "corrections": "docs/mainline/review-gated/R1/review-corrections.json"
   },
   "r2_contract_delivery": {
-    "status": "DRAFT_AWAITING_USER_REVIEW",
+    "status": "ACCEPTED_NARROW_CONTRACT",
     "scope": "London PRE restricted synthetic mechanism",
     "contract": "docs/mainline/review-gated/R2/qualification-contract.md",
     "implementation_started": false,
@@ -222,6 +237,19 @@
     "model_qualified": false,
     "latest_review_correction": "docs/mainline/review-gated/R2/review-corrections-20261113.json",
     "positive_acceptance_groups_added": 2,
-    "contract_accepted": false
+    "contract_accepted": true,
+    "accepted_revision": "9790350628e6c21096f4575b47d4bb55fe3a5701"
+  },
+  "r2_tables_delivery": {
+    "status": "FIXED_FOR_USER_REVIEW_NOT_EXECUTION",
+    "version": "v1",
+    "relations": "docs/mainline/review-gated/R2/relations-v1.md",
+    "coverage": "docs/mainline/review-gated/R2/coverage-v1.md",
+    "delivery": "docs/mainline/review-gated/R2/tables-v1-delivery.json",
+    "table_acceptance": false,
+    "implementation_started": false,
+    "checks_executed": 0,
+    "experiments": 0,
+    "model_qualified": false
   }
 }
