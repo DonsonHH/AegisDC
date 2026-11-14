@@ -35,6 +35,11 @@ def field(value, path):
     return value
 
 
+def semantic_result(row):
+    return ({key:field(row['actual'],key) for key in row['selected_fields']}
+            if row.get('selected_fields') else row['actual'])
+
+
 def invoke(model, operation):
     args = operation['args']
     name = operation['op']
@@ -47,11 +52,13 @@ def invoke(model, operation):
     raise ValueError('Unknown checker operation: ' + name)
 
 
-def run_case(module, case):
+def run_case(module, case, ledger):
     result = dict(id=case['id'], source_refs=case['source_refs'], status='FAIL',
                   constructor_attempts=1, constructed=0, entry_calls=0, assertions=0,
                   failures=[], steps=[])
     payload=case['input']
+    ledger['executed_units']+=1
+    ledger['constructor_attempts']+=1
     try:
         if case['kind'] in ('physical','invalid_world'):
             model=module.PhysicalWorld(payload['world'])
@@ -64,6 +71,7 @@ def run_case(module, case):
     except Exception as error:
         result['constructor_error']=dict(type=type(error).__name__, message=str(error), traceback=traceback.format_exc())
         result['assertions']+=1
+        ledger['executed_assertions']+=1
         if type(error).__name__==case.get('expected_constructor_error'):
             result['status']='PASS'
         else:
@@ -71,14 +79,18 @@ def run_case(module, case):
         return result
     if 'expected_constructor_error' in case:
         result['assertions']+=1
+        ledger['executed_assertions']+=1
         result['failures'].append('Constructor accepted forbidden input')
         return result
     values={}
     for step in case['steps']:
         row=dict(label=step['label'], operation=step['op'], arguments=step['args'])
         result['entry_calls']+=1
+        ledger['model_entry_calls']+=1
         try:
-            actual=invoke(model,step)
+            # Detach every observed result immediately; later model mutation
+            # must not rewrite previously captured evidence or identity baselines.
+            actual=json.loads(canonical(invoke(model,step)))
             row['actual']=actual
             values[step['label']]=actual
             if 'expected' in step:
@@ -86,11 +98,13 @@ def run_case(module, case):
                 row.update(expected=step['expected'], selected_fields=step.get('select'),
                            matches=canonical(observed)==canonical(step['expected']))
                 result['assertions']+=1
+                ledger['executed_assertions']+=1
                 if not row['matches']:result['failures'].append(step['label']+': literal mismatch')
             if 'same_as' in step:
                 relation=step['same_as']
                 row['same_instance']=field(actual,relation['path'])==field(values[relation['label']],relation['reference_path'])
                 result['assertions']+=1
+                ledger['executed_assertions']+=1
                 if not row['same_instance']:result['failures'].append(step['label']+': identity changed')
         except Exception as error:
             row['error']=dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc())
@@ -145,8 +159,13 @@ def main():
         sys.path.insert(0,str(root/'src'))
         module=importlib.import_module('aegis_dc.london_pre')
         if Path(module.__file__).resolve()!=paths[1].resolve():raise ValueError('Wrong model import location')
+        summary['status']='EXECUTING'
+        summary['failed_ids']=[]
         for case in cases:
-            result=run_case(module,case);results.append(result)
+            result=run_case(module,case,summary);results.append(result)
+            summary['passed_units']+=int(result['status']=='PASS')
+            summary['failed_units']+=int(result['status']!='PASS')
+            if result['status']!='PASS':summary['failed_ids'].append(result['id'])
             save(args.output/(case['id']+'.json'),dict(input=case,result=result))
         by_id={r['id']:r for r in results}
         pair_results=[]
@@ -154,12 +173,16 @@ def main():
             left,right=by_id[pair['left']],by_id[pair['right']]
             outcome=dict(definition=pair,status='FAIL',labels=[])
             for label in pair['labels']:
+                summary['executed_assertions']+=1
                 a=next((s for s in left['steps'] if s['label']==label),{})
                 b=next((s for s in right['steps'] if s['label']==label),{})
-                match='actual' in a and 'actual' in b and canonical(a['actual'])==canonical(b['actual'])
+                match='actual' in a and 'actual' in b and canonical(semantic_result(a))==canonical(semantic_result(b))
                 outcome['labels'].append(dict(label=label,matches=match))
             if left['status']==right['status']=='PASS' and all(x['matches'] for x in outcome['labels']):outcome['status']='PASS'
             pair_results.append(outcome)
+            summary['pair_passed']+=int(outcome['status']=='PASS')
+            summary['pair_failed']+=int(outcome['status']!='PASS')
+            save(args.output/f'pair-{len(pair_results):03}.json',outcome)
         save(args.output/'pairs.json',pair_results)
         summary.update(executed_units=len(results),passed_units=sum(x['status']=='PASS' for x in results),
             failed_units=sum(x['status']!='PASS' for x in results),
@@ -168,18 +191,20 @@ def main():
             model_entry_calls=sum(x['entry_calls'] for x in results),
             pair_passed=sum(x['status']=='PASS' for x in pair_results),pair_failed=sum(x['status']!='PASS' for x in pair_results),
             failed_ids=[x['id'] for x in results if x['status']!='PASS'])
-        summary['status']='PASS_DECLARED_FINITE_SCOPE' if summary['failed_units']==summary['pair_failed']==0 else 'FAIL_RETAINED'
+        summary['status']=('PASS_SELECTED_UNITS' if args.only else 'PASS_DECLARED_FINITE_SCOPE') if summary['failed_units']==summary['pair_failed']==0 else 'FAIL_RETAINED'
     except Exception as error:
+        summary['status']='FAIL_AFTER_EXECUTION' if summary['executed_units'] else 'PRE_EXECUTION_FAILURE'
         summary['error']=dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc())
     finally:
         after={str(p.relative_to(root)):digest(p) for p in paths}
         summary.update(after_sha256=after,source_bytes_unchanged=before==after,
+                       unfinished_units=summary['executed_units']-summary['passed_units']-summary['failed_units'],
                        ended_at_utc=datetime.now(timezone.utc).isoformat())
         if before!=after:summary['status']='FAIL_SOURCE_CHANGED'
         summary['artifacts']={p.name:dict(bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(args.output.iterdir()) if p.is_file()}
         save(args.output/'terminal.json',summary)
         print(json.dumps(summary,ensure_ascii=False))
-    return 0 if summary['status']=='PASS_DECLARED_FINITE_SCOPE' else 1
+    return 0 if summary['status'] in ('PASS_DECLARED_FINITE_SCOPE','PASS_SELECTED_UNITS') else 1
 
 
 if __name__=='__main__':raise SystemExit(main())
