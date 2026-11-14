@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**有限 R2 工作包已由用户接受；[R3 候选方法与协议方案](docs/mainline/review-gated/R3/method-protocol-proposal.md)等待 review。** [验收登记](docs/mainline/review-gated/R2/execution/acceptance-20261114.json)区分发布487f180c、执行d57b19b8、规格747f1678及冻结输入f2186fae。原97单位结果保持；历史NOT_RUN不回填，新验收不代表服务收益或完整Q11资格。本轮只编写方案，未新增实现、资格检查或研究实验。
+**有限 R2 已接受，334e537b 的 R3 候选方向已接受；当前交审 [E1–E4 扩展资格规格包](docs/mainline/review-gated/R2/extensions/e1-e4-v1/README.md)。** 本包集中给出伦敦 PRE 的契约、关系、独立预期与覆盖矩阵；拟定域内M0/B1动作等价，合成参数待接受。R3数值协议尚未冻结，扩展尚未实现或取得资格，Q11延期义务保留。原[验收登记](docs/mainline/review-gated/R2/execution/acceptance-20261114.json)、97单位结果、冻结输入和失败原件不变；本轮没有新增测试、资格执行或研究实验。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 
