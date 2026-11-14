@@ -122,6 +122,8 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--only',nargs='*')
     args=parser.parse_args()
+    args.cases=args.cases.resolve()
+    args.output=args.output.resolve()
     root=Path(__file__).resolve().parents[1]
     if not os.environ.get('SLURM_JOB_ID') or socket.gethostname().split('.')[0]=='mu01':
         raise SystemExit('Execute only inside an allocated remote compute node')
