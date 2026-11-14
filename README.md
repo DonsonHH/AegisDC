@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**修正后的 [R1 资料基线](docs/mainline/review-gated/R1/README.md)已接受；狭义 R2 契约已接受，v2 已冻结，[R2 有限实现及检查结果](docs/mainline/review-gated/R2/execution/README.md)等待用户验收。最终97单位、9组配对、406次断言通过；后继阶段与范围扩展未授权。** 本轮按授权实现并在远端执行固定范围资格，保留失败及修复记录；没有开展方法收益比较或RSI实验。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；只取得声明合成逻辑与信息接口的有限检查结果，历史事故可避免性仍未识别。旧票进度不再自动驱动工作。
+**有限 R2 工作包已由用户接受；[R3 候选方法与协议方案](docs/mainline/review-gated/R3/method-protocol-proposal.md)等待 review。** [验收登记](docs/mainline/review-gated/R2/execution/acceptance-20261114.json)区分发布487f180c、执行d57b19b8、规格747f1678及冻结输入f2186fae。原97单位结果保持；历史NOT_RUN不回填，新验收不代表服务收益或完整Q11资格。本轮只编写方案，未新增实现、资格检查或研究实验。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 
