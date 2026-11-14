@@ -195,6 +195,7 @@ class ChallengeRun:
         self._pre=PRESession(world,context,mode)
         self._event='e0'
         self._frozen=None
+        self._state_anchor=None
 
     def request(self, payload):
         if self._event not in EVENTS:
@@ -218,6 +219,9 @@ class ChallengeRun:
         if event=='f':
             if self._pre._acquisitions!=1 or self._pre._original is None or self._pre._copies:
                 raise ValueError('Complete the declared unmodified PRE lifecycle before freezing')
+            # Retain the actual mutable-state object so replacement cannot hide
+            # behind wrapper identity or allocator reuse of a released ID.
+            self._state_anchor=self._pre._world._state
             self._frozen=dict(state=deepcopy(self._pre._world._state),
                               public_view=self._pre.public_view(),challenge={'vA':0,'completion':'AT'})
         elif event=='u':
@@ -230,4 +234,4 @@ class ChallengeRun:
         data=self._pre._world.audit()
         return dict(event=self._event,state=data['state'],
                     outcome={key:data['mechanics'][key] for key in OUTCOME_FIELDS},
-                    frozen=deepcopy(self._frozen),state_identity=id(self._pre._world))
+                    frozen=deepcopy(self._frozen),state_identity=id(self._pre._world._state))
