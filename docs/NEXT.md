@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-13）：等待用户 review [R2 关系表／取值域 v2](mainline/review-gated/R2/relations-v2.md)及[独立预期／覆盖矩阵 v2](mainline/review-gated/R2/coverage-v2.md)。狭义契约已接受，但模型实现、检查执行与实验仍未授权；不扩展荷兰或事中响应。下文为历史记录。
+> 当前唯一下一步（2026-11-14）：等待用户验收 [R2 有限实现与检查结果](mainline/review-gated/R2/execution/README.md)。最终97单位、9组配对、406断言通过，原失败保留；Q11延期义务不变，不自动进入R3/R4/R5。下文为历史记录。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

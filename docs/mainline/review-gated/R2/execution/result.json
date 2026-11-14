@@ -1,0 +1,207 @@
+{
+  "schema": "aegisdc-r2-qualification-delivery-v1",
+  "date": "2026-11-14",
+  "status": "FINITE_SCOPE_CHECKS_PASS_AWAITING_USER_ACCEPTANCE",
+  "baseline_specification_commit": "747f1678880881b7bebc4dfa26e5557f4750cc89",
+  "execution_commit": "d57b19b88a4302d901ceebbe1ccce2675ba8f32d",
+  "model_file": "src/aegis_dc/london_pre.py",
+  "checker_file": "scripts/qualify_london_pre.py",
+  "runtime_sha256": {
+    "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+    "src/aegis_dc/london_pre.py": "b7ac143f90e5bf31b0d3b691fed40c01dbc17666fd662aebb634684a66b05430",
+    "scripts/qualify_london_pre.py": "b741e6c0b3ff2edc6cdc7f04b0a1c3fd5e5b92406ff93ad6cc5a849ac27104eb",
+    "docs/mainline/review-gated/R2/execution/cases-v2.json": "323e1e3ca3448ff1dac2b7864b3d2b440f0ff3342721c8fb4d11f55301136b50"
+  },
+  "source_unchanged_during_execution": true,
+  "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:16:10) [GCC 11.2.0]",
+  "python_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+  "input_freeze": {
+    "commit": "f2186fae",
+    "file": "docs/mainline/review-gated/R2/execution/cases-v2.json",
+    "sha256": "323e1e3ca3448ff1dac2b7864b3d2b440f0ff3342721c8fb4d11f55301136b50",
+    "units": 97,
+    "pair_groups": 9,
+    "job_id": "133654",
+    "model_calls_at_authoring": 0,
+    "expected_answers_changed_after_model_execution": false
+  },
+  "final_results": {
+    "units_selected": 97,
+    "units_executed": 97,
+    "units_passed": 97,
+    "units_failed": 0,
+    "units_skipped": 0,
+    "units_unfinished": 0,
+    "constructor_attempts": 97,
+    "constructed": 88,
+    "expected_constructor_refusals": 9,
+    "pair_groups_passed": 9,
+    "pair_groups_failed": 0,
+    "assertion_comparisons": 406,
+    "entry_method_calls": 496,
+    "checker_regression_tests_passed": 3,
+    "checker_regression_tests_separate_from_qualification": true
+  },
+  "actual_execution_counts": {
+    "full_qualification_runs": 2,
+    "total_qualification_units": 194,
+    "total_qualification_assertion_comparisons": 812,
+    "total_qualification_entry_calls": 992,
+    "checker_regression_runs": 4,
+    "checker_regression_tests_total": 12,
+    "registered_research_trials": 0,
+    "LLM_training_RSI_calls": 0
+  },
+  "attempts": [
+    {
+      "job_id": "133654",
+      "phase": "INPUT_AUTHORING",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114/freeze-01",
+      "model_entries": 0
+    },
+    {
+      "job_id": "133655",
+      "phase": "RED_PREFLIGHT",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "executed_units": 0,
+      "model_entries": 0,
+      "terminal_file_created": false,
+      "reason": "relative input path rejected by Path.relative_to before model import",
+      "stderr_sha256": "ff4ba7f6a52aa9e0ac2e6defe0252688af0491dafa2d6b5166e783501ae73977",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114/red-01"
+    },
+    {
+      "job_id": "133656",
+      "source_commit": "0be485578174c5f9a72ed572745accbdced44361",
+      "status": "PRE_EXECUTION_FAILURE",
+      "private_directory": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114/red-02/result",
+      "executed_units": 0,
+      "passed_units": 0,
+      "failed_units": 0,
+      "assertions": 0,
+      "entry_calls": 0,
+      "terminal_sha256": "9c5beea0c1c8fac38ce36918369d2264dbfe4afa5739c15f7198d0386ea70238"
+    },
+    {
+      "job_id": "133657",
+      "source_commit": "588bcbb6c5c8fb90253eda6f79ca615d85564e28",
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "private_directory": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114/qualification-01/result",
+      "executed_units": 97,
+      "passed_units": 97,
+      "failed_units": 0,
+      "assertions": 406,
+      "entry_calls": 496,
+      "terminal_sha256": "f6770a8a236c78cb9148c6b6d36b80dd4d87e4b5fd29c97d34a4b7117842030e"
+    },
+    {
+      "job_id": "133658",
+      "source_commit": "d57b19b88a4302d901ceebbe1ccce2675ba8f32d",
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "private_directory": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114/qualification-02/result",
+      "executed_units": 97,
+      "passed_units": 97,
+      "failed_units": 0,
+      "assertions": 406,
+      "entry_calls": 496,
+      "terminal_sha256": "a966502e1b1ee4dabdde319ba8cca9e103188d55031ac00fd4150b4d01153d37"
+    }
+  ],
+  "repairs": [
+    {
+      "commit": "f2186fae",
+      "kind": "SOURCE_REVIEW_CHECKER_FIX",
+      "items": [
+        "Detach returned snapshots",
+        "Count entries while executing, including failures",
+        "Compare only declared semantic fields in replay"
+      ],
+      "validation": "3 checker regressions; no expected-answer changes"
+    },
+    {
+      "commit": "0be48557",
+      "kind": "OBSERVED_PREFLIGHT_FAILURE_FIX",
+      "item": "Resolve input/output paths before identity capture",
+      "original_job": "133655",
+      "validation": "133656 reached genuine missing-interface red; inputs unchanged"
+    },
+    {
+      "commit": "d57b19b8",
+      "kind": "CONTINUITY_ATTESTATION_STRENGTHENING",
+      "item": "Bind identity to actual state dict and retain it at f; no observed terminal-state reconstruction",
+      "prior_green": "133657",
+      "validation": "133658 complete fresh rerun; source review closed finding; expected answers unchanged"
+    }
+  ],
+  "deferred": [
+    {
+      "item": "Q11 escalation workflow",
+      "status": "DEFERRED_UNCOVERED",
+      "executed": false,
+      "waived": false
+    },
+    {
+      "item": "Q11 revision implementation",
+      "status": "DEFERRED_UNCOVERED",
+      "executed": false,
+      "waived": false
+    },
+    {
+      "item": "Q11 reverification",
+      "status": "DEFERRED_UNCOVERED",
+      "executed": false,
+      "waived": false
+    }
+  ],
+  "model_qualified": false,
+  "user_acceptance": "PENDING",
+  "next_stage_authorized": false,
+  "scope": "Only v2 declared finite London PRE qualitative mechanisms, observation and material boundaries, continuous offline challenge. No historical prevention, service gain, full Q11 workflow, Netherlands, RESP or RSI claim.",
+  "independence": {
+    "model_private_helpers_used_for_expected_answers": false,
+    "expectations_from": "Frozen v2 literals and publication templates, expanded before model implementation execution",
+    "checker_calls": "Public/evaluator interfaces only",
+    "saved_output_verifier_imports_model": false,
+    "continuity": "Full states, immutable f snapshot and same actual state object across u/j_before/j_at",
+    "boundary": "Decision consumers only receive public projection/request replies; Python reflection is not a security sandbox"
+  },
+  "preservation": {
+    "specification_sha256": {
+      "docs/mainline/review-gated/R2/relations-v1.md": "e3ec7c5b1607d93a23996e6e3b597d02910ccaf06f66e68e936f319c74a31787",
+      "docs/mainline/review-gated/R2/coverage-v1.md": "82b67c18be7c712bc7acb636c78c29133fdcaa66435663c109b747ec6a1f8806",
+      "docs/mainline/review-gated/R2/tables-v1-delivery.json": "7b22efee06b514033bcc5a6c528dd7250248b60c95f86c164b4259c51f9cc66d",
+      "docs/mainline/review-gated/R2/relations-v2.md": "28ce0eccdb468ce477c41de6085de8aaa578f49240f6f497bbce66fa21007e29",
+      "docs/mainline/review-gated/R2/coverage-v2.md": "e77b380820bc6dd669358b071c447e551c9b33c07a4d0d265b1dcb737d5a509a",
+      "docs/mainline/review-gated/R2/tables-v2-delivery.json": "f6815e4f07642fcd355bdb5a21590eda6f0ba53e573ee36b30223fa9a3321dce",
+      "docs/mainline/review-gated/R2/qualification-contract.md": "79e7ada63104df33d65563c3f549ed37d467bb33ca2767ee6a8895fd895ea12c"
+    },
+    "previous_53_runtime_files": "BYTE_IDENTICAL",
+    "slice57_files": {
+      "docs/mainline/39c-business-record-replay-contract-57.md": "3300ea819f2c9ab3ac561cd3d9b331f4874a233e242e1b74bdb57cf6a698e2dd",
+      "tests/fixtures/39c-business-record-replay-57.json": "9b63097411f9971b7bc796605f7170066ae003a91b2c839b4e8ade123530e70f",
+      "tests/test_business_recorded_replay.py": "8339d2d714d27f06da0cae6a2b4e7fea88d278380e0b63b782948c68f5a04bca"
+    },
+    "old_research_trials": 180,
+    "old_research_relabelled": false
+  },
+  "coverage_mapping_note": "Immutable source_refs contain some broad Q navigation tags. coverage.json provides exact v2 witness-to-unit mapping; these tags are not independent qualification counts.",
+  "private_storage": "/share/home/renly/renly-patrol-rsi/mainline/R2-qualification-20261114",
+  "delivery": {
+    "unit_index_sha256": "f998e9195d584ab7ee488c1c3213282e3080cb23cde919a8feb8b70720a71b1b",
+    "coverage_sha256": "3c07728192dc003706faf72b3c9953287413bff94a765c79123ea25f83b908ad",
+    "verification_sha256": "d42c1d927bbbf6b774f1dbc17cb42cc1a592db248e936350dfaa7cf2e39f2b26",
+    "checker_tests_log_sha256": "b83f463a7baeff5e8843a043e2a816449e5770908033ee2b0f9c2038efeb9539",
+    "fresh_github_manifest_sha256": "98059084e350769853f5a6aadbce03aa29208ebecbc41a54fc6199461a5fe914",
+    "fresh_github_file_count": 18,
+    "source_and_result_verifier_sha256": "32bef6a87351c7b380693f12ff8a851367b40890e7e7695e99dbc0ffb6e815c8"
+  },
+  "review": {
+    "spec_implementation_findings_open": 0,
+    "standards_implementation_findings_open": 0,
+    "original_findings_retained_in_repair_ledger": true,
+    "review_is_not_user_acceptance": true
+  }
+}

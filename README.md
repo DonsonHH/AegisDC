@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**修正后的 [R1 资料基线](docs/mainline/review-gated/R1/README.md)已接受；狭义 R2 契约已接受，[关系表与取值域](docs/mainline/review-gated/R2/relations-v2.md)、[独立预期与覆盖矩阵](docs/mainline/review-gated/R2/coverage-v2.md) v2 等待 review。实现、实验及荷兰／事中响应扩展均未授权。** 本轮仅固定书面关系、取值域与预期，突出 Q04 成功／失败配对和 Q08 到达前后发布要求。没有执行资格检查。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；没有运行事故仿真或模型实验。旧票进度不再自动驱动工作。
+**修正后的 [R1 资料基线](docs/mainline/review-gated/R1/README.md)已接受；狭义 R2 契约已接受，v2 已冻结，[R2 有限实现及检查结果](docs/mainline/review-gated/R2/execution/README.md)等待用户验收。最终97单位、9组配对、406次断言通过；后继阶段与范围扩展未授权。** 本轮按授权实现并在远端执行固定范围资格，保留失败及修复记录；没有开展方法收益比较或RSI实验。[来源台账](docs/mainline/review-gated/R1/sources.md)记录官方版本与证据限度；只取得声明合成逻辑与信息接口的有限检查结果，历史事故可避免性仍未识别。旧票进度不再自动驱动工作。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 
