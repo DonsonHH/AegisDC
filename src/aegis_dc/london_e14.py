@@ -97,7 +97,7 @@ def decide(view, method):
         return result('INSUFFICIENT_INFORMATION')
     if not c['chain_parameters_known'] or c['compatible'] == 'UNKNOWN' or c['permissions']['propose'] == 'UNKNOWN':
         return result('INSUFFICIENT_INFORMATION')
-    if c['compatible'] != 'ALLOW' or c['permissions']['propose'] != 'ALLOW' or rational(c['available']) < rational(c['chain_reserve']) or rational(c['chain_finish']) >= rational(c['window'][1]):
+    if c['compatible'] != 'ALLOW' or c['permissions']['propose'] != 'ALLOW' or rational(c['available']) < rational(c['chain_reserve']) or rational(c['chain_finish']) >= rational(c['window'][1]) or rational(c.get('chain_resource_end',c['chain_finish'])) > rational(c['window'][1]):
         return result('INFEASIBLE')
     certificate = v['certificate']
     identical = certificate and certificate.get('kind') == 'PLAN_IDENTITY' and certificate.get('problem_id') == 'q-1' and certificate.get('target') == 'ctrl-1' and certificate.get('plan') == 'FIX_CTRL-v1' and certificate.get('version') == 1 and rational(certificate.get('expires_at', 0)) > now
@@ -484,10 +484,10 @@ class E14Run:
         # expose whether the private commit succeeded. Arrival supplies that fact.
         if self.active and self.active['kind']=='exit' and self.fix:public_phase='EXITING'
         if failure and not self.active and not self.queued:public_phase='TERMINAL'
-        needed,finish,_=self._public_chain_plan()
+        needed,finish,resource_end=self._public_chain_plan()
         return encode(dict(time=self.time,pre_open=self.pre_open,pending=self._pending(),terminal_failure=failure,phase=public_phase,
           records=self._current(),receipts=self.receipts,history=self.observations+self.copies,attempted=self.attempted,known_epoch=self._known_epoch(),certificate=None,
-          context=dict(permissions=c['permissions'],compatible=c['compatible'],window=c['window'],available=self._available(),read_reserve=c['read_work']+c['exit_work'],chain_reserve=needed,chain_finish=finish,read_parameters_known=True,chain_parameters_known=True)))
+          context=dict(permissions=c['permissions'],compatible=c['compatible'],window=c['window'],available=self._available(),read_reserve=c['read_work']+c['exit_work'],chain_reserve=needed,chain_finish=finish,chain_resource_end=resource_end,read_parameters_known=True,chain_parameters_known=True)))
 
     def copy_record(self,record_id,copy_id):
         found=next((r for r in self.observations if r['record_id']==record_id),None)
