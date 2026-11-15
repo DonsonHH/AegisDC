@@ -1,0 +1,681 @@
+{
+  "schema": "aegisdc-admission-role-version-guards-v1",
+  "classification": "ENGINEERING_GUARD_NOT_RESEARCH",
+  "model_calls_at_authoring": 0,
+  "units": [
+    {
+      "id": "H01-read-role-required-M0",
+      "kind": "flow",
+      "refs": [
+        "H01-read-role-required",
+        "existing read AND verify gate"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "DENY",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": false,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "verification_result": "NOT_REQUESTED",
+            "started_actions": [
+              "FIX_CTRL"
+            ],
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "H01-read-role-required-B1",
+      "kind": "flow",
+      "refs": [
+        "H01-read-role-required",
+        "existing read AND verify gate"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "DENY",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": false,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "verification_result": "NOT_REQUESTED",
+            "started_actions": [
+              "FIX_CTRL"
+            ],
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "H02-verify-role-required-M0",
+      "kind": "flow",
+      "refs": [
+        "H02-verify-role-required",
+        "existing read AND verify gate"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "DENY",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": false,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "verification_result": "NOT_REQUESTED",
+            "started_actions": [
+              "FIX_CTRL"
+            ],
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "H02-verify-role-required-B1",
+      "kind": "flow",
+      "refs": [
+        "H02-verify-role-required",
+        "existing read AND verify gate"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "DENY",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": false,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ACCESS_DENIED"
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "verification_result": "NOT_REQUESTED",
+            "started_actions": [
+              "FIX_CTRL"
+            ],
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "H03-no-implicit-downgrade-M0",
+      "kind": "invalid_view",
+      "refs": [
+        "explicit legacy opt-in required"
+      ],
+      "input": {
+        "view": {
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          }
+        },
+        "method": "M0"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    },
+    {
+      "id": "H03-no-implicit-downgrade-B1",
+      "kind": "invalid_view",
+      "refs": [
+        "explicit legacy opt-in required"
+      ],
+      "input": {
+        "view": {
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          }
+        },
+        "method": "B1"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    }
+  ],
+  "pairs": [
+    {
+      "id": "H01-read-role-required-method-consistency",
+      "units": [
+        "H01-read-role-required-M0",
+        "H01-read-role-required-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    },
+    {
+      "id": "H02-verify-role-required-method-consistency",
+      "units": [
+        "H02-verify-role-required-M0",
+        "H02-verify-role-required-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    }
+  ]
+}
