@@ -1,6 +1,6 @@
 # R3正式协议 v1：待review与冻结
 
-2026-11-15，**DRAFT_PENDING_INPUT_FREEZE**。用户接受f10ec626的I/D/P定义、条件价值方向和19个建议开发条件作为本包依据。本文件给出可逐项review冻结的协议正文及[完整开发输入](development-inputs.json)；当前尚未由用户冻结或授权研究执行，19条件均为开发材料。工程运行器资格另见[契约](../runner-v1/contract.md)，不能计入研究样本或替代确认。
+2026-11-15，**READY_FOR_PROTOCOL_REVIEW_NOT_EXECUTION**。用户接受f10ec626的I/D/P定义、条件价值方向和19个建议开发条件作为本包依据。本文件给出可逐项review冻结的协议正文及[完整开发输入](development-inputs.json)；当前尚未由用户冻结或授权研究执行，19条件均为开发材料。工程运行器资格另见[契约](../runner-v1/contract.md)，不能计入研究样本或替代确认。
 
 ## 1. 对象、输入与处理
 

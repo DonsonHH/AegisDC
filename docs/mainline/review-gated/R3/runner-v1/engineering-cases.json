@@ -1,0 +1,3549 @@
+{
+  "schema": "aegisdc-idp-engineering-v1",
+  "classification": "ENGINEERING_ONLY",
+  "public_tick_seconds": 1,
+  "model_calls_at_authoring": 0,
+  "units": [
+    {
+      "id": "E01-no-fault-full-chain",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6,
+            12
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 14,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E02-c0-cutoff",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 10,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "reached.stage": "NOT_IMPLEMENTED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 8,
+          "score.tool_seconds": 8,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E03-short-circuit",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 1,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 2,
+          "policy_times": [
+            0,
+            1,
+            2
+          ],
+          "reached.stage": "INSPECTION_STOP",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 1,
+          "reached.read_records_visible_to_policy": 1,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 1,
+          "score.tool_seconds": 1,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E04-information-insufficient",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "INCONCLUSIVE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG"
+          ],
+          "request_times": [
+            0,
+            2,
+            4
+          ],
+          "stop.reason": "INSUFFICIENT_INFORMATION",
+          "stop.time": 6,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "reached.stage": "INSPECTION_STOP",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 3,
+          "score.tool_seconds": 3,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E05-approval-denied",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "DENY",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "APPROVAL_DENIED",
+          "reached.fix_requested": true,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 3,
+          "score.tool_seconds": 3,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 2,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 2,
+          "policy_times": [
+            0,
+            1,
+            2
+          ],
+          "reached.stage": "APPROVAL_DENIED",
+          "reached.fix_requested": true,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 2,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E06-commit-failure-reached",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "FAIL",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 11,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "reached.stage": "COMMIT_FAILED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "FAIL",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 8,
+          "score.tool_seconds": 8,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 5,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "reached.stage": "COMMIT_FAILED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "FAIL",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 5,
+          "score.tool_seconds": 5,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E07-verification-failure-reached",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "FAIL",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6,
+            12
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 14,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "reached.stage": "VERIFICATION_FAILED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "FAIL",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "STOP_UNRESOLVED",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFICATION_FAILED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "FAIL",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E08-direct-permission",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "DENY"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6,
+            12
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 14,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "INFEASIBLE",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "NO_ACTION",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E09-queue-full-chain",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              0,
+              3
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            5,
+            7,
+            9,
+            15
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 17,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 3,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            8
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 10,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 2,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E10-budget-insufficient",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 4,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT"
+          ],
+          "request_times": [
+            0,
+            2
+          ],
+          "stop.reason": "INSUFFICIENT_INFORMATION",
+          "stop.time": 4,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "reached.stage": "INSPECTION_STOP",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 2,
+          "reached.read_records_visible_to_policy": 2,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 2,
+          "score.tool_seconds": 2,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "INFEASIBLE",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "NO_ACTION",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E11-harmful-isolation",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "LOAD_ISOLATED",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6,
+            12
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 14,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 7,
+          "score.U": 7,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 7,
+          "score.U": 7,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E12-incomplete-exit",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "LOAD_ISOLATED",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "FAIL",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 20,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "reached.stage": "EXIT_INCOMPLETE",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 13,
+          "score.U": 13,
+          "score.person_seconds": 16,
+          "score.tool_seconds": 16,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": false,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 20,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "reached.stage": "EXIT_INCOMPLETE",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 19,
+          "score.U": 19,
+          "score.person_seconds": 19,
+          "score.tool_seconds": 19,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": false,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E13-order-isolation",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "P",
+          "D",
+          "I"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6,
+            12
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 14,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 9,
+          "score.tool_seconds": 9,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E14-private-half-second-cutoff",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": "3/2",
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 2,
+          "policy_times": [
+            0,
+            1
+          ],
+          "reached.stage": "INSPECTION_STOP",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 1,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": "27/2",
+          "score.U": "27/2",
+          "score.person_seconds": 1,
+          "score.tool_seconds": 1,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 2,
+          "policy_times": [
+            0,
+            1
+          ],
+          "reached.stage": "NOT_IMPLEMENTED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": "27/2",
+          "score.U": "27/2",
+          "score.person_seconds": "5/2",
+          "score.tool_seconds": "5/2",
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": "27/2",
+          "score.U": "27/2",
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E15-queue-cutoff-before-approval",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              0,
+              3
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            5,
+            7,
+            9
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 10,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "reached.stage": "NOT_IMPLEMENTED",
+          "reached.fix_requested": true,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 3,
+          "score.tool_seconds": 3,
+          "score.resource_queue_seconds": 3,
+          "score.approval_wait_seconds": null,
+          "score.unstarted_observed_wait_seconds": 1,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            8
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 10,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "reached.stage": "VERIFY_ABORTED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "ABORTED",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 0,
+          "score.U": 0,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 2,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "E16-backup-unavailable",
+      "kind": "triplet",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": false,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ]
+      },
+      "expected": {
+        "I": {
+          "requested_actions": [
+            "READ_POS",
+            "READ_VOLT",
+            "READ_CONFIG",
+            "FIX_CTRL"
+          ],
+          "request_times": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "stop.reason": "ENV_PRE_CUTOFF",
+          "stop.time": 10,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "reached.stage": "NOT_IMPLEMENTED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 3,
+          "reached.read_records_visible_to_policy": 3,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 8,
+          "score.tool_seconds": 8,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        },
+        "D": {
+          "requested_actions": [
+            "FIX_CTRL",
+            "VERIFY_CTRL"
+          ],
+          "request_times": [
+            0,
+            6
+          ],
+          "stop.reason": "NO_ACTION_CURRENT_SCOPE",
+          "stop.time": 8,
+          "policy_times": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "reached.stage": "VERIFIED",
+          "reached.fix_requested": true,
+          "reached.approved": true,
+          "reached.preparation_started": true,
+          "reached.commit_result": "SUCCESS",
+          "reached.commit_attempted": true,
+          "reached.verification_requested": true,
+          "reached.verification_result": "PASS",
+          "reached.verification_published": true,
+          "reached.verification_parent_valid": true,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 6,
+          "score.tool_seconds": 6,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 1,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 1
+        },
+        "P": {
+          "requested_actions": [],
+          "request_times": [],
+          "stop.reason": "NO_NEW_ACTIONS",
+          "stop.time": 0,
+          "policy_times": [
+            0
+          ],
+          "reached.stage": "BACKGROUND_ONLY",
+          "reached.fix_requested": false,
+          "reached.approved": false,
+          "reached.preparation_started": false,
+          "reached.commit_result": "NOT_ATTEMPTED",
+          "reached.commit_attempted": false,
+          "reached.verification_requested": false,
+          "reached.verification_result": "NOT_REQUESTED",
+          "reached.verification_published": false,
+          "reached.verification_parent_valid": null,
+          "reached.read_results_published": 0,
+          "reached.read_records_visible_to_policy": 0,
+          "score.trace_status": "COMPLETE",
+          "score.L": 5,
+          "score.U": 5,
+          "score.person_seconds": 0,
+          "score.tool_seconds": 0,
+          "score.resource_queue_seconds": 0,
+          "score.approval_wait_seconds": 0,
+          "score.unstarted_observed_wait_seconds": 0,
+          "score.hard_constraints_ok": true,
+          "final_audit.epoch": 0
+        }
+      }
+    },
+    {
+      "id": "S01-partial-window-not-full-score",
+      "kind": "score",
+      "input": {
+        "audit": {
+          "time": 1,
+          "original_input": {
+            "H": 20,
+            "tF": null,
+            "tR": null,
+            "P": 1,
+            "E0": 3,
+            "vA": 1,
+            "vB": 1,
+            "cA": 1,
+            "cB": 0,
+            "capA": 1,
+            "capB": 1,
+            "capG": 1,
+            "family": "LEGACY_LINE",
+            "epoch": 0,
+            "ready": true,
+            "connected": true,
+            "permit": true,
+            "exec_fault": false,
+            "tauG": 1,
+            "tauB": 2,
+            "read_work": 1,
+            "publish": 1,
+            "ttl": 12,
+            "approval_work": 1,
+            "prep": 2,
+            "commit_work": 1,
+            "exit_work": 2,
+            "verify_work": 1,
+            "budget": 20,
+            "calendar": [],
+            "window": [
+              0,
+              20
+            ],
+            "grant_expiry": 20,
+            "revoke": null,
+            "work_mode": "ONLINE",
+            "approval": "APPROVE",
+            "commit": "SUCCESS",
+            "verification": "PASS",
+            "exit_result": "SUCCESS",
+            "guard": "ALLOW",
+            "compatible": "ALLOW",
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "read_modes": {
+              "READ_POS": "DEFINITE",
+              "READ_VOLT": "DEFINITE",
+              "READ_CONFIG": "DEFINITE"
+            },
+            "signal_missing": [],
+            "demand": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "segments": [
+            {
+              "start": 0,
+              "end": 1,
+              "source": "A",
+              "power": 1,
+              "demand": 1,
+              "service": 1,
+              "device": "RUNNING",
+              "isolated": false,
+              "occupied": false,
+              "work_action": null,
+              "work_stage": null
+            }
+          ],
+          "E": 3,
+          "L": 0,
+          "U": 0,
+          "load_energy": 1,
+          "ups_energy": 0,
+          "spent": 0,
+          "budgets": {
+            "person": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            },
+            "tool": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            }
+          },
+          "resource_overrun": false,
+          "internal_approval": null,
+          "observations": [],
+          "receipts": [],
+          "commit_result": "NOT_ATTEMPTED",
+          "verification_result": "NOT_REQUESTED",
+          "epoch": 0,
+          "phase": "NONE",
+          "operations": [],
+          "started_actions": [],
+          "recoveries": []
+        },
+        "run": {
+          "arm": "P",
+          "requests": [],
+          "public_trace": [],
+          "stop": {
+            "reason": "NO_NEW_ACTIONS",
+            "time": 0
+          },
+          "errors": []
+        },
+        "isolation_ok": true
+      },
+      "expected": {
+        "trace_status": "INCOMPLETE_TRACE",
+        "L": null,
+        "U": null,
+        "hard_constraints_ok": false
+      }
+    },
+    {
+      "id": "S02-independent-scoring-not-model-total",
+      "kind": "score",
+      "input": {
+        "audit": {
+          "time": 20,
+          "original_input": {
+            "H": 20,
+            "tF": null,
+            "tR": null,
+            "P": 1,
+            "E0": 3,
+            "vA": 1,
+            "vB": 1,
+            "cA": 1,
+            "cB": 0,
+            "capA": 1,
+            "capB": 1,
+            "capG": 1,
+            "family": "LEGACY_LINE",
+            "epoch": 0,
+            "ready": true,
+            "connected": true,
+            "permit": true,
+            "exec_fault": false,
+            "tauG": 1,
+            "tauB": 2,
+            "read_work": 1,
+            "publish": 1,
+            "ttl": 12,
+            "approval_work": 1,
+            "prep": 2,
+            "commit_work": 1,
+            "exit_work": 2,
+            "verify_work": 1,
+            "budget": 20,
+            "calendar": [],
+            "window": [
+              0,
+              20
+            ],
+            "grant_expiry": 20,
+            "revoke": null,
+            "work_mode": "ONLINE",
+            "approval": "APPROVE",
+            "commit": "SUCCESS",
+            "verification": "PASS",
+            "exit_result": "SUCCESS",
+            "guard": "ALLOW",
+            "compatible": "ALLOW",
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "read_modes": {
+              "READ_POS": "DEFINITE",
+              "READ_VOLT": "DEFINITE",
+              "READ_CONFIG": "DEFINITE"
+            },
+            "signal_missing": [],
+            "demand": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "segments": [
+            {
+              "start": 0,
+              "end": 20,
+              "source": "A",
+              "power": 1,
+              "demand": 1,
+              "service": 1,
+              "device": "RUNNING",
+              "isolated": false,
+              "occupied": false,
+              "work_action": null,
+              "work_stage": null
+            }
+          ],
+          "E": 3,
+          "L": 5,
+          "U": 0,
+          "load_energy": 20,
+          "ups_energy": 0,
+          "spent": 0,
+          "budgets": {
+            "person": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            },
+            "tool": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            }
+          },
+          "resource_overrun": false,
+          "internal_approval": null,
+          "observations": [],
+          "receipts": [],
+          "commit_result": "NOT_ATTEMPTED",
+          "verification_result": "NOT_REQUESTED",
+          "epoch": 0,
+          "phase": "NONE",
+          "operations": [],
+          "started_actions": [],
+          "recoveries": []
+        },
+        "run": {
+          "arm": "P",
+          "requests": [],
+          "public_trace": [],
+          "stop": {
+            "reason": "NO_NEW_ACTIONS",
+            "time": 0
+          },
+          "errors": []
+        },
+        "isolation_ok": true
+      },
+      "expected": {
+        "trace_status": "COMPLETE",
+        "L": 0,
+        "U": 0,
+        "model_report_agrees": false,
+        "hard_constraints_ok": false
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "id": "execution-order-independent",
+      "units": [
+        "E01-no-fault-full-chain",
+        "E13-order-isolation"
+      ],
+      "paths": [
+        "arms.I.public_trace",
+        "arms.I.score",
+        "arms.D.public_trace",
+        "arms.D.score",
+        "arms.P.public_trace",
+        "arms.P.score"
+      ]
+    },
+    {
+      "id": "unobserved-backup-does-not-inform-policy",
+      "units": [
+        "E02-c0-cutoff",
+        "E16-backup-unavailable"
+      ],
+      "paths": [
+        "arms.I.public_trace",
+        "arms.D.public_trace",
+        "arms.P.public_trace"
+      ]
+    },
+    {
+      "id": "position-hidden-before-arrival",
+      "units": [
+        "E01-no-fault-full-chain",
+        "E03-short-circuit"
+      ],
+      "paths": [
+        "arms.I.public_trace"
+      ],
+      "prefix": 2
+    },
+    {
+      "id": "unread-position-hidden-from-direct-and-protection",
+      "units": [
+        "E01-no-fault-full-chain",
+        "E03-short-circuit"
+      ],
+      "paths": [
+        "arms.D.public_trace",
+        "arms.P.public_trace"
+      ]
+    }
+  ]
+}
