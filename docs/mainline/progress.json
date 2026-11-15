@@ -1,14 +1,14 @@
 {
   "schema": "aegisdc-review-gated-progress-v2",
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "in_progress",
+  "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R3-RUNNER",
-  "current_milestone": "RUNNER_CONTRACT_AND_INPUT_FREEZE",
+  "current_milestone": "RUNNER_QUALIFICATION_AND_FORMAL_PROTOCOL_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "BOUNDED_THREE_TREATMENT_RUNNER_AND_FORMAL_PROTOCOL",
+  "agent_stage": "BOUNDED_RUNNER_AND_PROTOCOL_DELIVERED",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -25,30 +25,28 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Register f10ec626/565f3710 finite acceptance and I/D/P plus19 development basis",
-      "Freeze runner engineering contract/full inputs/independent expectations before implementation",
-      "Implement bounded complete I/D/P runner, uniform private scoring and remote engineering qualification/affected regressions",
-      "Prepare review-ready formal protocol and full development inputs; no development batch or confirmation result access"
+      "Completed accepted-baseline registration, bounded I/D/P runner implementation and remote engineering qualification with affected regressions",
+      "Formal protocol and19 full disclosed development inputs delivered for review only"
     ],
     "after_delivery": "WAIT_FOR_RUNNER_QUALIFICATION_AND_FORMAL_PROTOCOL_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
-    "document_work_authorized": true,
+    "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "BOUNDED_RUNNER_AND_PROTOCOL_AUTHORIZED",
+    "document_authorization_status": "RUNNER_RESULTS_AND_FORMAL_PROTOCOL_DELIVERED_STOPPED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
     "R2_qualification_execution_authorized": false,
     "R3_design_authorized": true,
-    "R3_implementation_authorized": true,
+    "R3_implementation_authorized": false,
     "R2_extension_authorized": false,
     "R4_authorized": false,
     "R5_authorized": false,
     "R2_extension_specification_authorized": true,
-    "R2_extension_implementation_authorized": true,
-    "R2_extension_qualification_execution_authorized": true,
+    "R2_extension_implementation_authorized": false,
+    "R2_extension_qualification_execution_authorized": false,
     "R3_numeric_protocol_frozen": false
   },
   "gates": [
@@ -94,14 +92,16 @@
     {
       "id": "R3",
       "name": "fixed_method_and_protocol",
-      "status": "CANDIDATE_DIRECTION_ACCEPTED_NUMERIC_PROTOCOL_NOT_FROZEN",
+      "status": "RUNNER_ENGINEERING_AND_FORMAL_PROTOCOL_AWAITING_REVIEW",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "proposal": "docs/mainline/review-gated/R3/method-protocol-proposal.md",
       "accepted_candidate_revision": "334e537bb5f9b59a3426c9b7bfc6130c6ad9e22b",
       "numeric_protocol_frozen": false,
       "current_direction": "Conditional value of inspection versus lawful direct revision; protection background",
-      "M0_B1_superiority_trial": false
+      "M0_B1_superiority_trial": false,
+      "formal_protocol": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
+      "runner_result": "docs/mainline/review-gated/R3/runner-v1/result.json"
     },
     {
       "id": "R4",
@@ -125,14 +125,7 @@
       "execution_authorized": false
     }
   ],
-  "active_implementations": [
-    {
-      "owner": "current chat root",
-      "ticket": "R3-RUNNER",
-      "worktree": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
-      "scope": "bounded complete I/D/P runner and independent scorer; engineering only"
-    }
-  ],
+  "active_implementations": [],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -444,7 +437,7 @@
     "numeric_protocol_frozen": false,
     "new_qualification_runs": 0,
     "new_research_experiments": 0,
-    "required_R2_extension": "Finite E1-E4 and admission repair accepted; current bounded full I/D/P runner engineering qualification in progress",
+    "required_R2_extension": "Accepted finite E1-E4 and admission repair; new full bounded I/D/P runner engineering checks passed awaiting review; no research execution",
     "accepted_revision": "334e537bb5f9b59a3426c9b7bfc6130c6ad9e22b",
     "original_delivery_record_role": "Immutable authoring-time proposal; current direction acceptance recorded here",
     "current_research_direction": "Conditional value of inspection versus lawful direct revision; protection background; no M0/B1 superiority trial",
@@ -472,7 +465,7 @@
     "Q11_deferred_qualified": false,
     "old_R2_qualification_transferred": false,
     "R3_numeric_protocol_frozen": false,
-    "next_step": "Historical authoring snapshot; original finite scope accepted; current runner_delivery tracks authorized engineering work",
+    "next_step": "Historical authoring snapshot; current runner_delivery and formal_protocol_delivery await review",
     "accepted_revision": "339a1d2ef939b2404d57bde6d323d9e65846f8e7",
     "record_role": "Accepted original specification authoring snapshot; current execution in r2_extension_qualification",
     "current_execution_ref": "r2_extension_qualification"
@@ -542,17 +535,61 @@
       "existing_protection"
     ],
     "suggested_development_conditions": 19,
-    "research_inputs_generated": false,
+    "research_inputs_generated": true,
     "research_experiments": 0,
     "numeric_protocol_frozen": false,
-    "complete_three_treatment_runner_qualified": false
+    "complete_three_treatment_runner_qualified": false,
+    "input_generation_scope": "19 full disclosed development configs authored only, not executed; confirmation not prepared",
+    "current_runner_status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW"
   },
   "runner_delivery": {
-    "status": "CONTRACT_AND_INDEPENDENT_INPUT_AUTHORING",
+    "status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW",
     "contract": "docs/mainline/review-gated/R3/runner-v1/contract.md",
     "formal_protocol": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
-    "engineering_model_runs": 0,
+    "engineering_model_runs": 54,
     "development_research_runs": 0,
+    "confirmation_runs": 0,
+    "R3_complete": false,
+    "report": "docs/mainline/review-gated/R3/runner-v1/README.md",
+    "result": "docs/mainline/review-gated/R3/runner-v1/result.json",
+    "stage_coverage": "docs/mainline/review-gated/R3/runner-v1/actual-stage-coverage.json",
+    "input_commit": "395018e1",
+    "guard_input_commit": "3306f126",
+    "execution_commit": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "job_id": "133912",
+    "saved_verification_job": "133913",
+    "normal_units": 18,
+    "normal_triplets": 16,
+    "normal_arm_runs": 48,
+    "score_fixtures": 2,
+    "guard_units": 4,
+    "guard_arm_runs": 6,
+    "guard_score_fixtures": 2,
+    "runner_calls": 18,
+    "plant_entry_calls": 964,
+    "policy_calls": 373,
+    "scorer_calls": 57,
+    "runner_assertions": 3620,
+    "runner_pairs": 4,
+    "affected_existing_units": 156,
+    "affected_existing_pairs": 39,
+    "affected_existing_assertions": 1437,
+    "affected_existing_entry_calls": 915,
+    "affected_existing_constructor_attempts": 100,
+    "user_acceptance": false
+  },
+  "formal_protocol_delivery": {
+    "status": "READY_FOR_PROTOCOL_REVIEW_NOT_EXECUTION",
+    "document": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
+    "identity": "docs/mainline/review-gated/R3/formal-protocol-v1/protocol-identity.json",
+    "development_inputs": "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
+    "development_conditions": 19,
+    "paired_arms_per_condition": 3,
+    "development_research_runs": 0,
+    "user_frozen": false,
+    "confirmation_gate": "docs/mainline/review-gated/R3/formal-protocol-v1/confirmation-gate.json",
+    "confirmation_prepared": false,
+    "confirmation_results_read": false,
     "confirmation_runs": 0,
     "R3_complete": false
   }

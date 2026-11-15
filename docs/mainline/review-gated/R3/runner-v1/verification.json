@@ -1,0 +1,2710 @@
+{
+  "status": "VERIFIED_SAVED_ENGINEERING_RESULTS",
+  "job_id": "133913",
+  "model_calls": 0,
+  "groups": {
+    "runner": {
+      "units": 18,
+      "pairs": 4,
+      "counts": {
+        "units_executed": 18,
+        "units_passed": 18,
+        "units_failed": 0,
+        "runner_calls": 16,
+        "constructor_attempts": 48,
+        "plant_entry_calls": 846,
+        "policy_calls": 323,
+        "scorer_calls": 50,
+        "assertions": 3568,
+        "pairs_passed": 4,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "53b08ae327638fdbfda3f43c9568953b3846ec0ca82f104ee0cca67777b57c56"
+    },
+    "runner-guards": {
+      "units": 4,
+      "pairs": 0,
+      "counts": {
+        "units_executed": 4,
+        "units_passed": 4,
+        "units_failed": 0,
+        "runner_calls": 2,
+        "constructor_attempts": 6,
+        "plant_entry_calls": 118,
+        "policy_calls": 50,
+        "scorer_calls": 7,
+        "assertions": 52,
+        "pairs_passed": 0,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "d113edb1a5b837eabef5137568f4dbff2e11a1d763abfb45ebe857855eee1566"
+    },
+    "affected-e14": {
+      "units": 105,
+      "pairs": 20,
+      "counts": {
+        "units_executed": 105,
+        "units_passed": 105,
+        "units_failed": 0,
+        "constructor_attempts": 61,
+        "entry_calls": 610,
+        "assertions": 853,
+        "pairs_passed": 20,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "46f96c83c5fef847b3c36f7407f63bde132a7cc12db2e49ef8c6f7543bd0d95a"
+    },
+    "affected-e14-guards": {
+      "units": 15,
+      "pairs": 2,
+      "counts": {
+        "units_executed": 15,
+        "units_passed": 15,
+        "units_failed": 0,
+        "constructor_attempts": 9,
+        "entry_calls": 59,
+        "assertions": 63,
+        "pairs_passed": 2,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "860683e82fc9a05c05e0d2f792167f351a0bcb57272859a92c620beba1ef3b18"
+    },
+    "affected-admission": {
+      "units": 30,
+      "pairs": 15,
+      "counts": {
+        "units_executed": 30,
+        "units_passed": 30,
+        "units_failed": 0,
+        "constructor_attempts": 26,
+        "entry_calls": 212,
+        "assertions": 449,
+        "pairs_passed": 15,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "1fe57822eea6aa2c0c387518224188ece8537ab2bcbb3d220a160fd95c7fb0b5"
+    },
+    "affected-admission-guards": {
+      "units": 6,
+      "pairs": 2,
+      "counts": {
+        "units_executed": 6,
+        "units_passed": 6,
+        "units_failed": 0,
+        "constructor_attempts": 4,
+        "entry_calls": 34,
+        "assertions": 72,
+        "pairs_passed": 2,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "1e93836184a3b6a06f8e06c0abdce4c9e831fab2d1d4d354548ff2a79ab23cd5"
+    }
+  },
+  "selected": {
+    "E01-no-fault-full-chain": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 14
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 14,
+          "person_seconds": 9,
+          "policy_call_count": 15,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 5,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 9,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E02-c0-cutoff": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 1,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 10
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "NOT_IMPLEMENTED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 10,
+          "person_seconds": 8,
+          "policy_call_count": 10,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 4,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 8,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E06-commit-failure-reached": {
+      "D": {
+        "actions": [
+          "FIX_CTRL"
+        ],
+        "times": [
+          0
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "stop": {
+          "reason": "STOP_UNRESOLVED",
+          "time": 5
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "FAIL",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "COMMIT_FAILED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 5,
+          "person_seconds": 5,
+          "policy_call_count": 6,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 1,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 5,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "stop": {
+          "reason": "STOP_UNRESOLVED",
+          "time": 11
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "FAIL",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "COMMIT_FAILED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 11,
+          "person_seconds": 8,
+          "policy_call_count": 12,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 4,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 8,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E07-verification-failure-reached": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "STOP_UNRESOLVED",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFICATION_FAILED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "FAIL"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "stop": {
+          "reason": "STOP_UNRESOLVED",
+          "time": 14
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "VERIFICATION_FAILED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "FAIL"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 14,
+          "person_seconds": 9,
+          "policy_call_count": 15,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 5,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 9,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E12-incomplete-exit": {
+      "D": {
+        "actions": [
+          "FIX_CTRL"
+        ],
+        "times": [
+          0
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 20
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "EXIT_INCOMPLETE",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 19,
+          "U": 19,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": false,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": false,
+          "load_energy": 1,
+          "model_report_agrees": true,
+          "observed_stop_time": 20,
+          "person_seconds": 19,
+          "policy_call_count": 20,
+          "recoveries": [
+            {
+              "lower_bound": 19,
+              "off": 1,
+              "recovered": null,
+              "right_censored": true
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 1,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 19,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 19
+          },
+          "work_by_stage": {
+            "EXITING": 16,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 20
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "EXIT_INCOMPLETE",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 13,
+          "U": 13,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": false,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": false,
+          "load_energy": 7,
+          "model_report_agrees": true,
+          "observed_stop_time": 20,
+          "person_seconds": 16,
+          "policy_call_count": 20,
+          "recoveries": [
+            {
+              "lower_bound": 13,
+              "off": 7,
+              "recovered": null,
+              "right_censored": true
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 4,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 16,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 13,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1
+          },
+          "work_by_stage": {
+            "EXITING": 10,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E14-private-half-second-cutoff": {
+      "D": {
+        "actions": [
+          "FIX_CTRL"
+        ],
+        "times": [
+          0
+        ],
+        "policy_times": [
+          0,
+          1
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 2
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "NOT_IMPLEMENTED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": "27/2",
+          "U": "27/2",
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": "17/2",
+          "model_report_agrees": true,
+          "observed_stop_time": 2,
+          "person_seconds": "5/2",
+          "policy_call_count": 2,
+          "recoveries": [
+            {
+              "duration": "27/2",
+              "off": "9/2",
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 1,
+          "resource_queue_seconds": 0,
+          "tool_seconds": "5/2",
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {
+            "FIX_CTRL": "5/2"
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "PREPARING": "1/2"
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS"
+        ],
+        "times": [
+          0
+        ],
+        "policy_times": [
+          0,
+          1
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 2
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 1,
+          "stage": "INSPECTION_STOP",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": "27/2",
+          "U": "27/2",
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": "17/2",
+          "model_report_agrees": true,
+          "observed_stop_time": 2,
+          "person_seconds": 1,
+          "policy_call_count": 2,
+          "recoveries": [
+            {
+              "duration": "27/2",
+              "off": "9/2",
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 1,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 1,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {
+            "READ_POS": 1
+          },
+          "work_by_stage": {
+            "READING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": "27/2",
+          "U": "27/2",
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": "17/2",
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [
+            {
+              "duration": "27/2",
+              "off": "9/2",
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E15-queue-cutoff-before-approval": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          8
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 10
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFY_ABORTED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "ABORTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 10,
+          "person_seconds": 6,
+          "policy_call_count": 10,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 2,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 1,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL"
+        ],
+        "times": [
+          0,
+          5,
+          7,
+          9
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 10
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": true,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "NOT_IMPLEMENTED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": null,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 10,
+          "person_seconds": 3,
+          "policy_call_count": 10,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 4,
+          "resource_queue_seconds": 3,
+          "tool_seconds": 3,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 1,
+          "ups_energy": 3,
+          "work_by_action": {
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1
+          },
+          "work_by_stage": {
+            "READING": 3
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "E16-backup-unavailable": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "stop": {
+          "reason": "ENV_PRE_CUTOFF",
+          "time": 10
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "NOT_IMPLEMENTED",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 10,
+          "person_seconds": 8,
+          "policy_call_count": 10,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 4,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 8,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 5,
+          "U": 5,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 17,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [
+            {
+              "duration": 5,
+              "off": 13,
+              "recovered": 18,
+              "right_censored": false
+            }
+          ],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 3,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "G03-retain-failed-final-advance": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 14
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": null,
+          "U": null,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": false,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": false,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": false,
+          "load_energy": 14,
+          "model_report_agrees": true,
+          "observed_stop_time": 14,
+          "person_seconds": 9,
+          "policy_call_count": 15,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 5,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 9,
+          "trace_status": "INCOMPLETE_TRACE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "READ_CONFIG": 1,
+            "READ_POS": 1,
+            "READ_VOLT": 1,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "READING": 3,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [
+          {
+            "message": "INJECTED_FINAL_ADVANCE_FAILURE",
+            "phase": "FINAL_ADVANCE",
+            "traceback": "Traceback (most recent call last):\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 185, in run_condition\n    if model.time<20:plant(arm,'advance',20)\n                     ~~~~~^^^^^^^^^^^^^^^^^^\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 120, in plant\n    value=call('plant',arm,name,getattr(models[arm],name),args,dict(args=snapshot(list(args))))\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 114, in call\n    value=fn(*args)\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/scripts/qualify_london_treatments.py\", line 66, in advance\n    self._injected=True;raise RuntimeError('INJECTED_FINAL_ADVANCE_FAILURE')\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: INJECTED_FINAL_ADVANCE_FAILURE\n",
+            "type": "RuntimeError"
+          }
+        ],
+        "final_audit_time": 14
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    },
+    "G04-retain-failed-final-audit": {
+      "D": {
+        "actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          6
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 1,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 8,
+          "person_seconds": 6,
+          "policy_call_count": 9,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 2,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 6,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {
+            "FIX_CTRL": 5,
+            "VERIFY_CTRL": 1
+          },
+          "work_by_stage": {
+            "EXITING": 2,
+            "IMPLEMENTING": 1,
+            "PREPARING": 2,
+            "VERIFYING": 1
+          }
+        },
+        "errors": [],
+        "final_audit_time": 20
+      },
+      "I": {
+        "actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "policy_times": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 14
+        },
+        "reached": {
+          "approved": true,
+          "commit_attempted": true,
+          "commit_result": "SUCCESS",
+          "fix_requested": true,
+          "preparation_started": true,
+          "read_records_visible_to_policy": 3,
+          "read_results_published": 3,
+          "stage": "VERIFIED",
+          "verification_parent_valid": true,
+          "verification_published": true,
+          "verification_requested": true,
+          "verification_result": "PASS"
+        },
+        "score": {
+          "L": null,
+          "U": null,
+          "hard_constraints_ok": false,
+          "trace_status": "UNSCORED_AFTER_AUDIT_ERROR"
+        },
+        "errors": [
+          {
+            "message": "INJECTED_FINAL_AUDIT_FAILURE",
+            "phase": "FINAL_AUDIT",
+            "traceback": "Traceback (most recent call last):\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 188, in run_condition\n    record['final_audit']=plant(arm,'audit')\n                          ~~~~~^^^^^^^^^^^^^\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 120, in plant\n    value=call('plant',arm,name,getattr(models[arm],name),args,dict(args=snapshot(list(args))))\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/src/aegis_dc/london_treatments.py\", line 114, in call\n    value=fn(*args)\n  File \"/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01/source/scripts/qualify_london_treatments.py\", line 70, in audit\n    self._injected=True;raise RuntimeError('INJECTED_FINAL_AUDIT_FAILURE')\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: INJECTED_FINAL_AUDIT_FAILURE\n",
+            "type": "RuntimeError"
+          }
+        ],
+        "final_audit_time": null
+      },
+      "P": {
+        "actions": [],
+        "times": [],
+        "policy_times": [
+          0
+        ],
+        "stop": {
+          "reason": "NO_NEW_ACTIONS",
+          "time": 0
+        },
+        "reached": {
+          "approved": false,
+          "commit_attempted": false,
+          "commit_result": "NOT_ATTEMPTED",
+          "fix_requested": false,
+          "preparation_started": false,
+          "read_records_visible_to_policy": 0,
+          "read_results_published": 0,
+          "stage": "BACKGROUND_ONLY",
+          "verification_parent_valid": null,
+          "verification_published": false,
+          "verification_requested": false,
+          "verification_result": "NOT_REQUESTED"
+        },
+        "score": {
+          "L": 0,
+          "U": 0,
+          "approval_wait_seconds": 0,
+          "hard_constraints": {
+            "authorization_respected": true,
+            "budget_ledger_agrees": true,
+            "clock_costs_nonnegative": true,
+            "energy_balance": true,
+            "energy_nonnegative": true,
+            "external_reservations_clear": true,
+            "frozen_input_matches": true,
+            "full_window": true,
+            "instance_isolation": true,
+            "model_report_agrees": true,
+            "reported_demand_matches": true,
+            "reserved_exit_honored": true,
+            "runner_contract": true,
+            "service_and_power_bounds": true,
+            "trace_chronological": true,
+            "within_budget": true,
+            "work_labels_valid": true
+          },
+          "hard_constraints_ok": true,
+          "load_energy": 20,
+          "model_report_agrees": true,
+          "observed_stop_time": 0,
+          "person_seconds": 0,
+          "policy_call_count": 1,
+          "recoveries": [],
+          "reported_demand_matches": true,
+          "request_count": 0,
+          "resource_queue_seconds": 0,
+          "tool_seconds": 0,
+          "trace_status": "COMPLETE",
+          "unstarted_observed_wait_seconds": 0,
+          "ups_energy": 0,
+          "work_by_action": {},
+          "work_by_stage": {}
+        },
+        "errors": [],
+        "final_audit_time": 20
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**C4/C7有限修复及I/D/P设计依据已接受。** 当前按[运行器契约](docs/mainline/review-gated/R3/runner-v1/contract.md)先固定独立输入，再实现完整三处理有限运行与工程资格；同轮准备[R3正式协议交审版](docs/mainline/review-gated/R3/formal-protocol-v1/README.md)。19条件仍为开发材料，不执行收益批次或确认结果。
+**完整I/D/P受限运行器资格与R3正式协议已交review。** [运行器集中结果](docs/mainline/review-gated/R3/runner-v1/README.md)记录18个正常单位、4个守卫及156个受影响回归通过；[正式协议待冻结版](docs/mainline/review-gated/R3/formal-protocol-v1/README.md)含19个完整开发输入和独立确认门。19条件未执行，确认未准备或读取；本次资格尚待用户接受，不自动完成R3或进入研究执行。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

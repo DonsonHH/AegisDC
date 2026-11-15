@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-15 current gate:** f10ec626 finite repair is accepted. Current [bounded I/D/P runner](../mainline/review-gated/R3/runner-v1/contract.md) freezes independent engineering inputs before implementation/remote qualification and prepares the formal protocol. No research batch or confirmation results access; deliver together then stop. See [progress](../mainline/progress.json).
+**2026-11-16 current gate:** [Bounded full I/D/P runner qualification](../mainline/review-gated/R3/runner-v1/README.md) and the formal protocol are delivered for review. Original finite acceptance remains; new runner acceptance and protocol freeze are pending. No active implementation, development batch, confirmation access or next-stage execution. See [progress](../mainline/progress.json).
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

@@ -1,0 +1,544 @@
+{
+  "schema": "aegisdc-bounded-idp-runner-delivery-v1",
+  "date": "2026-11-16",
+  "status": "FINITE_ENGINEERING_PASS_AND_FORMAL_PROTOCOL_AWAITING_REVIEW",
+  "versions": {
+    "accepted_baseline_publication": "f10ec6267559c0c2ca0cb775bf937a3854a36752",
+    "accepted_baseline_execution": "565f371090e1504dc3e652d0c7edf3829b59d275",
+    "contract_initial": "2999de54103bc2c01aff3a608083fe86d7b563e8",
+    "engineering_input_authoring": "e73dbd2bd76384dee8a2371d317beeb219a69ec0",
+    "engineering_input_and_development_materialization": "395018e1920f68ed3435f618cfeafc40771d50fd",
+    "guard_input_freeze": "3306f126ad4cce2a359c4c5fe6999e4ccf9a0d26",
+    "red_execution": "1b64561e98702de3505f3fe4b6367a2b81a4a3a6",
+    "actual_execution": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "publication": "Enclosing commit containing this result; final response identifies publication separately from execution"
+  },
+  "acceptance_record": "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/acceptance-20261115.json",
+  "scope": "One London PRE problem/control revision/aggregate service; bounded complete I/D/P public-state-driven processes and private uniform scoring, fixed engineering witnesses only",
+  "requirements_audit": [
+    {
+      "item": 1,
+      "evidence": [
+        "contract.md",
+        "engineering-cases.json",
+        "engineering-coverage.json",
+        "freeze.json",
+        "guards.json",
+        "guard-freeze.json"
+      ],
+      "completion": "Independent complete literal inputs and coverage frozen before runner execution; guard definitions fixed before related implementation repairs"
+    },
+    {
+      "item": 2,
+      "evidence": [
+        "src/aegis_dc/london_treatments.py",
+        "runner-terminal.json",
+        "actual-stage-coverage.json"
+      ],
+      "completion": "Complete public-driven I/D/P loops to legal stop with per-action limits/wait/refusal/failure handling; full facility horizon continues after strategy stop; no scripted-success action list"
+    },
+    {
+      "item": 3,
+      "evidence": [
+        "src/aegis_dc/london_treatments.py",
+        "src/aegis_dc/london_treatment_score.py",
+        "engineering pairs",
+        "guard-terminal.json"
+      ],
+      "completion": "Separate simultaneous instances/config/budgets/records, fixed public clock, only v2 view and treatment to policy; scoring after all policies from independently frozen input, full losses/costs/constraints"
+    },
+    {
+      "item": 4,
+      "evidence": [
+        "actual-stage-coverage.json",
+        "verification.json"
+      ],
+      "completion": "E01 full I implementation/verification; E02 C0 cutoff NOT_ATTEMPTED; E03/E04 short circuit/insufficient information; E05 rejection; E06/E07 actual failure stages; E14 private fractional cutoff; E13 ordering/instance isolation"
+    },
+    {
+      "item": 5,
+      "evidence": [
+        "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
+        "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
+        "docs/mainline/review-gated/R3/formal-protocol-v1/confirmation-gate.json",
+        "docs/mainline/review-gated/R3/formal-protocol-v1/protocol-identity.json"
+      ],
+      "completion": "Review-ready rules,19 full development conditions, pairing/budgets/analysis/failure retention and nonwaivable independent confirmation gate; not user-frozen or research executed"
+    }
+  ],
+  "results": {
+    "runner": {
+      "units": 18,
+      "pairs": 4,
+      "counts": {
+        "units_executed": 18,
+        "units_passed": 18,
+        "units_failed": 0,
+        "runner_calls": 16,
+        "constructor_attempts": 48,
+        "plant_entry_calls": 846,
+        "policy_calls": 323,
+        "scorer_calls": 50,
+        "assertions": 3568,
+        "pairs_passed": 4,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "53b08ae327638fdbfda3f43c9568953b3846ec0ca82f104ee0cca67777b57c56"
+    },
+    "runner-guards": {
+      "units": 4,
+      "pairs": 0,
+      "counts": {
+        "units_executed": 4,
+        "units_passed": 4,
+        "units_failed": 0,
+        "runner_calls": 2,
+        "constructor_attempts": 6,
+        "plant_entry_calls": 118,
+        "policy_calls": 50,
+        "scorer_calls": 7,
+        "assertions": 52,
+        "pairs_passed": 0,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "d113edb1a5b837eabef5137568f4dbff2e11a1d763abfb45ebe857855eee1566"
+    },
+    "affected-e14": {
+      "units": 105,
+      "pairs": 20,
+      "counts": {
+        "units_executed": 105,
+        "units_passed": 105,
+        "units_failed": 0,
+        "constructor_attempts": 61,
+        "entry_calls": 610,
+        "assertions": 853,
+        "pairs_passed": 20,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "46f96c83c5fef847b3c36f7407f63bde132a7cc12db2e49ef8c6f7543bd0d95a"
+    },
+    "affected-e14-guards": {
+      "units": 15,
+      "pairs": 2,
+      "counts": {
+        "units_executed": 15,
+        "units_passed": 15,
+        "units_failed": 0,
+        "constructor_attempts": 9,
+        "entry_calls": 59,
+        "assertions": 63,
+        "pairs_passed": 2,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "860683e82fc9a05c05e0d2f792167f351a0bcb57272859a92c620beba1ef3b18"
+    },
+    "affected-admission": {
+      "units": 30,
+      "pairs": 15,
+      "counts": {
+        "units_executed": 30,
+        "units_passed": 30,
+        "units_failed": 0,
+        "constructor_attempts": 26,
+        "entry_calls": 212,
+        "assertions": 449,
+        "pairs_passed": 15,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "1fe57822eea6aa2c0c387518224188ece8537ab2bcbb3d220a160fd95c7fb0b5"
+    },
+    "affected-admission-guards": {
+      "units": 6,
+      "pairs": 2,
+      "counts": {
+        "units_executed": 6,
+        "units_passed": 6,
+        "units_failed": 0,
+        "constructor_attempts": 4,
+        "entry_calls": 34,
+        "assertions": 72,
+        "pairs_passed": 2,
+        "pairs_failed": 0
+      },
+      "terminal_sha256": "1e93836184a3b6a06f8e06c0abdce4c9e831fab2d1d4d354548ff2a79ab23cd5"
+    }
+  },
+  "new_runner_totals": {
+    "qualification_units": 22,
+    "normal_triplets": 16,
+    "normal_arm_runs": 48,
+    "injected_fault_triplets": 2,
+    "injected_fault_arm_runs": 6,
+    "score_only_fixtures": 4,
+    "pairs": 4,
+    "assertions": 3620,
+    "runner_calls": 18,
+    "constructor_attempts": 54,
+    "plant_entry_calls": 964,
+    "policy_calls": 373,
+    "scorer_calls": 57
+  },
+  "affected_existing_totals": {
+    "units": 156,
+    "pairs": 39,
+    "assertions": 1437,
+    "entry_calls": 915,
+    "constructor_attempts": 100,
+    "mixed_entry_call_definition": "Original checker explicit model/view/audit/decision/local-control calls; separate from runner plant/policy/scorer categories"
+  },
+  "overall_engineering_units": 178,
+  "overall_engineering_assertions": 5057,
+  "overall_pair_groups": 43,
+  "count_limits": "Unit/arm/run/call/step are distinct.18 wrapper calls produce54 arm instances including6 fault-retention arms;4 pure score fixtures do not construct a plant. No engineering count is a research sample.",
+  "checker_self_tests": {
+    "old_checker_tests_per_run": 3,
+    "new_checker_tests_per_run": 3,
+    "runs_each": 2,
+    "total_test_executions": 12,
+    "all_passed": true,
+    "research_or_model_runs": 0
+  },
+  "attempts": [
+    {
+      "job_id": "133909",
+      "kind": "LITERAL_ENGINEERING_AND_DEV_INPUT_AUTHORING",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/freeze-01",
+      "new_model_calls": 0,
+      "dev_inputs_authored": 19,
+      "dev_executed": 0
+    },
+    {
+      "job_id": "133910",
+      "kind": "RED_PRE_EXECUTION",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/red-01",
+      "source_commit": "1b64561e98702de3505f3fe4b6367a2b81a4a3a6",
+      "runner_calls": 0,
+      "plant_calls": 0,
+      "policy_calls": 0,
+      "scorer_calls": 0,
+      "units_executed": 0,
+      "reason": "Runner/scorer absent from pinned source manifest; original failure retained",
+      "old_self_tests": 3,
+      "new_self_tests": 3,
+      "stdout_sha256": "1d0c841b592e321b33703c9d7b93c8f97b89d6d33c4bd6514bc75545c8305225",
+      "stderr_sha256": "c659e2c7c066444a9aaaa6b01f7306f37eac97cce621c7632a89c446c5502118"
+    },
+    {
+      "job_id": "133911",
+      "kind": "LITERAL_SCORE_RETENTION_GUARDS",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/guard-freeze-01",
+      "model_calls": 0
+    },
+    {
+      "job_id": "133912",
+      "kind": "BOUNDED_ENGINEERING_AND_AFFECTED_REGRESSIONS",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/green-01",
+      "source_commit": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+      "new_runner_calls": 18,
+      "new_plant_calls": 964,
+      "new_policy_calls": 373,
+      "new_scorer_calls": 57,
+      "affected_mixed_entry_calls": 915,
+      "old_self_tests": 3,
+      "new_self_tests": 3,
+      "stdout_sha256": "b7847aad0c8e3d14a294667f1c0f934aa2ab3cd4aeb02a166160f56ca4769fd2",
+      "stderr_sha256": "4dfb5686caba766c989952d4abc7baff01ff65a528459ee9ed2ecf8b03ee60ca",
+      "source_archive_sha256": "a4d51de1a7235e056807943484b3153807c5e683c2316f6801a2e8acb673428d"
+    },
+    {
+      "job_id": "133913",
+      "kind": "SAVED_OUTPUT_RECONCILIATION",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115/verification-01",
+      "model_calls": 0,
+      "tool_sha256": "4c7dff2a9b1662d5b93b3c52771b99fed3820fdde309bef7688e4b449b47e3e1"
+    }
+  ],
+  "failure_retention": {
+    "original_red_terminal": "red-terminal.json",
+    "injected_failures": "G03/G04 original per-unit call errors retained as expected engineering guards; not production success or research observations",
+    "implementation_review_repairs_before_green": [
+      "Frozen demand authoritative rather than returned segment demand",
+      "Split scoring at frozen demand boundaries",
+      "Pre-register all arm records; protect finalization and preserve partial/unscored outcomes",
+      "Legal public refusals separated from request contract errors"
+    ],
+    "frozen_expected_answers_modified_after_execution": false,
+    "green_execution_retries": 0
+  },
+  "compute": {
+    "route": "use-renly-slurm; verified renly@mu01 and live partitions/queue",
+    "partition": "4gpu",
+    "reason": "cu fully allocated during launch discovery; idle CPU capacity in allowed partition",
+    "requested_nodes": 1,
+    "requested_cpus": 1,
+    "requested_memory_GiB": 1,
+    "requested_wall_seconds": 300,
+    "requested_gpus": 0,
+    "allocated_TRES": "billing=1,cpu=1,node=1",
+    "actual_green_elapsed_seconds": 3,
+    "scheduler_total_cpu_seconds": "2.880",
+    "per_policy_cpu_time_measured": false,
+    "python": "3.13.9",
+    "python_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+    "dependencies": "Python standard library only; no new installation"
+  },
+  "input_and_source_identity": {
+    "engineering_sha256": "539b3b3026516e1fd55069c6328942e2cb51c254e6200a26631739ebab4d31fc",
+    "guard_sha256": "650454054cb4d3afa49ac4c77c06010fe8d9b47addbeed2a9f9b35766ece512d",
+    "source_manifest": "execution-source.json",
+    "source_manifest_sha256": "7f1ca8fb444c584e35a5267f04585235c95c8fa7839f33f3ef017e6fdb4aca80",
+    "committed_blob_local_and_runtime_hashes_match": true,
+    "source_unchanged_during_execution": true,
+    "private_E14_change": "Only private work_action/work_stage segment labels; public semantics and physical relations unchanged"
+  },
+  "actual_stage_examples": {
+    "E01_I": "READ0/2/4,FIX6,commit10,VERIFY12,result14; VERIFIED",
+    "E02_I_C0": "FIX6,cutoff10; NOT_ATTEMPTED, no VERIFY",
+    "E06_I": "No fault,actual commit attempt FAIL at10; exit retained",
+    "E07_I": "No fault,actual successful commit then VERIFY_FAILED at14",
+    "E15_I": "Queued reads then FIX9; cutoff10 before approval, approval_wait null",
+    "E15_D": "Verify sampled9,published10 after cutoff; ABORTED, history only",
+    "E14": "Private1.5 fault, strategy only0/1 then environment stop2; no private event scheduling input",
+    "G03_G04": "Strategy prefix retained, incomplete/unscored I L/U=null; no automatic repair/retry"
+  },
+  "private_outputs": {
+    "root": "/share/home/renly/renly-patrol-rsi/mainline/R3-runner-20261115",
+    "per_unit": "green-01/{runner,runner-guards,affected-e14,affected-e14-guards,affected-admission,affected-admission-guards}/<unit-id>.json",
+    "contents": [
+      "full frozen input",
+      "actual policy arguments/decisions/requests/replies",
+      "all constructor/plant/policy/scorer calls and exceptions",
+      "initial and inter-arm snapshots and identities",
+      "per-arm continuous final audit and actual stage",
+      "full-window independent cost/service/hard constraints",
+      "literal assertions and cross-unit pair hashes"
+    ],
+    "hash_index": "Local terminal files list each private original SHA256",
+    "other_user_jobs": "Not touched or counted"
+  },
+  "protocol": {
+    "document": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
+    "identity": "docs/mainline/review-gated/R3/formal-protocol-v1/protocol-identity.json",
+    "development_input_sha256": "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880",
+    "development_conditions": 19,
+    "development_arm_budget": 57,
+    "development_policy_call_budget": 1140,
+    "development_batch_wall_limit_seconds": 300,
+    "development_research_runs": 0,
+    "confirmation_inputs_prepared": false,
+    "confirmation_results_read": false,
+    "confirmation_runs": 0,
+    "confirmation_N": null,
+    "confirmation_not_waived": true,
+    "user_protocol_frozen": false,
+    "R3_complete": false,
+    "next_decisions": "Accept runner finite scope; review/freeze formal development protocol; confirmation requires separate custody/N/full manifest/coverage/hash/budget review and explicit authorization"
+  },
+  "preservation": {
+    "baseline_R2_R3_files_byte_identical": 55,
+    "original_inputs_results_failures_unchanged": true,
+    "prior_53_maintenance_runtime_hashes_matching": true,
+    "slice57_three_hashes_matching": true,
+    "old97_model_not_rerun": true,
+    "untracked_reports_retained": true,
+    "new_affected_runs_separate_from_original_results": true
+  },
+  "verification": {
+    "saved_reconciliation": "verification.json",
+    "sha256": "5444b65ba193c7d0049b74e2868e12b7766d53a129f8fb5e251e0f7019659a30",
+    "stage_coverage": "actual-stage-coverage.json",
+    "stage_sha256": "7c9a80ff69b6b1c989428c8a381ba97b75195f870de8aa5a91859b5d8e5ad48b",
+    "model_calls": 0,
+    "independent_input_operation_assertion_pair_count_and_source_reconciled": true,
+    "local_scope": "Editing/SSH/transfer/Git/JSON/SHA/path integrity only, no model/scorer execution",
+    "local_tools": {
+      "python": "3.12.14",
+      "git": "2.56.0.windows.2",
+      "powershell": "7.6.9"
+    },
+    "fresh_delivery": "Required committed-blob comparison and fresh partial checkout of declared delivery files before final response",
+    "local_markdown_link_targets": 152,
+    "anchors_individually_checked": false
+  },
+  "review": {
+    "pre_freeze": "Independent literal phase/time/cost and scope review closed pair coverage gap before authoring execution",
+    "implementation": "Independent information/instance/scoring/retention reviews closed reported findings before green execution",
+    "delivery": "Author completed requirement-by-requirement report/protocol/count/state review and saved-result integrity reconciliation. Final separate subagent packaging reviews were unavailable due to authorization errors; prior independent pre-freeze and implementation reviews completed successfully.",
+    "review_is_user_acceptance": false,
+    "final_packaging_independent_subagent_review_completed": false
+  },
+  "stop": "Combined runner qualification and formal protocol review only; no further execution or automatic next stage",
+  "artifact_manifest": {
+    "AGENTS.md": {
+      "bytes": 6477,
+      "sha256": "bd9286c584ab955329cb5ed814632bd4539765e9f1582c95eedcbe139fbdb851"
+    },
+    "README.md": {
+      "bytes": 5377,
+      "sha256": "43c08e97233a96f983794c0e7e611611f1ee39194702057e1f3b9460d8f43461"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 3908,
+      "sha256": "21a0832cc2e9abad418fd6b6824676bf1d1bdbfd13d5d468fb32240845e8750a"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14629,
+      "sha256": "ed41ff95b0db9e4f101b0bba722af3d7a11d266630c3ee80b2d69a8f25e7e915"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 5950,
+      "sha256": "1b83dd4fe5ab2c81691e73e36d2912597711f9b41597f6f41c21f97e5243da86"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2763,
+      "sha256": "8aafe6b111fa0d6e4bcb0b1980b45a940bb61ca062ea3ed5e909e8fbe18c0a28"
+    },
+    "docs/current-research.json": {
+      "bytes": 1839,
+      "sha256": "e61e0739e2ff642dff2ddb1c7b0aa5a5b6cc2eceac4ac337d92a3fa878c47c2a"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 27185,
+      "sha256": "f7ac55244cc7226e93c0443a7962b60222611670d6ab81aa0db10c4d9044a2a5"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/acceptance-20261115.json": {
+      "bytes": 1214,
+      "sha256": "436fa7cce42685d087cbc85219b68b01e60904b246ae972888a25d60ee30b4f1"
+    },
+    "docs/mainline/review-gated/R3/formal-protocol-v1/README.md": {
+      "bytes": 12929,
+      "sha256": "a746e6ec31314261f5727520805873c6340682127f805fc6008bfacb34a4b8db"
+    },
+    "docs/mainline/review-gated/R3/formal-protocol-v1/confirmation-gate.json": {
+      "bytes": 1530,
+      "sha256": "9470218d31c015fade7fc2068572382d9136ae014dcc43a771ba66dbb3c62d98"
+    },
+    "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json": {
+      "bytes": 28515,
+      "sha256": "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880"
+    },
+    "docs/mainline/review-gated/R3/formal-protocol-v1/protocol-identity.json": {
+      "bytes": 2310,
+      "sha256": "2b971e94c96a538fe5295a75903826ba87ace45b8cbb0a0a5b5aec757698efa8"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/README.md": {
+      "bytes": 7730,
+      "sha256": "44b1f8b03155972be19924bb2bfb943e9b2e28215737a341a0ecd21fbfc0b402"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/actual-stage-coverage.json": {
+      "bytes": 46878,
+      "sha256": "7c9a80ff69b6b1c989428c8a381ba97b75195f870de8aa5a91859b5d8e5ad48b"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/affected-admission-guards-terminal.json": {
+      "bytes": 7769,
+      "sha256": "1e93836184a3b6a06f8e06c0abdce4c9e831fab2d1d4d354548ff2a79ab23cd5"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/affected-admission-terminal.json": {
+      "bytes": 39778,
+      "sha256": "1fe57822eea6aa2c0c387518224188ece8537ab2bcbb3d220a160fd95c7fb0b5"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/affected-e14-guards-terminal.json": {
+      "bytes": 21772,
+      "sha256": "860683e82fc9a05c05e0d2f792167f351a0bcb57272859a92c620beba1ef3b18"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/affected-e14-terminal.json": {
+      "bytes": 65455,
+      "sha256": "46f96c83c5fef847b3c36f7407f63bde132a7cc12db2e49ef8c6f7543bd0d95a"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/authoring.json": {
+      "bytes": 417,
+      "sha256": "da885fa8e74b8b7f3385cb59ee057d04e8e7deacd6a13da8e096f21cb50b01d5"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/contract.md": {
+      "bytes": 11786,
+      "sha256": "f5abcead5a73c7921613f596cf969df46840f4bd0b2f9f476e1b55187b6320a6"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/engineering-cases.json": {
+      "bytes": 100753,
+      "sha256": "539b3b3026516e1fd55069c6328942e2cb51c254e6200a26631739ebab4d31fc"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/engineering-coverage.json": {
+      "bytes": 11709,
+      "sha256": "28ae04967e88ddf141ef85fc0721f1093863ffd5f4b450082fb6af798898e7f3"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/execution-source.json": {
+      "bytes": 3669,
+      "sha256": "7f1ca8fb444c584e35a5267f04585235c95c8fa7839f33f3ef017e6fdb4aca80"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/freeze.json": {
+      "bytes": 1019,
+      "sha256": "9b784975325604c2b936974476edde45035827e11bb499d457db42084e61f726"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/guard-freeze.json": {
+      "bytes": 701,
+      "sha256": "c683e7c339ebeb59acab5295c122b3c27ddfe2c8f4aa6b0a15ae27c68e67e8a8"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/guard-terminal.json": {
+      "bytes": 5793,
+      "sha256": "d113edb1a5b837eabef5137568f4dbff2e11a1d763abfb45ebe857855eee1566"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/guards.json": {
+      "bytes": 12350,
+      "sha256": "650454054cb4d3afa49ac4c77c06010fe8d9b47addbeed2a9f9b35766ece512d"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/red-terminal.json": {
+      "bytes": 1194,
+      "sha256": "4c99ac9aa8ae040c9d80da79c7d411281846aa093418ceab75b68331b816d7af"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/runner-terminal.json": {
+      "bytes": 14058,
+      "sha256": "53b08ae327638fdbfda3f43c9568953b3846ec0ca82f104ee0cca67777b57c56"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/verification.json": {
+      "bytes": 80264,
+      "sha256": "5444b65ba193c7d0049b74e2868e12b7766d53a129f8fb5e251e0f7019659a30"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 15871,
+      "sha256": "33210302cd805d2effa5bb2c3aabf547569f7d3e89d597b4ada03636f2fadda0"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 22071,
+      "sha256": "e15fbf465d44d504466d59053b5a40051873026d59167c38d7e46b49a7f0e093"
+    },
+    "scripts/freeze_london_treatment_cases.py": {
+      "bytes": 10906,
+      "sha256": "0ba281be31b7d422833231ec3a507967a81dd13834802eaa6ef7c0f2a7649aa6"
+    },
+    "scripts/freeze_london_treatment_guards.py": {
+      "bytes": 2651,
+      "sha256": "97b7442d22aed4859231f57b8b1768d78acc1fb3e4100b4813f0043fbfbc5527"
+    },
+    "scripts/qualify_london_treatments.py": {
+      "bytes": 13486,
+      "sha256": "7c42b47874802ff4481faf118f25ac9b1d0d1547245b68152b5f7f7cf93686b2"
+    },
+    "src/aegis_dc/london_e14.py": {
+      "bytes": 37325,
+      "sha256": "1d9f8421882faf9e021badf3138505332f9a0513bea90539e6cac04bfc6d2a42"
+    },
+    "src/aegis_dc/london_treatment_score.py": {
+      "bytes": 6886,
+      "sha256": "707306ffa163a90b8a6a607197eec8364da3208f6fc71cf8a3d2a0e72f85904f"
+    },
+    "src/aegis_dc/london_treatments.py": {
+      "bytes": 16701,
+      "sha256": "4bce4df739e8fbb9ae5b64f1ddb5434670a9334b44941777d7d9db25b466ece2"
+    },
+    "tests/test_london_treatment_checker.py": {
+      "bytes": 1410,
+      "sha256": "6d5b6d216562ea5f88e797aec91e4d042dc92ea6f6dfbdf50fa68bf34b55185a"
+    }
+  }
+}

@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**f10ec626／565f3710有限修复及I/D/P设计依据已接受。** 当前集中完成完整三处理运行器的受限实现、独立工程资格和可交审冻结的R3正式协议。工程与研究分账，19条件仍为开发材料；不自动完成R3或启动收益／确认执行。
+**I/D/P完整受限运行器工程资格与R3正式协议已集中交审。** 执行1c0b0c47的18正常／4守卫及156受影响单位通过，实际阶段覆盖单列；19完整条件仍是未执行开发材料。当前停止等待用户review，协议未正式冻结、确认未准备或读取，R3未自动完成。
 
-本轮review：[C4/C7结果](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md) · [回执](mainline/review-gated/R2/extensions/read-verify-admission-v1/result.json) · [R3候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)。原有限资格的[接受记录](mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json)与原结果分开，唯一当前状态为[progress](mainline/progress.json)。
+本轮review：[运行器报告](mainline/review-gated/R3/runner-v1/README.md) · [集中回执](mainline/review-gated/R3/runner-v1/result.json) · [实际阶段](mainline/review-gated/R3/runner-v1/actual-stage-coverage.json) · [正式协议](mainline/review-gated/R3/formal-protocol-v1/README.md)。原[f10有限接受](mainline/review-gated/R2/extensions/read-verify-admission-v1/acceptance-20261115.json)保留；当前状态见[progress](mainline/progress.json)。
 
 ## 拟研究的问题
 
@@ -16,8 +16,8 @@
 |---|---|---|
 | R0 | 研究方向与底线；具体模型／协议／数值标准保留后继审查 | 方向已接受 |
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
-| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；当前仅运行器工程资格；完整Q11／R2未接受 |
-| R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；仅D入口实现，数值研究协议未冻结 |
+| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；新运行器工程资格通过待review；完整Q11／R2未接受 |
+| R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；I/D/P完整受限运行器通过工程检查待接受；正式协议待review冻结，确认门未就绪 |
 | R4 | 方法效果、反事实适用域及消融 | 未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
 | R6 | 主张—证据矩阵与论文论证 | 未授权 |
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；当前授权完整三处理受限运行器、独立工程资格和正式协议编制。独立输入先冻结；不执行开发收益批次或确认结果，交审后停止。
+本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；本轮完整受限运行器及独立工程资格已交付，正式协议供review冻结。当前停止；19开发输入未执行，确认未准备或读取。
