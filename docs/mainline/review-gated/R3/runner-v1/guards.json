@@ -1,0 +1,493 @@
+{
+  "schema": "aegisdc-idp-engineering-guards-v1",
+  "classification": "ENGINEERING_ONLY",
+  "public_tick_seconds": 1,
+  "units": [
+    {
+      "id": "G01-frozen-demand-not-trace-demand",
+      "kind": "score",
+      "input": {
+        "audit": {
+          "time": 20,
+          "original_input": {
+            "H": 20,
+            "tF": null,
+            "tR": null,
+            "P": 1,
+            "E0": 0,
+            "vA": 0,
+            "vB": 0,
+            "cA": 1,
+            "cB": 0,
+            "capA": 1,
+            "capB": 1,
+            "capG": 1,
+            "family": "LEGACY_LINE",
+            "epoch": 0,
+            "ready": false,
+            "connected": true,
+            "permit": true,
+            "exec_fault": false,
+            "tauG": 1,
+            "tauB": 2,
+            "read_work": 1,
+            "publish": 1,
+            "ttl": 12,
+            "approval_work": 1,
+            "prep": 2,
+            "commit_work": 1,
+            "exit_work": 2,
+            "verify_work": 1,
+            "budget": 20,
+            "calendar": [],
+            "window": [
+              0,
+              20
+            ],
+            "grant_expiry": 20,
+            "revoke": null,
+            "work_mode": "ONLINE",
+            "approval": "APPROVE",
+            "commit": "SUCCESS",
+            "verification": "PASS",
+            "exit_result": "SUCCESS",
+            "guard": "ALLOW",
+            "compatible": "ALLOW",
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "read_modes": {
+              "READ_POS": "DEFINITE",
+              "READ_VOLT": "DEFINITE",
+              "READ_CONFIG": "DEFINITE"
+            },
+            "signal_missing": [],
+            "demand": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "segments": [
+            {
+              "start": 0,
+              "end": 20,
+              "source": null,
+              "power": 0,
+              "demand": 0,
+              "service": 0,
+              "device": "OFF",
+              "isolated": false,
+              "occupied": false,
+              "work_action": null,
+              "work_stage": null
+            }
+          ],
+          "E": 0,
+          "L": 0,
+          "U": 0,
+          "load_energy": 0,
+          "ups_energy": 0,
+          "spent": 0,
+          "budgets": {
+            "person": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            },
+            "tool": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            }
+          },
+          "resource_overrun": false,
+          "internal_approval": null,
+          "observations": [],
+          "receipts": [],
+          "commit_result": "NOT_ATTEMPTED",
+          "verification_result": "NOT_REQUESTED",
+          "epoch": 0,
+          "phase": "NONE",
+          "operations": [],
+          "started_actions": [],
+          "recoveries": []
+        },
+        "run": {
+          "arm": "P",
+          "requests": [],
+          "public_trace": [],
+          "stop": {
+            "reason": "NO_NEW_ACTIONS",
+            "time": 0
+          },
+          "errors": []
+        },
+        "isolation_ok": true
+      },
+      "expected": {
+        "trace_status": "COMPLETE",
+        "L": 20,
+        "U": 20,
+        "reported_demand_matches": false,
+        "model_report_agrees": false,
+        "hard_constraints_ok": false
+      }
+    },
+    {
+      "id": "G02-demand-breakpoint-inside-segment",
+      "kind": "score",
+      "input": {
+        "audit": {
+          "time": 20,
+          "original_input": {
+            "H": 20,
+            "tF": null,
+            "tR": null,
+            "P": 1,
+            "E0": 3,
+            "vA": 1,
+            "vB": 1,
+            "cA": 1,
+            "cB": 0,
+            "capA": 1,
+            "capB": 1,
+            "capG": 1,
+            "family": "LEGACY_LINE",
+            "epoch": 0,
+            "ready": true,
+            "connected": true,
+            "permit": true,
+            "exec_fault": false,
+            "tauG": 1,
+            "tauB": 2,
+            "read_work": 1,
+            "publish": 1,
+            "ttl": 12,
+            "approval_work": 1,
+            "prep": 2,
+            "commit_work": 1,
+            "exit_work": 2,
+            "verify_work": 1,
+            "budget": 20,
+            "calendar": [],
+            "window": [
+              0,
+              20
+            ],
+            "grant_expiry": 20,
+            "revoke": null,
+            "work_mode": "ONLINE",
+            "approval": "APPROVE",
+            "commit": "SUCCESS",
+            "verification": "PASS",
+            "exit_result": "SUCCESS",
+            "guard": "ALLOW",
+            "compatible": "ALLOW",
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "read_modes": {
+              "READ_POS": "DEFINITE",
+              "READ_VOLT": "DEFINITE",
+              "READ_CONFIG": "DEFINITE"
+            },
+            "signal_missing": [],
+            "demand": [
+              [
+                0,
+                1
+              ],
+              [
+                10,
+                0
+              ]
+            ]
+          },
+          "segments": [
+            {
+              "start": 0,
+              "end": 20,
+              "source": "A",
+              "power": 1,
+              "demand": 1,
+              "service": 0,
+              "device": "BOOTING",
+              "isolated": false,
+              "occupied": false,
+              "work_action": null,
+              "work_stage": null
+            }
+          ],
+          "E": 3,
+          "L": 20,
+          "U": 20,
+          "load_energy": 20,
+          "ups_energy": 0,
+          "spent": 0,
+          "budgets": {
+            "person": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            },
+            "tool": {
+              "limit": 20,
+              "spent": 0,
+              "reserved": 0,
+              "available": 20
+            }
+          },
+          "resource_overrun": false,
+          "internal_approval": null,
+          "observations": [],
+          "receipts": [],
+          "commit_result": "NOT_ATTEMPTED",
+          "verification_result": "NOT_REQUESTED",
+          "epoch": 0,
+          "phase": "NONE",
+          "operations": [],
+          "started_actions": [],
+          "recoveries": []
+        },
+        "run": {
+          "arm": "P",
+          "requests": [],
+          "public_trace": [],
+          "stop": {
+            "reason": "NO_NEW_ACTIONS",
+            "time": 0
+          },
+          "errors": []
+        },
+        "isolation_ok": true
+      },
+      "expected": {
+        "trace_status": "COMPLETE",
+        "L": 10,
+        "U": 10,
+        "reported_demand_matches": false,
+        "model_report_agrees": false,
+        "hard_constraints_ok": false
+      }
+    },
+    {
+      "id": "G03-retain-failed-final-advance",
+      "kind": "runner_fault",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ],
+        "fault": "advance_H"
+      },
+      "expected": {
+        "arms.I.requested_actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "arms.I.request_times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "arms.I.stop.reason": "NO_ACTION_CURRENT_SCOPE",
+        "arms.I.stop.time": 14,
+        "arms.I.score.trace_status": "INCOMPLETE_TRACE",
+        "arms.I.score.L": null,
+        "arms.I.score.U": null,
+        "arms.I.score.hard_constraints_ok": false,
+        "arms.D.score.trace_status": "COMPLETE",
+        "arms.D.score.L": 0,
+        "arms.P.score.trace_status": "COMPLETE",
+        "arms.P.score.L": 0,
+        "arms.I.final_audit.time": 14
+      },
+      "expected_error_arm": "I"
+    },
+    {
+      "id": "G04-retain-failed-final-audit",
+      "kind": "runner_fault",
+      "input": {
+        "common": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "order": [
+          "I",
+          "D",
+          "P"
+        ],
+        "fault": "final_audit"
+      },
+      "expected": {
+        "arms.I.requested_actions": [
+          "READ_POS",
+          "READ_VOLT",
+          "READ_CONFIG",
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "arms.I.request_times": [
+          0,
+          2,
+          4,
+          6,
+          12
+        ],
+        "arms.I.stop.reason": "NO_ACTION_CURRENT_SCOPE",
+        "arms.I.stop.time": 14,
+        "arms.I.score.trace_status": "UNSCORED_AFTER_AUDIT_ERROR",
+        "arms.I.score.L": null,
+        "arms.I.score.U": null,
+        "arms.I.score.hard_constraints_ok": false,
+        "arms.D.score.trace_status": "COMPLETE",
+        "arms.D.score.L": 0,
+        "arms.P.score.trace_status": "COMPLETE",
+        "arms.P.score.L": 0,
+        "arms.I.final_audit": null
+      },
+      "expected_error_arm": "I"
+    }
+  ],
+  "pairs": [],
+  "model_calls_at_authoring": 0
+}
