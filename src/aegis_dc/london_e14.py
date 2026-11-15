@@ -248,7 +248,15 @@ class E14Run:
         if self.active:
             self.spent+=dt;self.reserved=max(Fraction(0),self.reserved-dt)
             if self.reserve_end is not None and end>self.reserve_end:self.resource_overrun=True
-        self.segments.append(encode(dict(start=start,end=end,source=self.source,power=P,demand=D,service=served,device=self.device,isolated=self.isolated,occupied=self.active is not None)))
+        # Private evaluation labels only; neither changes dynamics nor enters a
+        # policy view. They bind actual occupied time to its action and stage.
+        work_action=self.active['request']['action'] if self.active else None
+        work_stage=None
+        if self.active:
+            if self.active['kind']=='read':work_stage='VERIFYING' if work_action=='VERIFY_CTRL' else 'READING'
+            elif self.active['kind']=='exit':work_stage='EXITING'
+            else:work_stage=self.phase
+        self.segments.append(encode(dict(start=start,end=end,source=self.source,power=P,demand=D,service=served,device=self.device,isolated=self.isolated,occupied=self.active is not None,work_action=work_action,work_stage=work_stage)))
         self.time=end
 
     def advance(self,time):

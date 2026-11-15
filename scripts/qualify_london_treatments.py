@@ -18,9 +18,9 @@ FORBIDDEN_KEYS={'condition_id','condition_label','common','tF','tR','next_event'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 
 def validate_engineering(data):
-    if data.get('schema')!='aegisdc-idp-engineering-v1' or data.get('classification')!='ENGINEERING_ONLY':
+    if data.get('schema') not in ('aegisdc-idp-engineering-v1','aegisdc-idp-engineering-guards-v1') or data.get('classification')!='ENGINEERING_ONLY':
         raise ValueError('Only frozen engineering inputs are authorized here')
-    if data.get('public_tick_seconds')!=1 or not data.get('units') or not data.get('pairs'):
+    if data.get('public_tick_seconds')!=1 or not data.get('units') or type(data.get('pairs')) is not list or data['schema']=='aegisdc-idp-engineering-v1' and not data['pairs']:
         raise ValueError('Incomplete frozen engineering manifest')
     if len({u['id'] for u in data['units']})!=len(data['units']):raise ValueError('Repeated unit identity')
     for u in data['units']:
@@ -28,6 +28,8 @@ def validate_engineering(data):
             if set(u['expected'])!={'I','D','P'} or any(not e for e in u['expected'].values()):raise ValueError('Missing independent arm expectations')
         elif u['kind']=='score':
             if not u['expected']:raise ValueError('Missing score expectations')
+        elif u['kind']=='runner_fault':
+            if data['schema']!='aegisdc-idp-engineering-guards-v1' or u['input']['fault'] not in ('advance_H','final_audit') or not u['expected']:raise ValueError('Invalid private fault fixture')
         else:raise ValueError('Unsupported qualification kind')
 
 def private_keys(value):
@@ -46,9 +48,40 @@ def unit_run(module,score_module,u,totals):
     try:
         if u['kind']=='score':
             totals['scorer_calls']+=1
-            x=u['input'];actual=detached(score_module.score_arm(x['audit'],x['run'],x['isolation_ok']))
+            x=u['input'];actual=detached(score_module.score_arm(deepcopy(x['audit']),deepcopy(x['run']),x['isolation_ok'],deepcopy(x['audit']['original_input'])))
             row['actual']=actual
             for path,expected in u['expected'].items():check(path,field(actual,path),expected)
+        elif u['kind']=='runner_fault':
+            # Evaluator-only one-shot injection after the strategy has stopped.
+            # Never pass the fixture label or injection plan to choose().
+            row['fault_injection']=dict(target_arm='I',location=u['input']['fault'],scope='Evaluator-only one-shot failure; not a scientific treatment difference')
+            base=module.E14Run;created=0
+            class FaultWorld(base):
+                def __init__(self,config):
+                    nonlocal created
+                    created+=1;self._target=created==1;self._injected=False
+                    super().__init__(config)
+                def advance(self,time):
+                    if self._target and not self._injected and u['input']['fault']=='advance_H' and Fraction(time)==20:
+                        self._injected=True;raise RuntimeError('INJECTED_FINAL_ADVANCE_FAILURE')
+                    return super().advance(time)
+                def audit(self):
+                    if self._target and not self._injected and u['input']['fault']=='final_audit' and self.time==20:
+                        self._injected=True;raise RuntimeError('INJECTED_FINAL_AUDIT_FAILURE')
+                    return super().audit()
+            totals['runner_calls']+=1;module.E14Run=FaultWorld
+            try:actual=detached(module.run_condition(deepcopy(u['input']['common']),order=u['input']['order']))
+            finally:module.E14Run=base
+            row['actual']=actual
+            for name in ('constructor_attempts','plant_entry_calls','policy_calls','scorer_calls'):totals[name]+=actual['counts'][name]
+            check('all-arm-records-retained',sorted(actual['arms']),['D','I','P'])
+            check('injected-arm-error-retained',bool(actual['arms']['I']['errors']),True)
+            check('global-error-retained',bool(actual['errors']),True)
+            for arm in ('D','P'):check(arm+':no-error',actual['arms'][arm]['errors'],[])
+            for path,expected in u['expected'].items():check(path,field(actual,path),expected)
+            failed=[c for c in actual['calls'] if 'error' in c]
+            check('exact-one-injected-call',len(failed),1)
+            check('injected-error',failed[0]['error']['message'],'INJECTED_FINAL_ADVANCE_FAILURE' if u['input']['fault']=='advance_H' else 'INJECTED_FINAL_AUDIT_FAILURE')
         else:
             totals['runner_calls']+=1
             actual=detached(module.run_condition(deepcopy(u['input']['common']),order=u['input']['order']))
@@ -125,7 +158,7 @@ def main():
                     left,right=[field(rows[k]['actual'],path) for k in pair['units']]
                     if 'prefix' in pair:left,right=left[:pair['prefix']],right[:pair['prefix']]
                     match=canonical(left)==canonical(right);ok=ok and match
-                    row['assertions'].append(dict(path=path,prefix=pair.get('prefix'),left=left,right=right,matches=match))
+                    row['assertions'].append(dict(path=path,prefix=pair.get('prefix'),left_sha256=hashlib.sha256(canonical(left).encode()).hexdigest(),right_sha256=hashlib.sha256(canonical(right).encode()).hexdigest(),matches=match))
                 except Exception as error:ok=False;row['assertions'].append(dict(path=path,matches=False,error=str(error)))
             row['status']='PASS' if ok else 'FAIL';result['pairs'].append(row);totals['pairs_passed' if ok else 'pairs_failed']+=1
         result['source_unchanged']=all(sha(root/f)==meta['sha256'] for f,meta in manifest['files'].items())
