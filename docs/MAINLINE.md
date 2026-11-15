@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**E1–E4有限资格已完成，等待用户验收。** 主105单位／20组配对及15个实现回归／2组配对通过；结果只覆盖声明的伦敦PRE范围。R3方向为核查与合法直接修订的条件价值，M0/B1等价作为实现一致性，数值研究协议未冻结。本轮没有收益实验或后续研究执行。
+**854379d7的E1–E4声明有限资格已由用户接受。** 当前授权C4/C7公开准入修复、独立回归及有限连续接口验证，并集中编写R3条件价值协议候选。原105／15输入与结果保持；完整参数域／Q11／R2未自动通过，收益实验未授权。
 
 本轮验收：[集中结果](mainline/review-gated/R2/extensions/e1-e4-execution/README.md) · [回执](mainline/review-gated/R2/extensions/e1-e4-execution/result.json)。执行依据：[v2修订](mainline/review-gated/R2/extensions/e1-e4-v2/revision.md)。原[R2接受记录](mainline/review-gated/R2/execution/acceptance-20261114.json)、[v1规格](mainline/review-gated/R2/extensions/e1-e4-v1/README.md)与[R3原提案](mainline/review-gated/R3/method-protocol-proposal.md)按原时点保留。当前范围与权限以[进度账](mainline/progress.json)为准。
 

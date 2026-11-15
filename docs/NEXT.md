@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-15）：验收[E1–E4有限资格集中结果](mainline/review-gated/R2/extensions/e1-e4-execution/README.md)。实现及授权资格已结束，无方法收益实验；完整Q11／R2不自动通过，不自动进入下一研究阶段。下文为历史记录。
+> 当前授权（2026-11-15）：先冻结[C4/C7独立回归](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)，再修复并验证有限连续接口，按影响范围复跑；同轮交R3协议候选后停止。原E1–E4有限资格已接受；不运行收益实验。下文为历史。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

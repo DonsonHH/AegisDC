@@ -1,0 +1,52 @@
+{
+  "schema": "aegisdc-e14-limited-user-acceptance-v1",
+  "date": "2026-11-15",
+  "status": "USER_ACCEPTED_DECLARED_FINITE_SCOPE",
+  "authority": "Explicit user goal in this chat",
+  "publication_commit": "854379d77376b65e3afcf98c6ff43e307d09252f",
+  "execution_commit": "ec133d2ead5958b5ef4b270dd013a88c31202d3f",
+  "main_input_commit": "878a2e0f39690c0dbb605b85caa57e3b80ee2c3b",
+  "regression_input_commit": "0331ee26be6dfdd5dd0c5f5d1c626e062d8a198e",
+  "main_qualification": {
+    "units_executed": 105,
+    "units_passed": 105,
+    "units_failed": 0,
+    "constructor_attempts": 61,
+    "entry_calls": 610,
+    "assertions": 853,
+    "pairs_passed": 20,
+    "pairs_failed": 0
+  },
+  "implementation_regressions": {
+    "units_executed": 15,
+    "units_passed": 15,
+    "units_failed": 0,
+    "constructor_attempts": 9,
+    "entry_calls": 59,
+    "assertions": 63,
+    "pairs_passed": 2,
+    "pairs_failed": 0
+  },
+  "original_result_sha256": "4c7089e5ef4507f89884e3c9dcee172e787ae06d87a431c982b88059c521c992",
+  "accepted_scope": "Only frozen105 main/15 regression units and their pairs; not full parameter domain, complete Q11 or complete R2",
+  "full_parameter_domain_accepted": false,
+  "full_Q11_accepted": false,
+  "full_R2_accepted": false,
+  "known_defects": [
+    {
+      "id": "C7_RECIPE",
+      "status": "KNOWN_IMPLEMENTATION_DEFECT",
+      "description": "C7 uses READ reserve instead of VERIFY own recipe when durations differ"
+    },
+    {
+      "id": "C4_SCHEDULE",
+      "status": "KNOWN_IMPLEMENTATION_DEFECT",
+      "description": "C4 omits public reservation/window feasibility"
+    }
+  ],
+  "old_results_retracted": false,
+  "originals_preserved": true,
+  "next_authorized_scope": "Freeze independent counterexamples/positive boundaries, repair C4/C7, limited continuous interface verification and affected regression; draft concrete R3 candidate, stop for review",
+  "research_experiments_authorized": false,
+  "R3_numeric_protocol_frozen": false
+}

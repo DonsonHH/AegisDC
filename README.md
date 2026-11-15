@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**E1–E4有限实现与资格已交付，等待用户验收。** [集中结果](docs/mainline/review-gated/R2/extensions/e1-e4-execution/README.md)记录105单位／20组配对及15个实现回归／2组配对通过，源码ec133d2e；旧R2与v1原件保留。本轮没有方法收益实验，完整Q11／R2不自动通过。R3后续方向为核查与合法直接修订的条件价值，数值协议尚未冻结。
+**用户已接受854379d7的E1–E4声明有限资格。** 原105／15包及结果保留；当前[修复C4/C7公开读取准入](docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)，先冻结独立输入，再验证有限连续接口与受影响回归，同轮编写[R3条件价值协议候选](docs/mainline/review-gated/R3/conditional-value-protocol-candidate.md)。不冻结数值研究协议、不运行收益实验。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

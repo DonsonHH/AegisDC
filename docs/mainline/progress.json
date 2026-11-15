@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-15",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "awaiting_user_review",
+  "status": "in_progress",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R2-E1-E4",
-  "current_milestone": "E1_E4_FINITE_QUALIFICATION_ACCEPTANCE",
+  "current_ticket": "R2-C4-C7",
+  "current_milestone": "C4_C7_INDEPENDENT_REGRESSION_FREEZE",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "E1_E4_FINITE_QUALIFICATION_DELIVERED",
+  "agent_stage": "BOUNDED_ADMISSION_REPAIR_AND_R3_CANDIDATE",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -25,16 +25,17 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Completed the explicitly authorized v2 freeze, bounded implementation and finite qualification",
-      "No further implementation or execution after concentrated delivery; wait for user acceptance"
+      "Register854379d7 finite acceptance and known C4/C7 defects",
+      "Freeze independent regression inputs before repair; run limited continuous interface and affected existing regression on remote",
+      "Draft R3 conditional-value protocol candidate only"
     ],
-    "after_delivery": "WAIT_FOR_USER_E1_E4_QUALIFICATION_ACCEPTANCE",
+    "after_delivery": "WAIT_FOR_C4_C7_RESULTS_AND_R3_CANDIDATE_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
-    "document_work_authorized": false,
+    "document_work_authorized": true,
     "R2_authorized": false,
-    "document_authorization_status": "FINITE_QUALIFICATION_DELIVERED_STOPPED_FOR_ACCEPTANCE",
+    "document_authorization_status": "USER_AUTHORIZED_BOUNDED_REPAIR_AND_PROTOCOL_CANDIDATE",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -45,8 +46,8 @@
     "R4_authorized": false,
     "R5_authorized": false,
     "R2_extension_specification_authorized": true,
-    "R2_extension_implementation_authorized": false,
-    "R2_extension_qualification_execution_authorized": false,
+    "R2_extension_implementation_authorized": true,
+    "R2_extension_qualification_execution_authorized": true,
     "R3_numeric_protocol_frozen": false
   },
   "gates": [
@@ -86,7 +87,7 @@
       "acceptance": "docs/mainline/review-gated/R2/execution/acceptance-20261114.json",
       "full_Q11_accepted": false,
       "extension_specification": "docs/mainline/review-gated/R2/extensions/e1-e4-v1/README.md",
-      "extension_status": "FINITE_CHECKS_PASS_AWAITING_USER_ACCEPTANCE",
+      "extension_status": "USER_ACCEPTED_DECLARED_FINITE_SCOPE",
       "extension_result": "docs/mainline/review-gated/R2/extensions/e1-e4-execution/result.json"
     },
     {
@@ -123,7 +124,14 @@
       "execution_authorized": false
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "owner": "current chat root",
+      "ticket": "R2-C4-C7",
+      "worktree": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly",
+      "scope": "bounded C4/C7 repair and continuous interface checker"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -252,6 +260,16 @@
       "numeric_research_protocol_frozen": false,
       "method_gain_experiments": false,
       "stop": "Concentrated qualification delivery for acceptance; no next research stage"
+    },
+    {
+      "id": "20261115-E14-accepted-C4C7-repair-R3-candidate",
+      "source": "Explicit user goal",
+      "accepted_publication": "854379d7",
+      "accepted_execution": "ec133d2e",
+      "decision": "Accept frozen finite scope, retain known defects, authorize independent regression freeze before repair and limited interface verification plus R3 candidate",
+      "acceptance": "docs/mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json",
+      "research_experiments": false,
+      "numeric_research_protocol_frozen": false
     }
   ],
   "legacy": {
@@ -373,7 +391,7 @@
     "mechanical_failure_substitutes_workflow": false,
     "at_specification_freeze_execution_status": "NOT_RUN",
     "defined_execution_status": "EXECUTED_PASS_USER_ACCEPTED_LIMITED_SCOPE",
-    "deferred_execution_status": "LIMITED_EXTENSION_EXECUTED_PASS_AWAITING_USER_ACCEPTANCE",
+    "deferred_execution_status": "LIMITED_EXTENSION_USER_ACCEPTED_FULL_OBLIGATIONS_REMAIN",
     "proposed_extension_mapping": "docs/mainline/review-gated/R2/extensions/e1-e4-v1/expectations.md#7-覆盖矩阵与待验收义务",
     "extension_specification_status": "ACCEPTED_WITH_EXPLICIT_CORRECTIONS",
     "historical_deferred_execution_status": "NOT_RUN_DEFERRED_UNCOVERED",
@@ -449,10 +467,10 @@
     "current_execution_ref": "r2_extension_qualification"
   },
   "r2_extension_qualification": {
-    "status": "FINITE_SCOPE_CHECKS_PASS_AWAITING_USER_ACCEPTANCE",
+    "status": "USER_ACCEPTED_DECLARED_FINITE_SCOPE",
     "specification": "docs/mainline/review-gated/R2/extensions/e1-e4-v2/README.md",
     "result": "docs/mainline/review-gated/R2/extensions/e1-e4-execution/result.json",
-    "user_acceptance": false,
+    "user_acceptance": true,
     "full_Q11_qualified": false,
     "full_R2_accepted": false,
     "research_experiments": 0,
@@ -472,6 +490,17 @@
     "checker_implemented": true,
     "D_decision_entry_implemented": true,
     "source_unchanged_during_execution": true,
-    "qualification_scope_user_accepted": false
+    "qualification_scope_user_accepted": true,
+    "acceptance": "docs/mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json"
+  },
+  "admission_repair": {
+    "status": "INDEPENDENT_INPUT_AUTHORING",
+    "contract": "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md",
+    "known_defects": [
+      "C7_RECIPE",
+      "C4_SCHEDULE"
+    ],
+    "original_e14_scope_accepted": true,
+    "research_experiments": 0
   }
 }

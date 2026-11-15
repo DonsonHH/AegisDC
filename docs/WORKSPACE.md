@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.15 更新：[E1–E4有限资格集中结果](mainline/review-gated/R2/extensions/e1-e4-execution/README.md)已交用户验收，105主单位与15实现回归通过。旧R2、v1规格与原失败保留；新结果不自动赋予完整Q11／R2资格。R3方向已调整，数值研究协议未冻结；当前无活动实现或后续执行授权。
+11.15 更新：原E1–E4有限资格已接受。当前[C4/C7修复包](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)先固定输入再实现；同轮[R3协议候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)只写方案，不启动研究实验。
 
 ## 从哪里进入
 

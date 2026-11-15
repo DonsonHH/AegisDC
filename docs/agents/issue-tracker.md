@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-15 current gate:** [E1–E4 finite qualification](../mainline/review-gated/R2/extensions/e1-e4-execution/README.md) is delivered for user acceptance. Implementations and authorized executions are finished; no active implementation or next-stage authorization. Keep original R2/v1/failures. The result is bounded, not full Q11/R2. R3 direction is inspection versus lawful direct revision conditional value; its numeric research protocol remains unfrozen. Follow [progress](../mainline/progress.json); legacy mechanics below do not reopen the queue.
+**2026-11-15 current gate:** User accepted854379d7 finite105/15 scope. Current [C4/C7 package](../mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md) freezes independent regressions before bounded repair and continuous-interface checks, plus a concrete R3 candidate. Deliver together then stop; no research experiment or numeric protocol freeze. See [progress](../mainline/progress.json).
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 
