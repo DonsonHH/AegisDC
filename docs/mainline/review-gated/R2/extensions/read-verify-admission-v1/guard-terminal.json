@@ -1,0 +1,191 @@
+{
+  "status": "PASS_FINITE_INTERFACE_SCOPE",
+  "source_commit": "565f371090e1504dc3e652d0c7edf3829b59d275",
+  "input_sha256": "6b863663f18272e7b690a70f44cdea29ab4cd0743d33538a59dbda546f0fdaa7",
+  "job_id": "133679",
+  "host": "cu08",
+  "counts": {
+    "units_executed": 6,
+    "units_passed": 6,
+    "units_failed": 0,
+    "constructor_attempts": 4,
+    "entry_calls": 34,
+    "assertions": 72,
+    "pairs_passed": 2,
+    "pairs_failed": 0
+  },
+  "units": [
+    {
+      "id": "H01-read-role-required-M0",
+      "status": "PASS",
+      "entry_calls": 8,
+      "assertions": 16,
+      "constructor_attempts": 1,
+      "failures": [],
+      "file": "H01-read-role-required-M0.json",
+      "sha256": "f5b7b28a9862325acd5676e94c8de3dc50551f04d4bfe2604103089a8e11edb4"
+    },
+    {
+      "id": "H01-read-role-required-B1",
+      "status": "PASS",
+      "entry_calls": 8,
+      "assertions": 16,
+      "constructor_attempts": 1,
+      "failures": [],
+      "file": "H01-read-role-required-B1.json",
+      "sha256": "02b2a6c16bc33b9f2ff138215ef499c36dad2335c5819fcb16e013dc5f0242e2"
+    },
+    {
+      "id": "H02-verify-role-required-M0",
+      "status": "PASS",
+      "entry_calls": 8,
+      "assertions": 16,
+      "constructor_attempts": 1,
+      "failures": [],
+      "file": "H02-verify-role-required-M0.json",
+      "sha256": "d2d45f0defa29b3ef2b48bc914e793ae6ce7cc233816b23a59871b8f26ec7787"
+    },
+    {
+      "id": "H02-verify-role-required-B1",
+      "status": "PASS",
+      "entry_calls": 8,
+      "assertions": 16,
+      "constructor_attempts": 1,
+      "failures": [],
+      "file": "H02-verify-role-required-B1.json",
+      "sha256": "efd66838306fc938f3d01afc9c2b3e69737366aa3f3e99b1fbccd7a3ba6add71"
+    },
+    {
+      "id": "H03-no-implicit-downgrade-M0",
+      "status": "PASS",
+      "entry_calls": 1,
+      "assertions": 1,
+      "constructor_attempts": 0,
+      "failures": [],
+      "file": "H03-no-implicit-downgrade-M0.json",
+      "sha256": "6c836fefa9b8847964a970228d562d5f0ec37536879c2a3a563e624d9088a675"
+    },
+    {
+      "id": "H03-no-implicit-downgrade-B1",
+      "status": "PASS",
+      "entry_calls": 1,
+      "assertions": 1,
+      "constructor_attempts": 0,
+      "failures": [],
+      "file": "H03-no-implicit-downgrade-B1.json",
+      "sha256": "8b7bd5189027bfd2a89b1783e4e49437feb0d1014a95cd08966c2c2452b39447"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "H01-read-role-required-method-consistency",
+      "units": [
+        "H01-read-role-required-M0",
+        "H01-read-role-required-B1"
+      ],
+      "assertions": [
+        {
+          "path": "cycles.verify.decision.action",
+          "left": "INSUFFICIENT_INFORMATION",
+          "right": "INSUFFICIENT_INFORMATION",
+          "matches": true
+        },
+        {
+          "path": "cycles.verify.payload",
+          "left": null,
+          "right": null,
+          "matches": true
+        },
+        {
+          "path": "cycles.verify.reply",
+          "left": null,
+          "right": null,
+          "matches": true
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "H02-verify-role-required-method-consistency",
+      "units": [
+        "H02-verify-role-required-M0",
+        "H02-verify-role-required-B1"
+      ],
+      "assertions": [
+        {
+          "path": "cycles.verify.decision.action",
+          "left": "INSUFFICIENT_INFORMATION",
+          "right": "INSUFFICIENT_INFORMATION",
+          "matches": true
+        },
+        {
+          "path": "cycles.verify.payload",
+          "left": null,
+          "right": null,
+          "matches": true
+        },
+        {
+          "path": "cycles.verify.reply",
+          "left": null,
+          "right": null,
+          "matches": true
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "research_experiments": 0,
+  "source_manifest_sha256": "400ccd8ff126456501dad72758de386e3a603cc962ea4cdcbd415b24abc050a8",
+  "verified_execution_source": {
+    "source_commit": "565f371090e1504dc3e652d0c7edf3829b59d275",
+    "provenance": "git show COMMIT:path matched local bytes before transfer",
+    "files": {
+      "src/aegis_dc/__init__.py": {
+        "sha256": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+        "bytes": 85,
+        "git_blob_oid": "f8b6ed7728e3487ff8d7d5a822bb9518d321cd96"
+      },
+      "src/aegis_dc/london_e14.py": {
+        "sha256": "d0f7de026d339656120ad6fea416706de858bb845c351d94f1ec34f66d9816d9",
+        "bytes": 36778,
+        "git_blob_oid": "cbb6b350d402eb121b9054e1546cade7688aef9f"
+      },
+      "scripts/qualify_london_e14.py": {
+        "sha256": "78e9eaf2199e215b36ba9402ec46835522c01e808796a0b89b86d9779e9f344f",
+        "bytes": 11140,
+        "git_blob_oid": "549a1ef9e91c994417704a75f8f05744bddcf95f"
+      },
+      "scripts/qualify_london_admission.py": {
+        "sha256": "739f097c505e4de29f1d5780aa13e68f1f408e9fe498c3ba3cd324f93141cd81",
+        "bytes": 8009,
+        "git_blob_oid": "87e7b757fe91ec845849895b8797ceaf17ccf570"
+      },
+      "tests/test_london_e14_checker.py": {
+        "sha256": "28e895f9d62fbde0e783ab22ffc6f65ef79e0f8af88f15a7642362fb7710a4a1",
+        "bytes": 1217,
+        "git_blob_oid": "e81bc9402a76b55fafbc15a9a8e19006b3d2bef8"
+      },
+      "docs/mainline/review-gated/R2/extensions/e1-e4-v2/cases.json": {
+        "sha256": "1b47ba21bdfbdd80ee28506d1be461f70b8c02ca5bfaf29edd66811f07a75d0a",
+        "bytes": 295690,
+        "git_blob_oid": "ae9a959e5cc6c5b412329ab58e9091e1ac9c3761"
+      },
+      "docs/mainline/review-gated/R2/extensions/e1-e4-v2/regressions.json": {
+        "sha256": "d4797c764b9ef9c34d1b42ff4ed1444db8457eb2350ffa1d976e0fd08afa012c",
+        "bytes": 41625,
+        "git_blob_oid": "3d9d0396e3d7112a77e3c1214421c863607cdabc"
+      },
+      "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/cases.json": {
+        "sha256": "4727f58278a7bb96ae37abfb0e3d3dd42828cd30277e365ecb713ba0ba19f2b3",
+        "bytes": 88537,
+        "git_blob_oid": "c9aa8ea4d4dc7133d6b699addf4d241ffd46f911"
+      },
+      "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/guards.json": {
+        "sha256": "6b863663f18272e7b690a70f44cdea29ab4cd0743d33538a59dbda546f0fdaa7",
+        "bytes": 16826,
+        "git_blob_oid": "10b1f48efcb6ec41f8e0ec3abb30355375e29cd1"
+      }
+    }
+  },
+  "source_unchanged": true
+}

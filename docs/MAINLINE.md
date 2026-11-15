@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**854379d7的E1–E4声明有限资格已由用户接受。** 当前授权C4/C7公开准入修复、独立回归及有限连续接口验证，并集中编写R3条件价值协议候选。原105／15输入与结果保持；完整参数域／Q11／R2未自动通过，收益实验未授权。
+**854379d7的声明有限资格已接受；当前C4/C7修复与R3协议候选待review。** 修复565f3710的新36单位／17配对及受影响120单位／22配对通过。仅有限接口验证，没有完整研究运行器、收益实验或数值协议冻结；完整参数域／Q11／R2未自动通过。
 
-本轮验收：[集中结果](mainline/review-gated/R2/extensions/e1-e4-execution/README.md) · [回执](mainline/review-gated/R2/extensions/e1-e4-execution/result.json)。执行依据：[v2修订](mainline/review-gated/R2/extensions/e1-e4-v2/revision.md)。原[R2接受记录](mainline/review-gated/R2/execution/acceptance-20261114.json)、[v1规格](mainline/review-gated/R2/extensions/e1-e4-v1/README.md)与[R3原提案](mainline/review-gated/R3/method-protocol-proposal.md)按原时点保留。当前范围与权限以[进度账](mainline/progress.json)为准。
+本轮review：[C4/C7结果](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md) · [回执](mainline/review-gated/R2/extensions/read-verify-admission-v1/result.json) · [R3候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)。原有限资格的[接受记录](mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json)与原结果分开，唯一当前状态为[progress](mainline/progress.json)。
 
 ## 拟研究的问题
 
@@ -16,7 +16,7 @@
 |---|---|---|
 | R0 | 研究方向与底线；具体模型／协议／数值标准保留后继审查 | 方向已接受 |
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
-| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7修复进行中；完整Q11／R2未接受 |
+| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复检查通过待review；完整Q11／R2未接受 |
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；仅D入口实现，数值研究协议未冻结 |
 | R4 | 方法效果、反事实适用域及消融 | 未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；当前仅授权C4/C7修复、新增有限接口验证、受影响回归及R3候选编制。独立输入先冻结，远端执行留痕，集中交付后停止；不预设核查优于直接处置。
+本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；本轮C4/C7修复、新增有限接口验证、受影响回归及R3候选已交付。独立输入先冻结，远端执行留痕，当前停止等待review；不预设核查优于直接处置。

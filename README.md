@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**用户已接受854379d7的E1–E4声明有限资格。** 原105／15包及结果保留；当前[修复C4/C7公开读取准入](docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)，先冻结独立输入，再验证有限连续接口与受影响回归，同轮编写[R3条件价值协议候选](docs/mainline/review-gated/R3/conditional-value-protocol-candidate.md)。不冻结数值研究协议、不运行收益实验。
+**原E1–E4有限资格已接受，C4/C7修复与R3候选已交review。** [集中修复结果](docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)记录36项新增接口／边界和120项受影响回归通过；[R3协议候选](docs/mainline/review-gated/R3/conditional-value-protocol-candidate.md)围绕核查与合法直接修订的条件价值。原输入／结果／失败保留；未冻结数值研究协议，未运行收益实验，当前停止。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

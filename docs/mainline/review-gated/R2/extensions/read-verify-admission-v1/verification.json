@@ -1,0 +1,2195 @@
+{
+  "status": "VERIFIED_RETAINED_RESULTS",
+  "job_id": "133680",
+  "model_calls": 0,
+  "groups": {
+    "red-01/interface": {
+      "status": "FAIL",
+      "units": 30,
+      "pairs": 15,
+      "entry_calls": 214,
+      "constructor_attempts": 26,
+      "assertions": 449,
+      "failed_unit_assertions": 146,
+      "terminal_sha256": "5d5bbba9e56f5d41c0966dbdc59b3bef31014fba42e5046e1b02876b28a23ee4"
+    },
+    "green-01/interface": {
+      "status": "PASS_FINITE_INTERFACE_SCOPE",
+      "units": 30,
+      "pairs": 15,
+      "entry_calls": 212,
+      "constructor_attempts": 26,
+      "assertions": 449,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "ff58889b68d803353f88a545a35c8fabbffb74605f9d69318c4b4f58dab0c2fb"
+    },
+    "green-01/guards": {
+      "status": "PASS_FINITE_INTERFACE_SCOPE",
+      "units": 6,
+      "pairs": 2,
+      "entry_calls": 34,
+      "constructor_attempts": 4,
+      "assertions": 72,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "3b0a30f461fc5a640eb67f28053cf2c61348666e00b339914dfe7f4c5cb8bbc1"
+    },
+    "green-01/affected-main": {
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "units": 105,
+      "pairs": 20,
+      "entry_calls": 610,
+      "constructor_attempts": 61,
+      "assertions": 853,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "a913bae138e872bead09e5066e6e91b016bb31a0e978df583de6e78ac7d1b964"
+    },
+    "green-01/affected-regressions": {
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "units": 15,
+      "pairs": 2,
+      "entry_calls": 59,
+      "constructor_attempts": 9,
+      "assertions": 63,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "65cadc1ec2f0b7e5a9b7745be4900b10a81829e08724a8c93cb6f1ee833adf8f"
+    }
+  },
+  "selected": {
+    "red-01/interface/F01-c7-own-recipe-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "available": 3,
+              "chain_finish": 14,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 15,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 7,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6
+          },
+          "decision": {
+            "action": "INSUFFICIENT_INFORMATION",
+            "mode": null,
+            "reason": "INSUFFICIENT_INFORMATION"
+          },
+          "payload": null,
+          "reply": null
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:decision.action",
+        "literal:reply",
+        "literal:payload.execution_id",
+        "literal:payload.target_config_epoch",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.work",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.exit_reserve",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserve",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.earliest_start",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.work_complete",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.available_at",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserved_until",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.admissible",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reason",
+        "literal:spent",
+        "literal:available",
+        "literal:verification_result",
+        "literal:phase"
+      ],
+      "final": {
+        "time": 8,
+        "phase": "AWAITING_VERIFY",
+        "spent": 5,
+        "reserved": 0,
+        "available": 3,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "FIX_CTRL"
+        ],
+        "observations": []
+      }
+    },
+    "red-01/interface/F02-c7-long-verify-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "available": 7,
+              "chain_finish": 18,
+              "chain_parameters_known": true,
+              "chain_reserve": 12,
+              "chain_resource_end": 19,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.work",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserve",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.earliest_start",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.work_complete",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.available_at",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserved_until",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.admissible"
+      ],
+      "final": {
+        "time": 12,
+        "phase": "TERMINAL",
+        "spent": 10,
+        "reserved": 0,
+        "available": 2,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 12,
+            "config_epoch": 1,
+            "expires_at": 23,
+            "maintenance_epoch": "m0",
+            "observed_at": 11,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "red-01/interface/F03-c7-queue-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "available": 15,
+              "chain_finish": 16,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 17,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.earliest_start",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserved_until",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.available_at",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.admissible"
+      ],
+      "final": {
+        "time": 11,
+        "phase": "TERMINAL",
+        "spent": 6,
+        "reserved": 0,
+        "available": 14,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 11,
+            "config_epoch": 1,
+            "expires_at": 22,
+            "maintenance_epoch": "m0",
+            "observed_at": 10,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "red-01/interface/F04-c7-window-equal-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "available": 15,
+              "chain_finish": 14,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 15,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                9
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.reserved_until",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.available_at",
+        "literal:view.context.acquisition_plans.VERIFY_CTRL.admissible"
+      ],
+      "final": {
+        "time": 8,
+        "phase": "TERMINAL",
+        "spent": 6,
+        "reserved": 0,
+        "available": 14,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 8,
+            "config_epoch": 1,
+            "expires_at": 19,
+            "maintenance_epoch": "m0",
+            "observed_at": 7,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "red-01/interface/F05-c4-window-short-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "available": 20,
+              "chain_finish": 26,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 27,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 18
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "NOT_STARTED_RESOURCE"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:decision.action",
+        "literal:reply",
+        "literal:view.context.acquisition_plans.READ_POS.reserve",
+        "literal:view.context.acquisition_plans.READ_POS.admissible",
+        "literal:view.context.acquisition_plans.READ_POS.reason"
+      ],
+      "final": {
+        "time": 20,
+        "phase": "NONE",
+        "spent": 0,
+        "reserved": 0,
+        "available": 20,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [],
+        "observations": []
+      }
+    },
+    "red-01/interface/F06-c4-window-equal-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "available": 20,
+              "chain_finish": 25,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 26,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 17
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.READ_POS.earliest_start",
+        "literal:view.context.acquisition_plans.READ_POS.work_complete",
+        "literal:view.context.acquisition_plans.READ_POS.available_at",
+        "literal:view.context.acquisition_plans.READ_POS.reserved_until",
+        "literal:view.context.acquisition_plans.READ_POS.admissible"
+      ],
+      "final": {
+        "time": 19,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 19,
+            "config_epoch": null,
+            "expires_at": 30,
+            "maintenance_epoch": "m0",
+            "observed_at": 18,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "red-01/interface/F07-c4-queue-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "available": 20,
+              "chain_finish": 10,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 11,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 0
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.READ_POS.earliest_start",
+        "literal:view.context.acquisition_plans.READ_POS.reserved_until",
+        "literal:view.context.acquisition_plans.READ_POS.available_at",
+        "literal:view.context.acquisition_plans.READ_POS.admissible"
+      ],
+      "final": {
+        "time": 5,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 5,
+            "config_epoch": null,
+            "expires_at": 16,
+            "maintenance_epoch": "m0",
+            "observed_at": 4,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "red-01/interface/F12-before-window-queue-M0": {
+      "status": "FAIL",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "available": 20,
+              "chain_finish": 12,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 13,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "window": [
+                5,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 0
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [
+        "literal:view.view_schema",
+        "literal:view.context.acquisition_plans.READ_POS.earliest_start",
+        "literal:view.context.acquisition_plans.READ_POS.reserved_until",
+        "literal:view.context.acquisition_plans.READ_POS.available_at",
+        "literal:view.context.acquisition_plans.READ_POS.admissible"
+      ],
+      "final": {
+        "time": 7,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 7,
+            "config_epoch": null,
+            "expires_at": 18,
+            "maintenance_epoch": "m0",
+            "observed_at": 6,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "green-01/interface/F01-c7-own-recipe-M0": {
+      "status": "PASS",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "BUDGET_UNAVAILABLE",
+                  "reserve": 7,
+                  "reserved_until": null,
+                  "work": 5,
+                  "work_complete": null
+                },
+                "READ_POS": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "BUDGET_UNAVAILABLE",
+                  "reserve": 7,
+                  "reserved_until": null,
+                  "work": 5,
+                  "work_complete": null
+                },
+                "READ_VOLT": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "BUDGET_UNAVAILABLE",
+                  "reserve": 7,
+                  "reserved_until": null,
+                  "work": 5,
+                  "work_complete": null
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                }
+              },
+              "available": 3,
+              "chain_finish": 14,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 15,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 7,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 8,
+        "phase": "TERMINAL",
+        "spent": 6,
+        "reserved": 0,
+        "available": 2,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 8,
+            "config_epoch": 1,
+            "expires_at": 19,
+            "maintenance_epoch": "m0",
+            "observed_at": 7,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "green-01/interface/F02-c7-long-verify-M0": {
+      "status": "PASS",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 12,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 7,
+                  "reserved_until": 13,
+                  "work": 5,
+                  "work_complete": 11
+                }
+              },
+              "available": 7,
+              "chain_finish": 18,
+              "chain_parameters_known": true,
+              "chain_reserve": 12,
+              "chain_resource_end": 19,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 7,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 12,
+        "phase": "TERMINAL",
+        "spent": 10,
+        "reserved": 0,
+        "available": 2,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 12,
+            "config_epoch": 1,
+            "expires_at": 23,
+            "maintenance_epoch": "m0",
+            "observed_at": 11,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "green-01/interface/F03-c7-queue-M0": {
+      "status": "PASS",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 11,
+                  "earliest_start": 9,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 12,
+                  "work": 1,
+                  "work_complete": 10
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 11,
+                  "earliest_start": 9,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 12,
+                  "work": 1,
+                  "work_complete": 10
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 11,
+                  "earliest_start": 9,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 12,
+                  "work": 1,
+                  "work_complete": 10
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 11,
+                  "earliest_start": 9,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 12,
+                  "work": 1,
+                  "work_complete": 10
+                }
+              },
+              "available": 15,
+              "chain_finish": 16,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 17,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 11,
+        "phase": "TERMINAL",
+        "spent": 6,
+        "reserved": 0,
+        "available": 14,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 11,
+            "config_epoch": 1,
+            "expires_at": 22,
+            "maintenance_epoch": "m0",
+            "observed_at": 10,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "green-01/interface/F04-c7-window-equal-M0": {
+      "status": "PASS",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 8,
+                  "earliest_start": 6,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 9,
+                  "work": 1,
+                  "work_complete": 7
+                }
+              },
+              "available": 15,
+              "chain_finish": 14,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 15,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                9
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "VERIFY_CTRL",
+            "mode": null,
+            "reason": "VERIFY_CTRL"
+          },
+          "payload": {
+            "action": "VERIFY_CTRL",
+            "request_id": "rq-2",
+            "problem_id": "q-1",
+            "target": "ctrl-1",
+            "execution_id": "ex-1",
+            "target_config_epoch": 1
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 8,
+        "phase": "TERMINAL",
+        "spent": 6,
+        "reserved": 0,
+        "available": 14,
+        "verification_result": "PASS",
+        "started_actions": [
+          "FIX_CTRL",
+          "VERIFY_CTRL"
+        ],
+        "observations": [
+          {
+            "action": "VERIFY_CTRL",
+            "available_at": 8,
+            "config_epoch": 1,
+            "expires_at": 19,
+            "maintenance_epoch": "m0",
+            "observed_at": 7,
+            "parent_execution_id": "ex-1",
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-2",
+            "source_group": "probe-local",
+            "status": "VERIFIED_FOR_TARGET",
+            "target": "ctrl-1",
+            "value": "PASS"
+          }
+        ]
+      }
+    },
+    "green-01/interface/F05-c4-window-short-M0": {
+      "status": "PASS",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "NOT_STARTED_RESOURCE",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "READ_POS": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "NOT_STARTED_RESOURCE",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "READ_VOLT": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "NOT_STARTED_RESOURCE",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "VERIFY_CTRL": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "NOT_STARTED_RESOURCE",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                }
+              },
+              "available": 20,
+              "chain_finish": 26,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 27,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 18,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "INSUFFICIENT_INFORMATION",
+            "mode": null,
+            "reason": "INSUFFICIENT_INFORMATION"
+          },
+          "payload": null,
+          "reply": null
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 20,
+        "phase": "NONE",
+        "spent": 0,
+        "reserved": 0,
+        "available": 20,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [],
+        "observations": []
+      }
+    },
+    "green-01/interface/F06-c4-window-equal-M0": {
+      "status": "PASS",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 19,
+                  "earliest_start": 17,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 20,
+                  "work": 1,
+                  "work_complete": 18
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 19,
+                  "earliest_start": 17,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 20,
+                  "work": 1,
+                  "work_complete": 18
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 19,
+                  "earliest_start": 17,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 20,
+                  "work": 1,
+                  "work_complete": 18
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 19,
+                  "earliest_start": 17,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 20,
+                  "work": 1,
+                  "work_complete": 18
+                }
+              },
+              "available": 20,
+              "chain_finish": 25,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 26,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 17,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 19,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 19,
+            "config_epoch": null,
+            "expires_at": 30,
+            "maintenance_epoch": "m0",
+            "observed_at": 18,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "green-01/interface/F07-c4-queue-M0": {
+      "status": "PASS",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 5,
+                  "earliest_start": 3,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 6,
+                  "work": 1,
+                  "work_complete": 4
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 5,
+                  "earliest_start": 3,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 6,
+                  "work": 1,
+                  "work_complete": 4
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 5,
+                  "earliest_start": 3,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 6,
+                  "work": 1,
+                  "work_complete": 4
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 5,
+                  "earliest_start": 3,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 6,
+                  "work": 1,
+                  "work_complete": 4
+                }
+              },
+              "available": 20,
+              "chain_finish": 10,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 11,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 0,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 5,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 5,
+            "config_epoch": null,
+            "expires_at": 16,
+            "maintenance_epoch": "m0",
+            "observed_at": 4,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "green-01/interface/F12-before-window-queue-M0": {
+      "status": "PASS",
+      "cycles": {
+        "read": {
+          "view": {
+            "attempted": [],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": true,
+                  "available_at": 7,
+                  "earliest_start": 5,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 8,
+                  "work": 1,
+                  "work_complete": 6
+                },
+                "READ_POS": {
+                  "admissible": true,
+                  "available_at": 7,
+                  "earliest_start": 5,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 8,
+                  "work": 1,
+                  "work_complete": 6
+                },
+                "READ_VOLT": {
+                  "admissible": true,
+                  "available_at": 7,
+                  "earliest_start": 5,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 8,
+                  "work": 1,
+                  "work_complete": 6
+                },
+                "VERIFY_CTRL": {
+                  "admissible": true,
+                  "available_at": 7,
+                  "earliest_start": 5,
+                  "exit_reserve": 2,
+                  "reason": "ADMITTED",
+                  "reserve": 3,
+                  "reserved_until": 8,
+                  "work": 1,
+                  "work_complete": 6
+                }
+              },
+              "available": 20,
+              "chain_finish": 12,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 13,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "ALLOW",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                5,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": null,
+            "pending": false,
+            "phase": "NONE",
+            "pre_open": true,
+            "receipts": [],
+            "records": [],
+            "terminal_failure": false,
+            "time": 0,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "READ_POS",
+            "mode": null,
+            "reason": "READ_POS"
+          },
+          "payload": {
+            "action": "READ_POS",
+            "request_id": "rq-1",
+            "problem_id": "q-1",
+            "target": "feeder-B"
+          },
+          "reply": {
+            "status": "ADMITTED"
+          }
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 7,
+        "phase": "NONE",
+        "spent": 1,
+        "reserved": 0,
+        "available": 19,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "READ_POS"
+        ],
+        "observations": [
+          {
+            "action": "READ_POS",
+            "available_at": 7,
+            "config_epoch": null,
+            "expires_at": 18,
+            "maintenance_epoch": "m0",
+            "observed_at": 6,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "green-01/guards/H01-read-role-required-M0": {
+      "status": "PASS",
+      "cycles": {
+        "verify": {
+          "view": {
+            "attempted": [
+              "FIX_CTRL"
+            ],
+            "certificate": null,
+            "context": {
+              "acquisition_plans": {
+                "READ_CONFIG": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "ACCESS_DENIED",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "READ_POS": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "ACCESS_DENIED",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "READ_VOLT": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "ACCESS_DENIED",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                },
+                "VERIFY_CTRL": {
+                  "admissible": false,
+                  "available_at": null,
+                  "earliest_start": null,
+                  "exit_reserve": 2,
+                  "reason": "ACCESS_DENIED",
+                  "reserve": 3,
+                  "reserved_until": null,
+                  "work": 1,
+                  "work_complete": null
+                }
+              },
+              "available": 15,
+              "chain_finish": 14,
+              "chain_parameters_known": true,
+              "chain_reserve": 8,
+              "chain_resource_end": 15,
+              "compatible": "ALLOW",
+              "permissions": {
+                "direct": "ALLOW",
+                "propose": "ALLOW",
+                "read": "DENY",
+                "verify": "ALLOW"
+              },
+              "read_parameters_known": true,
+              "read_reserve": 3,
+              "verify_reserve": 3,
+              "window": [
+                0,
+                20
+              ]
+            },
+            "history": [],
+            "known_epoch": 1,
+            "pending": false,
+            "phase": "AWAITING_VERIFY",
+            "pre_open": true,
+            "receipts": [
+              {
+                "action": "FIX_CTRL",
+                "available_at": 2,
+                "decided_at": 1,
+                "decision": "APPROVE",
+                "grant_id": "grant-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "APPROVAL_RECEIPT",
+                "request_id": "rq-1",
+                "target": "ctrl-1"
+              },
+              {
+                "action": "FIX_CTRL",
+                "available_at": 5,
+                "committed_at": 4,
+                "execution_id": "ex-1",
+                "problem_id": "q-1",
+                "receiver_role": "AUDITOR",
+                "record_kind": "EXECUTION_RECEIPT",
+                "request_id": "rq-1",
+                "status": "EXECUTED_UNVERIFIED",
+                "target": "ctrl-1",
+                "target_config_epoch": 1
+              }
+            ],
+            "records": [],
+            "terminal_failure": false,
+            "time": 6,
+            "view_schema": "aegisdc-e14-public-v2"
+          },
+          "decision": {
+            "action": "INSUFFICIENT_INFORMATION",
+            "mode": null,
+            "reason": "INSUFFICIENT_INFORMATION"
+          },
+          "payload": null,
+          "reply": null
+        }
+      },
+      "failures": [],
+      "final": {
+        "time": 6,
+        "phase": "AWAITING_VERIFY",
+        "spent": 5,
+        "reserved": 0,
+        "available": 15,
+        "verification_result": "NOT_REQUESTED",
+        "started_actions": [
+          "FIX_CTRL"
+        ],
+        "observations": []
+      }
+    },
+    "green-01/guards/H03-no-implicit-downgrade-M0": {
+      "status": "PASS",
+      "cycles": {},
+      "failures": []
+    }
+  }
+}

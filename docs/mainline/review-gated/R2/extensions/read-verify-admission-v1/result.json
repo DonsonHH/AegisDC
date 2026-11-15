@@ -1,0 +1,430 @@
+{
+  "schema": "aegisdc-public-read-verify-admission-delivery-v1",
+  "date": "2026-11-15",
+  "status": "REPAIR_AND_CANDIDATE_DELIVERED_AWAITING_USER_REVIEW",
+  "versions": {
+    "accepted_publication": "854379d77376b65e3afcf98c6ff43e307d09252f",
+    "accepted_execution": "ec133d2ead5958b5ef4b270dd013a88c31202d3f",
+    "original_main_input": "878a2e0f39690c0dbb605b85caa57e3b80ee2c3b",
+    "original_regression_input": "0331ee26be6dfdd5dd0c5f5d1c626e062d8a198e",
+    "new_main_input": "35672a0922f76201b9ba535f52efa6678be573b3",
+    "supplemental_guard_input": "d97d934ac49e9e29b09b3265107817c1e114c6a2",
+    "red_execution": "35672a0922f76201b9ba535f52efa6678be573b3",
+    "repair_execution": "565f371090e1504dc3e652d0c7edf3829b59d275",
+    "publication": "Enclosing Git commit containing this result; distinct from execution source"
+  },
+  "acceptance": "docs/mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json",
+  "accepted_scope": "Original frozen105/15 units and pairs only; no full parameter domain/Q11/R2 acceptance",
+  "defect_resolution": [
+    {
+      "id": "C7_RECIPE",
+      "status": "FIXED_FINITE_CHECKS_PASS_AWAITING_REVIEW",
+      "fix": "VERIFY own work/exit reservation, budget and public slot; no READ recipe reuse",
+      "evidence": [
+        "F01",
+        "F02",
+        "F03",
+        "F04"
+      ]
+    },
+    {
+      "id": "C4_SCHEDULE",
+      "status": "FIXED_FINITE_CHECKS_PASS_AWAITING_REVIEW",
+      "fix": "Public per-action budget and reservation/window plans shared by decision and admission; legal queue preserved",
+      "evidence": [
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10",
+        "F12"
+      ]
+    },
+    {
+      "id": "READ_VERIFY_PERMISSION",
+      "status": "FIXED_FINITE_CHECKS_PASS_AWAITING_REVIEW",
+      "fix": "Existing read AND verify gate unified across plan, admission, start and publication",
+      "evidence": [
+        "H01",
+        "H02"
+      ]
+    },
+    {
+      "id": "IMPLICIT_LEGACY_DOWNGRADE",
+      "status": "CLOSED_BY_EXPLICIT_VERSION_AND_REPLAY_OPT_IN",
+      "evidence": [
+        "V01",
+        "V02",
+        "H03",
+        "affected frozen D/G replay"
+      ]
+    }
+  ],
+  "interface": {
+    "live_schema": "aegisdc-e14-public-v2",
+    "added_public_fields": [
+      "view_schema",
+      "context.verify_reserve",
+      "context.acquisition_plans"
+    ],
+    "legacy": "Only historical static decision checker opts into legacy_static=True; default live entry rejects absent/unknown version or missing plans",
+    "plan_inputs": "Public recipes, trusted role, current available budget, public calendar/window and current time only",
+    "private_forecast_inputs_used": false,
+    "pending_identity_parent_and_PRE_checks_retained": true
+  },
+  "impact": {
+    "changed_runtime": [
+      "src/aegis_dc/london_e14.py",
+      "scripts/qualify_london_e14.py"
+    ],
+    "new_checker": "scripts/qualify_london_admission.py",
+    "scope": "C4/C7 decisions, public projection and READ/VERIFY resource permission admission; historical static adapter only in old checker",
+    "unchanged_science": "Physical supply, control revision action, energy/service relationships, accepted parameter domains and original frozen expected answers unchanged",
+    "why_all120_affected": "Public view fields and the static decision interface touch both original packs; replay both. Keep rerun evidence separate from original accepted results and never count repetitions as research samples.",
+    "old97_reexecuted": false
+  },
+  "results": {
+    "red-01/interface": {
+      "status": "FAIL",
+      "units": 30,
+      "pairs": 15,
+      "entry_calls": 214,
+      "constructor_attempts": 26,
+      "assertions": 449,
+      "failed_unit_assertions": 146,
+      "terminal_sha256": "5d5bbba9e56f5d41c0966dbdc59b3bef31014fba42e5046e1b02876b28a23ee4"
+    },
+    "green-01/interface": {
+      "status": "PASS_FINITE_INTERFACE_SCOPE",
+      "units": 30,
+      "pairs": 15,
+      "entry_calls": 212,
+      "constructor_attempts": 26,
+      "assertions": 449,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "ff58889b68d803353f88a545a35c8fabbffb74605f9d69318c4b4f58dab0c2fb"
+    },
+    "green-01/guards": {
+      "status": "PASS_FINITE_INTERFACE_SCOPE",
+      "units": 6,
+      "pairs": 2,
+      "entry_calls": 34,
+      "constructor_attempts": 4,
+      "assertions": 72,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "3b0a30f461fc5a640eb67f28053cf2c61348666e00b339914dfe7f4c5cb8bbc1"
+    },
+    "green-01/affected-main": {
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "units": 105,
+      "pairs": 20,
+      "entry_calls": 610,
+      "constructor_attempts": 61,
+      "assertions": 853,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "a913bae138e872bead09e5066e6e91b016bb31a0e978df583de6e78ac7d1b964"
+    },
+    "green-01/affected-regressions": {
+      "status": "PASS_DECLARED_FINITE_SCOPE",
+      "units": 15,
+      "pairs": 2,
+      "entry_calls": 59,
+      "constructor_attempts": 9,
+      "assertions": 63,
+      "failed_unit_assertions": 0,
+      "terminal_sha256": "65cadc1ec2f0b7e5a9b7745be4900b10a81829e08724a8c93cb6f1ee833adf8f"
+    }
+  },
+  "green_total": {
+    "units": 156,
+    "pairs": 39,
+    "assertions": 1437,
+    "entry_calls": 915,
+    "constructor_attempts": 100
+  },
+  "new_scope_only": {
+    "units": 36,
+    "pairs": 17,
+    "assertions": 521,
+    "entry_calls": 246,
+    "constructor_attempts": 30,
+    "continuous_facility_instances": 30,
+    "version_refusal_units_without_constructor": 6
+  },
+  "affected_existing_only": {
+    "units": 120,
+    "pairs": 22,
+    "assertions": 916,
+    "entry_calls": 669,
+    "constructor_attempts": 70
+  },
+  "this_task_actual_execution_including_red": {
+    "units": 186,
+    "assertions": 1886,
+    "entry_calls": 1129,
+    "constructor_attempts": 126,
+    "checker_self_tests": 6,
+    "checker_self_test_runs": 2,
+    "research_samples": 0,
+    "method_gain_experiments": 0,
+    "qualification_model_runs": "one old-implementation red interface run, one repaired four-group batch; saved verification has zero model calls"
+  },
+  "red_interpretation": "30 failed units include missing required v2 fields and behavioral counterexamples.15 passing pairs only show same behavior under two method labels, not correctness. Old F01 stops with available3 though VERIFY needs3; old F05 requests READ then NOT_STARTED_RESOURCE. Original red results retained unchanged.",
+  "attempts": [
+    {
+      "job_id": "133676",
+      "kind": "INPUT_AUTHORING",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115/freeze-01",
+      "model_calls": 0
+    },
+    {
+      "job_id": "133677",
+      "kind": "OLD_IMPLEMENTATION_RED",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115/red-01",
+      "source": "35672a0922f76201b9ba535f52efa6678be573b3",
+      "model_calls": 214,
+      "constructor_attempts": 26,
+      "failed_units": 30,
+      "failed_unit_assertions": 146,
+      "self_tests_passed": 3,
+      "stdout_sha256": "c8033295b1162a21ca8b9cdc882acccd8591f24734f90d672d6f77eb6b806877",
+      "stderr_sha256": "46c127edec93b06a73a71f755741240db57de382e56ae1def9d4edf7a6f7651c"
+    },
+    {
+      "job_id": "133678",
+      "kind": "SUPPLEMENTAL_INPUT_AUTHORING",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115/guard-freeze-01",
+      "model_calls": 0
+    },
+    {
+      "job_id": "133679",
+      "kind": "REPAIRED_INTERFACE_AND_AFFECTED_REGRESSION",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115/green-01",
+      "source": "565f371090e1504dc3e652d0c7edf3829b59d275",
+      "model_calls": 915,
+      "constructor_attempts": 100,
+      "self_tests_passed": 3,
+      "source_archive_sha256": "6199268e6254734df70c5dfadec3d85a57452b0eceed121840e5e2dcdcc8c60d"
+    },
+    {
+      "job_id": "133680",
+      "kind": "SAVED_RESULT_RECONCILIATION",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115/verification-01",
+      "model_calls": 0,
+      "tool_sha256": "aadfeea3203e06a8aca2469db5463655d1d4d3448c8271c0af482c9b6d706ede"
+    }
+  ],
+  "source_identity": {
+    "manifest": "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/execution-source.json",
+    "sha256": "400ccd8ff126456501dad72758de386e3a603cc962ea4cdcbd415b24abc050a8",
+    "git_blob_and_local_staging_match": true,
+    "runtime_unchanged": true,
+    "python": "3.13.9",
+    "python_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+    "dependencies": "standard library, no new install"
+  },
+  "independence": {
+    "main_input_sha256": "4727f58278a7bb96ae37abfb0e3d3dd42828cd30277e365ecb713ba0ba19f2b3",
+    "guard_input_sha256": "6b863663f18272e7b690a70f44cdea29ab4cd0743d33538a59dbda546f0fdaa7",
+    "main_inputs_frozen_before_C4_C7_repair": true,
+    "guards_frozen_before_permission_and_opt_in_repair": true,
+    "expected_answers_generated_from_model": false,
+    "frozen_answers_modified_after_execution": false,
+    "recording": "Every unit retains complete input, ordered operations, live view/decision/payload/reply, actual values, assertions, counts and terminal state; private details retained server-side"
+  },
+  "private_records": {
+    "root": "/share/home/renly/renly-patrol-rsi/mainline/C4C7-admission-20261115",
+    "per_unit": "red-01/interface/<id>.json and green-01/{interface,guards,affected-main,affected-regressions}/<id>.json",
+    "hash_indexes": "Local terminal files list every private unit SHA256",
+    "all_jobs_terminal_confirmed": true
+  },
+  "verification": {
+    "file": "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/verification.json",
+    "sha256": "9b77f79cc9c0cc44fd2ce2c956341d4b9450a921b8685f1a25fd2d4196848c80",
+    "reconciled_saved_input_operation_assertion_pair_call_source": true,
+    "model_calls": 0,
+    "local_tools": {
+      "git": "2.56.0.windows.2",
+      "python": "3.12.14",
+      "powershell": "7.6.9"
+    },
+    "local_work": "Editing/SSH/transfers/Git/JSON/hash integrity only",
+    "fresh_delivery": "Verify declared file bytes against publication Git blobs in a new partial checkout before final response; no project execution",
+    "local_markdown_link_targets": 141,
+    "anchors_individually_checked": false
+  },
+  "r3_candidate": {
+    "file": "docs/mainline/review-gated/R3/conditional-value-protocol-candidate.md",
+    "status": "CANDIDATE_FOR_REVIEW_NOT_NUMERIC_PROTOCOL_FREEZE",
+    "treatments": [
+      "inspection",
+      "lawful_direct_revision",
+      "existing_protection"
+    ],
+    "proposed_development_conditions": 19,
+    "research_inputs_generated": false,
+    "research_experiments": 0,
+    "M0_B1_superiority_comparison": false,
+    "remaining_capabilities": [
+      "complete three-treatment event-driven adapter",
+      "cross-treatment instance and scoring isolation qualification",
+      "full condition input and confirmation seal",
+      "formal sampling/weights/budget/threshold and analysis review"
+    ]
+  },
+  "limitations": [
+    "Finite F/H/V and affected original cases only; no complete parameter-domain or full Q11/R2 acceptance",
+    "Public acquisition plans are conditional on stage prerequisites, not predictions of hidden faults or guaranteed observations",
+    "Legacy opt-in only replays original abstract static snapshots; live views require v2",
+    "No complete research strategy runner, service-benefit experiment, R4/R5/RSI, Netherlands or RESP strategy"
+  ],
+  "preservation": {
+    "baseline_R2_R3_document_files_unchanged": 39,
+    "original_105_15_inputs_results_failures_preserved": true,
+    "old_source_versions_remain_in_git": true,
+    "maintenance_runtime_53_hashes_unchanged": true,
+    "slice57_three_hashes_unchanged": true,
+    "untracked_user_reports_retained": true,
+    "original_private_output_files_not_overwritten_or_relabelled": true
+  },
+  "review": {
+    "pre_freeze": "Independent input and scope reviews closed version witness issues before freeze",
+    "implementation": "Independent specification/standards reviews closed public-plan, role and explicit-compatibility concerns before green execution",
+    "delivery_metadata": "Independent count/state/version/scope review completed; no remaining reported conflicts",
+    "review_is_user_acceptance": false
+  },
+  "stop": "Wait for combined repair results and R3 candidate review; no subsequent execution authorized",
+  "artifacts": {
+    "AGENTS.md": {
+      "bytes": 6304,
+      "sha256": "c792df4dacd4a89145c7df5a2bdf383772f7202f24f8469a7d437a2e7fb27bf0"
+    },
+    "README.md": {
+      "bytes": 5392,
+      "sha256": "d4e2a6dcf2844c1cd61394ed5c24bd10c7a7417496044a248c8d125c342c62cd"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 3782,
+      "sha256": "a110a503f6193f80ae0af6f197844f2ae5d35797e3e79b4ac0b50842d05ad3ee"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14642,
+      "sha256": "c7746e8ac95c56a16bd4a5cb1e56f94aaf3cd13c3d2c71ee84a1bb676b44c941"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 5912,
+      "sha256": "17f9063deeb09e196ccb86dff6f680f24170b49847dc513574076c1ffa8f5462"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2825,
+      "sha256": "01bb195e625399a15441930be977ef9a0ec5489e939e83b3b8805294c1a16f56"
+    },
+    "docs/current-research.json": {
+      "bytes": 1810,
+      "sha256": "747ce15a765590292663f6e060a065ffde34ea3ce1e38384771e8eddb5bac25b"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 24061,
+      "sha256": "2edf8d55a6d1d2e676f1d12fd6300ac7f32f3d87b4d7583679ffe41d4ca5c980"
+    },
+    "docs/mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json": {
+      "bytes": 1975,
+      "sha256": "bb1d22451adb241c0ee46873baf3346033c3e2ad36f6dce1a3c0f483a4170d0e"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md": {
+      "bytes": 9072,
+      "sha256": "ef46405e8ee91e3ce5c555a136a5b9e8a5a5c1cf2654b41515c342730391d4c4"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/affected-main-terminal.json": {
+      "bytes": 63997,
+      "sha256": "a913bae138e872bead09e5066e6e91b016bb31a0e978df583de6e78ac7d1b964"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/affected-regression-terminal.json": {
+      "bytes": 20314,
+      "sha256": "65cadc1ec2f0b7e5a9b7745be4900b10a81829e08724a8c93cb6f1ee833adf8f"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/cases.json": {
+      "bytes": 88537,
+      "sha256": "4727f58278a7bb96ae37abfb0e3d3dd42828cd30277e365ecb713ba0ba19f2b3"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/coverage.json": {
+      "bytes": 3220,
+      "sha256": "b3f479bcb8b1dfa5f310224618cd1dd84b80a99e77ce18516cb97bc54a50ad12"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/execution-source.json": {
+      "bytes": 2272,
+      "sha256": "400ccd8ff126456501dad72758de386e3a603cc962ea4cdcbd415b24abc050a8"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/freeze.json": {
+      "bytes": 642,
+      "sha256": "d43b95862884d67e04a3c2d4b018e9e31fadf06ae36fba1a420c3317db7cbc0c"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/guard-freeze.json": {
+      "bytes": 618,
+      "sha256": "210c9aa355bf52fb9e29fdbdc7063192ed27b75bb6cef0a0edba390ca3bfc0a0"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/guard-terminal.json": {
+      "bytes": 6311,
+      "sha256": "3b0a30f461fc5a640eb67f28053cf2c61348666e00b339914dfe7f4c5cb8bbc1"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/guards.json": {
+      "bytes": 16826,
+      "sha256": "6b863663f18272e7b690a70f44cdea29ab4cd0743d33538a59dbda546f0fdaa7"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/interface-terminal.json": {
+      "bytes": 38320,
+      "sha256": "ff58889b68d803353f88a545a35c8fabbffb74605f9d69318c4b4f58dab0c2fb"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/red-terminal.json": {
+      "bytes": 39922,
+      "sha256": "5d5bbba9e56f5d41c0966dbdc59b3bef31014fba42e5046e1b02876b28a23ee4"
+    },
+    "docs/mainline/review-gated/R2/extensions/read-verify-admission-v1/verification.json": {
+      "bytes": 67130,
+      "sha256": "9b77f79cc9c0cc44fd2ce2c956341d4b9450a921b8685f1a25fd2d4196848c80"
+    },
+    "docs/mainline/review-gated/R3/conditional-value-protocol-candidate.md": {
+      "bytes": 13190,
+      "sha256": "092fc9d1ccee7692b979e7aefa74afad115bb0e2d77c6c2e6506bd5b890eb756"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 15590,
+      "sha256": "db887a5cc07f2f989db16faf3df137f3e8e2c7c99c6c3ee66d97dd75c62743c2"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 20390,
+      "sha256": "82fb208897cb456375443853a6fa0e4061e927f714877b45204bc9d0c0c92754"
+    },
+    "scripts/freeze_london_admission_cases.py": {
+      "bytes": 7302,
+      "sha256": "81813cfa68ff629fe5618c2ccc9689e08105e8ebc984630ae3bd1f25947611ce"
+    },
+    "scripts/freeze_london_admission_guards.py": {
+      "bytes": 2308,
+      "sha256": "7539a15d49f5c7b7af0377ea9f1d1bf3c305139ef4189dd2ec3f5845ba1fc4e6"
+    },
+    "scripts/qualify_london_admission.py": {
+      "bytes": 8009,
+      "sha256": "739f097c505e4de29f1d5780aa13e68f1f408e9fe498c3ba3cd324f93141cd81"
+    },
+    "scripts/qualify_london_e14.py": {
+      "bytes": 11140,
+      "sha256": "78e9eaf2199e215b36ba9402ec46835522c01e808796a0b89b86d9779e9f344f"
+    },
+    "src/aegis_dc/london_e14.py": {
+      "bytes": 36778,
+      "sha256": "d0f7de026d339656120ad6fea416706de858bb845c351d94f1ec34f66d9816d9"
+    }
+  }
+}
