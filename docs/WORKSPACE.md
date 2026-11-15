@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.15 更新：PR #3 已合入当前39c分支；[R0–R6主线](mainline/review-gated/plan.md)中R1与有限R2已接受，334e537b的R3候选方向已接受。当前等待[E1–E4扩展资格规格包](mainline/review-gated/R2/extensions/e1-e4-v1/README.md)review；仅文档编制获授权，新增实现／执行未授权，R3数值协议未冻结，Q11延期资格保留。下面的代码资产导航仍适用，历史票不再自动驱动执行。
+11.15 更新：[E1–E4有限资格集中结果](mainline/review-gated/R2/extensions/e1-e4-execution/README.md)已交用户验收，105主单位与15实现回归通过。旧R2、v1规格与原失败保留；新结果不自动赋予完整Q11／R2资格。R3方向已调整，数值研究协议未冻结；当前无活动实现或后续执行授权。
 
 ## 从哪里进入
 

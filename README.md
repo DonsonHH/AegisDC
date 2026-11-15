@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**有限 R2 已接受，334e537b 的 R3 候选方向已接受；当前交审 [E1–E4 扩展资格规格包](docs/mainline/review-gated/R2/extensions/e1-e4-v1/README.md)。** 本包集中给出伦敦 PRE 的契约、关系、独立预期与覆盖矩阵；拟定域内M0/B1动作等价，合成参数待接受。R3数值协议尚未冻结，扩展尚未实现或取得资格，Q11延期义务保留。原[验收登记](docs/mainline/review-gated/R2/execution/acceptance-20261114.json)、97单位结果、冻结输入和失败原件不变；本轮没有新增测试、资格执行或研究实验。
+**E1–E4有限实现与资格已交付，等待用户验收。** [集中结果](docs/mainline/review-gated/R2/extensions/e1-e4-execution/README.md)记录105单位／20组配对及15个实现回归／2组配对通过，源码ec133d2e；旧R2与v1原件保留。本轮没有方法收益实验，完整Q11／R2不自动通过。R3后续方向为核查与合法直接修订的条件价值，数值协议尚未冻结。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-15 current gate:** follow [R0–R6](../mainline/review-gated/plan.md) and [progress.json](../mainline/progress.json). R1, limited v2 R2 qualification and the334e537b R3 candidate direction are accepted; the numeric protocol is not frozen. Current [E1–E4 specification package](../mainline/review-gated/R2/extensions/e1-e4-v1/README.md) awaits user review. Document preparation does not authorize implementation or execution; Q11 deferred workflows remain unqualified. Historical authoring counts and old ready tickets do not change this gate. The mechanics below apply only to later explicitly authorized implementation work.
+**2026-11-15 current gate:** [E1–E4 finite qualification](../mainline/review-gated/R2/extensions/e1-e4-execution/README.md) is delivered for user acceptance. Implementations and authorized executions are finished; no active implementation or next-stage authorization. Keep original R2/v1/failures. The result is bounded, not full Q11/R2. R3 direction is inspection versus lawful direct revision conditional value; its numeric research protocol remains unfrozen. Follow [progress](../mainline/progress.json); legacy mechanics below do not reopen the queue.
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 
