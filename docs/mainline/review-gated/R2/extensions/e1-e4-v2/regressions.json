@@ -1,0 +1,1687 @@
+{
+  "schema": "aegisdc-e14-review-regression-literals",
+  "classification": "ENGINEERING_REGRESSION_NOT_RESEARCH_NOT_REPLACEMENT_FOR_105",
+  "model_calls_at_authoring": 0,
+  "units": [
+    {
+      "id": "G01-success",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 4
+          }
+        },
+        {
+          "op": "save_view",
+          "args": {
+            "label": "before_receipt"
+          }
+        },
+        {
+          "op": "view_select",
+          "args": {},
+          "expected": {
+            "terminal_failure": false,
+            "phase": "EXITING",
+            "pending": true
+          },
+          "select": [
+            "terminal_failure",
+            "phase",
+            "pending"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G01-failure",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "FAIL",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 4
+          }
+        },
+        {
+          "op": "save_view",
+          "args": {
+            "label": "before_receipt"
+          }
+        },
+        {
+          "op": "view_select",
+          "args": {},
+          "expected": {
+            "terminal_failure": false,
+            "phase": "EXITING",
+            "pending": true
+          },
+          "select": [
+            "terminal_failure",
+            "phase",
+            "pending"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G02-budget-0",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 0,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "BUDGET_UNAVAILABLE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "epoch": 0,
+            "phase": "NONE"
+          },
+          "select": [
+            "spent",
+            "epoch",
+            "phase"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G02-budget-7",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 7,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "BUDGET_UNAVAILABLE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "epoch": 0,
+            "phase": "NONE"
+          },
+          "select": [
+            "spent",
+            "epoch",
+            "phase"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G03-queued-revoked",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [
+          [
+            0,
+            3
+          ]
+        ],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": [
+          1,
+          "READ_ROLE"
+        ],
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "READ_POS",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "feeder-B"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 5
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "observation_count": 0,
+            "started_actions": [],
+            "read_status": "ABORTED_READ"
+          },
+          "select": [
+            "spent",
+            "observation_count",
+            "started_actions",
+            "read_status"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G04-late-verify",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 3,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 7
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 11
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "epoch": 1,
+            "verification_result": "ABORTED",
+            "phase": "TERMINAL",
+            "current_actions": [],
+            "spent": 6,
+            "observation_count": 1
+          },
+          "select": [
+            "epoch",
+            "verification_result",
+            "phase",
+            "current_actions",
+            "spent",
+            "observation_count"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G05-aborted-verify",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 7,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 1,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "VERIFY_CTRL",
+              "request_id": "rq-2",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "execution_id": "ex-1",
+              "target_config_epoch": 1
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 9
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "epoch": 1,
+            "verification_result": "ABORTED",
+            "phase": "TERMINAL",
+            "spent": 8,
+            "observation_count": 0
+          },
+          "select": [
+            "epoch",
+            "verification_result",
+            "phase",
+            "spent",
+            "observation_count"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G06-success",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 5,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "SUCCESS",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "save_view",
+          "args": {
+            "label": "after_exit_before_receipt"
+          }
+        },
+        {
+          "op": "view_select",
+          "args": {},
+          "expected": {
+            "terminal_failure": false,
+            "pending": true,
+            "phase": "APPROVED"
+          },
+          "select": [
+            "terminal_failure",
+            "pending",
+            "phase"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G06-failure",
+      "refs": [
+        "existing E1-E4 rules; implementation review regression"
+      ],
+      "kind": "run",
+      "input": {
+        "H": 20,
+        "tF": 10,
+        "tR": 16,
+        "P": 1,
+        "E0": 3,
+        "vA": 1,
+        "vB": 1,
+        "cA": 1,
+        "cB": 0,
+        "capA": 1,
+        "capB": 1,
+        "capG": 1,
+        "family": "LEGACY_LINE",
+        "epoch": 0,
+        "ready": true,
+        "connected": true,
+        "permit": true,
+        "exec_fault": false,
+        "tauG": 1,
+        "tauB": 2,
+        "read_work": 1,
+        "publish": 5,
+        "ttl": 12,
+        "approval_work": 1,
+        "prep": 2,
+        "commit_work": 1,
+        "exit_work": 2,
+        "verify_work": 1,
+        "budget": 20,
+        "calendar": [],
+        "window": [
+          0,
+          20
+        ],
+        "grant_expiry": 20,
+        "revoke": null,
+        "work_mode": "ONLINE",
+        "approval": "APPROVE",
+        "commit": "FAIL",
+        "verification": "PASS",
+        "exit_result": "SUCCESS",
+        "guard": "ALLOW",
+        "compatible": "ALLOW",
+        "permissions": {
+          "read": "ALLOW",
+          "propose": "ALLOW",
+          "verify": "ALLOW",
+          "direct": "ALLOW"
+        },
+        "read_modes": {
+          "READ_POS": "DEFINITE",
+          "READ_VOLT": "DEFINITE",
+          "READ_CONFIG": "DEFINITE"
+        },
+        "signal_missing": [],
+        "demand": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "save_view",
+          "args": {
+            "label": "after_exit_before_receipt"
+          }
+        },
+        {
+          "op": "view_select",
+          "args": {},
+          "expected": {
+            "terminal_failure": false,
+            "pending": true,
+            "phase": "APPROVED"
+          },
+          "select": [
+            "terminal_failure",
+            "pending",
+            "phase"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G07-target-M0",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-other",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null
+        },
+        "method": "M0",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    },
+    {
+      "id": "G07-target-B1",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-other",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null
+        },
+        "method": "B1",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    },
+    {
+      "id": "G07-receiver-M0",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-1",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "GUEST",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null
+        },
+        "method": "M0",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    },
+    {
+      "id": "G07-receiver-B1",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-1",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "GUEST",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null
+        },
+        "method": "B1",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    },
+    {
+      "id": "G07-epoch-M0",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-1",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null,
+          "known_epoch": 1
+        },
+        "method": "M0",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    },
+    {
+      "id": "G07-epoch-B1",
+      "refs": [
+        "existing E1 applicability rules"
+      ],
+      "kind": "decision",
+      "input": {
+        "view": {
+          "time": 6,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-1",
+              "problem_id": "q-1",
+              "request_id": "rq-1",
+              "action": "READ_POS",
+              "target": "feeder-B",
+              "value": 0,
+              "status": "KNOWN",
+              "source_group": "pos-B",
+              "observed_at": 1,
+              "available_at": 2,
+              "expires_at": 13,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-2",
+              "problem_id": "q-1",
+              "request_id": "rq-2",
+              "action": "READ_VOLT",
+              "target": "feeder-B",
+              "value": 1,
+              "status": "KNOWN",
+              "source_group": "volt-B",
+              "observed_at": 3,
+              "available_at": 4,
+              "expires_at": 15,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": null,
+              "parent_execution_id": null
+            },
+            {
+              "record_kind": "ACTION_RESULT",
+              "record_id": "obs-3",
+              "problem_id": "q-1",
+              "request_id": "rq-3",
+              "action": "READ_CONFIG",
+              "target": "ctrl-1",
+              "value": "LEGACY_LINE",
+              "status": "KNOWN",
+              "source_group": "cfg-local",
+              "observed_at": 5,
+              "available_at": 6,
+              "expires_at": 17,
+              "maintenance_epoch": "m0",
+              "receiver_role": "AUDITOR",
+              "config_epoch": 0,
+              "parent_execution_id": null
+            }
+          ],
+          "receipts": [],
+          "attempted": [],
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 17,
+            "read_reserve": 3,
+            "chain_reserve": 6,
+            "chain_finish": 14,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          },
+          "certificate": null,
+          "known_epoch": 1
+        },
+        "method": "B1",
+        "expected": {
+          "action": "READ_CONFIG",
+          "mode": null,
+          "reason": "READ_CONFIG"
+        }
+      },
+      "steps": []
+    }
+  ],
+  "pairs": [
+    {
+      "id": "G01-no-early-commit-outcome",
+      "units": [
+        "G01-success",
+        "G01-failure"
+      ],
+      "paths": [
+        "saved.before_receipt"
+      ]
+    },
+    {
+      "id": "G06-late-receipt-isolation",
+      "units": [
+        "G06-success",
+        "G06-failure"
+      ],
+      "paths": [
+        "saved.after_exit_before_receipt"
+      ]
+    }
+  ]
+}
