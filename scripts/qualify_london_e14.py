@@ -111,7 +111,7 @@ def run_unit(module,unit,totals):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--cases',type=Path,required=True);p.add_argument('--sha',required=True);p.add_argument('--source',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--cases',type=Path,required=True);p.add_argument('--sha',required=True);p.add_argument('--source',required=True);p.add_argument('--source-manifest-sha',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     if not os.environ.get('SLURM_JOB_ID') or socket.gethostname().split('.')[0]=='mu01':raise SystemExit('Allocated remote compute node required')
     a.cases=a.cases.resolve();a.output=a.output.resolve();a.output.mkdir(parents=True,exist_ok=False)
     totals=dict(units_executed=0,units_passed=0,units_failed=0,constructor_attempts=0,entry_calls=0,assertions=0,pairs_passed=0,pairs_failed=0)
@@ -120,6 +120,16 @@ def main():
     try:
         if result['input_sha256']!=a.sha:raise ValueError('Frozen input identity mismatch')
         root=Path(__file__).resolve().parents[1]
+        identity_path=root/'execution-source.json'
+        if digest(identity_path)!=a.source_manifest_sha:raise ValueError('Source identity manifest mismatch')
+        identity=json.loads(identity_path.read_text(encoding='utf-8'))
+        if identity['source_commit']!=a.source:raise ValueError('Source commit mismatch')
+        required={'src/aegis_dc/__init__.py','src/aegis_dc/london_e14.py','scripts/qualify_london_e14.py','tests/test_london_e14_checker.py',str(a.cases.relative_to(root))}
+        if not required.issubset(identity['files']):raise ValueError('Incomplete execution source identity')
+        for f,info in identity['files'].items():
+            if digest(root/f)!=info['sha256']:raise ValueError('Staged source differs from committed blob: '+f)
+        result['verified_execution_source']=identity
+        result['source_manifest_sha256']=a.source_manifest_sha
         result['runtime_sha256']={str(f.relative_to(root)):digest(f) for f in [root/'src/aegis_dc/london_e14.py',Path(__file__),a.cases] if f.exists()}
         sys.path.insert(0,str(root/'src'))
         module=importlib.import_module('aegis_dc.london_e14')
@@ -143,7 +153,7 @@ def main():
                     good=False;item['assertions'].append(dict(path=path,error=str(error),matches=False))
             item['status']='PASS' if good else 'FAIL';result['pairs'].append(item)
             totals['pairs_passed' if good else 'pairs_failed']+=1
-        result['source_unchanged']=all(digest(root/f)==h for f,h in result['runtime_sha256'].items())
+        result['source_unchanged']=all(digest(root/f)==info['sha256'] for f,info in identity['files'].items())
         result['status']='PASS_DECLARED_FINITE_SCOPE' if not totals['units_failed'] and not totals['pairs_failed'] and result['source_unchanged'] else 'FAIL'
         exit_code=0 if result['status']=='PASS_DECLARED_FINITE_SCOPE' else 1
     except Exception as error:result['error']=dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc())
