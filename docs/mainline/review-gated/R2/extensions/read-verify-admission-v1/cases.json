@@ -1,0 +1,3611 @@
+{
+  "schema": "aegisdc-read-verify-admission-frozen-v1",
+  "classification": "FINITE_INTERFACE_REGRESSION_NOT_RESEARCH",
+  "model_calls_at_authoring": 0,
+  "units": [
+    {
+      "id": "F01-c7-own-recipe-M0",
+      "kind": "flow",
+      "refs": [
+        "F01-c7-own-recipe",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 5,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 8,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "available": 3,
+            "phase": "AWAITING_VERIFY"
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.work": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.exit_reserve": 2,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserve": 3,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 6,
+            "view.context.acquisition_plans.VERIFY_CTRL.work_complete": 7,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 8,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 8
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "reserved": 0,
+            "available": 2,
+            "epoch": 1,
+            "verification_result": "PASS",
+            "phase": "TERMINAL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F01-c7-own-recipe-B1",
+      "kind": "flow",
+      "refs": [
+        "F01-c7-own-recipe",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 5,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 8,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "available": 3,
+            "phase": "AWAITING_VERIFY"
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.work": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.exit_reserve": 2,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserve": 3,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 6,
+            "view.context.acquisition_plans.VERIFY_CTRL.work_complete": 7,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 8,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true,
+            "view.context.acquisition_plans.VERIFY_CTRL.reason": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 8
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "reserved": 0,
+            "available": 2,
+            "epoch": 1,
+            "verification_result": "PASS",
+            "phase": "TERMINAL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F02-c7-long-verify-M0",
+      "kind": "flow",
+      "refs": [
+        "F02-c7-long-verify",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 5,
+          "budget": 12,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.work": 5,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserve": 7,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 6,
+            "view.context.acquisition_plans.VERIFY_CTRL.work_complete": 11,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 12,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 13,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 12
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 10,
+            "reserved": 0,
+            "available": 2,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F02-c7-long-verify-B1",
+      "kind": "flow",
+      "refs": [
+        "F02-c7-long-verify",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 5,
+          "budget": 12,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.work": 5,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserve": 7,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 6,
+            "view.context.acquisition_plans.VERIFY_CTRL.work_complete": 11,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 12,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 13,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 12
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 10,
+            "reserved": 0,
+            "available": 2,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F03-c7-queue-M0",
+      "kind": "flow",
+      "refs": [
+        "F03-c7-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              6,
+              9
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 12,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 11,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 9
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "reserved": 3
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 11
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F03-c7-queue-B1",
+      "kind": "flow",
+      "refs": [
+        "F03-c7-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              6,
+              9
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.earliest_start": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 12,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 11,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 9
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 5,
+            "reserved": 3
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 11
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F04-c7-window-equal-M0",
+      "kind": "flow",
+      "refs": [
+        "F04-c7-window-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            9
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 8,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 8
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F04-c7-window-equal-B1",
+      "kind": "flow",
+      "refs": [
+        "F04-c7-window-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            9
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "request",
+          "args": {
+            "payload": {
+              "action": "FIX_CTRL",
+              "request_id": "rq-1",
+              "problem_id": "q-1",
+              "target": "ctrl-1",
+              "mode": "DIRECT"
+            }
+          },
+          "expected": {
+            "status": "ADMITTED"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 6
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "verify",
+            "request_id": "rq-2"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "VERIFY_CTRL",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "payload.execution_id": "ex-1",
+            "payload.target_config_epoch": 1,
+            "view.context.acquisition_plans.VERIFY_CTRL.reserved_until": 9,
+            "view.context.acquisition_plans.VERIFY_CTRL.available_at": 8,
+            "view.context.acquisition_plans.VERIFY_CTRL.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 8
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 6,
+            "verification_result": "PASS"
+          }
+        }
+      ]
+    },
+    {
+      "id": "F05-c4-window-short-M0",
+      "kind": "flow",
+      "refs": [
+        "F05-c4-window-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 18
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "NOT_STARTED_RESOURCE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 20
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "observation_count": 0,
+            "started_actions": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "F05-c4-window-short-B1",
+      "kind": "flow",
+      "refs": [
+        "F05-c4-window-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 18
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "NOT_STARTED_RESOURCE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 20
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "observation_count": 0,
+            "started_actions": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "F06-c4-window-equal-M0",
+      "kind": "flow",
+      "refs": [
+        "F06-c4-window-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 17
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 17,
+            "view.context.acquisition_plans.READ_POS.work_complete": 18,
+            "view.context.acquisition_plans.READ_POS.available_at": 19,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 20,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 19
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1,
+            "observation_actions": [
+              "READ_POS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "F06-c4-window-equal-B1",
+      "kind": "flow",
+      "refs": [
+        "F06-c4-window-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 17
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 17,
+            "view.context.acquisition_plans.READ_POS.work_complete": 18,
+            "view.context.acquisition_plans.READ_POS.available_at": 19,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 20,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 19
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1,
+            "observation_actions": [
+              "READ_POS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "F07-c4-queue-M0",
+      "kind": "flow",
+      "refs": [
+        "F07-c4-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              0,
+              3
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 3,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 6,
+            "view.context.acquisition_plans.READ_POS.available_at": 5,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 3
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 3
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 5
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F07-c4-queue-B1",
+      "kind": "flow",
+      "refs": [
+        "F07-c4-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              0,
+              3
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 3,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 6,
+            "view.context.acquisition_plans.READ_POS.available_at": 5,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 3
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 3
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 5
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F08-c4-calendar-short-M0",
+      "kind": "flow",
+      "refs": [
+        "F08-c4-calendar-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              16,
+              19
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 16
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "NOT_STARTED_RESOURCE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 20
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "observation_count": 0,
+            "started_actions": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "F08-c4-calendar-short-B1",
+      "kind": "flow",
+      "refs": [
+        "F08-c4-calendar-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [
+            [
+              16,
+              19
+            ]
+          ],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "advance",
+          "args": {
+            "time": 16
+          }
+        },
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "NOT_STARTED_RESOURCE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 20
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "observation_count": 0,
+            "started_actions": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "F09-c4-budget-short-M0",
+      "kind": "flow",
+      "refs": [
+        "F09-c4-budget-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 2,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "BUDGET_UNAVAILABLE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "available": 2,
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "F09-c4-budget-short-B1",
+      "kind": "flow",
+      "refs": [
+        "F09-c4-budget-short",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 2,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "INSUFFICIENT_INFORMATION",
+            "reply": null,
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": false,
+            "view.context.acquisition_plans.READ_POS.reason": "BUDGET_UNAVAILABLE"
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "available": 2,
+            "observation_count": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "F10-c4-budget-equal-M0",
+      "kind": "flow",
+      "refs": [
+        "F10-c4-budget-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 3,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 3,
+            "available": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "reserved": 0,
+            "available": 2,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F10-c4-budget-equal-B1",
+      "kind": "flow",
+      "refs": [
+        "F10-c4-budget-equal",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 3,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.reserve": 3,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 3,
+            "available": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 2
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "reserved": 0,
+            "available": 2,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F11a-private-guard-M0",
+      "kind": "flow",
+      "refs": [
+        "F11a-private-guard",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F11a-private-guard-B1",
+      "kind": "flow",
+      "refs": [
+        "F11a-private-guard",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": 10,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F11b-private-guard-M0",
+      "kind": "flow",
+      "refs": [
+        "F11b-private-guard",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": 1,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 1,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "REVISED_LOCAL",
+          "epoch": 0,
+          "ready": false,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "DENY",
+          "commit": "FAIL",
+          "verification": "FAIL",
+          "exit_result": "SUCCESS",
+          "guard": "BLOCK",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F11b-private-guard-B1",
+      "kind": "flow",
+      "refs": [
+        "F11b-private-guard",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": 1,
+          "tR": 16,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 1,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "REVISED_LOCAL",
+          "epoch": 0,
+          "ready": false,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            0,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "DENY",
+          "commit": "FAIL",
+          "verification": "FAIL",
+          "exit_result": "SUCCESS",
+          "guard": "BLOCK",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F12-before-window-queue-M0",
+      "kind": "flow",
+      "refs": [
+        "F12-before-window-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            5,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "M0"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 5,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 8,
+            "view.context.acquisition_plans.READ_POS.available_at": 7,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 7
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "F12-before-window-queue-B1",
+      "kind": "flow",
+      "refs": [
+        "F12-before-window-queue",
+        "C4/C7 public acquisition plan v2"
+      ],
+      "input": {
+        "config": {
+          "H": 20,
+          "tF": null,
+          "tR": null,
+          "P": 1,
+          "E0": 3,
+          "vA": 1,
+          "vB": 1,
+          "cA": 1,
+          "cB": 0,
+          "capA": 1,
+          "capB": 1,
+          "capG": 1,
+          "family": "LEGACY_LINE",
+          "epoch": 0,
+          "ready": true,
+          "connected": true,
+          "permit": true,
+          "exec_fault": false,
+          "tauG": 1,
+          "tauB": 2,
+          "read_work": 1,
+          "publish": 1,
+          "ttl": 12,
+          "approval_work": 1,
+          "prep": 2,
+          "commit_work": 1,
+          "exit_work": 2,
+          "verify_work": 1,
+          "budget": 20,
+          "calendar": [],
+          "window": [
+            5,
+            20
+          ],
+          "grant_expiry": 20,
+          "revoke": null,
+          "work_mode": "ONLINE",
+          "approval": "APPROVE",
+          "commit": "SUCCESS",
+          "verification": "PASS",
+          "exit_result": "SUCCESS",
+          "guard": "ALLOW",
+          "compatible": "ALLOW",
+          "permissions": {
+            "read": "ALLOW",
+            "propose": "ALLOW",
+            "verify": "ALLOW",
+            "direct": "ALLOW"
+          },
+          "read_modes": {
+            "READ_POS": "DEFINITE",
+            "READ_VOLT": "DEFINITE",
+            "READ_CONFIG": "DEFINITE"
+          },
+          "signal_missing": [],
+          "demand": [
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "method": "B1"
+      },
+      "steps": [
+        {
+          "op": "cycle",
+          "args": {
+            "label": "read",
+            "request_id": "rq-1"
+          },
+          "expected": {
+            "view.view_schema": "aegisdc-e14-public-v2",
+            "decision.action": "READ_POS",
+            "reply": {
+              "status": "ADMITTED"
+            },
+            "view.context.acquisition_plans.READ_POS.earliest_start": 5,
+            "view.context.acquisition_plans.READ_POS.reserved_until": 8,
+            "view.context.acquisition_plans.READ_POS.available_at": 7,
+            "view.context.acquisition_plans.READ_POS.admissible": true
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 0,
+            "reserved": 0
+          }
+        },
+        {
+          "op": "advance",
+          "args": {
+            "time": 7
+          }
+        },
+        {
+          "op": "audit",
+          "args": {},
+          "expected": {
+            "spent": 1,
+            "observation_count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "V01-unknown-version-M0",
+      "kind": "invalid_view",
+      "refs": [
+        "V01-unknown-version"
+      ],
+      "input": {
+        "view": {
+          "view_schema": "aegisdc-e14-public-v99",
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true,
+            "acquisition_plans": {
+              "READ_POS": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "READ_VOLT": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "READ_CONFIG": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "VERIFY_CTRL": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              }
+            }
+          }
+        },
+        "method": "M0"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    },
+    {
+      "id": "V01-unknown-version-B1",
+      "kind": "invalid_view",
+      "refs": [
+        "V01-unknown-version"
+      ],
+      "input": {
+        "view": {
+          "view_schema": "aegisdc-e14-public-v99",
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true,
+            "acquisition_plans": {
+              "READ_POS": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "READ_VOLT": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "READ_CONFIG": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              },
+              "VERIFY_CTRL": {
+                "work": 1,
+                "exit_reserve": 2,
+                "reserve": 3,
+                "earliest_start": 0,
+                "work_complete": 1,
+                "available_at": 2,
+                "reserved_until": 3,
+                "admissible": true,
+                "reason": "ADMITTED"
+              }
+            }
+          }
+        },
+        "method": "B1"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    },
+    {
+      "id": "V02-missing-v2-plans-M0",
+      "kind": "invalid_view",
+      "refs": [
+        "V02-missing-v2-plans"
+      ],
+      "input": {
+        "view": {
+          "view_schema": "aegisdc-e14-public-v2",
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          }
+        },
+        "method": "M0"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    },
+    {
+      "id": "V02-missing-v2-plans-B1",
+      "kind": "invalid_view",
+      "refs": [
+        "V02-missing-v2-plans"
+      ],
+      "input": {
+        "view": {
+          "view_schema": "aegisdc-e14-public-v2",
+          "time": 0,
+          "pre_open": true,
+          "pending": false,
+          "terminal_failure": false,
+          "phase": "NONE",
+          "records": [],
+          "receipts": [],
+          "history": [],
+          "attempted": [],
+          "known_epoch": null,
+          "certificate": null,
+          "context": {
+            "permissions": {
+              "read": "ALLOW",
+              "propose": "ALLOW",
+              "verify": "ALLOW",
+              "direct": "ALLOW"
+            },
+            "compatible": "ALLOW",
+            "window": [
+              0,
+              20
+            ],
+            "available": 20,
+            "read_reserve": 3,
+            "verify_reserve": 3,
+            "chain_reserve": 8,
+            "chain_finish": 8,
+            "chain_resource_end": 9,
+            "read_parameters_known": true,
+            "chain_parameters_known": true
+          }
+        },
+        "method": "B1"
+      },
+      "expected_error": "ValueError",
+      "steps": []
+    }
+  ],
+  "pairs": [
+    {
+      "id": "F01-c7-own-recipe-method-consistency",
+      "units": [
+        "F01-c7-own-recipe-M0",
+        "F01-c7-own-recipe-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    },
+    {
+      "id": "F02-c7-long-verify-method-consistency",
+      "units": [
+        "F02-c7-long-verify-M0",
+        "F02-c7-long-verify-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    },
+    {
+      "id": "F03-c7-queue-method-consistency",
+      "units": [
+        "F03-c7-queue-M0",
+        "F03-c7-queue-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    },
+    {
+      "id": "F04-c7-window-equal-method-consistency",
+      "units": [
+        "F04-c7-window-equal-M0",
+        "F04-c7-window-equal-B1"
+      ],
+      "paths": [
+        "cycles.verify.decision.action",
+        "cycles.verify.payload",
+        "cycles.verify.reply"
+      ]
+    },
+    {
+      "id": "F05-c4-window-short-method-consistency",
+      "units": [
+        "F05-c4-window-short-M0",
+        "F05-c4-window-short-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F06-c4-window-equal-method-consistency",
+      "units": [
+        "F06-c4-window-equal-M0",
+        "F06-c4-window-equal-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F07-c4-queue-method-consistency",
+      "units": [
+        "F07-c4-queue-M0",
+        "F07-c4-queue-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F08-c4-calendar-short-method-consistency",
+      "units": [
+        "F08-c4-calendar-short-M0",
+        "F08-c4-calendar-short-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F09-c4-budget-short-method-consistency",
+      "units": [
+        "F09-c4-budget-short-M0",
+        "F09-c4-budget-short-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F10-c4-budget-equal-method-consistency",
+      "units": [
+        "F10-c4-budget-equal-M0",
+        "F10-c4-budget-equal-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F11a-private-guard-method-consistency",
+      "units": [
+        "F11a-private-guard-M0",
+        "F11a-private-guard-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F11b-private-guard-method-consistency",
+      "units": [
+        "F11b-private-guard-M0",
+        "F11b-private-guard-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    },
+    {
+      "id": "F11-hidden-plan-isolation-M0",
+      "units": [
+        "F11a-private-guard-M0",
+        "F11b-private-guard-M0"
+      ],
+      "paths": [
+        "cycles.read"
+      ]
+    },
+    {
+      "id": "F11-hidden-plan-isolation-B1",
+      "units": [
+        "F11a-private-guard-B1",
+        "F11b-private-guard-B1"
+      ],
+      "paths": [
+        "cycles.read"
+      ]
+    },
+    {
+      "id": "F12-before-window-queue-method-consistency",
+      "units": [
+        "F12-before-window-queue-M0",
+        "F12-before-window-queue-B1"
+      ],
+      "paths": [
+        "cycles.read.decision.action",
+        "cycles.read.payload",
+        "cycles.read.reply"
+      ]
+    }
+  ]
+}
