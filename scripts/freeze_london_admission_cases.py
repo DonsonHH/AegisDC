@@ -19,7 +19,7 @@ def audit(**fields):return op('audit',fields)
 def move(t):return op('advance',time=t)
 def direct():return op('request',{'status':'ADMITTED'},payload=req('FIX_CTRL'))
 def cycle(label,action,n=1,reply='ADMITTED',plan=None):
-    expected={'decision.action':action,'reply':None if reply is None else {'status':reply}}
+    expected={'view.view_schema':'aegisdc-e14-public-v2','decision.action':action,'reply':None if reply is None else {'status':reply}}
     if action=='VERIFY_CTRL':
         expected.update({'payload.execution_id':'ex-1','payload.target_config_epoch':1})
     if plan:
@@ -73,7 +73,14 @@ for method in ['M0','B1']:
 add('F12-before-window-queue',dict(window=[5,20]),[
  cycle('read','READ_POS',plan=('READ_POS',dict(earliest_start=5,reserved_until=8,available_at=7,admissible=True))),
  audit(spent=0,reserved=0),move(7),audit(spent=1,observation_count=1)])
-for id,view in [('V01-unknown-version',{'view_schema':'aegisdc-e14-public-v99'}),('V02-missing-v2-plans',{'view_schema':'aegisdc-e14-public-v2','context':{}})]:
+# Complete literal public point at t=0. Each negative changes only its target
+# field; a generic missing-time/record failure must not satisfy this witness.
+valid_view=dict(view_schema='aegisdc-e14-public-v2',time=0,pre_open=True,pending=False,terminal_failure=False,phase='NONE',records=[],receipts=[],history=[],attempted=[],known_epoch=None,certificate=None,
+    context=dict(permissions=dict(read='ALLOW',propose='ALLOW',verify='ALLOW',direct='ALLOW'),compatible='ALLOW',window=[0,20],available=20,read_reserve=3,verify_reserve=3,chain_reserve=8,chain_finish=8,chain_resource_end=9,read_parameters_known=True,chain_parameters_known=True,
+    acquisition_plans={action:dict(work=1,exit_reserve=2,reserve=3,earliest_start=0,work_complete=1,available_at=2,reserved_until=3,admissible=True,reason='ADMITTED') for action in ['READ_POS','READ_VOLT','READ_CONFIG','VERIFY_CTRL']}))
+unknown=deepcopy(valid_view);unknown['view_schema']='aegisdc-e14-public-v99'
+missing=deepcopy(valid_view);del missing['context']['acquisition_plans']
+for id,view in [('V01-unknown-version',unknown),('V02-missing-v2-plans',missing)]:
     for method in ['M0','B1']:
         UNITS.append(dict(id=id+'-'+method,kind='invalid_view',refs=[id],input=dict(view=view,method=method),expected_error='ValueError',steps=[]))
 
