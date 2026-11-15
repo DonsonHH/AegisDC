@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.15 更新：[C4/C7修复结果](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)与[R3具体候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)已交review，原E1–E4有限范围已接受。无活动实现，不自动进入方法接入或研究执行；数值协议未冻结。
+11.15 更新：C4/C7有限修复已接受；当前[完整I/D/P有限运行器](mainline/review-gated/R3/runner-v1/contract.md)及[R3正式协议交审包](mainline/review-gated/R3/formal-protocol-v1/README.md)获授权。只执行工程资格，开发／确认研究未授权。
 
 ## 从哪里进入
 

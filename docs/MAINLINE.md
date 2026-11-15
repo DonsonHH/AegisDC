@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**854379d7的声明有限资格已接受；当前C4/C7修复与R3协议候选待review。** 修复565f3710的新36单位／17配对及受影响120单位／22配对通过。仅有限接口验证，没有完整研究运行器、收益实验或数值协议冻结；完整参数域／Q11／R2未自动通过。
+**f10ec626／565f3710有限修复及I/D/P设计依据已接受。** 当前集中完成完整三处理运行器的受限实现、独立工程资格和可交审冻结的R3正式协议。工程与研究分账，19条件仍为开发材料；不自动完成R3或启动收益／确认执行。
 
 本轮review：[C4/C7结果](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md) · [回执](mainline/review-gated/R2/extensions/read-verify-admission-v1/result.json) · [R3候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)。原有限资格的[接受记录](mainline/review-gated/R2/extensions/e1-e4-execution/acceptance-20261115.json)与原结果分开，唯一当前状态为[progress](mainline/progress.json)。
 

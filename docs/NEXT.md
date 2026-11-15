@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-15）：review [C4/C7有限修复结果](mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md)与[R3协议候选](mainline/review-gated/R3/conditional-value-protocol-candidate.md)。已完成授权修复和影响回归；当前停止，无研究实验或后继执行授权。下文为历史。
+> 当前授权（2026-11-15）：按[三处理运行器契约](mainline/review-gated/R3/runner-v1/contract.md)先冻结独立工程输入，再实现／资格，同轮交[R3正式协议](mainline/review-gated/R3/formal-protocol-v1/README.md)。完成后停审，不运行开发收益批次或确认结果。下文为历史。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

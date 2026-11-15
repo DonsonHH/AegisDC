@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-15 current gate:** Original854379d7 finite scope is accepted. [C4/C7 repair and interface results](../mainline/review-gated/R2/extensions/read-verify-admission-v1/README.md) plus the R3 protocol candidate are delivered for review. Authorized execution is finished; no active implementation or further stage is authorized. Preserve original and new failures; engineering reruns are not research samples. See [progress](../mainline/progress.json).
+**2026-11-15 current gate:** f10ec626 finite repair is accepted. Current [bounded I/D/P runner](../mainline/review-gated/R3/runner-v1/contract.md) freezes independent engineering inputs before implementation/remote qualification and prepares the formal protocol. No research batch or confirmation results access; deliver together then stop. See [progress](../mainline/progress.json).
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

@@ -1,0 +1,31 @@
+{
+  "schema": "aegisdc-confirmation-preexecution-gate-v1",
+  "status": "REQUIRED_NOT_PREPARED_NOT_WAIVED",
+  "confirmation_inputs_prepared_this_round": false,
+  "confirmation_results_read_this_round": false,
+  "confirmation_executed_this_round": false,
+  "custodian": "Independent person/process designated by user before confirmation preparation",
+  "required_before_execution": [
+    "User acceptance of bounded runner qualification",
+    "Frozen treatment, model, scorer, protocol and analysis revisions",
+    "Independent full confirmation input manifest, N and coverage or sampling basis",
+    "Per-file hashes and root manifest hash; separation from disclosed development/engineering inputs",
+    "No outcome-based condition selection or return of confirmation outputs to development",
+    "User review of N, coverage, hashes and total resource budget",
+    "Explicit confirmation execution authorization"
+  ],
+  "budget_rule": {
+    "jobs": "N",
+    "arms": "3*N",
+    "policy_calls_max": "60*N",
+    "cpus_per_job": 1,
+    "memory_per_job_GiB": 1,
+    "wall_limit_seconds_per_job": 60,
+    "reserved_cpu_seconds_max": "60*N",
+    "N": null,
+    "N_null_meaning": "Confirmation gate not ready; never permission to execute or waive confirmation"
+  },
+  "retention": "Preserve all failed, incomplete and noncompliant rows; no favorable rerun selection",
+  "contamination_rule": "Once any confirmation output is seen, revision/retry must disclose contamination; reused cases cannot be called unseen",
+  "R3_complete": false
+}
