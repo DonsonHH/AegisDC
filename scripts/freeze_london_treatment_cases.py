@@ -65,7 +65,8 @@ add('E15-queue-cutoff-before-approval',dict(calendar=[[0,3]]),expected(READ3+['F
 add('E16-backup-unavailable',dict(ready=False),deepcopy(late_i),full_d(5),background(5))
 PAIRS += [dict(id='execution-order-independent',units=['E01-no-fault-full-chain','E13-order-isolation'],paths=[f'arms.{arm}.{part}' for arm in ['I','D','P'] for part in ['public_trace','score']]),
           dict(id='unobserved-backup-does-not-inform-policy',units=['E02-c0-cutoff','E16-backup-unavailable'],paths=[f'arms.{arm}.public_trace' for arm in ['I','D','P']]),
-          dict(id='position-hidden-before-arrival',units=['E01-no-fault-full-chain','E03-short-circuit'],paths=['arms.I.public_trace'],prefix=2)]
+          dict(id='position-hidden-before-arrival',units=['E01-no-fault-full-chain','E03-short-circuit'],paths=['arms.I.public_trace'],prefix=2),
+          dict(id='unread-position-hidden-from-direct-and-protection',units=['E01-no-fault-full-chain','E03-short-circuit'],paths=['arms.D.public_trace','arms.P.public_trace'])]
 
 def score_fixture(time,reported_loss):
     c=deepcopy(C0);c.update(tF=None,tR=None)
