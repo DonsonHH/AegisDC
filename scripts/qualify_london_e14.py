@@ -55,9 +55,11 @@ def run_unit(module,unit,totals):
     try:
         data=unit['input']
         if unit['kind']=='decision':
-            value=call('decide',module.decide,deepcopy(data['view']),data['method'])
+            # Explicit opt-in only for original frozen D/G abstract snapshots.
+            # Live flow checks and EVIDENCE admission use the strict v2 entry.
+            value=call('decide',module.decide,deepcopy(data['view']),data['method'],legacy_static=True)
             row['decision']=value
-            row['steps'].append(dict(operation='decide',arguments=dict(view=data['view'],method=data['method']),actual=value,assertion=assertion('literal-decision',value,data['expected'])))
+            row['steps'].append(dict(operation='decide',arguments=dict(view=data['view'],method=data['method'],legacy_static=True),actual=value,assertion=assertion('literal-decision',value,data['expected'])))
         elif unit['kind']=='control':
             try:
                 # private_fixture is deliberately not a control input.

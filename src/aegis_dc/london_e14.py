@@ -28,6 +28,10 @@ def encode(value):
 CHANNELS = ('zVA', 'zVB', 'zCA', 'zCB', 'zSA', 'zSB')
 FAMILIES = ('LEGACY_LINE', 'REVISED_LOCAL')
 READS = ('READ_POS', 'READ_VOLT', 'READ_CONFIG')
+PUBLIC_VIEW_SCHEMA = 'aegisdc-e14-public-v2'
+ACQUISITION_PLAN_FIELDS = frozenset(('work','exit_reserve','reserve','earliest_start',
+                                    'work_complete','available_at','reserved_until',
+                                    'admissible','reason'))
 
 
 def local_control(family, signals, time):
@@ -54,10 +58,32 @@ def local_control(family, signals, time):
     return int(not supported)
 
 
-def decide(view, method):
+def decide(view, method, *, legacy_static=False):
     """One pure public decision. No access to a session or private config."""
     if method not in ('M0', 'B1'):
         raise ValueError('Unknown fixed method')
+    if type(view) is not dict:
+        raise ValueError('Public view must be a mapping')
+    schema = view.get('view_schema')
+    live_plans = schema == PUBLIC_VIEW_SCHEMA
+    if schema is None and not legacy_static:
+        raise ValueError('Live decisions require an explicit public view version')
+    if legacy_static and schema is not None:
+        raise ValueError('Legacy static replay accepts only the historical unversioned format')
+    if schema is not None and not live_plans:
+        raise ValueError('Unsupported public view version')
+    if live_plans:
+        plans = view.get('context', {}).get('acquisition_plans')
+        if type(plans) is not dict or set(plans) != set((*READS,'VERIFY_CTRL')):
+            raise ValueError('Version 2 requires every acquisition plan')
+        if any(type(p) is not dict or set(p) != ACQUISITION_PLAN_FIELDS
+               or type(p['admissible']) is not bool
+               or p['admissible'] != (p['reason'] == 'ADMITTED') for p in plans.values()):
+            raise ValueError('Incomplete or inconsistent acquisition plan')
+    elif 'acquisition_plans' in view.get('context', {}):
+        raise ValueError('Versioned plans cannot silently downgrade to legacy')
+    # Unversioned historical D/G literals retain their original abstract
+    # interpretation. Every live E14Run emits v2 and uses concrete public plans.
     v = deepcopy(view)
     c = v['context']
     now = rational(v['time'])
@@ -79,6 +105,8 @@ def decide(view, method):
     if any(r.get('action') == 'VERIFY_CTRL' and r['status'] == 'VERIFIED_FOR_TARGET' and any(r.get('parent_execution_id')==e['execution_id'] and r.get('config_epoch')==e['target_config_epoch'] for e in execution) for r in records):
         return result('NO_ACTION_CURRENT_SCOPE')
     if v['phase'] == 'AWAITING_VERIFY':
+        if live_plans:
+            return result('VERIFY_CTRL' if c['acquisition_plans']['VERIFY_CTRL']['admissible'] else 'INSUFFICIENT_INFORMATION')
         if c['permissions']['verify'] != 'ALLOW' or rational(c['available']) < rational(c['read_reserve']):
             return result('INSUFFICIENT_INFORMATION')
         return result('VERIFY_CTRL')
@@ -92,7 +120,8 @@ def decide(view, method):
         return result('NO_ACTION_CURRENT_SCOPE')
     if None in tests:
         for action, value in zip(READS, values):
-            if value is None and action not in v['attempted'] and c['permissions']['read'] == 'ALLOW' and c['read_parameters_known'] and rational(c['available']) >= rational(c['read_reserve']):
+            feasible = c['acquisition_plans'][action]['admissible'] if live_plans else c['permissions']['read'] == 'ALLOW' and rational(c['available']) >= rational(c['read_reserve'])
+            if value is None and action not in v['attempted'] and c['read_parameters_known'] and feasible:
                 return result(action)
         return result('INSUFFICIENT_INFORMATION')
     if not c['chain_parameters_known'] or c['compatible'] == 'UNKNOWN' or c['permissions']['propose'] == 'UNKNOWN':
@@ -258,7 +287,7 @@ class E14Run:
         elif kind=='start':
             if self.queued and self.queued['request']['request_id']==data and self.pre_open:
                 job=self.queued;self.queued=None
-                permitted=job['kind']!='read' or c['permissions']['read']=='ALLOW' and (job['request']['action']!='VERIFY_CTRL' or c['permissions']['verify']=='ALLOW')
+                permitted=job['kind']!='read' or self._read_permitted(job['request']['action'])
                 if permitted:self._start(job)
                 else:self.read_status='ABORTED_READ'
         elif kind=='read_complete':
@@ -281,7 +310,7 @@ class E14Run:
                     self.recoveries.append(dict(off=self.off_since,recovered=t,duration=t-self.off_since,right_censored=False));self.off_since=None
         elif kind=='publish_observation':
             self.pending_publications-=1
-            if c['permissions']['read']=='ALLOW' and (data['action']!='VERIFY_CTRL' or c['permissions']['verify']=='ALLOW'):
+            if self._read_permitted(data['action']):
                 self.observations.append(data);self.read_status='RESULT_AVAILABLE'
                 if data['action']=='VERIFY_CTRL' and self.pre_open:
                     self.verification_result={'VERIFIED_FOR_TARGET':'PASS','VERIFY_FAILED':'FAIL','INCONCLUSIVE':'INCONCLUSIVE'}[data['status']]
@@ -293,6 +322,33 @@ class E14Run:
         for a,b in self.c['calendar']:
             if start<b and start+duration>a:start=b
         return start if start+duration<=self.c['window'][1] else None
+
+    def _read_permitted(self,action):
+        return self.c['permissions']['read']=='ALLOW' and (action!='VERIFY_CTRL' or self.c['permissions']['verify']=='ALLOW')
+
+    def _public_acquisition_plan(self,action):
+        """Public resource recipe shared by decision projection and admission.
+
+        Phase/identity/PRE prerequisites remain separate. No fault times,
+        private outcome plans or facility states enter this calculation.
+        """
+        if action not in (*READS,'VERIFY_CTRL'):
+            raise ValueError('Unknown acquisition action')
+        c=self.c
+        work=c['verify_work'] if action=='VERIFY_CTRL' else c['read_work']
+        reserve=work+c['exit_work']
+        start=None;reason='ADMITTED'
+        if not self._read_permitted(action):reason='ACCESS_DENIED'
+        elif self._available()<reserve:reason='BUDGET_UNAVAILABLE'
+        else:
+            start=self._slot(reserve)
+            if start is None:reason='NOT_STARTED_RESOURCE'
+        admitted=reason=='ADMITTED'
+        return dict(work=work,exit_reserve=c['exit_work'],reserve=reserve,
+                    earliest_start=start,work_complete=start+work if admitted else None,
+                    available_at=start+work+c['publish'] if admitted else None,
+                    reserved_until=start+reserve if admitted else None,
+                    admissible=admitted,reason=reason)
 
     def _public_chain_plan(self):
         """Public calendar/recipe feasibility; never reads the fault plan."""
@@ -450,13 +506,11 @@ class E14Run:
             self.requests[p['request_id']]=dict(payload=p,status='ADMITTED')
             self._schedule(self.time+c['approval_work'],4,'approval');self._events_at_now();self._reconcile()
             return response('ADMITTED')
-        duration=(c['verify_work'] if action=='VERIFY_CTRL' else c['read_work'])+c['exit_work']
-        if self._available()<duration:return response('BUDGET_UNAVAILABLE')
-        start=self._slot(duration)
-        if start is None:return response('NOT_STARTED_RESOURCE')
+        plan=self._public_acquisition_plan(action)
+        if not plan['admissible']:return response(plan['reason'])
         self.attempted.append(action);self.requests[p['request_id']]=dict(payload=p,status='ADMITTED')
-        self.queued=dict(kind='read',request=p,reserve=duration)
-        self._schedule(start,7,'start',p['request_id']);self._events_at_now();self._reconcile()
+        self.queued=dict(kind='read',request=p,reserve=plan['reserve'])
+        self._schedule(plan['earliest_start'],7,'start',p['request_id']);self._events_at_now();self._reconcile()
         return response('ADMITTED')
 
     def _pending(self):
@@ -485,9 +539,10 @@ class E14Run:
         if self.active and self.active['kind']=='exit' and self.fix:public_phase='EXITING'
         if failure and not self.active and not self.queued:public_phase='TERMINAL'
         needed,finish,resource_end=self._public_chain_plan()
-        return encode(dict(time=self.time,pre_open=self.pre_open,pending=self._pending(),terminal_failure=failure,phase=public_phase,
+        plans={action:self._public_acquisition_plan(action) for action in (*READS,'VERIFY_CTRL')}
+        return encode(dict(view_schema=PUBLIC_VIEW_SCHEMA,time=self.time,pre_open=self.pre_open,pending=self._pending(),terminal_failure=failure,phase=public_phase,
           records=self._current(),receipts=self.receipts,history=self.observations+self.copies,attempted=self.attempted,known_epoch=self._known_epoch(),certificate=None,
-          context=dict(permissions=c['permissions'],compatible=c['compatible'],window=c['window'],available=self._available(),read_reserve=c['read_work']+c['exit_work'],chain_reserve=needed,chain_finish=finish,chain_resource_end=resource_end,read_parameters_known=True,chain_parameters_known=True)))
+          context=dict(permissions=c['permissions'],compatible=c['compatible'],window=c['window'],available=self._available(),read_reserve=c['read_work']+c['exit_work'],verify_reserve=c['verify_work']+c['exit_work'],acquisition_plans=plans,chain_reserve=needed,chain_finish=finish,chain_resource_end=resource_end,read_parameters_known=True,chain_parameters_known=True)))
 
     def copy_record(self,record_id,copy_id):
         found=next((r for r in self.observations if r['record_id']==record_id),None)
