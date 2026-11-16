@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-16",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "awaiting_user_review",
+  "status": "in_progress",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R3-RUNNER",
-  "current_milestone": "RUNNER_QUALIFICATION_AND_FORMAL_PROTOCOL_REVIEW",
+  "current_ticket": "R4-PUBLIC-DEV",
+  "current_milestone": "DEVELOPMENT_ENTRY_AND_MANIFEST_FREEZE",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "BOUNDED_RUNNER_AND_PROTOCOL_DELIVERED",
+  "agent_stage": "R4_PUBLIC_DEVELOPMENT_ONLY",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -25,16 +25,17 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Completed accepted-baseline registration, bounded I/D/P runner implementation and remote engineering qualification with affected regressions",
-      "Formal protocol and19 full disclosed development inputs delivered for review only"
+      "Append finite runner acceptance and freeze public-development protocol scope",
+      "Freeze explicit development entry, full manifest, core/input hashes and command before research calls",
+      "Run original19 conditions once in order,57 I/D/P arms,1CPU1GiB300s; stop on fatal error and retain all rows"
     ],
-    "after_delivery": "WAIT_FOR_RUNNER_QUALIFICATION_AND_FORMAL_PROTOCOL_REVIEW",
+    "after_delivery": "WAIT_FOR_PUBLIC_DEVELOPMENT_RESULTS_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
-    "document_work_authorized": false,
+    "document_work_authorized": true,
     "R2_authorized": false,
-    "document_authorization_status": "RUNNER_RESULTS_AND_FORMAL_PROTOCOL_DELIVERED_STOPPED",
+    "document_authorization_status": "PUBLIC_DEVELOPMENT_BATCH_AUTHORIZED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -42,12 +43,14 @@
     "R3_design_authorized": true,
     "R3_implementation_authorized": false,
     "R2_extension_authorized": false,
-    "R4_authorized": false,
+    "R4_authorized": true,
     "R5_authorized": false,
     "R2_extension_specification_authorized": true,
     "R2_extension_implementation_authorized": false,
     "R2_extension_qualification_execution_authorized": false,
-    "R3_numeric_protocol_frozen": false
+    "R3_numeric_protocol_frozen": false,
+    "development_execution_authorized": true,
+    "confirmation_execution_authorized": false
   },
   "gates": [
     {
@@ -92,23 +95,26 @@
     {
       "id": "R3",
       "name": "fixed_method_and_protocol",
-      "status": "RUNNER_ENGINEERING_AND_FORMAL_PROTOCOL_AWAITING_REVIEW",
+      "status": "PUBLIC_DEVELOPMENT_PART_FROZEN_CONFIRMATION_GATE_CLOSED",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "proposal": "docs/mainline/review-gated/R3/method-protocol-proposal.md",
       "accepted_candidate_revision": "334e537bb5f9b59a3426c9b7bfc6130c6ad9e22b",
-      "numeric_protocol_frozen": false,
+      "numeric_protocol_frozen": true,
       "current_direction": "Conditional value of inspection versus lawful direct revision; protection background",
       "M0_B1_superiority_trial": false,
       "formal_protocol": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
-      "runner_result": "docs/mainline/review-gated/R3/runner-v1/result.json"
+      "runner_result": "docs/mainline/review-gated/R3/runner-v1/result.json",
+      "freeze_scope": "Public development part only; confirmation pending",
+      "R3_complete": false
     },
     {
       "id": "R4",
       "name": "method_counterfactual_effect",
-      "status": "NOT_AUTHORIZED",
+      "status": "PUBLIC_DEVELOPMENT_BATCH_AUTHORIZED",
       "requires_explicit_user_review": true,
-      "execution_authorized": false
+      "execution_authorized": true,
+      "scope": "Only original19 disclosed conditions; confirmation excluded"
     },
     {
       "id": "R5",
@@ -125,7 +131,14 @@
       "execution_authorized": false
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "owner": "current chat root",
+      "ticket": "R4-PUBLIC-DEV",
+      "scope": "entry/archive/summary only; core frozen1c0b0c47",
+      "worktree": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -274,6 +287,16 @@
       "research_execution_authorized": false,
       "confirmation_results_access_authorized": false,
       "stop": "Combined delivery then review; not full R3 completion"
+    },
+    {
+      "id": "20261116-runner-accepted-public-development-freeze",
+      "source": "Explicit user goal",
+      "accepted_publication": "34201ef7",
+      "accepted_execution": "1c0b0c47",
+      "decision": "Accept declared limited engineering; freeze public R3 development part and authorize one R4 batch19/57; confirmation gate closed",
+      "scope_record": "docs/mainline/review-gated/R4/public-development-v1/scope.md",
+      "confirmation_authorized": false,
+      "full_R3": false
     }
   ],
   "legacy": {
@@ -543,7 +566,7 @@
     "current_runner_status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW"
   },
   "runner_delivery": {
-    "status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW",
+    "status": "USER_ACCEPTED_DECLARED_FINITE_ENGINEERING_SCOPE",
     "contract": "docs/mainline/review-gated/R3/runner-v1/contract.md",
     "formal_protocol": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
     "engineering_model_runs": 54,
@@ -576,21 +599,36 @@
     "affected_existing_assertions": 1437,
     "affected_existing_entry_calls": 915,
     "affected_existing_constructor_attempts": 100,
-    "user_acceptance": false
+    "user_acceptance": true,
+    "acceptance": "docs/mainline/review-gated/R3/runner-v1/acceptance-20261116.json"
   },
   "formal_protocol_delivery": {
-    "status": "READY_FOR_PROTOCOL_REVIEW_NOT_EXECUTION",
+    "status": "PUBLIC_DEVELOPMENT_PART_USER_FROZEN_CONFIRMATION_CLOSED",
     "document": "docs/mainline/review-gated/R3/formal-protocol-v1/README.md",
     "identity": "docs/mainline/review-gated/R3/formal-protocol-v1/protocol-identity.json",
     "development_inputs": "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
     "development_conditions": 19,
     "paired_arms_per_condition": 3,
     "development_research_runs": 0,
-    "user_frozen": false,
+    "user_frozen": true,
     "confirmation_gate": "docs/mainline/review-gated/R3/formal-protocol-v1/confirmation-gate.json",
     "confirmation_prepared": false,
     "confirmation_results_read": false,
     "confirmation_runs": 0,
-    "R3_complete": false
+    "R3_complete": false,
+    "freeze_scope": "I/D/P19 public development conditions and core1c0b0c47; not confirmation package or fullR3",
+    "scope_record": "docs/mainline/review-gated/R4/public-development-v1/scope.md"
+  },
+  "public_development": {
+    "status": "ENTRY_AND_MANIFEST_PREPARATION",
+    "scope": "docs/mainline/review-gated/R4/public-development-v1/scope.md",
+    "conditions_authorized": 19,
+    "arms_authorized": 57,
+    "policy_call_limit": 1140,
+    "core_revision": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "input_sha256": "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880",
+    "research_conditions_executed": 0,
+    "research_arm_runs": 0,
+    "confirmation_runs": 0
   }
 }
