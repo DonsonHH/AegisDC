@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-16）：review [运行器有限资格](mainline/review-gated/R3/runner-v1/README.md)与[R3正式协议待冻结版](mainline/review-gated/R3/formal-protocol-v1/README.md)。授权工程已完成，当前停止；不运行19开发条件或确认结果，不自动进入R4/R5/RSI。下文为历史。
+> 当前授权（2026-11-16）：固定[R4公开开发入口与manifest](mainline/review-gated/R4/public-development-v1/scope.md)，按原顺序运行19条件／57处理一次，完整结果交审后停止。确认门关闭，R5／RSI未授权。下文为历史。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

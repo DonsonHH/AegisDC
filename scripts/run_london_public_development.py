@@ -69,6 +69,7 @@ def preflight(root,manifest,manifest_sha,output):
         if root not in path.parents or not path.is_file() or file_sha(path)!=meta['sha256']:raise ValueError('Source/input mismatch: '+f)
         if f in CORE_FILES and meta.get('git_revision')!=CORE_REV:raise ValueError('Core not bound to accepted revision')
     if os.environ.get('SLURM_CPUS_PER_TASK')!='1' or os.environ.get('SLURM_MEM_PER_NODE')!='1024':raise ValueError('Allocation differs from1CPU/1GiB')
+    if file_sha(Path(sys.executable).resolve())!=manifest['python_sha256']:raise ValueError('Pinned interpreter identity drift')
     data=json.loads((root/manifest['input']['path']).read_text(encoding='utf-8'))
     validate_input(data,file_sha(root/manifest['input']['path']))
     return data

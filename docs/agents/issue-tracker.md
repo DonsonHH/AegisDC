@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-16 current gate:** [Bounded full I/D/P runner qualification](../mainline/review-gated/R3/runner-v1/README.md) and the formal protocol are delivered for review. Original finite acceptance remains; new runner acceptance and protocol freeze are pending. No active implementation, development batch, confirmation access or next-stage execution. See [progress](../mainline/progress.json).
+**2026-11-16 current gate:** User accepted34201ef7 finite runner qualification and froze the public-development protocol. Only the [R4 original19-condition batch](../mainline/review-gated/R4/public-development-v1/scope.md) is authorized, core1c0b0c47 unchanged. Pin entry/manifest before calls; stop on fatal errors and deliver all19 rows. Confirmation and R5/RSI stay closed.
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

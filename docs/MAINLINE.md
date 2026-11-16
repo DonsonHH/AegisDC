@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**I/D/P完整受限运行器工程资格与R3正式协议已集中交审。** 执行1c0b0c47的18正常／4守卫及156受影响单位通过，实际阶段覆盖单列；19完整条件仍是未执行开发材料。当前停止等待用户review，协议未正式冻结、确认未准备或读取，R3未自动完成。
+**34201ef7／1c0b0c47的声明有限运行器资格已接受，R3公开开发部分已冻结。** 当前只进入原19条件的R4公开开发批次，核心不改；确认N、保管人、清单及预算继续待review，确认门关闭，不登记完整R3。
 
-本轮review：[运行器报告](mainline/review-gated/R3/runner-v1/README.md) · [集中回执](mainline/review-gated/R3/runner-v1/result.json) · [实际阶段](mainline/review-gated/R3/runner-v1/actual-stage-coverage.json) · [正式协议](mainline/review-gated/R3/formal-protocol-v1/README.md)。原[f10有限接受](mainline/review-gated/R2/extensions/read-verify-admission-v1/acceptance-20261115.json)保留；当前状态见[progress](mainline/progress.json)。
+本轮依据：[R4授权／范围追加登记](mainline/review-gated/R4/public-development-v1/scope.md) · [运行器有限接受](mainline/review-gated/R3/runner-v1/acceptance-20261116.json)。[正式协议原文](mainline/review-gated/R3/formal-protocol-v1/README.md)及历史身份回执保持原字节；当前授权见[progress](mainline/progress.json)。
 
 ## 拟研究的问题
 
@@ -16,9 +16,9 @@
 |---|---|---|
 | R0 | 研究方向与底线；具体模型／协议／数值标准保留后继审查 | 方向已接受 |
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
-| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；新运行器工程资格通过待review；完整Q11／R2未接受 |
-| R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；I/D/P完整受限运行器通过工程检查待接受；正式协议待review冻结，确认门未就绪 |
-| R4 | 方法效果、反事实适用域及消融 | 未授权 |
+| R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；运行器声明有限工程资格已接受；完整Q11／R2未接受 |
+| R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
+| R4 | 方法效果、反事实适用域及消融 | 仅原19公开开发条件批次获授权；确认未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
 | R6 | 主张—证据矩阵与论文论证 | 未授权 |
 
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；本轮完整受限运行器及独立工程资格已交付，正式协议供review冻结。当前停止；19开发输入未执行，确认未准备或读取。
+本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；运行器有限资格已接受，公开开发协议已冻结；当前仅按新manifest执行原19开发条件。确认仍未准备或读取，批次结果交审后停止。

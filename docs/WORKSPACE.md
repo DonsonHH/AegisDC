@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.16 更新：[运行器有限资格](mainline/review-gated/R3/runner-v1/README.md)与[R3正式协议](mainline/review-gated/R3/formal-protocol-v1/README.md)交review。新运行器和评分器位于src/aegis_dc/london_treatments.py、london_treatment_score.py；公共策略与私有评价分开。无活动实现或后继执行授权；19开发输入未执行。
+11.16 更新：运行器有限资格已接受；当前[R4公开开发批次](mainline/review-gated/R4/public-development-v1/scope.md)只新增加载／归档／汇总入口，核心1c0b0c47保持原字节。19输入不改；确认准备与执行未授权。
 
 ## 从哪里进入
 
