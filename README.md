@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**R4公开开发批次已完成，等待review。** [完整结果](docs/mainline/review-gated/R4/public-development-v1/README.md)与[19行配对表](docs/mainline/review-gated/R4/public-development-v1/paired-results.md)保留57个处理结果。18个合规条件中I相对D有10个服务缺额相同、8个更大；C09b非合规，原始正差值不计有效获益。核心和输入不变，没有确认执行；当前停止。
+**原19条件公开开发结果已接受；当前交审主张、机制边界与独立确认方案。** [集中材料](docs/mainline/review-gated/R4/claims-confirmation-v1/README.md)补充既定P背景，提出35个非结果选样覆盖槽位及真实保管安排。原报告／结果不改，主比较仍I/D；本轮没有模型调用、确认输入生成或研究执行。
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

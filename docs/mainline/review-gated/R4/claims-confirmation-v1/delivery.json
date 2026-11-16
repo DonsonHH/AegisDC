@@ -1,0 +1,233 @@
+{
+  "schema": "aegisdc-claims-mechanism-confirmation-plan-delivery-v1",
+  "date": "2026-11-16",
+  "status": "DOCUMENT_PACKAGE_AWAITING_USER_REVIEW",
+  "baseline_commit": "519da3d477676314970a3b44feb8973eafddb5f8",
+  "scope": "Append original public development acceptance,close claims and mechanism/information boundaries,propose finite confirmation/custody only",
+  "documents": {
+    "claims_and_improvability": "docs/mainline/review-gated/R4/claims-confirmation-v1/claims-and-mechanisms.md",
+    "confirmation_design": "docs/mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md",
+    "custody_plan": "docs/mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md",
+    "review_decisions": "docs/mainline/review-gated/R4/claims-confirmation-v1/review-decisions.json",
+    "acceptance": "docs/mainline/review-gated/R4/public-development-v1/acceptance-20261116.json"
+  },
+  "fixed_versions": {
+    "core": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "development_entry": "75981d124d3c33348c1d4bc3a6528bc0884abc7d",
+    "development_manifest": "bf1096e6",
+    "accepted_results": "519da3d477676314970a3b44feb8973eafddb5f8"
+  },
+  "accepted_observations": {
+    "all_conditions": 19,
+    "arm_runs": 57,
+    "valid_rows": 18,
+    "noncompliant_retained": [
+      "C09b"
+    ],
+    "I_vs_D": {
+      "same_deficit": 10,
+      "higher_deficit": 8,
+      "lower_deficit_valid": 0,
+      "same_service_resource_savings": {
+        "C02": 5,
+        "C03": 3
+      }
+    },
+    "I_vs_P_background": {
+      "same_deficit": 17,
+      "higher_deficit": 1,
+      "higher_person_and_tool_cost_rows": 18
+    },
+    "primary_comparison_unchanged": true,
+    "population_or_field_claims": false
+  },
+  "requirements_audit": [
+    {
+      "item": 1,
+      "evidence": [
+        "acceptance-20261116.json",
+        "claims-and-mechanisms.md sections1-3"
+      ],
+      "completed": "Additive acceptance,O/M/T/U claims with scope and unchanged19-row denominator,noncompliance and tradeoffs retained"
+    },
+    {
+      "item": 2,
+      "evidence": [
+        "claims-and-mechanisms.md sections4-6",
+        "fixed public_view and CONTEXT_KEYS"
+      ],
+      "completed": "Action effects,actual public projections and evaluator-only state distinguished;work_mode and raw calendar not falsely claimed as current policy fields;actual I failure stages and successor-method limits stated"
+    },
+    {
+      "item": 3,
+      "evidence": [
+        "confirmation-design.md section1 and coverage table"
+      ],
+      "completed": "Finite falsifiable targets,unchanged I/D/P/core/metrics;non-result coverage mandatory across normal/adverse/infeasible/failure/boundary cells"
+    },
+    {
+      "item": 4,
+      "evidence": [
+        "confirmation-design.md sections2-4",
+        "review-decisions.json"
+      ],
+      "completed": "N35 justified by11 coverage groups,105arms,2100calls/CPU-seconds,finite candidate-domain proposal,typed/semantic dedup and explicit infeasible-slot return-to-review;no statistical power claims"
+    },
+    {
+      "item": 5,
+      "evidence": [
+        "custody-plan.md",
+        "review-decisions.json"
+      ],
+      "completed": "Real C/E/V/A roles,storage and key access matrix,precommit/hash/nonce,one-time reveal,contamination and user decisions;not provisioned or independently sealed yet"
+    },
+    {
+      "item": 6,
+      "evidence": [
+        "confirmation-design.md section5",
+        "claims-and-mechanisms.md section6"
+      ],
+      "completed": "Existing finite qualification mapped to exact unqualified combination/interface dependencies;minimal successor proposals only,no implementation or method changes"
+    }
+  ],
+  "confirmation_recommendation": {
+    "N": 35,
+    "N_status": "PROPOSED_NOT_ACCEPTED_NOT_CONSTRUCTED",
+    "coverage_group_counts": [
+      3,
+      3,
+      1,
+      1,
+      5,
+      2,
+      6,
+      6,
+      4,
+      2,
+      2
+    ],
+    "arms": 105,
+    "policy_calls_max": 2100,
+    "jobs_max": 35,
+    "cpus_per_job": 1,
+    "memory_GiB_per_job": 1,
+    "wall_seconds_per_job": 60,
+    "reserved_cpu_seconds_max": 2100,
+    "concurrency": 1,
+    "actual_candidate_feasibility_verified": false,
+    "condition_vectors_generated": false,
+    "sampling_basis": "Finite mechanism coverage,not population random sampling/power",
+    "qualifications_pending": true,
+    "custodian_selected": false,
+    "access_controls_verified": false,
+    "seed_nonce_keys_generated": false,
+    "confirmation_gate_closed": true
+  },
+  "review": {
+    "spec": "Read-only independent final review: F2 applicability narrowed toA01/A02; A03/B02/B03 not misclassified; no other reported document blocker",
+    "standards": "Read-only independent final review: stale protocol pending-freeze navigation corrected; source/acceptance/P claims and proposed-state boundaries consistent",
+    "information_boundary_correction": "Author verified actual v2 lacks work_mode/raw calendar; claims now distinguish declared design from actual policy input",
+    "independent_roles_in_document_review_are_not_confirmation_custody": true,
+    "review_does_not_accept_proposal_or_authorize_execution": true,
+    "closure": "Both independent reviewers read the targeted corrections and closed their respective F2 applicability and stale navigation findings; no new findings in closure checks"
+  },
+  "this_round": {
+    "research_model_calls": 0,
+    "research_runs": 0,
+    "new_engineering_checks": 0,
+    "confirmation_inputs_generated": false,
+    "confirmation_inputs_read": false,
+    "confirmation_results_read": false,
+    "server_login_or_remote_reverification": false,
+    "accounts_ACLs_keys_changed": false,
+    "code_or_frozen_protocol_changed": false
+  },
+  "preservation": {
+    "original_R2_R3_R4_files_byte_identical": 89,
+    "original_input_results_failures_and_noncompliance_retained": true,
+    "src_scripts_tests_configs_evidence_paper_history_unchanged": true,
+    "maintenance_runtime_files_matching": 53,
+    "slice57_files_matching": 3,
+    "untracked_user_reports_retained": true
+  },
+  "verification": {
+    "evidence_read": "Local saved terminal/verification/protocol/source; no imported project modules and no new simulator/evaluator invocation",
+    "remote_originals": "Not re-read this round; existing receipt not treated as new raw-output verification",
+    "tools": {
+      "git": "2.56.0.windows.2",
+      "python": "3.12.14",
+      "powershell": "7.6.9"
+    },
+    "artifact_identity": "Exact UTF-8 LF bytes,SHA256 and committed blobs; manifest self-identity is enclosing Git commit",
+    "fresh_delivery": "Required fresh partial checkout of declared documents before final response; no project execution",
+    "anchors_individually_checked": false,
+    "local_markdown_target_paths_checked": 146
+  },
+  "stop": "User document review for claims,coverage/N/budget,custodian and specific later prerequisites. No sealed preparation or execution follows automatically.",
+  "artifact_manifest": {
+    "AGENTS.md": {
+      "bytes": 6440,
+      "sha256": "a37cd2e2d498363d02bb13e18fb9bc2d925ef37837c0aac848e00eb9b43d9f89"
+    },
+    "README.md": {
+      "bytes": 5284,
+      "sha256": "b96269259e0ac6642c3ace50ba15cf4145f369a0f9a99a825b04bc59ab0deab2"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 4016,
+      "sha256": "9877136c72d90b7aaa6c520b0337f6a8e8a9051ae295a81bbe2310a5c00a74fa"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14622,
+      "sha256": "8f0d30a962f9f4301acaad8f68f7d22d1051e9f1c510cc8e1cc313e00922a177"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 5846,
+      "sha256": "d77945bb24a492694898a9a8dc2c90ce460a40de13b74e1cea5f9fd77b0bf718"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2794,
+      "sha256": "72eaf960117b02fd53e9f6040ce1ad4e3d13f2cdcba3ccee2f55d7b0ee52002d"
+    },
+    "docs/current-research.json": {
+      "bytes": 1933,
+      "sha256": "712ef20cbf60e62edf3e961b19001a2072b0427122b5a943bb3a532b16e1ec87"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 32925,
+      "sha256": "04052ae6c8d56480552cee6ce7024fa36a2cec750aa4958af5bd27c060e0c9ea"
+    },
+    "docs/mainline/review-gated/R4/claims-confirmation-v1/README.md": {
+      "bytes": 3019,
+      "sha256": "a900d7f8571b0429a7e699bc6dcbe384dcae92105066f3b926e3d9f7fb7fba66"
+    },
+    "docs/mainline/review-gated/R4/claims-confirmation-v1/claims-and-mechanisms.md": {
+      "bytes": 8917,
+      "sha256": "25055a4dc7b44783ed416536c504a8b85172656cb3fecbadb1804eea9a209279"
+    },
+    "docs/mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md": {
+      "bytes": 12934,
+      "sha256": "8b34aa830e59638724b8ff4aba404b5e1f167c5dd30b90c68b2f96921ff1e430"
+    },
+    "docs/mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md": {
+      "bytes": 7470,
+      "sha256": "89fdd90c53582a4156a8df27dafba2ae783a5f34ef2114be1fcc9f06f129c666"
+    },
+    "docs/mainline/review-gated/R4/claims-confirmation-v1/review-decisions.json": {
+      "bytes": 2740,
+      "sha256": "228e900910c04b1073fa7f4bda613f81ca15a12a6e7fa69d1fbfa2833921f687"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/acceptance-20261116.json": {
+      "bytes": 1872,
+      "sha256": "5b793feadd790bc7b4da492fb5910478ed4c5ce1a1f89b89f731245ab2ee15d6"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 16118,
+      "sha256": "cdc64153382573d89d96c13022d4766668a634ff33eb0810b9baf4b03243b3bd"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 25072,
+      "sha256": "5111865660e6ed93e2d5c6fa7d5013ddd36b863c173068a469db024028e53e99"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-> 当前唯一下一步（2026-11-16）：review [R4公开开发结果](mainline/review-gated/R4/public-development-v1/README.md)及[完整19行表](mainline/review-gated/R4/public-development-v1/paired-results.md)。本次19条件／57处理单批已完成，无重试，当前停止；确认、R5／RSI未授权。下文为历史。
+> 当前唯一下一步（2026-11-16）：review [主张与独立确认方案](mainline/review-gated/R4/claims-confirmation-v1/README.md)，决定覆盖／N／预算、真实保管角色和后继资格准备范围。原19开发结果已接受；确认输入／结果、模型、R5／RSI执行均未授权。下文为历史。
 
 # 当前交审：风险基线39r与时间基础39t，等待用户指导
 

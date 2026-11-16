@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-11.16 更新：[R4公开开发结果](mainline/review-gated/R4/public-development-v1/README.md)已交review；原19条件／57处理完成一次，核心1c0b0c47和原输入未改，新增入口75981d12单列。原件与非合规行保留，当前无活动实现／研究执行，确认门关闭。
+11.16 更新：519da3d4公开开发结果已接受；[主张、机制和确认准备包](mainline/review-gated/R4/claims-confirmation-v1/README.md)交审。当前无活动实现；核心及原输入／结果保持，未生成封存候选或部署保管权限。
 
 ## 从哪里进入
 

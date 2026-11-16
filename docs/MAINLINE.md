@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**R4公开开发19条件／57处理已执行一次并交审，当前停止。** 18合规行中I相对D的服务缺额10行相同、8行更大，无更小行；C09b退出超额保留原后果、不计有效获益。仅公开开发部分已冻结，确认门保持关闭，完整R3／Q11／R2未完成。
+**519da3d4的原19条件／57处理公开开发结果已接受。** 当前交审主张—证据—适用域、机制／可改进性分析及N35独立确认准备方案；原主比较与全分母不变，确认门关闭。本轮只有文档工作，未运行模型或研究。
 
-本轮review：[开发结果报告](mainline/review-gated/R4/public-development-v1/README.md) · [19行完整表](mainline/review-gated/R4/public-development-v1/paired-results.md) · [交付回执](mainline/review-gated/R4/public-development-v1/result.json)。授权与冻结门见[追加登记](mainline/review-gated/R4/public-development-v1/scope.md)，原正式协议和验收原件保留；当前状态见[progress](mainline/progress.json)。
+本轮review：[主张与机制](mainline/review-gated/R4/claims-confirmation-v1/claims-and-mechanisms.md) · [确认覆盖／N](mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md) · [独立保管程序](mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md)。[追加接受记录](mainline/review-gated/R4/public-development-v1/acceptance-20261116.json)保留原[19行结果](mainline/review-gated/R4/public-development-v1/paired-results.md)，当前状态见[progress](mainline/progress.json)。
 
 ## 拟研究的问题
 
@@ -18,7 +18,7 @@
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
 | R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；运行器声明有限工程资格已接受；完整Q11／R2未接受 |
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
-| R4 | 方法效果、反事实适用域及消融 | 原19公开开发批次已完成待review；后续及确认未授权 |
+| R4 | 方法效果、反事实适用域及消融 | 原19公开开发已接受；确认准备方案待review，执行未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
 | R6 | 主张—证据矩阵与论文论证 | 未授权 |
 
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；运行器有限资格已接受，公开开发协议已冻结；原19开发批次按固定manifest完成一次，结果已交审并停止。确认仍未准备、读取或运行，后续执行未授权。
+本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；运行器有限资格已接受，公开开发协议已冻结；原19开发批次已接受；当前仅交付主张／机制与确认准备文档。确认仍未准备、读取或运行，后续资格／执行未授权。
