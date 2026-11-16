@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-16 current gate:** User accepted34201ef7 finite runner qualification and froze the public-development protocol. Only the [R4 original19-condition batch](../mainline/review-gated/R4/public-development-v1/scope.md) is authorized, core1c0b0c47 unchanged. Pin entry/manifest before calls; stop on fatal errors and deliver all19 rows. Confirmation and R5/RSI stay closed.
+**2026-11-16 current gate:** The single frozen [R4 public-development batch](../mainline/review-gated/R4/public-development-v1/README.md) completed19 conditions/57 arms, core unchanged, and awaits review. No active implementation or further execution. Retain all original and noncompliant records; confirmation/R5/RSI remain closed. See [progress](../mainline/progress.json).
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

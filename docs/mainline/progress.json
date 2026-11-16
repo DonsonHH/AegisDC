@@ -2,40 +2,42 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-16",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "in_progress",
+  "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R4-PUBLIC-DEV",
-  "current_milestone": "DEVELOPMENT_ENTRY_AND_MANIFEST_FREEZE",
+  "current_milestone": "R4_PUBLIC_DEVELOPMENT_RESULTS_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "R4_PUBLIC_DEVELOPMENT_ONLY",
+  "agent_stage": "PUBLIC_DEVELOPMENT_BATCH_DELIVERED",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
-    "current_mainline_executed": 0,
+    "current_mainline_executed": 19,
     "legacy_registered_runs": 180,
     "legacy_statement": "〔验证关闭未入环；仅2个预设实例；无现场标定〕NO_PRACTICAL_GAIN",
     "legacy_protocol": "docs/mainline/30-comparison-protocol-v1.json",
     "legacy_full_ledger": "docs/mainline/history/20261112-before-reset/progress.json",
     "legacy_results_relabelled": false,
-    "scope": "Registered method/RSI research trials; excludes completed R2 engineering qualification"
+    "scope": "Actual public-development research, separate from engineering qualifications and legacy180 runs",
+    "current_count_unit": "Frozen public-development condition triplet; not independent accidents",
+    "public_development_arm_runs": 57,
+    "confirmation_runs": 0
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Append finite runner acceptance and freeze public-development protocol scope",
-      "Freeze explicit development entry, full manifest, core/input hashes and command before research calls",
-      "Run original19 conditions once in order,57 I/D/P arms,1CPU1GiB300s; stop on fatal error and retain all rows"
+      "Completed one original19-condition public-development batch; core1c0b0c47 and frozen inputs unchanged",
+      "Results delivered for review; no further model calls or confirmation work"
     ],
     "after_delivery": "WAIT_FOR_PUBLIC_DEVELOPMENT_RESULTS_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
-    "document_work_authorized": true,
+    "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "PUBLIC_DEVELOPMENT_BATCH_AUTHORIZED",
+    "document_authorization_status": "PUBLIC_DEVELOPMENT_RESULTS_DELIVERED_STOPPED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -43,13 +45,13 @@
     "R3_design_authorized": true,
     "R3_implementation_authorized": false,
     "R2_extension_authorized": false,
-    "R4_authorized": true,
+    "R4_authorized": false,
     "R5_authorized": false,
     "R2_extension_specification_authorized": true,
     "R2_extension_implementation_authorized": false,
     "R2_extension_qualification_execution_authorized": false,
     "R3_numeric_protocol_frozen": false,
-    "development_execution_authorized": true,
+    "development_execution_authorized": false,
     "confirmation_execution_authorized": false
   },
   "gates": [
@@ -111,10 +113,11 @@
     {
       "id": "R4",
       "name": "method_counterfactual_effect",
-      "status": "PUBLIC_DEVELOPMENT_BATCH_AUTHORIZED",
+      "status": "PUBLIC_DEVELOPMENT_COMPLETED_AWAITING_REVIEW",
       "requires_explicit_user_review": true,
-      "execution_authorized": true,
-      "scope": "Only original19 disclosed conditions; confirmation excluded"
+      "execution_authorized": false,
+      "scope": "Original19 public development conditions only; confirmation remains closed",
+      "result": "docs/mainline/review-gated/R4/public-development-v1/result.json"
     },
     {
       "id": "R5",
@@ -131,14 +134,7 @@
       "execution_authorized": false
     }
   ],
-  "active_implementations": [
-    {
-      "owner": "current chat root",
-      "ticket": "R4-PUBLIC-DEV",
-      "scope": "entry/archive/summary only; core frozen1c0b0c47",
-      "worktree": "C:\\Users\\Donson\\Documents\\ChatGPT\\Renly"
-    }
-  ],
+  "active_implementations": [],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -460,7 +456,7 @@
     "numeric_protocol_frozen": false,
     "new_qualification_runs": 0,
     "new_research_experiments": 0,
-    "required_R2_extension": "Accepted finite E1-E4 and admission repair; new full bounded I/D/P runner engineering checks passed awaiting review; no research execution",
+    "required_R2_extension": "Limited runner accepted; original19 public development batch completed for review, confirmation gate closed",
     "accepted_revision": "334e537bb5f9b59a3426c9b7bfc6130c6ad9e22b",
     "original_delivery_record_role": "Immutable authoring-time proposal; current direction acceptance recorded here",
     "current_research_direction": "Conditional value of inspection versus lawful direct revision; protection background; no M0/B1 superiority trial",
@@ -488,7 +484,7 @@
     "Q11_deferred_qualified": false,
     "old_R2_qualification_transferred": false,
     "R3_numeric_protocol_frozen": false,
-    "next_step": "Historical authoring snapshot; current runner_delivery and formal_protocol_delivery await review",
+    "next_step": "Historical authoring snapshot; current public_development result awaits review",
     "accepted_revision": "339a1d2ef939b2404d57bde6d323d9e65846f8e7",
     "record_role": "Accepted original specification authoring snapshot; current execution in r2_extension_qualification",
     "current_execution_ref": "r2_extension_qualification"
@@ -563,7 +559,8 @@
     "numeric_protocol_frozen": false,
     "complete_three_treatment_runner_qualified": false,
     "input_generation_scope": "19 full disclosed development configs authored only, not executed; confirmation not prepared",
-    "current_runner_status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW"
+    "current_runner_status": "FINITE_ENGINEERING_PASS_AWAITING_USER_REVIEW",
+    "record_role": "Accepted candidate design basis; current public freeze and research result tracked in formal_protocol_delivery/public_development"
   },
   "runner_delivery": {
     "status": "USER_ACCEPTED_DECLARED_FINITE_ENGINEERING_SCOPE",
@@ -600,7 +597,8 @@
     "affected_existing_entry_calls": 915,
     "affected_existing_constructor_attempts": 100,
     "user_acceptance": true,
-    "acceptance": "docs/mainline/review-gated/R3/runner-v1/acceptance-20261116.json"
+    "acceptance": "docs/mainline/review-gated/R3/runner-v1/acceptance-20261116.json",
+    "record_role": "Historical engineering-delivery record; development research count is owned by public_development"
   },
   "formal_protocol_delivery": {
     "status": "PUBLIC_DEVELOPMENT_PART_USER_FROZEN_CONFIRMATION_CLOSED",
@@ -609,7 +607,7 @@
     "development_inputs": "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
     "development_conditions": 19,
     "paired_arms_per_condition": 3,
-    "development_research_runs": 0,
+    "development_research_runs": 57,
     "user_frozen": true,
     "confirmation_gate": "docs/mainline/review-gated/R3/formal-protocol-v1/confirmation-gate.json",
     "confirmation_prepared": false,
@@ -617,18 +615,45 @@
     "confirmation_runs": 0,
     "R3_complete": false,
     "freeze_scope": "I/D/P19 public development conditions and core1c0b0c47; not confirmation package or fullR3",
-    "scope_record": "docs/mainline/review-gated/R4/public-development-v1/scope.md"
+    "scope_record": "docs/mainline/review-gated/R4/public-development-v1/scope.md",
+    "development_count_unit": "I/D/P arm runs across19 paired conditions; not57 independent accidents",
+    "current_result": "docs/mainline/review-gated/R4/public-development-v1/result.json"
   },
   "public_development": {
-    "status": "ENTRY_AND_MANIFEST_PREPARATION",
+    "status": "COMPLETED_PUBLIC_DEVELOPMENT_AWAITING_USER_REVIEW",
     "scope": "docs/mainline/review-gated/R4/public-development-v1/scope.md",
     "conditions_authorized": 19,
     "arms_authorized": 57,
     "policy_call_limit": 1140,
     "core_revision": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
     "input_sha256": "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880",
-    "research_conditions_executed": 0,
-    "research_arm_runs": 0,
-    "confirmation_runs": 0
+    "research_conditions_executed": 19,
+    "research_arm_runs": 57,
+    "confirmation_runs": 0,
+    "result": "docs/mainline/review-gated/R4/public-development-v1/result.json",
+    "report": "docs/mainline/review-gated/R4/public-development-v1/README.md",
+    "table": "docs/mainline/review-gated/R4/public-development-v1/paired-results.md",
+    "terminal": "docs/mainline/review-gated/R4/public-development-v1/terminal.json",
+    "manifest_commit": "bf1096e6",
+    "entry_revision": "75981d124d3c33348c1d4bc3a6528bc0884abc7d",
+    "job_id": "134204",
+    "verification_job_id": "134205",
+    "runner_calls": 19,
+    "constructor_attempts": 57,
+    "plant_entry_calls": 986,
+    "policy_calls": 362,
+    "scorer_calls": 57,
+    "valid_comparison_rows": 18,
+    "same_deficit_rows": 10,
+    "more_deficit_with_inspection_rows": 8,
+    "less_deficit_with_inspection_valid_rows": 0,
+    "noncompliant_rows": [
+      "C09b"
+    ],
+    "fatal_conditions": 0,
+    "not_executed_conditions": 0,
+    "research_attempts": 1,
+    "retries": 0,
+    "user_acceptance": false
   }
 }

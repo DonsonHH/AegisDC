@@ -1,0 +1,363 @@
+{
+  "schema": "aegisdc-r4-public-development-delivery-v1",
+  "date": "2026-11-16",
+  "status": "COMPLETED_PUBLIC_DEVELOPMENT_AWAITING_USER_REVIEW",
+  "classification": "R4_PUBLIC_DISCLOSED_DEVELOPMENT_NOT_CONFIRMATION",
+  "versions": {
+    "accepted_engineering_publication": "34201ef76f4b5d16286ae7008a814c6c02c566c4",
+    "frozen_core": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "development_input_authoring": "395018e1920f68ed3435f618cfeafc40771d50fd",
+    "development_input_publication": "34201ef76f4b5d16286ae7008a814c6c02c566c4",
+    "entry_revision": "75981d124d3c33348c1d4bc3a6528bc0884abc7d",
+    "launch_manifest_commit": "bf1096e65cf55ad792c3b1ce4b868968977dacaf",
+    "publication": "Enclosing Git commit containing this result; distinguished from core and entry versions"
+  },
+  "scope_record": "scope.md",
+  "acceptance": "docs/mainline/review-gated/R3/runner-v1/acceptance-20261116.json",
+  "development_freeze": {
+    "status": "USER_FROZEN_PUBLIC_PART_ONLY",
+    "original_protocol_preserved": true,
+    "original_input_preserved": true,
+    "original_input_authoring_execution_false_is_historical": true,
+    "confirmation_gate_closed": true,
+    "full_R3_complete": false
+  },
+  "launch": {
+    "manifest": "launch-manifest.json",
+    "manifest_sha256": "8cbb680d29522cb29af5165b2bb2f3f4a1aaa51f41fecc101dbfab84379c5aa0",
+    "command_record": "launch.json",
+    "job_script": "launch.slurm",
+    "job_script_sha256": "5a173c94a7a4aa25c3212627c9d219e8e3d4b6170f69a9dc97f55a633eab93d1",
+    "source_archive_sha256": "9b8dba2e7b2dc8d913b3595a711bed1f22281a120840c5975ee8882fbe058208",
+    "frozen_before_research_calls": true,
+    "source_manifest_all_files_match_committed_blobs": true,
+    "core_logic_changed": false
+  },
+  "input": {
+    "path": "docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
+    "sha256": "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880",
+    "schema": "aegisdc-r3-development-inputs-v1",
+    "condition_order": [
+      "C01",
+      "C02",
+      "C03",
+      "C04a",
+      "C04b",
+      "C05a",
+      "C05b",
+      "C05c",
+      "C06a",
+      "C06b",
+      "C06c",
+      "C07a",
+      "C07b",
+      "C08a",
+      "C08b",
+      "C09a",
+      "C09b",
+      "C10a",
+      "C10b"
+    ],
+    "arms_order": [
+      "I",
+      "D",
+      "P"
+    ],
+    "renamed_as_engineering": false
+  },
+  "budget": {
+    "conditions": 19,
+    "arms": 57,
+    "policy_calls_per_arm": 20,
+    "policy_calls_total": 1140,
+    "cpus": 1,
+    "memory_MiB": 1024,
+    "wall_seconds": 300
+  },
+  "actual_execution": {
+    "research_attempts": 1,
+    "condition_triplets": 19,
+    "arm_runs": 57,
+    "counts": {
+      "runner_calls": 19,
+      "constructor_attempts": 57,
+      "plant_entry_calls": 986,
+      "policy_calls": 362,
+      "scorer_calls": 57
+    },
+    "max_policy_calls_per_arm": 20,
+    "conditions_not_executed": 0,
+    "fatal_conditions": 0,
+    "missing_complete_scores": 0,
+    "policy_budget_exceeded": false,
+    "retries": 0,
+    "parameter_or_method_changes": false,
+    "core_source_unchanged": true
+  },
+  "results": {
+    "full19_row_table": "paired-results.md",
+    "machine_rows": "terminal.json:rows",
+    "raw_condition_index": "terminal.json:records",
+    "valid_comparison_rows": 18,
+    "same_deficit_rows": 10,
+    "more_deficit_with_inspection_rows": 8,
+    "less_deficit_with_inspection_valid_rows": 0,
+    "noncompliant_rows": [
+      "C09b"
+    ],
+    "C09b_raw_delta_L": 6,
+    "C09b_is_valid_gain": false,
+    "main_difference": "L_D minus L_I",
+    "cost_difference": "I minus D, component by component; null stays null",
+    "population_or_probability_weighted_estimate": false,
+    "pre_treatment_public_strata": {
+      "direct_initial_chain_infeasible": [
+        "C07a"
+      ],
+      "direct_initial_chain_proposable_count": 18,
+      "within_proposable_compliant_rows": 17,
+      "within_proposable_same_deficit": 9,
+      "within_proposable_more_deficit_with_inspection": 8,
+      "within_proposable_less_deficit_with_inspection": 0,
+      "not_defined_by_approval_or_success": true,
+      "all19_rows_retained": true
+    }
+  },
+  "interpretation": {
+    "C02_C03": "Same service deficit; inspection avoids unnecessary revision and saves5/3 person-seconds and tool-seconds relative to D",
+    "time_budget_limits": "C01/C06b/c/C10b I misses commit before10; C07b budget and C08b window block full chain; C08a queue delays I until before approval cutoff",
+    "tradeoffs": "C06a/C07b/C08a/C08b have lower I work but higher I deficit; not efficiency gain at equal service",
+    "backend_and_workflow_limits": "C04a/b physical backup unavailability defeats revised control; C05 retains refusal/failed or unattempted commit; C06b/c retain actual physical change without verification closure",
+    "C09b": "Raw positive difference comes from later onset of persistent harmful isolation inside fixed H20; both I/D exceed reserved exit, row remains noncompliant and excluded from valid gain",
+    "generalization": "Only these disclosed synthetic conditions, not historical avoidability, population evidence or validated field operations benefit"
+  },
+  "engineering_overlap": {
+    "comparison_basis": "Canonical complete common JSON equality with prior16 runner engineering conditions",
+    "exact_overlap": {
+      "C01": [
+        "E02-c0-cutoff"
+      ],
+      "C02": [
+        "E03-short-circuit"
+      ],
+      "C04a": [
+        "E16-backup-unavailable"
+      ],
+      "C08a": [
+        "E15-queue-cutoff-before-approval"
+      ],
+      "C09a": [
+        "E11-harmful-isolation"
+      ],
+      "C09b": [
+        "E12-incomplete-exit"
+      ]
+    },
+    "exact_count": 6,
+    "remaining_not_claimed_unseen": true,
+    "engineering_counts_not_added_to_research_samples": true
+  },
+  "attempts": [
+    {
+      "job_id": "134203",
+      "kind": "ENTRY_FAKE_RECORD_SELFTEST",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "tests": 5,
+      "research_model_calls": 0,
+      "core_imported": false,
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R4-public-development-20261116/entry-selftest-01",
+      "source_archive_sha256": "e9b170dd803f7dc2060e9de539ee8d942214cff13eeedf373986fd93ec3315ab"
+    },
+    {
+      "job_id": "134204",
+      "kind": "R4_PUBLIC_DEVELOPMENT_RESEARCH",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R4-public-development-20261116/attempt-01",
+      "core_revision": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+      "entry_revision": "75981d124d3c33348c1d4bc3a6528bc0884abc7d",
+      "counts": {
+        "runner_calls": 19,
+        "constructor_attempts": 57,
+        "plant_entry_calls": 986,
+        "policy_calls": 362,
+        "scorer_calls": 57
+      },
+      "source_archive_sha256": "9b8dba2e7b2dc8d913b3595a711bed1f22281a120840c5975ee8882fbe058208",
+      "stdout_sha256": "59f76046f1bfff90a196bbffaa5ade33b8e8c2735ac15c2baa1463af404df132",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "job_id": "134205",
+      "kind": "READ_SAVED_RECORDS_AND_RENDER_TABLE",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "directory": "/share/home/renly/renly-patrol-rsi/mainline/R4-public-development-20261116/verification-01",
+      "new_model_policy_scorer_calls": 0,
+      "tool_sha256": "3435dec8d797dfc7f1ba81a6e1a846191a0b93dccc0d017afa8f5d2e5bb9ab5c"
+    }
+  ],
+  "compute": {
+    "partition": "cu",
+    "cpu": 1,
+    "memory_request_MiB": 1024,
+    "wall_limit_seconds": 300,
+    "slurm_elapsed_seconds": 3,
+    "slurm_total_cpu_seconds": "1.862",
+    "allocated_TRES": "billing=1,cpu=1,node=1",
+    "GPU_requested": false,
+    "python": "3.13.9",
+    "python_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+    "dependencies_installed": false,
+    "local_research_model_execution": false
+  },
+  "private_evidence": {
+    "root": "/share/home/renly/renly-patrol-rsi/mainline/R4-public-development-20261116",
+    "condition_files": "attempt-01/result/<condition-id>.json",
+    "started_markers": "attempt-01/result/<condition-id>-started.json",
+    "progress_snapshots": "attempt-01/result/progress-01.json through progress-19.json",
+    "terminal": "attempt-01/result/terminal.json",
+    "contents": [
+      "complete common input",
+      "all I/D/P constructor/plant/policy/scorer calls and arguments",
+      "public views and requests/receipts",
+      "actual stages and stopped states",
+      "full-window segment records and scoring basis",
+      "source/input hashes and actual counts",
+      "all process-failure and noncompliant consequences"
+    ],
+    "each_original_sha256_index": "terminal.json:records",
+    "attempts_or_conditions_overwritten": false
+  },
+  "verification": {
+    "saved_output_receipt": "verification.json",
+    "receipt_sha256": "2d434652e23151e64e66385b9d8674aee2cbc962b2e135fb0e475b383b00cf91",
+    "terminal_sha256": "f554b18a916ad3cf7fb0785e4aeb2b8a16df53d5ba5e896949634e3297f254f5",
+    "paired_table_sha256": "b67ff88887712c7c4b09bb83e8016699666aa567463eb8f6d6a47b4b10e7088f",
+    "all19_originals_read": true,
+    "all57_full_window_integrals_costs_and_differences_reconciled": true,
+    "input_order_and_core_hashes_match": true,
+    "no_model_import_or_calls": true,
+    "local_tools": {
+      "python": "3.12.14",
+      "git": "2.56.0.windows.2",
+      "powershell": "7.6.9"
+    },
+    "local_work": "Editing,SSH/transfers,Git/JSON/hash/path integrity and viewing saved outputs only",
+    "fresh_delivery": "Require committed-blob and fresh partial-checkout comparison of final durable set before response",
+    "local_markdown_target_count": 143,
+    "anchors_individually_checked": false
+  },
+  "review_limits": {
+    "independent_subagent_prelaunch_review_completed": false,
+    "reason": "Subagent authorization error; not counted as completed review",
+    "performed": "Author source/scope review,5 wrapper-only tests,preflight identity validation and independent saved-output arithmetic reconciliation",
+    "postresult_rules_changed": false,
+    "author_final_audit": "Completed requirement-by-requirement review of19-row retained data,all condition explanations,pre-treatment public stratum,counts,source/input preservation and current stop state; no independent subagent completion claimed"
+  },
+  "preservation": {
+    "original_R2_R3_files_byte_identical": 79,
+    "core_src_tree_identical_to_1c0b0c47": true,
+    "original_engineering_inputs_results_failures_untouched": true,
+    "maintenance_runtime53_and_slice57_three_hashes_match": true,
+    "untracked_user_reports_retained": true
+  },
+  "confirmation_and_next_stage": {
+    "inputs_prepared": false,
+    "results_read": false,
+    "runs": 0,
+    "gate_closed": true,
+    "N_custodian_manifest_coverage_budget_pending": true,
+    "complete_R3": false,
+    "R5_RSI_authorized": false,
+    "Netherlands_RESP_expanded": false
+  },
+  "stop": "Public development result review only; no additional model calls,confirmation,R5/RSI or scope expansion",
+  "artifact_manifest": {
+    "AGENTS.md": {
+      "bytes": 6350,
+      "sha256": "43b13c5f711e3504de6ddcf59129441226aa5ca85acdc8553890840d65602c8d"
+    },
+    "README.md": {
+      "bytes": 5338,
+      "sha256": "a903a0186a68d2b2d723b6e3b796b3e020195bca815e035b9fa4309c13a59aa0"
+    },
+    "docs/MAINLINE.md": {
+      "bytes": 3939,
+      "sha256": "3bc2e27c7e7c9a0c339f05e8d21e79457985885c0efc584c5c678d4dfcd27f88"
+    },
+    "docs/NEXT.md": {
+      "bytes": 14631,
+      "sha256": "ef0c829f9e9c61d48daa398a8683db0cc112f79412c46b34cca69b9d438eedbf"
+    },
+    "docs/WORKSPACE.md": {
+      "bytes": 5883,
+      "sha256": "c0128babe4df2bab8c1c0577f41c175336b2fe6ba25ea88d00dbf6b75db60a3e"
+    },
+    "docs/agents/issue-tracker.md": {
+      "bytes": 2745,
+      "sha256": "02973523a3b7bef4c742de5cf90bcbd5116a396e3c615f0aac0f360568bc7f9a"
+    },
+    "docs/current-research.json": {
+      "bytes": 1930,
+      "sha256": "e5ea245e4ebe398cf674b3f4ef5fc28d4185c0eae75c40b9ea6411065edba237"
+    },
+    "docs/mainline/progress.json": {
+      "bytes": 30387,
+      "sha256": "f5c4278d7b5d1b8486ad2bae06fb7500627b25e7d47c68778d69f3281965b10e"
+    },
+    "docs/mainline/review-gated/R3/runner-v1/acceptance-20261116.json": {
+      "bytes": 938,
+      "sha256": "e7b6e258aa25a9b712ef70f201865447c3ee0a59857a186ebd2848d5aa5e8980"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/README.md": {
+      "bytes": 11814,
+      "sha256": "6559bb098c76534e24b19d31cead03ad70feaf8a9030348f75a63a6948015d7d"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/launch-manifest.json": {
+      "bytes": 4798,
+      "sha256": "8cbb680d29522cb29af5165b2bb2f3f4a1aaa51f41fecc101dbfab84379c5aa0"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/launch.json": {
+      "bytes": 1711,
+      "sha256": "a052de679f8dc6849d7768cf00b5c16e80f7b597ef3d8435672559893d73c69a"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/launch.slurm": {
+      "bytes": 1011,
+      "sha256": "5a173c94a7a4aa25c3212627c9d219e8e3d4b6170f69a9dc97f55a633eab93d1"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/paired-results.md": {
+      "bytes": 14120,
+      "sha256": "b67ff88887712c7c4b09bb83e8016699666aa567463eb8f6d6a47b4b10e7088f"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/scope.md": {
+      "bytes": 4977,
+      "sha256": "888cfa32683f66c01e7d3648c60282317054c238e18eccf0c939b322d70f2757"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/terminal.json": {
+      "bytes": 169240,
+      "sha256": "f554b18a916ad3cf7fb0785e4aeb2b8a16df53d5ba5e896949634e3297f254f5"
+    },
+    "docs/mainline/review-gated/R4/public-development-v1/verification.json": {
+      "bytes": 2858,
+      "sha256": "2d434652e23151e64e66385b9d8674aee2cbc962b2e135fb0e475b383b00cf91"
+    },
+    "docs/mainline/review-gated/plan.md": {
+      "bytes": 15914,
+      "sha256": "e7f97bbb9ac38b06ab52b4b724a4cbd0e63d295466f908c8530f3bf18dc3649c"
+    },
+    "docs/meetings/2026-11-12-research-mainline-reset.md": {
+      "bytes": 23760,
+      "sha256": "93c16745c8ebb5bb89aedfdbd6b40c23a6f2bc8fdbfda1cb520c91c71d5d7626"
+    },
+    "scripts/run_london_public_development.py": {
+      "bytes": 18460,
+      "sha256": "b191b5b2136d0261940d95bc296738ad754066f97de3f28d2604e7d64382e66f"
+    },
+    "tests/test_london_public_development_entry.py": {
+      "bytes": 4199,
+      "sha256": "dcf3fa7cd097d5339f56e5d2827e8de9ac9314bb5a78f92682c0389cd94f3049"
+    }
+  }
+}
