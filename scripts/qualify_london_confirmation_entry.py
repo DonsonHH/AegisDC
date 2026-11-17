@@ -54,13 +54,16 @@ def compare(actual,expected):
 
 def counted(callback,ledger):
     """Account outside the archiver, even if it cannot return a terminal."""
-    ledger.update(calls=0,returned=0,unreturned=0,reported_internal_counts={k:0 for k in ('constructor_attempts','plant_entry_calls','policy_calls','scorer_calls')})
+    ledger.update(calls=0,returned=0,unreturned=0,unknown_count_calls=0,reported_counts_scope='KNOWN_REPORTED_SUBTOTAL_ONLY',reported_internal_counts={k:0 for k in ('constructor_attempts','plant_entry_calls','policy_calls','scorer_calls')})
     def call(common,order):
         ledger['calls']+=1;ledger['unreturned']+=1
         value=callback(common,order=order)
         ledger['returned']+=1;ledger['unreturned']-=1
-        for key in ledger['reported_internal_counts']:
-            ledger['reported_internal_counts'][key]+=value.get('counts',{}).get(key,0)
+        counts=value.get('counts') if isinstance(value,dict) else None
+        if not isinstance(counts,dict) or any(type(counts.get(k)) is not int or counts[k]<0 for k in ledger['reported_internal_counts']):
+            ledger['unknown_count_calls']+=1
+        else:
+            for key in ledger['reported_internal_counts']:ledger['reported_internal_counts'][key]+=counts[key]
         return value
     return call
 
@@ -231,8 +234,13 @@ def main():
             else:
                 if args.saved is None:raise ValueError('Saved output required')
                 dest=args.saved
+                ledger={};counted(lambda common,order:{},ledger)(data['conditions'][0]['common'],['I','D','P'])
+                result['malformed_count_regression']=dict(input='Original U27 empty return, no model',actual=ledger,expected_unknown_count_calls=1,
+                    passed=ledger['calls']==1 and ledger['unknown_count_calls']==1 and ledger['unreturned']==0)
+                result['archive_count_regression']=archive_fault_check(entry,args.output,data,json.loads((root/PACK/'interface-addendum.json').read_text()))
             result['verification']=inspect_saved(dest,expected,fixtures)
             result['status']='PASS_FINITE_PUBLIC_ENGINEERING' if result['verification']['passed'] else 'FAIL_EXPECTATION'
+            if args.mode=='verify' and not (result['malformed_count_regression']['passed'] and result['archive_count_regression']['matches']):result['status']='FAIL_COUNT_REGRESSION'
         result['source_unchanged']=all(sha(root/f)==meta['sha256'] for f,meta in identity['files'].items())
         if not result['source_unchanged']:result['status']='SOURCE_CHANGED'
     except Exception as error:
