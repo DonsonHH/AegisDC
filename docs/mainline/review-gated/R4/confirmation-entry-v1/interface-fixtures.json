@@ -1,0 +1,398 @@
+{
+  "classification": "PUBLIC_INTERFACE_FIXTURES_NO_MODEL",
+  "units": [
+    {
+      "id": "U01",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "parse",
+      "change": "{\"a\":1,\"a\":2}",
+      "expected": "BAD_JSON",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U02",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "parse",
+      "change": "{\"a\":NaN}",
+      "expected": "BAD_JSON",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U03",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "parse",
+      "change": "{\"a\":Infinity}",
+      "expected": "BAD_JSON",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U04",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "parse",
+      "change": "{\"a\":1.0}",
+      "expected": "BAD_JSON",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U05",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "purpose",
+      "change": "CONFIRMATION",
+      "expected": "PURPOSE_REJECTED",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U06",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "purpose",
+      "change": "DISCLOSED_DEVELOPMENT",
+      "expected": "PURPOSE_REJECTED",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U07",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "purpose",
+      "change": "UNKNOWN",
+      "expected": "PURPOSE_REJECTED",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U08",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "normalize_equal",
+      "change": {
+        "E0": "6/2"
+      },
+      "expected": true,
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U09",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "normalize_equal",
+      "change": {
+        "E0": 2
+      },
+      "expected": false,
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U10",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "normalize_equal",
+      "change": {
+        "work_mode": "LOAD_ISOLATED"
+      },
+      "expected": false,
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U11",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "normalize_equal",
+      "change": {
+        "permit": false
+      },
+      "expected": false,
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U12",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "invalid_config",
+      "change": {
+        "H": true
+      },
+      "expected": "BAD_CONFIG",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U13",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "invalid_config",
+      "change": {
+        "H": "20"
+      },
+      "expected": "BAD_CONFIG",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U14",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "invalid_config",
+      "change": {
+        "ready": 1
+      },
+      "expected": "BAD_CONFIG",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U15",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "invalid_config",
+      "change": {
+        "cB": false
+      },
+      "expected": "BAD_CONFIG",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U16",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "invalid_config",
+      "change": {
+        "unexpected": 0
+      },
+      "expected": "BAD_CONFIG",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U17",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "package",
+      "change": "duplicate_condition_id",
+      "expected": "BAD_PACKAGE",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U18",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "package",
+      "change": "same_common_different_id",
+      "expected": "DUPLICATE_INPUT",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U19",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "input_append_space_and_update_manifest_hash",
+      "expected": "INPUT_NOT_FROZEN",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U20",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "manifest_expected_sha_all_zero",
+      "expected": "MANIFEST_HASH",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U21",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "input_append_space_keep_manifest_hash",
+      "expected": "INPUT_HASH",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U22",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "core_file_append_space_keep_hash",
+      "expected": "SOURCE_HASH",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U23",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "python_sha_all_zero",
+      "expected": "PYTHON_HASH",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U24",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "preflight",
+      "change": "manifest_output_different_directory",
+      "expected": "OUTPUT_PATH",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U25",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "output",
+      "change": "existing_directory_sentinel",
+      "expected": "OUTPUT_EXISTS",
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U26",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "batch_callback",
+      "change": {
+        "callback": "raise RuntimeError PUBLIC_FIXTURE",
+        "conditions": [
+          "X01",
+          "X02"
+        ]
+      },
+      "expected": {
+        "status": "STOPPED_ON_ERROR",
+        "rows": [
+          "ERROR",
+          "NOT_EXECUTED"
+        ],
+        "raw_saved": true,
+        "started_saved": true,
+        "terminal_saved": true
+      },
+      "model_calls": 0,
+      "callback_calls": 1
+    },
+    {
+      "id": "U27",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "batch_callback",
+      "change": {
+        "callback": "return {}",
+        "conditions": [
+          "X01",
+          "X02"
+        ]
+      },
+      "expected": {
+        "status": "STOPPED_ON_ERROR",
+        "rows": [
+          "ERROR",
+          "NOT_EXECUTED"
+        ],
+        "raw_saved": true,
+        "started_saved": true,
+        "terminal_saved": true
+      },
+      "model_calls": 0,
+      "callback_calls": 1
+    },
+    {
+      "id": "U28",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "checker_selftest",
+      "change": {
+        "actual": {
+          "score": {
+            "L": 0
+          }
+        },
+        "expected": {
+          "score.L": 1
+        }
+      },
+      "expected": false,
+      "model_calls": 0,
+      "callback_calls": 0
+    },
+    {
+      "id": "U29",
+      "base": "X01_AND_FROZEN_LAUNCH_TEMPLATE",
+      "operation": "normalize_reordered_keys",
+      "change": null,
+      "expected": true,
+      "model_calls": 0,
+      "callback_calls": 0
+    }
+  ],
+  "template_resolution": "Only runtime root/output paths, implementation SHA and source manifest identities are substituted from pinned launch. X01 and mutation payloads remain frozen.",
+  "json_reject": [
+    "{\"a\":1,\"a\":2}",
+    "{\"a\":NaN}",
+    "{\"a\":Infinity}",
+    "{\"a\":1.0}"
+  ],
+  "purpose_reject": [
+    "CONFIRMATION",
+    "DISCLOSED_DEVELOPMENT",
+    "UNKNOWN"
+  ],
+  "equivalent": [
+    {
+      "field": "E0",
+      "left": 3,
+      "right": "6/2"
+    }
+  ],
+  "invalid_changes": [
+    {
+      "H": true
+    },
+    {
+      "H": "20"
+    },
+    {
+      "ready": 1
+    },
+    {
+      "cB": false
+    },
+    {
+      "unexpected": 0
+    }
+  ],
+  "different_changes": [
+    {
+      "E0": 2
+    },
+    {
+      "work_mode": "LOAD_ISOLATED"
+    },
+    {
+      "permit": false
+    }
+  ],
+  "source_faults": [
+    "manifest_sha",
+    "input_sha",
+    "core_sha",
+    "python_sha",
+    "output_path"
+  ],
+  "callback_cases": [
+    {
+      "id": "raises",
+      "expected_status": "STOPPED_ON_ERROR",
+      "callbacks": 1,
+      "suffix": "NOT_EXECUTED"
+    },
+    {
+      "id": "malformed",
+      "expected_status": "STOPPED_ON_ERROR",
+      "callbacks": 1,
+      "suffix": "NOT_EXECUTED"
+    }
+  ],
+  "expected_engineering_conditions": 8,
+  "expected_core_arm_runs": 24,
+  "expected_policy_calls": 191,
+  "expected_noncompliant": [
+    "X08"
+  ],
+  "unknown_purpose_model_calls": 0
+}
