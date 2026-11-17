@@ -43,7 +43,35 @@ def material():
     inputs=dict(schema='aegisdc-confirmation-entry-engineering-v1',purpose='PUBLIC_ENGINEERING',conditions=[dict(condition_id=u['condition_id'],common=u['common']) for u in units])
     expectations=dict(classification='INDEPENDENT_LITERAL_EXPECTATIONS',model_calls_at_authoring=0,units=[dict(id=u['condition_id'],expected=u['expected']) for u in units],pairs=pairs)
     coverage={u['condition_id']:{a:{k:e[k] for k in ['reached.stage','reached.commit_attempted','reached.verification_requested','reached.verification_result','score.L','score.person_seconds','score.hard_constraints_ok']} for a,e in u['expected'].items()} for u in units}
-    fixtures=dict(classification='PUBLIC_INTERFACE_FIXTURES_NO_MODEL',
+    interface_units=[]
+    def interface(identifier, operation, change, expected_result, callbacks=0):
+        interface_units.append(dict(id=identifier,base='X01_AND_FROZEN_LAUNCH_TEMPLATE',operation=operation,change=change,
+            expected=expected_result,model_calls=0,callback_calls=callbacks))
+    for n,raw in enumerate(['{"a":1,"a":2}','{"a":NaN}','{"a":Infinity}','{"a":1.0}'],1):
+        interface(f'U{n:02}', 'parse', raw, 'BAD_JSON')
+    for n,purpose in enumerate(['CONFIRMATION','DISCLOSED_DEVELOPMENT','UNKNOWN'],5):
+        interface(f'U{n:02}', 'purpose', purpose, 'PURPOSE_REJECTED')
+    interface('U08','normalize_equal',{'E0':'6/2'},True)
+    for n,changes in enumerate([{'E0':2},{'work_mode':'LOAD_ISOLATED'},{'permit':False}],9):
+        interface(f'U{n:02}','normalize_equal',changes,False)
+    for n,changes in enumerate([{'H':True},{'H':'20'},{'ready':1},{'cB':False},{'unexpected':0}],12):
+        interface(f'U{n:02}','invalid_config',changes,'BAD_CONFIG')
+    interface('U17','package','duplicate_condition_id','BAD_PACKAGE')
+    interface('U18','package','same_common_different_id','DUPLICATE_INPUT')
+    interface('U19','preflight','input_append_space_and_update_manifest_hash','INPUT_NOT_FROZEN')
+    interface('U20','preflight','manifest_expected_sha_all_zero','MANIFEST_HASH')
+    interface('U21','preflight','input_append_space_keep_manifest_hash','INPUT_HASH')
+    interface('U22','preflight','core_file_append_space_keep_hash','SOURCE_HASH')
+    interface('U23','preflight','python_sha_all_zero','PYTHON_HASH')
+    interface('U24','preflight','manifest_output_different_directory','OUTPUT_PATH')
+    interface('U25','output','existing_directory_sentinel','OUTPUT_EXISTS')
+    for identifier,callback in [('U26','raise RuntimeError PUBLIC_FIXTURE'),('U27','return {}')]:
+        interface(identifier,'batch_callback',dict(callback=callback,conditions=['X01','X02']),
+            dict(status='STOPPED_ON_ERROR',rows=['ERROR','NOT_EXECUTED'],raw_saved=True,started_saved=True,terminal_saved=True),1)
+    interface('U28','checker_selftest',dict(actual={'score':{'L':0}},expected={'score.L':1}),False)
+    interface('U29','normalize_reordered_keys',None,True)
+    fixtures=dict(classification='PUBLIC_INTERFACE_FIXTURES_NO_MODEL',units=interface_units,
+        template_resolution='Only runtime root/output paths, implementation SHA and source manifest identities are substituted from pinned launch. X01 and mutation payloads remain frozen.',
         json_reject=['{"a":1,"a":2}','{"a":NaN}','{"a":Infinity}','{"a":1.0}'],
         purpose_reject=['CONFIRMATION','DISCLOSED_DEVELOPMENT','UNKNOWN'],
         equivalent=[{'field':'E0','left':3,'right':'6/2'}],
@@ -52,7 +80,7 @@ def material():
         source_faults=['manifest_sha','input_sha','core_sha','python_sha','output_path'],
         callback_cases=[{'id':'raises','expected_status':'STOPPED_ON_ERROR','callbacks':1,'suffix':'NOT_EXECUTED'},
                         {'id':'malformed','expected_status':'STOPPED_ON_ERROR','callbacks':1,'suffix':'NOT_EXECUTED'}],
-        expected_engineering_conditions=8,expected_core_arm_runs=24,
+        expected_engineering_conditions=8,expected_core_arm_runs=24,expected_policy_calls=191,
         expected_noncompliant=['X08'],unknown_purpose_model_calls=0)
     return {'inputs.json':inputs,'expected.json':expectations,'coverage.json':coverage,'interface-fixtures.json':fixtures}
 
