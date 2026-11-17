@@ -1,0 +1,261 @@
+{
+  "schema": "aegisdc-confirmation-public-engineering-result-v1",
+  "date": "2026-11-17",
+  "status": "FINITE_ENGINEERING_DELIVERED_AWAITING_USER_REVIEW",
+  "user_acceptance": false,
+  "report": "README.md",
+  "contract": "contract.md",
+  "handoff": "handoff.md",
+  "source_baseline": "58e1cd44",
+  "fixed_core": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+  "versions": {
+    "complete_input_freeze": "b65e18f2",
+    "archive_fixture_and_execution": "98ca2ac5757d4621d688f349dcf6a40d6e7f2167",
+    "entry_last_change": "98ca2ac5",
+    "saved_verification": "2eb55a52f3217741aba767a0697a19b348136866",
+    "checker_diagnostic_publication": "41ea75e5",
+    "publication": "Enclosing Git commit; runtime source identities separately fixed"
+  },
+  "attempts": [
+    {
+      "attempt": "author-01",
+      "mode": "author",
+      "source_revision": "7b8e1e049f4981eb540422b2797898af04183980",
+      "source_manifest_sha256": "71a445dca1322f892fa529440078c3be05d8dc91c57541afa7c3612370d0519f",
+      "archive_sha256": "d83f04c28273a65b56621d99fac632163531739fd286f189bf17164b960ebfad",
+      "base": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/author-01",
+      "command": "scripts/freeze_london_confirmation_engineering.py --output /share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/author-01/output",
+      "job_id": "134325",
+      "slurm_state": "COMPLETED",
+      "exit_code": "0:0",
+      "total_cpu_seconds": "0.184",
+      "model_calls": 0,
+      "cpus": 1,
+      "memory_MiB": 1024,
+      "wall_limit_seconds": 120,
+      "role": "author"
+    },
+    {
+      "attempt": "red-01",
+      "mode": "red",
+      "source_revision": "6aa2f8013fc9ca2c9c14592cbc14fdb5c16f2c7d",
+      "source_manifest_sha256": "26e54488d914b7a270e3f12bb2154b7cf778b6f69ee81c8c62ffc56a4323667c",
+      "archive_sha256": "e4954b26a4793276b4d9883c72b0e139a4edface58001192f4f8dada24dd6dd2",
+      "base": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/red-01",
+      "command": "scripts/qualify_london_confirmation_entry.py --mode red --source-manifest-sha 26e54488d914b7a270e3f12bb2154b7cf778b6f69ee81c8c62ffc56a4323667c --output /share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/red-01/output",
+      "job_id": "134326",
+      "slurm_state": "FAILED",
+      "exit_code": "1:0",
+      "total_cpu_seconds": "0.248",
+      "model_calls": 0,
+      "cpus": 1,
+      "memory_MiB": 1024,
+      "wall_limit_seconds": 120,
+      "role": "EXPECTED_RED_NO_MODEL"
+    },
+    {
+      "attempt": "green-01",
+      "mode": "green",
+      "source_revision": "98ca2ac5757d4621d688f349dcf6a40d6e7f2167",
+      "source_manifest_sha256": "ae92de9ec70838c32cacfaad4e17df0042cc947a10518f94b80e716739343eb0",
+      "archive_sha256": "91aabdf55e0dd05ea022a773e668960741a4a69ad9cc081c50a7a256e9d32d85",
+      "base": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/green-01",
+      "command": "scripts/qualify_london_confirmation_entry.py --mode green --source-manifest-sha ae92de9ec70838c32cacfaad4e17df0042cc947a10518f94b80e716739343eb0 --output /share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/green-01/output",
+      "job_id": "134327",
+      "slurm_state": "COMPLETED",
+      "exit_code": "0:0",
+      "total_cpu_seconds": "1.667",
+      "model_calls": 8,
+      "cpus": 1,
+      "memory_MiB": 1024,
+      "wall_limit_seconds": 120,
+      "role": "green"
+    },
+    {
+      "attempt": "verify-01",
+      "mode": "verify",
+      "source_revision": "2eb55a52f3217741aba767a0697a19b348136866",
+      "source_manifest_sha256": "efac99a0d81e38739187fb94543aeb36fe6cbe4671ae866c7c38aaa78e981db9",
+      "archive_sha256": "3eb3a24b62a61015a4ee7f9dfa55eb9391d523641525135186f3e084ef223e6d",
+      "base": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/verify-01",
+      "command": "scripts/qualify_london_confirmation_entry.py --mode verify --source-manifest-sha efac99a0d81e38739187fb94543aeb36fe6cbe4671ae866c7c38aaa78e981db9 --output /share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/verify-01/output --saved /share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/green-01/output/batch",
+      "job_id": "134328",
+      "slurm_state": "COMPLETED",
+      "exit_code": "0:0",
+      "total_cpu_seconds": "0.583",
+      "model_calls": 0,
+      "cpus": 1,
+      "memory_MiB": 1024,
+      "wall_limit_seconds": 120,
+      "role": "verify"
+    }
+  ],
+  "counts": {
+    "runner_calls": 8,
+    "constructor_attempts": 24,
+    "plant_entry_calls": 451,
+    "policy_calls": 191,
+    "scorer_calls": 24
+  },
+  "assertion_counts": {
+    "arm_and_unit": 672,
+    "pair": 4,
+    "aggregate": 5,
+    "interfaces": 30
+  },
+  "actual_units": 8,
+  "paired_arms": 24,
+  "interface_units": 30,
+  "interface_callback_calls_green": 3,
+  "diagnostic_callback_calls_saved_verification": 2,
+  "replayed_model_calls": 0,
+  "research_runs": 0,
+  "confirmation_runs": 0,
+  "budget": {
+    "frozen_jobs_cap": 8,
+    "frozen_reserved_cpu_seconds_cap": 960,
+    "frozen_model_arm_runs_cap": 72,
+    "frozen_policy_calls_cap": 1440,
+    "actual_jobs": 4,
+    "actual_reserved_cpu_seconds": 480,
+    "actual_model_arm_runs": 24,
+    "actual_policy_calls": 191,
+    "concurrency": 1,
+    "gpus": 0
+  },
+  "failures": [
+    {
+      "attempt": "red-01",
+      "status": "EXPECTED_RED_MISSING_ENTRY",
+      "slurm_state": "FAILED",
+      "exit_code": "1:0",
+      "model_calls": 0,
+      "retained": true
+    }
+  ],
+  "review_fixes": [
+    {
+      "finding": "Concrete interface inputs/expected outcomes required",
+      "fixed": "298b9645",
+      "before_model_execution": true
+    },
+    {
+      "finding": "Raw archive before interpretation and external call accounting",
+      "fixed": "98ca2ac5",
+      "before_model_execution": true
+    },
+    {
+      "finding": "Malformed returned counts are unknown",
+      "fixed": "96e5e237",
+      "verification": "134328 U27/U30 zero-model regressions"
+    },
+    {
+      "finding": "Outer unknown count summary alignment",
+      "fixed": "41ea75e5",
+      "verification": "Static one-line read review only; no model replay, no valid-count result impact"
+    }
+  ],
+  "saved_verification": {
+    "receipt": "saved-reconciliation.json",
+    "sha256": "00e0d5c8652a37e037fcb456c50d035f4baabc7f0ebe386a88dcabc382137c18",
+    "private_raw_outputs_read": true,
+    "all_original_source_hashes_match": true,
+    "new_model_calls": 0
+  },
+  "public_dedup": {
+    "path": "public-dedup.json",
+    "sha256": "3434016591c21edb8707745f1af72e135a54eecfb35cd498227484cda0e4f570",
+    "counts": {
+      "source_files": 11,
+      "public_units": 332,
+      "canonical_configs": 76,
+      "raw_other_configs": 4
+    },
+    "not_research_samples": true,
+    "semantic_review_required": true
+  },
+  "private_root": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117",
+  "scope": {
+    "shared_preflight_and_batch_qualified": true,
+    "CLI_process_end_to_end_qualified": false,
+    "whole_parameter_domain_qualified": false,
+    "all_35_final_inputs_qualified": false,
+    "full_Q11": false,
+    "full_R2": false,
+    "full_R3": false,
+    "confirmation_gate_open": false
+  },
+  "restrictions": {
+    "confirmation_inputs_generated": false,
+    "confirmation_inputs_read": false,
+    "confirmation_results_read": false,
+    "seeds_nonces_keys_generated": false,
+    "accounts_ACLs_changed": false,
+    "original_19_replayed": false
+  },
+  "preserved_files": {
+    "src/aegis_dc/__init__.py": {
+      "reference": "1c0b0c47",
+      "sha256": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+      "bytes": 85
+    },
+    "src/aegis_dc/london_e14.py": {
+      "reference": "1c0b0c47",
+      "sha256": "1d9f8421882faf9e021badf3138505332f9a0513bea90539e6cac04bfc6d2a42",
+      "bytes": 37325
+    },
+    "src/aegis_dc/london_treatments.py": {
+      "reference": "1c0b0c47",
+      "sha256": "4bce4df739e8fbb9ae5b64f1ddb5434670a9334b44941777d7d9db25b466ece2",
+      "bytes": 16701
+    },
+    "src/aegis_dc/london_treatment_score.py": {
+      "reference": "1c0b0c47",
+      "sha256": "707306ffa163a90b8a6a607197eec8364da3208f6fc71cf8a3d2a0e72f85904f",
+      "bytes": 6886
+    },
+    "docs/mainline/39c-business-record-replay-contract-57.md": {
+      "reference": "58e1cd44",
+      "sha256": "3300ea819f2c9ab3ac561cd3d9b331f4874a233e242e1b74bdb57cf6a698e2dd",
+      "bytes": 5736
+    },
+    "tests/fixtures/39c-business-record-replay-57.json": {
+      "reference": "58e1cd44",
+      "sha256": "9b63097411f9971b7bc796605f7170066ae003a91b2c839b4e8ade123530e70f",
+      "bytes": 540
+    },
+    "tests/test_business_recorded_replay.py": {
+      "reference": "58e1cd44",
+      "sha256": "8339d2d714d27f06da0cae6a2b4e7fea88d278380e0b63b782948c68f5a04bca",
+      "bytes": 6075
+    },
+    "evidence/mainline/engineering/39c-development/slice-54/service-unqualified/frozen-call-input.json": {
+      "reference": "58e1cd44",
+      "sha256": "998ea8106f496a03f945a423d954b4a0cb9b5b8298824762356c24e425152205",
+      "bytes": 255627
+    },
+    "configs/materials/reference-r134a-saturation.json": {
+      "reference": "58e1cd44",
+      "sha256": "9494001ac94e04c6b2474b1c70fdf78ff4b5958b3f5c39f9790581561097329c",
+      "bytes": 226640
+    },
+    "evidence/mainline/engineering/39c-development/slice-57/result.json": {
+      "reference": "58e1cd44",
+      "sha256": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7",
+      "bytes": 66529
+    }
+  },
+  "remaining": [
+    "Named independent C/E/V and administrator/storage boundary",
+    "Final static coverage/candidate-domain and per-input qualification transfer review",
+    "Current exact plus semantic public dedup, including new engineering",
+    "Deployed access verification under actual A/E credentials",
+    "Separately reviewed production authorization adapter and immutable launch",
+    "Explicit confirmation execution and later reveal authorization"
+  ],
+  "review": {
+    "standards": "Archive-count finding fixed; diagnostic subtotal/summary clarified; read-only closure pending final package review",
+    "spec": "Interface freeze and raw-first archive/accounting findings fixed; read-only closure pending final package review",
+    "reviewers_are_not_custodians": true
+  }
+}

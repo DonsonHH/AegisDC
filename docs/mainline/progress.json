@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-17",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "public_engineering_active",
+  "status": "awaiting_user_review",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R4-CONFIRMATION-ENTRY-PUBLIC-ENGINEERING",
-  "current_milestone": "FREEZE_PUBLIC_ENGINEERING_INPUTS",
+  "current_milestone": "PUBLIC_ENGINEERING_DELIVERED_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "PUBLIC_ENGINEERING_WITH_CONFIRMATION_CLOSED",
+  "agent_stage": "PUBLIC_ENGINEERING_STOPPED_FOR_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -35,9 +35,9 @@
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
-    "document_work_authorized": true,
+    "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "PUBLIC_ENGINEERING_AUTHORIZED",
+    "document_authorization_status": "PUBLIC_ENGINEERING_DELIVERED_STOPPED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -53,7 +53,7 @@
     "R3_numeric_protocol_frozen": false,
     "development_execution_authorized": false,
     "confirmation_execution_authorized": false,
-    "public_engineering_execution_authorized": true
+    "public_engineering_execution_authorized": false
   },
   "gates": [
     {
@@ -711,13 +711,24 @@
     "acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-and-authorization.json"
   },
   "confirmation_entry_engineering": {
-    "status": "INPUT_FREEZE_IN_PROGRESS",
+    "status": "FINITE_ENGINEERING_DELIVERED_AWAITING_USER_REVIEW",
     "contract": "docs/mainline/review-gated/R4/confirmation-entry-v1/contract.md",
-    "core_revision": "1c0b0c47",
+    "report": "docs/mainline/review-gated/R4/confirmation-entry-v1/README.md",
+    "result": "docs/mainline/review-gated/R4/confirmation-entry-v1/result.json",
+    "core_revision": "1c0b0c47a5742321a3524a5b16843775cc224e3e",
+    "execution_revision": "98ca2ac5757d4621d688f349dcf6a40d6e7f2167",
+    "input_freeze": "b65e18f2",
+    "input_sha256": "a70bbef0e1a789c65e28f6d6f3bec822d361c7a309227d528b812d55398e774b",
+    "engineering_conditions": 8,
+    "engineering_arm_runs": 24,
+    "interface_units": 30,
+    "policy_calls": 191,
     "research_runs": 0,
     "confirmation_runs": 0,
     "custodian_assigned": false,
     "permissions_verified": false,
-    "confirmation_execution_authorized": false
+    "all_35_qualified": false,
+    "confirmation_execution_authorized": false,
+    "scope_accepted_by_user": false
   }
 }

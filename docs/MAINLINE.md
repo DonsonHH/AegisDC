@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**本轮已接受58e1cd44的有限主张、N35覆盖目标／预算和保管原则。** 已明确授权[公开工程包](mainline/review-gated/R4/confirmation-entry-v1/contract.md)：补正规格、冻结最小公开见证、实现薄入口并做有限资格，完成交审。核心1c0b0c47不变，确认候选、封存与研究执行继续关闭。
+**公开工程有限资格已交付，等待review。** [本轮报告](mainline/review-gated/R4/confirmation-entry-v1/README.md)包含8公开条件／24处理、30接口见证、失败与版本账、去重基准和保管交接。核心1c0b0c47未变；确认材料与确认执行继续关闭。
 
-本轮review：[主张与机制](mainline/review-gated/R4/claims-confirmation-v1/claims-and-mechanisms.md) · [确认覆盖／N](mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md) · [独立保管程序](mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md)。[追加接受记录](mainline/review-gated/R4/public-development-v1/acceptance-20261116.json)保留原[19行结果](mainline/review-gated/R4/public-development-v1/paired-results.md)，当前状态见[progress](mainline/progress.json)。
+本轮review：[结果与覆盖](mainline/review-gated/R4/confirmation-entry-v1/result.json) · [规格补正](mainline/review-gated/R4/confirmation-entry-v1/contract.md) · [资格迁移／保管交接](mainline/review-gated/R4/confirmation-entry-v1/handoff.md)。58e1cd44主张／N35目标／预算和保管原则已接受；原[19行结果](mainline/review-gated/R4/public-development-v1/paired-results.md)及原分母保留。
 
 ## 拟研究的问题
 
@@ -18,7 +18,7 @@
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
 | R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；运行器声明有限工程资格已接受；完整Q11／R2未接受 |
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
-| R4 | 方法效果、反事实适用域及消融 | 原19公开开发已接受；确认准备方案待review，执行未授权 |
+| R4 | 方法效果、反事实适用域及消融 | 原19开发与有限确认准备原则已接受；公开工程资格待review，确认执行未授权 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
 | R6 | 主张—证据矩阵与论文论证 | 未授权 |
 
