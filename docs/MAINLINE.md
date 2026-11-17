@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**519da3d4的原19条件／57处理公开开发结果已接受。** 当前交审主张—证据—适用域、机制／可改进性分析及N35独立确认准备方案；原主比较与全分母不变，确认门关闭。本轮只有文档工作，未运行模型或研究。
+**本轮已接受58e1cd44的有限主张、N35覆盖目标／预算和保管原则。** 已明确授权[公开工程包](mainline/review-gated/R4/confirmation-entry-v1/contract.md)：补正规格、冻结最小公开见证、实现薄入口并做有限资格，完成交审。核心1c0b0c47不变，确认候选、封存与研究执行继续关闭。
 
 本轮review：[主张与机制](mainline/review-gated/R4/claims-confirmation-v1/claims-and-mechanisms.md) · [确认覆盖／N](mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md) · [独立保管程序](mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md)。[追加接受记录](mainline/review-gated/R4/public-development-v1/acceptance-20261116.json)保留原[19行结果](mainline/review-gated/R4/public-development-v1/paired-results.md)，当前状态见[progress](mainline/progress.json)。
 
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地仅编辑、SSH、必要传输和完整性核对；计算与依赖安装遵循[远端规则](agents/compute-storage.md)。E1–E4有限资格已接受；C4/C7有限修复及候选设计依据已接受；运行器有限资格已接受，公开开发协议已冻结；原19开发批次已接受；当前仅交付主张／机制与确认准备文档。确认仍未准备、读取或运行，后续资格／执行未授权。
+本地编辑、传输与完整性核对；公开工程计算按[远端规则](agents/compute-storage.md)执行。历史成果保留，当前权限以本轮[追加授权](mainline/review-gated/R4/confirmation-entry-v1/acceptance-and-authorization.json)及progress为准。
