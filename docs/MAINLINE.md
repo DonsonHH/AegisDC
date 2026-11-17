@@ -1,8 +1,8 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**公开工程有限资格已交付，等待review。** [本轮报告](mainline/review-gated/R4/confirmation-entry-v1/README.md)包含8公开条件／24处理、30接口见证、失败与版本账、去重基准和保管交接。核心1c0b0c47未变；确认材料与确认执行继续关闭。
+**2187ed81声明的有限公开工程资格已接受，确认执行门保持关闭。** [验收记录](mainline/review-gated/R4/confirmation-entry-v1/acceptance-20261117.json)绑定8个设施条件／24处理／30接口单位及98ca2ac5实际绿执行；2eb55a52与41ea75e5保留各自证据身份。
 
-本轮review：[结果与覆盖](mainline/review-gated/R4/confirmation-entry-v1/result.json) · [规格补正](mainline/review-gated/R4/confirmation-entry-v1/contract.md) · [资格迁移／保管交接](mainline/review-gated/R4/confirmation-entry-v1/handoff.md)。58e1cd44主张／N35目标／预算和保管原则已接受；原[19行结果](mainline/review-gated/R4/public-development-v1/paired-results.md)及原分母保留。
+58e1cd44有限主张、N35覆盖目标及预算／保管原则已接受。[原交付报告](mainline/review-gated/R4/confirmation-entry-v1/README.md)和[原结果](mainline/review-gated/R4/confirmation-entry-v1/result.json)保留交付时状态与字节；当前状态以[progress](mainline/progress.json)和追加验收为准。最终确认清单、保管部署和生产适配尚未齐备，见[生产启动依赖](mainline/review-gated/R4/confirmation-entry-v1/production-launch-dependencies-20261117.md)及[原handoff](mainline/review-gated/R4/confirmation-entry-v1/handoff.md)。
 
 ## 拟研究的问题
 
@@ -18,7 +18,7 @@
 | R1 | 来源、决策信息、动作约束、最小因果接口与可识别性 | 修正版资料基线已接受 |
 | R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；运行器声明有限工程资格已接受；完整Q11／R2未接受 |
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
-| R4 | 方法效果、反事实适用域及消融 | 原19开发与有限确认准备原则已接受；公开工程资格待review，确认执行未授权 |
+| R4 | 方法效果、反事实适用域及消融 | 原19开发、有限主张、N35目标／预算及有限公开工程资格已接受；最终准备未齐备，确认门关闭 |
 | R5 | 普通自改进与 RSI 的独立增量 | 未授权 |
 | R6 | 主张—证据矩阵与论文论证 | 未授权 |
 
@@ -30,4 +30,4 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 
 重整前的 [MAINLINE／progress／current-research 原始快照](mainline/history/20261112-before-reset/README.md)逐字节保留。旧票、协议、原件、失败和原 180 次结果均在原位置。原八域合成设施是待按新问题审查的复用资产；既有通过数量不成为新主线已完成数量。[旧比较范围](mainline/preset-study-scope.json)
 
-本地编辑、传输与完整性核对；公开工程计算按[远端规则](agents/compute-storage.md)执行。历史成果保留，当前权限以本轮[追加授权](mainline/review-gated/R4/confirmation-entry-v1/acceptance-and-authorization.json)及progress为准。
+本地编辑、传输与完整性核对；公开工程计算按[远端规则](agents/compute-storage.md)执行。历史成果保留，当前状态以本轮[有限验收](mainline/review-gated/R4/confirmation-entry-v1/acceptance-20261117.json)及progress为准；本轮文档登记后停止。

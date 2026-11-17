@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-17",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "awaiting_user_review",
+  "status": "accepted_finite_scope_waiting_custody_arrangements",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R4-CONFIRMATION-ENTRY-PUBLIC-ENGINEERING",
-  "current_milestone": "PUBLIC_ENGINEERING_DELIVERED_REVIEW",
+  "current_milestone": "FINITE_PUBLIC_ENGINEERING_ACCEPTED_CONFIRMATION_CLOSED",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "PUBLIC_ENGINEERING_STOPPED_FOR_REVIEW",
+  "agent_stage": "ACCEPTANCE_REGISTERED_STOPPED",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -28,16 +28,17 @@
     "automatic_goal": "PAUSED",
     "research_execution": "PAUSED",
     "authorized_scope": [
-      "Accepted58e1cd44 claims/N35 target/budget/custody principles",
-      "Public engineering only per confirmation-entry-v1/acceptance-and-authorization.json"
+      "Accepted58e1cd44 finite claims,N35 coverage target,budget,custody principles",
+      "Accepted2187ed81 declared finite public engineering,8conditions/24arms/30interfaces",
+      "This round append acceptance,status sync and selected production-path dependencies only; no execution"
     ],
-    "after_delivery": "WAIT_FOR_PUBLIC_ENGINEERING_REVIEW",
+    "after_delivery": "WAIT_FOR_USER_SPECIFIED_CUSTODY_ARRANGEMENTS",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "PUBLIC_ENGINEERING_DELIVERED_STOPPED",
+    "document_authorization_status": "FINITE_ACCEPTANCE_REGISTERED_STOPPED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -114,11 +115,12 @@
     {
       "id": "R4",
       "name": "method_counterfactual_effect",
-      "status": "PUBLIC_DEVELOPMENT_ACCEPTED_CONFIRMATION_PLAN_REVIEW",
+      "status": "PUBLIC_DEVELOPMENT_CLAIMS_N35_TARGET_AND_FINITE_ENGINEERING_ACCEPTED_CONFIRMATION_CLOSED",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
-      "scope": "Accepted public19 conditions only; confirmation scheme pending and gate closed",
-      "result": "docs/mainline/review-gated/R4/public-development-v1/result.json"
+      "scope": "Original19 development findings,finite claims,N35 coverage target/budget and2187ed81 finite public engineering accepted; final confirmation list,custody deployment and production adaptation incomplete",
+      "result": "docs/mainline/review-gated/R4/public-development-v1/result.json",
+      "finite_engineering_acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-20261117.json"
     },
     {
       "id": "R5",
@@ -304,6 +306,15 @@
       "confirmation_inputs_authorized": false,
       "new_strategy_authorized": false,
       "stop": "Combined document review before any preparation or execution"
+    },
+    {
+      "id": "20261117-2187ed81-finite-public-engineering-accepted",
+      "source": "Explicit user goal",
+      "accepted_revision": "2187ed8180a3deb0e6ce0cebff30791a7e576d35",
+      "acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-20261117.json",
+      "decision": "Accept8conditions/24arms/30interfaces tied to98ca2ac5; preserve2eb55a52 and41ea75e5 as zero-new-facility evidence; sync N35 accepted state; list selected production launch dependencies only",
+      "confirmation_authorized": false,
+      "stop": "After document registration; wait for user-specified real custody arrangements"
     }
   ],
   "legacy": {
@@ -630,8 +641,10 @@
     "development_count_unit": "I/D/P arm runs across19 paired conditions; not57 independent accidents",
     "current_result": "docs/mainline/review-gated/R4/public-development-v1/result.json",
     "confirmation_plan": "docs/mainline/review-gated/R4/claims-confirmation-v1/confirmation-design.md",
-    "confirmation_N_proposed": 35,
-    "confirmation_N_frozen": false
+    "confirmation_coverage_target": 35,
+    "confirmation_coverage_target_accepted": true,
+    "confirmation_budget_caps_accepted": true,
+    "confirmation_final_list_frozen": false
   },
   "public_development": {
     "status": "USER_ACCEPTED_DECLARED_PUBLIC_DEVELOPMENT_RESULTS",
@@ -686,10 +699,6 @@
     "custody": "docs/mainline/review-gated/R4/claims-confirmation-v1/custody-plan.md",
     "review_decisions": "docs/mainline/review-gated/R4/claims-confirmation-v1/review-decisions.json",
     "delivery": "docs/mainline/review-gated/R4/claims-confirmation-v1/delivery.json",
-    "recommended_N": 35,
-    "recommended_arms": 105,
-    "recommended_policy_call_cap": 2100,
-    "recommended_cpu_seconds_cap": 2100,
     "N_accepted": true,
     "custodian_assigned": false,
     "permissions_verified": false,
@@ -708,10 +717,20 @@
     ],
     "primary_comparison": "I versus D",
     "new_strategy_proposals_execution_authorized": false,
-    "acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-and-authorization.json"
+    "acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-and-authorization.json",
+    "finite_claims_accepted": true,
+    "budget_caps_accepted": true,
+    "custody_principles_accepted": true,
+    "final_confirmation_list_ready": false,
+    "production_adapter_ready": false,
+    "accepted_coverage_target": 35,
+    "accepted_arm_cap": 105,
+    "accepted_policy_call_cap": 2100,
+    "accepted_reserved_cpu_seconds_cap": 2100,
+    "prior_document_round_counters": "this_round_* values here describe the preserved claims-plan authoring round, not later engineering execution"
   },
   "confirmation_entry_engineering": {
-    "status": "FINITE_ENGINEERING_DELIVERED_AWAITING_USER_REVIEW",
+    "status": "USER_ACCEPTED_DECLARED_FINITE_PUBLIC_ENGINEERING",
     "contract": "docs/mainline/review-gated/R4/confirmation-entry-v1/contract.md",
     "report": "docs/mainline/review-gated/R4/confirmation-entry-v1/README.md",
     "result": "docs/mainline/review-gated/R4/confirmation-entry-v1/result.json",
@@ -729,6 +748,44 @@
     "permissions_verified": false,
     "all_35_qualified": false,
     "confirmation_execution_authorized": false,
-    "scope_accepted_by_user": false
+    "scope_accepted_by_user": true,
+    "user_acceptance": true,
+    "accepted_publication": "2187ed8180a3deb0e6ce0cebff30791a7e576d35",
+    "acceptance": "docs/mainline/review-gated/R4/confirmation-entry-v1/acceptance-20261117.json",
+    "production_dependencies": "docs/mainline/review-gated/R4/confirmation-entry-v1/production-launch-dependencies-20261117.md",
+    "production_launch_path_fully_qualified": false,
+    "evidence_identities": [
+      {
+        "role": "ACTUAL_GREEN_EXECUTION",
+        "revision": "98ca2ac5757d4621d688f349dcf6a40d6e7f2167",
+        "job_id": "134327",
+        "historical_facility_conditions": 8,
+        "historical_treatment_runs": 24,
+        "record_sha256": "73415bb472dbfbfe0d1352cd3fa8385668fd8b3e26852f263186f4f1eb94ee6f"
+      },
+      {
+        "role": "SAVED_RECONCILIATION_AND_ZERO_MODEL_DIAGNOSTICS",
+        "revision": "2eb55a52f3217741aba767a0697a19b348136866",
+        "job_id": "134328",
+        "additional_facility_runs": 0,
+        "record_sha256": "f902b6e322817a9c95f9637a4693770416636ea2468b16f662dd5595d12bee98"
+      },
+      {
+        "role": "STATIC_UNKNOWN_COUNT_SUMMARY_CORRECTION",
+        "revision": "41ea75e525d0330cfad6bc801dfa253dab334689",
+        "additional_facility_runs": 0,
+        "execution_claim": "Static review only; not a newly executed qualification"
+      }
+    ]
+  },
+  "confirmation_preparation": {
+    "status": "WAITING_USER_SPECIFIED_CUSTODY_ARRANGEMENTS",
+    "handoff": "docs/mainline/review-gated/R4/confirmation-entry-v1/handoff.md",
+    "production_dependencies": "docs/mainline/review-gated/R4/confirmation-entry-v1/production-launch-dependencies-20261117.md",
+    "final_list_ready": false,
+    "custody_deployment_ready": false,
+    "production_adapter_ready": false,
+    "confirmation_execution_authorized": false,
+    "next_action": "After user arrangements are explicit, follow existing handoff; no automatic start in this round"
   }
 }
