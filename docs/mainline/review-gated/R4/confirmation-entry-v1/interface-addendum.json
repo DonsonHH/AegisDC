@@ -1,0 +1,18 @@
+{
+  "classification": "PUBLIC_INTERFACE_FIXTURE_NO_MODEL",
+  "reason": "Pre-execution review found archive failure can erase call accounting",
+  "id": "U30",
+  "base": "X01_AND_X02_FROZEN_COMMON",
+  "callback": {"counts": {"constructor_attempts": 0, "plant_entry_calls": 0, "policy_calls": 0, "scorer_calls": 0}},
+  "fault": "One-shot OSError on X01-raw.json write, before any output interpretation",
+  "expected": {
+    "callback_calls": 1,
+    "model_calls": 0,
+    "suffix_started": false,
+    "exception": "OSError",
+    "start_record_retained": true,
+    "independent_call_count_retained": 1,
+    "reported_internal_counts": {"constructor_attempts": 0, "plant_entry_calls": 0, "policy_calls": 0, "scorer_calls": 0}
+  },
+  "interpretation": "Injected private callback is not a facility run. Real unreturned internal counts remain unknown. Disk-wide unavailability cannot guarantee new writes; prior start records and scheduler evidence remain authoritative."
+}

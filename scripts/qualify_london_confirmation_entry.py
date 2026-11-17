@@ -52,6 +52,19 @@ def compare(actual,expected):
     return rows
 
 
+def counted(callback,ledger):
+    """Account outside the archiver, even if it cannot return a terminal."""
+    ledger.update(calls=0,returned=0,unreturned=0,reported_internal_counts={k:0 for k in ('constructor_attempts','plant_entry_calls','policy_calls','scorer_calls')})
+    def call(common,order):
+        ledger['calls']+=1;ledger['unreturned']+=1
+        value=callback(common,order=order)
+        ledger['returned']+=1;ledger['unreturned']-=1
+        for key in ledger['reported_internal_counts']:
+            ledger['reported_internal_counts'][key]+=value.get('counts',{}).get(key,0)
+        return value
+    return call
+
+
 def launch(root,output,identity):
     return dict(schema='aegisdc-confirmation-entry-launch-v1',purpose='PUBLIC_ENGINEERING',
         core_revision=CORE_REV,entry_revision=identity['source_commit'],
@@ -122,17 +135,38 @@ def interface_checks(entry,root,output,identity,fixtures,data):
         except Exception as error:
             value=dict(unexpected=type(error).__name__,message=str(error),traceback=traceback.format_exc())
         row.update(actual=value,expected=unit['expected'])
-        row['matches']=same(value,unit['expected']) and row['callback_calls']==unit['callback_calls'] and row.get('sentinel_preserved',True)
+        row['core_not_imported']='aegis_dc.london_treatments' not in sys.modules
+        row['matches']=same(value,unit['expected']) and row['callback_calls']==unit['callback_calls'] and row.get('sentinel_preserved',True) and row['core_not_imported']
         save(loc/'result.json',row);results.append(row)
     return results
+
+
+def archive_fault_check(entry,output,data,fixture):
+    dest=output/'U30';entry.create_output(dest);ledger={};original=entry.report.save
+    def fail_once(path,value):
+        if path.name=='X01-raw.json':raise OSError('PUBLIC_ARCHIVE_FAILURE')
+        return original(path,value)
+    package=deepcopy(data);package['conditions']=package['conditions'][:2]
+    caught=None
+    try:
+        entry.report.save=fail_once
+        entry.execute_batch(package,counted(lambda common,order:deepcopy(fixture['callback']),ledger),dest,{'entry_revision':'PUBLIC_FIXTURE'})
+    except OSError as error:caught=type(error).__name__
+    finally:entry.report.save=original
+    actual=dict(callback_calls=ledger['calls'],model_calls=0,suffix_started=(dest/'X02-started.json').exists(),exception=caught,
+        start_record_retained=(dest/'X01-started.json').exists(),independent_call_count_retained=ledger['calls'],reported_internal_counts=ledger['reported_internal_counts'])
+    result=dict(id='U30',input=fixture,actual=actual,expected=fixture['expected'],matches=same(actual,fixture['expected']))
+    save(dest/'result.json',result);return result
 
 
 def inspect_saved(directory,expectations,fixtures):
     terminal=json.loads((directory/'terminal.json').read_text())
     units=[];actuals={};counts=dict(runner_calls=0,constructor_attempts=0,plant_entry_calls=0,policy_calls=0,scorer_calls=0)
     for unit in expectations['units']:
-        path=directory/(unit['id']+'.json');record=json.loads(path.read_text());actual=record['actual'];actuals[unit['id']]=actual
+        path=directory/(unit['id']+'.json');record=json.loads(path.read_text());raw_path=directory/record['raw_file']
+        raw=json.loads(raw_path.read_text());actual=raw['actual'];actuals[unit['id']]=actual
         checks=[]
+        checks.append(dict(path='raw_sha256',actual=sha(raw_path),expected=record['raw_sha256'],matches=sha(raw_path)==record['raw_sha256']))
         for arm,expected in unit['expected'].items():
             checks += [dict(arm=arm,**x) for x in compare(actual['arms'][arm],expected)]
         ledger={name:sum(c['kind']==kind for c in actual['calls']) for name,kind in [('constructor_attempts','constructor'),('plant_entry_calls','plant'),('policy_calls','policy'),('scorer_calls','scorer')]}
@@ -182,13 +216,18 @@ def main():
             fixtures=json.loads((root/PACK/'interface-fixtures.json').read_text())
             if args.mode=='green':
                 result['interfaces']=interface_checks(entry,root,args.output,identity,fixtures,data)
+                result['interfaces'].append(archive_fault_check(entry,args.output,data,json.loads((root/PACK/'interface-addendum.json').read_text())))
                 if not all(r['matches'] for r in result['interfaces']):raise ValueError('INTERFACE_FAILURE_NO_CORE_STARTED')
                 dest=args.output/'batch';entry.create_output(dest)
                 manifest=launch(root,dest,identity);manifest_path=args.output/'launch.json';save(manifest_path,manifest)
                 admitted=entry.preflight(root,manifest_path,sha(manifest_path),dest)
                 sys.path.insert(0,str(root/'src'));core=importlib.import_module('aegis_dc.london_treatments')
-                terminal=entry.execute_batch(admitted,core.run_condition,dest,manifest)
-                result['model_calls']=terminal['counts']['runner_calls'];result['core_counts']=terminal['counts']
+                result['independent_model_accounting']={}
+                try:terminal=entry.execute_batch(admitted,counted(core.run_condition,result['independent_model_accounting']),dest,manifest)
+                finally:
+                    result['model_calls']=result['independent_model_accounting']['calls']
+                    result['unknown_internal_counts_for_calls']=result['independent_model_accounting']['unreturned']
+                result['core_counts']=terminal['counts']
             else:
                 if args.saved is None:raise ValueError('Saved output required')
                 dest=args.saved

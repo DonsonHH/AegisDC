@@ -179,7 +179,14 @@ def execute_batch(data,run_condition,output,manifest):
         record=dict(condition=deepcopy(condition),canonical_config_sha256=config_hash(condition['common']))
         terminal['counts']['runner_calls']+=1;actual=None;fatal=[]
         try:
-            actual=run_condition(deepcopy(condition['common']),order=['I','D','P']);record['actual']=actual
+            actual=run_condition(deepcopy(condition['common']),order=['I','D','P'])
+        except BaseException as error:
+            record['exception']=dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc())
+        raw_path=output/(name+'-raw.json')
+        report.save(raw_path,dict(condition=condition,actual=actual,exception=record.get('exception')))
+        record['raw_file']=raw_path.name;record['raw_sha256']=report.file_sha(raw_path)
+        try:
+            if actual is None:raise RuntimeError('CORE_RETURN_MISSING')
             for key in ('constructor_attempts','plant_entry_calls','policy_calls','scorer_calls'):
                 terminal['counts'][key]+=actual.get('counts',{}).get(key,0)
             fatal=report.inspect_result(actual,condition['common'],name)
