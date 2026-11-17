@@ -229,7 +229,7 @@ def main():
                 try:terminal=entry.execute_batch(admitted,counted(core.run_condition,result['independent_model_accounting']),dest,manifest)
                 finally:
                     result['model_calls']=result['independent_model_accounting']['calls']
-                    result['unknown_internal_counts_for_calls']=result['independent_model_accounting']['unreturned']
+                    result['unknown_internal_counts_for_calls']=result['independent_model_accounting']['unreturned']+result['independent_model_accounting']['unknown_count_calls']
                 result['core_counts']=terminal['counts']
             else:
                 if args.saved is None:raise ValueError('Saved output required')
