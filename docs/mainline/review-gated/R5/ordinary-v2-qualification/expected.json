@@ -1,0 +1,1058 @@
+{
+  "schema": "ordinary-v2-independent-expectations-1",
+  "episodes": {
+    "Q1": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          4,
+          "READ_CONFIG",
+          null
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 6,
+      "stage": "INSPECTION_STOP",
+      "stop": "NO_ACTION_CURRENT_SCOPE",
+      "closed": true,
+      "L": 0,
+      "U": 0,
+      "person_seconds": 2,
+      "tool_seconds": 2,
+      "work_by_stage": {
+        "READING": 2
+      },
+      "supply": [
+        [
+          0,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": null,
+      "committed_at": null,
+      "execution_available_at": null,
+      "verification": null,
+      "exits": [],
+      "evidence_ids": [],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 13,
+        "policy": 7,
+        "request": 2,
+        "scorer": 1
+      },
+      "config_epoch": 0,
+      "diagnostics": [
+        [
+          "READ_POS",
+          3,
+          4,
+          0
+        ],
+        [
+          "READ_CONFIG",
+          5,
+          6,
+          "REVISED_LOCAL"
+        ]
+      ]
+    },
+    "Q2": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          4,
+          "READ_CONFIG",
+          null
+        ],
+        [
+          6,
+          "READ_VOLT",
+          null
+        ],
+        [
+          8,
+          "FIX_CTRL",
+          "EVIDENCE"
+        ],
+        [
+          14,
+          "VERIFY_CTRL",
+          null
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 16,
+      "stage": "VERIFIED",
+      "stop": "NO_ACTION_CURRENT_SCOPE",
+      "closed": true,
+      "L": 0,
+      "U": 0,
+      "person_seconds": 9,
+      "tool_seconds": 9,
+      "work_by_stage": {
+        "READING": 3,
+        "PREPARING": 2,
+        "IMPLEMENTING": 1,
+        "EXITING": 2,
+        "VERIFYING": 1
+      },
+      "supply": [
+        [
+          0,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": 9,
+      "committed_at": 12,
+      "execution_available_at": 13,
+      "verification": [
+        15,
+        16,
+        "ex-1",
+        1
+      ],
+      "exits": [
+        [
+          12,
+          14,
+          "FIX_CTRL"
+        ]
+      ],
+      "evidence_ids": [
+        "obs-1",
+        "obs-3",
+        "obs-2"
+      ],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 26,
+        "policy": 17,
+        "request": 5,
+        "scorer": 1
+      },
+      "config_epoch": 1,
+      "diagnostics": [
+        [
+          "READ_POS",
+          3,
+          4,
+          0
+        ],
+        [
+          "READ_CONFIG",
+          5,
+          6,
+          "LEGACY_LINE"
+        ],
+        [
+          "READ_VOLT",
+          7,
+          8,
+          1
+        ]
+      ]
+    },
+    "Q3": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          5,
+          "READ_CONFIG",
+          null
+        ],
+        [
+          7,
+          "FIX_CTRL",
+          "DIRECT"
+        ],
+        [
+          13,
+          "VERIFY_CTRL",
+          null
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 16,
+      "stage": "VERIFIED",
+      "stop": "NO_ACTION_CURRENT_SCOPE",
+      "closed": true,
+      "L": 0,
+      "U": 0,
+      "person_seconds": 9,
+      "tool_seconds": 9,
+      "work_by_stage": {
+        "READING": 2,
+        "PREPARING": 2,
+        "IMPLEMENTING": 1,
+        "EXITING": 2,
+        "VERIFYING": 2
+      },
+      "supply": [
+        [
+          0,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": 8,
+      "committed_at": 11,
+      "execution_available_at": 12,
+      "verification": [
+        15,
+        16,
+        "ex-1",
+        1
+      ],
+      "exits": [
+        [
+          11,
+          13,
+          "FIX_CTRL"
+        ]
+      ],
+      "evidence_ids": [],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 25,
+        "policy": 17,
+        "request": 4,
+        "scorer": 1
+      },
+      "config_epoch": 1,
+      "diagnostics": [
+        [
+          "READ_POS",
+          4,
+          5,
+          0
+        ],
+        [
+          "READ_CONFIG",
+          6,
+          7,
+          "LEGACY_LINE"
+        ]
+      ]
+    },
+    "Q4": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          5,
+          "READ_CONFIG",
+          null
+        ],
+        [
+          7,
+          "FIX_CTRL",
+          "DIRECT"
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 13,
+      "stage": "EXECUTED_UNVERIFIED",
+      "stop": "ENV_PRE_CUTOFF",
+      "closed": false,
+      "L": 0,
+      "U": 0,
+      "person_seconds": 7,
+      "tool_seconds": 7,
+      "work_by_stage": {
+        "READING": 2,
+        "PREPARING": 2,
+        "IMPLEMENTING": 1,
+        "EXITING": 2
+      },
+      "supply": [
+        [
+          0,
+          13,
+          "A"
+        ],
+        [
+          13,
+          14,
+          "UPS"
+        ],
+        [
+          14,
+          19,
+          "G"
+        ],
+        [
+          19,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": 8,
+      "committed_at": 11,
+      "execution_available_at": 12,
+      "verification": null,
+      "exits": [
+        [
+          11,
+          13,
+          "FIX_CTRL"
+        ]
+      ],
+      "evidence_ids": [],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 21,
+        "policy": 13,
+        "request": 3,
+        "scorer": 1
+      },
+      "config_epoch": 1,
+      "diagnostics": [
+        [
+          "READ_POS",
+          4,
+          5,
+          0
+        ],
+        [
+          "READ_CONFIG",
+          6,
+          7,
+          "LEGACY_LINE"
+        ]
+      ]
+    },
+    "Q5": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          5,
+          "FIX_CTRL",
+          "DIRECT"
+        ],
+        [
+          11,
+          "VERIFY_CTRL",
+          null
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 13,
+      "stage": "VERIFY_ABORTED",
+      "stop": "ENV_PRE_CUTOFF",
+      "closed": false,
+      "L": 0,
+      "U": 0,
+      "person_seconds": 10,
+      "tool_seconds": 10,
+      "work_by_stage": {
+        "READING": 1,
+        "PREPARING": 2,
+        "IMPLEMENTING": 1,
+        "EXITING": 4,
+        "VERIFYING": 2
+      },
+      "supply": [
+        [
+          0,
+          13,
+          "A"
+        ],
+        [
+          13,
+          14,
+          "UPS"
+        ],
+        [
+          14,
+          19,
+          "G"
+        ],
+        [
+          19,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": 6,
+      "committed_at": 9,
+      "execution_available_at": 10,
+      "verification": null,
+      "exits": [
+        [
+          9,
+          11,
+          "FIX_CTRL"
+        ],
+        [
+          13,
+          15,
+          "VERIFY_CTRL"
+        ]
+      ],
+      "evidence_ids": [],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 21,
+        "policy": 13,
+        "request": 3,
+        "scorer": 1
+      },
+      "config_epoch": 1,
+      "diagnostics": [
+        [
+          "READ_POS",
+          4,
+          5,
+          0
+        ]
+      ]
+    },
+    "Q6": {
+      "requests": [
+        [
+          0,
+          "READ_POS",
+          null
+        ],
+        [
+          5,
+          "READ_VOLT",
+          null
+        ],
+        [
+          7,
+          "READ_CONFIG",
+          null
+        ],
+        [
+          9,
+          "FIX_CTRL",
+          "EVIDENCE"
+        ]
+      ],
+      "final_time": 20,
+      "stop_time": 13,
+      "stage": "NOT_IMPLEMENTED",
+      "stop": "ENV_PRE_CUTOFF",
+      "closed": false,
+      "L": 4,
+      "U": 4,
+      "person_seconds": 8,
+      "tool_seconds": 8,
+      "work_by_stage": {
+        "READING": 3,
+        "PREPARING": 2,
+        "IMPLEMENTING": 1,
+        "EXITING": 2
+      },
+      "supply": [
+        [
+          0,
+          13,
+          "A"
+        ],
+        [
+          13,
+          16,
+          "UPS"
+        ],
+        [
+          16,
+          19,
+          null
+        ],
+        [
+          19,
+          20,
+          "A"
+        ]
+      ],
+      "approved_at": 10,
+      "committed_at": null,
+      "execution_available_at": 14,
+      "verification": null,
+      "exits": [
+        [
+          13,
+          15,
+          "FIX_CTRL"
+        ]
+      ],
+      "evidence_ids": [
+        "obs-1",
+        "obs-2",
+        "obs-3"
+      ],
+      "violations": [],
+      "calls": {
+        "constructor": 1,
+        "plant": 22,
+        "policy": 13,
+        "request": 4,
+        "scorer": 1
+      },
+      "config_epoch": 0,
+      "diagnostics": [
+        [
+          "READ_POS",
+          4,
+          5,
+          0
+        ],
+        [
+          "READ_VOLT",
+          6,
+          7,
+          1
+        ],
+        [
+          "READ_CONFIG",
+          8,
+          9,
+          "LEGACY_LINE"
+        ]
+      ]
+    }
+  },
+  "interfaces": {
+    "P01": {
+      "action": "READ_CONFIG",
+      "mode": null
+    },
+    "P02": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P03": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P04": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P05": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P06": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P07": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P08": {
+      "action": "NO_ACTION_CURRENT_SCOPE",
+      "mode": null
+    },
+    "P09": {
+      "action": "NO_ACTION_CURRENT_SCOPE",
+      "mode": null
+    },
+    "P10": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P11": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P12": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P13": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P14": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P15": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P16": {
+      "action": "READ_CONFIG",
+      "mode": null
+    },
+    "P17": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P18": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P19": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P20": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P21": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P22": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P23": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P24": {
+      "action": "NO_ACTION_CURRENT_SCOPE",
+      "mode": null
+    },
+    "P25": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P26": {
+      "action": "READ_VOLT",
+      "mode": null
+    },
+    "P27": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P28": {
+      "action": "INFEASIBLE",
+      "mode": null
+    },
+    "P29": {
+      "action": "WAIT_PENDING",
+      "mode": null
+    },
+    "P30": {
+      "action": "STOP_UNRESOLVED",
+      "mode": null
+    },
+    "P31": {
+      "action": "STOP_UNRESOLVED",
+      "mode": null
+    },
+    "P32": {
+      "action": "VERIFY_CTRL",
+      "mode": null
+    },
+    "P33": {
+      "action": "NO_ACTION_CURRENT_SCOPE",
+      "mode": null
+    },
+    "P34": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P35": {
+      "action": "VERIFY_CTRL",
+      "mode": null,
+      "parent": [
+        "ex-1",
+        1
+      ]
+    },
+    "P36": {
+      "status": "REJECT"
+    },
+    "P37": {
+      "status": "ENV_PRE_CUTOFF"
+    },
+    "P38": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P39": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P40": {
+      "status": "REJECT"
+    },
+    "P41": {
+      "status": "REJECT"
+    },
+    "P42": {
+      "status": "REJECT"
+    },
+    "P43": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    },
+    "P44": {
+      "action": "INSUFFICIENT_INFORMATION",
+      "mode": null
+    },
+    "P45": {
+      "action": "PROPOSE_FIX",
+      "mode": "DIRECT"
+    }
+  },
+  "feedback": {
+    "F1+": {
+      "bits": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F1-": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F1-split": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F2+": {
+      "bits": [
+        false,
+        true,
+        false,
+        false,
+        false
+      ]
+    },
+    "F2-": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F3+": {
+      "bits": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ]
+    },
+    "F3-": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F4+": {
+      "bits": [
+        false,
+        false,
+        false,
+        true,
+        false
+      ]
+    },
+    "F4-": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F5+": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        true
+      ]
+    },
+    "F5-": {
+      "bits": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    "F-unpaid": {
+      "status": "REJECT"
+    },
+    "F-partial": {
+      "status": "REJECT"
+    }
+  },
+  "ledger": {
+    "L-green": {
+      "U0": [
+        "C全续",
+        "C早续",
+        "C早止"
+      ],
+      "SEARCH": [
+        "C全续",
+        "C早止",
+        "V早续"
+      ],
+      "paid": 6,
+      "cold_columns": 4,
+      "logical_rows": 324,
+      "physical_stub_rows": 216,
+      "locks": [
+        "I",
+        "I"
+      ]
+    },
+    "L-repair": {
+      "U0": [
+        "C全续",
+        "C早续",
+        "C全止"
+      ],
+      "SEARCH": [
+        "C全续",
+        "C早止",
+        "V早续"
+      ],
+      "paid": 6,
+      "cold_columns": 5,
+      "logical_rows": 324,
+      "physical_stub_rows": 270,
+      "locks": [
+        "I",
+        "I"
+      ]
+    },
+    "L-fallback": {
+      "U0": [
+        "C全续",
+        "C早止",
+        "V早续"
+      ],
+      "SEARCH": [
+        "C全续",
+        "C早止",
+        "V早续"
+      ],
+      "paid": 6,
+      "cold_columns": 3,
+      "logical_rows": 324,
+      "physical_stub_rows": 162,
+      "locks": [
+        "I",
+        "I"
+      ]
+    },
+    "L-frontier": {
+      "lock": "C全续",
+      "frontier": [
+        "C全续",
+        "C早止"
+      ],
+      "seen_service": true,
+      "locked_service": false,
+      "flags": {
+        "C全续": [
+          false,
+          true,
+          true,
+          false
+        ],
+        "C早止": [
+          true,
+          false,
+          false,
+          false
+        ]
+      }
+    },
+    "L-outside-veto": {
+      "lock": "I",
+      "frontier": [],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {}
+    },
+    "L-lost-close": {
+      "lock": "I",
+      "frontier": [],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {}
+    },
+    "L-K02-cost": {
+      "lock": "I",
+      "frontier": [],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {}
+    },
+    "L-constraint": {
+      "lock": "C早续",
+      "frontier": [
+        "C早续"
+      ],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {
+        "C早续": [
+          false,
+          false,
+          false,
+          true
+        ]
+      }
+    },
+    "L-outside-only": {
+      "lock": "I",
+      "frontier": [],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {}
+    },
+    "L-new-violation": {
+      "lock": "I",
+      "frontier": [],
+      "seen_service": false,
+      "locked_service": false,
+      "flags": {}
+    },
+    "L-purpose": {
+      "status": "REJECT",
+      "delivered": false
+    },
+    "L-input": {
+      "status": "REJECT",
+      "delivered": false
+    },
+    "L-descriptor": {
+      "status": "REJECT",
+      "delivered": false
+    },
+    "L-source": {
+      "status": "REJECT",
+      "delivered": false
+    },
+    "L-duplicate": {
+      "status": "REJECT",
+      "paid": 1
+    },
+    "L-normal-failure": {
+      "started": 2,
+      "returned": 2,
+      "pending": 0,
+      "status": "COMPLETE",
+      "suffix": []
+    },
+    "L-missing-counts": {
+      "started": 1,
+      "returned": 1,
+      "pending": 0,
+      "unknown": 1,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "paid": 1,
+      "exposed": false
+    },
+    "L-archive-error": {
+      "started": 1,
+      "returned": 1,
+      "pending": 0,
+      "unknown": 0,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "paid": 1,
+      "exposed": false
+    },
+    "L-no-return": {
+      "started": 1,
+      "returned": 0,
+      "pending": 1,
+      "unknown": 1,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "paid": 1,
+      "exposed": false
+    },
+    "L-negative-verify": {
+      "mismatch": [
+        "requests"
+      ]
+    },
+    "L-negative-cost": {
+      "mismatch": [
+        "person_seconds"
+      ]
+    },
+    "L-study-diagnostic": {
+      "status": "REJECT",
+      "constructors": 0
+    }
+  },
+  "pairs": [
+    {
+      "left": "Q3",
+      "right": "Q4",
+      "through_tick": 12,
+      "identical": [
+        "view",
+        "decision",
+        "payload",
+        "reply"
+      ]
+    }
+  ]
+}

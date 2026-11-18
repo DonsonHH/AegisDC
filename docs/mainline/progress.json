@@ -56,8 +56,8 @@
     "development_execution_authorized": false,
     "confirmation_execution_authorized": false,
     "public_engineering_execution_authorized": false,
-    "R5_implementation_authorized": false,
-    "R5_qualification_authorized": false,
+    "R5_implementation_authorized": true,
+    "R5_qualification_authorized": true,
     "R5_research_execution_authorized": false,
     "R6_documentation_authorized_for_this_delivery": true,
     "R6_execution_authorized": false,
@@ -135,19 +135,21 @@
     {
       "id": "R5",
       "name": "self_improvement_and_RSI_increment",
-      "status": "R5_ORDINARY_PROTOCOL_V2_AWAITING_FREEZE_REVIEW",
+      "status": "FROZEN_FINITE_ENGINEERING_AUTHORIZED",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "protocol": "docs/mainline/review-gated/R5/ordinary-improvement-v2/README.md",
       "scope": "Ordinary successor scope accepted. Protocol and engineering expectations are proposed for freeze; old v1 static exclusion remains in force for v1.",
-      "implementation_authorized": false,
+      "implementation_authorized": true,
       "qualified": false,
       "static_disposition": "docs/mainline/review-gated/R5/v1-static-disposition.md",
-      "executable_protocol_frozen": false,
+      "executable_protocol_frozen": true,
       "successor_feasibility_proposal": "docs/mainline/review-gated/R5/successor-feasibility.md",
       "historical_v1_protocol": "docs/mainline/review-gated/R5/bounded-improvement-v1/README.md",
       "qualification_plan": "docs/mainline/review-gated/R5/ordinary-improvement-v2/qualification.md",
-      "successor_question_accepted": true
+      "successor_question_accepted": true,
+      "frozen_at_revision": "4182f423bba954fce680a5268e4111a6b58bd989",
+      "qualification_plan_authorized": true
     },
     {
       "id": "R6",
@@ -421,6 +423,14 @@
       "RSI_increment_identified": false,
       "implementation_qualification_or_study_authorized": false,
       "stop": "WAIT_FOR_ORDINARY_PROTOCOL_AND_QUALIFICATION_PLAN_REVIEW"
+    },
+    {
+      "id": "20261119-4182f423-ordinary-v2-freeze",
+      "accepted_revision": "4182f423bba954fce680a5268e4111a6b58bd989",
+      "accepted": "Complete ordinary v2 protocol and six-episode qualification plan.",
+      "authorized": "Implementation plus one finite 300 CPU-second engineering job, no retry; draft research manifest for separate authorization.",
+      "frozen_engineering_inputs": "docs/mainline/review-gated/R5/ordinary-v2-qualification/freeze.json",
+      "research_execution_authorized": false
     }
   ],
   "legacy": {
