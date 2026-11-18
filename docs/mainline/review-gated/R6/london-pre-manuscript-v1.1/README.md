@@ -9,6 +9,6 @@
 | §4.3、图 3、讨论与结论 | 两行读取链、申请与名义提交时刻一致，仅故障起点 `tF` 改变，A 源均在第 19 秒恢复。配对可定位提交边界，不能估计多读一项的代价。 |
 | §3.3 | 规格术语 `NO_OUTAGE` 对应扩展表 `service_recovery_status` 的 `NO_RECORDED_SERVICE_OUTAGE` 值。无停机与端点停机后恢复时长右删失分开报告。 |
 
-四幅图、两条公式和完整配对附表沿用初稿。HTML 从本版 Markdown 排版并内嵌原图与 MathML，PDF 取自同一版 HTML。原始 [19／35 行附表](../london-pre-manuscript-v1/data/paired-tables.md)、[逐图来源](../london-pre-manuscript-v1/figure-map.md)、[版本与指标](../london-pre-manuscript-v1/reproducibility.md)可直接对照。此次只修订文字、排版和书面可行性说明，新增模型、测试、资格及研究运行均为零。
+四幅图、两条公式和完整配对附表沿用初稿。HTML 从本版 Markdown 排版并内嵌原图与 MathML，PDF 取自同一版 HTML。实际导出使用 Node.js 24.22.3 和 Marked 17.0.5 解析 Markdown，Playwright 1.62.1 驱动 Google Chrome 157.0.8103.79 整理离线 HTML，并通过无头打印接口导出 PDF（Skia/PDF m157）。原始 [19／35 行附表](../london-pre-manuscript-v1/data/paired-tables.md)、[逐图来源](../london-pre-manuscript-v1/figure-map.md)、[版本与指标](../london-pre-manuscript-v1/reproducibility.md)可直接对照。此次只修订文字、排版和书面可行性说明，新增模型、测试、资格及研究运行均为零。
 
 本轮停在研究问题与文稿 review。原 R5 v1 的 216 个开发回合、最多 105 个评估回合仍未执行且不可转拨。后继问题尚未取得执行授权，独立确认义务继续保留。
