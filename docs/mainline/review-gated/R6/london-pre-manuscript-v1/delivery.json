@@ -1,0 +1,411 @@
+{
+  "schema": "aegisdc-r6-manuscript-delivery-v1",
+  "date": "2026-11-18",
+  "timezone": "Asia/Shanghai",
+  "status": "COMPLETE_CHINESE_WORKING_MANUSCRIPT_AWAITING_USER_REVIEW",
+  "repository": "DonsonHH/AegisDC",
+  "branch": "donson/mainline-39c-endpoints",
+  "evidence_baseline": "cf666ec5c3f390ecb3b07818365cf4be2c475cde",
+  "containing_commit_identity": "Read the Git commit containing this file; no self-referential publication SHA is embedded",
+  "scope_record": "scope.json",
+  "deliverables": {
+    "manuscript_sections": 8,
+    "manuscript_pdf_pages": 13,
+    "research_figures": 4,
+    "research_figure_formats": [
+      "SVG",
+      "PNG"
+    ],
+    "main_text_tables": 4,
+    "separate_appendix_rows": {
+      "dev19": 19,
+      "ext35": 35
+    },
+    "primary_external_references": 7,
+    "html_previews": 5,
+    "editable_source": "manuscript.md",
+    "bibliography": "references.bib",
+    "reproducibility_appendix": "reproducibility.md",
+    "original_claim_mapping": "claim-map.md"
+  },
+  "review": {
+    "classification": "Same-workflow assistant peer review, not external independent review or independent custody",
+    "methods": "Checked definitions, fixed eligibility masks, execution versus static inference, timing/censoring and the R5 proof; no remaining material issue reported after correction",
+    "references": "Checked primary-source metadata, supported statements, limits and all 20 original claims; no remaining material issue reported after correction",
+    "figures": "Checked source pointers, exact panel counts, noncompliant rows and selected actual trajectories; energy reconstruction explicitly labeled",
+    "pdf_visual_review": {
+      "sha256": "59e9bff8a633378392d9b62cac41d8392f59abcb59dbba185ee363c97ba95c79",
+      "render_tool": "pdftoppm 26.05.0",
+      "render_command": "pdftoppm -scale-to 1250 -png manuscript.pdf <scratch>/pdf-final/page",
+      "primary_pages": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13
+      ],
+      "peer_pages": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "all_pages_inspected": true,
+      "remaining_layout_findings": []
+    },
+    "html_review": "DOM, internal anchors, resource embedding and link targets checked. Browser viewport rendering not validated because Chromium startup was blocked."
+  },
+  "corrections": [
+    "Distinguished NO_OUTAGE from an outage not recovered by H, including the endpoint lower bound of zero",
+    "Explicitly separated work consumed from reservations and observed I/D costs from unexecuted H1/H2 deductions",
+    "Labeled the UPS energy line as reconstruction from saved supply segments, fixed power and initial energy",
+    "Clarified that execution-bound configuration verification is not independent scientific confirmation",
+    "Repaired adjacent citation labels, PDF reference destinations, mathematical symbol font and equation proportions"
+  ],
+  "publication_processing_attempts": [
+    {
+      "activity": "Browser print",
+      "outcome": "FAILED_BEFORE_DOCUMENT_LOAD",
+      "reason": "Chromium process singleton socket: Operation not permitted",
+      "resolution": "Used installed ReportLab; no permission or dependency changes"
+    },
+    {
+      "activity": "Initial ReportLab typesetting",
+      "outcome": "FAILED_BEFORE_VALID_PDF",
+      "reason": "Undefined PDF destination ref-1",
+      "resolution": "Attached reference destinations to nonempty reference paragraphs"
+    },
+    {
+      "activity": "Initial valid PDF review",
+      "outcome": "CORRECTED",
+      "findings": "Missing comparison glyph, uneven formula scale and extra reference spacing"
+    },
+    {
+      "activity": "Final ReportLab typesetting",
+      "outcome": "13_PAGE_PDF_VISUALLY_REVIEWED"
+    }
+  ],
+  "static_artifact_checks": {
+    "receipt": "verification.json",
+    "render_hashes_matched": 15,
+    "link_checks": {
+      "markdown_links": 135,
+      "html_links": 173,
+      "local_targets": 62,
+      "github_path_checks": 131,
+      "html_internal_anchors": 65
+    },
+    "pdf": {
+      "pages": 13,
+      "bookmarks": 30,
+      "out_of_page_text": [],
+      "succ_symbol_count": 4,
+      "replacement_characters": 0
+    },
+    "failures": []
+  },
+  "source_checks": {
+    "three_extraction_sources": "Git blob SHA-1 and SHA-256 pinned in tools/extract_figure_data.py and figure-map.md",
+    "private_server_raw_records_reaccessed": false,
+    "historical_saved_result_checks_reexecuted": false,
+    "scope": "Existing GitHub summaries and inputs; no fresh independent verification of private raw trajectories"
+  },
+  "preservation_and_publication": {
+    "base_tree": "a30f53ff9da0a3886fb70c01041002181271c732",
+    "new_package": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/",
+    "only_existing_files_to_change": {
+      "AGENTS.md": "01eab2b9fd2891007753080925a000eb3c6ac3bd",
+      "docs/MAINLINE.md": "12d531ab1a3b14905607bab6db7ed7318e3493e8",
+      "docs/mainline/review-gated/plan.md": "ead00fb8bb74f62eda69801c71d6ea190f8b6db1",
+      "docs/WORKSPACE.md": "9368e7e315842ce6043000bf2a3f21576d018ac5",
+      "docs/mainline/progress.json": "d8eec4992c456152b57e28884d0fc33dc23ac57f",
+      "docs/current-research.json": "f8e8afc8d529bf36ea60b9d0386cd5b622f7c494"
+    },
+    "rule": "Reuse the base Git tree and replace only these six navigation/state blobs, adding this package; all existing source, configurations, tests, evidence, R5 disposition and R6 matrix/outline remain inherited unchanged",
+    "branch_update": "Fast-forward with expected baseline lease; no force update",
+    "ci": "Documentation commit includes [skip ci] because the existing branch push workflow executes project tests; no project execution is authorized by this writing step",
+    "verification_limit": "This receipt fixes staged publication bytes. Final containing commit, remote tree identity and branch lease are checked during publication and reported with the delivery. The user Windows worktree is not accessed."
+  },
+  "execution_accounting": {
+    "new_facility_calls": 0,
+    "new_strategy_calls": 0,
+    "new_scorer_calls": 0,
+    "project_tests": 0,
+    "qualification_executions": 0,
+    "research_runs": 0,
+    "new_evaluation_inputs": 0,
+    "new_slurm_jobs": 0,
+    "publication_data_processing": "Existing JSON reading, exact count comparison, figure rendering, document typesetting and file identity checks only"
+  },
+  "remaining_limits": {
+    "final_manuscript_user_acceptance": false,
+    "external_submission": false,
+    "independent_confirmation_established": false,
+    "independent_confirmation_waived": false,
+    "field_effect_measured": false,
+    "RSI_gain_measured": false,
+    "R5_216_and_105_episodes_executed": 0,
+    "R5_21_inputs_generated": 0,
+    "R5_historical_budget_transferable": false
+  },
+  "file_manifest": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 6266,
+      "sha256": "68d5735f29d98ff5371568e736789239fd760c823a7ddedef54f20fde99375c3",
+      "git_blob_sha1": "c53c7cf968688f4cb53178305cbd3e2580bc4585"
+    },
+    {
+      "path": "docs/MAINLINE.md",
+      "bytes": 4365,
+      "sha256": "f390f58270c8a74f6f870a07c81963eda0c4529bca38e964d6c56805b4438788",
+      "git_blob_sha1": "a6f6061055e617fcdcb863420435ada1db2fd4a1"
+    },
+    {
+      "path": "docs/WORKSPACE.md",
+      "bytes": 5958,
+      "sha256": "2f87b60520f964c86cb162c2a5ca0c3228b17c5f10b0108e09b6a45d38a8f8f8",
+      "git_blob_sha1": "6e28943342a228599dba9c9270ff5cfa7960c41e"
+    },
+    {
+      "path": "docs/current-research.json",
+      "bytes": 2986,
+      "sha256": "c841658f3406c05412676f88b03c93c904fb6fc7ad7d995cd3c14f3de4938776",
+      "git_blob_sha1": "90e15f00553d81ea6772ba57c75d42150593f4fe"
+    },
+    {
+      "path": "docs/mainline/progress.json",
+      "bytes": 48476,
+      "sha256": "3efb9a4752c960c764db8bb2067d9371c646bb3061f3dea08aae14c1fcf78edc",
+      "git_blob_sha1": "f7faabe413ba2e0758f94bd7bf8607bf2d464f1c"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/README.md",
+      "bytes": 4548,
+      "sha256": "c32e7b9df459920c84adbebd610532cc8c7edab3c5eaaeaefb2303a5a745e279",
+      "git_blob_sha1": "3586a14db0760075021fc82e76060818f90ddcab"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/claim-map.md",
+      "bytes": 2447,
+      "sha256": "a0ee75c59f16f49da99106ecd656d68cbe4ffbbbecef9ab75f89feb419abb714",
+      "git_blob_sha1": "441054b0e3fb9d46b86766fd615456801ec9bf45"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/data/figure-data.json",
+      "bytes": 134989,
+      "sha256": "989a624f8b21e24a83982cbc544a1b98423893503231fa7f5afccacdadf8d7f3",
+      "git_blob_sha1": "1786a367bc4072b5f9fb57dbd6506219fc459bf3"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/data/paired-tables.md",
+      "bytes": 8919,
+      "sha256": "9175dec1050a859fef4bfb4a99bc236410df0e33f29a5c9358f045645adef63c",
+      "git_blob_sha1": "6a98e7b547353ddadc0e44819539e83e430815b8"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figure-map.html",
+      "bytes": 17699,
+      "sha256": "a99b00935c48feea7418dbea2ee3ca5add08629e7bb886ee04fe9fec847086c6",
+      "git_blob_sha1": "cd09d5e0bec965abad5fe459bf2475ae8f08956f"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figure-map.md",
+      "bytes": 8490,
+      "sha256": "d4654e70510b5bceb4b61d965289cd4f4f41961dcb9712a548ad95a93c32d32b",
+      "git_blob_sha1": "f7939cbaf6cf9e4fb0ab1ef582b361b425d0ee25"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig01-panel-comparisons.png",
+      "bytes": 165175,
+      "sha256": "7d866317825299f353821b1a78621afe5094f3de06c152f9c4c0f6b93534e021",
+      "git_blob_sha1": "31b3af4d027e7d7143a80d97e3f7589b9ecbe254"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig01-panel-comparisons.svg",
+      "bytes": 24348,
+      "sha256": "99971552a7aff574c1a4f04ca983fd28b1934d47990635c065aeaacbdda0ee95",
+      "git_blob_sha1": "a748313c79ec35b308d7996f5a1429c73c5f5606"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig02-b01-service-timeline.png",
+      "bytes": 149300,
+      "sha256": "1446251658d7dedbd9bd6cec918372fd1118c1ad6bf4018b598cc13613fd287b",
+      "git_blob_sha1": "25d07431ea400c5ac233cdfba11ab24bc0a5bc8c"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig02-b01-service-timeline.svg",
+      "bytes": 17862,
+      "sha256": "88411bfbc063d94f7830525f6b212f8a741ff3b1f6c2befd6f744f5ce8b3be96",
+      "git_blob_sha1": "cd6e2fae1e9b82d3750b6326eef9e63937fc1bdc"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig03-g05-g06-boundary.png",
+      "bytes": 158454,
+      "sha256": "84a28b16443c4b947a18c71e8521967baaf2dab4f33712544939c0a16deccd68",
+      "git_blob_sha1": "ba30c7ca9e66d8a1be2b66fdb24d4fb6f953e5ae"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig03-g05-g06-boundary.svg",
+      "bytes": 35436,
+      "sha256": "a2066906cabdab0fb06bd4ec9f12f478d4e5e93a896cdb8bb822aa373fb5abc4",
+      "git_blob_sha1": "7b1a60af79007c1bede168cd0f630f1f90521b2b"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig04-ups-horizon.png",
+      "bytes": 213395,
+      "sha256": "9c1f9cc34da65ceba6ca92c629ad61ec4a6dcebed14abbc8945363e4f65d8b02",
+      "git_blob_sha1": "ccff39fc02dd0120adcbcaff747a53ba3e63a944"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/fig04-ups-horizon.svg",
+      "bytes": 23238,
+      "sha256": "e045d96246d8dda84d8b752ce4b4561019831b8b5557ad21afdbb6c67c0c3f34",
+      "git_blob_sha1": "fcbe68a833e58c792c27a765def89f57d77fb7eb"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/formula-1.png",
+      "bytes": 38082,
+      "sha256": "92b7f37e20105ebca853eb9b263ff5403bd087f299743b2545b37afb78d49150",
+      "git_blob_sha1": "8724252a588ec728e1759f1efc36191a5d2a3670"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/formula-2.png",
+      "bytes": 14929,
+      "sha256": "e115dab5fe2d15fa39090ed28d1290c926853d331b1df0d1c1d71905178fd145",
+      "git_blob_sha1": "22a518140b112f978db5c48a67d85ed802f94507"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/figures/render-receipt.json",
+      "bytes": 1756,
+      "sha256": "04a50b39fc4c9af4b05541ddfaef53d5749fd9d7a41706ee19b8a2b6c053af87",
+      "git_blob_sha1": "8a0977738386086d3cb253f572003a929d6d91ba"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/manuscript.html",
+      "bytes": 180804,
+      "sha256": "3dc0ccb315a15a23016b31aad78b8ef2958f0847013d1709526802afca132e70",
+      "git_blob_sha1": "16ab8fced9f1d6877c1e945eeed6cbc9320f8336"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/manuscript.md",
+      "bytes": 40297,
+      "sha256": "250e2465d59c1c26cbb18aa34b7faa0f4cf168585291afd561f7c53ff5ef4d5b",
+      "git_blob_sha1": "522116a2237b7756b8a0376a2a0765c4d60df3cd"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/manuscript.pdf",
+      "bytes": 851201,
+      "sha256": "59e9bff8a633378392d9b62cac41d8392f59abcb59dbba185ee363c97ba95c79",
+      "git_blob_sha1": "5e41b4256847157daf9d0b2031e59613b6ec2a9b"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/paired-tables.html",
+      "bytes": 29171,
+      "sha256": "5f9dd77e395219f322a7b2c33c225dfa9be8905972388dd8033f36778e5b1d4e",
+      "git_blob_sha1": "2670f46562e76182e424968f1fece24a14761be5"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/pdf-receipt.json",
+      "bytes": 1453,
+      "sha256": "c417b87e21f52c2651be99390996e4af8f6d59fcf056a8320768f479fefb4e7a",
+      "git_blob_sha1": "efed0b017398d06647fe5f08b28f799e0c3cb1d2"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/preview-receipt.json",
+      "bytes": 5929,
+      "sha256": "cf6093b49993186f962451fa58972412b116ceb6336727f8996645508b64b9d2",
+      "git_blob_sha1": "f672ede7e36157d5914fbd0b130310fe4cfd6ea1"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/references.bib",
+      "bytes": 3359,
+      "sha256": "5f9dcd1b2cb1c21fba77ae82ebc291ec30783ce9a8da7694d816d36714c356f1",
+      "git_blob_sha1": "9f0a385d8134e23bf3236af39a685139d39422c0"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/references.html",
+      "bytes": 14477,
+      "sha256": "4d87b75cad2d885861ac10b5d3b666499eafb6cc7c3acb8062e07687a0b2d8c9",
+      "git_blob_sha1": "f7714ff8e22eb58b93301c92fa5c9e4162f799de"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/references.md",
+      "bytes": 6477,
+      "sha256": "88504e7f9891bfbf7ca65405d06f1ba93d8a119418bfa33bd55b3316f129d162",
+      "git_blob_sha1": "cd87953def649eb33541f29d6766251945bb5e33"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/reproducibility.html",
+      "bytes": 27169,
+      "sha256": "87d698088d07cf15e2122871c2f1ec9c96bad67970f43bb7a2b1feaf79b40268",
+      "git_blob_sha1": "4dfbbbb07016ad1359cfcc3ba8dd1ae98922efa8"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/reproducibility.md",
+      "bytes": 15530,
+      "sha256": "61aa59051529495fd0dbe416fb453eeb9e535f22b57de47f6821add99428ce33",
+      "git_blob_sha1": "1f4e1a43bf32b943702b4b83f58fefc252f34a80"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/scope.json",
+      "bytes": 1754,
+      "sha256": "a78d34fef0233cd72061337c314eed8e2051e624eba4cf72d474b5ee358fd3d0",
+      "git_blob_sha1": "0627eea911ba4ff489ee05434abf7fa7dd768f8d"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/build_figures.py",
+      "bytes": 14850,
+      "sha256": "973bf84798257884d58a0d446661281ee0ae1e94b40d31661bcea48418b8ee7f",
+      "git_blob_sha1": "a468ce4f5d4d977d327a5e44bd20991f750cf518"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/build_preview.py",
+      "bytes": 4014,
+      "sha256": "d6ea6632cfe503b5342f3a30a9f5c0efa06365fa74b1cc03c0a40b8389ad3378",
+      "git_blob_sha1": "ec4ad0b4c05684e4e1966eb5623df5174b087a65"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/extract_figure_data.py",
+      "bytes": 5859,
+      "sha256": "d80558b45f7846e29ed68c67011211d7c921e71f76c8a71b07000c62cb09428d",
+      "git_blob_sha1": "903ebfae3eec2be759a048491a76a78d18c414ee"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/paper-template.html",
+      "bytes": 841,
+      "sha256": "8971b6d9fcf40cab58bcccae5c7877300db9bf8ea813045a7582d834b67857c6",
+      "git_blob_sha1": "7c0052dbaa6c9bc244dbc6874eb2cae3e4099e4d"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/paper.css",
+      "bytes": 5090,
+      "sha256": "fd65e6fa221287bd28b1b632f3d0265b1b27d034f6d85d3b00ac750e5c6668ea",
+      "git_blob_sha1": "0014ef1019855e6d514a80d146e92232e0f3a2d4"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/typeset_pdf.py",
+      "bytes": 11363,
+      "sha256": "ae2e40b0c994d18e02efcf42b500ee7e671b27f06fa563934fe49c44fdba4196",
+      "git_blob_sha1": "90136e64ec5d3943158aef2a459018c0ed7c880a"
+    },
+    {
+      "path": "docs/mainline/review-gated/R6/london-pre-manuscript-v1/verification.json",
+      "bytes": 2437,
+      "sha256": "d048805714d76cdbd2c136a12e3ddd6b43bc49cb6e62fe1426ba47b602aebfba",
+      "git_blob_sha1": "edba120c156a06cee11db5224696d0dfa4eb3caa"
+    },
+    {
+      "path": "docs/mainline/review-gated/plan.md",
+      "bytes": 16639,
+      "sha256": "5000a536e7c6db21c0a2231db1a53b01960dcba5325d05eb746615923dcb93c2",
+      "git_blob_sha1": "9a27c3094a6598450ab461c8963b3b29076ee6dd"
+    }
+  ],
+  "file_manifest_exclusion": "delivery.json itself is excluded to avoid a circular hash",
+  "stop": "Complete manuscript review; no automatic research or external submission"
+}

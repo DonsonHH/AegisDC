@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>图表来源、图注与重绘</title>
+<style type="text/css">:root { color-scheme: light; --ink:#1c2b37; --muted:#526574; --accent:#1c6572; --rule:#d8e2e6; --paper:#fff; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; color:var(--ink); background:#eef2f4; font-family:"Noto Serif CJK SC","Songti SC",serif; line-height:1.9; font-size:17px; }
+a { color:var(--accent); text-decoration:none; overflow-wrap:anywhere; }
+a:hover { text-decoration:underline; }
+.layout { max-width:1480px; margin:auto; display:grid; grid-template-columns:270px minmax(0,1fr); gap:34px; padding:28px; }
+.sidebar { position:sticky; top:24px; align-self:start; max-height:calc(100vh - 48px); overflow:auto; font:13px/1.65 "Noto Sans CJK SC",sans-serif; padding:18px 8px 24px 0; }
+.brand { text-transform:uppercase; letter-spacing:.15em; color:var(--accent); font-weight:700; font-size:12px; margin:0 0 16px; }
+.sidebar ul { list-style:none; padding-left:14px; }
+.sidebar>nav>ul { padding-left:0; }
+.sidebar li { margin:7px 0; }
+.sidebar a { color:var(--muted); }
+.sidebar nav>ul>li>a { color:var(--ink); font-weight:600; }
+.rail-note { margin-top:24px; padding-top:15px; border-top:1px solid var(--rule); color:var(--muted); font-size:12px; }
+main { background:var(--paper); padding:58px 68px; min-width:0; box-shadow:0 10px 40px #233b4810; }
+h1,h2,h3,h4 { font-family:"Noto Sans CJK SC",sans-serif; line-height:1.5; font-weight:700; color:#173744; scroll-margin-top:22px; }
+h1 { font-size:32px; margin:0 0 16px; letter-spacing:.015em; }
+h2 { font-size:23px; margin:48px 0 20px; padding-bottom:8px; border-bottom:1px solid var(--rule); }
+h1+h2 { font-weight:500; color:var(--muted); font-size:21px; margin:0 0 28px; border:0; padding:0; }
+h3 { font-size:19px; margin:32px 0 14px; }
+p { margin:15px 0; text-align:justify; overflow-wrap:anywhere; }
+strong { font-weight:700; }
+code { font-family:"DejaVu Sans Mono",monospace; font-size:.82em; color:#284c59; background:#f0f5f6; border-radius:3px; padding:.1em .25em; overflow-wrap:anywhere; }
+pre { white-space:pre-wrap; background:#f3f6f8; padding:18px; overflow:auto; font-size:13px; }
+pre code { background:none; }
+table { width:100%; border-collapse:collapse; font-family:"Noto Sans CJK SC",sans-serif; font-size:13px; line-height:1.7; margin:20px 0 28px; }
+th { text-align:left; background:#eaf1f3; font-weight:650; border-top:2px solid #75939e; border-bottom:1px solid #a9bec6; }
+td,th { padding:11px 10px; vertical-align:top; overflow-wrap:anywhere; }
+td { border-bottom:1px solid var(--rule); }
+tbody tr:nth-child(even) { background:#f8fafb; }
+.table-scroll { overflow-x:auto; }
+figure { margin:28px 0; padding:18px 14px 12px; border:1px solid var(--rule); background:#fff; }
+figure img { display:block; width:100%; height:auto; }
+figure svg { display:block; width:100%; height:auto; }
+figcaption { font-size:13px; line-height:1.75; color:#425964; margin-top:12px; }
+figcaption p { margin:0; }
+img { max-width:100%; height:auto; }
+.math.display { display:block; padding:18px 8px; margin:14px 0; overflow-x:auto; text-align:center; }
+math { font-family:"STIX Two Math","DejaVu Math TeX Gyre",serif; font-size:1.07em; }
+blockquote { border-left:3px solid #b0c8cf; margin:20px 0; padding-left:18px; color:var(--muted); }
+li { margin:7px 0; }
+.footer-note { border-top:1px solid var(--rule); margin-top:48px; padding-top:16px; font:12px/1.8 "Noto Sans CJK SC",sans-serif; color:var(--muted); }
+@media(max-width:1050px) { .layout{grid-template-columns:210px minmax(0,1fr);gap:20px;padding:18px;} main{padding:38px 35px;} }
+@media(max-width:760px) { body{font-size:16px;} .layout{display:block;padding:0;} .sidebar{position:relative;top:0;max-height:none;padding:22px 24px;} .sidebar nav{max-height:220px;overflow:auto;} .rail-note{display:none;} main{padding:30px 22px;box-shadow:none;} h1{font-size:27px;} h2{font-size:21px;} table{font-size:12px;} figure{padding:8px;} }
+@media print {
+@page { size:A4; margin:19mm 18mm 19mm; }
+body { background:#fff; color:#101d25; font-size:10.5pt; line-height:1.72; }
+.layout { display:block; padding:0; max-width:none; }
+.sidebar { display:none; }
+main { padding:0; box-shadow:none; }
+h1 { font-size:22pt; line-height:1.45; margin:0 0 5mm; }
+h1+h2 { font-size:13.5pt; margin:0 0 7mm; }
+h2 { font-size:14pt; margin:8mm 0 4mm; padding-bottom:2mm; break-after:avoid; }
+h3 { font-size:11.5pt; margin:6mm 0 3mm; break-after:avoid; }
+p { margin:3mm 0; orphans:3; widows:3; }
+p:has(>strong:first-child) { break-after:avoid; }
+a { color:#244b57; }
+code { background:none; padding:0; font-size:8pt; }
+table { font-size:8pt; line-height:1.5; margin:4mm 0 5mm; }
+td,th { padding:2.2mm 2mm; }
+tr { break-inside:avoid; }
+thead { display:table-header-group; }
+.table-scroll { overflow:visible; }
+figure { break-inside:avoid; margin:6mm 0; padding:2mm; border-color:#dce3e7; }
+figure img { max-height:137mm; object-fit:contain; }
+figure svg { max-height:137mm; }
+figcaption { font-size:8.5pt; line-height:1.55; }
+.math.display { padding:3mm 0; margin:3mm 0; overflow:visible; }
+.footer-note { font-size:8pt; margin-top:7mm; padding-top:3mm; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+ <aside class="sidebar">
+  <p class="brand">AegisDC · London PRE</p>
+  <nav aria-label="文档目录"><ul>
+<li><a href="#%E5%9B%BE%E8%A1%A8%E6%9D%A5%E6%BA%90%E5%9B%BE%E6%B3%A8%E4%B8%8E%E9%87%8D%E7%BB%98" id="toc-图表来源图注与重绘">图表来源、图注与重绘</a>
+<ul>
+<li><a href="#%E6%9D%A5%E6%BA%90%E8%BA%AB%E4%BB%BD" id="toc-来源身份">1. 来源身份</a></li>
+<li><a href="#%E5%9B%9B%E5%B9%85%E5%9B%BE%E5%8F%8A%E4%B8%AD%E6%96%87%E5%9B%BE%E6%B3%A8" id="toc-四幅图及中文图注">2.
+四幅图及中文图注</a>
+<ul>
+<li><a href="#%E5%9B%BE-1%E4%B8%A4%E4%B8%AA%E9%9D%A2%E6%9D%BF%E4%B8%AD%E7%9A%84%E6%9C%8D%E5%8A%A1%E7%BC%BA%E9%A2%9D%E6%AF%94%E8%BE%83" id="toc-图-1两个面板中的服务缺额比较">图
+1：两个面板中的服务缺额比较</a></li>
+<li><a href="#%E5%9B%BE-2b01-%E9%81%BF%E5%BC%80%E9%9A%94%E7%A6%BB%E4%BD%9C%E4%B8%9A%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%9C%BA%E5%88%B6" id="toc-图-2b01-避开隔离作业的服务机制">图 2：B01
+避开隔离作业的服务机制</a></li>
+<li><a href="#%E5%9B%BE-3g05g06-%E7%9A%84%E6%8F%90%E4%BA%A4%E6%88%AA%E6%96%AD%E8%BE%B9%E7%95%8C" id="toc-图-3g05g06-的提交截断边界">图 3：G05／G06
+的提交—截断边界</a></li>
+<li><a href="#%E5%9B%BE-4f01f02-%E7%9A%84-ups-%E7%AA%97%E5%8F%A3%E7%AB%AF%E7%82%B9" id="toc-图-4f01f02-的-ups-窗口端点">图 4：F01／F02 的 UPS
+窗口端点</a></li>
+</ul></li>
+<li><a href="#%E9%87%8D%E7%BB%98%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E5%85%B7%E8%BA%AB%E4%BB%BD" id="toc-重绘命令与工具身份">3.
+重绘命令与工具身份</a></li>
+</ul></li>
+</ul></nav>
+  <div class="rail-note">中文工作稿 v1<br>19 与 35 条件分别报告<br>已执行结果与静态推导分开<br>本稿新增研究运行：0</div>
+ </aside>
+ <main><h1 id="图表来源图注与重绘">图表来源、图注与重绘</h1>
+<p>本包的四幅图是既有保存记录的出版视图，不构成新的设施运行、重新评分、工程资格或研究样本。图中所有时间与能量均属于合成模型。两个面板分别呈现；不得把图
+1 的条件计数解释为总体发生概率或独立事故样本量。</p>
+<h2 id="来源身份">1. 来源身份</h2>
+<p>读取基线为
+<code>cf666ec5c3f390ecb3b07818365cf4be2c475cde</code>。下列三个来源在本轮通过
+GitHub 读取，传至临时编制目录后，用 SHA-256 和 Git blob
+身份同时核对。没有在本轮重新登录私有服务器核对逐臂原始日志。</p>
+<div class="table-scroll"><table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>来源别名</th>
+<th>原件</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dev19</td>
+<td><a href="https://github.com/DonsonHH/AegisDC/blob/cf666ec5c3f390ecb3b07818365cf4be2c475cde/docs/mainline/review-gated/R4/public-development-v1/terminal.json">公开开发终态记录</a></td>
+<td><code>f554b18a916ad3cf7fb0785e4aeb2b8a16df53d5ba5e896949634e3297f254f5</code></td>
+</tr>
+<tr class="even">
+<td>ext35</td>
+<td><a href="https://github.com/DonsonHH/AegisDC/blob/cf666ec5c3f390ecb3b07818365cf4be2c475cde/docs/mainline/review-gated/R4/finite-extension-study-v1/paired-results.json">有限扩展逐条件配对记录</a></td>
+<td><code>e167cbe40b7791a9e94d0658e28fb8786244b3e40856f6d07aec025a20dd0bdc</code></td>
+</tr>
+<tr class="odd">
+<td>ext35_conditions</td>
+<td><a href="https://github.com/DonsonHH/AegisDC/blob/cf666ec5c3f390ecb3b07818365cf4be2c475cde/docs/mainline/review-gated/R4/finite-extension-v1/conditions.json">有限扩展冻结条件</a></td>
+<td><code>4b025bbb29e3652ff70a0a0ccd53556aaa131177bb3b6b9830c6c4e0053aa7d9</code></td>
+</tr>
+</tbody>
+</table>
+</div><p>提取数据见 <a href="data/figure-data.json">figure-data.json</a>。每一行保留带面板前缀的
+ID、原 JSON Pointer、I／D／P 的
+L／U、人员和工具实耗、阶段、合规性及恢复记录。五个机制实例另保存图示所需的原始分段、请求、回执与观察字段。原有整数和字符串形式的精确值直接复制；绘图库仅在设置坐标时转为浮点数。</p>
+<h2 id="四幅图及中文图注">2. 四幅图及中文图注</h2>
+<h3 id="图-1两个面板中的服务缺额比较">图
+1：两个面板中的服务缺额比较</h3>
+<p><a href="figures/fig01-panel-comparisons.svg">SVG</a> · <a href="figures/fig01-panel-comparisons.png">PNG</a></p>
+<p><strong>图注。</strong> 公开开发面板有 19 行，其中 18
+行符合有效比较条件；有限扩展面板有 35 行，其中 34
+行符合有效比较条件。颜色分别表示 I
+的服务缺额比比较处理更小、相同或更大。公开开发中，I 对 D 为 0／10／8，对
+P 为 0／17／1；有限扩展中，I 对 D 为 1／28／5，对 P 为
+1／32／1。非合规行 dev19.C09b 和 ext35.B03 的原始缺额分别为 13／19／0
+秒、11／18／0
+秒，单独保留且不作为有效获益。横轴是该有限清单的条件计数，不是概率。I
+为核查后依证据处置，D 为合法直接修订，P 为既有保护。</p>
+<p><strong>字段与转换。</strong> dev19 使用
+<code>/rows/{i}/valid_comparison</code> 与
+<code>/rows/{i}/arms/{arm}/L</code>；ext35 使用
+<code>/rows/{i}/eligible</code> 与相同的 <code>arms</code>
+子路径。计数仅对冻结有效比较标志为真的行，按精确有理数比较 I 与 D／P 的
+L。非合规原行仍保留在提取数据，图中另框列示。没有依据“谁获胜”重新筛选，没有把两个面板合并。</p>
+<h3 id="图-2b01-避开隔离作业的服务机制">图 2：B01
+避开隔离作业的服务机制</h3>
+<p><a href="figures/fig02-b01-service-timeline.svg">SVG</a> · <a href="figures/fig02-b01-service-timeline.png">PNG</a></p>
+<p><strong>图注。</strong> ext35.B01 中，I 在第 4 秒获得位置值为 1
+的合法否定证据后停止，未发起修订，整个评价窗服务连续。D 的合法修订引起第
+2—7 秒负荷隔离；第 7 秒恢复供电后，设备仍需启动至第 9 秒。D 的服务缺额为
+7 秒，I 和 P 均为 0。D 的实际配置提交在第 5 秒完成，第 6
+秒收到执行回执，第 9 秒收到复核记录。I／D／P 的人员实耗为 1／6／0
+秒，工具实耗与之相同。这一优势针对 D 的作业副作用，并不表示 I 优于
+P，也不表示避免了一次现场外生故障。</p>
+<p><strong>字段与转换。</strong> ext35 <code>/rows/3/arms/{arm}</code>
+中的 <code>service_states</code>
+提供半开服务分段；<code>observations/0/available_at</code> 提供 I
+的证据到达；<code>execution_receipts/0/{committed_at,available_at}</code>
+和 <code>verify_records/0/available_at</code> 提供 D 的事件。人员实耗与
+L 直接读取，不从图形像素重算。绿色为实际服务，红色为隔离
+OFF，黄色为已有电但设备 BOOTING。图中文字“service resumes; VERIFY
+arrives”表示两个事件在该实例同刻发生，不表示复核导致设备恢复。</p>
+<h3 id="图-3g05g06-的提交截断边界">图 3：G05／G06 的提交—截断边界</h3>
+<p><a href="figures/fig03-g05-g06-boundary.svg">SVG</a> · <a href="figures/fig03-g05-g06-boundary.png">PNG</a></p>
+<p><strong>图注。</strong> 两行除故障时刻外背景相同：ext35.G05 在第 12
+秒截断，I 未完成实际提交；ext35.G06 在第 13 秒截断，I 已在第 12
+秒完成提交，但尚未发出复核请求。菱形为实际完成的配置提交，空心圆为合法复核结果到达，红叉仅表示截断后未实施，不能解读为一次失败的提交尝试。条带颜色为实际供电来源，斜线表示虽已恢复
+A 源但设备尚在启动、没有服务。G05 的 I／D／P 缺额为 5／0／5 秒；G06 为
+0／0／4 秒。G06 的 I 具有实际服务后果，但仍是
+<code>EXECUTED_UNVERIFIED</code>。D
+两行都已合法复核；图示不支持取消复核要求。</p>
+<p><strong>字段与转换。</strong> ext35
+<code>/rows/19</code>、<code>/rows/20</code> 的
+<code>arms/{arm}/service_states</code>、<code>execution_receipts</code>、<code>verify_records</code>、<code>stage</code>
+和 <code>L</code>；故障时点来自 ext35_conditions
+<code>/conditions/19/common/tF</code>、<code>/conditions/20/common/tF</code>。<code>service_states[*].state</code>
+的第 0 项为供给来源、第 3 项为服务量、第 4
+项为设备状态。图中截断之后继续绘到
+H，保留供给恢复、设备启动及完整窗口缺额；没有把策略停止当作评价结束。</p>
+<h3 id="图-4f01f02-的-ups-窗口端点">图 4：F01／F02 的 UPS 窗口端点</h3>
+<p><a href="figures/fig04-ups-horizon.svg">SVG</a> · <a href="figures/fig04-ups-horizon.png">PNG</a></p>
+<p><strong>图注。</strong> ext35.F01 缺设备就绪，ext35.F02
+缺物理许可。六个 I／D／P 运行都由 A 源供给至第 17 秒，再由 UPS 在
+<code>[17,20)</code> 交付 3 kJ；窗内服务连续，因此 L／U 都为 0。设备恰在
+H＝20 转为 OFF，恢复记录为右删失、已观察下界为 0 秒。I 和 D 的 G 终态为
+<code>FAILED</code>，P 为 <code>IDLE</code>。上图能量曲线是用已记录的
+UPS 区间、冻结功率 1 kW 和初始能量 3 kJ
+分段重建的出版曲线；其他条带和终态直接来自保存记录。零窗内缺额不能替代后备接管、恢复或长期连续性成功。</p>
+<p><strong>字段与转换。</strong> ext35
+<code>/rows/13</code>、<code>/rows/14</code> 的
+<code>arms/{arm}/{supply,service_states,ups_energy,ending_UPS,final_G,final_device,recoveries,L,U}</code>；条件中的
+H／P／E0 来自 ext35_conditions <code>/conditions/13/common</code> 和
+<code>/conditions/14/common</code>。对 0—17 秒，重建能量保持
+E0；仅在保存记录明确为 UPS 的区间按 P
+线性扣减。重绘器核对六个供给和服务分段相同后才画共享曲线。图中 H
+处服务的空心点表示左侧极限，实心零点表示保存的 OFF
+终态；这不延长研究窗，也不补算 H 之后的损失。</p>
+<h2 id="重绘命令与工具身份">3. 重绘命令与工具身份</h2>
+<p>本轮使用已经安装的 Python 3.12.14、Matplotlib
+3.10.8；未安装依赖。其他已装绘图依赖为 NumPy 2.3.5、Pillow
+13.0.0、fontTools 4.61.1、kiwisolver 1.4.9、cycler 0.12.1、pyparsing
+3.3.2、packaging 26.3、python-dateutil 4.0.0。SVG 保留文字，PNG 为 240
+dpi。脚本固定颜色、字体选择和 SVG
+哈希盐；不同绘图库版本可能改变图片字节，但不应改变数值来源或分类。</p>
+<p>在仓库根目录执行下面命令可由已交付的提取数据重绘：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/build_figures.py</span></code></pre></div>
+<p>若要从原件重新生成提取数据，先将上述三份精确原件放入一目录，分别命名为
+<code>terminal.json</code>、<code>paired-results.json</code>、<code>conditions.json</code>，再执行：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> docs/mainline/review-gated/R6/london-pre-manuscript-v1/tools/extract_figure_data.py <span class="at">--source-dir</span> /absolute/path/to/pinned-originals</span></code></pre></div>
+<p>提取器先验证原件的 SHA-256 和 Git
+blob；任一不符即停止。两份脚本不导入项目设施、策略、评分器、检查器或研究运行入口。</p>
+<p>本轮仅运行上述既有记录提取和出版渲染。首次渲染后逐张查看 PNG，调整图
+3
+的文字位置，再完成最终渲染；这种排版迭代不增加模型调用或研究样本。最终数据、输出文件哈希与精确分类计数见
+<a href="figures/render-receipt.json">render-receipt.json</a>。正文图注解释英文图内标签，避免依赖机器上未安装的中文字库。</p>
+ <div class="footer-note">研究证据基线 cf666ec5。图表是既有记录的出版呈现；本稿待用户 review。本文使用同账号有限合成条件，没有建立外部独立确认或现场有效性。</div>
+ </main>
+</div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审的是伦敦式 PRE 的[主张—证据—适用域矩阵](mainline/review-gated/R6/london-pre-synthesis-v1/README.md)和[论文提纲](mainline/review-gated/R6/london-pre-synthesis-v1/paper-outline.md)。R5 v1 的普通晋级已作[静态判定](mainline/review-gated/R5/v1-static-disposition.md)，旧提案预算未执行且不可转拨。
+当前交审的是伦敦式 PRE 的[完整中文工作稿及图表附件](mainline/review-gated/R6/london-pre-manuscript-v1/README.md)。以 `cf666ec5` 的矩阵和提纲为写作基线，R5 v1 的[静态判定](mainline/review-gated/R5/v1-static-disposition.md)与所有历史结果保持原件。本轮只整理已有证据并渲染文稿，研究执行门保持关闭。
 
 ## 从哪里进入
 
