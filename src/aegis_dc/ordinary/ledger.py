@@ -13,9 +13,10 @@ COUNT_KEYS = ("constructor", "plant", "policy", "request", "scorer")
 class NoReturn(RuntimeError):
     """The underlying worker has no proved terminal return."""
 
-    def __init__(self, message, subtotal=None):
+    def __init__(self, message, subtotal=None, unresolved_calls=()):
         super().__init__(message)
         self.subtotal = subtotal or {}
+        self.unresolved_calls = list(unresolved_calls)
 
 
 class WorkerFailure(RuntimeError):
@@ -157,6 +158,7 @@ def collect(keys, evaluate, archive, journal, *, cached=None, completed=None):
                 else:
                     state["unknown"] += 1
                     if isinstance(exc,NoReturn):
+                        state["unresolved_internal_ids"] = exc.unresolved_calls
                         for field,value in exc.subtotal.items():
                             state["known_counts"][field] += value
                     else:

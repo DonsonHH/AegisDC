@@ -185,6 +185,7 @@ def run_isolated(condition, name, purpose, origin, destination):
     if not (dest/"terminal.json").is_file():
         from .ledger import NoReturn
         subtotal = dict.fromkeys(LIMITS,0)
+        intents = {}
         logfile = dest/"calls.jsonl"
         if logfile.exists():
             for line in logfile.read_bytes().splitlines():
@@ -193,10 +194,13 @@ def run_isolated(condition, name, purpose, origin, destination):
                 except ValueError:
                     break
                 if rec["event"] == "intent":
-                    subtotal[rec["kind"]] += 1
-                    if rec["kind"] == "plant" and rec["method"] == "request":
+                    intents[rec["sequence"]] = rec
+                elif rec["event"] in ("return","raised"):
+                    proven = intents.pop(rec["call"])
+                    subtotal[proven["kind"]] += 1
+                    if proven["kind"] == "plant" and proven["method"] == "request":
                         subtotal["request"] += 1
-        raise NoReturn(f"Worker {proc.pid} has no durable return; exit {proc.exitcode}",subtotal)
+        raise NoReturn(f"Worker {proc.pid} has no durable return; exit {proc.exitcode}",subtotal,sorted(intents))
     terminal = load(dest/"terminal.json")
     if proc.exitcode != 0:
         from .ledger import WorkerFailure

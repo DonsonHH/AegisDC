@@ -5,7 +5,7 @@ from pathlib import Path
 from aegis_dc.ordinary.archive import Journal, digest, save
 from aegis_dc.ordinary.feedback import extract_paid
 from aegis_dc.ordinary.ledger import PaidStudy, RowCache, Tickets, collect, Stopped, NoReturn, COUNT_KEYS
-from aegis_dc.ordinary.policy import ContractError, CATALOG, descriptor
+from aegis_dc.ordinary.policy import ContractError, CATALOG, STUDY, descriptor
 from ordinary_v2_fixture_io import base_fixture
 
 
@@ -103,7 +103,8 @@ def ledger_case(f, case, output, log, episodes, expected_episodes):
         return {"mismatch":differences(actual,expected_episodes[inp["unit"]])}
     if op=="descriptor_rejection":
         try:
-            descriptor(inp["descriptor"],inp["purpose"])
+            purpose = STUDY if inp["purpose"] == "STUDY" else inp["purpose"]
+            descriptor(inp["descriptor"],purpose)
         except ContractError:
             return dict(status="REJECT",constructors=0)
         return dict(status="ACCEPT",constructors=0)

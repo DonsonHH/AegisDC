@@ -99,6 +99,7 @@ def run(manifest,expected_sha,out):
                 else:
                     for k,n in getattr(exc,"subtotal",{}).items():
                         status["full_calls"][k]+=n
+                    status.setdefault("unresolved_internal",{})[key]=getattr(exc,"unresolved_calls",None)
                     status["unknown_episode_counts"]+=1
                 raise
             status["facility_returned"]+=1

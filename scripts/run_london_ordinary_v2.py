@@ -101,7 +101,8 @@ def main():
             and receipt["unknown_episode_counts"]==0 and not receipt["unresolved_episodes"]
             and receipt["source_manifest_sha256"]==sha(source_path),"Passing selected execution evidence required")
     source=read(source_path)
-    require(source["execution_revision"]==m["execution_revision"],"Different qualified runtime")
+    require(source["execution_revision"]==m["execution_revision"]
+            and source["interpreter_sha256"]==m["interpreter_sha256"],"Different qualified runtime")
     verify_source(ROOT,source)
     sys.path.insert(0,str(ROOT/"src"))
     from aegis_dc.ordinary import policy
