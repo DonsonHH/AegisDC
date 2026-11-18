@@ -48,7 +48,7 @@ run_one(common_bytes, frozen_descriptor, intent):
 
 | 族 | 输入差别 | 预先规定的可观察结果 |
 |---|---|---|
-| Q1 身份、隔离 | 同一可读 POS 的空 v2 包给同一 H 两次，评价端的 work_mode／未来截断不同；另给多余私有字段或错误版本 | 前两次公开决定相同，均 READ_POS。越界包在调用前报技术错误，真实请求为 0。 |
+| Q1 身份、隔离 | 经新适配器送入两个带不同私有作业方式／未来截断标记的评价端替身，两者发布同一 POS 可读的空观察 v2 包。另给多余私有字段或错误版本。 | 在实际策略调用边界截取脱离引用的实参，描述符与 v2 字节分别相同，没有私有标记或设施引用。两次都应 READ_POS。越界包在调用前报技术错误，真实请求为 0。 |
 | Q2 到达与到期 | POS 请求 pending；合法 POS=1 在决策 tick 刚到；同记录在 expires_at 恰等于当前时刻，history 有原发布记录，DIRECT 完整链可行 | pending 时 WAIT。到达时停止且零 FIX。到期的值不能短路；H1a 可提 DIRECT，H1k 资料不足。 |
 | Q3 未知的四种处理 | 一次合法 POS 在本组已到达 NO_RESULT，pending=false，VOLT 与 DIRECT 均可行 | 按 H1a、H1k、H2a、H2k 依次应为 DIRECT、资料不足、READ_VOLT、资料不足。DIRECT 负载没有 evidence_ids。 |
 | Q4 二读与同源资料 | POS=0 后 VOLT 未试、VOLT=0 合法到达、两项支持均有效、POS 在 VOLT 回来时已过期 | H2k 四个对应决定为 READ_VOLT、停止、DIRECT、资料不足。不得用过期 history 或复制件补足独立支持。 |
