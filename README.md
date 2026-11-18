@@ -6,7 +6,7 @@
 
 ## 当前状态
 
-**原19条件公开开发结果已接受；当前交审主张、机制边界与独立确认方案。** [集中材料](docs/mainline/review-gated/R4/claims-confirmation-v1/README.md)补充既定P背景，提出35个非结果选样覆盖槽位及真实保管安排。原报告／结果不改，主比较仍I/D；本轮没有模型调用、确认输入生成或研究执行。
+**当前交审伦敦式 PRE 的 R6 主张矩阵与论文提纲。** 两个已接受的 R4 面板分别保留原分母。R5 v1 的普通晋级已由 D01 与 A02 静态排除，旧预算没有转为执行额度。[主张矩阵](docs/mainline/review-gated/R6/london-pre-synthesis-v1/README.md) · [论文提纲](docs/mainline/review-gated/R6/london-pre-synthesis-v1/paper-outline.md) · [R5 追加判定](docs/mainline/review-gated/R5/v1-static-disposition.md)
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 
@@ -16,7 +16,7 @@
 - **原 180 次注册比较保持负结果。** 主平均改善 0.03515625 秒，低于 0.25 秒实际收益门槛。解释始终带上：**验证关闭未入环、仅 2 个预设实例、无现场标定**。[更正版报告](paper/preset-dispatch-scope-review-20261110/report.html)与[固定范围](docs/mainline/preset-study-scope.json)说明它能回答的问题。
 - **旧队列冻结。** 39d、39t 数字资格、40–42、AI／RSI 未自动恢复；具体复用内容由新主线逐项决定。[重整前原始状态](docs/mainline/history/20261112-before-reset/README.md)保留旧接受范围和缺口。
 
-最新研究材料：[论文结构稿](paper/conditional-inspection-value-structure-20261111.md) · [两域联合可行性与作业时长边界](docs/research/20261112-joint-cooling-access-feasibility/README.md) · [Frontier 实测与缺测](docs/research/20261111-frontier-field-pilot/README.md) · [V6 量级及全年参照](docs/research/20261112-frontier-v6-scale-reference/README.md) · [八域覆盖三档](docs/mainline/39r-coverage-criteria.md)。这些材料分别说明有限工程、外部参照与尚缺证据，不合并为现场收益结论。
+以往研究材料：[历史论文结构稿](paper/conditional-inspection-value-structure-20261111.md) · [两域联合可行性与作业时长边界](docs/research/20261112-joint-cooling-access-feasibility/README.md) · [Frontier 实测与缺测](docs/research/20261111-frontier-field-pilot/README.md) · [V6 量级及全年参照](docs/research/20261112-frontier-v6-scale-reference/README.md) · [八域覆盖三档](docs/mainline/39r-coverage-criteria.md)。这些材料分别说明有限工程、外部参照与尚缺证据，不合并为现场收益结论。
 
 ## 代码与记录
 
