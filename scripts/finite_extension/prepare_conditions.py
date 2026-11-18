@@ -142,24 +142,28 @@ def static_certificate(config):
     values = [0, 1, "LEGACY_LINE"]
     prefix = True
     all_match = True
+    revoke=config["revoke"]
+    read_until=Fraction(revoke[0]) if revoke and revoke[1]=="READ_ROLE" else horizon_end(config)
     for row, match in zip(r, values):
         row["prefix_reachable"] = prefix
-        row["read_authorized"] = config["permissions"]["read"] == "ALLOW"
+        row["read_authorized"] = config["permissions"]["read"] == "ALLOW" and row["request"]<read_until
         row["budget_ok"] = row["prior_spent"] + row["reserve"] <= Fraction(config["budget"])
         row["window_ok"] = row["reserved_until"] <= config["window"][1]
         row["request_before_cutoff"] = row["request"] < cutoff
         row["public_opportunity"] = prefix and row["read_authorized"] and row["budget_ok"] and row["window_ok"] and row["request_before_cutoff"]
-        row["lawful_arrival"] = row["public_opportunity"] and row["available"] < cutoff and row["available"] < row["expires"]
+        row["lawful_arrival"] = row["public_opportunity"] and row["available"] < min(cutoff,read_until,row["expires"])
         row["valid_at_evidence_FIX_tick"] = row["lawful_arrival"] and row["available"] <= i_chain["request"] < min(cutoff,row["expires"])
         negative = row["possible_evidence"] not in ("NO_RESULT",match)
         prefix = row["lawful_arrival"] and not negative
         all_match &= row["possible_evidence"] == match and row["valid_at_evidence_FIX_tick"]
     for chain, permitted in [(i_chain,all_match),(d_chain,True)]:
+        chain["roles_allow"] &= chain["request"] < read_until
+        grant_revoked=bool(revoke and revoke[1]=="FIX_GRANT" and chain["request"]<Fraction(revoke[0])<=chain["commit"])
         chain["publicly_feasible_at_request"] = all(chain[k] for k in ("roles_allow","compatible","budget_ok","window_ok"))
         chain["lawful_request_opportunity"] = bool(permitted and chain["request"] < cutoff and chain["publicly_feasible_at_request"])
         chain["normal_commit_before_cutoff"] = chain["commit"] < cutoff
         chain["normal_verify_before_cutoff"] = chain["verify_arrival"] < cutoff
-        chain["normal_full_chain_statically_reachable"] = bool(chain["lawful_request_opportunity"] and chain["grant_covers_commit"] and chain["normal_verify_before_cutoff"])
+        chain["normal_full_chain_statically_reachable"] = bool(chain["lawful_request_opportunity"] and chain["grant_covers_commit"] and not grant_revoked and chain["normal_verify_before_cutoff"] and chain["verify_arrival"]<read_until)
     return dict(reads=r, I=i_chain, D=d_chain, cutoff=cutoff,
                 public_permissions=config["permissions"], window=config["window"],
                 resource_limit_each=config["budget"], external_calendar_evaluator_only=config["calendar"],
@@ -167,13 +171,19 @@ def static_certificate(config):
                 observe_actual_stage_after_execution=True)
 
 
+def horizon_end(config):
+    return config["H"]+1
+
+
 def mechanism(config, cert):
     """Conservative active distinctions only. No service scores enter selection."""
     visible=[]
     horizon=cert["cutoff"]
+    revoke=config["revoke"]
+    read_end=min(horizon,Fraction(revoke[0])) if revoke and revoke[1]=="READ_ROLE" else horizon
     for row in cert["reads"]:
-        if row["public_opportunity"] and row["start"] < horizon:
-            visible.append([row["action"],row["start"],min(row["sample"],horizon),
+        if row["public_opportunity"] and row["start"] < read_end:
+            visible.append([row["action"],row["start"],min(row["sample"],read_end),
                             row["available"] if row["lawful_arrival"] else None,
                             row["possible_evidence"] if row["lawful_arrival"] else None])
     def reachable_chain(chain, direct):
@@ -186,12 +196,15 @@ def mechanism(config, cert):
         if config["approval"]!="APPROVE" or chain["fix_start"]>=horizon:
             return events
         events.append(["work",chain["fix_start"],config["work_mode"]])
+        if revoke and revoke[1]=="FIX_GRANT" and chain["request"]<Fraction(revoke[0])<=min(chain["commit"],horizon):
+            events.append(["grant revoked",revoke[0]])
+            return events
         if chain["commit"]>=horizon or not chain["grant_covers_commit"]:
             return events
         events.append(["write",chain["commit"],config["guard"],config["commit"] if config["guard"]=="ALLOW" else None])
         if chain["exit_end"] <= config["H"]:
             events.append(["exit",chain["exit_end"],config["exit_result"]])
-        if config["exit_result"]=="SUCCESS" and config["commit"]=="SUCCESS" and config["guard"]=="ALLOW" and chain["verify_arrival"]<horizon:
+        if config["exit_result"]=="SUCCESS" and config["commit"]=="SUCCESS" and config["guard"]=="ALLOW" and chain["verify_arrival"]<read_end:
             events.append(["probe",chain["verify_sample"],chain["verify_arrival"],config["verification"]])
         return events
     # Empty versus positive intervals differ as challenges even if the loss agrees.
@@ -251,8 +264,8 @@ SUPPORT={
     "A_POS":("position disproves R at I decision; D normal complete path","E03, X01/X02, I11"),
     "A_CFG":("config disproves R after legal three-read prefix; D normal complete path","C03 development, I11, E01, A07"),
     "A_CHAIN":("both nominal chains; compare ONLINE / isolation / isolation exit failure","E01/E11/E12, X07/X08, S07/S08"),
-    "C":("POS inconclusive, other two reads still legally available","E04, I08, X07"),
-    "D":("only D lacks direct permission; I evidence path available","E08, C4/C7 H01-H06"),
+    "C":("POS inconclusive, other two reads still legally available","E04, I03a/I03b, X07"),
+    "D":("only D lacks direct permission; I evidence path available","E08; C4/C7 H01-H03 (M0/B1) for adjacent version/role guards"),
     "E":("one failure plan, actual arrival at the assigned stage must be reported","E05/E06/E07, X03/X04, A03/A06"),
     "F":("revision reachable before fault; one physical backup parent absent","E16, C05, X05/X06"),
     "G_D":("D nominal commit with early/equal/late cutoff","T01-T03, E02/E14, X07"),

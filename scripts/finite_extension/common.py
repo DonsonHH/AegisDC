@@ -18,7 +18,7 @@ PYTHON_SHA = "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6"
 PYTHON = "/share/home/renly/miniconda3/bin/python"
 BASE = Path("/share/home/renly/renly-patrol-rsi/mainline/R4-finite-extension-20261118")
 STUDY_OUTPUT = BASE / "study-v1"
-RUNTIME = ["scripts/finite_extension/"+name for name in ("common.py","launch.py","analysis.py","submit.py","slot.slurm")]
+RUNTIME = ["scripts/finite_extension/"+name for name in ("common.py","launch.py","analysis.py","coverage.py","submit.py","slot.slurm")]
 RUNTIME += ["scripts/london_confirmation_entry.py","scripts/run_london_public_development.py",*prior.CORE_HASHES]
 COUNT_KEYS = {"constructor":"constructor_attempts","plant":"plant_entry_calls","policy":"policy_calls","scorer":"scorer_calls"}
 EMPTY = dict.fromkeys(COUNT_KEYS.values(), 0)
@@ -101,7 +101,7 @@ def manifest_data(path,digest,approval,approval_sha):
     document=prior.strict_loads((ROOT/datafile).read_bytes())
     if purpose==REAL:
         need(document["purpose"]==REAL,"INPUT_PURPOSE")
-        need(m["supporting"].keys()=={PACK+n for n in ("selection.json","protocol.md","static-audit.json","selection-notes.md","freeze-addendum.json")},"SUPPORT_SET")
+        need(m["supporting"].keys()=={PACK+n for n in ("selection.json","protocol.md","static-audit.json","static-transfer.json","qualification.md","selection-notes.md","freeze-addendum.json")},"SUPPORT_SET")
         for name,sha in m["supporting"].items():need(file_sha(ROOT/name)==sha,"SUPPORT_HASH")
         scope=read(ROOT/(PACK+"selection.json"))
         order=sorted(s for group in scope["groups"] for s in group["slots"])
@@ -110,7 +110,8 @@ def manifest_data(path,digest,approval,approval_sha):
         need([r["condition_id"] for r in rows]==order and len({r["canonical_sha256"] for r in rows})==35,"FROZEN_ROWS")
         for r in rows:need(prior.config_hash(r["common"])==r["canonical_sha256"],"CONFIG_HASH")
         audit=read(ROOT/(PACK+"static-audit.json"))
-        need(not audit["gaps"] and audit["ready_for_static_review"],"STATIC_GAP")
+        transfer=read(ROOT/(PACK+"static-transfer.json"))
+        need(not audit["gaps"] and audit["ready_for_static_review"] and transfer["passed"] and not transfer["unresolved_slots"],"STATIC_GAP")
         return m,{r["condition_id"]:r["common"] for r in rows},{}
     need(m["supporting"].keys()=={PACK+"witnesses.json",PACK+"freeze-addendum.json"},"FIXTURE_SUPPORT")
     for name,sha in m["supporting"].items():need(file_sha(ROOT/name)==sha,"FIXTURE_HASH")
@@ -134,7 +135,7 @@ def counts_from_return(actual):
     if any(type(n) is not int or n<0 for n in counts.values()):return None
     observed=EMPTY.copy()
     for call in calls:
-        if type(call) is not dict or call.get("kind") not in COUNT_KEYS or call.get("arm") not in ARMS:return None
+        if type(call) is not dict or type(call.get("kind")) is not str or call["kind"] not in COUNT_KEYS or call.get("arm") not in ARMS:return None
         observed[COUNT_KEYS[call["kind"]]]+=1
     return counts if counts==observed else None
 
