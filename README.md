@@ -1,6 +1,6 @@
 # AegisDC
 
-现有实现是一套郑州工程参照启发的**八域合成算力设施**。新研究拟以真实事故机制为依据，验证专业核查、受约束处置及自改进的效果；旧设施作为待按新问题核验的复用资产。设施真实状态留在私有评估器，决策者只使用当时可用的记录。项目不控制真实设备。
+工作区保留了郑州工程参照启发的**八域合成算力设施**。当前论文材料围绕伦敦式合成 PRE 实例，比较事前核查、合法直接处置与既有保护。设施真值由评价端持有，决策者只使用当时可用的记录。项目不控制真实设备。
 
 **从这里开始：** [新研究主线](docs/MAINLINE.md) · [R0–R6 提案](docs/mainline/review-gated/plan.md) · [11.12 meeting](docs/meetings/2026-11-12-research-mainline-reset.md) · [当前进度](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md) · [脚本导航](scripts/README.md)
 
