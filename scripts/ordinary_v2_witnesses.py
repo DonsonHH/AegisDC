@@ -82,12 +82,11 @@ def ledger_case(f, case, output, log, episodes, expected_episodes):
                 raise OSError("Frozen raw-writer failure")
             save(output/"faults"/case["id"]/(key+".json"),raw)
         try:
-            rows,state=collect(keys,callback,archive,log)
+            rows,state=tickets.collect("U0","C全续",keys,callback,archive,log)
             if set(rows)!=set(keys):
                 raise ContractError("Lost a failed process row")
             return {k:state[k] for k in ("started","returned","pending","status","suffix")}
         except Stopped as exc:
-            tickets.stopped=True
             try:
                 tickets.require_paid("U0","C全续")
                 exposed=True

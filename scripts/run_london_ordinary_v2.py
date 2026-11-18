@@ -6,6 +6,7 @@ import os
 import socket
 import sys
 from pathlib import Path
+from ordinary_v2_identity import verify_source, REQUIRED
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = Path("docs/mainline/review-gated")
@@ -87,9 +88,21 @@ def main():
             and grant.get("output_root")==m["output_root"],"Separate version-bound study approval required")
     require(os.environ.get("SLURM_JOB_ID") and socket.gethostname().split(".")[0]!="mu01","Compute allocation required")
     require(sha(sys.executable)==m["interpreter_sha256"],"Interpreter drift")
+    require(REQUIRED | {f.as_posix() for f in (DEV_INPUT,EXT_INPUT,DEV_SCORES,EXT_SCORES)}
+            <= set(m["files"]),"Missing mandatory study identities")
     for f,v in m["files"].items():
         require(sha(ROOT/f)==v,"Pinned file drift: "+f)
     require(sha(ROOT/m["qualification_file"])==m["qualification_sha256"],"Qualification receipt drift")
+    receipt=read(ROOT/m["qualification_file"])
+    source_path=ROOT/m["source_identity_file"]
+    require(receipt["status"]=="PASS" and not receipt["failures"] and not receipt["not_completed"]
+            and receipt["execution_revision"]==m["execution_revision"]
+            and receipt["facility_started"]==receipt["facility_returned"]==6
+            and receipt["unknown_episode_counts"]==0 and not receipt["unresolved_episodes"]
+            and receipt["source_manifest_sha256"]==sha(source_path),"Passing selected execution evidence required")
+    source=read(source_path)
+    require(source["execution_revision"]==m["execution_revision"],"Different qualified runtime")
+    verify_source(ROOT,source)
     sys.path.insert(0,str(ROOT/"src"))
     from aegis_dc.ordinary import policy
     from aegis_dc.ordinary.archive import digest,save

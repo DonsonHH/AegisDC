@@ -25,6 +25,10 @@ class ContractError(ValueError):
 
 
 def descriptor(name, purpose):
+    if purpose not in (ENGINEERING,SURROGATE,STUDY):
+        raise ContractError("Unknown purpose")
+    if name == "V全续":
+        return "I"
     if name in CATALOG or name in ("I", "D", "P"):
         return name
     if name == DIAGNOSTIC and purpose == ENGINEERING:
@@ -132,7 +136,7 @@ def readable(view, action):
 
 def early_allowed(name, view, evidence):
     first, second, last = order(name)
-    if (set(view["attempted"]) != {first, second} or not evidence.supported(first)
+    if (list(view["attempted"]) != [first, second] or not evidence.supported(first)
             or not evidence.supported(second) or last in evidence.current
             or not readable(view, last) or fix_feasibility(view, "DIRECT")):
         return False
@@ -152,7 +156,7 @@ def output(action, mode=None, reason=None):
 
 
 def act(name, view, *, purpose=STUDY):
-    descriptor(name, purpose)
+    name = descriptor(name, purpose)
     validate_public(view)
     if not view["pre_open"]:
         raise ContractError("Environment cutoff precedes policy invocation")

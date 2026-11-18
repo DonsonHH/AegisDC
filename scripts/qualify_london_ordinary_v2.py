@@ -7,6 +7,7 @@ import socket
 import sys
 import traceback
 from pathlib import Path
+from ordinary_v2_identity import verify_source
 
 ROOT = Path(__file__).resolve().parents[1]
 QDIR = ROOT/"docs/mainline/review-gated/R5/ordinary-v2-qualification"
@@ -32,9 +33,7 @@ def preflight(manifest, expected_sha):
         raise ValueError("Unrecognized qualification or engineering purpose")
     if sha(sys.executable)!=m["interpreter_sha256"]:
         raise ValueError("Interpreter mismatch")
-    for filename,meta in m["files"].items():
-        if sha(ROOT/filename)!=meta["sha256"]:
-            raise ValueError("Source/fixture drift: "+filename)
+    verify_source(ROOT,m)
     frozen=read(QDIR/"freeze.json")
     for filename,expected in frozen["sha256"].items():
         if sha(QDIR/filename)!=expected:
@@ -86,16 +85,21 @@ def run(manifest,expected_sha,out):
             destination=out/"episodes"/key
             try:
                 raw=run_isolated(f["conditions"][case["condition"]],case["descriptor"],f["purpose"],key,destination)
-            except BaseException:
+            except BaseException as exc:
                 # The outer worker and all proven internal starts have separate accounts.
                 end=destination/"terminal.json"
                 if end.is_file():
                     receipt=read(end)
                     for k,n in receipt.get("counts",{}).items():
                         status["full_calls"][k]+=n
-                    if not receipt.get("pending") and receipt.get("status")=="ERROR":
-                        status["unresolved_episodes"].remove(key)
-                status["unknown_episode_counts"]+=1
+                    status["facility_returned"]+=1
+                    status["unresolved_episodes"].remove(key)
+                    status["unknown_episode_counts"]+=int(bool(receipt.get("pending"))
+                            or set(receipt.get("counts",{}))!=set(status["full_calls"]))
+                else:
+                    for k,n in getattr(exc,"subtotal",{}).items():
+                        status["full_calls"][k]+=n
+                    status["unknown_episode_counts"]+=1
                 raise
             status["facility_returned"]+=1
             status["unresolved_episodes"].remove(key)
@@ -156,7 +160,18 @@ def main():
     if not os.environ.get("SLURM_JOB_ID") or socket.gethostname().split(".")[0]=="mu01":
         raise SystemExit("Remote Slurm allocation required")
     # Authenticate the full staged bundle before importing the implementation.
-    preflight(a.manifest,a.manifest_sha)
+    try:
+        preflight(a.manifest,a.manifest_sha)
+    except Exception:
+        a.output.mkdir(parents=True,exist_ok=False)
+        with (a.output/"preflight-rejection.json").open("x",encoding="utf-8") as handle:
+            json.dump(dict(status="PRECHECK_REFUSED",job_id=os.environ["SLURM_JOB_ID"],
+                           manifest_sha256=a.manifest_sha,facility_started=0,
+                           not_started=["all six episodes","all pure and ledger witnesses"],
+                           error=traceback.format_exc()),handle,ensure_ascii=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        raise
     sys.path.insert(0,str(ROOT/"src"))
     return run(a.manifest,a.manifest_sha,a.output)
 

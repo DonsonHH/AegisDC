@@ -1,6 +1,7 @@
 """One descriptor, one isolated worker, one fresh facility. Only the evaluator owns it."""
 import multiprocessing
 import os
+import json
 import traceback
 from copy import deepcopy
 from pathlib import Path
@@ -171,7 +172,9 @@ def _worker(condition, name, purpose, parent_pid, origin, destination):
 
 
 def run_isolated(condition, name, purpose, origin, destination):
-    policy.descriptor(name, purpose)
+    name = policy.descriptor(name, purpose)
+    if purpose not in (policy.ENGINEERING,policy.STUDY) or not os.environ.get("SLURM_JOB_ID"):
+        raise policy.ContractError("Isolated facilities require an allocated engineering or authorized study job")
     dest = Path(destination)
     dest.mkdir(parents=True, exist_ok=False)
     save(dest/"intent.json", dict(purpose=purpose, origin=origin, descriptor=name, condition=condition))
@@ -181,10 +184,23 @@ def run_isolated(condition, name, purpose, origin, destination):
     proc.join()
     if not (dest/"terminal.json").is_file():
         from .ledger import NoReturn
-        raise NoReturn(f"Worker {proc.pid} has no durable return; scheduler exit {proc.exitcode}")
-    if proc.exitcode != 0:
-        raise policy.ContractError(f"Worker {proc.pid} exited {proc.exitcode}; retain original evidence")
+        subtotal = dict.fromkeys(LIMITS,0)
+        logfile = dest/"calls.jsonl"
+        if logfile.exists():
+            for line in logfile.read_bytes().splitlines():
+                try:
+                    rec = json.loads(line)
+                except ValueError:
+                    break
+                if rec["event"] == "intent":
+                    subtotal[rec["kind"]] += 1
+                    if rec["kind"] == "plant" and rec["method"] == "request":
+                        subtotal["request"] += 1
+        raise NoReturn(f"Worker {proc.pid} has no durable return; exit {proc.exitcode}",subtotal)
     terminal = load(dest/"terminal.json")
+    if proc.exitcode != 0:
+        from .ledger import WorkerFailure
+        raise WorkerFailure(terminal)
     raw = load(dest/"raw.json")
     if terminal["status"] != "COMPLETE" or terminal["raw"] != digest(raw) or terminal["pending"]:
         raise policy.ContractError("Unreconciled isolated worker")

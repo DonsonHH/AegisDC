@@ -37,9 +37,9 @@ class Journal:
         self.stream = self.path.open("xb")
         self.sequence = 0
 
-    def event(self, kind, **fields):
+    def event(self, event_name, **fields):
         self.sequence += 1
-        self.stream.write(wire(dict(sequence=self.sequence, event=kind, **fields)) + b"\n")
+        self.stream.write(wire(dict(sequence=self.sequence, event=event_name, **fields)) + b"\n")
         self.stream.flush()
         os.fsync(self.stream.fileno())
         return self.sequence

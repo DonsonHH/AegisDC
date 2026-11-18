@@ -13,6 +13,16 @@ COUNT_KEYS = ("constructor", "plant", "policy", "request", "scorer")
 class NoReturn(RuntimeError):
     """The underlying worker has no proved terminal return."""
 
+    def __init__(self, message, subtotal=None):
+        super().__init__(message)
+        self.subtotal = subtotal or {}
+
+
+class WorkerFailure(RuntimeError):
+    def __init__(self, receipt):
+        super().__init__(receipt.get("error","Worker returned an error terminal"))
+        self.receipt = receipt
+
 
 class Stopped(RuntimeError):
     def __init__(self, record):
@@ -37,6 +47,20 @@ class Tickets:
     def require_paid(self, group, name):
         if self.stopped or name not in self.paid.get(group, ()):
             raise ContractError("Feedback access without own paid complete query")
+
+    def stop(self, group, name, exc):
+        if not self.stopped:
+            self.stopped = True
+            self.journal.event("query_stopped",group=group,descriptor=name,error=repr(exc),
+                               known_paid=self.paid,partial_feedback_released=False)
+
+    def collect(self, group, name, *args, **kwargs):
+        self.require_paid(group,name)
+        try:
+            return collect(*args, **kwargs)
+        except Exception as exc:
+            self.stop(group,name,exc)
+            raise
 
 
 class RowCache:
@@ -84,7 +108,7 @@ def collect(keys, evaluate, archive, journal, *, cached=None, completed=None):
     """No partial delivery. Physical starts, returns and unresolved work live outside the writer."""
     keys = tuple(keys)
     rows = {}
-    state = dict(started=0, returned=0, pending=0, unknown=0, cache_hits=0,
+    state = dict(started=0, returned=0, pending=0, unknown=0, cache_hits=0, failed_returns=[],
                  known_counts=dict.fromkeys(COUNT_KEYS,0), status="COMPLETE", suffix=[])
     for i, key in enumerate(keys):
         active = False
@@ -122,9 +146,22 @@ def collect(keys, evaluate, archive, journal, *, cached=None, completed=None):
             rows[key] = row
         except Exception as exc:
             if active:
-                state["unknown"] += 1
-                if not isinstance(exc,NoReturn):
+                if isinstance(exc,WorkerFailure):
+                    state["returned"] += 1
                     state["pending"] -= 1
+                    state["failed_returns"].append(key)
+                    known = counted(exc.receipt)
+                    for field,value in (known or {}).items():
+                        state["known_counts"][field] += value
+                    state["unknown"] += int(known is None or bool(exc.receipt.get("pending")))
+                else:
+                    state["unknown"] += 1
+                    if isinstance(exc,NoReturn):
+                        for field,value in exc.subtotal.items():
+                            state["known_counts"][field] += value
+                    else:
+                        state["pending"] -= 1
+                        state["failed_returns"].append(key)
             state.update(status="STOPPED",suffix=list(keys[i+1:]),failed_key=key,error=repr(exc))
             journal.event("batch_stop",**state)
             raise Stopped(state) from exc
@@ -156,6 +193,10 @@ class PaidStudy:
         begin = process_time()
         name = next_candidate(group,self.history[group])
         self.selection_cpu[group] += process_time() - begin
+        if self.selection_cpu[group] >= 30:
+            exc = ContractError("Selector CPU limit before query")
+            self.tickets.stop(group,name,exc)
+            raise exc
         self.tickets.pay(group,name)
         ticket = len(self.tickets.paid[group])
         target = self.root/group/str(ticket)
@@ -172,7 +213,7 @@ class PaidStudy:
             self.cache.write(identity,row)
             self.materialized.add(digest(identity))
         try:
-            rows,state = collect(self.panels.keys,lambda key:evaluate(name,key),
+            rows,state = self.tickets.collect(group,name,self.panels.keys,lambda key:evaluate(name,key),
                     lambda key,raw:save(target/"raw"/(digest(ck(key))+".json"),raw),self.journal,
                     cached=cached,completed=completed)
             begin = process_time()
@@ -198,9 +239,7 @@ class PaidStudy:
             self.journal.event("unlocked",group=group,ticket=ticket,descriptor=name,feedback=flags,lock=chosen["lock"])
             return report
         except Exception as exc:
-            self.tickets.stopped = True
-            self.journal.event("query_stopped",group=group,ticket=ticket,descriptor=name,error=repr(exc),
-                               known_paid=self.tickets.paid,partial_feedback_released=False)
+            self.tickets.stop(group,name,exc)
             raise
 
     def run(self, evaluate, *, surrogate_feedback=None):
