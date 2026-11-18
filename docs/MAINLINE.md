@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**当前交审[R5 普通受限改进协议](mainline/review-gated/R5/ordinary-improvement-v2/README.md)与[最小资格计划](mainline/review-gated/R5/ordinary-improvement-v2/qualification.md)。** 用户接受 `ede37e25` 的文稿 v1.1 限定修订及普通后继问题范围。文法、选择、全行晋级、拟议预算和 K01／K02 书面预期已交付，等待决定是否冻结。实际执行授权为零。
+**当前交审[R5 普通受限改进协议](mainline/review-gated/R5/ordinary-improvement-v2/README.md)与[最小资格计划](mainline/review-gated/R5/ordinary-improvement-v2/qualification.md)。** 用户接受 `ede37e25` 的文稿 v1.1 限定修订及普通后继问题范围。文法、选择、全行晋级、拟议预算和 K01／K02 书面预期已交付，等待决定是否冻结。主问题是相对 I 的全行服务晋级；本目录中同时严格超过人工和强搜索的额外服务收益另有静态上限。实际执行授权为零。
 
 用户确认 e060acfe 的 R4 追加验收和 R5 v1 限定的书面分析。公开开发 19 行与同账号扩展 35 行分别报告。v1 的 216 个开发回合、最多 105 个评估回合均作为未执行历史提案保留，无可用或可转拨配额。[R4 有限验收](mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) · [原 v1](mainline/review-gated/R5/bounded-improvement-v1/README.md)
 
