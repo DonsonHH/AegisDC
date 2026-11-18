@@ -92,6 +92,8 @@ def bind_inputs():
     equal(read(STUDY/"started.json")["manifest_sha256"],MANIFEST_SHA,"Dispatch start")
     equal(sha(STUDY/"terminal.json"),TERMINAL_SHA,"Dispatch terminal file")
     equal(sha(AUTH/"study-sacct.psv"),SCHEDULER_SHA,"Settled scheduler source")
+    equal(sha(AUTH/"dispatch.sh"),"8280ba2a597a7f7fe605d326a4a22780c03a8c80d53cbff5e5c68f3fbf429814","Pinned 81ab9295 invocation")
+    equal(sha(AUTH/"preflight.json"),"c05ad88ae0e426e470f4d3e14a1ba5e134af168e3a595aa290e1e5042c86d518","Pinned preflight receipt")
     return manifest,staged
 
 
@@ -175,6 +177,13 @@ def slot_evidence(slot,config,index,final_row,manifest,scheduler,reinspect,publi
     ip_delta=norm(Fraction(item["arms"]["I"]["L"])-Fraction(item["arms"]["P"]["L"]))
     equal(id_delta,final_row["delta_L_D_minus_I"],"Primary difference")
     equal(ip_delta,final_row["P_background"]["delta_L_I_minus_P"],"Background difference")
+    for other,reported,worker_value in (
+        ("D",final_row["I_minus_D_costs"],summary["delta_costs_I_minus_D"]),
+        ("P",final_row["P_background"]["delta_costs_I_minus_P"],summary["P_background"]["delta_costs_I_minus_P"])):
+        i_cost=item["arms"]["I"]["costs"];other_cost=item["arms"][other]["costs"]
+        expected={k:None if v is None or other_cost[k] is None else norm(Fraction(v)-Fraction(other_cost[k])) for k,v in i_cost.items()}
+        equal(expected,reported,"Settled I-minus-"+other+" cost vector")
+        equal(expected,worker_value,"Frozen worker I-minus-"+other+" cost vector")
     item.update(delta_L_D_minus_I=id_delta,delta_L_I_minus_P=ip_delta,
                 delta_costs_I_minus_D=final_row["I_minus_D_costs"],delta_costs_I_minus_P=final_row["P_background"]["delta_costs_I_minus_P"],
                 worker_propositions=summary["finite_propositions"],raw_sha256=sha(raw_path),raw_path=str(raw_path),
@@ -198,6 +207,7 @@ def run(output,tools_identity):
         equal(sha(file),mf["runtime"][str(file.relative_to(SOURCE))],"Loaded analysis identity")
     before=inventory(STUDY)
     terminal=read(STUDY/"terminal.json")
+    equal(int((AUTH/"dispatcher-exit").read_text().strip()),0 if terminal["status"]=="COMPLETE" else 1,"Actual submitter exit versus final state")
     equal(terminal["manifest_sha256"],MANIFEST_SHA,"Terminal manifest")
     order=mf["order"];inputs=read(SOURCE/mf["data_path"])
     equal([r["condition_id"] for r in inputs["conditions"]],order,"Frozen order")

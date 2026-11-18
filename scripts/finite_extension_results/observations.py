@@ -194,6 +194,11 @@ def observe_arm(raw,config,slot,arm,public_decisions):
     for r in execs:
         if r["status"]=="EXECUTED_UNVERIFIED":
             insist(r["committed_at"]<cutoff,"Successful commit at/after cut-off")
+    verify_status={"PASS":"VERIFIED_FOR_TARGET","FAIL":"VERIFY_FAILED","INCONCLUSIVE":"INCONCLUSIVE"}
+    if audit["verification_result"] in verify_status:
+        insist(any(r["status"]==verify_status[audit["verification_result"]] and r["available_at"]<min(
+            config["window"][1],config["H"] if config["tF"] is None else config["tF"]) for r in probes)
+            and reached["verification_parent_valid"],"Verification state versus actual probe/identity")
     equal(audit["recoveries"],run["score"]["recoveries"],"Archived recovery episodes")
     censored=[e for e in audit["recoveries"] if e.get("right_censored")]
     stop=run["stop"]
