@@ -1,0 +1,378 @@
+{
+  "purpose": "PUBLIC_LAUNCH_WITNESS",
+  "parts": {
+    "local_in_allocation": [
+      "W01",
+      "W02",
+      "W03",
+      "W04",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W10",
+      "W14",
+      "W15"
+    ],
+    "separate_serial_scheduler_jobs": [
+      "W11",
+      "W12"
+    ],
+    "expected_unsubmitted_suffix": [
+      "W13"
+    ]
+  },
+  "inputs": {
+    "X01": {
+      "file": "output/batch/X01-raw.json",
+      "sha256": "ce0401f48c01767a239918e382daacc41a849e5860138179c3fcec31ab6fb593"
+    },
+    "X08": {
+      "file": "output/batch/X08-raw.json",
+      "sha256": "c58c96b8ee11262b26ad312e95b96ba28f7b4fd60539be0d33878968a55e5b24"
+    }
+  },
+  "input_root": "/share/home/renly/renly-patrol-rsi/mainline/R4-confirmation-entry-20261117/green-01",
+  "substitutions": "Runtime directory, source identity, attempt ID and scheduler job ID only. Each callback returns the recorded actual field, raises the named exception, or makes only the named counts mutation. Repeated directory uses completed W01. Refused or interrupted before dispatch has zero observed fixture invocations; intent alone cannot prove the call count.",
+  "expected_known_counts": "Tally constructor/plant/policy/scorer kinds independently in the pinned old return; known zero for no call. Missing or invalid counters invalidate the entire returned vector. Count only new surrogate invocations in this round. Raw return and diagnostic observation never count as new plant/strategy/score.",
+  "cases": [
+    {
+      "id": "W01",
+      "name": "normal",
+      "input": "X01",
+      "scenario": "none",
+      "expected": {
+        "status": "PASS",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "KNOWN_REPORTED_SUBTOTAL",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 0,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "full accounting from original X01 details",
+      "coverage": [
+        "PL01",
+        "PL02",
+        "PL03"
+      ]
+    },
+    {
+      "id": "W02",
+      "name": "legacy-purpose",
+      "input": "X01",
+      "scenario": "reject-CONFIRMATION",
+      "expected": {
+        "status": "REFUSED",
+        "callback_state": "NOT_CALLED",
+        "internal_count_semantics": "KNOWN_ZERO",
+        "calls_proved": 0,
+        "returned": 0,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "before calling",
+      "coverage": [
+        "PL01"
+      ]
+    },
+    {
+      "id": "W03",
+      "name": "marker-failure",
+      "input": "X01",
+      "scenario": "before-marker",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "NOT_CALLED",
+        "internal_count_semantics": "KNOWN_ZERO",
+        "calls_proved": 0,
+        "returned": 0,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "no callback when start intent cannot be saved",
+      "coverage": [
+        "PL02",
+        "PL05"
+      ]
+    },
+    {
+      "id": "W04",
+      "name": "raise",
+      "input": "X01",
+      "scenario": "callback-raises",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RAISED",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": 1,
+        "returned": 0,
+        "unreturned_or_pending": 1,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "archive original exception before interpretation",
+      "coverage": [
+        "PL02",
+        "PL03"
+      ]
+    },
+    {
+      "id": "W05",
+      "name": "missing",
+      "input": "X01",
+      "scenario": "counts-missing",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 1,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "raw first, no contribution to known subtotal",
+      "coverage": [
+        "PL03"
+      ]
+    },
+    {
+      "id": "W06",
+      "name": "negative",
+      "input": "X01",
+      "scenario": "counts-negative",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 1,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "negative count invalid",
+      "coverage": [
+        "PL03"
+      ]
+    },
+    {
+      "id": "W07",
+      "name": "bool",
+      "input": "X01",
+      "scenario": "counts-bool",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 1,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "bool is not an integer count",
+      "coverage": [
+        "PL03"
+      ]
+    },
+    {
+      "id": "W08",
+      "name": "mismatch",
+      "input": "X01",
+      "scenario": "counts-mismatch",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 1,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "integer differs from observed call ledger",
+      "coverage": [
+        "PL03"
+      ]
+    },
+    {
+      "id": "W09",
+      "name": "raw-failure",
+      "input": "X01",
+      "scenario": "raw-archive",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "KNOWN_REPORTED_SUBTOTAL",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "independent ledger survives failure to write raw",
+      "coverage": [
+        "PL02",
+        "PL04"
+      ]
+    },
+    {
+      "id": "W10",
+      "name": "interrupted",
+      "input": "X01",
+      "scenario": "exit-after-intent",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "PENDING",
+        "internal_count_semantics": "UNKNOWN_INTERNAL_COUNTS",
+        "calls_proved": null,
+        "returned": 0,
+        "unreturned_or_pending": 1,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "intent with no return/entry evidence has unknown dispatch, no restart",
+      "coverage": [
+        "PL05"
+      ]
+    },
+    {
+      "id": "W11",
+      "name": "noncompliant",
+      "input": "X08",
+      "scenario": "none",
+      "expected": {
+        "status": "NONCOMPLIANT",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "KNOWN_REPORTED_SUBTOTAL",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 0,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "scheduled first; keep raw NC and continue",
+      "coverage": [
+        "PL01",
+        "PL04"
+      ]
+    },
+    {
+      "id": "W12",
+      "name": "outer-failure",
+      "input": "X01",
+      "scenario": "outer-exit",
+      "expected": {
+        "status": "ERROR",
+        "callback_state": "RETURNED",
+        "internal_count_semantics": "KNOWN_REPORTED_SUBTOTAL",
+        "calls_proved": 1,
+        "returned": 1,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": true,
+        "real_calls": 0
+      },
+      "detail": "scheduled after W11; preserve raw/scratch summary, exit nonzero and retain untouched W13",
+      "coverage": [
+        "PL04",
+        "PL05"
+      ]
+    },
+    {
+      "id": "W13",
+      "name": "unscheduled",
+      "input": "X01",
+      "scenario": "none",
+      "expected": {
+        "status": "NOT_SUBMITTED",
+        "callback_state": "NOT_CALLED",
+        "internal_count_semantics": "KNOWN_ZERO",
+        "calls_proved": 0,
+        "returned": 0,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": null,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "retained dispatch suffix",
+      "coverage": [
+        "PL04"
+      ]
+    },
+    {
+      "id": "W14",
+      "name": "refuse-existing",
+      "input": "X01",
+      "scenario": "repeat-directory",
+      "expected": {
+        "status": "REFUSED_EXISTING",
+        "callback_state": "NOT_CALLED",
+        "internal_count_semantics": "KNOWN_ZERO",
+        "calls_proved": 0,
+        "returned": 0,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "preserve all pre-existing bytes and launch zero further callbacks",
+      "coverage": [
+        "PL01"
+      ]
+    },
+    {
+      "id": "W15",
+      "name": "unapproved-study",
+      "input": "X01",
+      "scenario": "no-execution-review",
+      "expected": {
+        "status": "REFUSED",
+        "callback_state": "NOT_CALLED",
+        "internal_count_semantics": "KNOWN_ZERO",
+        "calls_proved": 0,
+        "returned": 0,
+        "unreturned_or_pending": 0,
+        "returned_count_unknown": 0,
+        "exit_code": 1,
+        "raw_saved": false,
+        "real_calls": 0
+      },
+      "detail": "reject real budget/purpose before any core import or dispatch",
+      "coverage": [
+        "PL01"
+      ]
+    }
+  ]
+}

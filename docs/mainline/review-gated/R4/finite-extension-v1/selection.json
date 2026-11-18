@@ -1,0 +1,276 @@
+{
+  "version": "finite-extension-selection-v1",
+  "base": "R3/formal-protocol-v1/development-inputs.json#C01.common",
+  "fixed_defaults": {
+    "tF": null,
+    "tR": null,
+    "E0": 3,
+    "budget": 20,
+    "window": [
+      0,
+      20
+    ]
+  },
+  "common_background_free_fields": [
+    "read_work",
+    "verify_work",
+    "calendar"
+  ],
+  "candidate_order": "listed recipe major, listed calendar minor; first statically eligible whole group; no backtracking or replacement following outputs",
+  "recipes": [
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      2
+    ]
+  ],
+  "calendars": [
+    [
+      [
+        0,
+        2
+      ]
+    ],
+    [
+      [
+        0,
+        1
+      ]
+    ],
+    [
+      [
+        1,
+        3
+      ]
+    ],
+    [
+      [
+        2,
+        4
+      ]
+    ],
+    [
+      [
+        0,
+        3
+      ]
+    ],
+    [],
+    [
+      [
+        1,
+        4
+      ]
+    ]
+  ],
+  "groups": [
+    {
+      "group": "A_POS",
+      "slots": [
+        "A01",
+        "B01"
+      ],
+      "factors": "cB=1; change work_mode only",
+      "paired_fields": [
+        "work_mode"
+      ]
+    },
+    {
+      "group": "A_CFG",
+      "slots": [
+        "A02"
+      ],
+      "factors": "family=REVISED_LOCAL",
+      "paired_fields": []
+    },
+    {
+      "group": "A_CHAIN",
+      "slots": [
+        "A03",
+        "B02",
+        "B03"
+      ],
+      "factors": "defect; A03 -> B02 only work_mode -> B03 only exit_result",
+      "paired_fields": [
+        "work_mode",
+        "exit_result"
+      ]
+    },
+    {
+      "group": "C",
+      "slots": [
+        "C01"
+      ],
+      "factors": "READ_POS inconclusive",
+      "paired_fields": []
+    },
+    {
+      "group": "D",
+      "slots": [
+        "D01"
+      ],
+      "factors": "direct permission denied",
+      "paired_fields": []
+    },
+    {
+      "group": "E",
+      "slots": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05"
+      ],
+      "factors": "one failure per row: approval DENY, commit FAIL, guard BLOCK, verification FAIL, verification INCONCLUSIVE",
+      "paired_fields": [
+        "approval",
+        "commit",
+        "guard",
+        "verification"
+      ]
+    },
+    {
+      "group": "F",
+      "slots": [
+        "F01",
+        "F02"
+      ],
+      "factors": "ready=false or permit=false; tF=max(normal I/D verify arrivals)+1; tR=NEVER",
+      "paired_fields": [
+        "ready",
+        "permit"
+      ]
+    },
+    {
+      "group": "G_D",
+      "slots": [
+        "G01",
+        "G02",
+        "G03"
+      ],
+      "factors": "tF at nominal D commit -1,0,+1; tR=19",
+      "paired_fields": [
+        "tF"
+      ]
+    },
+    {
+      "group": "G_I",
+      "slots": [
+        "G04",
+        "G05",
+        "G06"
+      ],
+      "factors": "same around nominal I commit; tR=19",
+      "paired_fields": [
+        "tF"
+      ]
+    },
+    {
+      "group": "H_READ",
+      "slots": [
+        "H01",
+        "H02"
+      ],
+      "factors": "budget=(3*read_work+exit_work)-1, threshold",
+      "paired_fields": [
+        "budget"
+      ]
+    },
+    {
+      "group": "H_D",
+      "slots": [
+        "H03",
+        "H04"
+      ],
+      "factors": "budget=(prep+commit_work+2*exit_work+verify_work)-1, threshold",
+      "paired_fields": [
+        "budget"
+      ]
+    },
+    {
+      "group": "H_I",
+      "slots": [
+        "H05",
+        "H06"
+      ],
+      "factors": "same D threshold +3*read_work; minus one and exact",
+      "paired_fields": [
+        "budget"
+      ]
+    },
+    {
+      "group": "J_D",
+      "slots": [
+        "J01",
+        "J02"
+      ],
+      "factors": "window end = nominal D minimum end -1 and exact",
+      "paired_fields": [
+        "window"
+      ]
+    },
+    {
+      "group": "J_I",
+      "slots": [
+        "J03",
+        "J04"
+      ],
+      "factors": "window end = nominal I minimum end -1 and exact",
+      "paired_fields": [
+        "window"
+      ]
+    },
+    {
+      "group": "K",
+      "slots": [
+        "K01",
+        "K02"
+      ],
+      "factors": "reservation delays POS and D start; no fault / tF=T_I, tR=19",
+      "paired_fields": [
+        "tF",
+        "tR"
+      ]
+    },
+    {
+      "group": "L",
+      "slots": [
+        "L01",
+        "L02"
+      ],
+      "factors": "tF=T_I, tR=tF / NEVER",
+      "paired_fields": [
+        "tR"
+      ]
+    }
+  ],
+  "assignment_order": "groups as listed; final execution by lexical slot ID",
+  "bounds": {
+    "group_backgrounds": 28,
+    "total_backgrounds": 448,
+    "total_materialized_slot_checks": 980
+  },
+  "exhaustion": "No selection among these ordered templates = bounded template gap, not proof of impossibility in scientific domain. Retain slot with reason; running a partial revised list requires new review.",
+  "public_baseline_sha256": "3434016591c21edb8707745f1af72e135a54eecfb35cd498227484cda0e4f570",
+  "exact": "Schema-aware hash from accepted canonical_config over entire common. All old public H20 configs plus same-list rows excluded. New fixtures use only X01/X08 and perform no new config mutations.",
+  "semantic": "Compare active public acquisition/repair opportunity signatures, reachable component limitations and external challenge. Ignore labels, surplus budget/window, raw inactive reservations, unused recipe suffixes and E0-only differences. Distinct reachable requested stage, physical limitation or genuinely different action/record time required. Compare to every resolvable public H20 config and earlier rows. Reject full related group on collision.",
+  "arithmetic": "Each acquisition reserves work+exit, sample=start+work, arrival=sample+publish, expiry=sample+ttl. For normal authorized chain reserve prep+commit+exit + verify+exit, submit after legal evidence or direct, schedule approval, first fitting FIX interval, commit at start+prep+commit_work, verify no earlier than exit and receipt, then publish. W_min=max(arrival+1,reserved_until) on integer clock. Static prerequisites only. Failure labels never establish actual reached stage.",
+  "not_selected_by": [
+    "L",
+    "U",
+    "spent work outcome",
+    "winner",
+    "model output"
+  ]
+}
