@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**当前交审 R6 完整中文工作稿 v1。** 正文将两批有限 I/D/P 结果、四幅可追溯图和 R5 静态不可晋级命题连成完整论证；文献、完整配对附表、复现附录及 HTML/PDF 已集中交付。以 `cf666ec5` 的静态判定、主张矩阵与提纲为写作基线，原件保留。本轮只做写作、既有数据整理、出版渲染与完整性核对，新增设施／策略／评分／资格／研究调用为零。[交付入口](mainline/review-gated/R6/london-pre-manuscript-v1/README.md) · [正文](mainline/review-gated/R6/london-pre-manuscript-v1/manuscript.md) · [PDF](mainline/review-gated/R6/london-pre-manuscript-v1/manuscript.pdf)
+**当前交审[论文小修 v1.1](mainline/review-gated/R6/london-pre-manuscript-v1.1/README.md)和[R5 后继任务可行性说明](mainline/review-gated/R5/successor-feasibility.md)。** 以 `d5f86fb7` 为文稿审阅基线。待决定的问题是在原硬约束、强对照和逐行偏好下，调整合法取证与申请时机是否值得开展普通改进研究。两个面板与原静态证明继续分别保留，科研执行停在 review。
 
 用户确认 e060acfe 的 R4 追加验收和 R5 v1 限定的书面分析。公开开发 19 行与同账号扩展 35 行分别报告。v1 的 216 个开发回合、最多 105 个评估回合均作为未执行历史提案保留，无可用或可转拨配额。[R4 有限验收](mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) · [原 v1](mainline/review-gated/R5/bounded-improvement-v1/README.md)
 
@@ -19,8 +19,8 @@
 | R2 | 伦敦 PRE 受限合成模型资格 | 已接受旧有限范围；E1–E4声明有限范围已接受；C4/C7有限修复已接受；运行器声明有限工程资格已接受；完整Q11／R2未接受 |
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
 | R4 | 有限合成机制扩展验证 | 35 条件、105 处理的有限结果已接受。34 行合规，B03 原样保留。原 19 行另计，原独立确认义务未成立、未豁免。 |
-| R5 | 当前目录的晋级与 RSI 可识别性 | 限定书面分析已接受，普通晋级被静态排除，v1 不冻结为收益执行协议。一般性目标仍开放。 |
-| R6 | 当前伦敦 PRE 的主张、证据和论文论证 | 完整中文工作稿、图表、参考文献与复现附录已交付，等待 review；原矩阵／提纲保留。 |
+| R5 | 普通改进与 RSI 增量的可辨识性 | v1 晋级已静态排除。后继问题及范围取舍待 review，尚无新执行协议。 |
+| R6 | 当前伦敦 PRE 的主张、证据和论文论证 | 文稿小修 v1.1、HTML 与 PDF 待 review，初稿及原附件保留。 |
 
 每关先交付，再由用户 review；接受当前关卡不自动授权下一关。新试验、模型调用及研究性数值资格须等具体关卡授权。源事实、假设、未知、事后根因、决策者当时可用信息分别记录；权限、既有保护与封存评价器保持约束。
 

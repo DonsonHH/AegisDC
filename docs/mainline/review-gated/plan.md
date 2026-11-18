@@ -1,6 +1,6 @@
 # 研究主线：从事故机制到可验证的方法与 RSI 增量
 
-当前更新（2026-11-18）：按用户续写指令，以 `cf666ec5` 为证据基线完成 [R6 中文工作稿 v1](R6/london-pre-manuscript-v1/README.md)，包括完整正文、既有结果图表、参考文献、复现附录和可读预览，当前待文稿 review。原[静态判定](R5/v1-static-disposition.md)、[主张矩阵](R6/london-pre-synthesis-v1/README.md)与[提纲](R6/london-pre-synthesis-v1/paper-outline.md)保持原字节。本轮未新增设施、策略、评分、资格或研究执行。
+当前更新（2026-11-18）。[文稿 v1.1 与修订说明](R6/london-pre-manuscript-v1.1/README.md)以 `d5f86fb7` 为审阅基线。[R5 后继问题](R5/successor-feasibility.md)检视公共决策、逐行否决和改进器是否还有后续选择。本次仅交审这两份文档，原预算与独立确认义务均按原记录。
 
 ## 1. 要回答的问题
 
