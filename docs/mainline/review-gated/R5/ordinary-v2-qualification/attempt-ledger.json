@@ -1,0 +1,322 @@
+{
+  "schema": "aegisdc-ordinary-v2-qualification-attempt-ledger-1",
+  "status": "FINITE_ENGINEERING_DELIVERED_AWAITING_USER_ACCEPTANCE",
+  "private_root": "/share/home/renly/renly-patrol-rsi/mainline/R5-ordinary-v2-qualification-20261119-a2ac508c",
+  "attempts": [
+    {
+      "job_id": "134587",
+      "name": "ordinary-v2-qual",
+      "cluster": "mu01",
+      "partition": "cu",
+      "node": "cu10",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "submitted": "2026-11-19T02:08:02",
+      "started": "2026-11-19T02:08:03",
+      "ended": "2026-11-19T02:08:05",
+      "timezone": "Asia/Shanghai",
+      "elapsed_seconds": 2,
+      "total_cpu_seconds": "1.710",
+      "reserved_cpu_seconds": 300,
+      "cpus": 1,
+      "requested_memory": "2G",
+      "gpus": 0,
+      "time_limit_seconds": 300,
+      "concurrency": 1,
+      "retries": 0,
+      "command_log": "job-start/allocation",
+      "batch_exit_file": "job-start/exit",
+      "stdout": "slurm-134587.out",
+      "stderr": "slurm-134587.err",
+      "stderr_bytes": 0
+    }
+  ],
+  "protocol_revision": "4182f423bba954fce680a5268e4111a6b58bd989",
+  "fixture_revision": "c32f00e7ba6c1b5cdce651ea03b2e702e1faaa25",
+  "actual_execution_revision": "a2ac508cc6bd166cf40da08dd9a15654398ecf6e",
+  "interpreter_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+  "staged_git_archive_sha256": "f60d894c34ccab58657675cd1780a790504f5f66b8efc923352249f533800559",
+  "execution_source": "execution-source.json",
+  "qualification_result": "qualification-result.json",
+  "status_receipt_sha256": "c4a03184856cd6971272a25badf8b71f0fe1863a8fa10d32f0c7c0683023c8e2",
+  "real_engineering": {
+    "started": 6,
+    "returned": 6,
+    "unknown": 0,
+    "unresolved": 0,
+    "full_calls": {
+      "constructor": 6,
+      "plant": 128,
+      "policy": 80,
+      "request": 21,
+      "scorer": 6
+    },
+    "units": 87,
+    "assertions": 332,
+    "failed_assertions": 0,
+    "technical_failures": [],
+    "not_completed": [],
+    "non_success_stages": {
+      "Q4": "EXECUTED_UNVERIFIED",
+      "Q5": "VERIFY_ABORTED",
+      "Q6": "NOT_IMPLEMENTED"
+    },
+    "unexpected_scientific_or_oracle_differences": []
+  },
+  "fixture_operations": {
+    "feedback": 13,
+    "interfaces": 45,
+    "ledger_operations": 38
+  },
+  "controlled_failures": {
+    "F-unpaid": {
+      "status": "REJECT"
+    },
+    "F-partial": {
+      "status": "REJECT"
+    },
+    "L-outside-veto": {
+      "flags": {},
+      "frontier": [],
+      "lock": "I",
+      "locked_service": false,
+      "seen_service": false
+    },
+    "L-lost-close": {
+      "flags": {},
+      "frontier": [],
+      "lock": "I",
+      "locked_service": false,
+      "seen_service": false
+    },
+    "L-K02-cost": {
+      "flags": {},
+      "frontier": [],
+      "lock": "I",
+      "locked_service": false,
+      "seen_service": false
+    },
+    "L-new-violation": {
+      "flags": {},
+      "frontier": [],
+      "lock": "I",
+      "locked_service": false,
+      "seen_service": false
+    },
+    "L-missing-counts": {
+      "exposed": false,
+      "paid": 1,
+      "pending": 0,
+      "returned": 1,
+      "started": 1,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "unknown": 1
+    },
+    "L-archive-error": {
+      "exposed": false,
+      "paid": 1,
+      "pending": 0,
+      "returned": 1,
+      "started": 1,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "unknown": 0
+    },
+    "L-no-return": {
+      "exposed": false,
+      "paid": 1,
+      "pending": 1,
+      "returned": 0,
+      "started": 1,
+      "status": "STOPPED",
+      "suffix": [
+        "ext35.A02"
+      ],
+      "unknown": 1
+    },
+    "L-negative-verify": {
+      "mismatch": [
+        "requests"
+      ]
+    },
+    "L-negative-cost": {
+      "mismatch": [
+        "person_seconds"
+      ]
+    }
+  },
+  "static_corrections_before_job": [
+    {
+      "revision": "5295f884",
+      "status": "STATIC_REVIEW_ONLY",
+      "findings": "Call-log keyword collision, known/unknown errors, purpose and checkout binding, shared failed-query stop and prepayment CPU limit. No execution."
+    },
+    {
+      "revision": "be9d3dec",
+      "status": "STATIC_REVIEW_ONLY",
+      "findings": "Engineering-only rejection label and unproved intentions refined before the allocation. No execution."
+    },
+    {
+      "revision": "a2ac508cc6bd166cf40da08dd9a15654398ecf6e",
+      "status": "ACTUALLY_EXECUTED",
+      "scope": "Qualified runtime; canonical research purpose and explicit interpreter and Git source identities."
+    }
+  ],
+  "postjob_readback": {
+    "activity": "READ_ONLY_SAVED_OUTPUT_AND_CALL_LOG_INTEGRITY",
+    "model_calls": 0,
+    "score_calls": 0,
+    "additional_qualification_jobs": 0,
+    "job": "134587",
+    "archived_files": 1350,
+    "archived_bytes": 1715956,
+    "inventory": "postjob-inventory.sha256",
+    "inventory_sha256": "39db5ac11b95cb0d924eb38411c94985540a43ac354d7528405d8959715acefc",
+    "archive_index_entries": 24,
+    "episodes": {
+      "Q1": {
+        "log_returns": 22,
+        "counts": {
+          "constructor": 1,
+          "plant": 13,
+          "policy": 7,
+          "scorer": 1,
+          "request": 2
+        },
+        "unresolved": 0,
+        "worker_pid": 2736776,
+        "raw_sha256": "d592f71aaf576ed7553ad050d965c85ae37cf40b581d25c473008e4b3c85c871",
+        "intents_sha256": "3770e6224d273a14292e73a31050ab2c019ba1a8a5ad532cf4278b7f68b586e8"
+      },
+      "Q2": {
+        "log_returns": 45,
+        "counts": {
+          "constructor": 1,
+          "plant": 26,
+          "policy": 17,
+          "scorer": 1,
+          "request": 5
+        },
+        "unresolved": 0,
+        "worker_pid": 2736777,
+        "raw_sha256": "47a6a4b82c20d40862245dd80f50ce9e497a14b3cc4a23a1a9040b5499b282c6",
+        "intents_sha256": "fdd9b2c9e55d26cf48b3904f753f56befe1f31214eb0d4c7e22eaed53eb3def2"
+      },
+      "Q3": {
+        "log_returns": 44,
+        "counts": {
+          "constructor": 1,
+          "plant": 25,
+          "policy": 17,
+          "scorer": 1,
+          "request": 4
+        },
+        "unresolved": 0,
+        "worker_pid": 2736778,
+        "raw_sha256": "432954087f31afcaf66323251fc0fa2993af68e8a798efcfe0b9fb5310a6c03b",
+        "intents_sha256": "8e39187ee08cbb63b63f5fec0751dd50da45602c681e371eee619cbca4ed813b"
+      },
+      "Q4": {
+        "log_returns": 36,
+        "counts": {
+          "constructor": 1,
+          "plant": 21,
+          "policy": 13,
+          "scorer": 1,
+          "request": 3
+        },
+        "unresolved": 0,
+        "worker_pid": 2736779,
+        "raw_sha256": "05341ca9e7b1688a3c907421fe764643f8358359ff08fe5597c0ae0147e45bf6",
+        "intents_sha256": "db13f023eeaa05d2a43cb75572bf31bdf1942bc00aa790d7e6cff83af18776a5"
+      },
+      "Q5": {
+        "log_returns": 36,
+        "counts": {
+          "constructor": 1,
+          "plant": 21,
+          "policy": 13,
+          "scorer": 1,
+          "request": 3
+        },
+        "unresolved": 0,
+        "worker_pid": 2736780,
+        "raw_sha256": "f74310228e8c200dead96a0229a9d5d6e1564846258de4ad440001c10a990593",
+        "intents_sha256": "054c4250ae63b49b5a487732e9c459697fbecc4864130f8dcf2445253beaade9"
+      },
+      "Q6": {
+        "log_returns": 37,
+        "counts": {
+          "constructor": 1,
+          "plant": 22,
+          "policy": 13,
+          "scorer": 1,
+          "request": 4
+        },
+        "unresolved": 0,
+        "worker_pid": 2736781,
+        "raw_sha256": "9ada75efc6c0ebd12b2ef8a2e8ea34c937d26b26d907b999d91b39db8acf7fcf",
+        "intents_sha256": "05d4efc18999048ee26285d36ca86b6cbf0df693aab8a4c96c12f350078ba874"
+      }
+    },
+    "total": {
+      "constructor": 6,
+      "plant": 128,
+      "policy": 80,
+      "scorer": 6,
+      "request": 21
+    },
+    "pure_policy_entries": 40,
+    "guard_rejections": 4,
+    "feedback_refusals": 2,
+    "surrogate_schedules": {
+      "L-fallback": {
+        "paid": {
+          "U0": 3,
+          "SEARCH": 3
+        },
+        "physical_stub_starts": 162,
+        "cache_hits": 162,
+        "ledger_sha256": "e9f9182d8f557a1e2d1b682e41c2dface9438704171d7fc9292d00a497fd5f02"
+      },
+      "L-green": {
+        "paid": {
+          "U0": 3,
+          "SEARCH": 3
+        },
+        "physical_stub_starts": 216,
+        "cache_hits": 108,
+        "ledger_sha256": "04623a1f9a170802a0af3ed072541a55d57bdb9b696f336a2c246f4421380bc6"
+      },
+      "L-repair": {
+        "paid": {
+          "U0": 3,
+          "SEARCH": 3
+        },
+        "physical_stub_starts": 270,
+        "cache_hits": 54,
+        "ledger_sha256": "fab39fd40ae8950c8b17190cae9fb792c07c356f5ad19196f49a8810415250c2"
+      }
+    },
+    "receipt_sha256": "c4a03184856cd6971272a25badf8b71f0fe1863a8fa10d32f0c7c0683023c8e2",
+    "source_identity_sha256": "f58553636002a7b35b0066465eb7e92683931c9aa5fe24766762c3361ed2550f",
+    "job_logs": {
+      "slurm-134587.out": "7ab818152d4974711cfc192ae52945e0cbe60d910118aca1127ec147828d2e2d",
+      "slurm-134587.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "job-start/allocation": "ff00d59e09f9ee8e79f4ee6ddac2b21cef13dd40cc3b49c515e4a71116c2654e",
+      "job-start/exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    }
+  },
+  "real_research_calls": 0,
+  "real_research_tickets": 0,
+  "research_cache_entries": 0,
+  "static_full_panel_prediction": "NOT_EXECUTED",
+  "qualification_user_accepted": false,
+  "confirmation_runs": 0,
+  "RSI_runs": 0
+}
