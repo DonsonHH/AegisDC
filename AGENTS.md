@@ -2,7 +2,7 @@
 
 ## User-directed research reset (2026-11-12)
 
-Read [MAINLINE](docs/MAINLINE.md), [plan](docs/mainline/review-gated/plan.md) and [progress](docs/mainline/progress.json). The [one authorized finite R4 study](docs/mainline/review-gated/R4/finite-extension-study-v1/README.md) has run at the frozen study-v1 path. Its authorization is consumed. All 35 triplets were scored, 34 were eligible, and B03 remains noncompliant. Preserve the separate original development and extension denominators and all archived records. Stop for result review. Independent confirmation remains unmet and not waived. Further study, R5/RSI, Netherlands or RESP require separate user direction.
+Read [MAINLINE](docs/MAINLINE.md), [plan](docs/mainline/review-gated/plan.md) and [progress](docs/mainline/progress.json). The user [accepted the finite R4 result](docs/mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) at 535de4f5. Preserve both original panels and the consumed R4 authorization. The [R5 bounded improvement protocol v1](docs/mainline/review-gated/R5/bounded-improvement-v1/README.md) is delivered for review. Implementation, qualification, new evaluation data and research runs require separate authorization. The same-account design leaves independent confirmation unmet and not waived.
 
 Preserve the three frozen slice 57 files, formal protocols, original results and failures byte for byte. The [pre-reset snapshots](docs/mainline/history/20261112-before-reset/README.md) are historical evidence, not the active queue. New engineering work, once authorized, uses the [lightweight template](docs/agents/lightweight-engineering.md). Incident-source reading and proposed counterfactual/RSI designs do not authorize simulations or model experiments.
 
