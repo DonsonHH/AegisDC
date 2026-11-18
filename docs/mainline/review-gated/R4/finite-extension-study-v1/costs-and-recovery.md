@@ -1,0 +1,41 @@
+# 等待、占用与停止
+
+每格按 I / D / P 排列。等待指标可以重叠，人员秒和工具秒各自报告。按动作、阶段细分的实际占用、完整恢复记录、各组对模型的调用数及每项硬约束保存在 [paired-results.json](paired-results.json)。
+
+| 条件 | 资源排队秒 | 审批等待秒 | 未开工观察等待秒 | 观察停止时刻 | 请求数 | 策略调用数 | 设施接口调用数 | 服务恢复状态 |
+|---|---|---|---|---|---|---|---|---|
+| A01 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 4 / 9 / 0 | 1 / 2 / 0 | 5 / 10 / 1 | 15 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| A02 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 8 / 9 / 0 | 3 / 2 / 0 | 9 / 10 / 1 | 21 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| A03 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| B01 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 4 / 9 / 0 | 1 / 2 / 0 | 5 / 10 / 1 | 15 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / RECOVERED_WITHIN_WINDOW / NO_RECORDED_SERVICE_OUTAGE |
+| B02 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | RECOVERED_WITHIN_WINDOW / RECOVERED_WITHIN_WINDOW / NO_RECORDED_SERVICE_OUTAGE |
+| B03 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 20 / 20 / 0 | 4 / 1 / 0 | 20 / 20 / 1 | 33 / 30 / 10 | RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE |
+| C01 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 8 / 9 / 0 | 3 / 2 / 0 | 9 / 10 / 1 | 21 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| D01 | 2 / 0 / 0 | 1 / 0 / 0 | 0 / 0 / 0 | 16 / 0 / 0 | 5 / 0 / 0 | 17 / 1 / 1 | 31 / 10 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| E01 | 2 / 0 / 0 | 1 / 1 / 0 | 2 / 2 / 0 | 10 / 2 / 0 | 4 / 1 / 0 | 11 / 3 / 1 | 24 / 13 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| E02 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 13 / 6 / 0 | 4 / 1 / 0 | 14 / 7 / 1 | 27 / 17 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| E03 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 13 / 6 / 0 | 4 / 1 / 0 | 14 / 7 / 1 | 27 / 17 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| E04 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| E05 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| F01 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H |
+| F02 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 16 / 9 / 0 | 5 / 2 / 0 | 17 / 10 / 1 | 31 / 21 / 10 | RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H |
+| G01 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 4 / 4 / 0 | 1 / 1 / 0 | 4 / 4 / 1 | 15 / 15 / 10 | RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H |
+| G02 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 5 / 5 / 0 | 2 / 1 / 0 | 5 / 5 / 1 | 17 / 16 / 10 | RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H / RIGHT_CENSORED_AT_H |
+| G03 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 6 / 6 / 0 | 2 / 1 / 0 | 6 / 6 / 1 | 18 / 17 / 10 | RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |
+| G04 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 11 / 9 / 0 | 4 / 2 / 0 | 11 / 10 / 1 | 25 / 21 / 10 | RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |
+| G05 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 12 / 9 / 0 | 4 / 2 / 0 | 12 / 10 / 1 | 26 / 21 / 10 | RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |
+| G06 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 13 / 9 / 0 | 4 / 2 / 0 | 13 / 10 / 1 | 27 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |
+| H01 | 2 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 6 / 0 / 0 | 2 / 0 / 0 | 7 / 1 / 1 | 18 / 10 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| H02 | 2 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 0 / 0 | 3 / 0 / 0 | 9 / 1 / 1 | 21 / 10 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| H03 | 1 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 7 / 0 / 0 | 3 / 0 / 0 | 8 / 1 / 1 | 20 / 10 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| H04 | 1 / 0 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 7 / 8 / 0 | 3 / 2 / 0 | 8 / 9 / 1 | 20 / 20 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| H05 | 4 / 3 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 10 / 11 / 0 | 3 / 2 / 0 | 11 / 12 / 1 | 23 / 23 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| H06 | 4 / 3 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 18 / 11 / 0 | 5 / 2 / 0 | 19 / 12 / 1 | 33 / 23 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| J01 | 3 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 9 / 0 / 0 | 3 / 0 / 0 | 10 / 1 / 1 | 22 / 10 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| J02 | 3 / 2 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 9 / 10 / 0 | 3 / 2 / 0 | 10 / 11 / 1 | 22 / 22 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| J03 | 2 / 1 / 0 | 0 / 1 / 0 | 0 / 0 / 0 | 8 / 10 / 0 | 3 / 2 / 0 | 9 / 11 / 1 | 21 / 22 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| J04 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 17 / 10 / 0 | 5 / 2 / 0 | 18 / 11 / 1 | 32 / 22 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| K01 | 3 / 2 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 18 / 11 / 0 | 5 / 2 / 0 | 19 / 12 / 1 | 33 / 23 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| K02 | 3 / 2 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 13 / 11 / 0 | 4 / 2 / 0 | 13 / 12 / 1 | 27 / 23 / 10 | RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |
+| L01 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 12 / 9 / 0 | 4 / 2 / 0 | 12 / 10 / 1 | 26 / 21 / 10 | NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE / NO_RECORDED_SERVICE_OUTAGE |
+| L02 | 2 / 1 / 0 | 1 / 1 / 0 | 0 / 0 / 0 | 12 / 9 / 0 | 4 / 2 / 0 | 12 / 10 / 1 | 26 / 21 / 10 | RIGHT_CENSORED_AT_H / NO_RECORDED_SERVICE_OUTAGE / RIGHT_CENSORED_AT_H |

@@ -1,0 +1,628 @@
+{
+  "scope": "仅适用于冻结同账号有限合成条件",
+  "denominator": {
+    "planned": 35,
+    "executed_with_complete_scores": 35,
+    "valid_rows": 34,
+    "noncompliant_rows": [
+      "B03"
+    ],
+    "technical_error_rows": [],
+    "missing_complete_score": [],
+    "unsubmitted": [],
+    "unknown_or_pending_calls": [],
+    "assigned_stage_observed": [
+      "A01",
+      "A02",
+      "A03",
+      "B01",
+      "B02",
+      "B03",
+      "C01",
+      "D01",
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "F01",
+      "F02",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "K01",
+      "K02",
+      "L01",
+      "L02"
+    ],
+    "coverage_not_attained": {},
+    "terminal": "COMPLETE"
+  },
+  "calls": {
+    "proved_runner_calls": 35,
+    "known_reported_subtotal": {
+      "constructor_attempts": 105,
+      "plant_entry_calls": 1890,
+      "policy_calls": 754,
+      "scorer_calls": 105
+    },
+    "unknown_or_pending_slots": [],
+    "call_totals_exact": true,
+    "completed_arm_runs": 105
+  },
+  "F1": {
+    "verdict": "FALSIFIED_BY_VALID_COUNTEREXAMPLE",
+    "eligible_scope": [
+      "A01",
+      "A02",
+      "A03",
+      "B01",
+      "B02",
+      "C01",
+      "D01",
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "F01",
+      "F02",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "K01",
+      "K02",
+      "L01",
+      "L02"
+    ],
+    "delta": "L_D - L_I",
+    "by_sign": {
+      "I_lower": [
+        "B01"
+      ],
+      "equal": [
+        "A01",
+        "A02",
+        "A03",
+        "B02",
+        "C01",
+        "D01",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "F01",
+        "F02",
+        "G01",
+        "G02",
+        "G06",
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "J01",
+        "J02",
+        "J03",
+        "J04",
+        "K01",
+        "L01"
+      ],
+      "I_higher": [
+        "G03",
+        "G04",
+        "G05",
+        "K02",
+        "L02"
+      ]
+    },
+    "valid_counterexamples": [
+      {
+        "slot": "B01",
+        "delta_L": 7
+      }
+    ]
+  },
+  "F2": {
+    "assigned_slots": [
+      "A01",
+      "A02"
+    ],
+    "by_slot": {
+      "A01": {
+        "legal_negative": true,
+        "short_circuit_without_FIX": true,
+        "same_service": true,
+        "less_person_and_tool": true,
+        "savings_D_minus_I": {
+          "person_seconds": 5,
+          "tool_seconds": 5
+        },
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 4
+        },
+        "stop_evidence": [
+          {
+            "action": "READ_POS",
+            "available_at": 4,
+            "config_epoch": null,
+            "expires_at": 15,
+            "maintenance_epoch": "m0",
+            "observed_at": 3,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-1",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-1",
+            "source_group": "pos-B",
+            "status": "KNOWN",
+            "target": "feeder-B",
+            "value": 1
+          }
+        ],
+        "verdict": "SUPPORTED_IN_ASSIGNED_ROW"
+      },
+      "A02": {
+        "legal_negative": true,
+        "short_circuit_without_FIX": true,
+        "same_service": true,
+        "less_person_and_tool": true,
+        "savings_D_minus_I": {
+          "person_seconds": 3,
+          "tool_seconds": 3
+        },
+        "stop": {
+          "reason": "NO_ACTION_CURRENT_SCOPE",
+          "time": 8
+        },
+        "stop_evidence": [
+          {
+            "action": "READ_CONFIG",
+            "available_at": 8,
+            "config_epoch": 0,
+            "expires_at": 19,
+            "maintenance_epoch": "m0",
+            "observed_at": 7,
+            "parent_execution_id": null,
+            "problem_id": "q-1",
+            "receiver_role": "AUDITOR",
+            "record_id": "obs-3",
+            "record_kind": "ACTION_RESULT",
+            "request_id": "rq-3",
+            "source_group": "cfg-local",
+            "status": "KNOWN",
+            "target": "ctrl-1",
+            "value": "REVISED_LOCAL"
+          }
+        ],
+        "verdict": "SUPPORTED_IN_ASSIGNED_ROW"
+      }
+    }
+  },
+  "F3": {
+    "verdict": "FALSIFIED_BY_VALID_COUNTEREXAMPLE",
+    "delta": "L_I - L_P",
+    "by_sign": {
+      "I_lower": [
+        "G06"
+      ],
+      "equal": [
+        "A01",
+        "A02",
+        "A03",
+        "B01",
+        "C01",
+        "D01",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "F01",
+        "F02",
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H06",
+        "J01",
+        "J02",
+        "J03",
+        "J04",
+        "K01",
+        "K02",
+        "L01",
+        "L02"
+      ],
+      "I_higher": [
+        "B02"
+      ]
+    },
+    "valid_counterexamples": [
+      {
+        "slot": "G06",
+        "delta_L": -4
+      }
+    ],
+    "I_both_resource_costs_higher_than_P": [
+      "A01",
+      "A02",
+      "A03",
+      "B01",
+      "B02",
+      "C01",
+      "D01",
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "F01",
+      "F02",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "H01",
+      "H02",
+      "H03",
+      "H04",
+      "H05",
+      "H06",
+      "J01",
+      "J02",
+      "J03",
+      "J04",
+      "K01",
+      "K02",
+      "L01",
+      "L02"
+    ]
+  },
+  "F4": {
+    "applicable_online_without_successful_I_fix": [
+      {
+        "slot": "A01",
+        "matched": true
+      },
+      {
+        "slot": "A02",
+        "matched": true
+      },
+      {
+        "slot": "C01",
+        "matched": true
+      },
+      {
+        "slot": "E01",
+        "matched": true
+      },
+      {
+        "slot": "E02",
+        "matched": true
+      },
+      {
+        "slot": "E03",
+        "matched": true
+      },
+      {
+        "slot": "G01",
+        "matched": true
+      },
+      {
+        "slot": "G02",
+        "matched": true
+      },
+      {
+        "slot": "G03",
+        "matched": true
+      },
+      {
+        "slot": "G04",
+        "matched": true
+      },
+      {
+        "slot": "G05",
+        "matched": true
+      },
+      {
+        "slot": "H01",
+        "matched": true
+      },
+      {
+        "slot": "H02",
+        "matched": true
+      },
+      {
+        "slot": "H03",
+        "matched": true
+      },
+      {
+        "slot": "H04",
+        "matched": true
+      },
+      {
+        "slot": "H05",
+        "matched": true
+      },
+      {
+        "slot": "J01",
+        "matched": true
+      },
+      {
+        "slot": "J02",
+        "matched": true
+      },
+      {
+        "slot": "J03",
+        "matched": true
+      },
+      {
+        "slot": "K02",
+        "matched": true
+      },
+      {
+        "slot": "L01",
+        "matched": true
+      },
+      {
+        "slot": "L02",
+        "matched": true
+      }
+    ],
+    "matched": 22,
+    "verification_requests_bound_to_arrived_execution": 33,
+    "published_verification_records_bound_to_execution": 33,
+    "verdict": "MATCH_ON_OBSERVED_APPLICABLE_ROWS_AND_BOUND_IDENTITIES"
+  },
+  "F5": {
+    "reconciled_rows": 35,
+    "technical_findings": {},
+    "actual_successful_commit_receipts_checked": 37,
+    "identical_treatment_public_packet_repeats_checked": 450,
+    "policy_packets_checked": 754,
+    "verdict": "NO_FROZEN_TECHNICAL_VIOLATION_IN_OBSERVED_ROWS"
+  },
+  "actual_stage_index": {
+    "INSPECTION_STOP": [
+      "A01/I",
+      "A02/I",
+      "B01/I",
+      "C01/I",
+      "G01/I",
+      "G02/I",
+      "G03/I",
+      "H01/I",
+      "H02/I",
+      "H03/I",
+      "H04/I",
+      "H05/I",
+      "J01/I",
+      "J02/I",
+      "J03/I"
+    ],
+    "VERIFIED": [
+      "A01/D",
+      "A02/D",
+      "A03/I",
+      "A03/D",
+      "B01/D",
+      "B02/I",
+      "B02/D",
+      "C01/D",
+      "D01/I",
+      "F01/I",
+      "F01/D",
+      "F02/I",
+      "F02/D",
+      "G04/D",
+      "G05/D",
+      "G06/D",
+      "H04/D",
+      "H05/D",
+      "H06/I",
+      "H06/D",
+      "J02/D",
+      "J03/D",
+      "J04/I",
+      "J04/D",
+      "K01/I",
+      "K01/D",
+      "K02/D",
+      "L01/D",
+      "L02/D"
+    ],
+    "BACKGROUND_ONLY": [
+      "A01/P",
+      "A02/P",
+      "A03/P",
+      "B01/P",
+      "B02/P",
+      "B03/P",
+      "C01/P",
+      "D01/P",
+      "E01/P",
+      "E02/P",
+      "E03/P",
+      "E04/P",
+      "E05/P",
+      "F01/P",
+      "F02/P",
+      "G01/P",
+      "G02/P",
+      "G03/P",
+      "G04/P",
+      "G05/P",
+      "G06/P",
+      "H01/P",
+      "H02/P",
+      "H03/P",
+      "H04/P",
+      "H05/P",
+      "H06/P",
+      "J01/P",
+      "J02/P",
+      "J03/P",
+      "J04/P",
+      "K01/P",
+      "K02/P",
+      "L01/P",
+      "L02/P"
+    ],
+    "EXIT_INCOMPLETE": [
+      "B03/I",
+      "B03/D"
+    ],
+    "NO_ACTION": [
+      "D01/D",
+      "H01/D",
+      "H02/D",
+      "H03/D",
+      "J01/D"
+    ],
+    "APPROVAL_DENIED": [
+      "E01/I",
+      "E01/D"
+    ],
+    "COMMIT_FAILED": [
+      "E02/I",
+      "E02/D"
+    ],
+    "NOT_IMPLEMENTED": [
+      "E03/I",
+      "E03/D",
+      "G01/D",
+      "G02/D",
+      "G04/I",
+      "G05/I",
+      "K02/I",
+      "L01/I",
+      "L02/I"
+    ],
+    "VERIFICATION_FAILED": [
+      "E04/I",
+      "E04/D"
+    ],
+    "VERIFY_INCONCLUSIVE": [
+      "E05/I",
+      "E05/D"
+    ],
+    "EXECUTED_UNVERIFIED": [
+      "G03/D",
+      "G06/I"
+    ]
+  },
+  "service_right_censored_by_arm": {
+    "I": [
+      "B03",
+      "F01",
+      "F02",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "K02",
+      "L02"
+    ],
+    "D": [
+      "B03",
+      "F01",
+      "F02",
+      "G01",
+      "G02"
+    ],
+    "P": [
+      "F01",
+      "F02",
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "K02",
+      "L02"
+    ]
+  },
+  "censoring_start_at_H_by_arm": {
+    "I": [
+      "F01",
+      "F02"
+    ],
+    "D": [
+      "F01",
+      "F02"
+    ],
+    "P": [
+      "F01",
+      "F02"
+    ]
+  },
+  "external_A_still_unavailable_at_H_by_arm": {
+    "I": [
+      "F01",
+      "F02",
+      "L02"
+    ],
+    "D": [
+      "F01",
+      "F02",
+      "L02"
+    ],
+    "P": [
+      "F01",
+      "F02",
+      "L02"
+    ]
+  },
+  "noncompliance": {
+    "B03": {
+      "I": [
+        "reserved_exit_honored"
+      ],
+      "D": [
+        "reserved_exit_honored"
+      ],
+      "P": []
+    }
+  }
+}
