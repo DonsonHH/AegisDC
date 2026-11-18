@@ -147,6 +147,24 @@ def recovery(directory):
         if ledger.get("callback_state") in ("RETURNED","RAISED","NOT_CALLED"):return ledger
     except (OSError,ValueError,TypeError,AttributeError):
         pass
+    try:
+        raw=read(directory/"raw.json")
+        intent=read(directory/"intent.json")
+        start=read(directory/"slot.json")
+        need(raw["binding"]==intent and intent["slot"]==start["slot"] and intent["job_id"]==start["job_id"]
+             and intent["manifest_sha256"]==start["manifest_sha256"],"RECOVERY_BINDING")
+        ledger=empty_ledger()
+        if raw["exception"] is not None:
+            ledger.update(callback_state="RAISED",calls_proved=1,unreturned_or_pending=1,internal_count_semantics="UNKNOWN_INTERNAL_COUNTS")
+        else:
+            counts=counts_from_return(raw["actual"])
+            ledger.update(callback_state="RETURNED",calls_proved=1,returned=1,
+                returned_count_unknown=int(counts is None),known_reported_subtotal=counts if counts is not None else EMPTY.copy(),
+                internal_count_semantics="UNKNOWN_INTERNAL_COUNTS" if counts is None else "KNOWN_REPORTED_SUBTOTAL")
+        ledger["recovery_basis"]="BOUND_DURABLE_RAW"
+        return ledger
+    except (OSError,ValueError,TypeError,KeyError,AttributeError):
+        pass
     ledger=empty_ledger("PENDING")
     ledger.update(calls_proved=None,unreturned_or_pending=1,internal_count_semantics="UNKNOWN_INTERNAL_COUNTS")
     return ledger

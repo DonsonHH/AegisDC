@@ -54,8 +54,10 @@ def worker(directory,slot,common,purpose,unit):
             from aegis_dc.london_treatments import run_condition as callback
         payload=deepcopy(common);order=list(ARMS)
         if scenario=="before-marker":raise OSError("FIXTURE_INTENT_WRITE_FAILED")
-        durable(directory/"intent.json",dict(slot=slot,job_id=os.environ["SLURM_JOB_ID"],purpose=purpose,
-            common_sha256=hashlib.sha256(json.dumps(common,sort_keys=True).encode()).hexdigest(),meaning="may dispatch once"))
+        binding=dict(slot=slot,job_id=os.environ["SLURM_JOB_ID"],purpose=purpose,
+            manifest_sha256=read(directory/"slot.json")["manifest_sha256"],
+            common_sha256=hashlib.sha256(json.dumps(common,sort_keys=True).encode()).hexdigest(),meaning="may dispatch once")
+        durable(directory/"intent.json",binding)
         if scenario=="exit-after-intent":os._exit(73)
         ledger.update(callback_state="RAISED",calls_proved=1,unreturned_or_pending=1,internal_count_semantics="UNKNOWN_INTERNAL_COUNTS")
         try:
@@ -67,7 +69,7 @@ def worker(directory,slot,common,purpose,unit):
         # Independent accounting survives a later raw/summary/terminal write failure.
         try:
             if scenario=="raw-archive":raise OSError("FIXTURE_RAW_WRITE_FAILED")
-            durable(directory/"raw.json",dict(actual=raw,exception=raised))
+            durable(directory/"raw.json",dict(binding=binding,actual=raw,exception=raised))
         finally:
             if ledger["returned"]:
                 counts=counts_from_return(raw)
@@ -128,6 +130,8 @@ def main():
                 need(predecessor["permit_next"] is True,"SUFFIX_STOP")
         unit=units.get(slot,{})
         if args.worker:
+            owner=read(directory/"slot.json")
+            need(owner["job_id"]==os.environ["SLURM_JOB_ID"] and owner["slot"]==slot and owner["manifest_sha256"]==args.digest,"OUTER_BINDING")
             # A second worker, even after an interrupted marker, cannot restart this slot.
             mkdir(directory/"worker-claim")
             return worker(directory,slot,configs[slot],purpose,unit)

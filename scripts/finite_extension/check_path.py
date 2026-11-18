@@ -7,7 +7,7 @@ from pathlib import Path
 import subprocess
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from common import BASE, COUNT_KEYS, EMPTY, HERE, OLD, PACK, ROOT, durable, file_sha, mkdir, need, read
+from common import BASE, COUNT_KEYS, EMPTY, HERE, OLD, PACK, ROOT, durable, file_sha, mkdir, need, read, recovery
 
 SPEC=read(ROOT/(PACK+"witnesses.json"))
 CASES={c["id"]:c for c in SPEC["cases"]}
@@ -71,6 +71,18 @@ def suite(manifest_path,output):
             checks=dict(exit_code=proc.returncode==1,refused_existing="REFUSED_EXISTING" in proc.stdout,all_bytes_preserved=before==tree_hashes(directory))
             row=dict(slot=slot,passed=all(checks.values()),checks=checks,fixture_callbacks=0,status="REFUSED_EXISTING")
         else:row=observation(slot,directory,proc.returncode)
+        if slot=="W01":
+            # Same already-returned bytes; no second callback. Simulate an
+            # unavailable accounting archive in a fresh read-only evidence view.
+            view=output/"W01-recovery"
+            mkdir(view)
+            for name in ("raw.json","intent.json","slot.json"):
+                os.link(directory/name,view/name)
+            recovered=recovery(view)
+            row["checks"]["durable_raw_recovers_known_subtotal"]=(
+                recovered.get("recovery_basis")=="BOUND_DURABLE_RAW" and recovered["calls_proved"]==1
+                and recovered["known_reported_subtotal"]==row["ledger"]["known_reported_subtotal"])
+            row["passed"]=all(row["checks"].values())
         results.append(row);durable(output/(slot+".json"),row)
         if not row["passed"]:break
     value=dict(passed=len(results)==len(m["order"]) and all(r["passed"] for r in results),rows=results,
@@ -92,6 +104,9 @@ def reconcile(manifest_path,suite_path,output):
         row["scheduler"]=status;row["scheduler_record_sha256"]=file_sha(out/("scheduler-"+slot+".json"))
         row["checks"]["scheduler_state"]=status["state"]==("COMPLETED" if slot=="W11" else "FAILED")
         row["checks"]["continue_only_after_terminal"]=scheduled["permit_next"]==(slot=="W11")
+        if slot=="W12":
+            row["checks"]["failed_outer_excluded"]=scheduled["row"]["eligible"] is False and scheduled["row"]["finite_propositions"] is None
+            row["checks"]["worker_summary_retained"]=(out/slot/"summary.json").is_file()
         row["passed"]=all(row["checks"].values());serial.append(row)
     suffix=(terminal["status"]=="STOPPED" and [r["status"] for r in terminal["rows"]]==["NONCOMPLIANT","TECHNICAL_STOP","NOT_SUBMITTED"]
             and not (out/"W13").exists() and not (out/"submit-W13.json").exists())

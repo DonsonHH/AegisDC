@@ -12,6 +12,12 @@ def reached(slot,common,actual,negative):
     def acquired(r,act):return any(rec["action"]==act and rec["status"]=="KNOWN" for frame in r["public_trace"] for rec in frame["view"]["records"])
     def touched(r,stage):return any(s["work_stage"]==stage and s["end"]!=s["start"] for s in r["final_audit"]["segments"])
     def offline(r):return any(s["isolated"] for s in r["final_audit"]["segments"])
+    def event_at(r,name,time):
+        return any(e["event"]==name and e["time"]==time for e in r["final_audit"]["events"])
+    def cutoff_prevented_commit(r):
+        return (stopped(r,"ENV_PRE_CUTOFF") and r["stop"]["time"]==common["tF"]
+                and event_at(r,"fault",common["tF"]) and not r["reached"]["commit_attempted"]
+                and r["reached"]["commit_result"]=="NOT_ATTEMPTED")
     if slot in ("A01","A02","B01"):
         return negative(i,slot) and verified(d) and (slot!="B01" or offline(d))
     if slot in ("A03","B02"):
@@ -29,7 +35,7 @@ def reached(slot,common,actual,negative):
         return all(verified(r) and r["final_audit"]["g_state"]=="FAILED" and not any(s["source"]=="G" for s in r["final_audit"]["segments"]) for r in runs)
     if slot.startswith("G"):
         arm=d if slot in ("G01","G02","G03") else i
-        return arm["reached"]["approved"] and touched(arm,"PREPARING") and committed(arm)==(slot in ("G03","G06"))
+        return arm["reached"]["approved"] and touched(arm,"PREPARING") and (committed(arm) if slot in ("G03","G06") else cutoff_prevented_commit(arm))
     if slot in ("H01","H02"):
         return acquired(i,"READ_POS") and acquired(i,"READ_VOLT") and (acquired(i,"READ_CONFIG") if slot=="H02" else stopped(i,"INSUFFICIENT_INFORMATION") and no_action(i,"READ_CONFIG"))
     if slot.startswith(("H","J")):
@@ -38,8 +44,10 @@ def reached(slot,common,actual,negative):
         return prefix and (verified(arm) if slot in ("H04","H06","J02","J04") else stopped(arm,"INFEASIBLE") and no_action(arm,"FIX_CTRL"))
     if slot.startswith("K"):
         waited=all(Fraction(r["score"]["resource_queue_seconds"])>0 for r in runs)
-        return waited and (all(verified(r) for r in runs) if slot=="K01" else i["reached"]["approved"] and not committed(i) and committed(d) and stopped(i,"ENV_PRE_CUTOFF"))
+        return waited and (all(verified(r) for r in runs) if slot=="K01" else i["reached"]["approved"] and cutoff_prevented_commit(i) and committed(d))
     if slot.startswith("L"):
         required_a=1 if slot=="L01" else 0
-        return all(r["final_audit"]["vA"]==required_a and not r["final_audit"]["pre_open"] and all(t<common["tF"] for t in r["policy_times"]) for r in runs)
+        return cutoff_prevented_commit(i) and all(r["final_audit"]["vA"]==required_a and event_at(r,"fault",common["tF"])
+              and (event_at(r,"restore",common["tF"]) if slot=="L01" else all(e["event"]!="restore" for e in r["final_audit"]["events"]))
+              and all(t<common["tF"] for t in r["policy_times"]) for r in runs)
     return None  # Old-return engineering fixture; no new research coverage assigned.

@@ -15,6 +15,30 @@ from common import BASE, FIXTURE, HERE, REAL, ROOT, durable, file_sha, manifest_
 TERMINAL={"COMPLETED","FAILED","TIMEOUT","DEADLINE","NODE_FAIL","PREEMPTED","OUT_OF_MEMORY","BOOT_FAIL","CANCELLED","REVOKED","SPECIAL_EXIT"}
 
 
+def placeholder(slot,status):
+    return dict(slot=slot,status=status,score_available=False,eligible=False,
+                arms={a:None for a in ("I","D","P")},finite_propositions=None)
+
+
+def read_same_job(directory,slot,digest,job_id,purpose):
+    attempts=[]
+    for attempt in range(3):
+        try:
+            info=read(directory/"exit.json")
+            need(info.get("slot")==slot and info.get("manifest_sha256")==digest and info.get("job_id")==job_id
+                 and info.get("purpose")==purpose,"SLOT_OR_JOB_IDENTITY")
+            status=info["status"]
+            summary=read(directory/"summary.json") if status in ("PASS","NONCOMPLIANT") or (directory/"summary.json").is_file() else None
+            if status in ("PASS","NONCOMPLIANT"):
+                for key,filename in (("raw_sha256","raw.json"),("summary_sha256","summary.json")):
+                    need(file_sha(directory/filename)==info["files"][key],"ARCHIVE_IDENTITY")
+            return info,summary,attempts
+        except (OSError,ValueError,KeyError,TypeError) as error:
+            attempts.append(str(error))
+            if attempt<2:time.sleep(1)
+    raise RuntimeError("SAME_JOB_EVIDENCE_UNRESOLVED: "+str(attempts))
+
+
 def accounting(job_id):
     # An unavailable observation never submits another job.
     for _ in range(150):
@@ -35,7 +59,7 @@ def dispatch(manifest_path, digest, approval, approval_sha):
     start=dict(manifest_sha256=digest,source_revision=m["source_revision"],purpose=m["purpose"],
                allocation=m["budget"],order=m["order"],attempt=out.name)
     durable(out/"manifest.json",m);durable(out/"started.json",start)
-    rows=[dict(slot=s,status="NOT_SUBMITTED",score_available=False) for s in m["order"]]
+    rows=[placeholder(s,"NOT_SUBMITTED") for s in m["order"]]
     durable(out/"denominator.json",rows)
     for index,slot in enumerate(m["order"]):
         directory=out/slot
@@ -43,7 +67,7 @@ def dispatch(manifest_path, digest, approval, approval_sha):
         command=["sbatch","--parsable","--no-requeue","--partition=cu","--nodes=1","--ntasks=1","--cpus-per-task=1","--mem=1G",
                  "--time=00:"+("01:00" if m["purpose"]==REAL else "02:00"),"--job-name=ext-"+slot,
                  "--output="+str(out/(slot+"-%j.out")),"--error="+str(out/(slot+"-%j.err")), *entry]
-        allowed=False;job_id=None
+        allowed=False;job_id=None;scheduler=None
         try:
             durable(out/("submit-"+slot+".json"),dict(index=index,manifest_sha256=digest,command=command))
             rows[index].update(status="SUBMISSION_UNRESOLVED")
@@ -54,21 +78,22 @@ def dispatch(manifest_path, digest, approval, approval_sha):
             scheduler=accounting(job_id)
             # Keep scheduler evidence even when the per-slot filesystem is incomplete.
             durable(out/("observed-"+slot+".json"),scheduler)
-            exit_record=read(directory/"exit.json")
-            bound=(exit_record.get("slot")==slot and exit_record.get("manifest_sha256")==digest
-                   and exit_record.get("job_id")==job_id and exit_record.get("purpose")==m["purpose"])
-            allowed=bool(bound and scheduler["state"]=="COMPLETED" and scheduler["exit_code"]=="0:0"
+            exit_record,summary,observations=read_same_job(directory,slot,digest,job_id,m["purpose"])
+            allowed=bool(scheduler["state"]=="COMPLETED" and scheduler["exit_code"]=="0:0"
                          and exit_record["status"] in ("PASS","NONCOMPLIANT") and not exit_record["technical_stop"])
-            rows[index]=dict(slot=slot,status=exit_record.get("status") if allowed else "TECHNICAL_STOP",
-                     scheduler=scheduler,exit=exit_record,score_available=(directory/"summary.json").is_file())
-            if rows[index]["score_available"]:
-                rows[index]["summary"]=read(directory/"summary.json")
+            rows[index]=placeholder(slot,exit_record.get("status") if allowed else "TECHNICAL_STOP")
+            rows[index].update(scheduler=scheduler,exit=exit_record,observation_errors=observations)
+            if summary is not None:rows[index]["worker_summary_file"]=str(directory/"summary.json")
             if allowed:
-                for key,filename in [("raw_sha256","raw.json"),("summary_sha256","summary.json")]:
-                    need(file_sha(directory/filename)==exit_record["files"][key],"ARCHIVE_IDENTITY")
+                rows[index].update(score_available=True,eligible=summary["valid_comparison"],arms=summary["arms"],
+                        finite_propositions=summary["finite_propositions"] if summary["valid_comparison"] else None,
+                        delta_L_D_minus_I=summary["delta_L_D_minus_I"],I_minus_D_costs=summary["delta_costs_I_minus_D"],
+                        P_background=summary["P_background"],assigned_stage_observed=summary["assigned_stage_observed"])
         except Exception as error:
             allowed=False
-            rows[index].update(status="UNRESOLVED_OR_TECHNICAL_STOP",error=str(error),job_id=job_id,accounting=recovery(directory))
+            status="TECHNICAL_STOP_EVIDENCE_INCOMPLETE" if scheduler and (scheduler["state"]!="COMPLETED" or scheduler["exit_code"]!="0:0") else "EVIDENCE_UNRESOLVED"
+            rows[index].update(status=status,error=str(error),job_id=job_id,
+                               scheduler=scheduler,accounting=recovery(directory),eligible=False,finite_propositions=None)
         durable(out/("scheduler-"+slot+".json"),dict(slot=slot,index=index,manifest_sha256=digest,job_id=job_id,
                     permit_next=allowed,row=rows[index]))
         durable(out/f"progress-{index+1:02}.json",rows)

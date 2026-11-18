@@ -41,9 +41,10 @@ def check_public_action(frame):
     return all(k in records for k in ids) and {records[k]["action"]:records[k]["value"] for k in ids}=={"READ_POS":0,"READ_VOLT":1,"READ_CONFIG":"LEGACY_LINE"}
 
 
-def legal_negative(arm,slot):
+def legal_negative(arm,slot,*,at_stop=False):
     action,value=("READ_POS",1) if slot in ("A01","B01") else ("READ_CONFIG","REVISED_LOCAL")
     for frame in arm["public_trace"]:
+        if at_stop and (frame["time"]!=arm["stop"]["time"] or frame["decision"]["action"]!="NO_ACTION_CURRENT_SCOPE"):continue
         t=Fraction(frame["time"]);view=frame["view"]
         for record in view["records"]:
             if (record["action"]==action and record["status"]=="KNOWN" and record["value"]==value
@@ -86,7 +87,7 @@ def inspect(slot,common,actual):
     if slot in ("A01","A02"):
         tied=scores["I"]["L"]==scores["D"]["L"] and valid
         row["finite_propositions"]["F2"]=dict(legal_negative=legal_negative(i,slot),
-            short_circuit_without_FIX=not i["reached"]["fix_requested"] and i["stop"]["reason"]=="NO_ACTION_CURRENT_SCOPE",
+            short_circuit_without_FIX=not i["reached"]["fix_requested"] and legal_negative(i,slot,at_stop=True),
             same_service=bool(tied) if valid else None,
             less_person_and_tool=all(Fraction(row["delta_costs_I_minus_D"][k])<0 for k in ("person_seconds","tool_seconds")) if tied else None)
     row["assigned_stage_observed"]=reached(slot,common,actual,legal_negative) if not findings else None
