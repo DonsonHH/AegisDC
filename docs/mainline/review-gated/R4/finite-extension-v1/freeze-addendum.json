@@ -1,0 +1,49 @@
+{
+  "before": "First static generation and first path check",
+  "eligibility": {
+    "A01_B01": "Require pos definite 1 from legal POS, arrival <= decision < expiry on an open PRE tick. Normal D approval/FIX/exit/VERIFY publication reachable with same public background. Reject entire group on failure.",
+    "A02": "Require READ_CONFIG definite REVISED_LOCAL, three legal arrivals still current at decision; same public D full-chain requirements.",
+    "F01_F02": "Both normal repair chains have delivered VERIFY before tF. Require tF+tauG < H for a genuine backup opportunity. Group-level rejection."
+  },
+  "fixture_payload": {
+    "W04": {
+      "type": "RuntimeError",
+      "message": "FIXTURE_CALLBACK_RAISED"
+    },
+    "W05": {
+      "delete": "counts.policy_calls"
+    },
+    "W06": {
+      "set": {
+        "counts.policy_calls": -1
+      }
+    },
+    "W07": {
+      "set": {
+        "counts.policy_calls": true
+      }
+    },
+    "W08": {
+      "set": "counts.policy_calls = pinned original plus 1"
+    },
+    "W09": {
+      "raw_store": "one-shot OSError before raw publication",
+      "expected_business_interpretations": 0
+    },
+    "W10": {
+      "exit": "worker os._exit(73) after durable intent before invoking callback"
+    },
+    "W12": {
+      "exit": "outer failure after worker completes and valid summary exists, before outer success receipt"
+    },
+    "W02": {
+      "purpose": "CONFIRMATION"
+    },
+    "W15": {
+      "purpose": "FINITE_SYNTHETIC_EXTENSION",
+      "approval": "absent"
+    }
+  },
+  "other_fields": "Original immutable replay payload with all other fields and call details retained. Unknown count vector contributes no entries to the known subtotal. Interpretation has a durable entry marker before inspect/summarize; on a normal return raw publication precedes this marker.",
+  "comparison": "Compile operation, ordering, domain, code and projections are fixed by Git before generation. Static calculator evaluates nominal opportunity and prerequisites only."
+}
