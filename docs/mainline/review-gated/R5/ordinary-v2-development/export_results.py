@@ -3,6 +3,8 @@ import argparse
 from collections import Counter
 from fractions import Fraction
 from pathlib import Path
+import os
+import traceback
 from record_io import MANIFEST, MANIFEST_SHA, APPROVAL_SHA, ARMS, DIMS, RUN_SOURCE
 from record_io import digest, evidence_summary, exact, read, save, sha
 import json
@@ -98,6 +100,9 @@ def comparisons(terminal, panels, checks):
                         a=resolve(label)
                         if any(a[f]!=expected[f] for f in ("z","closed","violations")):
                             checks.append("Terminal pairing mismatch: "+group+"/"+key+"/"+name+"/"+label)
+                    if [Fraction(v) for v in delta] != [Fraction(x)-Fraction(y) for x,y in
+                            zip(b["candidate"]["z"],b["reference"]["z"],strict=True)]:
+                        checks.append("Stored difference mismatch: "+group+"/"+key+"/"+name)
                     if b["in_mask"]!=r["in_mask"]:checks.append("Mask mismatch: "+key)
                     if not r["in_mask"]:continue
                     for i,s in enumerate(DIMS):
@@ -156,10 +161,44 @@ def forecast(terminal,rows):
         totals=dict(Counter(x["status"] for x in tests)))
 
 
+def before_owned_root(source,stage,dest,preflight,exit_code,reason):
+    """Never attribute another run's tickets to this allocation."""
+    began=(stage/"job-start/entry-started").is_file()
+    value=None if began else 0
+    for panel,path,identity,count in (
+            ("dev19","docs/mainline/review-gated/R3/formal-protocol-v1/development-inputs.json",
+             "661ed1da1611dde316d6920e3a4e9cc6546ec73e214727e8335bd5a47c663880",19),
+            ("ext35","docs/mainline/review-gated/R4/finite-extension-v1/conditions.json",
+             "4b025bbb29e3652ff70a0a0ccd53556aaa131177bb3b6b9830c6c4e0053aa7d9",35)):
+        loc=source/path
+        keys=[panel+"."+c["condition_id"] for c in read(loc)["conditions"]] if loc.is_file() and sha(loc)==identity else []
+        save(dest/(panel+"-rows.json"),dict(panel=panel,declared_conditions=count,order=keys,
+             rows=[dict(key=k,status="UNPROVED_AFTER_ENTRY" if began else "NOT_STARTED") for k in keys]))
+    save(dest/"tickets.json",dict(events=[],status=reason,charged=value))
+    save(dest/"comparisons.json",{})
+    save(dest/"prediction-check.json",dict(status="NOT_EVALUABLE_AFTER_STOP"))
+    save(dest/"physical-evidence.json",dict(episodes=[],files={},attributable_root=False))
+    save(dest/"result.json",dict(entry_status=reason,entry_exit=exit_code,entry_started=began,
+         job=os.environ["SLURM_JOB_ID"],manifest_sha256=MANIFEST_SHA,approval_sha256=APPROVAL_SHA,
+         preflight_status=preflight.get("status"),source_failure=preflight.get("error"),
+         counts=dict(charged_tickets=value,physical_intents=value,known_calls={k:value for k in KINDS}),
+         locks={},valid_final_comparison=False,readback_findings=[],retries=0))
+    return True
+
+
 def export(source,stage,exit_code):
-    m=read(source/MANIFEST); root=Path(m["output_root"]); dest=stage/"release"
+    dest=stage/"release"
     dest.mkdir(exist_ok=False)
     preflight=read(stage/"preflight.json") if (stage/"preflight.json").exists() else {}
+    if preflight.get("status")!="PASS_BEFORE_FIRST_TICKET" or not (stage/"job-start/entry-started").is_file():
+        return before_owned_root(source,stage,dest,preflight,exit_code,"STOP_BEFORE_STUDY_ENTRY")
+    if sha(source/MANIFEST)!=MANIFEST_SHA:
+        return before_owned_root(source,stage,dest,preflight,exit_code,"MANIFEST_IDENTITY_LOST")
+    m=read(source/MANIFEST); root=Path(m["output_root"])
+    intent_file=root/"launch-intent.json"
+    binding=read(intent_file) if intent_file.is_file() else {}
+    if binding!={"manifest":MANIFEST_SHA,"approval":APPROVAL_SHA,"job":os.environ["SLURM_JOB_ID"]}:
+        return before_owned_root(source,stage,dest,preflight,exit_code,"NO_OWNED_ROOT_AFTER_ENTRY")
     terminal=read(root/"terminal.json") if (root/"terminal.json").is_file() else {}
     failure=read(root/"failure.json") if (root/"failure.json").is_file() else {}
     journal=root/"queries/ledger.jsonl";events,torn=lines(journal)
@@ -180,6 +219,7 @@ def export(source,stage,exit_code):
             elif event=="unlocked":active["unlocked"]=True;active["release_event"]=e["sequence"]
             elif event=="query_stopped":active["stop"]=e
     purchased=list(dict.fromkeys(t["descriptor"] for t in tickets))
+    started={(t["descriptor"],key) for t in tickets for key in t["started"]}
     # Identify private directories by exact binding. No call to the studied implementation.
     identity=dict(purpose="ORDINARY_V2_RESEARCH",protocol=m["protocol_revision"],core=m["core_revision"],
                   runtime=m["interpreter_sha256"],source=RUN_SOURCE,input_revision=digest(m["files"]),
@@ -199,7 +239,11 @@ def export(source,stage,exit_code):
                 uid=digest(binding); folder=root/"episodes"/uid; cached=root/"queries/cache"/(uid+".json")
                 episode_ids[name,key]=uid
                 value={"status":"NOT_STARTED"};row["paid_candidates"][name]=value
-                if not folder.exists():continue
+                if not folder.exists():
+                    if (name,key) in started:
+                        value.update(status="UNRESOLVED_AFTER_INTENT",episode=uid)
+                        pending.append(uid);unknown.append(uid)
+                    continue
                 value.update(status="INTENT_ONLY",episode=uid)
                 paths={f.name:dict(sha256=sha(f),bytes=f.stat().st_size) for f in sorted(folder.iterdir()) if f.is_file()}
                 identities[uid]=dict(panel_key=key,descriptor=name,files=paths)
@@ -214,7 +258,9 @@ def export(source,stage,exit_code):
                 if end.get("status")=="ERROR":technical.append(dict(episode=uid,key=key,descriptor=name,terminal=end))
                 physical_receipts.append(dict(key=key,descriptor=name,episode=uid,terminal=end,ledger=calls))
                 if "raw.json" not in paths:
-                    value["status"]=end.get("status","UNRESOLVED");continue
+                    value["status"]="MISSING_RAW_AFTER_RETURN" if end.get("status")=="COMPLETE" else end.get("status","UNRESOLVED")
+                    if end.get("status")=="COMPLETE":checks.append("Missing archived raw "+uid)
+                    continue
                 raw=read(folder/"raw.json")
                 if end.get("raw")!=digest(raw):checks.append("Raw-to-terminal "+uid)
                 if not (raw["origin"]==uid and raw["purpose"]==identity["purpose"] and raw["descriptor"]==name
@@ -269,9 +315,14 @@ def export(source,stage,exit_code):
         if any(counted[k]>v for k,v in limits.items()):checks.append("Call caps")
         if any(len(terminal["paid"][g])!=3 or terminal["paid"][g]!=[t["descriptor"] for t in tickets if t["group"]==g]
                for g in ("U0","SEARCH")):checks.append("Terminal payment scope")
-    compared=comparisons(terminal,panels,checks) if normal else {}
+        if any("z" not in v or v["status"]!="COMPLETE" or not v["complete"]
+               for r in records.values() for v in r["paid_candidates"].values()):checks.append("Missing complete row")
+    actual_dirs={x.name for x in (root/"episodes").iterdir() if x.is_dir()} if (root/"episodes").is_dir() else set()
+    orphan=sorted(actual_dirs-identities.keys())
+    if orphan:checks.append("Unbound physical directories")
+    compared=comparisons(terminal,panels,checks) if normal and not checks else {}
     frontier_evidence={}
-    if normal:
+    if normal and not checks:
         for t in tickets:
             report=t["report"]; front=report["selection"]["frontier"]; promotions=report["selection"]["flags"]
             k=t["group"]+"."+str(t["ticket"]); masks={i:r["in_mask"] for i,r in records.items()}
@@ -286,18 +337,20 @@ def export(source,stage,exit_code):
                     if why["dominates"]:detail[n][a]=why["strict_rows"]
                 if not detail[n]:checks.append("Missing recorded frontier domination: "+k+"/"+n)
             frontier_evidence[k]=detail
+    verified=normal and not checks
+    if not verified:
+        compared={};frontier_evidence={}
+        for r in records.values():r.pop("locked_differences",None)
     for panel,rows in panels.items():
         save(dest/(panel+"-rows.json"),dict(panel=panel,order=[r["key"] for r in rows],descriptor_order=purchased,
                                             source="Original research raw and charge-bound cached rows",rows=rows))
-    forecast_rows=forecast(terminal,records) if normal else {"status":"NOT_EVALUABLE_AFTER_STOP","paid_prefix":[t["descriptor"] for t in tickets]}
-    actual_dirs={x.name for x in (root/"episodes").iterdir() if x.is_dir()} if (root/"episodes").is_dir() else set()
-    orphan=sorted(actual_dirs-identities.keys())
-    if orphan:checks.append("Unbound physical directories")
-    bundle=dict(entry_status=terminal.get("status","NO_COMPLETE_TERMINAL"),entry_exit=exit_code,job=__import__("os").environ["SLURM_JOB_ID"],
+    forecast_rows=forecast(terminal,records) if verified else {"status":"NOT_EVALUABLE_AFTER_STOP","paid_prefix":[t["descriptor"] for t in tickets]}
+    bundle=dict(entry_status=terminal.get("status","NO_COMPLETE_TERMINAL"),entry_exit=exit_code,job=os.environ["SLURM_JOB_ID"],
                 manifest_sha256=MANIFEST_SHA,approval_sha256=APPROVAL_SHA,execution_revision=RUN_SOURCE,
                 preflight_status=preflight.get("status"),preflight_sha256=sha(stage/"preflight.json") if preflight else None,
                 original_masks=preflight.get("masks",{}),paid=terminal.get("paid",{g:[x["descriptor"] for x in tickets if x["group"]==g] for g in ("U0","SEARCH")}),
-                locks=terminal.get("locks",{}) if normal else {},queried=purchased,not_queried=[n for n in m["candidates"] if n not in purchased],
+                locks=terminal.get("locks",{}) if verified else {},valid_final_comparison=verified,
+                queried=purchased,not_queried=[n for n in m["candidates"] if n not in purchased],
                 feedback_order=BITS,counts=dict(charged_tickets=len(tickets),charged_logical_rows=54*len(tickets),
                 released_tickets=sum(t["unlocked"] for t in tickets),released_logical_rows=sum(54 for t in tickets if t["unlocked"]),
                 physical_intents=sum(len(t["started"]) for t in tickets),physical_directories=len(actual_dirs),
@@ -319,4 +372,24 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("source",type=Path);parser.add_argument("stage",type=Path);parser.add_argument("exit_code",type=int)
     a=parser.parse_args()
-    raise SystemExit(0 if export(a.source.resolve(),a.stage.resolve(),a.exit_code) else 2)
+    try:
+        ok=export(a.source.resolve(),a.stage.resolve(),a.exit_code)
+    except Exception:
+        failure=dict(status="EXPORT_STOP",job=os.environ["SLURM_JOB_ID"],entry_exit=a.exit_code,
+                     error=traceback.format_exc(),final_comparison_released=False,retries=0)
+        # Only use a ledger belonging to this grant and allocation. Never trigger another entry call.
+        try:
+            loc=a.source/MANIFEST
+            if sha(loc)==MANIFEST_SHA and (a.stage/"job-start/entry-started").is_file():
+                root=Path(read(loc)["output_root"])
+                if read(root/"launch-intent.json")=={"manifest":MANIFEST_SHA,"approval":APPROVAL_SHA,"job":failure["job"]}:
+                    events,torn=lines(root/"queries/ledger.jsonl")
+                    failure.update(ticket_intents=[e for e in events if e["event"]=="ticket"],
+                                   known_returns=[e for e in events if e["event"]=="returned"],
+                                   physical_intents=[e for e in events if e["event"]=="physical_intent"],
+                                   trace_truncated=torn,recorded_stops=[e for e in events if e["event"] in ("batch_stop","query_stopped")])
+        except Exception as exc:
+            failure["evidence_gap"]=repr(exc)
+        save(a.stage/"export-stop.json",failure)
+        raise
+    raise SystemExit(0 if ok else 2)

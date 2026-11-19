@@ -21,7 +21,6 @@ hostname > "$stage/job-start/host"
 scontrol show job -o "$SLURM_JOB_ID" > "$stage/job-start/allocation"
 export PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 unset PYTHONPATH
-printf '%s  %s\n' '45b29f25522908e1aa14ffa2077a355f8c0d70bdaecfdfa3d680938bbd445e5b' "$manifest" '9bf3c28e0a398e4b276b49df1ceafc46a669ea743c8a604196a508e6958912c9' "$grant" | sha256sum -c -
 entry_exit=0
 "$interpreter" -B -s "$delivery/preflight.py" "$source_dir" "$stage" || entry_exit=$?
 if test "$entry_exit" -eq 0; then

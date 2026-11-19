@@ -27,7 +27,6 @@ def closure(run, policy):
 
 
 def check(source,stage):
-    m=read(source/MANIFEST); grant=read(source/APPROVAL)
     result=dict(status="PREFLIGHT_STARTED",job=os.environ["SLURM_JOB_ID"],source_files={},originals={},
                 original_rows={},masks={},tickets_at_preflight=0,model_calls=0,scorer_calls=0)
     try:
@@ -37,7 +36,11 @@ def check(source,stage):
                 and "TimeLimit=00:15:00" in allocation
                 and any(x in allocation for x in ("MinMemoryNode=2G","MinMemoryNode=2048M")),
                 "Allocation differs from one serial 1 CPU / 2 GiB / 900 s job")
+        tres=[x.split("=",1)[1] for x in allocation if x.startswith(("TRES=","AllocTRES=","ReqTRES="))]
+        require(tres and all(int(f.rsplit("=",1)[-1])==0 for v in tres for f in v.split(",")
+                             if "gpu" in f.lower()),"Nonzero GPU allocation or missing TRES")
         require(sha(source/MANIFEST)==MANIFEST_SHA and sha(source/APPROVAL)==APPROVAL_SHA,"Original manifest or grant bytes differ")
+        m=read(source/MANIFEST); grant=read(source/APPROVAL)
         require(grant["authority"]=="EXPLICIT_USER_ONE_STUDY" and grant["manifest_sha256"]==MANIFEST_SHA
                 and grant["execution_revision"]==m["execution_revision"]==RUN_SOURCE
                 and grant["qualification_sha256"]==m["qualification_sha256"]
@@ -87,6 +90,9 @@ def check(source,stage):
                             and a["complete"] and set(a["violations"])<=RESOURCE_V,"Invalid saved score: "+label+"."+key+"."+arm)
                     a["closure_evidence"]=closure(run,policy)
                     a["closed"]=a["closure_evidence"]["kind"]!="OPEN"
+                    if run["stop"]["reason"]=="NO_ACTION_CURRENT_SCOPE" or a["stage"]=="VERIFIED":
+                        require(a["closed"] and (a["stage"]!="VERIFIED" or a["closure_evidence"]["kind"]=="BOUND_PASS"),
+                                "Original close lacks matching PRE evidence: "+label+"."+key+"/"+arm+"; raw "+actual_hash)
                     arms[arm]=a
                 in_mask=all(not a["violations"] for a in arms.values())
                 require(in_mask==row.get("valid_comparison",row.get("eligible")),"Reference mask mismatch")

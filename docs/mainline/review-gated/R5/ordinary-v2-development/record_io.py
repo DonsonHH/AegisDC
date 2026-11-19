@@ -58,9 +58,11 @@ def evidence_summary(run):
                 work_by_action=score["work_by_action"],work_by_stage=score["work_by_stage"],
                 requests=[dict(time=x["time"],action=x["payload"]["action"],mode=x["payload"].get("mode"),
                                reply=x["reply"]["status"],request_id=x["payload"]["request_id"],
-                               execution_id=x["payload"].get("execution_id"),target_epoch=x["payload"].get("target_config_epoch"))
+                               execution_id=x["payload"].get("execution_id"),target_epoch=x["payload"].get("target_config_epoch"),
+                               evidence_ids=x["payload"].get("evidence_ids",[]))
                           for x in record["requests"]],
                 commit_result=final["commit_result"],verification_result=final["verification_result"],
+                approval_receipts=[x for x in final["receipts"] if x["record_kind"]=="APPROVAL_RECEIPT"],
                 execution_receipts=[x for x in final["receipts"] if x["record_kind"]=="EXECUTION_RECEIPT"],
                 verify_records=[x for x in final["observations"] if x.get("action")=="VERIFY_CTRL"],
                 recoveries=score["recoveries"],final_device=final["device"],final_backup=final["g_state"])
