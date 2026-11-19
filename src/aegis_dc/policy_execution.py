@@ -2,6 +2,7 @@
 from copy import deepcopy
 import math
 from time import perf_counter_ns
+from .intake_value import ACTION_SCHEMAS, SCHEMA as INTAKE_SCHEMA
 from .decision_view import DecisionGateway
 from .dispatch_policy import choose_work
 from .evidence_ledger import EvidenceLedger,RECORD_FIELDS,_fields,_plain_json,_require,_text,_finite
@@ -26,8 +27,11 @@ class PolicySession:
                  'Policy decision instants must be strictly increasing within the facility horizon')
         self.nominal=program['nominal_knowledge'];self.ledger=deepcopy(program['evidence_ledger'])
         self.inspection_program=program['inspection_program'];self.intervention_program=program['intervention_program']
-        self.problem_driven=program['policy_program']['schema'] in {'aegisdc-problem-driven-policy-v1','aegisdc-problem-driven-policy-v2'}
-        self.problem_actions=program['policy_program']['schema']=='aegisdc-problem-driven-policy-v2'
+        self.problem_driven=program['policy_program']['schema'] in ({'aegisdc-problem-driven-policy-v1'} | ACTION_SCHEMAS)
+        self.problem_actions=program['policy_program']['schema'] in ACTION_SCHEMAS
+        if program['policy_program']['schema'] == INTAKE_SCHEMA:
+            _require(program['policy_program']['value_model']['clock_s'] == program['decision_times_s'],
+                     'Intake planning clock must equal the actual public decision schedule')
         self.question_instances=[]
         self.diagnostic_profile=deepcopy(program['diagnostic_profile']) if diagnostics else None
         if program['policy_program']['schema']=='aegisdc-dispatch-policy-program-v4':

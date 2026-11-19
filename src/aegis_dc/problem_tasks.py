@@ -3,6 +3,7 @@ from copy import deepcopy
 from collections import deque
 
 from .evidence_ledger import _fields, _finite, _registry, _require, _strings, _text
+from .intake_value import ACTION_SCHEMAS, SCHEMA as INTAKE_SCHEMA, validate_model
 from .workforce_dispatch import TASK_FIELDS, prepare_work, validate_profile
 
 PROGRAM_FIELDS = {'schema', 'id', 'basis', 'time_unit', 'policy', 'workforce_profile', 'templates'}
@@ -11,14 +12,17 @@ INSTANCE_FIELDS = {'id', 'template_id', 'slot', 'origin_id', 'trigger_record_id'
 
 
 def _templates(frame, program):
-    version2 = program['schema'] == 'aegisdc-problem-driven-policy-v2'
+    intake = program['schema'] == INTAKE_SCHEMA
+    version2 = program['schema'] in ACTION_SCHEMAS
     _fields(program, PROGRAM_FIELDS | ({'resource_budget', 'inspection_declaration', 'intervention_declaration'}
-                                     if version2 else set()), 'Problem-driven policy program')
+                                     if version2 else set()) | ({'value_model'} if intake else set()), 'Problem-driven policy program')
     _require(program['basis'] == 'synthetic_assumption' and program['time_unit'] == 's',
              'Declare synthetic problem tasks in SI seconds')
     _text(program['id'], 'Problem policy id')
     _text(program['policy'], 'Problem policy')
-    policies=('fifo','no_human')+(('defer_once',) if version2 else ())
+    policies = ('intake_value',) if intake else ('fifo','no_human')+(('defer_once',) if version2 else ())
+    if intake:
+        validate_model(program)
     _require(program['policy'] in policies, 'Declare the transparent investigation reference')
     knowledge = frame['nominal_knowledge']
     validate_profile(program['workforce_profile'], knowledge)
@@ -129,7 +133,7 @@ def open_questions(frame, program, history):
     """Retain public opening identities independently of task-stage selection."""
     templates = _templates(frame, program)
     _fields(history, {'issued', 'work_feedback', 'question_instances'} |
-            ({'intervention_feedback'} if program['schema'] == 'aegisdc-problem-driven-policy-v2' else set()),
+            ({'intervention_feedback'} if program['schema'] in ACTION_SCHEMAS else set()),
             'Problem policy history')
     _require(type(history['question_instances']) is list, 'Declare public question-instance history')
     records = {r['id']: r for r in frame['evidence']['records']}

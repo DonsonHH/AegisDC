@@ -10,6 +10,7 @@ PROGRAM_INPUTS = {
     'work_program': 'Versioned current-frame crew submissions; private evaluator input',
     'inspection_program': 'Actual work-bound inspection profile and private observation realization',
     'intervention_program': 'Named authorized completion-gated research actions; private evaluator input',
+    'business_program': 'Private same-run facility business evaluation',
     'dispatch_program': 'Declared same-facility evidence-only policy and private observation inputs; engineering only',
 }
 

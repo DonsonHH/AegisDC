@@ -1,6 +1,7 @@
 """Private business endpoints from actual work and public sampled assessments."""
 from copy import deepcopy
 
+from .intake_value import ACTION_SCHEMAS
 from .evidence_ledger import _fields, _finite, _plain_json, _registry, _require, _text
 
 PROGRAM_FIELDS = {'schema', 'id', 'facility_id', 'basis', 'time_unit', 'source_note', 'episodes'}
@@ -54,7 +55,7 @@ def validate_business_program(program, facility_id, duration_s, dispatch_program
         allowed_closure = ('aegisdc-instance-closure-program-v1', 'aegisdc-instance-closure-program-v2') if management else (
             'aegisdc-instance-closure-program-v1',)
         _require(closure.get('schema') in allowed_closure
-                 and dispatch_program.get('policy_program', {}).get('schema') == 'aegisdc-problem-driven-policy-v2',
+                 and dispatch_program.get('policy_program', {}).get('schema') in ACTION_SCHEMAS,
                  'Instance endpoints require the matching public instance closure workflow')
         if management:
             _require(dispatch_program.get('schema') == 'aegisdc-policy-run-program-v5',

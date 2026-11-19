@@ -6,6 +6,7 @@ from .evidence_ledger import _fields, _finite, _require, _text
 from .inspection_execution import PROFILE_FIELDS, BINDING_FIELDS
 from .intervention_execution import BIND_FIELDS, prepare_intervention, _authorization
 from .nonfixed_evidence import validate_nonfixed_profile, _arrival
+from .intake_value import SCHEMA as INTAKE_SCHEMA, choose_intake
 from .problem_tasks import declared_problem_tasks, open_questions
 from .verified_closure import FEEDBACK_FIELDS
 
@@ -193,6 +194,8 @@ def compile_problem_actions(frame, program, history, *, closure_program=None):
                                    available_at_s=at, question_id=instance['id'], source_note=template['source_note'],
                                    issue_cost=template['issue_costs'][stage]))
     selector_policy=program['policy']
+    if selector_policy == 'intake_value':
+        selector_policy = 'no_human'
     if selector_policy=='defer_once':
         selector_policy='no_human' if not history['question_instances'] else 'fifo'
     compiled = dict(schema='aegisdc-dispatch-policy-program-v3', id=program['id'] + '-compiled',
@@ -209,9 +212,12 @@ def choose_problem_action(frame, program, history, *, closure_program=None):
     from .dispatch_policy import choose_work
     prepared = compile_problem_actions(frame, program, history, closure_program=closure_program)
     selector_policy=prepared['program']['policy']
-    choice = choose_work(frame, prepared.pop('program'), prepared.pop('history'))
+    compiled = prepared.pop('program')
+    choice = choose_work(frame, compiled, prepared.pop('history'))
     choice.update(**prepared, task_generation_scope='PUBLIC_INSTANCE_STAGES_WITH_OWN_ACTION_RECHECK_VERIFICATION'
                   if closure_program is not None else 'PUBLIC_INSTANCE_STAGES_ACTUAL_EXECUTOR_AND_LATER_CLOSURE_GATES_REMAIN')
+    if program['schema'] == INTAKE_SCHEMA:
+        return choose_intake(frame,program,history,compiled,choice)
     if program['policy']=='defer_once':
         choice.update(policy=program['policy'],stage_selector_policy=selector_policy)
     return choice
