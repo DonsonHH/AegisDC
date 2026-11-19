@@ -1,6 +1,6 @@
 # 研究主线：从事故机制到可验证的方法与 RSI 增量
 
-当前更新（2026-11-19）。[普通 v2 开发包限定验收](R5/ordinary-v2-development/acceptance-20261119.json)已登记。当前交审[R6 结果与更新矩阵](R6/london-pre-manuscript-v1.2/README.md)及[一个后继任务](R5/successor-compound-proposal.md)。这项书面 NO-GO 限于所列覆盖与逐行偏好，全部运行门继续关闭。
+当前更新（2026-11-19）。bdb896de 的有限验收登记、R6 v1.2 正文与矩阵、原后继设计的有限 NO-GO 已接受。新稿说明班次资源容限的必要下限，以及在对称截止、原合法关闭与同预算强对照下仍须暂停的原因。当前只交审文档。[限定验收](R6/london-pre-manuscript-v1.2/acceptance-20261119.json) · [服务优先候选](R5/service-priority-bounded-candidate/README.md) · [R6 §8.3](R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)
 
 ## 1. 要回答的问题
 
@@ -103,8 +103,8 @@ flowchart TD
 | R2 模型资格 | 明确授权范围的原因链、未干预轨迹、解析／守恒／故障注入及公开负例 | 能区分本关授权机制及相应正常／负例；评价与方法隔离；独立核验通过并经用户接受。荷兰迁移与 RESP 依各自另行授权范围推进 | 旧R2 v2有限范围已验收；E1–E4声明有限范围已接受；C4/C7有限修复已接受；runner声明有限工程资格已接受，完整Q11／R2未接受 |
 | R3 固定方法与实验协议 | I/D/P规则、动作契约、完整条件、主要结果及预算、开发／确认隔离 | 无事后真值泄漏，比较公平，适用标准及不适用主张边界冻结；确认执行门另审；用户接受 | 方向为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
 | R4 方法与反事实效果 | 冻结 I/D/P 的有限条件比较 | 保留全分母、真实阶段、失败与右删失 | 本次 35 行有限结果已接受，研究授权已消费 |
-| R5 自改进与 RSI 增量 | [普通 v2 有限验收](R5/ordinary-v2-development/acceptance-20261119.json)与[后继书面判定](R5/successor-compound-proposal.md) | 保留真实付费选择的结论边界，单独审查改进器增量的可辨识性 | 普通 v2 本包已接受。后继不执行，完整 R5 未完成。 |
-| R6 论文论证 | [v1.2 结果节与主张矩阵](R6/london-pre-manuscript-v1.2/README.md) | 已见开发结果、静态推论与待检验命题分别定位 | 新增内容待文稿 review，保留 v1.1 已接受的限定修订。 |
+| R5 自改进与 RSI 增量 | [普通 v2 有限验收](R5/ordinary-v2-development/acceptance-20261119.json)及[服务优先候选](R5/service-priority-bounded-candidate/README.md) | 核对两种资源的工时门槛、合法关闭与真实终局分歧 | 旧设计的有限否决已接受，本候选为静态 NO-GO，待审。 |
+| R6 论文论证 | [v1.2 正文与矩阵](R6/london-pre-manuscript-v1.2/README.md)及[§8.3 修订](R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md) | 区分结构上限与真实付费比较所得的结果 | v1.2 内容已接受，v1.2.1 补记待审。 |
 
 R4 的两个有限面板各保留自己的分母和验收身份。R5 v1 的合法信息边界、目录、接口设计、票账公平性和终局 RSI 不可识别分析作为书面结论保留，没有冻结为执行协议。216 个开发回合与最多 105 个评估回合均未启动，21 个最终输入未生成。原独立确认义务未成立、未豁免。
 
