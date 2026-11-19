@@ -2,10 +2,10 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-19",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "WORK_IMPACT_SOURCE_ASSESSMENT_DELIVERED_PAUSE_PENDING_REVIEW",
+  "status": "R6_STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_DELIVERED_AWAITING_REVIEW",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R6-WORK-IMPACT-SOURCE-AND-DECISION-RELEVANCE",
-  "current_milestone": "WORK_IMPACT_SOURCE_ASSESSMENT_DELIVERED_PAUSE_PENDING_REVIEW",
+  "current_ticket": "R6-STAGE-MANUSCRIPT-V13-AND-ADVISOR-DECISION",
+  "current_milestone": "R6_STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_DELIVERED_AWAITING_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
   "agent_stage": "DOCUMENTS_ONLY",
@@ -39,15 +39,15 @@
     "automatic_goal": "PAUSED",
     "research_execution": "CLOSED_CONSUMED_ONE_STUDY",
     "authorized_scope": [
-      "One written work-impact source and decision-relevance assessment, delivered for review."
+      "Stage manuscript and advisor decision material from existing evidence. Document exports and file identity verification only."
     ],
-    "after_delivery": "STOP_FOR_SOURCE_ASSESSMENT_REVIEW",
+    "after_delivery": "STOP_FOR_STAGE_MANUSCRIPT_AND_ADVISOR_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "WORK_IMPACT_SOURCE_ASSESSMENT_DELIVERED_STOPPED",
+    "document_authorization_status": "R6_STAGE_MANUSCRIPT_DOCX_PDF_DELIVERED_STOPPED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -186,29 +186,34 @@
     {
       "id": "R6",
       "name": "paper_claims_and_evidence",
-      "status": "V1_2_2_WORDING_AND_BOUNDED_CLOSURE_ACCEPTED_SOURCE_ASSESSMENT_AWAITING_REVIEW",
+      "status": "STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_AWAITING_REVIEW",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
-      "scope": "R6 v1.2.2 query-timing revision and the 2818b2aa closure memo are accepted within their declared bounds. One action-specific source assessment awaits document review.",
-      "matrix": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/claim-evidence-matrix.md",
+      "scope": "A document-only working edition with the accepted v1.2.2 base and the finite source stop. Its Word/PDF copies include the full rows and claim matrix. The new edition awaits review.",
+      "matrix": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/claim-evidence-matrix.md",
       "paper_outline": "docs/mainline/review-gated/R6/london-pre-synthesis-v1/paper-outline.md",
-      "user_acceptance": true,
-      "manuscript": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript.md",
-      "delivery": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/README.md",
+      "user_acceptance": false,
+      "manuscript": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
+      "delivery": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
       "limited_revision_accepted": true,
-      "user_acceptance_scope": "Prior bounded v1.2 content/matrix and v1.2.1 revision, plus 2818b2aa limited closure and the v1.2.2 query-timing revision.",
+      "user_acceptance_scope": "Prior v1.2/v1.2.1/v1.2.2 decisions and the bounded fd7a41ed source assessment only. No v1.3 or final-paper acceptance recorded.",
       "final_manuscript_user_acceptance": false,
-      "new_content_user_accepted": true,
+      "new_content_user_accepted": false,
       "previous_limited_revision_accepted": true,
-      "acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json",
+      "acceptance": null,
       "section_8_3_revision": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md",
       "section_8_3_revision_accepted": true,
       "section_8_3_acceptance": "docs/mainline/review-gated/R6/london-pre-closure-decision/acceptance.json",
-      "current_wording_revision": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.2.md",
-      "current_wording_user_accepted": true,
+      "current_wording_revision": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
+      "current_wording_user_accepted": false,
       "closure_package": "docs/mainline/review-gated/R6/london-pre-closure-decision/README.md",
-      "current_wording_acceptance": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
-      "source_assessment": "docs/mainline/review-gated/R6/work-impact-source-decision.md"
+      "current_wording_acceptance": null,
+      "source_assessment": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
+      "prior_manuscript_acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json",
+      "prior_wording_acceptance": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
+      "last_accepted_wording": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.2.md",
+      "last_accepted_wording_user_accepted": true,
+      "stage_version": "v1.3"
     }
   ],
   "active_implementations": [],
@@ -523,6 +528,14 @@
       "limited_scope": "Accurate finite ordinary v2 summary, conditional catalogue NO-GO, initial DIRECT / fallback to I necessary conditions and counterexamples only.",
       "v1_2_2_wording_accepted": true,
       "new_protocol_or_execution_approved": false
+    },
+    {
+      "id": "20261119-fd7a41ed-limited-source-assessment-accepted",
+      "accepted_publication": "fd7a41ed88ecd29912b7034ab3f9615e823835c5",
+      "accepted_material": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
+      "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
+      "scope": "Source judgement limited to the six public materials and the absence of a paid information-value witness in the existing matched comparisons. No all-policy, universal information-value or RSI conclusion.",
+      "research_execution_authorized": false
     }
   ],
   "legacy": {
@@ -1378,7 +1391,7 @@
   },
   "work_impact_source_assessment": {
     "deliverable": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
-    "submission_status": "AWAITING_USER_DOCUMENT_REVIEW",
+    "submission_status": "USER_ACCEPTED_LIMITED_ASSESSMENT_BRANCH_CLOSED",
     "disposition": "PAUSE_INSUFFICIENT_SOURCE_OR_DECISION_RELEVANCE",
     "basis": "Other-facility plans and software change records exist. First-choice delivery, authority, continuing applicability and cost for this London change are unestablished. The reported matched synthetic rows do not show a change in the preferred I/D choice within either pair.",
     "new_synthetic_definition_adopted": false,
@@ -1407,6 +1420,144 @@
       "bytes": 15921,
       "sha256": "bca7831fa23eeed891b48fc7f59f4dac4284f2f71b2c986e1cae012867c5e9b3",
       "scope": "Single written assessment with six primary-source entries and existing arm records only."
-    }
+    },
+    "prior_submission_status_at_fd7a41ed": "AWAITING_USER_DOCUMENT_REVIEW",
+    "accepted_publication": "fd7a41ed88ecd29912b7034ab3f9615e823835c5",
+    "acceptance_scope": "Source judgement limited to the six public materials and the absence of a paid information-value witness in the existing matched comparisons. No all-policy, universal information-value or RSI conclusion.",
+    "information_branch_closed": true,
+    "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md"
+  },
+  "r6_stage_manuscript_v1_3": {
+    "deliverable": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
+    "status": "DELIVERED_AWAITING_USER_DOCUMENT_REVIEW",
+    "sources_at": "e23dcb3bc3bbed9fda5cd1f351002eca1ebcb0e8",
+    "prior_manuscript": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.2.md",
+    "prior_source_assessment": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
+    "prior_scope_accepted": true,
+    "closed_information_branch": true,
+    "advisor_decisions": [
+      "Positioning of the finite findings in the paper",
+      "One concrete future facility decision and the evidence legally available when it must be made"
+    ],
+    "editable_and_readable": {
+      "paper": {
+        "docx": "manuscript.docx",
+        "pdf": "manuscript.pdf",
+        "pages": 20
+      },
+      "advisor": {
+        "docx": "advisor-brief.docx",
+        "pdf": "advisor-brief.pdf",
+        "pages": 1
+      }
+    },
+    "document_identities": {
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md": {
+        "bytes": 3119,
+        "sha256": "a7122213d3e9be6fb3a758c22aac0fe68d3cb08d49b3a94bafdd7c894063b03e",
+        "git_blob": "79086013aeffff301f6772d98728fe55d894c316"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md": {
+        "bytes": 54492,
+        "sha256": "986e1dab95647b216aa215910e5951d98cdc3145ce74fe9537b5b3e952daec93",
+        "git_blob": "58b00f7d18a035c8b7a1f3f84907176c7fd972da"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/appendix.md": {
+        "bytes": 8286,
+        "sha256": "5271b079307462c3d6e2c4b58e2e717d3c8e9e198da7193134f8d856ec2bc7aa",
+        "git_blob": "e5916b5c46f8c26cb45eb62173c71d69fdfb497b"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/claim-evidence-matrix.md": {
+        "bytes": 10371,
+        "sha256": "9561406e6f7fe9c1d27e6ab9391c5e058ee30655f1225837e1e66a66006bdae1",
+        "git_blob": "53a4e84ec7ca7cb4d03e86af7f4a5d4ecdae7371"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.docx": {
+        "bytes": 672796,
+        "sha256": "3b49cbbe4bb9ab9ea1e2b35904b15f32e3f2f9c1df63c12f67ad8ebaa82c56dc",
+        "git_blob": "39de3fb927e56f31e2c3a4337b324b7826c927fb"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf": {
+        "bytes": 1250365,
+        "sha256": "7a6d424e3fd5c86267111c1458ae6fa59b1dfe8f4cfc06c2b68604800b09cf34",
+        "git_blob": "2ca67e9cd4f23d62c7a2ad6c77767e39613ec14f"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.md": {
+        "bytes": 2324,
+        "sha256": "7a0723afc6225137833f29caea5fee2edc931c26154166c55f264a5fafc00c55",
+        "git_blob": "40f8c17ad8cbcce5d38f8dc50cb8d58365a34a8c"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.docx": {
+        "bytes": 40652,
+        "sha256": "a38d9b3f2ac45d7a82016cf0299c8e16210d447ab7a0115b0b37f438be994f63",
+        "git_blob": "61804e4f9cb5abf17c0607142efe8d119bb1bfa1"
+      },
+      "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.pdf": {
+        "bytes": 193361,
+        "sha256": "92303867075fd1111a81046e58cb8e3ca900c1ce7df2f66159a2866c14429c20",
+        "git_blob": "7620c2d23b98fada67a3ea3622afb307e3bf3b06"
+      }
+    },
+    "export_toolchain": {
+      "node": "24.22.3",
+      "marked": "17.0.5",
+      "python": "3.12.14",
+      "python_docx": "1.2.0",
+      "lxml": "6.1.1",
+      "word_file_version": "16.0.20625.20108",
+      "pdf_producer": "Microsoft Word for Microsoft 365",
+      "pdf_inspection": {
+        "pypdf": "6.21.4",
+        "pypdfium2": "5.13.0",
+        "pdfium": "153.0.7999.0"
+      }
+    },
+    "document_checks": {
+      "native_tables": 14,
+      "archived_figures": 4,
+      "native_equations": 2,
+      "previous_figures_byte_identical_in_word": true,
+      "all_fixed_comparison_table_rows_match_v1_2_2": true,
+      "full_archived_rows_checked": 54,
+      "panel_rows_reported_separately": [
+        19,
+        35
+      ],
+      "eligible_rows": [
+        18,
+        34
+      ],
+      "noncompliant_original_rows": [
+        "dev19.C09b",
+        "ext35.B03"
+      ],
+      "evidence_matrix_ids": 34,
+      "word_markdown_blocks_match": true,
+      "pdf_text_and_cells_match_after_layout_whitespace_normalization": true,
+      "external_word_pdf_link_sets_match": true,
+      "paper_external_distinct": 74,
+      "paper_internal_link_occurrences": 16,
+      "brief_external_distinct": 3,
+      "pages_visually_inspected": 21
+    },
+    "new_final_evaluation_inputs": 0,
+    "new_research_protocol": false,
+    "new_scenario_selected": false,
+    "new_runtime_implementation": false,
+    "new_model_or_policy_calls": 0,
+    "project_tests_and_qualification_runs": 0,
+    "research_runs": 0,
+    "historical_budget_unspent": {
+      "logical": 972,
+      "physical": 642
+    },
+    "resource_allowances_adopted": false,
+    "independent_custody_established": false,
+    "independent_confirmation_established": false,
+    "independent_confirmation_waived": false,
+    "full_R5_complete": false,
+    "project_complete": false,
+    "RSI_increment_established": false,
+    "stop": "STOP_AFTER_STAGE_DOCUMENT_DELIVERY"
   }
 }

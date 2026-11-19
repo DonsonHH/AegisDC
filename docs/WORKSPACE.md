@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审的是[作业影响说明的集中判定与来源证据表](mainline/review-gated/R6/work-impact-source-decision.md)。[2818b2aa 阶段收束](mainline/review-gated/R6/london-pre-closure-decision/README.md)和 R6 v1.2.2 查询时序文字已获限定接受。
+当前交审的是[R6 v1.3 阶段工作稿与一页导师摘要](mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md)。Word 和 PDF 的完整论文均含逐行结果、主张—证据矩阵。[fd7a41ed 来源核查](mainline/review-gated/R6/work-impact-source-decision.md)已获限定接受，该信息支线结束。
 
 ## 从哪里进入
 
