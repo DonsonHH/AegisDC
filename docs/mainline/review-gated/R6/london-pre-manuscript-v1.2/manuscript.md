@@ -242,7 +242,7 @@ dev19 的 19 行和 ext35 的 35 行全部参与防退化判定。两个固定�
 
 K02 中，C早止 在第 7 秒依据已到的 POS 与 CONFIG 支持和公开余量申请 DIRECT，第 11 秒提交，第 12 秒收到执行回执。第 13 秒故障截断时原安全退出完成，未发 VERIFY 请求。相对 I，L 从 4 秒降至 0 秒，U 从 4 降至 0，两种工时各从 8 秒降至 7 秒。两策略在该行都未合法关闭。D 在同一行原已维持零缺额，并于第 11 秒完成绑定复核。因而 K02 的四秒服务改善成立于对 I 和人工候选的比较。与 D 的服务差为零。[K02 请求、执行回执与复核记录](https://github.com/DonsonHH/AegisDC/blob/75f05a477bb16965d882b1c7470d474264a086df/docs/mainline/review-gated/R5/ordinary-v2-development/records/ext35-rows.json)
 
-D01 检验的是另一项义务。该行直接申请权限为 DENY，C早止 在第 4、6、8 秒依次收到本组的 POS、CONFIG、VOLT 记录，随后用三项当前支持提交 EVIDENCE 申请。修订在第 12 秒实际提交。第 14 秒请求 VERIFY，第 16 秒收到与本组 `ex-1`、目标版本 1 绑定的 PASS。I 和 C早止 均为零缺额、人员与工具各用 9 秒且合法关闭。D 因直接许可不足而没有发请求，服务也为零，目标仍开。这一行说明 v2 如何保留原 I 的关闭能力。[D01 逐臂证据](https://github.com/DonsonHH/AegisDC/blob/75f05a477bb16965d882b1c7470d474264a086df/docs/mainline/review-gated/R5/ordinary-v2-development/records/ext35-rows.json)
+D01 检验的是另一项义务。该行直接申请权限为 DENY，C早止 在第 4、6、8 秒依次收到本组的 POS、CONFIG、VOLT 记录，随后用三项当前支持提交 EVIDENCE 申请。修订在第 12 秒实际提交。第 14 秒请求 VERIFY，第 16 秒收到与本组 `ex-1`、目标版本 1 绑定的 PASS。I 和 C早止 均为零缺额、人员与工具各用 9 秒且合法关闭。D 因直接许可不足而没有发请求，服务缺额也为零，目标仍未关闭。这一行说明 v2 如何保留原 I 的关闭能力。[D01 逐臂证据](https://github.com/DonsonHH/AegisDC/blob/75f05a477bb16965d882b1c7470d474264a086df/docs/mainline/review-gated/R5/ordinary-v2-development/records/ext35-rows.json)
 
 ### 7.3　八个省工条件与适用域
 
