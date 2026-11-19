@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审的是[服务优先、资源有界的候选协议](mainline/review-gated/R5/service-priority-bounded-candidate/README.md)和[R6 §8.3 补记](mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)。[限定验收记录](mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json)列出已接受的普通 v2 登记、v1.2 正文与矩阵、原后继设计及原件身份。
+当前交审的是[伦敦 PRE 阶段收束与下一项研究决定](mainline/review-gated/R6/london-pre-closure-decision/README.md)。同页链接[限定验收](mainline/review-gated/R6/london-pre-closure-decision/acceptance.json)、候选末段范围修订与 R6 v1.2.2。原科研数据与未执行的历史提案按各自版本留存。
 
 ## 从哪里进入
 
