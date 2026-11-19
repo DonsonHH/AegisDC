@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审[普通 v2 开发研究结果](mainline/review-gated/R5/ordinary-v2-development/README.md)、[dev19](mainline/review-gated/R5/ordinary-v2-development/dev19.md)及[ext35](mainline/review-gated/R5/ordinary-v2-development/ext35.md)。作业 134624 已消耗唯一研究授权，停在结果 review。
+当前交审的是[R6 v1.2 文字稿、独立结果节和矩阵](mainline/review-gated/R6/london-pre-manuscript-v1.2/README.md)，以及[单一后继判定](mainline/review-gated/R5/successor-compound-proposal.md)。普通 v2 有限开发结果已接受，原作业和授权消费账保持原件。
 
 ## 从哪里进入
 
