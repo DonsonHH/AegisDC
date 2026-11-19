@@ -18,7 +18,7 @@ Work only the explicitly authorized gate; record its artifacts and checks before
 
 Before claiming, inspect the active-work hints in progress and confirm live agent/worktree state. A ticket's claimed status may still be only on its unmerged worktree; do not duplicate a live assigned implementation or restart it solely because an observation timed out.
 
-Use the existing Zhengzhou-inspired eight-domain synthetic facility as the main research object. Reuse capabilities within their tested boundaries. Keep the four graph semantics, private state boundary, fixed automatic protection, original negative results and outstanding qualifications intact. The incident plan governs its own validation chapter.
+Use the existing Zhengzhou-inspired eight-domain synthetic facility as the main research object. Reuse capabilities within their tested boundaries. Keep the four graph semantics, private state boundary, fixed automatic protection, original negative results and outstanding qualifications intact. The [R0-R6 incident plan](docs/mainline/review-gated/plan.md) governs its own validation chapter.
 
 Keep actual state private to the plant/evaluator. Dispatch receives only records available at decision time and declared static knowledge. Correlated/copied records need shared provenance. Existing local automatic protection remains part of the plant.
 
