@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "FULL_FACILITY_METHOD_RESTORED_IMPLEMENTATION_HANDOFF_DELIVERED",
+  "status": "V6_INTAKE_FINITE_ENGINEERING_IN_PROGRESS",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "METHOD_HANDOFF_COMPLETE_AWAITING_EXPLICIT_IMPLEMENTATION_SCOPE",
+  "current_milestone": "NATIVE_QUALIFICATION_AND_SAVED_RECONCILIATION",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "METHOD_HANDOFF_COMPLETE_AWAITING_EXPLICIT_IMPLEMENTATION_SCOPE",
+  "agent_stage": "V6_INTAKE_LIMITED_ENGINEERING",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,12 +36,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "PAUSED",
-    "research_execution": "CLOSED_FOR_THIS_DOCUMENT_PACKAGE",
+    "automatic_goal": "FINITE_ENGINEERING_ONLY",
+    "research_execution": "CLOSED",
     "authorized_scope": [
-      "One written primary method and implementation handoff, and correction of active navigation/state."
+      "Native V6 intake issue, compare, measure, authorize, recheck and same-run engineering qualification."
     ],
-    "after_delivery": "NEXT_STEP_IS_THE_RECOMMENDED_V6_SLICE_UNDER_SEPARATELY_SPECIFIED_IMPLEMENTATION_SCOPE",
+    "after_delivery": "STOP_FOR_FINITE_ENGINEERING_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": null
+    "current_execution_manifest": "docs/mainline/v6-intake-engineering-v1/manifest.json"
   },
   "gates": [
     {
@@ -217,7 +217,14 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "scope": "V6 single intake-flow instance policy and same-run engineering qualification",
+      "branch": "donson/mainline-39c-endpoints",
+      "source": "534fbfa9",
+      "remote_job": "134656"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1649,5 +1656,14 @@
       "repository_link_targets_checked": 107,
       "scope": "Written method and implementation handoff; text, file identity and source bindings only."
     }
+  },
+  "v6_intake_engineering": {
+    "status": "REPAIR_EXECUTION_IN_PROGRESS",
+    "accepted_written_handoff": "b5a2e9ad",
+    "freeze": "4539a48e",
+    "manifest": "docs/mainline/v6-intake-engineering-v1/manifest.json",
+    "expected": "docs/mainline/v6-intake-engineering-v1/expected.json",
+    "scope_exception": "docs/mainline/v6-intake-engineering-v1/review-findings.md",
+    "new_study_trials": 0
   }
 }
