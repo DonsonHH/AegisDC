@@ -30,6 +30,8 @@ def validate_model(program):
     _require(template['id'] == model['template_id'] and template['action_condition'] is None
              and template['trigger']['target_id'] == 'intake_pump'
              and template['trigger']['observable_id'] == 'problem_reported'
+             and template['trigger']['source_ids'] == ['cooling-service-desk']
+             and template['trigger']['equals'] is True
              and template['action_task']['target_id'] == 'filter', 'Intake producer or direct action differs')
     profile = program['inspection_declaration']
     models = {m['model']['id']: m for m in profile['nonfixed_profile']['models']}
@@ -158,6 +160,9 @@ def planned_chain(frame, program, instance, stages, now, local, audits, ledger):
         travel = number(model['local_travel_s'] if local or i else model['first_travel_s'])
         duration = travel + number(wf['access_check_s']) + number(wf['work_times_s'][interface_id])
         finish = at+duration
+        shifts = [wf['shifts'][crew['worker_id']] for crew in task['crew']]
+        if any(at < number(start) or finish > number(end) for start,end in shifts):
+            reasons.append('STAGE_OUTSIDE_SHIFT')
         workers, tools = len(task['crew']), len(interfaces[interface_id]['tool_ids'])
         for key, count in [('person_s',workers),('tool_s',tools)]:
             envelope[key] += max(Fraction(0),deadline-release)*count
@@ -171,11 +176,16 @@ def planned_chain(frame, program, instance, stages, now, local, audits, ledger):
             completion = finish
             binding = action_bindings[ident]
             op, grant = ops[binding['operation_id']], grants[binding['authorization_id']]
+            if number(wf['work_times_s'][interface_id]) < number(op['minimum_work_s']):
+                reasons.append('ACTION_WORK_TOO_SHORT')
             if not all(_authorization(op,grant,t) for t in (at,finish)):
                 reasons.append('ACTION_AUTHORITY')
             latency = intervention['profile']['feedback_latency_s']
         else:
-            latency = inspections[ident]['arrival_latency_s']
+            binding = inspections[ident]
+            if number(wf['work_times_s'][interface_id]) < number(binding['minimum_work_s']):
+                reasons.append('MEASUREMENT_WORK_TOO_SHORT')
+            latency = binding['arrival_latency_s']
         report_at = finish+number(latency)
         ready = max(report_at,finish+number(wf['feedback_latency_s']))
         pos = bisect_left(clock,ready)
@@ -184,14 +194,15 @@ def planned_chain(frame, program, instance, stages, now, local, audits, ledger):
             reasons.append('REPORT_OUTSIDE_CLOCK')
             break
         at = clock[pos]
+        if stage != 'action' and at >= finish + number(inspections[ident]['validity_s']):
+            reasons.append('REPORT_EXPIRED_AT_DECISION')
     reasons += [key for key in DIMENSIONS if envelope[key] > remaining[key]]
     return dict(feasible=not reasons,reasons=sorted(set(reasons)),stages=rows,envelope=envelope,
                 actual=tuple(actual[k] for k in DIMENSIONS),completion=completion)
 
 
-def evaluate_root(model, single, direct, chain):
-    laws = masses(model)
-    table = continuation(model,laws,chain['completion'])
+def evaluate_root(model, laws, single, direct, chain):
+    table = continuation(model,laws,chain['completion'] if chain['feasible'] else None)
     requires_action = 'ACT' in table.values()
     can_measure = single['feasible'] and (not requires_action or chain['feasible'])
     scores = []
@@ -234,7 +245,7 @@ def choose_intake(frame, program, history, compiled, choice):
     issued = {r['candidate_id'] for r in history['issued']}
     terminal = {r['task_id']:r for r in history['work_feedback'] if r['status'] in {'completed','aborted','rejected'}}
     reports = {r['task_id']:r for r in history['intervention_feedback']}
-    laws = masses(model)
+    laws = masses(model) if choice['question_instances'] else []
     ledger = choice['resource_ledger']
     decisions = []
     selected = None
@@ -276,7 +287,7 @@ def choose_intake(frame, program, history, compiled, choice):
             state=outcome
             if outcome in ('LOW','NORMAL'):
                 path=plan(['action','recheck'],True)
-                table=continuation(model,laws,path['completion'])
+                table=continuation(model,laws,path['completion'] if path['feasible'] else None)
                 info.update(continuation=table,plan=path,tables_evaluated=len(laws),
                             branch_scores_evaluated=2*len(laws))
                 if not laws or any(not sum(groups[outcome]) for _,groups in laws):
@@ -295,7 +306,7 @@ def choose_intake(frame, program, history, compiled, choice):
             single=plan(['inspect'],False)
             direct=plan(['action','recheck'],False)
             chain=plan(['inspect','action','recheck'],False)
-            state,table,scores=evaluate_root(model,single,direct,chain)
+            state,table,scores=evaluate_root(model,laws,single,direct,chain)
             stage={'MEASURE':'inspect','DIRECT':'action','DEFER':None}[state]
             info.update(continuation=table,scores=scores,plans=dict(single=single,direct=direct,chain=chain),
                         tables_evaluated=len(laws),branch_scores_evaluated=2*len(laws))
@@ -308,7 +319,7 @@ def choose_intake(frame, program, history, compiled, choice):
         work_intention=deepcopy(candidates[selected]) if selected else None,
         reason=next((r['state'] for r in decisions if selected and r['requested_candidate']==selected),
                     decisions[0]['state'] if decisions else 'NO_INSTANCE'),
-        intake_decisions=decisions,model_evaluations=dict(risk=len(laws)*len(decisions),
+        intake_decisions=decisions,model_evaluations=dict(risk=len(laws),
             action_value=sum(r['tables_evaluated'] for r in decisions)),
         forecast_branch_count=sum(r['branch_scores_evaluated'] for r in decisions))
     return choice

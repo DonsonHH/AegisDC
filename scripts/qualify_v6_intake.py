@@ -52,7 +52,7 @@ def inputs(name, doc, amendment):
     return obj
 
 
-def cli(name, doc, amendment, directory, red):
+def cli(name, doc, amendment, directory, red, attempts):
     unit=directory/name
     unit.mkdir()
     obj=inputs(name,doc,amendment)
@@ -64,9 +64,16 @@ def cli(name, doc, amendment, directory, red):
         write(path,value)
         command+=['--'+arg,str(path)]
     command+=['--duration',str(obj['duration_s']),'--step',str(obj['step_s']),'--output',str(unit/'run')]
+    attempt=dict(unit=name,cli_started=False,returned=False,facility_status='NOT_STARTED')
+    attempts.append(attempt)
     write(unit/'call.json',dict(input_sha256=digest(obj),command=command,invocation=1,mode='red' if red else 'native'))
     with (unit/'stdout').open('xb') as stdout,(unit/'stderr').open('xb') as stderr:
-        proc=subprocess.run(command,cwd=ROOT,stdout=stdout,stderr=stderr)
+        with subprocess.Popen(command,cwd=ROOT,stdout=stdout,stderr=stderr) as proc:
+            attempt.update(cli_started=True,pid=proc.pid,facility_status='NOT_KNOWN')
+            write(unit/'started.json',attempt)
+            proc.wait()
+    attempt.update(returned=True,returncode=proc.returncode,facility_status=(
+        'COMPLETED' if (unit/'run/run.json').is_file() else 'REJECTED_BY_PARSER' if red and proc.returncode==2 else 'NOT_KNOWN'))
     write(unit/'exit.json',dict(returncode=proc.returncode,stdout_sha256=sha(unit/'stdout'),stderr_sha256=sha(unit/'stderr')))
     return proc.returncode
 
@@ -172,7 +179,7 @@ def compare(name,unit,want,values):
         rows=[r for d in ds for r in d['history']['intervention_feedback'] if r['task_id'].endswith('action-0')]
         eq('completion-time authorization',[rows[0]['outcome'],rows[0]['reason']] if rows else None,[extra['action_outcome'],extra['reason']])
     if name=='delayed-order':
-        opportunity=biz['components']['diagnostic']['events'][0]['opportunity'] if 'opportunity' in biz['components']['diagnostic']['events'][0] else read(unit/'business-program.json')['components']['diagnostic']['events'][0]['opportunity']
+        opportunity=biz['components']['diagnostic']['events'][0]['reference_opportunity']
         eq('delayed opening lawful opportunity', [opportunity[k] for k in ('status','starts_at_s','earliest_report_at_s','deadline_s')],['TOO_LATE',0.5,4.25,4])
     return dict(unit=name,passed=all(c['passed'] for c in checks),checks=checks,
         stages=tasks,decisions=[[d['frame']['as_of_s'],d['choice']['reason'],d['choice']['chosen_candidate_id']] for d in ds],
@@ -194,15 +201,22 @@ def pair_checks(units):
     right=physical(units['matched-protection'])
     common=sorted(left.keys() & right.keys())
     conditions=['measure-low','direct','matched-protection']
+    def writes(name):
+        return [(e['task_id'],e['parameter_id'],e['applied_at_s'],e['old_value'],e['new_value'])
+                for e in run(name)['intervention_private_audit']['events'] if e['outcome']=='APPLIED']
+    mutations={name:writes(name) for name in conditions}
+    clock=read(units['measure-low']/'dispatch-program.json')['decision_times_s']
     exogenous=[digest(read(units[name]/'inputs.json')) for name in conditions]
     models=[digest(read(units[name]/'model.json')) for name in conditions]
     return [
         dict(pair='same public prefix before paid arrival',matched=before('measure-low')==before('measure-normal'),cut=3.75),
-        dict(pair='inspection cannot clear filter; same exogenous service',matched=bool(common) and
+        dict(pair='inspection cannot clear filter; same exogenous service',matched=all(t in common for t in clock) and
+             mutations['matched-protection']==[] and
+             mutations['measure-low']==[('cooling-direct/action-0','filter_resistance_multiplier',5,4,1)] and
              all(abs(left[t][0]-right[t][0])<1e-7 for t in common if t<5) and
              all(abs(left[t][1]-right[t][1])<1e-7 for t in common) and
              0.054<=right[10][0]<=0.055 and 0.099<=left[10][0]<=0.101,
-             common_instants=len(common),post_action_flow=[left[10][0],right[10][0]]),
+             common_instants=len(common),actual_writes=mutations,post_action_flow=[left[10][0],right[10][0]]),
         dict(pair='direct, conditional and existing protection use identical model and exogenous events',
              matched=len(set(models))==1 and len(set(exogenous))==1 and
              [len(run(n)['work_records']) for n in conditions]==[3,2,0])]
@@ -236,14 +250,14 @@ def main():
     values=read(PACK/'independent-values.json')
     all_names=plan['order']
     chosen=all_names if args.units is None else args.units
-    if len(set(chosen))!=len(chosen) or set(chosen)-set(all_names):
+    if not chosen or len(set(chosen))!=len(chosen) or set(chosen)-set(all_names):
         raise ValueError('Undeclared or repeated facility unit')
     report=dict(mode=args.mode,job=os.environ['SLURM_JOB_ID'],source_manifest=sha(args.source_manifest),
         execution_revision=identity['execution_revision'],checker_revision=identity['checker_revision'],
-        facility_invocations=0,rows=[],interfaces=[],pairs=[],failed=[],not_executed=[],study_trials=0)
+        facility_invocations=0,starts=[],rows=[],interfaces=[],pairs=[],failed=[],not_executed=[],study_trials=0)
     try:
         if args.mode=='red':
-            rc=cli('measure-low',doc,amendment,args.output,True)
+            rc=cli('measure-low',doc,amendment,args.output,True,report['starts'])
             error=(args.output/'measure-low/stderr').read_text()
             report.update(expected_red=rc==2 and 'unrecognized arguments: --business-program' in error,
                           rejected_cli_invocations=1,returncode=rc)
@@ -251,20 +265,39 @@ def main():
         if args.mode=='green':
             report['interfaces']=interfaces(doc)
         saved={}
+        previous_interfaces=[]
         for previous in args.previous:
-            for row in read(previous/'report.json')['rows']:
-                saved[row['unit']]=previous/row['unit']
+            old_report=read(previous/'report.json')
+            previous_interfaces=old_report.get('interfaces') or previous_interfaces
+            for row in old_report['rows']:
+                if (previous/row['unit']/'run/run.json').is_file():
+                    saved[row['unit']]=previous/row['unit']
         for index,name in enumerate(chosen):
             try:
                 if args.mode=='green':
-                    report['facility_invocations']+=1
-                    rc=cli(name,doc,amendment,args.output,False)
+                    rc=cli(name,doc,amendment,args.output,False,report['starts'])
                     if rc:
                         raise RuntimeError('native CLI rc '+str(rc)+': '+(args.output/name/'stderr').read_text()[-1200:])
                     unit=args.output/name
                 else:
                     unit=saved[name]
+                source_manifest=read(unit.parent.parent/'source/source-manifest.json')
+                native=read(unit/'run/run.json')
+                runtime_files=native['code_identity']['files']
+                expected_files={k:v for k,v in source_manifest['files'].items()
+                    if (k.startswith('src/aegis_dc/') and k.count('/')==2 and k.endswith('.py')) or k=='src/patrol_rsi/contracts.py'}
+                if runtime_files!=expected_files:
+                    raise ValueError('Native runtime differs from its source archive')
+                actual_inputs=inputs(name,doc,amendment)
+                if read(unit/'call.json')['input_sha256']!=digest(actual_inputs) or any(
+                        read(unit/filename)!=actual_inputs[key] for key,filename in
+                         [('scenario','model.json'),('dispatch_program','dispatch-program.json'),('business_program','business-program.json')]):
+                    raise ValueError('Actual invocation differs from complete frozen inputs')
+                if read(unit/'inputs.json')['boundary_events']!=actual_inputs['boundary_events'] or read(unit/'exit.json')['returncode']!=0:
+                    raise ValueError('Actual exogenous inputs or native exit differ')
                 row=compare(name,unit,want['units'][name],values)
+                row.update(actual_revision=source_manifest['execution_revision'],archive_parent=str(unit.parent),
+                           verification_revision=identity['checker_revision'])
                 report['rows'].append(row)
                 saved[name]=unit
                 if not row['passed']:
@@ -275,12 +308,21 @@ def main():
                 break
         if set(all_names)<=set(saved):
             report['pairs']=pair_checks(saved)
-        report['passed']=not report['failed'] and all(q['passed'] for q in report['interfaces']) and all(q['matched'] for q in report['pairs'])
-        return 0 if report['passed'] else 1
+        if args.mode=='saved':
+            report['prior_interfaces']=previous_interfaces
+        checked=report['interfaces'] or previous_interfaces
+        report['attempt_passed']=(len(report['rows'])==len(chosen) and not report['failed']
+                and all(q['passed'] for q in checked) and all(q['matched'] for q in report['pairs']))
+        report['full_frozen_comparison']=(report['attempt_passed'] and {r['unit'] for r in report['rows']}==set(all_names)
+                and {q['unit'] for q in checked}==set(plan['public_interfaces']) and len(report['pairs'])==len(want['pairs']))
+        return 0 if report['attempt_passed'] else 1
     except Exception:
         report['failed'].append(dict(error=traceback.format_exc()))
         return 1
     finally:
+        report['facility_invocations']=sum(r['facility_status']=='COMPLETED' for r in report['starts'])
+        report['cli_started']=sum(r['cli_started'] for r in report['starts'])
+        report['unknown_facility_invocations']=sum(r['facility_status']=='NOT_KNOWN' for r in report['starts'])
         write(args.output/'report.json',report)
 
 
