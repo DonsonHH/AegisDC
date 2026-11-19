@@ -1,0 +1,586 @@
+{
+  "schema": "aegisdc-v6-intake-independent-expectations-v1",
+  "units": {
+    "measure-low": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "person_s": 5.75,
+      "tool_s": 5.75,
+      "issue_cost": 3,
+      "envelope_person_s": 24.5,
+      "envelope_tool_s": 24.5,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          0.5,
+          "PENDING"
+        ],
+        [
+          3.75,
+          "ACT_LOW"
+        ],
+        [
+          5.5,
+          "RECHECK"
+        ]
+      ],
+      "extra": {
+        "first_full_service_s": 2,
+        "root_model": [
+          "1/5",
+          "2/5"
+        ],
+        "action_report": 5.5,
+        "own_recheck_arrival": 7.25
+      }
+    },
+    "measure-normal": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ]
+      ],
+      "person_s": 3.25,
+      "tool_s": 3.25,
+      "issue_cost": 1,
+      "envelope_person_s": 10,
+      "envelope_tool_s": 10,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          3.75,
+          "DEFER_NORMAL"
+        ]
+      ],
+      "extra": {}
+    },
+    "direct": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DIRECT"
+        ],
+        [
+          3.75,
+          "RECHECK"
+        ]
+      ],
+      "extra": {}
+    },
+    "defer": {
+      "issues": [],
+      "person_s": 0,
+      "tool_s": 0,
+      "issue_cost": 0,
+      "envelope_person_s": 0,
+      "envelope_tool_s": 0,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DEFER"
+        ]
+      ],
+      "extra": {}
+    },
+    "delayed-order": {
+      "issues": [],
+      "person_s": 0,
+      "tool_s": 0,
+      "issue_cost": 0,
+      "envelope_person_s": 0,
+      "envelope_tool_s": 0,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "NO_INSTANCE"
+        ],
+        [
+          0.5,
+          "DEFER"
+        ]
+      ],
+      "extra": {}
+    },
+    "copy-and-competition": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "person_s": 5.75,
+      "tool_s": 5.75,
+      "issue_cost": 3,
+      "envelope_person_s": 24.5,
+      "envelope_tool_s": 24.5,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 2,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          0.5,
+          "PENDING"
+        ]
+      ],
+      "extra": {
+        "second_open": 0.5,
+        "second_closed": false,
+        "shared_occupied_at": 0.5
+      }
+    },
+    "budget-fee": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DIRECT"
+        ]
+      ],
+      "extra": {
+        "inspect_branch_infeasible": "cost"
+      }
+    },
+    "budget-person": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DIRECT"
+        ]
+      ],
+      "extra": {
+        "inspect_branch_infeasible": "person_s"
+      }
+    },
+    "budget-tool": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DIRECT"
+        ]
+      ],
+      "extra": {
+        "inspect_branch_infeasible": "tool_s"
+      }
+    },
+    "recheck-window": {
+      "issues": [],
+      "person_s": 0,
+      "tool_s": 0,
+      "issue_cost": 0,
+      "envelope_person_s": 0,
+      "envelope_tool_s": 0,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DEFER"
+        ]
+      ],
+      "extra": {}
+    },
+    "expiry": {
+      "issues": [],
+      "person_s": 0,
+      "tool_s": 0,
+      "issue_cost": 0,
+      "envelope_person_s": 0,
+      "envelope_tool_s": 0,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DEFER"
+        ]
+      ],
+      "extra": {}
+    },
+    "expired-read": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ]
+      ],
+      "person_s": 3.25,
+      "tool_s": 3.25,
+      "issue_cost": 1,
+      "envelope_person_s": 10,
+      "envelope_tool_s": 10,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          3.75,
+          "EXPIRED"
+        ]
+      ],
+      "extra": {}
+    },
+    "unavailable-read": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ]
+      ],
+      "person_s": 3.25,
+      "tool_s": 3.25,
+      "issue_cost": 1,
+      "envelope_person_s": 10,
+      "envelope_tool_s": 10,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          3.75,
+          "UNAVAILABLE"
+        ]
+      ],
+      "extra": {}
+    },
+    "conflict": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ]
+      ],
+      "person_s": 3.25,
+      "tool_s": 3.25,
+      "issue_cost": 1,
+      "envelope_person_s": 10,
+      "envelope_tool_s": 10,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          3.75,
+          "CONFLICT"
+        ]
+      ],
+      "extra": {}
+    },
+    "variant-disagreement": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 7.5,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "DIRECT"
+        ]
+      ],
+      "extra": {
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        }
+      }
+    },
+    "persistent-bottleneck": {
+      "issues": [
+        [
+          "inspect-0",
+          0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "person_s": 5.75,
+      "tool_s": 5.75,
+      "issue_cost": 3,
+      "envelope_person_s": 24.5,
+      "envelope_tool_s": 24.5,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 5,
+      "instances": 1,
+      "decision_states": [
+        [
+          0,
+          "MEASURE"
+        ],
+        [
+          3.75,
+          "ACT_LOW"
+        ]
+      ],
+      "extra": {}
+    },
+    "matched-protection": {
+      "issues": [],
+      "person_s": 0,
+      "tool_s": 0,
+      "issue_cost": 0,
+      "envelope_person_s": 0,
+      "envelope_tool_s": 0,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 1,
+      "instances": 1,
+      "decision_states": [],
+      "extra": {
+        "first_full_service_s": 2
+      }
+    },
+    "old-v2": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "person_s": 4.5,
+      "tool_s": 4.5,
+      "issue_cost": 2,
+      "envelope_person_s": 16.25,
+      "envelope_tool_s": 16.25,
+      "first_verified_at_s": 5.5,
+      "service_deficit_time_s": 0,
+      "instances": 2,
+      "decision_states": [],
+      "extra": {}
+    },
+    "old-expiring-authority": {
+      "issues": [
+        [
+          "action-0",
+          0,
+          3.25
+        ]
+      ],
+      "person_s": 3.25,
+      "tool_s": 3.25,
+      "issue_cost": 1,
+      "envelope_person_s": 10,
+      "envelope_tool_s": 10,
+      "first_verified_at_s": null,
+      "service_deficit_time_s": 0,
+      "instances": 2,
+      "decision_states": [],
+      "extra": {
+        "action_outcome": "NO_EFFECT",
+        "reason": "authorization_unavailable_at_completion"
+      }
+    }
+  },
+  "interfaces": {
+    "cross-threshold": "INCONCLUSIVE",
+    "outside-support": "ZERO_SUPPORT",
+    "outside-model": "UNMODELED",
+    "unknown-version": "REJECT",
+    "wrong-channel": "REJECT"
+  },
+  "pairs": [
+    {
+      "left": "measure-low",
+      "right": "measure-normal",
+      "expect": "identical_public_prefix_before_3.75",
+      "before": 3.75
+    },
+    {
+      "left": "measure-low",
+      "right": "matched-protection",
+      "expect": "same_physical_flow_before_action_and_identical_external_service",
+      "before": 5
+    },
+    {
+      "left": "direct",
+      "right": "measure-low",
+      "expect": "same_exogenous_inputs_distinct_issue_chains"
+    }
+  ],
+  "tolerance": 1e-07,
+  "physical_flow_anchor": {
+    "before": [
+      0.054,
+      0.055
+    ],
+    "after": [
+      0.099,
+      0.101
+    ],
+    "unit": "m3/s"
+  }
+}

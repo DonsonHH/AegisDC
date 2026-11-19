@@ -1,0 +1,63 @@
+{
+  "schema": "aegisdc-v6-intake-engineering-freeze-v1",
+  "baseline": "b5a2e9ad60a544f51c8e3541245154aaf8fe5b81",
+  "base_model": {
+    "configs/full-facility-mainline-reserve-v6.json": "08a591d305412702906e360983342d383c5022e33a96771e78322c0a9fe89085",
+    "evidence/mainline/engineering/39c-development/slice-53/green/joint/frozen-call-input.json": "e8d20cbeaa65a03c3f1f34e4d9dc8c4cda357200fe6a16295bee5aff8aab2e9e"
+  },
+  "order": [
+    "measure-low",
+    "measure-normal",
+    "direct",
+    "defer",
+    "delayed-order",
+    "copy-and-competition",
+    "budget-fee",
+    "budget-person",
+    "budget-tool",
+    "recheck-window",
+    "expiry",
+    "expired-read",
+    "unavailable-read",
+    "conflict",
+    "variant-disagreement",
+    "persistent-bottleneck",
+    "matched-protection",
+    "old-v2",
+    "old-expiring-authority"
+  ],
+  "public_interfaces": [
+    "cross-threshold",
+    "outside-support",
+    "outside-model",
+    "unknown-version",
+    "wrong-channel"
+  ],
+  "files": {
+    "contract.md": "18be0b02e05d1de27f4d890e619be2bae4ae5772db5e9217b1e6d51a3d64b79f",
+    "inputs.json": "6dcc5feae07b967acbe85eee3dda38cfc078fcd037376051a8c0d040165688e8",
+    "expected.json": "33baa3a7116fd81330f3f475b1e81066f2eab52fb57831339dd043c8cba82c67",
+    "coverage.json": "0a647b5a6c838ff082cbea3eee7f6276cd89901bd6bff160f2c40d9725a6a7a7"
+  },
+  "normal_call": "python -m aegis_dc simulate --model MODEL --inputs EVENTS --dispatch-program DISPATCH --business-program BUSINESS --duration H --step DT --output NEW",
+  "budget": {
+    "red_cli_rejections": 1,
+    "red_accepted_plant_calls": 0,
+    "maximum_facility_attempts": 76,
+    "maximum_per_unit": 4,
+    "initial_native_units": 19,
+    "interface_units": 5,
+    "paired_units": 3,
+    "maximum_interface_rounds": 4,
+    "maximum_jobs": 7,
+    "maximum_green_jobs": 4,
+    "cpus_per_job": 1,
+    "mem_GiB": 4,
+    "wall_seconds_per_job": 1800,
+    "concurrency": 1,
+    "gpus": 0,
+    "reserved_cpu_seconds_cap": 12600
+  },
+  "stop": "Retain every invocation before use; no automatic outcome-driven repeat. At most four versions/attempts per facility unit, only affected or unexecuted units after correction. Archive all exceptions and rows. No changing frozen expectations, parameter/physical relations, access boundaries or scoring to pass. If out of scope or capped stop affected work for review. Red checks rejection on baseline, green uses native CLI, stored reconciliation spends zero facility calls.",
+  "study_trials": 0
+}
