@@ -14,6 +14,8 @@
 
 ## B.2　执行观察与存档核对
 
+本节的原行缺额、人员与工具实耗、关闭、违规及各实购候选，以同一版本的[开发逐臂原件](../../R5/ordinary-v2-development/records/dev19-rows.json)和[扩展逐臂原件](../../R5/ordinary-v2-development/records/ext35-rows.json)为共同数值依据。下表另列时间、阶段、票据或输入的针对性记录。
+
 | 编号／正文 | 已记录的观察与限定 | 直接证据 |
 |---|---|---|
 | 实1　图 1 | dev19 为 19 行、18 行合规。I 对 D 缺额较低／相同／较高为 0／10／8，对 P 为 0／17／1。各合规行 I 的人员与工具实耗均高于 P。 | [开发配对记录](../../R4/public-development-v1/paired-results.md) |
