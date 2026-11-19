@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审的是[R6 v1.3 阶段工作稿与一页导师摘要](mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md)。Word 和 PDF 的完整论文均含逐行结果、主张—证据矩阵。[fd7a41ed 来源核查](mainline/review-gated/R6/work-impact-source-decision.md)已获限定接受，该信息支线结束。
+R6 v1.3 已作为导师讨论用的阶段工作稿限定接受。导师阅读请使用[原版正文 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf)及[一页摘要 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.pdf)。[验收记录](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)注明了 DOCX 的异环境字体显示限制和当前待定事项。
 
 ## 从哪里进入
 

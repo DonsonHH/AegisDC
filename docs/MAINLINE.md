@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**已接受 fd7a41ed 的有限来源核查和暂停判定，当前作业影响说明支线结束。** R6 v1.3 阶段工作稿、完整结果附录、主张—证据矩阵和一页导师决策摘要统一交审。导师待决事项是有限成果的论文定位，以及下一阶段最值得研究的具体设施决策与可用证据。[工作稿与摘要](mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md) · [已接受的来源核查](mainline/review-gated/R6/work-impact-source-decision.md)
+**R6 v1.3 已按导师讨论用的阶段工作稿限定验收。** 导师阅读以原版 PDF 为准。当前等待用户带回论文定位，以及面向完整机房、多维耦合与长期 RSI 目标应优先研究的一个具体设施决策及其合法可得证据。收到讨论结论后，再据此提出一个最小后继工作包。[限定验收与 DOCX 显示说明](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md) · [原版正文 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [导师摘要 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.pdf)
 
 用户确认 e060acfe 的 R4 追加验收和 R5 v1 限定的书面分析。公开开发 19 行与同账号扩展 35 行分别报告。v1 的 216 个开发回合、最多 105 个评估回合均作为未执行历史提案保留，无可用或可转拨配额。[R4 有限验收](mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) · [原 v1](mainline/review-gated/R5/bounded-improvement-v1/README.md)
 
@@ -20,7 +20,7 @@
 | R3 | 固定方法、强基线与协议 | 方向已调整为核查与合法直接修订的条件价值；公开开发部分已冻结；确认门未就绪，完整R3未完成 |
 | R4 | 有限合成机制扩展验证 | 35 条件、105 处理的有限结果已接受。34 行合规，B03 原样保留。原 19 行另计，原独立确认义务未成立、未豁免。 |
 | R5 | 普通改进与改进器增量 | 普通 v2 有限开发已完成。已接受服务优先候选在声明前提和目录下的静态否决，暂停该路线。完整 R5 与一般 RSI 仍开放。 |
-| R6 | 有限伦敦 PRE 的论文证据 | v1.2.2 与 fd7a41ed 的有限来源核查已接受。v1.3 正文、附录与导师摘要完成文档交付，待审。 |
+| R6 | 有限伦敦 PRE 的论文证据 | v1.3 正文、结果附录、主张—证据矩阵及原版 PDF 已按导师讨论用途有限接受。等待用户反馈讨论结论。 |
 
 每关先交付，再由用户 review；接受当前关卡不自动授权下一关。新试验、模型调用及研究性数值资格须等具体关卡授权。源事实、假设、未知、事后根因、决策者当时可用信息分别记录；权限、既有保护与封存评价器保持约束。
 

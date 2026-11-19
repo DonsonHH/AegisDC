@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-19",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "R6_STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_DELIVERED_AWAITING_REVIEW",
+  "status": "R6_V1_3_STAGE_WORKING_PAPER_ACCEPTED_AWAITING_USER_ADVISOR_FEEDBACK",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R6-STAGE-MANUSCRIPT-V13-AND-ADVISOR-DECISION",
-  "current_milestone": "R6_STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_DELIVERED_AWAITING_REVIEW",
+  "current_ticket": null,
+  "current_milestone": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "DOCUMENTS_ONLY",
+  "agent_stage": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -39,15 +39,15 @@
     "automatic_goal": "PAUSED",
     "research_execution": "CLOSED_CONSUMED_ONE_STUDY",
     "authorized_scope": [
-      "Stage manuscript and advisor decision material from existing evidence. Document exports and file identity verification only."
+      "Record the limited acceptance of the existing R6 v1.3 and synchronize current navigation."
     ],
-    "after_delivery": "STOP_FOR_STAGE_MANUSCRIPT_AND_ADVISOR_REVIEW",
+    "after_delivery": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "R6_STAGE_MANUSCRIPT_DOCX_PDF_DELIVERED_STOPPED",
+    "document_authorization_status": "R6_V1_3_ACCEPTANCE_RECORDED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -67,7 +67,7 @@
     "R5_implementation_authorized": false,
     "R5_qualification_authorized": false,
     "R5_research_execution_authorized": false,
-    "R6_documentation_authorized_for_this_delivery": true,
+    "R6_documentation_authorized_for_this_delivery": false,
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
@@ -186,32 +186,32 @@
     {
       "id": "R6",
       "name": "paper_claims_and_evidence",
-      "status": "STAGE_MANUSCRIPT_V1_3_AND_ADVISOR_BRIEF_AWAITING_REVIEW",
+      "status": "STAGE_WORKING_PAPER_V1_3_ACCEPTED_FOR_ADVISOR_DISCUSSION",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
-      "scope": "A document-only working edition with the accepted v1.2.2 base and the finite source stop. Its Word/PDF copies include the full rows and claim matrix. The new edition awaits review.",
+      "scope": "Advisor-discussion stage working paper only: manuscript, results appendix, claim-evidence matrix and the original PDF at 84eaa73d.",
       "matrix": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/claim-evidence-matrix.md",
       "paper_outline": "docs/mainline/review-gated/R6/london-pre-synthesis-v1/paper-outline.md",
-      "user_acceptance": false,
+      "user_acceptance": true,
       "manuscript": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
       "delivery": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
       "limited_revision_accepted": true,
-      "user_acceptance_scope": "Prior v1.2/v1.2.1/v1.2.2 decisions and the bounded fd7a41ed source assessment only. No v1.3 or final-paper acceptance recorded.",
+      "user_acceptance_scope": "Advisor-discussion stage working paper only: manuscript, results appendix, claim-evidence matrix and the original PDF at 84eaa73d.",
       "final_manuscript_user_acceptance": false,
-      "new_content_user_accepted": false,
+      "new_content_user_accepted": true,
       "previous_limited_revision_accepted": true,
-      "acceptance": null,
+      "acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
       "section_8_3_revision": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md",
       "section_8_3_revision_accepted": true,
       "section_8_3_acceptance": "docs/mainline/review-gated/R6/london-pre-closure-decision/acceptance.json",
       "current_wording_revision": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
-      "current_wording_user_accepted": false,
+      "current_wording_user_accepted": true,
       "closure_package": "docs/mainline/review-gated/R6/london-pre-closure-decision/README.md",
-      "current_wording_acceptance": null,
+      "current_wording_acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
       "source_assessment": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
       "prior_manuscript_acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json",
       "prior_wording_acceptance": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
-      "last_accepted_wording": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.2.md",
+      "last_accepted_wording": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
       "last_accepted_wording_user_accepted": true,
       "stage_version": "v1.3"
     }
@@ -536,6 +536,13 @@
       "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
       "scope": "Source judgement limited to the six public materials and the absence of a paid information-value witness in the existing matched comparisons. No all-policy, universal information-value or RSI conclusion.",
       "research_execution_authorized": false
+    },
+    {
+      "id": "20261119-84eaa73d-r6-v13-stage-working-paper-accepted",
+      "accepted_publication": "84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69",
+      "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
+      "scope": "Advisor-discussion stage working paper only: manuscript, results appendix, claim-evidence matrix and the original PDF at 84eaa73d.",
+      "next_gate": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS"
     }
   ],
   "legacy": {
@@ -1429,7 +1436,7 @@
   },
   "r6_stage_manuscript_v1_3": {
     "deliverable": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/README.md",
-    "status": "DELIVERED_AWAITING_USER_DOCUMENT_REVIEW",
+    "status": "USER_ACCEPTED_STAGE_WORKING_PAPER_FOR_ADVISOR_DISCUSSION",
     "sources_at": "e23dcb3bc3bbed9fda5cd1f351002eca1ebcb0e8",
     "prior_manuscript": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.2.md",
     "prior_source_assessment": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
@@ -1562,6 +1569,27 @@
     "full_R5_complete": false,
     "project_complete": false,
     "RSI_increment_established": false,
-    "stop": "STOP_AFTER_STAGE_DOCUMENT_DELIVERY"
+    "stop": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
+    "original_delivery_status_at_84eaa73d": "DELIVERED_AWAITING_USER_DOCUMENT_REVIEW",
+    "accepted_publication": "84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69",
+    "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
+    "acceptance_scope": "Advisor-discussion stage working paper only: manuscript, results appendix, claim-evidence matrix and the original PDF at 84eaa73d.",
+    "reading_guidance": {
+      "advisor_reference": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf",
+      "review_source": "User-provided acceptance and rendering observations",
+      "original_pdf_readable": true,
+      "docx_original_text_tables_and_equations_intact": true,
+      "alternate_render": "Some Chinese glyphs did not display when the DOCX was re-rendered in another layout environment lacking the originally specified fonts.",
+      "cross_software_display_fully_verified": false
+    },
+    "advisor_discussion": {
+      "status": "AWAITING_CONCLUSIONS_FROM_USER",
+      "pending_decisions": [
+        "Paper positioning for the finite stage findings",
+        "One priority concrete facility decision and its legally available decision-time evidence, in view of the full-facility, multidimensional coupling and long-term RSI objectives"
+      ],
+      "after_user_reports_conclusions": "Propose one minimal follow-up work package based on those conclusions.",
+      "followup_package_proposed": false
+    }
   }
 }
