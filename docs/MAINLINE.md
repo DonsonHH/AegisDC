@@ -1,6 +1,6 @@
 # 当前研究主线：事故机制、方法有效性与自改进
 
-**已接受普通 v2 限定验收登记、R6 v1.2 正文及矩阵，以及原后继设计的限定 NO-GO。** 本次提交服务优先、资源有界的单一候选协议和论文 §8.3 补记。对称截止条件下，保留 I 已有的合法关闭仍排除额外终局服务收益。该路线暂停，工时容限与新稿待审。[限定验收](mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json) · [候选协议与停止证明](mainline/review-gated/R5/service-priority-bounded-candidate/README.md) · [R6 v1.2.1](mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)
+**已接受普通 v2 限定验收登记、R6 v1.2 正文及矩阵，以及原后继设计的限定 NO-GO。** 本次提交服务优先、资源有界的单一候选协议和论文 §8.3 补记。在规定覆盖下两次验证同选固定子，随后四组均因工时和合法关闭约束回退 I。该路线暂停，工时容限与新稿待审。[限定验收](mainline/review-gated/R6/london-pre-manuscript-v1.2/acceptance-20261119.json) · [候选协议与停止证明](mainline/review-gated/R5/service-priority-bounded-candidate/README.md) · [R6 v1.2.1](mainline/review-gated/R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)
 
 用户确认 e060acfe 的 R4 追加验收和 R5 v1 限定的书面分析。公开开发 19 行与同账号扩展 35 行分别报告。v1 的 216 个开发回合、最多 105 个评估回合均作为未执行历史提案保留，无可用或可转拨配额。[R4 有限验收](mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) · [原 v1](mainline/review-gated/R5/bounded-improvement-v1/README.md)
 

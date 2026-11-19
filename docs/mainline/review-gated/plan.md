@@ -1,6 +1,6 @@
 # 研究主线：从事故机制到可验证的方法与 RSI 增量
 
-当前更新（2026-11-19）。bdb896de 的有限验收登记、R6 v1.2 正文与矩阵、原后继设计的有限 NO-GO 已接受。新稿说明班次资源容限的必要下限，以及在对称截止、原合法关闭与同预算强对照下仍须暂停的原因。当前只交审文档。[限定验收](R6/london-pre-manuscript-v1.2/acceptance-20261119.json) · [服务优先候选](R5/service-priority-bounded-candidate/README.md) · [R6 §8.3](R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)
+当前更新（2026-11-19）。bdb896de 的有限验收登记、R6 v1.2 正文与矩阵、原后继设计的有限 NO-GO 已接受。新稿说明班次资源容限的必要下限，以及两个固定的选择结果。规定覆盖下两次验证同选固定子，两次策略选择均回退 I。当前只交审文档。[限定验收](R6/london-pre-manuscript-v1.2/acceptance-20261119.json) · [服务优先候选](R5/service-priority-bounded-candidate/README.md) · [R6 §8.3](R6/london-pre-manuscript-v1.2/manuscript-v1.2.1.md)
 
 ## 1. 要回答的问题
 
