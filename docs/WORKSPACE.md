@@ -2,13 +2,13 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-R6 v1.3 已作为导师讨论用的阶段工作稿限定接受。导师阅读请使用[原版正文 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf)及[一页摘要 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/advisor-brief.pdf)。[验收记录](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)注明了 DOCX 的异环境字体显示限制和当前待定事项。
+当前方法入口是[完整设施主方法与实施承接说明](mainline/full-facility-method-handoff.md)。它将原生八域运行、证据、价值比较、人员执行和业务评价连到同一设施决策。伦敦 PRE 工作稿保留为有效性验证章节材料。[原版 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [有限验收与字体说明](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
 
 ## 从哪里进入
 
 | 目的 | 入口 |
 |---|---|
-| 了解当前研究、证据边界和下一步提议 | [R0–R6 新主线提案](mainline/review-gated/plan.md) |
+| 了解全设施方法、可承接能力及推荐的首片 | [主方法与实施承接](mainline/full-facility-method-handoff.md) · [伦敦验证关卡](mainline/review-gated/plan.md) |
 | 查看当前主线状态 | `python -m aegis_dc status`；安装后也可用 `aegis-dc status` |
 | 看完整设施的场景契约 | `src/aegis_dc/scenario.py`、`configs/full-facility-mainline-reserve-v6.json` |
 | 修改设施行为 | `src/aegis_dc/plant.py` 与对应物理模块 |
@@ -64,7 +64,7 @@ flowchart LR
 
 ## 分支与查找
 
-维护开始时，GitHub `main` 在 `42252bf8`；当时最新 39c 分支为 `donson/mainline-39c-endpoints` 的 `add83364`，领先 main 166 个提交。维护分支已通过 PR #3 合入当前39c，合并提交 `4a9dfdbe`。维护通过不接受旧整项研究；旧进度已存入[历史快照](mainline/history/20261112-before-reset/README.md)，新主线接受条件由 R0–R6 确定。没有自动合入 main。
+维护开始时，GitHub `main` 在 `42252bf8`；当时最新 39c 分支为 `donson/mainline-39c-endpoints` 的 `add83364`，领先 main 166 个提交。维护通过 PR #3 合入当前 39c 分支，合并提交 `4a9dfdbe`。39c 的整票验收边界及[旧进度快照](mainline/history/20261112-before-reset/README.md)保留。当前研究范围由上述完整方法入口和进度账登记。
 
 另一个聊天仍使用 `mainline23-intervention/Renly` 工作树。即使其分支提交已经发布，也不应删除仍作为聊天工作目录的路径。
 

@@ -1,14 +1,14 @@
 {
   "schema": "aegisdc-review-gated-progress-v2",
-  "date": "2026-11-19",
-  "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "R6_V1_3_STAGE_WORKING_PAPER_ACCEPTED_AWAITING_USER_ADVISOR_FEEDBACK",
-  "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
+  "date": "2026-11-20",
+  "mainline_id": "complete-facility-risk-inspection-v1",
+  "status": "FULL_FACILITY_METHOD_RESTORED_IMPLEMENTATION_HANDOFF_DELIVERED",
+  "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
-  "plan": "docs/mainline/review-gated/plan.md",
-  "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
+  "current_milestone": "METHOD_HANDOFF_COMPLETE_AWAITING_EXPLICIT_IMPLEMENTATION_SCOPE",
+  "plan": "docs/mainline/full-facility-method-handoff.md",
+  "meeting": "docs/meetings/2026-11-03-research-reset.md",
+  "agent_stage": "METHOD_HANDOFF_COMPLETE_AWAITING_EXPLICIT_IMPLEMENTATION_SCOPE",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -37,17 +37,17 @@
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
     "automatic_goal": "PAUSED",
-    "research_execution": "CLOSED_CONSUMED_ONE_STUDY",
+    "research_execution": "CLOSED_FOR_THIS_DOCUMENT_PACKAGE",
     "authorized_scope": [
-      "Record the limited acceptance of the existing R6 v1.3 and synchronize current navigation."
+      "One written primary method and implementation handoff, and correction of active navigation/state."
     ],
-    "after_delivery": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
+    "after_delivery": "NEXT_STEP_IS_THE_RECOMMENDED_V6_SLICE_UNDER_SEPARATELY_SPECIFIED_IMPLEMENTATION_SCOPE",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "R6_V1_3_ACCEPTANCE_RECORDED",
+    "document_authorization_status": "FULL_FACILITY_METHOD_HANDOFF_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -213,7 +213,8 @@
       "prior_wording_acceptance": "docs/mainline/review-gated/R6/work-impact-source-decision.md",
       "last_accepted_wording": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.md",
       "last_accepted_wording_user_accepted": true,
-      "stage_version": "v1.3"
+      "stage_version": "v1.3",
+      "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
   "active_implementations": [],
@@ -543,6 +544,18 @@
       "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
       "scope": "Advisor-discussion stage working paper only: manuscript, results appendix, claim-evidence matrix and the original PDF at 84eaa73d.",
       "next_gate": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS"
+    },
+    {
+      "id": "20261120-primary-method-positioning-correction",
+      "previous_revision": "ad14d679e120aee5a41572fbbc095165584082d0",
+      "decision": "Restore the original full coupled-facility method as the paper subject. Google incidents provide an effectiveness-validation chapter. The former advisor-direction wait is superseded.",
+      "bases": [
+        "docs/meetings/2026-11-03-research-reset.md",
+        "docs/adr/0003-complete-facility-mainline.md",
+        ".scratch/full-facility-mainline/spec.md"
+      ],
+      "handoff": "docs/mainline/full-facility-method-handoff.md",
+      "implementation_or_execution_authorized": false
     }
   ],
   "legacy": {
@@ -1569,7 +1582,7 @@
     "full_R5_complete": false,
     "project_complete": false,
     "RSI_increment_established": false,
-    "stop": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS",
+    "stop": "LONDON_CASE_CHAPTER_PRESERVED_FULL_METHOD_SCOPE_IN_CURRENT_HANDOFF",
     "original_delivery_status_at_84eaa73d": "DELIVERED_AWAITING_USER_DOCUMENT_REVIEW",
     "accepted_publication": "84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69",
     "acceptance_record": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md",
@@ -1583,13 +1596,49 @@
       "cross_software_display_fully_verified": false
     },
     "advisor_discussion": {
-      "status": "AWAITING_CONCLUSIONS_FROM_USER",
-      "pending_decisions": [
+      "status": "POSITIONING_CLARIFIED_BY_USER_FULL_METHOD_HANDOFF_DELIVERED",
+      "after_user_reports_conclusions": "Propose one minimal follow-up work package based on those conclusions.",
+      "followup_package_proposed": true,
+      "status_at_ad14d679": "AWAITING_CONCLUSIONS_FROM_USER",
+      "submitted_decisions_at_ad14d679": [
         "Paper positioning for the finite stage findings",
         "One priority concrete facility decision and its legally available decision-time evidence, in view of the full-facility, multidimensional coupling and long-term RSI objectives"
       ],
-      "after_user_reports_conclusions": "Propose one minimal follow-up work package based on those conclusions.",
-      "followup_package_proposed": false
-    }
+      "current_disposition": "The user clarified the paper scope. A further advisor choice of overall direction or facility decision is not a prerequisite. The intake-flow slice is a recommendation of this handoff, not an advisor selection or an execution authorization.",
+      "recommendation": "docs/mainline/full-facility-method-handoff.md"
+    },
+    "stop_at_ad14d679": "WAIT_FOR_USER_TO_RELAY_ADVISOR_DISCUSSION_CONCLUSIONS"
+  },
+  "full_facility_method_handoff": {
+    "document": "docs/mainline/full-facility-method-handoff.md",
+    "basis": {
+      "user_clarification": "2026-11-20",
+      "research_reset": "docs/meetings/2026-11-03-research-reset.md",
+      "accepted_adr": "docs/adr/0003-complete-facility-mainline.md",
+      "original_spec": ".scratch/full-facility-mainline/spec.md",
+      "source_tree_read": "ad14d679e120aee5a41572fbbc095165584082d0"
+    },
+    "primary_facility": "zhengzhou-inspired-synthetic-full-facility-reserve-v6",
+    "recommended_slice": "A dynamically opened intake-flow question on native V6: inspect using an actual meter, request the same authorized clean_filter operation directly, or defer; recheck that instance and evaluate the whole service window.",
+    "implementation_status": "RECOMMENDED_NOT_IMPLEMENTED",
+    "next_scope": "Subsequently specified work package using the sequence and finite qualification duties in section 4.",
+    "advisor_direction_or_reselection_required": false,
+    "case_validation": {
+      "plan": "docs/mainline/review-gated/plan.md",
+      "manuscript_revision": "84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69",
+      "limited_acceptance_revision": "ad14d679e120aee5a41572fbbc095165584082d0",
+      "acceptance": "docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md"
+    },
+    "new_final_research_inputs": 0,
+    "new_runtime_implementation": false,
+    "new_model_or_facility_calls": 0,
+    "project_tests_qualification_or_research_runs": 0,
+    "historical_queues_resumed": false,
+    "budget_transferred": false,
+    "independent_confirmation_established": false,
+    "full_R5_complete": false,
+    "RSI_increment_established": false,
+    "original_mainline_id": "complete-facility-risk-inspection-v1",
+    "historical_case_ledger_id": "incident-mechanism-method-and-rsi-review-v1"
   }
 }

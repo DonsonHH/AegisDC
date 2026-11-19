@@ -1,8 +1,8 @@
 # AegisDC research execution
 
-## User-directed research reset (2026-11-12)
+## Full-facility method and incident validation (2026-11-20)
 
-Read [MAINLINE](docs/MAINLINE.md), [plan](docs/mainline/review-gated/plan.md) and [progress](docs/mainline/progress.json). The user accepted the [84eaa73d R6 v1.3 stage working paper for advisor discussion](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md). Use the [original PDF](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) for reading. The DOCX retains the original text, tables and equations. The user reported missing Chinese glyphs when it was rendered in another environment without the specified fonts. Preserve the original files and evidence. Await the user’s report of the advisor’s decisions on paper positioning and one priority facility decision with legally available evidence for the full-facility, coupled-system and long-term RSI aims. Only then propose one minimal follow-up work package. The 972/642 ceiling remains unallocated, the 7/8-second allowances unused, and full R5, independent confirmation and RSI remain open.
+Read [MAINLINE](docs/MAINLINE.md), the [full-facility method and implementation handoff](docs/mainline/full-facility-method-handoff.md), and [progress](docs/mainline/progress.json). The user clarified the project direction: the paper studies risk-driven on-demand inspection, constrained action, ordinary improvement and RSI in the complete coupled facility with sparse evidence, as set out in the [3 November record](docs/meetings/2026-11-03-research-reset.md) and [ADR-0003](docs/adr/0003-complete-facility-mainline.md). Google incidents supply a bounded effectiveness-validation chapter. Retain the [accepted London v1.3](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md) and its [original reading PDF](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf). The handoff recommends one V6 intake-flow investigation / authorized filter-maintenance slice. Subsequent implementation and execution require an explicitly scoped work package. The former advisor-direction wait is superseded.
 
 Preserve the three frozen slice 57 files, formal protocols, original results and failures byte for byte. The [pre-reset snapshots](docs/mainline/history/20261112-before-reset/README.md) are historical evidence, not the active queue. New engineering work, once authorized, uses the [lightweight template](docs/agents/lightweight-engineering.md). Incident-source reading and proposed counterfactual/RSI designs do not authorize simulations or model experiments.
 
@@ -18,7 +18,7 @@ Work only the explicitly authorized gate; record its artifacts and checks before
 
 Before claiming, inspect the active-work hints in progress and confirm live agent/worktree state. A ticket's claimed status may still be only on its unmerged worktree; do not duplicate a live assigned implementation or restart it solely because an observation timed out.
 
-The existing Zhengzhou-inspired eight-domain synthetic facility is a reusable research asset. Its reuse and any incident-model scope must satisfy the new approved design; old acceptance does not certify a Google site reconstruction. Keep source facts, design claims, assumptions and unknowns explicit. Preserve physical, functional, control/information and access semantics. Distinguish method effectiveness, conditional counterfactual claims, ordinary feedback improvement and independently tested RSI increment.
+Use the existing Zhengzhou-inspired eight-domain synthetic facility as the main research object. Reuse capabilities within their tested boundaries. Keep the four graph semantics, private state boundary, fixed automatic protection, original negative results and outstanding qualifications intact. The incident plan governs its own validation chapter.
 
 Keep actual state private to the plant/evaluator. Dispatch receives only records available at decision time and declared static knowledge. Correlated/copied records need shared provenance. Existing local automatic protection remains part of the plant.
 
@@ -28,7 +28,7 @@ New work belongs in the AegisDC implementation and new mainline records. Preserv
 
 ### Issue tracker
 
-Current authority is the R0–R6 gate ledger above. `docs/agents/issue-tracker.md` describes retained legacy ticket mechanics; old ready tickets cannot bypass the user-review gate.
+Current scope is recorded in the full-facility method handoff and progress ledger. R0–R6 records retain their incident-chapter scope. The legacy issue tracker in `docs/agents/issue-tracker.md` cannot authorize queued implementations.
 
 ### Domain docs
 

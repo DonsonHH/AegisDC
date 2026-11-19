@@ -1,6 +1,6 @@
 # Issue tracker: versioned local Markdown
 
-**2026-11-16 current gate:**519da3d4 original public19/57 result accepted. [Claims/mechanism and finite confirmation plan](../mainline/review-gated/R4/claims-confirmation-v1/README.md) is document-only and awaits review; no active implementation/model/research work or sealed input/result access. N35,custody and specific prerequisites are proposals,not execution authorization. Follow [progress](../mainline/progress.json).
+The [full-facility method handoff](../mainline/full-facility-method-handoff.md) and [current scope](../mainline/progress.json) apply as of 2026-11-20. This page retains the historical ticket mechanics. The recommended V6 intake-flow slice awaits a scoped implementation instruction.
 
 The user approved autonomous mainline planning and implementation on 2026-11-04. Planning granularity and routine implementation choices are delegated. Keep the task graph with the corresponding source revision in Git.
 

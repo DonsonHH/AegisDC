@@ -1,12 +1,12 @@
 # AegisDC
 
-工作区保留了郑州工程参照启发的**八域合成算力设施**。当前论文材料围绕伦敦式合成 PRE 实例，比较事前核查、合法直接处置与既有保护。设施真值由评价端持有，决策者只使用当时可用的记录。项目不控制真实设备。
+AegisDC 研究完整算力设施在多系统耦合、多源稀疏证据下，如何形成风险问题，按需核查并受约束地处置和复核，以及固定策略、普通自改进与 RSI 各能贡献什么。原生研究对象是郑州工程参照启发的八域合成设施。Google 事故承担方法论文的有限有效性验证。
 
-**从这里开始：** [新研究主线](docs/MAINLINE.md) · [R0–R6 提案](docs/mainline/review-gated/plan.md) · [11.12 meeting](docs/meetings/2026-11-12-research-mainline-reset.md) · [当前进度](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md) · [脚本导航](scripts/README.md)
+**主方法与实施入口**　[统一方法、能力映射及推荐首片](docs/mainline/full-facility-method-handoff.md) · [当前主线](docs/MAINLINE.md) · [进度账](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md)
 
 ## 当前状态
 
-**当前交审伦敦式 PRE 的 R6 主张矩阵与论文提纲。** 两个已接受的 R4 面板分别保留原分母。R5 v1 的普通晋级已由 D01 与 A02 静态排除，旧预算没有转为执行额度。[主张矩阵](docs/mainline/review-gated/R6/london-pre-synthesis-v1/README.md) · [论文提纲](docs/mainline/review-gated/R6/london-pre-synthesis-v1/paper-outline.md) · [R5 追加判定](docs/mainline/review-gated/R5/v1-static-disposition.md)
+**本轮交付完整方法的书面承接。** 推荐首先在原 V6 连接取水低流量工单的风险／行动价值选择与既有清滤、复检和业务评价链，实际实现与运行以随后明确的工作包为准。伦敦 PRE 的 R6 v1.3 已作为验证章节的阶段材料有限接受。[11 月 3 日定位](docs/meetings/2026-11-03-research-reset.md) · [完整设施 ADR](docs/adr/0003-complete-facility-mainline.md) · [伦敦阶段稿原版 PDF](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [有限验收](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 
