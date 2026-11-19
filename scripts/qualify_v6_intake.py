@@ -222,6 +222,48 @@ def pair_checks(units):
              [len(run(n)['work_records']) for n in conditions]==[3,2,0])]
 
 
+
+def saved_handoff(report, previous, directory):
+    """Publish bounded row-level facts, keeping trajectories and all assertions private."""
+    attempts=[]
+    for path in previous:
+        prior=read(path/'report.json')
+        pin=read(path.parent/'source/source-manifest.json')
+        if sha(path.parent/'source/source-manifest.json')!=prior['source_manifest']:
+            raise ValueError('Prior attempt identity drift')
+        attempts.append(dict(attempt=path.parent.name,job=prior['job'],mode=prior['mode'],
+            execution_revision=pin['execution_revision'],checker_revision=pin['checker_revision'],
+            source_manifest_sha256=prior['source_manifest'],report_sha256=sha(path/'report.json'),
+            completed_facilities=sum((path/row['unit']/'run/run.json').is_file() for row in prior['rows']),
+            interfaces=len(prior['interfaces']),assertions=sum(len(row['checks']) for row in prior['rows']),
+            policy_calls=sum(row['calls']['decisions'] for row in prior['rows']),original_failures=prior['failed'],
+            not_executed=prior['not_executed']))
+    rows=[]
+    for r in report['rows']:
+        path=Path(r['archive_parent'])/r['unit']
+        actual=read(path/'run/run.json')
+        changes=[]
+        for t,state,task in r['decisions']:
+            if not changes or changes[-1][1:]!=[state,task]:
+                changes.append([t,state,task])
+        first=actual['policy_public_decisions'][0]['choice'].get('intake_decisions',[])
+        amounts={k:v['value'] for k,v in r['actual_cost'].items()}
+        rows.append(dict(unit=r['unit'],original_expectation_matched=r['passed'],source=r['actual_revision'],
+            source_tree=r['source_tree'],attempt=path.parent.parent.name,input_sha256=r['input_sha256'],
+            run_sha256=r['run_sha256'],raw_artifacts=r['artifact_hashes'],decision_calls=r['calls']['decisions'],
+            public_state_changes=changes,ordered_work_issue_completion=r['stages'],endpoints=r['endpoint'],
+            public_model_at_open=({k:first[0].get(k) for k in ['posterior','scores','continuation','state']} if first else None),
+            reservation=r['admission'],actual_occupation=amounts,person_total=r['person']['value'],issue_fee=r['fees']['value'],
+            service=r['service'],assertions=len(r['checks']),mismatches=[q for q in r['checks'] if not q['passed']]))
+    public=dict(schema='aegisdc-v6-intake-saved-row-reconciliation-v1',verification_source=report['checker_revision'],
+            job=report['job'],source_manifest_sha256=report['source_manifest'],full_checks_sha256=sha(directory/'report.json'),
+            additional_facility_calls=report['facility_invocations'],attempts=attempts,units=rows,
+            pairs=report['pairs'],interfaces=report['prior_interfaces'],expected_file_sha256=sha(PACK/'expected.json'),
+            original_comparison_complete=report['full_frozen_comparison'],review_exception='expired-read: original forecast credits predictably expired information. See separate review record.',
+            red_rejection_counted_as_facility=False,research_trials=0)
+    write(directory/'public-summary.json',public)
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--mode',required=True,choices=['red','green','saved'])
@@ -324,6 +366,8 @@ def main():
         report['cli_started']=sum(r['cli_started'] for r in report['starts'])
         report['unknown_facility_invocations']=sum(r['facility_status']=='NOT_KNOWN' for r in report['starts'])
         write(args.output/'report.json',report)
+        if args.mode=='saved' and 'full_frozen_comparison' in report:
+            saved_handoff(report,args.previous,args.output)
 
 
 if __name__=='__main__':
