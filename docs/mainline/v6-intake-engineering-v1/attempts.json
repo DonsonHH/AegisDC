@@ -1,0 +1,301 @@
+{
+  "schema": "aegisdc-v6-intake-execution-attempts-v1",
+  "activity": "public engineering",
+  "private_root": "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120",
+  "freeze": [
+    "6a3e30e6",
+    "f97d1053",
+    "4539a48e"
+  ],
+  "stage_tool_sha256": "09485174ae2bf14427fff4c96a66dc606f9cd650f132439634ab9700b038d7c0",
+  "interpreter_path": "/share/home/renly/miniconda3/bin/python",
+  "interpreter_version": "3.13.9",
+  "interpreter_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+  "attempts": [
+    {
+      "attempt": "red01",
+      "role": "Expected baseline CLI rejection; zero facility entry",
+      "job_id": "134654",
+      "slurm": {
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "2:0",
+        "node": "cu10",
+        "cpus": 1,
+        "memory": "4G",
+        "elapsed_seconds": 0,
+        "cpu_time": "00:00.223",
+        "start_local": "2026-11-20T01:30:02",
+        "end_local": "2026-11-20T01:30:02",
+        "wall_limit": "00:30:00"
+      },
+      "runtime_revision": "b5a2e9ad60a544f51c8e3541245154aaf8fe5b81",
+      "checker_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "command": [
+        "/share/home/renly/miniconda3/bin/python",
+        "-B",
+        "scripts/qualify_v6_intake.py",
+        "--mode",
+        "red",
+        "--output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/red01/output",
+        "--source-manifest",
+        "source-manifest.json",
+        "--source-sha",
+        "b0acd73fb8f224452e5b88567ec86ca82aee19c6019b1051efd2229e018432be"
+      ],
+      "durable_sha256": {
+        "source.tar.gz": "8e5c1f4929869c301404716851881b4078e754dbd4463fad7e6cab8b5b03f9be",
+        "source/source-manifest.json": "b0acd73fb8f224452e5b88567ec86ca82aee19c6019b1051efd2229e018432be",
+        "run.sh": "ddffb64326420a29306aabc59acb0c77aceed27570177c9ae1c0e16753d10803",
+        "output/report.json": "e5ae45773ebe03bdb7322666a7e76259544a56b97f51e8427a5dd9f9f3aed674"
+      },
+      "additional_native_facilities": 0,
+      "additional_policy_calls": 0,
+      "public_interface_calls": 0,
+      "pair_reconciliations": 0,
+      "unexecuted_suffix": [],
+      "unit_assertions_read": 0,
+      "failing_unit_assertions": 0
+    },
+    {
+      "attempt": "green01",
+      "role": "Original frozen comparison; foreseeably expired plan credited before its repair",
+      "job_id": "134655",
+      "slurm": {
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "node": "cu10",
+        "cpus": 1,
+        "memory": "4G",
+        "elapsed_seconds": 208,
+        "cpu_time": "03:26.866",
+        "start_local": "2026-11-20T01:30:41",
+        "end_local": "2026-11-20T01:34:09",
+        "wall_limit": "00:30:00"
+      },
+      "runtime_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "checker_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "command": [
+        "/share/home/renly/miniconda3/bin/python",
+        "-B",
+        "scripts/qualify_v6_intake.py",
+        "--mode",
+        "green",
+        "--output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green01/output",
+        "--source-manifest",
+        "source-manifest.json",
+        "--source-sha",
+        "68ff39a7441b79978ad4cc897fd949237638316b14c40f58150fe326465fc624"
+      ],
+      "durable_sha256": {
+        "source.tar.gz": "d6747724d991349a45b763adb1a071a10b1010014794b5cf7b26a4b57fcb316d",
+        "source/source-manifest.json": "68ff39a7441b79978ad4cc897fd949237638316b14c40f58150fe326465fc624",
+        "run.sh": "9e9cc5f1920214a4bf8c50e872ec3e82f1ce5731e5c0590b62fb52900ef8e3f5",
+        "output/report.json": "1e2bb5b915f4a0fad1ace445824c8d006d637939f474e74df93efc246d45620f"
+      },
+      "additional_native_facilities": 19,
+      "additional_policy_calls": 356,
+      "public_interface_calls": 5,
+      "pair_reconciliations": 3,
+      "unexecuted_suffix": [],
+      "unit_assertions_read": 325,
+      "failing_unit_assertions": 0
+    },
+    {
+      "attempt": "green02",
+      "role": "Affected policy and public entry regression",
+      "job_id": "134656",
+      "slurm": {
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "node": "cu10",
+        "cpus": 1,
+        "memory": "4G",
+        "elapsed_seconds": 172,
+        "cpu_time": "02:51.784",
+        "start_local": "2026-11-20T01:35:45",
+        "end_local": "2026-11-20T01:38:37",
+        "wall_limit": "00:30:00"
+      },
+      "runtime_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "checker_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "command": [
+        "/share/home/renly/miniconda3/bin/python",
+        "-B",
+        "scripts/qualify_v6_intake.py",
+        "--mode",
+        "green",
+        "--output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green02/output",
+        "--source-manifest",
+        "source-manifest.json",
+        "--source-sha",
+        "c71e6ee571976f57721cde9daeea873f62e8afec92cc1ae0d2ff7250cdb88e07",
+        "--units",
+        "measure-low",
+        "measure-normal",
+        "direct",
+        "defer",
+        "delayed-order",
+        "copy-and-competition",
+        "budget-fee",
+        "budget-person",
+        "budget-tool",
+        "recheck-window",
+        "expiry",
+        "unavailable-read",
+        "conflict",
+        "variant-disagreement",
+        "persistent-bottleneck",
+        "--previous",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green01/output"
+      ],
+      "durable_sha256": {
+        "source.tar.gz": "ef53c2aff7c8c39e2dfb2856ff931d64c3da838cf6b6ca5d5a20b539698a8580",
+        "source/source-manifest.json": "c71e6ee571976f57721cde9daeea873f62e8afec92cc1ae0d2ff7250cdb88e07",
+        "run.sh": "9f3da38d8cec3901403e99e77ddd1b938b6956f78b629399432e1d13f0726086",
+        "output/report.json": "ffd088e0796804d38b18bb4bd2c9c45be72d4b2b4e59e0f16627b6846b2f88fc"
+      },
+      "additional_native_facilities": 15,
+      "additional_policy_calls": 300,
+      "public_interface_calls": 5,
+      "pair_reconciliations": 3,
+      "unexecuted_suffix": [],
+      "unit_assertions_read": 265,
+      "failing_unit_assertions": 0
+    },
+    {
+      "attempt": "green03",
+      "role": "Original expired-read retained; corrected policy disagrees with original expected chain",
+      "job_id": "134657",
+      "slurm": {
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "node": "cu10",
+        "cpus": 1,
+        "memory": "4G",
+        "elapsed_seconds": 12,
+        "cpu_time": "00:11.756",
+        "start_local": "2026-11-20T01:39:24",
+        "end_local": "2026-11-20T01:39:36",
+        "wall_limit": "00:30:00"
+      },
+      "runtime_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "checker_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "command": [
+        "/share/home/renly/miniconda3/bin/python",
+        "-B",
+        "scripts/qualify_v6_intake.py",
+        "--mode",
+        "green",
+        "--output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green03/output",
+        "--source-manifest",
+        "source-manifest.json",
+        "--source-sha",
+        "166fef5219dd08ec59bb3aa7844f2a568a2d3a9eea88757670089fa0a6105a0f",
+        "--units",
+        "expired-read",
+        "--previous",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green01/output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green02/output"
+      ],
+      "durable_sha256": {
+        "source.tar.gz": "cd51294545951b7318780efec067c6131900bd99d44793f26c932ec8b1722f34",
+        "source/source-manifest.json": "166fef5219dd08ec59bb3aa7844f2a568a2d3a9eea88757670089fa0a6105a0f",
+        "run.sh": "b91fa86f99845accd41f931d8eec8279402148bd2d13c038a3383cfabe59db9e",
+        "output/report.json": "e2886943243d66d85f7ae9251e76465bd17d08a94f7a5fe0345927ff5af5b76d"
+      },
+      "additional_native_facilities": 1,
+      "additional_policy_calls": 20,
+      "public_interface_calls": 5,
+      "pair_reconciliations": 3,
+      "unexecuted_suffix": [],
+      "unit_assertions_read": 16,
+      "failing_unit_assertions": 9
+    },
+    {
+      "attempt": "saved01",
+      "role": "Zero-facility reconciliation; retains the same nine mismatches and scheduler failure",
+      "job_id": "134658",
+      "slurm": {
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "node": "cu10",
+        "cpus": 1,
+        "memory": "4G",
+        "elapsed_seconds": 4,
+        "cpu_time": "00:03.428",
+        "start_local": "2026-11-20T01:40:22",
+        "end_local": "2026-11-20T01:40:26",
+        "wall_limit": "00:30:00"
+      },
+      "runtime_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "checker_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "command": [
+        "/share/home/renly/miniconda3/bin/python",
+        "-B",
+        "scripts/qualify_v6_intake.py",
+        "--mode",
+        "saved",
+        "--output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/saved01/output",
+        "--source-manifest",
+        "source-manifest.json",
+        "--source-sha",
+        "3f5a32850dc3c2092710682635a2d605988d81c1c2609a52f657627813834757",
+        "--previous",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/red01/output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green01/output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green02/output",
+        "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120/green03/output"
+      ],
+      "durable_sha256": {
+        "source.tar.gz": "3b110ac1e6602055ae4d03de225d17d6e2d81f15543d9c2d4d26d029638624b0",
+        "source/source-manifest.json": "3f5a32850dc3c2092710682635a2d605988d81c1c2609a52f657627813834757",
+        "run.sh": "9c6c8eff5e6ad095f7152b3aa9adf210525e910f1905775f4797508af601cbc6",
+        "output/report.json": "2b974302e8df0a038cc8260cb91e5357dc8fe6ea283ca62234710bee74e3ef86"
+      },
+      "additional_native_facilities": 0,
+      "additional_policy_calls": 0,
+      "public_interface_calls": 0,
+      "pair_reconciliations": 3,
+      "unexecuted_suffix": [],
+      "unit_assertions_read": 325,
+      "failing_unit_assertions": 9
+    }
+  ],
+  "verified_public_summary_sha256": "f782741bb2bd964b1579ce1debeb0dc9e52035c4429247a6f2004f472834c036",
+  "public_budget": {
+    "slurm_jobs": [
+      5,
+      7
+    ],
+    "reserved_cpu_seconds": [
+      9000,
+      12600
+    ],
+    "native_facility_invocations": [
+      35,
+      76
+    ],
+    "maximum_invocations_any_one_unit": [
+      2,
+      4
+    ],
+    "concurrency": 1,
+    "gpu_allocations": 0,
+    "green_attempts": [
+      3,
+      4
+    ],
+    "separate_research_episodes": 0
+  },
+  "evidence_boundary": "Original processes and every assertion/exception remain in the unique private attempt directory. Counts of reported decisions include separate repetitions and do not add research samples."
+}

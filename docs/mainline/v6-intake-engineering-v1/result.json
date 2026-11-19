@@ -1,0 +1,3146 @@
+{
+  "schema": "aegisdc-v6-intake-saved-row-reconciliation-v1",
+  "verification_source": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+  "job": "134658",
+  "source_manifest_sha256": "3f5a32850dc3c2092710682635a2d605988d81c1c2609a52f657627813834757",
+  "full_checks_sha256": "2b974302e8df0a038cc8260cb91e5357dc8fe6ea283ca62234710bee74e3ef86",
+  "additional_facility_calls": 0,
+  "attempts": [
+    {
+      "attempt": "red01",
+      "job": "134654",
+      "mode": "red",
+      "execution_revision": "b5a2e9ad60a544f51c8e3541245154aaf8fe5b81",
+      "checker_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "source_manifest_sha256": "b0acd73fb8f224452e5b88567ec86ca82aee19c6019b1051efd2229e018432be",
+      "report_sha256": "e5ae45773ebe03bdb7322666a7e76259544a56b97f51e8427a5dd9f9f3aed674",
+      "completed_facilities": 0,
+      "interfaces": 0,
+      "assertions": 0,
+      "policy_calls": 0,
+      "original_failures": [],
+      "not_executed": []
+    },
+    {
+      "attempt": "green01",
+      "job": "134655",
+      "mode": "green",
+      "execution_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "checker_revision": "75675e85d746496b89928b16a049b282302995d1",
+      "source_manifest_sha256": "68ff39a7441b79978ad4cc897fd949237638316b14c40f58150fe326465fc624",
+      "report_sha256": "1e2bb5b915f4a0fad1ace445824c8d006d637939f474e74df93efc246d45620f",
+      "completed_facilities": 19,
+      "interfaces": 5,
+      "assertions": 325,
+      "policy_calls": 356,
+      "original_failures": [],
+      "not_executed": []
+    },
+    {
+      "attempt": "green02",
+      "job": "134656",
+      "mode": "green",
+      "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "checker_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_manifest_sha256": "c71e6ee571976f57721cde9daeea873f62e8afec92cc1ae0d2ff7250cdb88e07",
+      "report_sha256": "ffd088e0796804d38b18bb4bd2c9c45be72d4b2b4e59e0f16627b6846b2f88fc",
+      "completed_facilities": 15,
+      "interfaces": 5,
+      "assertions": 265,
+      "policy_calls": 300,
+      "original_failures": [],
+      "not_executed": []
+    },
+    {
+      "attempt": "green03",
+      "job": "134657",
+      "mode": "green",
+      "execution_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "checker_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "source_manifest_sha256": "166fef5219dd08ec59bb3aa7844f2a568a2d3a9eea88757670089fa0a6105a0f",
+      "report_sha256": "e2886943243d66d85f7ae9251e76465bd17d08a94f7a5fe0345927ff5af5b76d",
+      "completed_facilities": 1,
+      "interfaces": 5,
+      "assertions": 16,
+      "policy_calls": 20,
+      "original_failures": [
+        {
+          "unit": "expired-read",
+          "failing_checks": [
+            {
+              "field": "actual ordered issues and actual work completions",
+              "actual": [
+                [
+                  "action-0",
+                  0.0,
+                  3.25
+                ],
+                [
+                  "recheck-0",
+                  3.75,
+                  5
+                ]
+              ],
+              "expected": [
+                [
+                  "inspect-0",
+                  0,
+                  3.25
+                ]
+              ],
+              "passed": false
+            },
+            {
+              "field": "person_s",
+              "actual": 4.5,
+              "expected": 3.25,
+              "passed": false
+            },
+            {
+              "field": "tool_s",
+              "actual": 4.5,
+              "expected": 3.25,
+              "passed": false
+            },
+            {
+              "field": "issue_cost",
+              "actual": 2,
+              "expected": 1,
+              "passed": false
+            },
+            {
+              "field": "envelope_person_s",
+              "actual": 16.25,
+              "expected": 10,
+              "passed": false
+            },
+            {
+              "field": "envelope_tool_s",
+              "actual": 16.25,
+              "expected": 10,
+              "passed": false
+            },
+            {
+              "field": "first_verified_at_s",
+              "actual": 7.5,
+              "expected": null,
+              "passed": false
+            },
+            {
+              "field": "public decision 0",
+              "actual": "DIRECT",
+              "expected": "MEASURE",
+              "passed": false
+            },
+            {
+              "field": "public decision 3.75",
+              "actual": "RECHECK",
+              "expected": "EXPIRED",
+              "passed": false
+            }
+          ]
+        }
+      ],
+      "not_executed": []
+    }
+  ],
+  "units": [
+    {
+      "unit": "measure-low",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "084979f17798c416a3138e54fb9c9f63c056ca2ff29c1c8e9178156ce5c4d5a6",
+      "run_sha256": "2cd50562d9aea44bf4b03a6d1abe1665f626a64eeb21cd636220edd005f528b4",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "b03e278a80c3c7bfa9ffec7442b46f9696ca4ab125ef0a387275b78a3bd32ecf",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "97f3dcf8b5eed90d75287c3f8e28ce389614dfa83553b1332dacc217ced6f5d9",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "ACT_LOW",
+          "cooling-direct/action-0"
+        ],
+        [
+          4.0,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          5.5,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          5.75,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 5,
+          "action_report_arrived_at_s": 5.5,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "VERIFIED_CLOSED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 24.5,
+          "tool_s": 24.5,
+          "cost": 3
+        },
+        "remaining": {
+          "person_s": 5.5,
+          "tool_s": 5.5,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 3.0,
+        "worker_wait_person_s": 0.75,
+        "access_check_person_s": 0.75,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 5.75,
+        "tool_work_tool_s": 3.0
+      },
+      "person_total": 5.75,
+      "issue_fee": 3,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 27,
+      "mismatches": []
+    },
+    {
+      "unit": "measure-normal",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "4d18bf77b174eda34a273f08a4328cbfc6b3a9c52140378897ed61cdd23798c6",
+      "run_sha256": "ba469638899ce3f5ee5a7fb7a89b61dcb397820e2b9fe0c7ff8d532b4ddd21d2",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "2ecc7e53208c49f4788becbe1966fc0af5ea307420ba194c4b97d01faaf263e8",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "743fce13db16e8d36c0fc8483ab517c9a57b35c107d995b47e1fd6be5f044cab",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "a94619cb5207d1ed0bceb840b6c6b2aa094411097f1bc33a939822a476db97c0",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "DEFER_NORMAL",
+          null
+        ],
+        [
+          9,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "remaining": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 1.0,
+        "worker_wait_person_s": 0.25,
+        "access_check_person_s": 0.25,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 3.25,
+        "tool_work_tool_s": 1.0
+      },
+      "person_total": 3.25,
+      "issue_fee": 1,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 22,
+      "mismatches": []
+    },
+    {
+      "unit": "direct",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "0886fa4b18bd021f24f0a7d059e36c26e3d65720442ddfcb05a26f3dd84d0fd4",
+      "run_sha256": "842ba736312b24c4f30ea2e3dc13622e806d787a8215c1e8eab3c523a30747b3",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "4/5",
+            "1/10",
+            "1/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "9/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "11/2",
+              "11/2",
+              "14/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "defer",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "1bb981dc759546a68a6bfafad5870d9007bfc6de31d9d9548d4a981eb4c186d6",
+      "run_sha256": "67ded7c214d4fb7a5d4acb1e47c3ab947c2ca3653a39877a11b8a2fd92c774ef",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c222ab5283eb9fda7cb7b093aa3d9e76754defd7808e33fe436d3938b96c6115",
+          "records": 1018
+        },
+        "balances.jsonl": {
+          "sha256": "0909d018b897ccf65ea86d3c91b48c560a3d8abccd620059067fb5e263e563a0",
+          "records": 1017
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DEFER",
+          null
+        ],
+        [
+          10.0,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "0",
+            "1/10",
+            "9/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "1/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DEFER"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "remaining": {
+          "person_s": 30,
+          "tool_s": 30,
+          "cost": 3
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 0.0,
+        "worker_work_person_s": 0.0,
+        "worker_wait_person_s": 0.0,
+        "access_check_person_s": 0.0,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 0.0,
+        "tool_work_tool_s": 0.0
+      },
+      "person_total": 0.0,
+      "issue_fee": 0,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 15,
+      "mismatches": []
+    },
+    {
+      "unit": "delayed-order",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "cb7398073072910db2a2348e0f8483ccc62a2a77492b6b8236a32c6dea8d9461",
+      "run_sha256": "669500b4b7e28bd7641829ee75f4dfb930f078e1994b0b2db6c55760a047e51d",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c222ab5283eb9fda7cb7b093aa3d9e76754defd7808e33fe436d3938b96c6115",
+          "records": 1018
+        },
+        "balances.jsonl": {
+          "sha256": "0909d018b897ccf65ea86d3c91b48c560a3d8abccd620059067fb5e263e563a0",
+          "records": 1017
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "NO_INSTANCE",
+          null
+        ],
+        [
+          0.5,
+          "DEFER",
+          null
+        ],
+        [
+          10.0,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0.5,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": null,
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "remaining": {
+          "person_s": 30,
+          "tool_s": 30,
+          "cost": 3
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 0.0,
+        "worker_work_person_s": 0.0,
+        "worker_wait_person_s": 0.0,
+        "access_check_person_s": 0.0,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 0.0,
+        "tool_work_tool_s": 0.0
+      },
+      "person_total": 0.0,
+      "issue_fee": 0,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 17,
+      "mismatches": []
+    },
+    {
+      "unit": "copy-and-competition",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "e6887d7f1ba5f9819666df3bb69620be7d313d13d4598afe0faca2bc5489980e",
+      "run_sha256": "77c7018bde0b3866e9a15721ccf7317d70ea056a3a3a301cbfe52d6dd966c2b2",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "b03e278a80c3c7bfa9ffec7442b46f9696ca4ab125ef0a387275b78a3bd32ecf",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "97f3dcf8b5eed90d75287c3f8e28ce389614dfa83553b1332dacc217ced6f5d9",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "ACT_LOW",
+          "cooling-direct/action-0"
+        ],
+        [
+          4.0,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          5.5,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          5.75,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 5,
+          "action_report_arrived_at_s": 5.5,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "VERIFIED_CLOSED"
+        },
+        {
+          "question_id": "cooling-direct/question-1",
+          "opened_at_s": 0.5,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 24.5,
+          "tool_s": 24.5,
+          "cost": 3
+        },
+        "remaining": {
+          "person_s": 5.5,
+          "tool_s": 5.5,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 3.0,
+        "worker_wait_person_s": 0.75,
+        "access_check_person_s": 0.75,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 5.75,
+        "tool_work_tool_s": 3.0
+      },
+      "person_total": 5.75,
+      "issue_fee": 3,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 26,
+      "mismatches": []
+    },
+    {
+      "unit": "budget-fee",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "2ddb3fff5c8749e4ffaf3abf9e44d5967952a71d3e0586d236d2cfd0b1d0f783",
+      "run_sha256": "0db95a44a8a2cbf3264997d9889b822b4b29aa3a54c8058f8a6273d6903b8642",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "budget-person",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "79bcd110cc0bf78666e430ca904dab8a0750d8065312dd68db0180134d6dd91b",
+      "run_sha256": "b3fe59d155141cf812fa4aacb63358d4a0c4bc89d23aba0e97c18afa6462b2c9",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 1.75,
+          "tool_s": 13.75,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "budget-tool",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "313ac4aabc64a05b1bfdc4892e67e80a112c09d90d1de5fa86c34e993f03445b",
+      "run_sha256": "9090e79540afc5fd31c61562f4ed555562bf9728eb8f5034ab8a56c241b025b6",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 1.75,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "recheck-window",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "595885b9c79dd17d049cae8085ae0a5071c26caabb627e6c732043e07caf1888",
+      "run_sha256": "a65b4c5985faad00e2003f3ccdee780760848cbbe01dabbaa7877d4c0409a183",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c222ab5283eb9fda7cb7b093aa3d9e76754defd7808e33fe436d3938b96c6115",
+          "records": 1018
+        },
+        "balances.jsonl": {
+          "sha256": "0909d018b897ccf65ea86d3c91b48c560a3d8abccd620059067fb5e263e563a0",
+          "records": 1017
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DEFER",
+          null
+        ],
+        [
+          10.0,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DEFER"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "remaining": {
+          "person_s": 30,
+          "tool_s": 30,
+          "cost": 3
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 0.0,
+        "worker_work_person_s": 0.0,
+        "worker_wait_person_s": 0.0,
+        "access_check_person_s": 0.0,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 0.0,
+        "tool_work_tool_s": 0.0
+      },
+      "person_total": 0.0,
+      "issue_fee": 0,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 15,
+      "mismatches": []
+    },
+    {
+      "unit": "expiry",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "730f1c8de853b0b2e90a59330f59f06c71575a20652e56f62569ccb4aeefac2d",
+      "run_sha256": "50763123db2d99c9619338728fab15098cdcf81fd1c6dd828706681e071b620f",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c222ab5283eb9fda7cb7b093aa3d9e76754defd7808e33fe436d3938b96c6115",
+          "records": 1018
+        },
+        "balances.jsonl": {
+          "sha256": "0909d018b897ccf65ea86d3c91b48c560a3d8abccd620059067fb5e263e563a0",
+          "records": 1017
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DEFER",
+          null
+        ],
+        [
+          10.0,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DEFER"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "remaining": {
+          "person_s": 30,
+          "tool_s": 30,
+          "cost": 3
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 0.0,
+        "worker_work_person_s": 0.0,
+        "worker_wait_person_s": 0.0,
+        "access_check_person_s": 0.0,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 0.0,
+        "tool_work_tool_s": 0.0
+      },
+      "person_total": 0.0,
+      "issue_fee": 0,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 15,
+      "mismatches": []
+    },
+    {
+      "unit": "expired-read",
+      "original_expectation_matched": false,
+      "source": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green03",
+      "input_sha256": "19ba6fc57c39b71f3e6e1d135c67d0371d5936be7bca3e8d035690e4fc180f60",
+      "run_sha256": "19bb19c0a8c163c132b03f31d9bce35ac0359494a2b952ad163f58be74702610",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "3/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": [
+        {
+          "field": "actual ordered issues and actual work completions",
+          "actual": [
+            [
+              "action-0",
+              0.0,
+              3.25
+            ],
+            [
+              "recheck-0",
+              3.75,
+              5
+            ]
+          ],
+          "expected": [
+            [
+              "inspect-0",
+              0,
+              3.25
+            ]
+          ],
+          "passed": false
+        },
+        {
+          "field": "person_s",
+          "actual": 4.5,
+          "expected": 3.25,
+          "passed": false
+        },
+        {
+          "field": "tool_s",
+          "actual": 4.5,
+          "expected": 3.25,
+          "passed": false
+        },
+        {
+          "field": "issue_cost",
+          "actual": 2,
+          "expected": 1,
+          "passed": false
+        },
+        {
+          "field": "envelope_person_s",
+          "actual": 16.25,
+          "expected": 10,
+          "passed": false
+        },
+        {
+          "field": "envelope_tool_s",
+          "actual": 16.25,
+          "expected": 10,
+          "passed": false
+        },
+        {
+          "field": "first_verified_at_s",
+          "actual": 7.5,
+          "expected": null,
+          "passed": false
+        },
+        {
+          "field": "public decision 0",
+          "actual": "DIRECT",
+          "expected": "MEASURE",
+          "passed": false
+        },
+        {
+          "field": "public decision 3.75",
+          "actual": "RECHECK",
+          "expected": "EXPIRED",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "unit": "unavailable-read",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "a0f3d556421d927a2164d253892ab23215fc383d4377b9ae2c2be5120639632d",
+      "run_sha256": "efbd38ce0c366740965b8433138db529dd8fa19070d195909ee65f07a4a49e50",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "ecf9ed66a0ae8f8c91ca0e1277a676b517a90f1bd111ff0f1e299c7e3ac5835d",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "4961105ebfd1f9bf6f72fabdea95fa95d4a84548e6dbbaebf2fb553cd9cabf2e",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "UNAVAILABLE",
+          null
+        ],
+        [
+          9,
+          "EXPIRED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "remaining": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 1.0,
+        "worker_wait_person_s": 0.25,
+        "access_check_person_s": 0.25,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 3.25,
+        "tool_work_tool_s": 1.0
+      },
+      "person_total": 3.25,
+      "issue_fee": 1,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "conflict",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "90f4d75077de158a42d09dcfe7f28fdec4473e99c952975140a8243d5a6370c7",
+      "run_sha256": "86f2ee1f06d057067090dffdba7c13cad8e48a491c9a0a04194133a8d4c7795c",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "ecf9ed66a0ae8f8c91ca0e1277a676b517a90f1bd111ff0f1e299c7e3ac5835d",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "4961105ebfd1f9bf6f72fabdea95fa95d4a84548e6dbbaebf2fb553cd9cabf2e",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "CONFLICT",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "remaining": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 2
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 1.0,
+        "worker_wait_person_s": 0.25,
+        "access_check_person_s": 0.25,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 3.25,
+        "tool_work_tool_s": 1.0
+      },
+      "person_total": 3.25,
+      "issue_fee": 1,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "variant-disagreement",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "70219cc8c7b9b1f04874287189c755ef760a4d7b7840f81ebb62c8b19f8aa6e5",
+      "run_sha256": "d93cd551d2643e257df283cac7fdc302697d24adc144df4bb49899c5e254a233",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "30f23146788dc48030d61a5ee65676ee5ea5abcce54995d18411d8593a3a7cae",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "e6ce34a90d2f36228194e594421dc7508ece6d3d6b8907596dec1c15193f0b14",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "DIRECT",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          3.75,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.0,
+          "RECHECK_ISSUED",
+          null
+        ],
+        [
+          7.5,
+          "CLOSED",
+          null
+        ],
+        [
+          10.0,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 7.5,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          },
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "13/4",
+              "13/4",
+              "1"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        },
+        "state": "DIRECT"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "persistent-bottleneck",
+      "original_expectation_matched": true,
+      "source": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+      "source_tree": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e",
+      "attempt": "green02",
+      "input_sha256": "1104c269d2027b7c2841242faa270f981674960764a5745f88934179dd5285ec",
+      "run_sha256": "623a9b9a151168e654e40a9c7fd06d422e23aacaec1d81911328a1cb4ad5befd",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "02892812e04f8cfc0f811fe3f92a0c00a4be2e091706f0cd52e322b8daee96c5",
+          "records": 1019
+        },
+        "balances.jsonl": {
+          "sha256": "03a74a7140e50c55b94d17cb2ea2b7142a9edc91435e5cdf8bf7285688bec8a9",
+          "records": 1018
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "MEASURE",
+          "cooling-direct/inspect-0"
+        ],
+        [
+          0.5,
+          "PENDING",
+          null
+        ],
+        [
+          3.75,
+          "ACT_LOW",
+          "cooling-direct/action-0"
+        ],
+        [
+          4.0,
+          "AWAIT_ACTION",
+          null
+        ],
+        [
+          5.5,
+          "RECHECK",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          5.75,
+          "RECHECK_ISSUED",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "inspect-0",
+          0.0,
+          3.25
+        ],
+        [
+          "action-0",
+          3.75,
+          5
+        ],
+        [
+          "recheck-0",
+          5.5,
+          6.75
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 5,
+          "action_report_arrived_at_s": 5.5,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "SYMPTOM_RETREATED_PENDING_VERIFICATION"
+        }
+      ],
+      "public_model_at_open": {
+        "posterior": [
+          [
+            "1/10",
+            "1/10",
+            "4/5"
+          ],
+          [
+            "1/10",
+            "1/5",
+            "7/10"
+          ]
+        ],
+        "scores": [
+          {
+            "DEFER": [
+              "2/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "1/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "1/5",
+              "15/4",
+              "15/4",
+              "7/5"
+            ]
+          },
+          {
+            "DEFER": [
+              "3/5",
+              "0",
+              "0",
+              "0"
+            ],
+            "DIRECT": [
+              "2/5",
+              "9/2",
+              "9/2",
+              "2"
+            ],
+            "MEASURE": [
+              "2/5",
+              "4",
+              "4",
+              "8/5"
+            ]
+          }
+        ],
+        "continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        },
+        "state": "MEASURE"
+      },
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 24.5,
+          "tool_s": 24.5,
+          "cost": 3
+        },
+        "remaining": {
+          "person_s": 5.5,
+          "tool_s": 5.5,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 3.0,
+        "worker_wait_person_s": 0.75,
+        "access_check_person_s": 0.75,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 5.75,
+        "tool_work_tool_s": 3.0
+      },
+      "person_total": 5.75,
+      "issue_fee": 3,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 5.0,
+        "service_deficit_time_s": 5.0
+      },
+      "assertions": 16,
+      "mismatches": []
+    },
+    {
+      "unit": "matched-protection",
+      "original_expectation_matched": true,
+      "source": "75675e85d746496b89928b16a049b282302995d1",
+      "source_tree": "4a1ca34a15950402d9b2413ba995ed7360c34f07c0c28b7cd58b5107e82c793c",
+      "attempt": "green01",
+      "input_sha256": "e221d848a2d62242032ed6463958be20d2f5370d295ff61ac1ddf5803dbe7cd3",
+      "run_sha256": "820c70180fc9dfc377dd3695c3b85aa5d3a34981c3cc72fa81cbcbc9f8893b30",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c222ab5283eb9fda7cb7b093aa3d9e76754defd7808e33fe436d3938b96c6115",
+          "records": 1018
+        },
+        "balances.jsonl": {
+          "sha256": "0909d018b897ccf65ea86d3c91b48c560a3d8abccd620059067fb5e263e563a0",
+          "records": 1017
+        }
+      },
+      "decision_calls": 20,
+      "public_state_changes": [
+        [
+          0.0,
+          "POLICY_NO_HUMAN",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_UNCONFIRMED"
+        }
+      ],
+      "public_model_at_open": null,
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 0,
+          "tool_s": 0,
+          "cost": 0
+        },
+        "remaining": {
+          "person_s": 30,
+          "tool_s": 30,
+          "cost": 3
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 0.0,
+        "worker_work_person_s": 0.0,
+        "worker_wait_person_s": 0.0,
+        "access_check_person_s": 0.0,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 0.0,
+        "tool_work_tool_s": 0.0
+      },
+      "person_total": 0.0,
+      "issue_fee": 0,
+      "service": {
+        "demand_service_unit_s": 10.0,
+        "delivered_service_unit_s": 9.0,
+        "service_deficit_time_s": 1.0
+      },
+      "assertions": 15,
+      "mismatches": []
+    },
+    {
+      "unit": "old-v2",
+      "original_expectation_matched": true,
+      "source": "75675e85d746496b89928b16a049b282302995d1",
+      "source_tree": "4a1ca34a15950402d9b2413ba995ed7360c34f07c0c28b7cd58b5107e82c793c",
+      "attempt": "green01",
+      "input_sha256": "53c37624d8162999fb353e1c1f986eb43a738e01dd3518347b65959b19c1f697",
+      "run_sha256": "12cd1619024b9578974b03569badccbd608d7eeb51274afd3d8db48619367205",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "cc04a20473b7f0a82f6e762dd9019b940de321d8a05fefdd8397155c95795387",
+          "records": 611
+        },
+        "balances.jsonl": {
+          "sha256": "2563721f3efc1b754c0bd337e8f684bdf0df2d7403724943a26411e638b331ac",
+          "records": 610
+        }
+      },
+      "decision_calls": 8,
+      "public_state_changes": [
+        [
+          0.0,
+          "FIFO_EARLIEST_AVAILABLE",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+          null
+        ],
+        [
+          3.75,
+          "FIFO_EARLIEST_AVAILABLE",
+          "cooling-direct/recheck-0"
+        ],
+        [
+          4.5,
+          "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ],
+        [
+          "recheck-0",
+          3.75,
+          5
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "APPLIED",
+          "first_verified_closed_at_s": 5.5,
+          "status_at_horizon": "VERIFIED_CLOSED"
+        },
+        {
+          "question_id": "cooling-direct/question-1",
+          "opened_at_s": 5.75,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "RISK_ACCEPTED"
+        }
+      ],
+      "public_model_at_open": null,
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 16.25,
+          "tool_s": 16.25,
+          "cost": 2
+        },
+        "remaining": {
+          "person_s": 13.75,
+          "tool_s": 13.75,
+          "cost": 0
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 2.0,
+        "worker_wait_person_s": 0.5,
+        "access_check_person_s": 0.5,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 4.5,
+        "tool_work_tool_s": 2.0
+      },
+      "person_total": 4.5,
+      "issue_fee": 2,
+      "service": {
+        "demand_service_unit_s": 6.0,
+        "delivered_service_unit_s": 6.0,
+        "service_deficit_time_s": 0.0
+      },
+      "assertions": 14,
+      "mismatches": []
+    },
+    {
+      "unit": "old-expiring-authority",
+      "original_expectation_matched": true,
+      "source": "75675e85d746496b89928b16a049b282302995d1",
+      "source_tree": "4a1ca34a15950402d9b2413ba995ed7360c34f07c0c28b7cd58b5107e82c793c",
+      "attempt": "green01",
+      "input_sha256": "2e53e99d3c9c906ca02bc695478bcb41be36da61add42033077f873fd7e202b0",
+      "run_sha256": "a645ebe0f73333ee80f7f5ff45f8f3cf1132b7393fc56fbe54e6d1abfae93b63",
+      "raw_artifacts": {
+        "scenario.json": {
+          "sha256": "9b6661937134b921ef55f905d8f408a987fc46f6e6e8410d9ff258a953c7d6c7",
+          "records": 1
+        },
+        "private-state.jsonl": {
+          "sha256": "c7f8864c80d1ec1f2fc2bd2f46ec990be3ce7cace15976950e7334e3288a835a",
+          "records": 611
+        },
+        "balances.jsonl": {
+          "sha256": "7c962cbaabe867edf7374c18f392ed47f11b1a398e11db04dcfdb527a90225a1",
+          "records": 610
+        }
+      },
+      "decision_calls": 8,
+      "public_state_changes": [
+        [
+          0.0,
+          "FIFO_EARLIEST_AVAILABLE",
+          "cooling-direct/action-0"
+        ],
+        [
+          0.5,
+          "NO_PUBLICLY_ELIGIBLE_CANDIDATE",
+          null
+        ]
+      ],
+      "ordered_work_issue_completion": [
+        [
+          "action-0",
+          0.0,
+          3.25
+        ]
+      ],
+      "endpoints": [
+        {
+          "question_id": "cooling-direct/question-0",
+          "opened_at_s": 0,
+          "actual_action_completed_at_s": 3.25,
+          "action_report_arrived_at_s": 3.75,
+          "action_report_outcome": "NO_EFFECT",
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "OPEN_ACTION_FAILED"
+        },
+        {
+          "question_id": "cooling-direct/question-1",
+          "opened_at_s": 5.75,
+          "actual_action_completed_at_s": null,
+          "action_report_arrived_at_s": null,
+          "action_report_outcome": null,
+          "first_verified_closed_at_s": null,
+          "status_at_horizon": "RISK_ACCEPTED"
+        }
+      ],
+      "public_model_at_open": null,
+      "reservation": {
+        "spent_or_reserved": {
+          "person_s": 10,
+          "tool_s": 10,
+          "cost": 1
+        },
+        "remaining": {
+          "person_s": 20,
+          "tool_s": 20,
+          "cost": 1
+        },
+        "cost_unit": "declared_research_cost",
+        "basis": "COMMON_FULL_DECLARED_TASK_WINDOW_ENVELOPE_NOT_MEASURED_COST",
+        "terminal_report_refund": false,
+        "actual_person_and_tool_time": "REPORTED_SEPARATELY_BY_PLANT_BALANCES"
+      },
+      "actual_occupation": {
+        "worker_travel_person_s": 2.0,
+        "worker_work_person_s": 1.0,
+        "worker_wait_person_s": 0.25,
+        "access_check_person_s": 0.25,
+        "rendezvous_wait_person_s": 0.0,
+        "queue_wait_person_s": 0.0,
+        "tool_occupation_tool_s": 3.25,
+        "tool_work_tool_s": 1.0
+      },
+      "person_total": 3.25,
+      "issue_fee": 1,
+      "service": {
+        "demand_service_unit_s": 6.0,
+        "delivered_service_unit_s": 6.0,
+        "service_deficit_time_s": 0.0
+      },
+      "assertions": 15,
+      "mismatches": []
+    }
+  ],
+  "pairs": [
+    {
+      "pair": "same public prefix before paid arrival",
+      "matched": true,
+      "cut": 3.75
+    },
+    {
+      "pair": "inspection cannot clear filter; same exogenous service",
+      "matched": true,
+      "common_instants": 943,
+      "actual_writes": {
+        "measure-low": [
+          [
+            "cooling-direct/action-0",
+            "filter_resistance_multiplier",
+            5,
+            4,
+            1
+          ]
+        ],
+        "direct": [
+          [
+            "cooling-direct/action-0",
+            "filter_resistance_multiplier",
+            3.25,
+            4,
+            1
+          ]
+        ],
+        "matched-protection": []
+      },
+      "post_action_flow": [
+        0.1,
+        0.05423261445466404
+      ]
+    },
+    {
+      "pair": "direct, conditional and existing protection use identical model and exogenous events",
+      "matched": true
+    }
+  ],
+  "interfaces": [
+    {
+      "unit": "cross-threshold",
+      "actual": "INCONCLUSIVE",
+      "expected": "INCONCLUSIVE",
+      "passed": true
+    },
+    {
+      "unit": "outside-support",
+      "actual": "ZERO_SUPPORT",
+      "expected": "ZERO_SUPPORT",
+      "passed": true
+    },
+    {
+      "unit": "outside-model",
+      "actual": "UNMODELED",
+      "expected": "UNMODELED",
+      "passed": true
+    },
+    {
+      "unit": "unknown-version",
+      "actual": "REJECT",
+      "expected": "REJECT",
+      "passed": true
+    },
+    {
+      "unit": "wrong-channel",
+      "actual": "REJECT",
+      "expected": "REJECT",
+      "passed": true
+    }
+  ],
+  "expected_file_sha256": "33baa3a7116fd81330f3f475b1e81066f2eab52fb57831339dd043c8cba82c67",
+  "original_comparison_complete": false,
+  "review_exception": "expired-read: original forecast credits predictably expired information. See separate review record.",
+  "red_rejection_counted_as_facility": false,
+  "research_trials": 0
+}
