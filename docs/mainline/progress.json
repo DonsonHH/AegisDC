@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-19",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "R5_ORDINARY_V2_FINITE_QUALIFICATION_AWAITING_ACCEPTANCE",
+  "status": "R5_ORDINARY_V2_FINITE_QUALIFICATION_ACCEPTED",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
-  "current_ticket": "R5-ORDINARY-V2-FINITE-QUALIFICATION",
-  "current_milestone": "R5_ORDINARY_V2_FINITE_QUALIFICATION_AWAITING_ACCEPTANCE",
+  "current_ticket": "R5-ORDINARY-V2-DEVELOPMENT",
+  "current_milestone": "R5_ORDINARY_V2_FINITE_QUALIFICATION_ACCEPTED",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "FINITE_ENGINEERING_DELIVERED_STOPPED",
+  "agent_stage": "FINITE_QUALIFICATION_ACCEPTED",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -33,7 +33,7 @@
     "authorized_scope": [
       "Review the finite engineering delivery and the proposed study manifest"
     ],
-    "after_delivery": "WAIT_FOR_ORDINARY_V2_LIMITED_QUALIFICATION_REVIEW",
+    "after_delivery": "REGISTER_SEPARATE_USER_BOUND_ONE_STUDY_GRANT",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -135,11 +135,11 @@
     {
       "id": "R5",
       "name": "self_improvement_and_RSI_increment",
-      "status": "R5_ORDINARY_V2_FINITE_QUALIFICATION_AWAITING_ACCEPTANCE",
+      "status": "R5_ORDINARY_V2_FINITE_QUALIFICATION_ACCEPTED",
       "requires_explicit_user_review": true,
       "execution_authorized": false,
       "protocol": "docs/mainline/review-gated/R5/ordinary-improvement-v2/README.md",
-      "scope": "Frozen ordinary v2 protocol. Six single-policy engineering episodes and declared non-model witnesses passed; user acceptance pending. No actual research column scored.",
+      "scope": "User accepted the declared 134587 finite engineering scope. Preserve all historical artifacts; broader R5 and RSI remain open.",
       "implementation_authorized": false,
       "qualified": false,
       "static_disposition": "docs/mainline/review-gated/R5/v1-static-disposition.md",
@@ -152,11 +152,12 @@
       "qualification_plan_authorized": false,
       "engineering_authorization_consumed": true,
       "finite_qualification_passed": true,
-      "qualification_user_accepted": false,
+      "qualification_user_accepted": true,
       "full_gate_certified": false,
       "qualified_field_scope": "Full gate only",
       "qualification_result": "docs/mainline/review-gated/R5/ordinary-v2-qualification/qualification-result.json",
-      "study_manifest_for_review": "docs/mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json"
+      "study_manifest_for_review": "docs/mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json",
+      "qualification_acceptance": "docs/mainline/review-gated/R5/ordinary-v2-qualification/acceptance-20261119.json"
     },
     {
       "id": "R6",
@@ -438,6 +439,15 @@
       "authorized": "Implementation plus one finite 300 CPU-second engineering job, no retry; draft research manifest for separate authorization.",
       "frozen_engineering_inputs": "docs/mainline/review-gated/R5/ordinary-v2-qualification/freeze.json",
       "research_execution_authorized": false
+    },
+    {
+      "id": "20261119-cace71c9-finite-acceptance",
+      "authority": "User in this thread",
+      "accepted_publication": "cace71c90f7befb69a358b478aa9488caeab3622",
+      "acceptance": "docs/mainline/review-gated/R5/ordinary-v2-qualification/acceptance-20261119.json",
+      "qualification_result_sha256": "c4a03184856cd6971272a25badf8b71f0fe1863a8fa10d32f0c7c0683023c8e2",
+      "scope": "Six episodes and the declared non-model witnesses only",
+      "research_results_accepted": false
     }
   ],
   "legacy": {
