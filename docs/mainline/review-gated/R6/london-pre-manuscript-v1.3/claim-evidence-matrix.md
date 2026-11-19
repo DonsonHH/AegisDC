@@ -18,14 +18,14 @@
 |---|---|---|
 | 实1　图 1 | dev19 为 19 行、18 行合规。I 对 D 缺额较低／相同／较高为 0／10／8，对 P 为 0／17／1。各合规行 I 的人员与工具实耗均高于 P。 | [开发配对记录](../../R4/public-development-v1/paired-results.md) |
 | 实2　图 1 | ext35 为 35 行、34 行合规。I 对 D 为 1／28／5，唯一较低行 B01。I 对 P 为 1／32／1，较低行 G06、较高行 B02。35 项指定阶段到达包括失败阶段。 | [扩展比较](../../R4/finite-extension-study-v1/paired-results.md) |
-| 实3　§4.2 | A01、A02 的合法否定分别在 4、8 秒到达，I 对 D 每种资源分别节省 5、3 秒。dev19.C02、C03 各有相同的工时差。 | [到时记录](../../R4/finite-extension-study-v1/actual-stage-coverage.md) |
+| 实3　§4.2 | A01、A02 的合法否定分别在 4、8 秒到达，I 对 D 每种资源分别节省 5、3 秒。dev19.C02、C03 各有相同的工时差。 | [到时记录](../../R4/finite-extension-study-v1/actual-stage-coverage.md) · [开发成本](../../R4/public-development-v1/paired-results.md) · [扩展成本](../../R4/finite-extension-study-v1/paired-results.md) |
 | 实4　图 2 | B01 的 I 在 4 秒看到否定后停止。D 的隔离与重启使服务在 [2,9) 缺失，L(I,D,P)＝0／7／0。早期工程 X02 与 B01 的完整输入只差外部预约。 | [扩展原臂](../../R4/finite-extension-study-v1/paired-results.json) · [X02](../../R4/confirmation-entry-v1/README.md) |
 | 实5　图 3 | G05 中 I 的名义提交被 12 秒截止阻止，L＝5／0／5。G06 中 I 于 12 秒实际提交、未复核，L＝0／0／4。两行的读取链和申请时刻相同。 | [阶段与分段](../../R4/finite-extension-study-v1/actual-stage-coverage.md) |
-| 实6　表 3 | H03／H04 的预算门与 J03／J04 的窗口门改变动作能否完成。K02 中 I 排队后仍被截止。在 C07b，I 对 D 少用两种工时各 3 秒，却多 5 秒缺额。 | [扩展输入](../../R4/finite-extension-v1/conditions.json) · [开发原表](../../R4/public-development-v1/paired-results.md) |
+| 实6　表 3 | H03／H04 的预算门与 J03／J04 的窗口门改变动作能否完成。K02 中 I 排队后仍被截止。在 C07b，I 对 D 少用两种工时各 3 秒，却多 5 秒缺额。 | [扩展输入](../../R4/finite-extension-v1/conditions.json) · [实际阶段](../../R4/finite-extension-study-v1/actual-stage-coverage.md) · [开发原表](../../R4/public-development-v1/paired-results.md) |
 | 实7　§5.1 | D01 的 I 在 16 秒收到绑定复核通过，D 因许可不足未发请求。E01–E05 分别保留审批拒绝、提交失败、联锁阻断、复核失败与无结论。 | [实际阶段](../../R4/finite-extension-study-v1/actual-stage-coverage.md) |
 | 实8　§5.1 | 原扩展的 33 次复核请求与 33 条发布可绑定本组执行。在 22 个适用行，I／P 的服务机制分段相同。754 个策略包及 450 次重复同包属于技术核对。 | [冻结命题及核对](../../R4/finite-extension-study-v1/propositions.json) |
 | 实9　§4.2 | C09b 与 B03 均退出超出预留。I／D／P 的原缺额分别为 13／19／0 和 11／18／0，保留在全分母，不能登记正向数值收益。 | [完整结果附录](appendix.md) |
-| 实10　图 4 | F01、F02 中 I／D 后备接管失败。三臂依靠 A 与 UPS 维持至窗口末，H＝20 时转为 OFF。窗内 L／U 为零，恢复右删失的下界为零。 | [端点与恢复记录](../../R4/finite-extension-study-v1/costs-and-recovery.md) |
+| 实10　图 4 | F01、F02 中 I／D 后备接管失败。三臂依靠 A 与 UPS 维持至窗口末，H＝20 时转为 OFF。窗内 L／U 为零，恢复右删失的下界为零。 | [恢复记录](../../R4/finite-extension-study-v1/costs-and-recovery.md) · [供给与端点](../../R4/finite-extension-study-v1/paired-results.json) |
 | 实11　§5.2 | L01 的外生故障区间为空，PRE 仍截止。L02 窗内未恢复 A，I／P 各有 5 秒缺额，D 为零。 | [实际阶段](../../R4/finite-extension-study-v1/actual-stage-coverage.md) |
 | 实12　表 5 | U0 依次购 C全续、C早续、C早止。强搜索依预定次序购 C全续、C早止、V早续。六张票在全列齐备后释放。 | [逐票回执](../../R5/ordinary-v2-development/records/tickets.json) |
 | 实13　§7.1 | 两组的唯一终局均为 C早止，强搜索第二票取得，U0 第三票取得。四个实购候选各以自己的完整列晋级，另外三项未购。 | [前沿与锁定](../../R5/ordinary-v2-development/decisions.md) |
