@@ -1,0 +1,88 @@
+{
+  "scope": "Public work-order prior, single acquisition and common continuation. Exact reduced ratios. The two sensitivity variants use axes [predicted unserved service units, person seconds, tool seconds, issue fee].",
+  "units": [
+    "measure-low",
+    "measure-normal",
+    "copy-and-competition"
+  ],
+  "at_s": 0,
+  "posterior": [
+    [
+      "1/10",
+      "1/10",
+      "4/5"
+    ],
+    [
+      "1/10",
+      "1/5",
+      "7/10"
+    ]
+  ],
+  "continuation": {
+    "LOW": "ACT",
+    "NORMAL": "DEFER"
+  },
+  "scores": [
+    {
+      "DEFER": [
+        "2/5",
+        "0",
+        "0",
+        "0"
+      ],
+      "DIRECT": [
+        "1/5",
+        "9/2",
+        "9/2",
+        "2"
+      ],
+      "MEASURE": [
+        "1/5",
+        "15/4",
+        "15/4",
+        "7/5"
+      ]
+    },
+    {
+      "DEFER": [
+        "3/5",
+        "0",
+        "0",
+        "0"
+      ],
+      "DIRECT": [
+        "2/5",
+        "9/2",
+        "9/2",
+        "2"
+      ],
+      "MEASURE": [
+        "2/5",
+        "4",
+        "4",
+        "8/5"
+      ]
+    }
+  ],
+  "branch_envelopes": {
+    "single": [
+      10,
+      10,
+      1
+    ],
+    "direct": [
+      16.25,
+      16.25,
+      2
+    ],
+    "chain": [
+      24.5,
+      24.5,
+      3
+    ]
+  },
+  "endpoints": {
+    "policy": "Same order origin is consumed once, even with a copy at 0.5. A second origin must not borrow the first slot's action or recheck.",
+    "zero_support": "Positive-width bounded TAIL has no support in either finite variant. A valid report of this kind remains publicly visible."
+  }
+}
