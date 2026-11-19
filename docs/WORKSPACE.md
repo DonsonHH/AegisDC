@@ -2,7 +2,7 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前交审[R5 有限工程资格与源码对应关系](mainline/review-gated/R5/ordinary-v2-qualification/README.md)及[待授权的研究 manifest](mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json)。冻结协议为 4182f423，唯一工程作业 134587。研究执行停在此门。
+当前普通改进研究使用[一次性授权](mainline/review-gated/R5/ordinary-v2-development/approval.json)及[原 manifest](mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json)。此前有限工程验收及原件独立留存。
 
 ## 从哪里进入
 
