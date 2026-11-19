@@ -183,7 +183,7 @@ def before_owned_root(source,stage,dest,preflight,exit_code,reason):
          preflight_status=preflight.get("status"),source_failure=preflight.get("error"),
          counts=dict(charged_tickets=value,physical_intents=value,known_calls={k:value for k in KINDS}),
          locks={},valid_final_comparison=False,readback_findings=[],retries=0))
-    return True
+    return not began and exit_code!=0
 
 
 def export(source,stage,exit_code):
@@ -203,7 +203,8 @@ def export(source,stage,exit_code):
     failure=read(root/"failure.json") if (root/"failure.json").is_file() else {}
     journal=root/"queries/ledger.jsonl";events,torn=lines(journal)
     checks=[]
-    if torn:checks.append("Torn trailing query event; retain full original")
+    partial_log=torn or not journal.is_file()
+    if partial_log:checks.append("Missing or torn query journal; preserve other proven evidence")
     tickets=[]; active=None
     for e in events:
         event=e["event"]
@@ -218,6 +219,25 @@ def export(source,stage,exit_code):
             elif event in ("batch_complete","batch_stop"):active["batch"]=e
             elif event=="unlocked":active["unlocked"]=True;active["release_event"]=e["sequence"]
             elif event=="query_stopped":active["stop"]=e
+    # Preserve the charge lower bound when the primary journal is incomplete.
+    # A stored report proves payment; alone it does not prove the release event was written.
+    seen={(t["group"],t["ticket"]):t["descriptor"] for t in tickets}
+    paid_proofs={}
+    for g,items in terminal.get("paid",{}).items():
+        for number,name in enumerate(items,1):paid_proofs[g,number]=name
+    for report_path in sorted((root/"queries").glob("*/*/report.json")):
+        report=read(report_path); key=(report["group"],report["ticket"])
+        if key in paid_proofs and paid_proofs[key]!=report["descriptor"]:checks.append("Conflicting durable charge proofs")
+        paid_proofs[key]=report["descriptor"]
+    for (g,number),name in paid_proofs.items():
+        if (g,number) not in seen:
+            checks.append("Charge proved separately from research journal: "+g+"/"+str(number))
+            partial_log=True
+            tickets.append(dict(group=g,ticket=number,descriptor=name,prior=None,ticket_event=None,
+                                started=[],hits=[],returns=[],batch=None,unlocked=False,stop=None,
+                                charge_proof="saved terminal or group report"))
+        elif seen[g,number]!=name:checks.append("Charge name differs between journal and durable return")
+    exact_charges=not partial_log or terminal.get("status")=="COMPLETE" and len(paid_proofs)==6
     purchased=list(dict.fromkeys(t["descriptor"] for t in tickets))
     started={(t["descriptor"],key) for t in tickets for key in t["started"]}
     # Identify private directories by exact binding. No call to the studied implementation.
@@ -351,9 +371,13 @@ def export(source,stage,exit_code):
                 original_masks=preflight.get("masks",{}),paid=terminal.get("paid",{g:[x["descriptor"] for x in tickets if x["group"]==g] for g in ("U0","SEARCH")}),
                 locks=terminal.get("locks",{}) if verified else {},valid_final_comparison=verified,
                 queried=purchased,not_queried=[n for n in m["candidates"] if n not in purchased],
-                feedback_order=BITS,counts=dict(charged_tickets=len(tickets),charged_logical_rows=54*len(tickets),
+                feedback_order=BITS,counts=dict(charged_tickets=len(tickets) if exact_charges else None,
+                proved_charge_lower_bound=len(tickets),primary_charge_journal_incomplete=partial_log,
+                charged_logical_rows=54*len(tickets) if exact_charges else None,
                 released_tickets=sum(t["unlocked"] for t in tickets),released_logical_rows=sum(54 for t in tickets if t["unlocked"]),
-                physical_intents=sum(len(t["started"]) for t in tickets),physical_directories=len(actual_dirs),
+                physical_intents=None if partial_log else sum(len(t["started"]) for t in tickets),
+                known_physical_intent_lower_bound=max(sum(len(t["started"]) for t in tickets),len(actual_dirs)),
+                physical_directories=len(actual_dirs),
                 known_completed=sum(x["terminal"].get("status")=="COMPLETE" for x in physical_receipts),
                 cache_hits=sum(len(t["hits"]) for t in tickets),known_calls={k:counted[k] for k in KINDS},
                 unknown_count_episodes=unknown,unresolved_episodes=pending,orphan_directories=orphan,engineering_cache_hits=0,retries=0),
