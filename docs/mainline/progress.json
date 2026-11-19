@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-19",
   "mainline_id": "incident-mechanism-method-and-rsi-review-v1",
-  "status": "R5_ORDINARY_V2_ONE_STUDY_AUTHORIZED_PENDING_PREFLIGHT",
+  "status": "R5_ORDINARY_V2_DEVELOPMENT_COMPLETE_AWAITING_RESULT_REVIEW",
   "goal": "在真实事故机制约束下验证设施核查与处置的条件效果，并独立识别自改进及RSI增量",
   "current_ticket": "R5-ORDINARY-V2-DEVELOPMENT",
-  "current_milestone": "R5_ORDINARY_V2_ONE_STUDY_AUTHORIZED_PENDING_PREFLIGHT",
+  "current_milestone": "R5_ORDINARY_V2_DEVELOPMENT_COMPLETE_AWAITING_RESULT_REVIEW",
   "plan": "docs/mainline/review-gated/plan.md",
   "meeting": "docs/meetings/2026-11-12-research-mainline-reset.md",
-  "agent_stage": "SINGLE_AUTHORIZED_BATCH",
+  "agent_stage": "STUDY_RESULTS_DELIVERED_STOPPED",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -24,17 +24,25 @@
     "confirmation_runs": 0,
     "public_development_conditions": 19,
     "finite_extension_conditions": 35,
-    "finite_extension_arm_runs": 105
+    "finite_extension_arm_runs": 105,
+    "ordinary_v2_development": {
+      "unit": "New single-strategy episodes on already disclosed conditions, not independent incident samples",
+      "dev19": 76,
+      "ext35": 140,
+      "physical": 216,
+      "logical": 324,
+      "separate_from_earlier_condition_triplet_counts": true
+    }
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
     "automatic_goal": "PAUSED",
-    "research_execution": "ONE_VERSION_BOUND_ORDINARY_COMPARISON",
+    "research_execution": "ONE_ORDINARY_V2_GRANT_CONSUMED",
     "authorized_scope": [
-      "Exactly one ordinary v2 development comparison under the immutable approved manifest"
+      "Read-only review of the observed ordinary v2 development study"
     ],
-    "after_delivery": "STOP_FOR_ORDINARY_V2_RESEARCH_RESULT_REVIEW",
-    "new_experiments_authorized": true,
+    "after_delivery": "STOP_FOR_USER_REVIEW_ORDINARY_V2_DEVELOPMENT",
+    "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
@@ -58,12 +66,12 @@
     "public_engineering_execution_authorized": false,
     "R5_implementation_authorized": false,
     "R5_qualification_authorized": false,
-    "R5_research_execution_authorized": true,
+    "R5_research_execution_authorized": false,
     "R6_documentation_authorized_for_this_delivery": true,
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": true,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": "docs/mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json"
+    "current_execution_manifest": null
   },
   "gates": [
     {
@@ -136,11 +144,11 @@
     {
       "id": "R5",
       "name": "self_improvement_and_RSI_increment",
-      "status": "R5_ORDINARY_V2_ONE_STUDY_AUTHORIZED_PENDING_PREFLIGHT",
+      "status": "R5_ORDINARY_V2_DEVELOPMENT_COMPLETE_AWAITING_RESULT_REVIEW",
       "requires_explicit_user_review": true,
-      "execution_authorized": true,
+      "execution_authorized": false,
       "protocol": "docs/mainline/review-gated/R5/ordinary-improvement-v2/README.md",
-      "scope": "User accepted the declared 134587 finite engineering scope. Preserve all historical artifacts; broader R5 and RSI remain open.",
+      "scope": "Accepted bounded engineering and completed one same-account ordinary development comparison. Result awaiting user review; no result acceptance or full-gate certification.",
       "implementation_authorized": false,
       "qualified": false,
       "static_disposition": "docs/mainline/review-gated/R5/v1-static-disposition.md",
@@ -159,7 +167,10 @@
       "qualification_result": "docs/mainline/review-gated/R5/ordinary-v2-qualification/qualification-result.json",
       "study_manifest_for_review": "docs/mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json",
       "qualification_acceptance": "docs/mainline/review-gated/R5/ordinary-v2-qualification/acceptance-20261119.json",
-      "one_use_approval": "docs/mainline/review-gated/R5/ordinary-v2-development/approval.json"
+      "one_use_approval": "docs/mainline/review-gated/R5/ordinary-v2-development/approval.json",
+      "one_use_approval_consumed_job": "134624",
+      "development_result": "docs/mainline/review-gated/R5/ordinary-v2-development/README.md",
+      "development_result_user_accepted": false
     },
     {
       "id": "R6",
@@ -1125,6 +1136,46 @@
     "study_authorized": false,
     "study_episodes": 0,
     "research_tickets": 0,
+    "independent_confirmation_established": false,
+    "RSI_executed": false
+  },
+  "r5_ordinary_v2_development": {
+    "status": "R5_ORDINARY_V2_DEVELOPMENT_COMPLETE_AWAITING_RESULT_REVIEW",
+    "report": "docs/mainline/review-gated/R5/ordinary-v2-development/README.md",
+    "source_revision": "a2ac508cc6bd166cf40da08dd9a15654398ecf6e",
+    "acceptance_commit": "3ebf5457e5ecb7c0ce835250cbf6145b6fe8489a",
+    "approval_commit": "b249438f5fa62f67785b8b37b4ef0ed3b3df4238",
+    "staging_revision": "8a727ced06fffe252a57fdec2c9daa30933f3efa",
+    "manifest": "docs/mainline/review-gated/R5/ordinary-v2-qualification/research-manifest-review.json",
+    "manifest_sha256": "45b29f25522908e1aa14ffa2077a355f8c0d70bdaecfdfa3d680938bbd445e5b",
+    "approval_sha256": "9bf3c28e0a398e4b276b49df1ceafc46a669ea743c8a604196a508e6958912c9",
+    "job_id": "134624",
+    "core_scope": "Ordinary v2 finite development on the original separate panels",
+    "result": "docs/mainline/review-gated/R5/ordinary-v2-development/records/result.json",
+    "paid_tickets": 6,
+    "logical_rows": 324,
+    "new_physical_episodes": 216,
+    "cache_hits": 108,
+    "paid": {
+      "SEARCH": [
+        "C全续",
+        "C早止",
+        "V早续"
+      ],
+      "U0": [
+        "C全续",
+        "C早续",
+        "C早止"
+      ]
+    },
+    "locks": {
+      "SEARCH": "C早止",
+      "U0": "C早止"
+    },
+    "technical_failures": 0,
+    "retries": 0,
+    "results_user_accepted": false,
+    "remaining_authorized_studies": 0,
     "independent_confirmation_established": false,
     "RSI_executed": false
   }
