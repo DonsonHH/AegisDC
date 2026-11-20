@@ -86,8 +86,7 @@ def load_release(root, expected_sha):
     check(Path(sys.executable).resolve()==Path(PYTHON).resolve() and m['python']['path']==PYTHON
           and file_hash(Path(sys.executable).resolve())==m['python']['sha256']
           and sys.version.split()[0]==m['python']['version'],'PYTHON_IDENTITY')
-    check(file_hash(root/PRIOR)==ACCEPTANCE_SHA='c12a18f1e279c5a07067c366b050e82b9ec6a199b1050dc81fbcb6fd101ac938'
-ACCEPTED_PRIOR_SHA==m['prior_manifest_sha256'],'PROTOCOL_IDENTITY')
+    check(file_hash(root/PRIOR)==ACCEPTED_PRIOR_SHA==m['prior_manifest_sha256'],'PROTOCOL_IDENTITY')
     prior=load_json((root/PRIOR).read_bytes())
     check(file_hash(root/ACCEPTANCE)==m['acceptance_sha256']==ACCEPTANCE_SHA and load_json((root/ACCEPTANCE).read_bytes())['publication']==FINITE,'ACCEPTANCE_IDENTITY')
     check(digest(m['groups'])==digest(prior['groups']) and digest(m['budget'])==digest(prior['planned'])

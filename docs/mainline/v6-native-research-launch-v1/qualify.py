@@ -32,6 +32,14 @@ def ensure(ok,message):
     if not ok:raise ValueError(message)
 
 
+def literal_equal(actual, expected):
+    if type(expected) is bool:return type(actual) is bool and actual==expected
+    if type(expected) in (int,float):return type(actual) in (int,float) and actual==expected
+    if type(expected) is list:return type(actual) is list and len(actual)==len(expected) and all(literal_equal(a,b) for a,b in zip(actual,expected))
+    if type(expected) is dict:return type(actual) is dict and actual.keys()==expected.keys() and all(literal_equal(actual[k],v) for k,v in expected.items())
+    return type(actual) is type(expected) and actual==expected
+
+
 def rejection(fn):
     try:fn()
     except B.GateError as exc:return exc.code
@@ -163,7 +171,13 @@ class Harness:
         spec=self.freeze['saved_C01'][arm]
         path=Path(self.freeze['old_private_output'])/spec['relative']
         ensure(file_hash(path/'run.json')==spec['run_sha256'],'Retained original changed')
-        self.originals[arm]=dict(path=str(path),sha256=spec['run_sha256'])
+        saved_score=path.parent/'score.json'
+        ensure(file_hash(saved_score)==spec['score_sha256'],'Historical score identity changed')
+        score=read(saved_score)
+        ensure(score['input_sha256']==spec['input_sha256'] and score['native_source']==spec['source_tree']
+               and score['native_sha256']==spec['run_sha256'],'Historical saved identities differ')
+        self.originals[arm]=dict(path=str(path),sha256=spec['run_sha256'],score_sha256=spec['score_sha256'],
+                                 input_sha256=spec['input_sha256'],native_source_tree=spec['source_tree'])
         return path
     def A1(self):
         site=C.Site(B.SHARED,B.REAL)
@@ -360,7 +374,7 @@ def main():
                 actual=getattr(h,key)()
                 expected=spec['expected']
                 ensure(actual.keys()==expected.keys(),'Mismatched comparison fields')
-                differences={k:dict(expected=v,actual=actual[k]) for k,v in expected.items() if digest(actual[k])!=digest(v)}
+                differences={k:dict(expected=v,actual=actual[k]) for k,v in expected.items() if not literal_equal(actual[k],v)}
                 row=dict(passed=not differences,actual=actual,expected=expected,differences=differences)
                 C.once(directory/'observed.json',row)
             except Exception:

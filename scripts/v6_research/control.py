@@ -127,13 +127,23 @@ def case_rows(jobdir,case):
             if x.get('error'):r['error']=x['error']
     events=jobdir/'arms/events.jsonl'
     if events.exists():
-        for line in events.read_bytes().splitlines():
-            e=load_json(line);r=result[e['unit']]
-            if e['event']=='BEFORE_LAUNCH':r['before_launch']=True
-            elif e['event']=='STARTED':r.update(known_start=True,pid=e['pid'],start_ns=e['ns'])
-            elif e['event']=='EXIT':r['exit_code']=e['rc']
-            elif e['event']=='COMPLETE_RETURN':r.update(validated_return=True,decisions=e.get('decisions'),return_ns=e['ns'])
-            elif e['event']=='FAILED':r['state']='FAILED'
+        try:
+            lines=events.read_bytes().splitlines()
+        except OSError as exc:
+            errors.append('events: '+str(exc));lines=[]
+        for number,line in enumerate(lines,1):
+            try:
+                e=load_json(line)
+                r=result[e['unit']]
+                kind=e['event']
+                if kind=='BEFORE_LAUNCH':r['before_launch']=True
+                elif kind=='STARTED':r.update(known_start=True,pid=e['pid'],start_ns=e['ns'])
+                elif kind=='EXIT':r['exit_code']=e['rc']
+                elif kind=='COMPLETE_RETURN':r.update(validated_return=True,decisions=e.get('decisions'),return_ns=e['ns'])
+                elif kind=='FAILED':r['state']='FAILED'
+                else:raise ValueError('unknown event')
+            except (ValueError,TypeError,KeyError) as exc:
+                errors.append('events line '+str(number)+': '+str(exc))
     for key,r in result.items():
         path=jobdir/'arms'/key
         r['raw_return']=(path/'run/run.json').is_file()
@@ -178,6 +188,12 @@ def committed(site,release,case):
     check(seal['manifest']==release.sha==reservation['manifest'] and worker['manifest']==release.sha
           and terminal['state']=='COMPLETED' and terminal['exit']=='0:0' and worker['passed'] and
           worker['case']==case and worker['job']==doc(jobdir/'submitted.json')['job']==terminal['job'],'LEDGER_IDENTITY')
+    for arm in ARMS:
+        path=jobdir/'arms'/(case+'-'+arm)
+        raw=worker['raw_bindings'][arm]
+        check((path/'run/run.json').is_file() and (path/'run/run.json').stat().st_size==raw['native_bytes']
+              and file_hash(path/'native-return.json')==raw['receipt'] and file_hash(path/'score.json')==worker['scores'][arm],
+              'LEDGER_IDENTITY','stored return or score')
     return dict(case=case,status='COMMITTED',reserved_cpu_s=reservation['reserved_cpu_s'],**worker['counts'])
 
 
@@ -216,7 +232,9 @@ def snapshot(site,release):
         not_executed=[r['unit'] for r in all_rows if r['state']=='NOT_EXECUTED'],
         total_starts_exact=None if potential or counts['uncertain_starts'] or counts['accounting_errors'] else counts['started'],
         total_decisions_exact=None if potential or counts['unknown'] or counts['uncertain_starts'] or counts['accounting_errors'] else counts['known_decisions'],
-        research_arms_executed=counts['started'] if site.purpose==REAL else 0)
+        total_manual_issues_exact=None if potential or counts['unknown_issues'] or counts['uncertain_starts'] or counts['accounting_errors'] else counts['manual_issues'],
+        confirmed_research_starts=counts['started'] if site.purpose==REAL else 0,
+        research_arms_executed=(None if potential or counts['uncertain_starts'] or counts['accounting_errors'] else counts['started']) if site.purpose==REAL else 0)
 
 
 def claim_worker(site,release,case,allocation):
@@ -259,7 +277,7 @@ def worker(site,release,case,allocation,substitute=None):
                 path=jobdir/'arms'/(case+'-'+arm)
                 ret=doc(path/'native-return.json')
                 check(file_hash(path/'run/run.json')==ret['native_sha256'],'RETURN_CHANGED')
-                receipt['raw_bindings'][arm]=dict(native=ret['native_sha256'],receipt=file_hash(path/'native-return.json'),
+                receipt['raw_bindings'][arm]=dict(native=ret['native_sha256'],native_bytes=(path/'run/run.json').stat().st_size,receipt=file_hash(path/'native-return.json'),
                                                   call=file_hash(path/'call.json'),execution=file_hash(path/'execution-binding.json'))
             if case==CASES[-1]:
                 scores={}
