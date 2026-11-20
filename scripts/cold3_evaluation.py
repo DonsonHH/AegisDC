@@ -106,7 +106,8 @@ def score_arm(item,run):
     check(run['summary']['duration_s']==H==item['duration_s'] and req['maximum_step_s']==item['step_s'] and req.get('private_physical_audit') is True,'WINDOW_OR_AUDIT')
     check(req['boundary_events']==item['boundary_events']==[] and not req.get('action_commands') and not req.get('work_requests') and
           item.get('business_program') is None and 'business_evaluation' not in run,'COLD_BOUNDARY')
-    numerical=physiology(run);check(numerical['continuous'] and numerical['conserved'],'CONSERVATION')
+    numerical=physiology(run);face_errors=[]
+    check(numerical['continuous'],'INTERVAL_COVERAGE')
     account=service_account(run)
     numeric=all(abs(Fraction(a)-Fraction(b))<=Fraction('1e-8') for a,b in zip(account['balance'],account['rate']))
     usage=occupations(run);summary=run['summary']
@@ -128,9 +129,16 @@ def score_arm(item,run):
         sorted((r['task_id'],r['applied_at_s'],r['old_value'],r['new_value']) for r in run['intervention_private_audit']['events'] if r['outcome']=='APPLIED'),'PRIVATE_OPERATION_BINDING')
     known_params=[params['filter_resistance_multiplier'],params['network_service_capacity']]
     for i,e in enumerate(epochs):
-        t=e['t'];before=e['before'];right=e['right'];left=e['left'];s=snap[t]
+        t=e['t'];s=snap[t]
+        incompletes=[face for face in ('left','before','right') if not isinstance(e.get(face),dict) or
+                     set(e[face])!={'params','flow','heat','service','protection','stocks'}]
         incoming=balances[max(0,i-1)];outgoing=balances[min(i,len(balances)-1)]
         e['incoming']=interval(incoming);e['outgoing']=interval(outgoing)
+        if incompletes:
+            face_errors.extend({'reason':'MISSING_FACE','time':t,'face':face} for face in incompletes)
+            for _,kind,_,new in (w for w in all_writes if w[0]==t):known_params[0 if kind=='C' else 1]=new
+            continue
+        before=e['before'];right=e['right'];left=e['left']
         original=incoming['storage_after_J'] if i else outgoing['storage_before_J']
         check(all(abs(left['stocks'][k]-v)<=e['incoming'][1] for k,v in original.items()),'TRUE_LEFT_INVENTORIES')
         check(left['params']==before['params']==known_params,'PRE_MANUAL_PARAMETER_HISTORY')
@@ -149,6 +157,7 @@ def score_arm(item,run):
         window=typ['read'].get(r['field'])
         authorized=window is not None and window[0]<=j['issued_at_s']<=r['at']<window[1]
         field=r['field'];state=snap[r['at']]
+        if field=='g' and not phys_by_t.get(r['at'],{}).get('right',{}).get('params'):continue
         val=(phys_by_t[r['at']]['right']['params'][1] if field=='g' else state['it_service']['capacities']['network'] if field=='e'
              else state['facility_cooling']['lake_pump']['volume_flow_m3_s'])
         check(r['interval']==([val,val] if authorized else None) and r['bundle']==f"{r['task']}@{r['at']:g}",'PAID_SCOPE')
@@ -215,11 +224,13 @@ def score_arm(item,run):
     for row in issued:usage[row['task']]['fee']=cfg['fee']
     physical=digest([item['scenario'],item['boundary_events'],H,item['step_s'],item['action_commands'],item['work_requests']])
     public=deepcopy(prog);del public['policy_program']['method']
-    return dict(status='NONCOMPLIANT' if issues else 'OK' if numeric else 'NUMERIC_UNRESOLVED',violations=issues,
+    return dict(status='NONCOMPLIANT' if issues else 'OK' if numeric and numerical['conserved'] and not face_errors else 'NUMERIC_UNRESOLVED',violations=issues,
+        numerical_evidence=dict(conserved=numerical['conserved'],integrals_reconcile=numeric,face_faults=face_errors),
         physical_id=physical,public_id=digest(public),runtime=run['code_identity']['source_tree_sha256'],horizon=H,
         audit=epochs,effects=effects,all_writes=all_writes,unknown_effects=unknown,service=account,
         resources=[*numerical['physical_work'],charged[2]],admission=charged,task_resources=usage,resource_history=resource_log,
-        waits=waits,stages=stages,work_outcomes=[(r['id'],r['status'],r.get('reason')) for r in work],
+        waits=waits,stages=stages,paid_fields=[[r['task'],r['field'],r['at'],r['arrived'],r['interval']] for r in reads],
+        work_outcomes=[(r['id'],r['status'],r.get('reason')) for r in work],
         opened=opened,states=states,first=first,decisions=history,private_inputs_digest=digest(item))
 
 def _different(a,b,tolerance=0):
@@ -273,7 +284,7 @@ def compare_pair(left,right):
         or any(left[k]!=right[k] for k in ('physical_id','public_id','runtime','horizon','opened'))):
         return dict(category='NONCOMPLIANT',reason='ARM_OR_BINDING')
     if left['status']!='OK' or right['status']!='OK':
-        return dict(category='NUMERIC_UNRESOLVED',reason='ARM_NUMERICS')
+        return dict(category='NUMERIC_UNRESOLVED',reason='ARM_NUMERICS',arm_evidence=[left.get('numerical_evidence'),right.get('numerical_evidence')])
     outcome=_prefix(left,right)
     change=None;first_menu=None;fair=True;same_public=[]
     if len(left['decisions'])!=len(right['decisions']):

@@ -40,7 +40,13 @@ def assemble_manifest(root,out,pin,plan,freeze,release_sha):
     disclosure=read(PK/'disclosure.json.gz')
     if set(study)!=set(freeze['study']) or any(digest(v)!=freeze['study'][k] for k,v in study.items()):raise ValueError('Study inputs differ')
     matrix=read(PK/'conditions.json')
-    snapshots=read(root/'A/public-roots.json.gz') if (root/'A/public-roots.json.gz').exists() else {}
+    saved_roots=root/'A/public-roots.json.gz';audit_receipt=root/'A/result.json'
+    audited=read(audit_receipt) if audit_receipt.is_file() else {}
+    checked_exposures=bool(saved_roots.is_file() and audited.get('public_roots_sha256')==sha(saved_roots))
+    snapshots=read(saved_roots) if checked_exposures else {}
+    if checked_exposures and (set(snapshots)!=set(freeze['engineering']) or any(len(v)!=49 for v in snapshots.values())):
+        checked_exposures=False
+    if audited.get('status')=='PASS' and not checked_exposures:raise ValueError('Missing authenticated complete engineering exposure index')
     observed={};overlap={}
     for k,entries in snapshots.items():
         for e in entries:
@@ -72,6 +78,7 @@ def assemble_manifest(root,out,pin,plan,freeze,release_sha):
         data=read(rp);results[phase]=dict(status=data['status'],receipt_sha256=sha(rp),job=data.get('job'),counts=data['counts'],
             failed=data.get('failed',[]),error=data.get('error'),unexecuted=data.get('unexecuted',[]))
         if data['status'] not in ('PASS','EXPECTED_PRIOR_REJECTIONS'):problems.append(phase)
+    if not checked_exposures:problems.append('A/exposure-index')
     study_manifest=dict(schema='aegisdc-cold-study-review-manifest-v2',purpose='COLD_RESEARCH_REVIEW_ONLY',state='STOP_AT_RESEARCH_LAUNCH_REVIEW',
         authority=None,grants_consumed=0,study_starts=0,engineering_status='FINITE_EVIDENCE_AVAILABLE' if not problems else 'PARTIAL_ENGINEERING_EVIDENCE',
         failed_or_missing_phases=problems,approval='Separate explicit, published one-time user authorization bound to these exact manifest bytes and the supported scope; engineering gate rejects study-purpose inputs.',

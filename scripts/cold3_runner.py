@@ -143,7 +143,17 @@ def child(h,phase,key):
         nonlocal count
         if count>=49 or view['time']!=clock[count]:raise PermissionError('INTERNAL_CLOCK_CAP')
         journal(out,key,'internal');count+=1
-        return original(config,view)
+        if config!=cfg or set(view)!={'time','orders','issued','work','writes','paid','fixed'} or any(
+                r['arrived']>view['time'] for channel in ('orders','work','writes','paid','fixed') for r in view[channel]):
+            raise PermissionError('PUBLIC_BOUNDARY')
+        answer=original(config,view)
+        req=answer['request']
+        if req and (not answer['selected']['admitted'] or req['at']!=view['time'] or
+                    (cfg['method']=='J_NO_PROBE' and req['task'].endswith('/I'))):
+            raise PermissionError('NATIVE_ADMISSION')
+        with (unit/'decision-progress.jsonl').open('a',encoding='utf8') as fp:
+            fp.write(json.dumps([view['time'],digest(view),req['task'] if req else None])+'\n')
+        return answer
     save(unit/'native-start.json',dict(pid=os.getpid(),parent=os.getppid(),input=digest(item),release=h))
     with patch.object(joint_session,'choose',observed):
         journal(out,key,'facility')
