@@ -10,6 +10,10 @@ from .workforce_dispatch import prepare_work
 
 
 SCHEMA = 'aegisdc-problem-driven-policy-v3'
+VALUE_POLICY = 'intake_value'
+DIRECT_POLICY = 'intake_direct_rule_v1'
+THRESHOLD_POLICY = 'intake_threshold_rule_v1'
+INTAKE_POLICIES = (VALUE_POLICY, DIRECT_POLICY, THRESHOLD_POLICY)
 ACTION_SCHEMAS = {'aegisdc-problem-driven-policy-v2', SCHEMA}
 STAGES = {'inspect': 'task', 'action': 'action_task', 'recheck': 'recheck_task'}
 
@@ -223,6 +227,17 @@ def evaluate_root(model, laws, single, direct, chain):
 
 
 
+def direct_preferred(model, laws, direct):
+    return bool(laws and direct['feasible'] and direct['completion'] is not None
+                and direct['completion'] < number(model['service_window_s'][1])
+                and all(prior[0] > 0 for prior, _ in laws))
+
+
+def fixed_continuation(laws, feasible):
+    supported_low = bool(laws) and all(sum(groups['LOW']) > 0 for _, groups in laws)
+    return {'LOW': 'ACT' if supported_low and feasible else 'DEFER', 'NORMAL': 'DEFER'}
+
+
 def public_numbers(value):
     if isinstance(value, Fraction):
         return str(value)
@@ -287,7 +302,10 @@ def choose_intake(frame, program, history, compiled, choice):
             state=outcome
             if outcome in ('LOW','NORMAL'):
                 path=plan(['action','recheck'],True)
-                table=continuation(model,laws,path['completion'] if path['feasible'] else None)
+                if program['policy'] == THRESHOLD_POLICY:
+                    table = fixed_continuation(laws, path['feasible'])
+                else:
+                    table = continuation(model,laws,path['completion'] if path['feasible'] else None)
                 info.update(continuation=table,plan=path,tables_evaluated=len(laws),
                             branch_scores_evaluated=2*len(laws))
                 if not laws or any(not sum(groups[outcome]) for _,groups in laws):
@@ -306,7 +324,18 @@ def choose_intake(frame, program, history, compiled, choice):
             single=plan(['inspect'],False)
             direct=plan(['action','recheck'],False)
             chain=plan(['inspect','action','recheck'],False)
-            state,table,scores=evaluate_root(model,laws,single,direct,chain)
+            if program['policy'] == VALUE_POLICY:
+                state,table,scores=evaluate_root(model,laws,single,direct,chain)
+            else:
+                preferred = direct_preferred(model,laws,direct)
+                state = 'DIRECT' if preferred else 'DEFER'
+                take_measurement = program['policy'] == THRESHOLD_POLICY and single['feasible'] and chain['feasible']
+                if take_measurement:
+                    state = 'MEASURE'
+                table = (fixed_continuation(laws,chain['feasible']) if program['policy']==THRESHOLD_POLICY
+                         else continuation(model,laws,chain['completion'] if chain['feasible'] else None))
+                info.update(direct_preferred=preferred, fixed_threshold_inspection=take_measurement)
+                scores = []
             stage={'MEASURE':'inspect','DIRECT':'action','DEFER':None}[state]
             info.update(continuation=table,scores=scores,plans=dict(single=single,direct=direct,chain=chain),
                         tables_evaluated=len(laws),branch_scores_evaluated=2*len(laws))

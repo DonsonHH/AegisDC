@@ -3,7 +3,7 @@ from copy import deepcopy
 from collections import deque
 
 from .evidence_ledger import _fields, _finite, _registry, _require, _strings, _text
-from .intake_value import ACTION_SCHEMAS, SCHEMA as INTAKE_SCHEMA, validate_model
+from .intake_value import ACTION_SCHEMAS, INTAKE_POLICIES, SCHEMA as INTAKE_SCHEMA, validate_model
 from .workforce_dispatch import TASK_FIELDS, prepare_work, validate_profile
 
 PROGRAM_FIELDS = {'schema', 'id', 'basis', 'time_unit', 'policy', 'workforce_profile', 'templates'}
@@ -20,7 +20,7 @@ def _templates(frame, program):
              'Declare synthetic problem tasks in SI seconds')
     _text(program['id'], 'Problem policy id')
     _text(program['policy'], 'Problem policy')
-    policies = ('intake_value',) if intake else ('fifo','no_human')+(('defer_once',) if version2 else ())
+    policies = INTAKE_POLICIES if intake else ('fifo','no_human')+(('defer_once',) if version2 else ())
     if intake:
         validate_model(program)
     _require(program['policy'] in policies, 'Declare the transparent investigation reference')

@@ -6,7 +6,7 @@ from .evidence_ledger import _fields, _finite, _require, _text
 from .inspection_execution import PROFILE_FIELDS, BINDING_FIELDS
 from .intervention_execution import BIND_FIELDS, prepare_intervention, _authorization
 from .nonfixed_evidence import validate_nonfixed_profile, _arrival
-from .intake_value import SCHEMA as INTAKE_SCHEMA, choose_intake
+from .intake_value import INTAKE_POLICIES, SCHEMA as INTAKE_SCHEMA, choose_intake
 from .problem_tasks import declared_problem_tasks, open_questions
 from .verified_closure import FEEDBACK_FIELDS
 
@@ -194,7 +194,7 @@ def compile_problem_actions(frame, program, history, *, closure_program=None):
                                    available_at_s=at, question_id=instance['id'], source_note=template['source_note'],
                                    issue_cost=template['issue_costs'][stage]))
     selector_policy=program['policy']
-    if selector_policy == 'intake_value':
+    if selector_policy in INTAKE_POLICIES:
         selector_policy = 'no_human'
     if selector_policy=='defer_once':
         selector_policy='no_human' if not history['question_instances'] else 'fifo'
