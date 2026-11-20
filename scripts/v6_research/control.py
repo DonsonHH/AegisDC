@@ -213,6 +213,21 @@ def snapshot(site,release):
                     try:
                         entry=doc(jobdir/file)
                         job[key]=entry.get('state',entry.get('job')) if key!='worker' else entry['passed']
+                        if key=='worker':
+                            check(entry['case']==case and entry['manifest']==release.sha,'LEDGER_IDENTITY')
+                            if (jobdir/'committed.json').is_file():
+                                check(doc(jobdir/'committed.json')['files']['worker-result.json']==file_hash(jobdir/file),'LEDGER_IDENTITY')
+                            job['worker_receipt_counts']=entry.get('counts')
+                            sealed_rows=entry.get('account_rows',[])
+                            check([r['unit'] for r in sealed_rows]==[r['unit'] for r in rows],'LEDGER_IDENTITY')
+                            for current,sealed in zip(rows,sealed_rows):
+                                if sealed['known_start'] and (not current['known_start'] or
+                                   (sealed['validated_return'] and (not current['validated_return'] or not current['raw_return']
+                                    or current['issues'] is None or current['decisions'] is None))):
+                                    current.update(known_start=True,validated_return=sealed['validated_return'],
+                                        decisions=sealed['decisions'],issues=sealed['issues'],recorded_state=sealed['state'],
+                                        state='SAVED_EVIDENCE_UNAVAILABLE',ambiguous_start=False)
+                                    current.setdefault('case_accounting_errors',[]).append('missing persisted arm evidence; worker receipt subtotal retained')
                     except (OSError,KeyError,TypeError,ValueError) as exc:
                         rows[0].setdefault('case_accounting_errors',[]).append(file+': '+str(exc))
             job['committed']=(jobdir/'committed.json').exists()
@@ -304,7 +319,10 @@ def worker(site,release,case,allocation,substitute=None):
         receipt['failure']=traceback.format_exc()
     finally:
         # A journal or score failure never converts actual native calls into zero.
-        try:receipt['counts']=case_summary(case_rows(jobdir,case))
+        try:
+            final_rows=case_rows(jobdir,case)
+            receipt['counts']=case_summary(final_rows)
+            receipt['account_rows']=[{k:r[k] for k in ('unit','state','known_start','validated_return','decisions','issues')} for r in final_rows]
         except Exception:receipt.update(counts=None,passed=False,accounting_unresolved=True)
         once(jobdir/'worker-result.json',receipt)
     return receipt

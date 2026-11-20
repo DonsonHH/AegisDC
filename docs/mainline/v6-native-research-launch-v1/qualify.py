@@ -219,6 +219,16 @@ class Harness:
         site,schedule,s=self.journey('J1');c=s['counts'];job=site.activity/'jobs/C01/arms'
         vh=[read(job/('C01-'+a)/'score.json') for a in ('V','H')]
         ensure(len({row['pid'] for row in s['rows'][:5]})==5 and s['total_decisions_exact'] is None,'Process isolation or unknown count lost')
+        view=self.site('J1-receipt-only');dest=view.activity/'jobs/C01';dest.mkdir(parents=True)
+        for k in ('reserved.json','submitted.json','release-requested.json','worker-result.json','committed.json','scheduler-terminal.json'):
+            shutil.copyfile(site.activity/'jobs/C01'/k,dest/k)
+        partial=C.snapshot(view,self.release)
+        known=partial['counts']
+        recovered=dict(started=known['started'],returns=known['returned'],decisions=known['known_decisions'],issues=known['manual_issues'],
+            exact_decisions=partial['total_decisions_exact'],suffix=len(partial['not_executed']),source='sealed C01 worker receipt only')
+        ensure(recovered==dict(started=5,returns=5,decisions=100,issues=11,exact_decisions=None,suffix=80,
+              source='sealed C01 worker receipt only'),'Saved positive counts were erased')
+        C.once(view.shared/'evidence-loss-readback.json',recovered)
         return dict(submissions=len(schedule.jobs),ordered=[x['case'] for x in schedule.jobs.values()],reserved_cpu_s=s['reserved_cpu_s'],
               started=c['started'],complete_returns=c['returned'],unreturned=c['unreturned'],known_decisions=c['known_decisions'],
               known_issues=c['manual_issues'],unknown_decisions=c['unknown'],unexecuted=len(s['not_executed']),
@@ -324,7 +334,7 @@ def durable_records(out,unit_ids):
     for site_dir in sorted((out/'sites').glob('*')):
         if not site_dir.is_dir():continue
         site=C.Site(site_dir,B.SURROGATE)
-        for name in ('surrogate-transport.json','truncation-proof.json','review-addendum-results.json'):
+        for name in ('surrogate-transport.json','truncation-proof.json','review-addendum-results.json','evidence-loss-readback.json'):
             include(site_dir/name,'fixture receipt')
         include(site.claim/'consumption.json','test grant consumption')
         for name in ('admission.json','manifest-binding.json','controller.json','halt.json','progress.json','finished.json','accounting-unresolved.json'):
