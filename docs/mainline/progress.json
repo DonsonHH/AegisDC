@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_COMPARISON_PROTOCOL_DOCUMENTATION",
+  "status": "NATIVE_COMPARISON_PROTOCOL_V1_DELIVERED_FOR_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "WRITE_NATIVE_COMPARISON_PROTOCOL_V1",
+  "current_milestone": "STOP_AT_NATIVE_COMPARISON_PROTOCOL_REVIEW",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "PROTOCOL_DOCUMENTATION_ONLY",
+  "agent_stage": "PROTOCOL_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,10 +36,10 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "DOCUMENTATION_ONLY",
+    "automatic_goal": "STOP_AT_PROTOCOL_REVIEW",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "Append finite expiry acceptance and prepare native treatment, condition, endpoint, budget and minimum-gap specifications."
+      "Limited expiry acceptance and written comparison protocol only."
     ],
     "after_delivery": "STOP_FOR_PROTOCOL_REVIEW",
     "new_experiments_authorized": false,
@@ -1715,5 +1715,34 @@
     "accepted_publication": "ef9ff7e66427d01d5be263e79063897e478e2b54",
     "acceptance": "docs/mainline/v6-intake-expiry-closeout-v1/acceptance-20261120.json",
     "closed": true
+  },
+  "v6_native_comparison_v1": {
+    "status": "DOCUMENT_DELIVERED_FOR_PROTOCOL_REVIEW",
+    "protocol": "docs/mainline/v6-native-method-comparison-v1/README.md",
+    "conditions": "docs/mainline/v6-native-method-comparison-v1/conditions.json",
+    "treatments": "docs/mainline/v6-native-method-comparison-v1/treatments.md",
+    "gaps": "docs/mainline/v6-native-method-comparison-v1/gaps.md",
+    "design": {
+      "conditions": 17,
+      "physical_backgrounds": 5,
+      "treatment_labels": 5,
+      "distinct_action_rules": 4,
+      "paired_positions_per_contrast": 17,
+      "distinct_call_documents": 65,
+      "proposed_arms": 85,
+      "consistency_arms": 17,
+      "proposed_reserved_cpu_seconds": 2040
+    },
+    "current_authorization": {
+      "new_runtime": false,
+      "qualification_calls": 0,
+      "facility_runs": 0,
+      "method_benefit_trials": 0,
+      "research_execution": false,
+      "ordinary_improvement": false,
+      "RSI": false,
+      "historical_budget_transfer": false
+    },
+    "protocol_frozen_by_user": false
   }
 }
