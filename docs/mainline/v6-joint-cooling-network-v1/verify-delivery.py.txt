@@ -1,0 +1,135 @@
+"""Read-only document receipt. From the root of a fresh checkout:
+python -B docs/mainline/v6-joint-cooling-network-v1/verify-delivery.py.txt CONTENT_REVISION
+Only the listed files and linked targets need to be checked out; use core.autocrlf=false.
+No repository modules or engineering inputs are executed.
+"""
+import hashlib
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path.cwd()
+PACKAGE = "docs/mainline/v6-joint-cooling-network-v1/"
+STUDY = "docs/mainline/v6-native-method-study-v1/"
+ACCEPTANCE = STUDY + "acceptance-20261120.json"
+MANIFEST = "docs/mainline/v6-native-research-launch-v1/research-manifest.json"
+BASE = "ec1e37475360dd5025d8571f04fa75253c67f33e"
+DELIVERY = ["README.md", "docs/MAINLINE.md", "docs/current-research.json",
+            "docs/mainline/master-roadmap.md", "docs/mainline/progress.json", ACCEPTANCE]
+DELIVERY += [PACKAGE + name for name in ("README.md", "causal-basis.md", "engineering.json",
+                                         "verify-delivery.py.txt")]
+
+
+def git(*args):
+    return subprocess.check_output(["git", *args], text=True, encoding="utf-8").strip()
+
+
+def require(value, label):
+    if not value:
+        raise ValueError(label)
+
+
+def read(path):
+    return json.loads((ROOT / path).read_bytes())
+
+
+def digest(path):
+    return hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+
+
+def main(revision):
+    commit = git("rev-parse", "--verify", revision + "^{commit}")
+    changed = git("diff", "--name-only", BASE, commit).splitlines()
+    require(set(changed) == set(DELIVERY), "Only declared documents may change")
+    acceptance = read(ACCEPTANCE)
+    contract = read(PACKAGE + "engineering.json")
+    progress = read("docs/mainline/progress.json")
+    manifest = read(MANIFEST)
+    study = read(STUDY + "result.json")
+    frozen = read(STUDY + "integrity.json")["slice57_sha256"]
+
+    linked = set()
+    links = 0
+    for name in ("README.md", "causal-basis.md"):
+        source = ROOT / PACKAGE / name
+        for target in re.findall(r"\]\(([^()]+)\)", source.read_text(encoding="utf-8")):
+            path, _, anchor = target.partition("#")
+            item = (source.parent / path).resolve()
+            require(item.is_file() and item.is_relative_to(ROOT), target)
+            if re.fullmatch(r"L\d+", anchor):
+                with item.open(encoding="utf-8") as lines:
+                    require(sum(1 for _ in lines) >= int(anchor[1:]), target)
+            linked.add(item.relative_to(ROOT).as_posix())
+            links += 1
+    runtime = manifest["runtime_and_material_sha256"]
+    expected_hashes = {**runtime, **frozen, **acceptance["bound_files"]}
+    for path, value in expected_hashes.items():
+        require(digest(path) == value, "Stored SHA-256 differs: " + path)
+    require(not git("diff", "--name-only", manifest["launch_source_revision"], commit,
+                    "--", *runtime), "Executed runtime/material changed")
+
+    paths = sorted(set(DELIVERY) | set(expected_hashes) | linked)
+    tree = {}
+    for row in git("ls-tree", "-r", commit, "--", *paths).splitlines():
+        mode, kind, blob_path = row.split(" ", 2)
+        oid, path = blob_path.split("\t")
+        require(kind == "blob", path)
+        tree[path] = oid
+    require(set(tree) == set(paths), "Missing delivery/linked Git object")
+    blobs = {}
+    for path in paths:
+        raw = (ROOT / path).read_bytes()
+        object_bytes = b"blob " + str(len(raw)).encode() + b"\0" + raw
+        blob = hashlib.sha1(object_bytes).hexdigest()
+        require(blob == tree[path], "Fresh bytes differ from committed blob: " + path)
+        if path in DELIVERY:
+            blobs[path] = {"sha256": hashlib.sha256(raw).hexdigest(), "git_blob": blob, "bytes": len(raw)}
+
+    require(acceptance["accepted_publication"] == BASE, "Stage-one acceptance identity")
+    require(acceptance["manifest_sha256"] == digest(MANIFEST), "Manifest binding")
+    require(acceptance["panel_sha256"] == read(STUDY + "integrity.json")["current_panel_sha256"],
+            "Original panel binding")
+    arm_ids = {row["unit"] for row in study["arms"]}
+    original_jobs = {str(row["job_id"]) for row in study["jobs"]}
+    require(len(arm_ids) == len(study["arms"]) == 85 and len(original_jobs) == 17,
+            "Accepted study denominators")
+    require(original_jobs == {str(row["id"]) for row in acceptance["jobs"]}, "Job identities")
+    require(acceptance["grant_consumed_once"] and progress["v6_native_study_v1"]["user_acceptance_pending"] is False,
+            "Stage-one grant and acceptance status")
+    phase = progress["v6_joint_cooling_network_v1"]
+    require(phase["user_acceptance_pending"] and not phase["implementation_authorized"]
+            and not phase["qualification_authorized"] and not phase["stage_three_authorized"]
+            and not phase["budget_transferred_from_stage_one"] and not progress["active_implementations"]
+            and progress["execution_control"]["research_execution"] == "CLOSED", "Review gate")
+    families = ["policy_cases", "component_cases", "native_cases", "thermal_cases", "legacy_cases"]
+    ids = [unit["id"] for family in families for unit in contract[family]]
+    covered = {unit for units in contract["coverage"].values() for unit in units}
+    require(len(ids) == len(set(ids)) and set(ids) == covered, "Coverage identity")
+    by_family = {key: len(contract[key]) for key in families}
+    require(list(by_family.values()) == [13, 25, 19, 6, 2], "Written finite unit counts")
+    limits = contract["execution_if_separately_authorized"]
+    for count, key in ((6, "initial_caps"), (8, "all_attempt_caps")):
+        rows = limits["plan"][:count]
+        for field, column in (("CPU_seconds",2), ("facility",4), ("direct_policy",5),
+                              ("internal_policy",6), ("component",7)):
+            require(sum(row[column] for row in rows) == limits[key][field], "Budget arithmetic " + field)
+    for row in contract["legacy_cases"]:
+        original = next(arm for arm in study["arms"] if arm["unit"] == row["original"])
+        require(original["semantic_sha256"] == row["expected_semantic_sha256"], "Legacy semantic identity")
+
+    print(json.dumps(dict(schema="aegisdc-stage-two-written-contract-static-receipt-v1",
+        content_revision=commit, baseline=BASE, git_version=git("--version"),
+        python_version=sys.version.split()[0], verification="fresh selected checkout; raw bytes vs committed blobs",
+        files=blobs, checked_git_blobs=len(paths), hyperlinks_checked=links, linked_targets=len(linked),
+        anchor_scope="local target existence and #L line range; named Markdown fragment strings not separately audited",
+        stage_one_jobs=17, stage_one_arms=85, runtime_materials_verified=len(runtime),
+        runtime_execution_revision=manifest["launch_source_revision"], retained_slice57=frozen,
+        stage_one_bound_objects=len(acceptance["bound_files"]), written_engineering_units=by_family,
+        qualification_or_research_calls=0, private_server_logs_accessed=False,
+        current_gate="STAGE_TWO_CONTRACT_REVIEW"), ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])
