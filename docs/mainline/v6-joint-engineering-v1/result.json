@@ -1,0 +1,6415 @@
+{
+  "schema": "aegisdc-v6-joint-limited-engineering-delivery-v1",
+  "gate": "USER_REVIEW_REQUIRED",
+  "accepted_contract": "08eed614a77382672ef94c0fb4d9f2f2ce874890",
+  "freeze": "8ce5ccb881324b6d03f836b77db0c55dc708a0ccc7b9470dbd11fb5b599839bb",
+  "freeze_revision": "52112e9d",
+  "materializer_revision": "0641d6cb7f27dd8e73a3e017752478610165dddc",
+  "initial_execution": "a3301fa0f6d3e61e550b62aa2d9628f485289187",
+  "repair_execution": "52a03711d47678db45082cccba5f88cb5adcb113",
+  "scheduler_root": "/share/home/renly/renly-patrol-rsi/mainline/V6-joint-engineering-20261120",
+  "archive_pattern": "F*/<unit>/{start.json,actual.json or run.json.gz,checks.json,terminal.json}; per-job stdout/stderr and calls.jsonl; S06 F2 also has exception.txt. F5 contains saved-only reconciliation.",
+  "remote_log_and_receipt_sha256": {
+    "F0/slurm.out": "3634afa1e408bcd8592ffc76625bb91e83a562a4595ff2d2ecb2cdcffa76f849",
+    "F0/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F1/slurm.out": "d455faf102e3dbdf97c90018daf009aa71b84fc205a3889ce4e20c8d8258430c",
+    "F1/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F1/result.json": "58333e253e07823af15a0d37b12ce5d2f769f368a83401bb79cf709b5fa275d4",
+    "F1/calls.jsonl": "a9552082f98c35d65b94fc921bd3cd1763e3fe68d12fd8d39eec00803a5795a1",
+    "F2/slurm.out": "0fcd186448ea9354a0a3e98ae0694c50d6cd602c58c09807d1213560abcf22a3",
+    "F2/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F2/result.json": "6a75186e7d0728311f8748f3869d05f4ce6d16b00e3cedb880a8a1716af21188",
+    "F2/calls.jsonl": "a7fbe2e46c0c1f56c94a640707ed234db4b74a03df0ffd39fe08cedef2304e0a",
+    "F6/slurm.out": "617b20f850074bbbc3f6f537bc7ed70a5e78b1087e4200f8796bfe2694385e29",
+    "F6/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F6/result.json": "d1b9088952f3c05f1b564e1b35bdef0415aee7ee782c122bbb3afe8d676e8411",
+    "F6/calls.jsonl": "ddfb887d4dbebb4925f1ed693ec1d957711af728a20c38715f64e2da0bd85c3c",
+    "F3/slurm.out": "98dc10327eabc55d4f216815475ebc896ce6b8e4ecfc524eeac9b85ef04d04b8",
+    "F3/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F3/result.json": "c3f1703a90fc1b1ab086fd40c3835b8e994e3c2d40e4766a81d3f596f8f4aaec",
+    "F3/calls.jsonl": "940365e4818c1c5fd1ceac2bdea96e4d0a7213b8e4e43e38af4f48181335281a",
+    "F4/slurm.out": "7161461ec7ceb07c947b3e86156a0f8e9283772c2481a2f8dad98221427ed232",
+    "F4/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F4/result.json": "5e1d110236e342a1c1c92696a34728b796f8484d4c6a9639a2e7442834e1e733",
+    "F4/calls.jsonl": "261618f5038d05d6000e204263854895028cbb5c04d4230f9bb5dec97abc01ba",
+    "F5/slurm.out": "02278b93bf3e89f7915dcf24d4fdafc005e670ffceaca300d32cfacf6e293fd1",
+    "F5/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F5/result.json": "935b060e33786b56321d7702d77ff9bd478e4ca37a872112dab549ffb3b4ff6d",
+    "F7/slurm.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F7/slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F7/result.json": "920318d19ae3f08ed3871be6be30203b48d8e92572ec88b2aa956c0ecce414fa",
+    "F0/frozen/manifest.json": "27877a3a03f7a3490bb50a968584efbcdec3a5c53c53afcf61d973271295ba7e",
+    "F0/frozen/inputs.json.gz": "d7f3a8e1bd681427e05ea5072cf10b94df9ddc88ffed49a9f5fbc268385e5ea9",
+    "F0/frozen/oracle.json": "97224e955119b7e536fb875e90c0575200fec7be20d2b65ba3ba8a22e574d317",
+    "F0/frozen/red.json": "b699facfbecaa18c37740fb6cc71ca2621368638898fbf97ee73bd420626bb5c",
+    "F5/checks.json": "a680bada69a4c3b33a3f4b1f116075d31d5ee244e46361e7d4bd68fe97c27f8f",
+    "F7/checks.json": "d8044bafade0f4427bb6ff23e8107a63d4eca4a3634540c59991001d9a35f243",
+    "F7/pin.json": "b26e6b794db9bb5bcaf5baebcdd376a3907e190e85293faf0b387b730126526b",
+    "F7/reader.py": "f92ebb62a0304215bcd101f316b32327216335e1808385af01e2a9112a2f7a05",
+    "F2/S06/exception.txt": "f68ad0a4b6a033d9e4c3b3a15fbbc5a391d20d80af11ca0b3c1ac7b052940bc6",
+    "F2/S06/run.json.gz": "44e13a8ec19273ad6611ca8de48d05b8750dfc6c2aec49f421dd9f3c1207e310",
+    "F6/S06/run.json.gz": "44e13a8ec19273ad6611ca8de48d05b8750dfc6c2aec49f421dd9f3c1207e310"
+  },
+  "preallocation": {
+    "group": "F1",
+    "submission": 1,
+    "old_revision": "54989c9440c6f20cdc86fabe6c57a357ef4ba3d6",
+    "old_launcher": "496808db6a65e55e33d12a81cbafe167ee3f38fe93ca33dc5cabee7e6d26227e",
+    "error": "sbatch rejected DOS line breaks prior to allocation",
+    "job_id": null,
+    "allocations": 0,
+    "facility": 0,
+    "selector": 0,
+    "components": 0,
+    "accepted_launch_revision": "a3301fa0f6d3e61e550b62aa2d9628f485289187",
+    "identical_scientific_and_checker_content": true
+  },
+  "repair_mandate": {
+    "schema": "aegisdc-joint-one-affected-engineering-repair-v1",
+    "purpose": "FINITE_PUBLIC_ENGINEERING",
+    "original_group": "F2",
+    "job": "134690",
+    "sacct_terminal": "FAILED",
+    "exit_code": "1:0",
+    "original_result_sha256": "6a75186e7d0728311f8748f3869d05f4ce6d16b00e3cedb880a8a1716af21188",
+    "failed_unit": "S06",
+    "cause": "Frozen event time 1 is stored as binary64 1.0 by native validation; hashing the literal list as the native list rejected an otherwise sealed run.",
+    "source_fix": "Bind both literal frozen identity and versioned native event normalization. Recheck old saved S06 under independent oracle; zero new facility or policy call for S06.",
+    "prior_execution_pin": "execution-source-lf.json",
+    "raw_sha256": "44e13a8ec19273ad6611ca8de48d05b8750dfc6c2aec49f421dd9f3c1207e310",
+    "old_sidecar_sha256": "c69c2151aa40e209b8dc84403930cb1e17a7d656586e21deb4d946da0b54c3a5",
+    "old_terminal_sha256": "c721323de3fe7191c7cd5be197d4a724cce130c0e6754af6618564a5093ecf12",
+    "first_starts": [
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16",
+      "S17",
+      "S18",
+      "S19",
+      "L01",
+      "L02"
+    ],
+    "affected": [
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16",
+      "S17",
+      "S18",
+      "S19",
+      "L01",
+      "L02"
+    ],
+    "prior_successes_kept": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "order": "F6 after terminal F2 restores its saved output and finishes the interrupted short/legacy suffix; F3, F4 and saved reconciliation F5 follow serially. No new retry credit.",
+    "unchanged": [
+      "all 78 frozen expanded inputs and literal expectations",
+      "plant and scientific parameters",
+      "selector and public evidence semantics",
+      "old H10 entry and semantic digests"
+    ]
+  },
+  "phases": {
+    "F0": {
+      "allocation": {
+        "job_id": "134688",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_s": 1,
+        "reserved_cpu_s": 120,
+        "cpus": 1,
+        "memory": "1G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:07:56",
+        "end": "2026-11-20T22:07:57"
+      },
+      "purpose": "materialization and one old-schema rejection",
+      "loader_calls": 1,
+      "red": {
+        "facility_calls": 0,
+        "loader_calls": 1,
+        "policy_calls": 0,
+        "reason": "Policy facility run program fields do not match the closed contract",
+        "status": "EXPECTED_OLD_VERSION_REJECTION",
+        "units": 78
+      }
+    },
+    "F1": {
+      "allocation": {
+        "job_id": "134689",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_s": 1,
+        "reserved_cpu_s": 300,
+        "cpus": 1,
+        "memory": "2G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:30:30",
+        "end": "2026-11-20T22:30:31"
+      },
+      "status": "PASS",
+      "source": "a3301fa0f6d3e61e550b62aa2d9628f485289187",
+      "scheduled": [
+        "P01-J",
+        "P01-B",
+        "P02-J",
+        "P02-B",
+        "P03-J",
+        "P03-B",
+        "P04-J",
+        "P04-B",
+        "P05-J",
+        "P05-B",
+        "P06-J",
+        "P06-B",
+        "P07-J",
+        "P07-B",
+        "P08-J",
+        "P08-B",
+        "P09-J",
+        "P09-B",
+        "P10-J",
+        "P10-B",
+        "P11-J",
+        "P11-B",
+        "P12-J",
+        "P12-B",
+        "P13-J",
+        "P13-B",
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "G06",
+        "G07",
+        "G08",
+        "G09",
+        "G10",
+        "G11",
+        "G12",
+        "G13",
+        "G14",
+        "G15",
+        "G16",
+        "G17",
+        "G18",
+        "G19",
+        "G20",
+        "G21",
+        "G22",
+        "G23",
+        "G24",
+        "G25"
+      ],
+      "actual_counts": {
+        "facility": 0,
+        "direct": 26,
+        "internal": 0,
+        "component": 25
+      },
+      "failures": [],
+      "unexecuted": [],
+      "receipt_sha256": "58333e253e07823af15a0d37b12ce5d2f769f368a83401bb79cf709b5fa275d4"
+    },
+    "F2": {
+      "allocation": {
+        "job_id": "134690",
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "elapsed_s": 56,
+        "reserved_cpu_s": 1800,
+        "cpus": 1,
+        "memory": "8G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:31:01",
+        "end": "2026-11-20T22:31:57"
+      },
+      "status": "FAILED",
+      "source": "a3301fa0f6d3e61e550b62aa2d9628f485289187",
+      "scheduled": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "L01",
+        "L02"
+      ],
+      "actual_counts": {
+        "facility": 6,
+        "direct": 0,
+        "internal": 294,
+        "component": 0
+      },
+      "failures": [
+        "S06"
+      ],
+      "unexecuted": [
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "L01",
+        "L02"
+      ],
+      "receipt_sha256": "6a75186e7d0728311f8748f3869d05f4ce6d16b00e3cedb880a8a1716af21188"
+    },
+    "F6": {
+      "allocation": {
+        "job_id": "134691",
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "elapsed_s": 144,
+        "reserved_cpu_s": 3600,
+        "cpus": 1,
+        "memory": "8G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:35:22",
+        "end": "2026-11-20T22:37:46"
+      },
+      "status": "FAILED",
+      "source": "52a03711d47678db45082cccba5f88cb5adcb113",
+      "scheduled": [
+        "S06",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "L01",
+        "L02"
+      ],
+      "actual_counts": {
+        "facility": 15,
+        "direct": 0,
+        "internal": 677,
+        "component": 0
+      },
+      "failures": [
+        "S09"
+      ],
+      "unexecuted": [],
+      "receipt_sha256": "d1b9088952f3c05f1b564e1b35bdef0415aee7ee782c122bbb3afe8d676e8411"
+    },
+    "F3": {
+      "allocation": {
+        "job_id": "134692",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_s": 201,
+        "reserved_cpu_s": 2400,
+        "cpus": 1,
+        "memory": "8G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:38:05",
+        "end": "2026-11-20T22:41:26"
+      },
+      "status": "PASS",
+      "source": "52a03711d47678db45082cccba5f88cb5adcb113",
+      "scheduled": [
+        "T01",
+        "T02",
+        "T05",
+        "T06"
+      ],
+      "actual_counts": {
+        "facility": 4,
+        "direct": 0,
+        "internal": 88,
+        "component": 0
+      },
+      "failures": [],
+      "unexecuted": [],
+      "receipt_sha256": "c3f1703a90fc1b1ab086fd40c3835b8e994e3c2d40e4766a81d3f596f8f4aaec"
+    },
+    "F4": {
+      "allocation": {
+        "job_id": "134693",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_s": 201,
+        "reserved_cpu_s": 2400,
+        "cpus": 1,
+        "memory": "8G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:42:09",
+        "end": "2026-11-20T22:45:30"
+      },
+      "status": "PASS",
+      "source": "52a03711d47678db45082cccba5f88cb5adcb113",
+      "scheduled": [
+        "T03",
+        "T04"
+      ],
+      "actual_counts": {
+        "facility": 2,
+        "direct": 0,
+        "internal": 44,
+        "component": 0
+      },
+      "failures": [],
+      "unexecuted": [],
+      "receipt_sha256": "5e1d110236e342a1c1c92696a34728b796f8484d4c6a9639a2e7442834e1e733"
+    },
+    "F5": {
+      "allocation": {
+        "job_id": "134694",
+        "partition": "cu",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "elapsed_s": 16,
+        "reserved_cpu_s": 300,
+        "cpus": 1,
+        "memory": "2G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:46:00",
+        "end": "2026-11-20T22:46:16"
+      },
+      "purpose": "independent saved-output reconciliation",
+      "status": "FINITE_ENGINEERING_PARTIAL_OR_FAILED",
+      "assertions": 528,
+      "failures": [
+        {
+          "check": "pre-write T01 3 heat 0.201787 J <= 0.0201407 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T01 3 coolant 445.575 J <= 0.0201407 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T01 3 hot 724.286 J <= 0.0201407 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T01 3 cold 1272.53 J <= 0.0201407 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T01 3 solid 100.718 J <= 0.0201407 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T05 3 heat 0.201787 J <= 0.0201355 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T05 3 coolant 445.575 J <= 0.0201355 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T05 3 hot 724.286 J <= 0.0201355 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T05 3 cold 1272.53 J <= 0.0201355 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "pre-write T05 3 solid 100.718 J <= 0.0201355 J",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        },
+        {
+          "check": "all final units passed",
+          "ok": false,
+          "actual": false,
+          "expected": true
+        }
+      ],
+      "counts": {
+        "facility": 0,
+        "direct": 0,
+        "internal": 0,
+        "component": 0
+      },
+      "receipt_sha256": "935b060e33786b56321d7702d77ff9bd478e4ca37a872112dab549ffb3b4ff6d",
+      "checks_sha256": "a680bada69a4c3b33a3f4b1f116075d31d5ee244e46361e7d4bd68fe97c27f8f"
+    },
+    "F7": {
+      "allocation": {
+        "job_id": "134695",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_s": 1,
+        "reserved_cpu_s": 300,
+        "cpus": 1,
+        "memory": "2G",
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-20T22:48:46",
+        "end": "2026-11-20T22:48:47"
+      },
+      "purpose": "zero-call saved alternative, shared-debit and mandatory-review check",
+      "receipt_sha256": "920318d19ae3f08ed3871be6be30203b48d8e92572ec88b2aa956c0ecce414fa",
+      "group": "F7",
+      "job": "134695",
+      "scope": "saved-only original-world and common-prefix audit; previous native classifications retained",
+      "status": "PASS",
+      "assertions": 248,
+      "failures": [],
+      "decision_rows": 15,
+      "plan_and_branch_rows": 34,
+      "checks_sha256": "d8044bafade0f4427bb6ff23e8107a63d4eca4a3634540c59991001d9a35f243",
+      "scope_by_unit": {
+        "S12": [
+          {
+            "time": 1.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              12.0,
+              12.0,
+              1
+            ],
+            "review_reserved": 0
+          },
+          {
+            "time": 1.75,
+            "alternative_and_branch_count": 7,
+            "paid": [
+              12.0,
+              12.0,
+              1
+            ],
+            "review_reserved": 0
+          },
+          {
+            "time": 5,
+            "alternative_and_branch_count": 2,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 6.5
+          },
+          {
+            "time": 5.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 6.5
+          },
+          {
+            "time": 7.25,
+            "alternative_and_branch_count": 2,
+            "paid": [
+              30.5,
+              30.5,
+              3
+            ],
+            "review_reserved": 0
+          }
+        ],
+        "S14": [
+          {
+            "time": 1.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              12.0,
+              12.0,
+              1
+            ],
+            "review_reserved": 0
+          },
+          {
+            "time": 1.75,
+            "alternative_and_branch_count": 7,
+            "paid": [
+              12.0,
+              12.0,
+              1
+            ],
+            "review_reserved": 0
+          },
+          {
+            "time": 3,
+            "alternative_and_branch_count": 2,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 8.5
+          },
+          {
+            "time": 3.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 8.5
+          },
+          {
+            "time": 5.25,
+            "alternative_and_branch_count": 2,
+            "paid": [
+              32.5,
+              32.5,
+              3
+            ],
+            "review_reserved": 0
+          }
+        ],
+        "S16": [
+          {
+            "time": 0.25,
+            "alternative_and_branch_count": 4,
+            "paid": [
+              12.0,
+              12.0,
+              1
+            ],
+            "review_reserved": 8.25
+          },
+          {
+            "time": 1.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 18.25
+          },
+          {
+            "time": 2,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              24.0,
+              24.0,
+              2
+            ],
+            "review_reserved": 18.25
+          },
+          {
+            "time": 3.75,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              34.0,
+              34.0,
+              3
+            ],
+            "review_reserved": 8.25
+          },
+          {
+            "time": 5.5,
+            "alternative_and_branch_count": 1,
+            "paid": [
+              42.25,
+              42.25,
+              4
+            ],
+            "review_reserved": 0
+          }
+        ]
+      },
+      "counts": {
+        "facility": 0,
+        "direct": 0,
+        "internal": 0,
+        "component": 0
+      }
+    }
+  },
+  "distinct_units": 78,
+  "unit_passed": 77,
+  "failed_final": [
+    "S09"
+  ],
+  "first_attempt_failures_preserved": {
+    "S06": [
+      [
+        "F2",
+        "FAILED_EXCEPTION"
+      ]
+    ],
+    "S09": [
+      [
+        "F6",
+        "FAILED_ASSERTION"
+      ]
+    ]
+  },
+  "unexecuted_at_delivery": [],
+  "saved_pair_and_integrity_findings": [
+    {
+      "check": "pre-write T01 3 heat 0.201787 J <= 0.0201407 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T01 3 coolant 445.575 J <= 0.0201407 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T01 3 hot 724.286 J <= 0.0201407 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T01 3 cold 1272.53 J <= 0.0201407 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T01 3 solid 100.718 J <= 0.0201407 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T05 3 heat 0.201787 J <= 0.0201355 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T05 3 coolant 445.575 J <= 0.0201355 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T05 3 hot 724.286 J <= 0.0201355 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T05 3 cold 1272.53 J <= 0.0201355 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    },
+    {
+      "check": "pre-write T05 3 solid 100.718 J <= 0.0201355 J",
+      "ok": false,
+      "actual": false,
+      "expected": true
+    }
+  ],
+  "total_actual_calls": {
+    "facility": 27,
+    "direct": 26,
+    "internal": 1103,
+    "component": 25
+  },
+  "accepted_slurm_jobs": 8,
+  "reserved_cpu_seconds": 11220,
+  "allocated_elapsed_cpu_seconds": 621,
+  "limits": {
+    "shared": "Single Slurm CPU, no GPU, concurrency one. Freeze all expanded public programs, private engineering overlays, source and literal expectations before facility/selector calls. Dedicated synthetic engineering directories. Preserve job identity, input/output hash, red stage, actual calls and unexecuted suffix. Independent comparison must not import selector or obtain standards by querying plant.",
+    "budget_rows_fields": [
+      "job",
+      "GiB",
+      "reserved CPU seconds",
+      "units",
+      "facility starts",
+      "standalone policy calls",
+      "internal public decisions",
+      "component units"
+    ],
+    "plan": [
+      [
+        "F0",
+        1,
+        120,
+        "freeze complete materialization, manifest and old schema rejecting new program before any facility/policy (one negative loader probe)",
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        "F1",
+        2,
+        300,
+        "P01-P13 each J/B + G01-G25",
+        0,
+        26,
+        0,
+        25
+      ],
+      [
+        "F2",
+        8,
+        1800,
+        "S01-S19 + L01-L02",
+        21,
+        0,
+        971,
+        0
+      ],
+      [
+        "F3",
+        8,
+        2400,
+        "T01,T02,T05,T06",
+        4,
+        0,
+        88,
+        0
+      ],
+      [
+        "F4",
+        8,
+        2400,
+        "T03,T04",
+        2,
+        0,
+        44,
+        0
+      ],
+      [
+        "F5",
+        2,
+        300,
+        "verify saved artifacts and independent per-row/paired oracles",
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        "F6",
+        8,
+        3600,
+        "optional one affected repair round only; <=1 retry per affected unit",
+        27,
+        26,
+        1103,
+        25
+      ],
+      [
+        "F7",
+        2,
+        300,
+        "optional saved-output reconciliation after F6",
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "initial_caps": {
+      "jobs": 6,
+      "CPU_seconds": 7320,
+      "facility": 27,
+      "direct_policy": 26,
+      "internal_policy": 1103,
+      "component": 25,
+      "old_loader_red": 1
+    },
+    "all_attempt_caps": {
+      "jobs": 8,
+      "CPU_seconds": 11220,
+      "facility": 54,
+      "direct_policy": 52,
+      "internal_policy": 2206,
+      "component": 50,
+      "old_loader_red": 1,
+      "research_units": 0
+    },
+    "early_stop": "Missing identity or purpose stops before affected call. A leaked private view or changed scientific relation stops dependencies for review. Thermal or step-direction counterexample/unresolved is retained; no parameter/threshold grid search. Verify failed job terminal and retain actual failure before in-scope repair, keep inputs and independent oracle identical. Reuse only affected units; stop when any cap reached.",
+    "acceptance": "All declared positive/negative witnesses, actual stages, cost and shared-service records, each current/expired certificate and two original legacy semantic identities are required for the corresponding finite scope. A failed family can be submitted separately with reduced scope and raw failure. Stage-three returns to review with its own comparison, funding and authority."
+  },
+  "actual_old_schema_red": 1,
+  "final_unique_unit_assertions": 7182,
+  "units": {
+    "P01-J": {
+      "phase": "F1",
+      "key": "P01-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "09e50534578cdcea7c6fc4f14c941507137f4833be43a68738cef3840dac903d",
+      "checks_sha256": "c4cdfb793c27fca68221b0209527953b4f9d40dadbd35352282fbbd5e2b19baa",
+      "input_sha256": "43afc7fa7d7a4fce997a89a34c3c35b135b8aae7605a5fdd789398b2393a20a0",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "3/4",
+          "9/2",
+          "9/2",
+          "2",
+          "11/2"
+        ],
+        "semantic_decision": "a7df8809b6a0bb6614dc14a802f2918ad24f0818bae4fac424c19bc4f69c1108"
+      }
+    },
+    "P01-B": {
+      "phase": "F1",
+      "key": "P01-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "09e50534578cdcea7c6fc4f14c941507137f4833be43a68738cef3840dac903d",
+      "checks_sha256": "c4cdfb793c27fca68221b0209527953b4f9d40dadbd35352282fbbd5e2b19baa",
+      "input_sha256": "8c84b9ace024954b7c8146a409265820e45dd44c479bc459b6b9e0ccc11336af",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "3/4",
+          "9/2",
+          "9/2",
+          "2",
+          "11/2"
+        ],
+        "semantic_decision": "a7df8809b6a0bb6614dc14a802f2918ad24f0818bae4fac424c19bc4f69c1108"
+      }
+    },
+    "P02-J": {
+      "phase": "F1",
+      "key": "P02-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "9af1268c1f3ec51e70ac92d62cbdd0cb03e38fc55fd754badf4654ff3bc7badb",
+      "checks_sha256": "121be6f70a760c9b732aa3ecf8884721dad3d8ec1864282da38bd0b08beacbff",
+      "input_sha256": "9ecd9813c5375498f82a3e6ca754e3d8a132aaeda22697cdac57ba5216c61bcd",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "1",
+          "5/2",
+          "5/2",
+          "2",
+          "7/2"
+        ],
+        "semantic_decision": "d481fcd99d0972a6db7075b8168105e85f704314e37e2191d20781ea4c2242e9"
+      }
+    },
+    "P02-B": {
+      "phase": "F1",
+      "key": "P02-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "9af1268c1f3ec51e70ac92d62cbdd0cb03e38fc55fd754badf4654ff3bc7badb",
+      "checks_sha256": "121be6f70a760c9b732aa3ecf8884721dad3d8ec1864282da38bd0b08beacbff",
+      "input_sha256": "e175db08d1afde01d121d0eab4551e029010dc797463afb9df061a3c386919ae",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "1",
+          "5/2",
+          "5/2",
+          "2",
+          "7/2"
+        ],
+        "semantic_decision": "d481fcd99d0972a6db7075b8168105e85f704314e37e2191d20781ea4c2242e9"
+      }
+    },
+    "P03-J": {
+      "phase": "F1",
+      "key": "P03-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "0c31443c2fedd2b0ca60d2145e750665aa830c027ee95181167ea195122c01ed",
+      "checks_sha256": "e9c456900ec26577409e0b252708693a1550381916c0260d567672b36fa7c3a1",
+      "input_sha256": "280ab722d4459afe13cefeb88bcddfc7108958e69d686c7053df80bd0b338c76",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1|3000000|1@0",
+          "F|0|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "2",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "semantic_decision": "03470f510971b355243406535db264ef9850f3b413d9f9adf29c0a55d2d590b1"
+      }
+    },
+    "P03-B": {
+      "phase": "F1",
+      "key": "P03-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "0c31443c2fedd2b0ca60d2145e750665aa830c027ee95181167ea195122c01ed",
+      "checks_sha256": "e9c456900ec26577409e0b252708693a1550381916c0260d567672b36fa7c3a1",
+      "input_sha256": "a48ad0ef2e831135d4c93738d74ae4021f4ac86553c4f6c8815ccbcb3ae91b10",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1|3000000|1@0",
+          "F|0|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "2",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "semantic_decision": "03470f510971b355243406535db264ef9850f3b413d9f9adf29c0a55d2d590b1"
+      }
+    },
+    "P04-J": {
+      "phase": "F1",
+      "key": "P04-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "0d3b6fc3c3d0b5d7bcbaad7c37d79f3eac54bd51dfae66bb38c17cba9bd9a8bf",
+      "checks_sha256": "e9e3790a11c797cabddaa4e70ef6f08cb1e5718c9d5059833e4bb935182e42d3",
+      "input_sha256": "cb0a2ac903a23e5053bf17d88ec310e90f43ba6816da79238c7e6f1c9514a2c1",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|0|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "2",
+          "5/2",
+          "5/2",
+          "2",
+          "7/2"
+        ],
+        "semantic_decision": "9785323bb0f80f1340e3e4cf6c1b95ded5073893413b09c50550fc2a923fa668"
+      }
+    },
+    "P04-B": {
+      "phase": "F1",
+      "key": "P04-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 4,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "0d3b6fc3c3d0b5d7bcbaad7c37d79f3eac54bd51dfae66bb38c17cba9bd9a8bf",
+      "checks_sha256": "e9e3790a11c797cabddaa4e70ef6f08cb1e5718c9d5059833e4bb935182e42d3",
+      "input_sha256": "e199ceaa633109e67928d9ad076209077247c5f6911143cea3ebafbf7f27edbe",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|0|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "2",
+          "5/2",
+          "5/2",
+          "2",
+          "7/2"
+        ],
+        "semantic_decision": "9785323bb0f80f1340e3e4cf6c1b95ded5073893413b09c50550fc2a923fa668"
+      }
+    },
+    "P05-J": {
+      "phase": "F1",
+      "key": "P05-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 7,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "740aa50c187d1c447173cd2f4b8056b60b86c1320bc737341883e0c702741971",
+      "checks_sha256": "2b6b70d997a9359ded5e6c491cf26b311121fd19ef3626807921b184c821ec04",
+      "input_sha256": "1c203db36344f358854aa5d8842d28a2e0b33b35c0152c06b1d2f4f295dc703c",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "F|0|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "0",
+          "7",
+          "7",
+          "4",
+          "11/2"
+        ],
+        "semantic_decision": "caaf520e690b3468cee4a6b9e852485f8cb8f19eac7bc069720b322c89435ad6"
+      }
+    },
+    "P05-B": {
+      "phase": "F1",
+      "key": "P05-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 7,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "740aa50c187d1c447173cd2f4b8056b60b86c1320bc737341883e0c702741971",
+      "checks_sha256": "2b6b70d997a9359ded5e6c491cf26b311121fd19ef3626807921b184c821ec04",
+      "input_sha256": "170c6240c42fe3461bc1cead8c3d1b986e34cd30e2cf1e0ed35af6c790a33f93",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "F|0|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "0",
+          "7",
+          "7",
+          "4",
+          "11/2"
+        ],
+        "semantic_decision": "caaf520e690b3468cee4a6b9e852485f8cb8f19eac7bc069720b322c89435ad6"
+      }
+    },
+    "P06-J": {
+      "phase": "F1",
+      "key": "P06-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 6,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d19db4008b4e118d93910dbf110bcf445131e74300fd3330d6a6de6881001602",
+      "checks_sha256": "31bd3840e55aa91f2fa9a53402b8868ad4b3b5d68fc675d8cf737e13b90439cf",
+      "input_sha256": "f62b312a768e0fdbc807a11fe1452f08b8cce6c701bd2447ec71e4e7546aad29",
+      "observed": {
+        "choice": "N.I",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "0",
+          "19/4",
+          "19/4",
+          "3",
+          "29/4"
+        ],
+        "semantic_decision": "ff0fb33f0118016c3a74b0d1cece0f8e5e72958340cdb7d3a7b560c2c3a51d13"
+      }
+    },
+    "P06-B": {
+      "phase": "F1",
+      "key": "P06-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 6,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d583778fc90720a14d444c400809f81b927e09b1341add50d8419f2f2822bb31",
+      "checks_sha256": "156b0d3692f97d4f9ce3c03bcaa8dc879900d3923fa8e41db360a2b86aed5632",
+      "input_sha256": "44cc3a0edb783e9ce7061ef86610c08dc9065d590fc6467f98fbb834d810ac49",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "3/2",
+          "9/2",
+          "9/2",
+          "2",
+          "11/2"
+        ],
+        "semantic_decision": "44161a33a8657b77dccbf2266ff50a343715688e01c51838a5009a4b6bfb6c87"
+      }
+    },
+    "P07-J": {
+      "phase": "F1",
+      "key": "P07-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "f74b0ddc600501536f86014660388cf464af5875bad0959091f40932c297cc0f",
+      "checks_sha256": "2556bd4d45860ca56683481abda9d3062f36435d56eef1fd74e7b33e14169475",
+      "input_sha256": "a483adef7ff800746fd89a98ff3bd75a06e637ad9a74e490933f53ac8f2792a1",
+      "observed": {
+        "choice": "N.I",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "C0|1|3000000|1@0"
+        ],
+        "candidates": 3,
+        "score": [
+          "0",
+          "5/2",
+          "5/2",
+          "2",
+          "21/4"
+        ],
+        "semantic_decision": "7478eac178556146bfb808d20454270d7ec6f9aa3edd733f300bde30cedbf1f8"
+      }
+    },
+    "P07-B": {
+      "phase": "F1",
+      "key": "P07-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "f74b0ddc600501536f86014660388cf464af5875bad0959091f40932c297cc0f",
+      "checks_sha256": "2556bd4d45860ca56683481abda9d3062f36435d56eef1fd74e7b33e14169475",
+      "input_sha256": "2ae2ae7656b78aaf4b70fb368ff9919bf9e938aab25e4a0c4e6da6adce8a695e",
+      "observed": {
+        "choice": "N.I",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "C0|1|3000000|1@0"
+        ],
+        "candidates": 3,
+        "score": [
+          "0",
+          "5/2",
+          "5/2",
+          "2",
+          "21/4"
+        ],
+        "semantic_decision": "7478eac178556146bfb808d20454270d7ec6f9aa3edd733f300bde30cedbf1f8"
+      }
+    },
+    "P08-J": {
+      "phase": "F1",
+      "key": "P08-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 3,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d19db4008b4e118d93910dbf110bcf445131e74300fd3330d6a6de6881001602",
+      "checks_sha256": "0b4fc7f060503d140713df81fbbce4a5503baf1327fe004ae53a557ed90ec36e",
+      "input_sha256": "b96580952e01fc5460c894d0f4f05e2c9f8f5e3fd6732c3da5ca2fd38a6cf9bd",
+      "observed": {
+        "choice": "N.I",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "0",
+          "19/4",
+          "19/4",
+          "3",
+          "29/4"
+        ],
+        "semantic_decision": "ff0fb33f0118016c3a74b0d1cece0f8e5e72958340cdb7d3a7b560c2c3a51d13"
+      }
+    },
+    "P08-B": {
+      "phase": "F1",
+      "key": "P08-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 3,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d583778fc90720a14d444c400809f81b927e09b1341add50d8419f2f2822bb31",
+      "checks_sha256": "1e7f8d64702beee827094083639a145aef83fb35dc95deaf0ef11a1f4fe9563e",
+      "input_sha256": "bd0f2011507ea5d3fbe7a23f30260dbcb45e0f117a3c6d0b7ad83b153ae39afa",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "3/2",
+          "9/2",
+          "9/2",
+          "2",
+          "11/2"
+        ],
+        "semantic_decision": "44161a33a8657b77dccbf2266ff50a343715688e01c51838a5009a4b6bfb6c87"
+      }
+    },
+    "P09-J": {
+      "phase": "F1",
+      "key": "P09-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "71d135027c805cda19f651b917e043e9892114f15597fa90c4168ddbb8e70608",
+      "checks_sha256": "c1a16883a917c91449671ab46b64bd4a6581fd3f2f2fb59321bd045daba90115",
+      "input_sha256": "8ce9075a7b028f8c2be369708fa8959968b3cdc698f1bc5f16eed679f73901d6",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 1,
+        "score": [
+          "7/2",
+          "0",
+          "0",
+          "0",
+          "7/4"
+        ],
+        "semantic_decision": "14c07c1cb26cac127bd0f1da20daebf92bd259a3e5230b041cf53dd71c6bb814"
+      }
+    },
+    "P09-B": {
+      "phase": "F1",
+      "key": "P09-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "71d135027c805cda19f651b917e043e9892114f15597fa90c4168ddbb8e70608",
+      "checks_sha256": "c1a16883a917c91449671ab46b64bd4a6581fd3f2f2fb59321bd045daba90115",
+      "input_sha256": "97fc036e436d411bc7c0a9f6f125e5230fae78825ebd56f53b1ff89ccfc761da",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1/4|3000000|1@0",
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 1,
+        "score": [
+          "7/2",
+          "0",
+          "0",
+          "0",
+          "7/4"
+        ],
+        "semantic_decision": "14c07c1cb26cac127bd0f1da20daebf92bd259a3e5230b041cf53dd71c6bb814"
+      }
+    },
+    "P10-J": {
+      "phase": "F1",
+      "key": "P10-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "4663af5eca93b36752337b3ff583fd56b87cac46bd90ac04ebfacbbc64b52e6f",
+      "checks_sha256": "a6071395d939d1ddc2a7dd64952368ef63124f76f7e7f1e01f5c6f64cff9b8fa",
+      "input_sha256": "dd35fa51c31555ae9314a4a23076977beea87fd022427b93c20b1b203bcffec4",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 6,
+        "score": [
+          "0",
+          "9/2",
+          "9/2",
+          "2",
+          "29/4"
+        ],
+        "semantic_decision": "97f2d36096faf7b6dd9646c580ff192663d380593fdd9a922694a0a57ffc7821"
+      }
+    },
+    "P10-B": {
+      "phase": "F1",
+      "key": "P10-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "4663af5eca93b36752337b3ff583fd56b87cac46bd90ac04ebfacbbc64b52e6f",
+      "checks_sha256": "a6071395d939d1ddc2a7dd64952368ef63124f76f7e7f1e01f5c6f64cff9b8fa",
+      "input_sha256": "d9e01444356ab8b5a1166813cd7403990334111a7bb59daa96e41a9f48faa33f",
+      "observed": {
+        "choice": "C.A",
+        "support": [
+          "F|1|3000000|1@0"
+        ],
+        "candidates": 6,
+        "score": [
+          "0",
+          "9/2",
+          "9/2",
+          "2",
+          "29/4"
+        ],
+        "semantic_decision": "97f2d36096faf7b6dd9646c580ff192663d380593fdd9a922694a0a57ffc7821"
+      }
+    },
+    "P11-J": {
+      "phase": "F1",
+      "key": "P11-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "15565aad2e900ebe24b4e779a6e6d7a7b02242fbfd4f532933e1a86bf2ff7084",
+      "checks_sha256": "d61ad14877e199a80f7792b112aa1dcbb0368a6783398b8af624f38f85024392",
+      "input_sha256": "203160952c32049eda36d0f8633212fa727d901e62ce4bd66509ac3e6a45f1a7",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|1/4|3000000|1@0"
+        ],
+        "candidates": 6,
+        "score": [
+          "0",
+          "5/2",
+          "5/2",
+          "2",
+          "21/4"
+        ],
+        "semantic_decision": "f71251e989efbb3c3c90d9258d6a93f58b50e01b3b4852f0d839f4f5d6be80c3"
+      }
+    },
+    "P11-B": {
+      "phase": "F1",
+      "key": "P11-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "15565aad2e900ebe24b4e779a6e6d7a7b02242fbfd4f532933e1a86bf2ff7084",
+      "checks_sha256": "d61ad14877e199a80f7792b112aa1dcbb0368a6783398b8af624f38f85024392",
+      "input_sha256": "6ee86f3215968bba7c9cc938a069848cf24a855acbf5022d3bb2192147bc9ff6",
+      "observed": {
+        "choice": "N.A",
+        "support": [
+          "C0|1/4|3000000|1@0"
+        ],
+        "candidates": 6,
+        "score": [
+          "0",
+          "5/2",
+          "5/2",
+          "2",
+          "21/4"
+        ],
+        "semantic_decision": "f71251e989efbb3c3c90d9258d6a93f58b50e01b3b4852f0d839f4f5d6be80c3"
+      }
+    },
+    "P12-J": {
+      "phase": "F1",
+      "key": "P12-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "e0dc426d56b2b0db80fa15cfd4fd43daeb88a0efdab6f764844094f04d7842fa",
+      "checks_sha256": "439ade9dcff74122e318559ae84bf70a879dca8bc99955c2ac0a1db846792ae8",
+      "input_sha256": "f1df5123e2f055985c24400058b8bd7f6c29319472ebde72fe0f0095836bf8f4",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1/4|3000000|1@0"
+        ],
+        "candidates": 2,
+        "score": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "7/4"
+        ],
+        "semantic_decision": "08e72d041f4935e912fb792d8b6b2c1200e03a9332517f497356fa154dc51bee"
+      }
+    },
+    "P12-B": {
+      "phase": "F1",
+      "key": "P12-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "e0dc426d56b2b0db80fa15cfd4fd43daeb88a0efdab6f764844094f04d7842fa",
+      "checks_sha256": "439ade9dcff74122e318559ae84bf70a879dca8bc99955c2ac0a1db846792ae8",
+      "input_sha256": "320386c8176b388e0df416a431f64c03170a5662f0074bb3212f9c40901d129e",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "C0|1/4|3000000|1@0"
+        ],
+        "candidates": 2,
+        "score": [
+          "3",
+          "0",
+          "0",
+          "0",
+          "7/4"
+        ],
+        "semantic_decision": "08e72d041f4935e912fb792d8b6b2c1200e03a9332517f497356fa154dc51bee"
+      }
+    },
+    "P13-J": {
+      "phase": "F1",
+      "key": "P13-J",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 7,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "2231230adeacddd9abd5fb7c94df3e7897e09a44b51b1810b7bf66dd1edde427",
+      "checks_sha256": "ee0aa11e2bd6861dc375343c9578ca0d14668218eab28112e6afbce3408bfe85",
+      "input_sha256": "4d9d7730c690cbf75793fa22023cfb43fe1c596754aea973f49f6d1aeb7e335e",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "F|0|3000000|0@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "4",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "semantic_decision": "836502cddd048fe510fcf429b3309d973a5d3216dc350e8c18da96485d29db2d"
+      }
+    },
+    "P13-B": {
+      "phase": "F1",
+      "key": "P13-B",
+      "status": "PASS",
+      "counts": {
+        "direct": 1
+      },
+      "assertions": 7,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "2231230adeacddd9abd5fb7c94df3e7897e09a44b51b1810b7bf66dd1edde427",
+      "checks_sha256": "ee0aa11e2bd6861dc375343c9578ca0d14668218eab28112e6afbce3408bfe85",
+      "input_sha256": "20da3d754d9702af9ffcd8249ea748a5e69f7713e4b583a8232aacf503153b3b",
+      "observed": {
+        "choice": "W",
+        "support": [
+          "F|0|3000000|0@0"
+        ],
+        "candidates": 7,
+        "score": [
+          "4",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "semantic_decision": "836502cddd048fe510fcf429b3309d973a5d3216dc350e8c18da96485d29db2d"
+      }
+    },
+    "G01": {
+      "phase": "F1",
+      "key": "G01",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "bcb6257d3c4d78382de4af9044b569d93fee034583f6397b52c55ce9e8d44576",
+      "checks_sha256": "1b4a2d132701e97144e7f07508cc5cc1f36598708d301914eff50643ddaaab48",
+      "input_sha256": "c154044ef6f1b48915c8160a8dc259e1da5a823bf73daa96c9eca8a7ad50929e",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "CONFIG_LIMIT_CURRENT"
+        ]
+      }
+    },
+    "G02": {
+      "phase": "F1",
+      "key": "G02",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "5a89b1e7357f494d41102ba83c24e507350be335f972ffc2cf4c2b55e01f99f3",
+      "checks_sha256": "3daf98534919bc7f2919673a49e11e55490d068a56cfd4443854400edaa1fff9",
+      "input_sha256": "50096f7bc66d080371464ec1ee3dc7656ca0a21f6fcb9a66e9e6f6b2afc34f8a",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "SUPPLY_LIMIT_CURRENT"
+        ]
+      }
+    },
+    "G03": {
+      "phase": "F1",
+      "key": "G03",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d76c6e6e24e5332783730ecefebd942a4857b27087bc6bf4da3e4733469bf40f",
+      "checks_sha256": "0ab9ca0b908fbb7c3e9be95b4cf17d80ec150f685cc4b01a045abcf4847818ae",
+      "input_sha256": "6d2e8b58a451f2e84b82ee8cdee4e8436d05535c0abedc40f4819c9e6939ca3e",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "MIXED_LIMIT_CURRENT"
+        ]
+      }
+    },
+    "G04": {
+      "phase": "F1",
+      "key": "G04",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "be69ca275013e3838c9c8c3ad524d1aa7ad7f990332f2e421060ff1523b1d3ce",
+      "checks_sha256": "7e19a3e25876c6c2bd35c951df985b25bdb82088db61e2bc93d8f76fb911e08e",
+      "input_sha256": "6ff793b4e5efdf531cebbef19abea7b8b335fe9604791cb3bffe0981d630de7d",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "LOCAL_ADEQUATE"
+        ]
+      }
+    },
+    "G05": {
+      "phase": "F1",
+      "key": "G05",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "7e4d29c2dcee0863a626327b34bc4faf7ad7d1d4e87dd5156d130e2462a2662b",
+      "checks_sha256": "51afda4fc081f591ef6d10a41c7c10249bbc5922fa54ab0e10ffc8bc6f1f1821",
+      "input_sha256": "5e023613d7cf58b220fe19c62d0bacc35e2ce57cd363d1ff48a30346b09a534b",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "UNKNOWN"
+        ]
+      }
+    },
+    "G06": {
+      "phase": "F1",
+      "key": "G06",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "7e4d29c2dcee0863a626327b34bc4faf7ad7d1d4e87dd5156d130e2462a2662b",
+      "checks_sha256": "51afda4fc081f591ef6d10a41c7c10249bbc5922fa54ab0e10ffc8bc6f1f1821",
+      "input_sha256": "2c1b1bd430666c781ea7c1fb5039b3ea6966e54288e30d337b2c5f14d6d4fc89",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "UNKNOWN"
+        ]
+      }
+    },
+    "G07": {
+      "phase": "F1",
+      "key": "G07",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "57522fdc5575019dfe1fd52a61714c6a44cc17c018dfd83be86aed6fb9dee1b0",
+      "checks_sha256": "3b660ec35947fe4c141d3d124920fd8964b177834210e94a995b652444509a37",
+      "input_sha256": "af8c820265d9e8c92689daa37c2241d663b00c5b299b99224ee522fec15f8300",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "EFFECTIVE_LOW_CAUSE_UNKNOWN"
+        ]
+      }
+    },
+    "G08": {
+      "phase": "F1",
+      "key": "G08",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "59e21ca34b33ea26783545b38aa8188f5954e05df5e34891efa04bdea39b6968",
+      "checks_sha256": "d5526d7bb27e693487038f5a9799bffc924cd0063ee71c40283821f4b8afb4ef",
+      "input_sha256": "ab965282f01771d7afd2615eb985555ac0ad89eed3acb04448fe59ce7196a199",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "PENDING",
+          "CONFIG_LIMIT_CURRENT",
+          "EXPIRED"
+        ]
+      }
+    },
+    "G09": {
+      "phase": "F1",
+      "key": "G09",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "87a4f9be098eca3444db0ef30cc808dec140e9dac527efe7e5bdabde88993526",
+      "checks_sha256": "ccad0c5ab1c0f3d93f972a2149b69d014495c110f2c7179364c18b9019ed96fa",
+      "input_sha256": "11614c4c66734bdc75b5d16b0bb214739cc79e9a197047ffc9ddcb154284fcf0",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "PENDING",
+          "EXPIRED"
+        ]
+      }
+    },
+    "G10": {
+      "phase": "F1",
+      "key": "G10",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "d3b75482cf8d4ef9105b4db9a1fe60842d9a6283145d5eab6717c3a384550938",
+      "checks_sha256": "80172a3d28c876850dc26edc4479d5e0ca10a45ba6ab9c0083fa8336998355c4",
+      "input_sha256": "4fde65322ec65b4646b6cfe53c73de41cf81ad9395f60dec9a56714a9668fb76",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "PENDING"
+        ]
+      }
+    },
+    "G11": {
+      "phase": "F1",
+      "key": "G11",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "996ad7b0577c5288429b6457bd3726a31956ee443390eb9cd64f4ebdc87f36f8",
+      "checks_sha256": "cf91f37a51857dfa3aafa9d56ce4c4e73317236fdd373c2700aa62d9eeb068f8",
+      "input_sha256": "d025bb0ed68af453a75a90dcbdaabce456ea6dbd5499bc0b14de082432a94c7d",
+      "observed": {
+        "interface": "classify",
+        "actual": [
+          "CONFLICT"
+        ]
+      }
+    },
+    "G12": {
+      "phase": "F1",
+      "key": "G12",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "1bbe27c7a4901a95042bb4cbfccafb6cd17469e877d17a2a24c787e8a0da9d0e",
+      "checks_sha256": "fbc6196ae9f24d0dd21e471efff8f5c808ae6eaaa395b9e0034aa6b59b7e9b9c",
+      "input_sha256": "3e7a2fb68dcfe7f765f5e8c310ec6c6a06fa3ccb0840c50c5410e4df55faa66e",
+      "observed": {
+        "interface": "schedule",
+        "actual": {
+          "admitted": true,
+          "required": [
+            42.25,
+            42.25,
+            4
+          ],
+          "work": [
+            7.0,
+            7.0,
+            4
+          ]
+        }
+      }
+    },
+    "G13": {
+      "phase": "F1",
+      "key": "G13",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "73e25fbca83d974a727c2eac15334b341b75b47530290c4c4236ccc219eb49e8",
+      "checks_sha256": "f5d56d85f8c52b0925fc371b420db8590c41dc253318d53e8b78d40ef2b6ad5d",
+      "input_sha256": "efebcbb8af87176f642e668aaf472c0b9f660ae39a9a8dca5db8db1d07c3c1ce",
+      "observed": {
+        "interface": "schedule",
+        "actual": {
+          "admitted": false,
+          "required": [
+            42.25,
+            42.25,
+            4
+          ],
+          "work": [
+            7.0,
+            7.0,
+            4
+          ]
+        }
+      }
+    },
+    "G14": {
+      "phase": "F1",
+      "key": "G14",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "73e25fbca83d974a727c2eac15334b341b75b47530290c4c4236ccc219eb49e8",
+      "checks_sha256": "f5d56d85f8c52b0925fc371b420db8590c41dc253318d53e8b78d40ef2b6ad5d",
+      "input_sha256": "5a79f4c62acd4fef7f3b52a7c2561a1c7b2fa94fc2dd6c05c68bd159b5e5d472",
+      "observed": {
+        "interface": "schedule",
+        "actual": {
+          "admitted": false,
+          "required": [
+            42.25,
+            42.25,
+            4
+          ],
+          "work": [
+            7.0,
+            7.0,
+            4
+          ]
+        }
+      }
+    },
+    "G15": {
+      "phase": "F1",
+      "key": "G15",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "73e25fbca83d974a727c2eac15334b341b75b47530290c4c4236ccc219eb49e8",
+      "checks_sha256": "f5d56d85f8c52b0925fc371b420db8590c41dc253318d53e8b78d40ef2b6ad5d",
+      "input_sha256": "fdf23e8a840dcb2cff5237c3808bd7148555e5fc33f05fc97e53eae11e9993eb",
+      "observed": {
+        "interface": "schedule",
+        "actual": {
+          "admitted": false,
+          "required": [
+            42.25,
+            42.25,
+            4
+          ],
+          "work": [
+            7.0,
+            7.0,
+            4
+          ]
+        }
+      }
+    },
+    "G16": {
+      "phase": "F1",
+      "key": "G16",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "2ed27c1421e6928dbe13dbfdb5c59e1045b30341fe7ebe05700006bc5ac572c0",
+      "checks_sha256": "19a3d1f9b6de608bf8e800a3dd08b91ac20dcf67f3ae466f9626acc941523b11",
+      "input_sha256": "d8c3c9f42ef84d20639fc9ce368b99d6985c234f80e7b323fe488d5743dd1424",
+      "observed": {
+        "interface": "feasibility",
+        "actual": false
+      }
+    },
+    "G17": {
+      "phase": "F1",
+      "key": "G17",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "2ed27c1421e6928dbe13dbfdb5c59e1045b30341fe7ebe05700006bc5ac572c0",
+      "checks_sha256": "19a3d1f9b6de608bf8e800a3dd08b91ac20dcf67f3ae466f9626acc941523b11",
+      "input_sha256": "de70d6c957faf1522e9484b298ed5d6e67916fd7301e059e63523dc159fc15fb",
+      "observed": {
+        "interface": "feasibility",
+        "actual": false
+      }
+    },
+    "G18": {
+      "phase": "F1",
+      "key": "G18",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "checks_sha256": "c0f4682f8c7f3c2d829701ee990270f0655296db53d4eb1c1b3f6d1c32861cbe",
+      "input_sha256": "a146d338bff4d60f1fe1d6c4f20f86af85f35c0bfe415e85824fccabbbeebb51",
+      "observed": {
+        "interface": "feasibility",
+        "actual": true
+      }
+    },
+    "G19": {
+      "phase": "F1",
+      "key": "G19",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "1fd9d7ef5e2080ebe4b9fbd5f77b48eea6dbc24f575b0ddf43b2e1f31c4bb057",
+      "checks_sha256": "a3eedc97c76c7e38dd758e8ea57c127dc746ac70740ab8fffc6be2353f533f20",
+      "input_sha256": "c12afeaf6529fe2188858fc3763fe05e3c37c807533681de1f15d6a81e9cc4c2",
+      "observed": {
+        "interface": "route",
+        "actual": [
+          4.5,
+          5.0
+        ]
+      }
+    },
+    "G20": {
+      "phase": "F1",
+      "key": "G20",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "4edb2f5c631ce95780661bd5ecc891e760b9ec9ae1f27e2b9b24e15a6fa81bdf",
+      "checks_sha256": "f1f58079fb63b7ef7983340b8168167f2fcca52df74993d5221c69785f3d46d3",
+      "input_sha256": "dfe6ce087abe04dc3f00acb103bc99ce326f81e7cca60acbd232ef47b95b16d7",
+      "observed": {
+        "interface": "handoff",
+        "actual": [
+          false,
+          true,
+          5.0,
+          5.5
+        ]
+      }
+    },
+    "G21": {
+      "phase": "F1",
+      "key": "G21",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "18a77fe6dbe0cc0deaa53bf93e580055409be713b9dbea0e396cd7a35627e90b",
+      "checks_sha256": "40b8eba32cc91b94c68adf6618842f8931955c5ef7e1b99cc8bcaa0f9367ee73",
+      "input_sha256": "9388bdb41d1048ab2246f15e07d9fc92499107493d114db07c5334993842b9cc",
+      "observed": {
+        "interface": "aborted",
+        "actual": {
+          "debit": [
+            12,
+            12,
+            1
+          ],
+          "pose": [
+            null,
+            null
+          ],
+          "obligations": [],
+          "work": [
+            0.75,
+            0.75,
+            1
+          ]
+        }
+      }
+    },
+    "G22": {
+      "phase": "F1",
+      "key": "G22",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "97ca2e614fc86b2456d60b015c97b46ac238e9ca8302cc3b6de03f06d65af5a0",
+      "checks_sha256": "b6ecea8e3ff8ee4ccd4735e0de431110fd92511a6e12f10570a74a80f7c00cc1",
+      "input_sha256": "41afea291d77a9bb2f1ffcca9f307087aadcea51bdb3e3da9d08be0f88b4de44",
+      "observed": {
+        "interface": "certificate",
+        "actual": [
+          "NO_ACTION_CURRENT",
+          "OPEN_EXPIRED"
+        ]
+      }
+    },
+    "G23": {
+      "phase": "F1",
+      "key": "G23",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "6f0ad12f6362fab54ce275fd2f8471f4ece975f13714c29881e2e587914718f5",
+      "checks_sha256": "a7839755d4bb9f8bc189622123c28a1661076437c234c3271f2490ff36913d0e",
+      "input_sha256": "75c9ac89fb2fb06880592b3cb842d3532a886120d9d478a3dbadcc9c4bc618e5",
+      "observed": {
+        "interface": "certificate",
+        "actual": [
+          "OPEN"
+        ]
+      }
+    },
+    "G24": {
+      "phase": "F1",
+      "key": "G24",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "86c08ad3b00a696627e0d66b61cdc49460cdbd0b71e93076486ab112cd715f31",
+      "checks_sha256": "d7ae2ea2d20530b64908310da0484cb8d2a8d6dad34291f797c29029ee5c8a59",
+      "input_sha256": "2a4c66b1bae57c67ba585fc63b0d60dac499335eb4f33a9b8efff851df08375c",
+      "observed": {
+        "interface": "support",
+        "actual": {
+          "support": [],
+          "elective_allowed": false
+        }
+      }
+    },
+    "G25": {
+      "phase": "F1",
+      "key": "G25",
+      "status": "PASS",
+      "counts": {
+        "component": 1
+      },
+      "assertions": 1,
+      "failures": [],
+      "actual_file": "actual.json",
+      "actual_sha256": "05a205f37fd6c2d6dcb02c24a636d628711c05956bbd2489d4c65fe32f1b1952",
+      "checks_sha256": "cadd1890384e6ea1697ab48fa8036b69763bc332cbd3a8f08dfc4291ac5f188d",
+      "input_sha256": "1d837730b21d31b1420a72286eee4507a35f3e949c29e20eef3929b8f85c04f2",
+      "observed": {
+        "interface": "openings",
+        "actual": [
+          [],
+          [],
+          [
+            "N/nA"
+          ],
+          [
+            "N/nA"
+          ],
+          [
+            "C/cA",
+            "N/nA"
+          ]
+        ]
+      }
+    },
+    "S01": {
+      "phase": "F2",
+      "key": "S01",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "008c2ef6d1546f2701a4c4f379f2b6d7278828707ca82a7d54ee9cb95c8e4c2a",
+      "checks_sha256": "e51ed6a82fe7243ff37fa74a1572b3c8d7217a7d310771bb3d2b2437e8ba7144",
+      "input_sha256": "91d45d5a8396f865076ac62995515fe7f0c81763b4a9300ea370a9bd2e6153b8",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          0.9375,
+          0.9375
+        ],
+        "work": [
+          2.5,
+          2.5,
+          2
+        ],
+        "debit": [
+          22.25,
+          22.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {
+          "N/n0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "10": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.A",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.R",
+            1.75,
+            3,
+            3.5
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0.25,
+            1
+          ],
+          "N.R": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S02": {
+      "phase": "F2",
+      "key": "S02",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 318,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "88f1aee4dff53e0ab43ae48149d1c691ae9b80706fbb66b177d1f13e9467d0c5",
+      "checks_sha256": "ddb02df081175bbd054ecd70dd9c14263570257eafdd32e4bdf2d63a6c268f4e",
+      "input_sha256": "f7905afaa7d31591de94d5fec32dcf9d33bf394bd538ad38a3f82e263a2c1788",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [],
+        "observations_and_writes": {}
+      }
+    },
+    "S03": {
+      "phase": "F2",
+      "key": "S03",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 322,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "ce390f683563ed663044ac44019da505f47bf82692c2ca75ccd1e9f185b10eab",
+      "checks_sha256": "1c3988dff1f50e5bf12febdd3b9a79cfcfa3fa95b849b24fa7e0166f9d5ec31c",
+      "input_sha256": "a9ffc769f19ef4d30ef0146afb6ae0b13543e69f732332ff6314800b306aba45",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          2.25,
+          2.25
+        ],
+        "work": [
+          3.75,
+          3.75,
+          3
+        ],
+        "debit": [
+          32.5,
+          32.5,
+          3
+        ],
+        "wait_for_public_receipts_s": 1.5,
+        "first": {
+          "N/n0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "10": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "12": {
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.A",
+            1.75,
+            3,
+            3.5
+          ],
+          [
+            "N.R",
+            3.5,
+            4.75,
+            5.25
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0.25,
+            1
+          ],
+          "N.I": [
+            0.25,
+            0.25
+          ],
+          "N.R": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S04": {
+      "phase": "F2",
+      "key": "S04",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "d6b8dcd8980937514e6dbe93636d38e4cd1b9cb8a914ef171562c2189476f213",
+      "checks_sha256": "21d35266bdac80226c3df02156304e6711f33ca84e4706a6761745181bf25eb4",
+      "input_sha256": "ef7ad5351ff26c83c942e6abc1cbe5ae7534ae37670d8516d0b30e5f6a6efbc4",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          1.25,
+          1.25,
+          1
+        ],
+        "debit": [
+          12.0,
+          12.0,
+          1
+        ],
+        "wait_for_public_receipts_s": 0.5,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN_EXPIRED"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ]
+        ],
+        "observations_and_writes": {
+          "N.I": [
+            1,
+            0.25
+          ]
+        }
+      }
+    },
+    "S05": {
+      "phase": "F2",
+      "key": "S05",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "17671aa286786668a0e8bc1ceb278042be6da10710145b198b907c77f5482e2b",
+      "checks_sha256": "d7ca00de52285730e014501ea1c7a51e7223814f7424d230e2ae72f9b29fc89e",
+      "input_sha256": "cb71534d838e3a1356aaf50890aea3d0c5c7bdec1f713d8ed41287ad59e60ab7",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          2.5,
+          2.5,
+          2
+        ],
+        "debit": [
+          22.25,
+          22.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.A",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.R",
+            1.75,
+            3,
+            3.5
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            1,
+            1
+          ],
+          "N.R": [
+            1,
+            0.25
+          ]
+        }
+      }
+    },
+    "S06": {
+      "phase": "F6",
+      "key": "S06",
+      "status": "PASS",
+      "counts": {},
+      "recovered_from": "F2",
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "44e13a8ec19273ad6611ca8de48d05b8750dfc6c2aec49f421dd9f3c1207e310",
+      "checks_sha256": "15a5c4fc9bf97116591cb5f6038a6ca6db48cacf2dc716a8bef1e27811e50e3f",
+      "input_sha256": "dddfdcba9802ba2b4b99ef6fc020d5cbdac0a43d50e7eae1d9b584735a6c3da0",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          2.5,
+          2.5,
+          2
+        ],
+        "debit": [
+          22.25,
+          22.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.A",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.R",
+            1.75,
+            3,
+            3.5
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0.25,
+            1
+          ],
+          "N.R": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S07": {
+      "phase": "F6",
+      "key": "S07",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 318,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "20da3553fb346c99bfa1b9da1c21d748c509026d8589f3a2b17405f6d237f053",
+      "checks_sha256": "18a76867cb45a9d2e0594a0e9ef6ec5964bd42885ecd915aa3832f542913e113",
+      "input_sha256": "be53f884ac361c9a2ee2358aad8b8c946092dc1bd71225f182b986d31dbb95c1",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [],
+        "observations_and_writes": {}
+      }
+    },
+    "S08": {
+      "phase": "F6",
+      "key": "S08",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 318,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "48c2b7511402e2c233fcd0ba3e58cb4171657e039f803f443581fb4178adfd72",
+      "checks_sha256": "e48a868c8a960f881c4ae60e96b91ec7ce7a3a72143e8e6739d0627ccd88d803",
+      "input_sha256": "5ede63a4fb18b04d4c5cf80db98f2200e3171b3f4d490c097a29e68ddd516340",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [],
+        "observations_and_writes": {}
+      }
+    },
+    "S09": {
+      "phase": "F6",
+      "key": "S09",
+      "status": "FAILED_ASSERTION",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 318,
+      "failures": [
+        {
+          "check": "administrative latency is separate from person/tool work",
+          "ok": false,
+          "actual": 1.0,
+          "expected": 0.5
+        }
+      ],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "b03394e0494525325abb87765cd183894d7d3fa810fe19be74984b5fb3259254",
+      "checks_sha256": "635c91a75be550b984ca5a8579137fe30cd5e933fdb264fc97de3fe8ba0c874e",
+      "input_sha256": "6d70f99dfe9438dca341e34d83909244032a371116a64e740828197f4df8ac4c",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          0.75,
+          0.75,
+          1
+        ],
+        "debit": [
+          12.0,
+          12.0,
+          1
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.A",
+            0.0,
+            0.75,
+            1.25
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": "NO_EFFECT"
+        }
+      }
+    },
+    "S10": {
+      "phase": "F6",
+      "key": "S10",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 322,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "ae65bf729894e1a9eed5bae89545f35b869b54f4060b873a5468af2292b3e447",
+      "checks_sha256": "8b39bcc7a6c22242a0156b17517e2846826f30b5a3882e9dd7640c39c9bf7fff",
+      "input_sha256": "18ab672707dd394aa8786b981d5eed69ce7a10337610f08ffeeddd4861388210",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.555882352941177,
+          9.555882352941177
+        ],
+        "work": [
+          3.75,
+          3.75,
+          3
+        ],
+        "debit": [
+          32.5,
+          32.5,
+          3
+        ],
+        "wait_for_public_receipts_s": 1.5,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.A",
+            1.75,
+            3,
+            3.5
+          ],
+          [
+            "N.R",
+            3.5,
+            4.75,
+            5.25
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0.25,
+            1
+          ],
+          "N.I": [
+            0.25,
+            0.06470588235294118
+          ],
+          "N.R": [
+            1,
+            0.25
+          ]
+        }
+      }
+    },
+    "S11": {
+      "phase": "F6",
+      "key": "S11",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 318,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "449e2686ba1c3afe726af5876caf7bb2c712d56aaa5eb4415711c3396a511854",
+      "checks_sha256": "8077c74432854721220b5854abbf1f0ac37888fe5ac8af461719106aaffa875a",
+      "input_sha256": "fb5c54abb4290ca8baa5e5065e071672c4de32adc300ab223c6c4a141bf1d9cc",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          11.223529411764705,
+          11.223529411764705
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [],
+        "observations_and_writes": {}
+      }
+    },
+    "S12": {
+      "phase": "F6",
+      "key": "S12",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 335,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "2e9506394164c988862bd6cec03e1c006c1f5160a01771a7bca9bb20d81a2b28",
+      "checks_sha256": "9aa9a0ff764f676fe1165c2d6db3429f2f1b13fe584824f147b153071b6ad231",
+      "input_sha256": "3eb948dd800eed03828bd7debd288b48d00e835ff21031ff8b6a4e3d89e506ba",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          0.0,
+          0.0
+        ],
+        "work": [
+          5.75,
+          5.75,
+          3
+        ],
+        "debit": [
+          30.5,
+          30.5,
+          3
+        ],
+        "wait_for_public_receipts_s": 1.5,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "N/n0": {
+            "time": 7.5,
+            "state": "NO_ACTION_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "NO_ACTION_CURRENT"
+          },
+          "9": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "NO_ACTION_CURRENT"
+          },
+          "10": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN_EXPIRED"
+          },
+          "12": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "C.A",
+            1.75,
+            5.0,
+            5.5
+          ],
+          [
+            "C.R",
+            5.5,
+            6.75,
+            7.25
+          ]
+        ],
+        "observations_and_writes": {
+          "C.A": [
+            4,
+            1
+          ],
+          "C.R": 0.1,
+          "N.I": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S13": {
+      "phase": "F6",
+      "key": "S13",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 319,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "7566a642ae4e8b194771cd535e00fb73c9ca8d7ce246cae52dcb725a24db5cd4",
+      "checks_sha256": "0fcc5452f911dfd7dfe3bbd715294c6417dec51d367f182db1f2f085d0ff9ca8",
+      "input_sha256": "b0f6fbcd0c12d36a43216d411a2167815167f4814859f992e471d4767acc8552",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          0.0,
+          0.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          20.25,
+          20.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "C.A",
+            0.0,
+            3.25,
+            3.75
+          ],
+          [
+            "C.R",
+            3.75,
+            5.0,
+            5.5
+          ]
+        ],
+        "observations_and_writes": {
+          "C.A": [
+            4,
+            1
+          ],
+          "C.R": 0.1
+        }
+      }
+    },
+    "S14": {
+      "phase": "F6",
+      "key": "S14",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 336,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "471859b95f9c280d3c763e16af6c4e7730061f1a9fff6d8362b4d1a66a2f2ffe",
+      "checks_sha256": "4afa9236df066903e0f0930259b968471277a624def566dcf7abc1744300c731",
+      "input_sha256": "6da9b88020e645328adf8e18b0983229d40d0edacd8e3ae198d206c313efcd19",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          2.25,
+          2.25
+        ],
+        "work": [
+          3.75,
+          3.75,
+          3
+        ],
+        "debit": [
+          32.5,
+          32.5,
+          3
+        ],
+        "wait_for_public_receipts_s": 1.5,
+        "first": {
+          "N/n0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "C/c0": "OPEN",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "10": {
+            "C/c0": "OPEN",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "12": {
+            "C/c0": "OPEN",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ],
+          [
+            "N.A",
+            1.75,
+            3,
+            3.5
+          ],
+          [
+            "N.R",
+            3.5,
+            4.75,
+            5.25
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0.25,
+            1
+          ],
+          "N.I": [
+            0.25,
+            0.25
+          ],
+          "N.R": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S15": {
+      "phase": "F6",
+      "key": "S15",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 319,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "58a15256c1208eb3c072096ed6da749cda2724e77f25a2d651c96d55d5695c19",
+      "checks_sha256": "b3bf26e45200b71b6343416055809602dd2a551dc03b06a56ea3cf86e55d8432",
+      "input_sha256": "8d37be65e2ae42812deb2cc24bbf1bf1f35a8fafa03c64c1416300adeddb8ed1",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          20.25,
+          20.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {},
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "12": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "C.A",
+            0.0,
+            3.25,
+            3.75
+          ],
+          [
+            "C.R",
+            3.75,
+            5.0,
+            5.5
+          ]
+        ],
+        "observations_and_writes": {
+          "C.A": [
+            1,
+            1
+          ],
+          "C.R": 0.1
+        }
+      }
+    },
+    "S16": {
+      "phase": "F6",
+      "key": "S16",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 336,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "132dfff9e16fd0a7917e0ed3dfecf93e3ad329b4e0f87a21cbb27565b76475be",
+      "checks_sha256": "367cf9b271366d7a4196fad44760ae68decf2773877ce24738691109ae5f58f2",
+      "input_sha256": "69218a3467c77b206114b7d08edcfa7f92e110fe54a4083d96d29bba64639238",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          1.5,
+          1.5
+        ],
+        "work": [
+          7.0,
+          7.0,
+          4
+        ],
+        "debit": [
+          42.25,
+          42.25,
+          4
+        ],
+        "wait_for_public_receipts_s": 2.0,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "N/n0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "10": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "12": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT",
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "C.A",
+            0.0,
+            3.25,
+            3.75
+          ],
+          [
+            "N.A",
+            0.25,
+            1.5,
+            2.0
+          ],
+          [
+            "N.R",
+            2.0,
+            3.25,
+            3.75
+          ],
+          [
+            "C.R",
+            3.75,
+            5.0,
+            5.5
+          ]
+        ],
+        "observations_and_writes": {
+          "N.A": [
+            0,
+            1
+          ],
+          "C.A": [
+            4,
+            1
+          ],
+          "C.R": 0.1,
+          "N.R": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S17": {
+      "phase": "F6",
+      "key": "S17",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "512c3cf9845b307e6fd6697b6a7027f4e437a5eb7567c83c654469ec7ad9998d",
+      "checks_sha256": "f5ae28183f6cbdcedfbbab38e36bd98d4744a1bb8510b4a4ab047f1229672fd3",
+      "input_sha256": "ce9c2e0eefbf977dd0f1c48b333891a702c1bfeb270ee5ef5f2b3e56e0f21cbf",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          0.0,
+          0.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          23.5,
+          23.5,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "NO_ACTION_CURRENT"
+          },
+          "C/c1": {
+            "time": 7.5,
+            "state": "NO_ACTION_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN",
+            "C/c1": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "NO_ACTION_CURRENT",
+            "C/c1": "NO_ACTION_CURRENT"
+          },
+          "9": {
+            "C/c0": "NO_ACTION_CURRENT",
+            "C/c1": "NO_ACTION_CURRENT"
+          },
+          "10": {
+            "C/c0": "NO_ACTION_CURRENT",
+            "C/c1": "NO_ACTION_CURRENT"
+          },
+          "12": {
+            "C/c0": "OPEN_EXPIRED",
+            "C/c1": "NO_ACTION_CURRENT"
+          }
+        },
+        "open_instances": [
+          "C/c0",
+          "C/c1"
+        ],
+        "stages": [
+          [
+            "C#0.I",
+            0.0,
+            3.25,
+            3.75
+          ],
+          [
+            "C#1.I",
+            3.75,
+            5.0,
+            5.5
+          ]
+        ],
+        "observations_and_writes": {
+          "C#1.I": 0.1,
+          "C#0.I": 0.1
+        }
+      }
+    },
+    "S18": {
+      "phase": "F6",
+      "key": "S18",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "b9bca15bc7c1af7d820d83343a0cd43fd561fb9e47276b1298de2579a776b1ae",
+      "checks_sha256": "91c4a36a887f9a923d2facb8fb1b2e5d27e582cce0e7da18de2fbfb34a3d05f9",
+      "input_sha256": "52672f57ee9f5f29a394e820cfedd40b8d16135af560b6379f078118ac6c424a",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          1.25,
+          1.25,
+          1
+        ],
+        "debit": [
+          12.0,
+          12.0,
+          1
+        ],
+        "wait_for_public_receipts_s": 0.5,
+        "first": {
+          "N/n0": {
+            "time": 7.5,
+            "state": "NO_ACTION_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "NO_ACTION_CURRENT"
+          },
+          "9": {
+            "N/n0": "NO_ACTION_CURRENT"
+          },
+          "10": {
+            "N/n0": "OPEN_EXPIRED"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ]
+        ],
+        "observations_and_writes": {
+          "N.I": [
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "S19": {
+      "phase": "F6",
+      "key": "S19",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "be00b056f242946e3477e90135ce94c8da25f1aadd1ddbd32939087c0f75a3b6",
+      "checks_sha256": "cb25a433b2224f6d5e1a83d3cfb32831e08b7c9a9d01686e51e490d7557016e1",
+      "input_sha256": "01d743015f53823ed0270ae92cb099ef06c439f0be83b9b1ee6954d304afbbd0",
+      "observed": {
+        "decisions": 49,
+        "physical_integrals": [
+          9.0,
+          9.0
+        ],
+        "work": [
+          1.25,
+          1.25,
+          1
+        ],
+        "debit": [
+          12.0,
+          12.0,
+          1
+        ],
+        "wait_for_public_receipts_s": 0.5,
+        "first": {},
+        "current": {
+          "5": {
+            "N/n0": "OPEN"
+          },
+          "7.5": {
+            "N/n0": "OPEN"
+          },
+          "9": {
+            "N/n0": "OPEN"
+          },
+          "10": {
+            "N/n0": "OPEN_EXPIRED"
+          },
+          "12": {
+            "N/n0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "N/n0"
+        ],
+        "stages": [
+          [
+            "N.I",
+            0.0,
+            1.25,
+            1.75
+          ]
+        ],
+        "observations_and_writes": {
+          "N.I": [
+            null,
+            0.25
+          ]
+        }
+      }
+    },
+    "L01": {
+      "phase": "F6",
+      "key": "L01",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 20
+      },
+      "assertions": 9,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "4d760d284911d9661f15aef474fc03391b2b25f085e98741f2c5c7e2bede5af8",
+      "checks_sha256": "c50476777ab26d89a7387c6cf17ae865cbadae9eaa8d347bb069a525d337b48e",
+      "input_sha256": "37050de07c81de2c3688bedc18553ba8afd2a58d7f5cb90b9474d1e3e7279f7f",
+      "observed": {
+        "semantic": "c0c20013dd427f5aca3a78b78146fbd279c9a1830b3d0bcaccd08884264f83c8",
+        "decisions": 20,
+        "service": {
+          "balance": [
+            "2251799813685245/1125899906842624",
+            "2251799813685245/1125899906842624"
+          ],
+          "rate": [
+            "2251799813685245/1125899906842624",
+            "2251799813685245/1125899906842624"
+          ],
+          "profile": [
+            [
+              0.0,
+              3.9999999999999947,
+              1,
+              0.5
+            ],
+            [
+              3.9999999999999947,
+              10.0,
+              1,
+              1
+            ]
+          ]
+        },
+        "work": [
+          "23/4",
+          "23/4",
+          "3"
+        ]
+      }
+    },
+    "L02": {
+      "phase": "F6",
+      "key": "L02",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 20
+      },
+      "assertions": 9,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "a8f09e91d966916cf452394230110c918b5262ab62a7d4b95e9fd94291e77fec",
+      "checks_sha256": "5861fee95cd9c19d7e614c14e583a7c2efd59ea2a9f2615ff71768a74058d429",
+      "input_sha256": "3809143a9f0eb6283c76510033dcda40e433bff521b260b4ae0d9ddf1307b87d",
+      "observed": {
+        "semantic": "ebabb63acf10e2d1c8bab81f1bc3676e50bdbed9a4debc4ab94c4f8578a7510b",
+        "decisions": 20,
+        "service": {
+          "balance": [
+            "2251799813685245/1125899906842624",
+            "2251799813685245/1125899906842624"
+          ],
+          "rate": [
+            "2251799813685245/1125899906842624",
+            "2251799813685245/1125899906842624"
+          ],
+          "profile": [
+            [
+              0.0,
+              3.9999999999999947,
+              1,
+              0.5
+            ],
+            [
+              3.9999999999999947,
+              10.0,
+              1,
+              1
+            ]
+          ]
+        },
+        "work": [
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    },
+    "T01": {
+      "phase": "F3",
+      "key": "T01",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 153,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "4fc164bd6194b9a2cbd0d1e9881d03bbf1c81f342675b707942710c45754576b",
+      "checks_sha256": "ff100c07a404ba79eb3533e861e4c59946654741b370db33b600be4b4a472aba",
+      "input_sha256": "0c74d5252b5164c7925c30b74ae7d83a05ad560a4cc2a957445455ad8e9d8753",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          1667.0,
+          1667.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN"
+          },
+          "3600": {
+            "C/c0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": 946.0,
+        "max_Tsat_K": 340.0175805263134,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406825.577246774,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13222070688.711794,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406825.577246774,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.31748059119127,
+            "solid": 328.47751006414603
+          },
+          "1": {
+            "heat": 341366.1193747932,
+            "stored_J": {
+              "coolant": 591470700.0402575,
+              "hot": 13398138401.570452,
+              "cold": 13222954284.325924,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406827.0947891036,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4781653523921,
+            "hot": 320.529626831829,
+            "cold": 316.338619242247,
+            "solid": 328.47751006414603
+          },
+          "1.5": {
+            "heat": 341372.2424552638,
+            "stored_J": {
+              "coolant": 591475639.2431147,
+              "hot": 13398143896.051474,
+              "cold": 13223832603.760296,
+              "solid": 328477673.8862076
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406830.156329339,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4794104971668,
+            "hot": 320.5297582787434,
+            "cold": 316.3596316689066,
+            "solid": 328.4776738862076
+          },
+          "2": {
+            "heat": 341381.4973724834,
+            "stored_J": {
+              "coolant": 591482724.2707754,
+              "hot": 13398152200.852833,
+              "cold": 13224705693.657309,
+              "solid": 328478108.0389474
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406834.7837879488,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4811965538745,
+            "hot": 320.52995695820175,
+            "cold": 316.38051898701696,
+            "solid": 328.4781080389474
+          },
+          "2.5": {
+            "heat": 341393.9211971962,
+            "stored_J": {
+              "coolant": 591491806.0702215,
+              "hot": 13398163349.239569,
+              "cold": 13225573600.59371,
+              "solid": 328478880.1676792
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406840.995700305,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4834859086755,
+            "hot": 320.5302236660184,
+            "cold": 316.4012823108543,
+            "solid": 328.47888016767916
+          },
+          "3": {
+            "heat": 341409.5458136678,
+            "stored_J": {
+              "coolant": 591502766.6369623,
+              "hot": 13398177369.822687,
+              "cold": 13226436371.048002,
+              "solid": 328480031.6029283
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703424.4040042704,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48624876762455,
+            "hot": 320.53055908666715,
+            "cold": 316.4219227523445,
+            "solid": 328.4800316029283
+          }
+        },
+        "q_at_3_25": 0.011166390612088833,
+        "heat_at_3_25": 341418.9724146297,
+        "prewrite_common_epochs": [
+          "0",
+          "0.5",
+          "1",
+          "1.5",
+          "2",
+          "3"
+        ]
+      }
+    },
+    "T02": {
+      "phase": "F3",
+      "key": "T02",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 158,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "9f38f709a2c96c4d056194964ea2903dc4b2697ee5de013bf5c4d4938b8b1ca6",
+      "checks_sha256": "e514d61ccebef8e9b15272c1744539f6d92852b97eabbc0eb8f2cc419fe711f0",
+      "input_sha256": "78730beafbae907c516de144704d8d0e469db7f7750db5a95afb623d835c81c6",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          0.0,
+          0.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          16.25,
+          16.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN_EXPIRED"
+          },
+          "3600": {
+            "C/c0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": null,
+        "max_Tsat_K": 324.5664662275924,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406825.577246774,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13222070688.711794,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406825.577246774,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.31748059119127,
+            "solid": 328.47751006414603
+          },
+          "1": {
+            "heat": 341366.1193747932,
+            "stored_J": {
+              "coolant": 591470700.0402575,
+              "hot": 13398138401.570452,
+              "cold": 13222954284.325924,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406827.0947891036,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4781653523921,
+            "hot": 320.529626831829,
+            "cold": 316.338619242247,
+            "solid": 328.47751006414603
+          },
+          "1.5": {
+            "heat": 341372.2424552638,
+            "stored_J": {
+              "coolant": 591475639.2431147,
+              "hot": 13398143896.051474,
+              "cold": 13223832603.760296,
+              "solid": 328477673.8862076
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406830.156329339,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4794104971668,
+            "hot": 320.5297582787434,
+            "cold": 316.3596316689066,
+            "solid": 328.4776738862076
+          },
+          "2": {
+            "heat": 341381.4973724834,
+            "stored_J": {
+              "coolant": 591482724.2707754,
+              "hot": 13398152200.852833,
+              "cold": 13224705693.657309,
+              "solid": 328478108.0389474
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703417.3918939744,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4811965538745,
+            "hot": 320.52995695820175,
+            "cold": 316.38051898701696,
+            "solid": 328.4781080389474
+          },
+          "2.25": {
+            "heat": 341387.7092848371,
+            "stored_J": {
+              "coolant": 591487265.1704985,
+              "hot": 13398157775.0462,
+              "cold": 13225139647.12551,
+              "solid": 328478494.10331327
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1406837.8897441255,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48234124052686,
+            "hot": 320.53009031211,
+            "cold": 316.39090064893566,
+            "solid": 328.47849410331327
+          },
+          "2.75": {
+            "heat": 341401.7335066898,
+            "stored_J": {
+              "coolant": 591497286.3501481,
+              "hot": 13398170359.532257,
+              "cold": 13226004985.820856,
+              "solid": 328479455.8876167
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703422.450927526,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48486735075926,
+            "hot": 320.5303913763698,
+            "cold": 316.41160253159944,
+            "solid": 328.47945588761667
+          },
+          "3": {
+            "heat": 341410.3529621452,
+            "stored_J": {
+              "coolant": 591503212.2118475,
+              "hot": 13398178094.108772,
+              "cold": 13226435098.51637,
+              "solid": 328480132.3205095
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703424.6057913898,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4863610825797,
+            "hot": 320.5305764140855,
+            "cold": 316.4218923090041,
+            "solid": 328.4801323205095
+          }
+        },
+        "q_at_3_25": 0.1,
+        "heat_at_3_25": 2119551.9862386384
+      }
+    },
+    "T05": {
+      "phase": "F3",
+      "key": "T05",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 153,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "9cb0c47d872e5b32c631f576e3f25df47e013808fda42e598168889d03dbf5e8",
+      "checks_sha256": "71c896bf72859bcb1f8f45b2f9de88ec2e1b62530b8ae4af4487b4b5f65f70f4",
+      "input_sha256": "7efd1b47b7da5ea9adc65527dbc0666caeb1dd03084045280fbf287b36227cb2",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          3600.0,
+          3600.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN"
+          },
+          "3600": {
+            "C/c0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": 946.0,
+        "max_Tsat_K": 340.0175805263134,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355279.1854941966,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13222070688.711794,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355201.8659065668,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.31748059119127,
+            "solid": 328.47751006414603
+          },
+          "1": {
+            "heat": 341366.1193747932,
+            "stored_J": {
+              "coolant": 591470700.0402575,
+              "hot": 13398138401.570452,
+              "cold": 13222954284.325924,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355126.179840649,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4781653523921,
+            "hot": 320.529626831829,
+            "cold": 316.338619242247,
+            "solid": 328.47751006414603
+          },
+          "1.5": {
+            "heat": 341372.2424552638,
+            "stored_J": {
+              "coolant": 591475639.2431147,
+              "hot": 13398143896.051474,
+              "cold": 13223832603.760296,
+              "solid": 328477673.8862076
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355052.15357805,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4794104971668,
+            "hot": 320.5297582787434,
+            "cold": 316.3596316689066,
+            "solid": 328.4776738862076
+          },
+          "2": {
+            "heat": 341381.4973724834,
+            "stored_J": {
+              "coolant": 591482724.2707754,
+              "hot": 13398152200.852833,
+              "cold": 13224705693.657309,
+              "solid": 328478108.0389474
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1354979.808865528,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4811965538745,
+            "hot": 320.52995695820175,
+            "cold": 316.38051898701696,
+            "solid": 328.4781080389474
+          },
+          "2.5": {
+            "heat": 341393.9211971962,
+            "stored_J": {
+              "coolant": 591491806.0702215,
+              "hot": 13398163349.239569,
+              "cold": 13225573600.59371,
+              "solid": 328478880.1676792
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1354909.1640650108,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4834859086755,
+            "hot": 320.5302236660184,
+            "cold": 316.4012823108543,
+            "solid": 328.47888016767916
+          },
+          "3": {
+            "heat": 341409.5458136678,
+            "stored_J": {
+              "coolant": 591502766.6369623,
+              "hot": 13398177369.822687,
+              "cold": 13226436371.048002,
+              "solid": 328480031.6029283
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 677420.1174727208,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.48624876762455,
+            "hot": 320.53055908666715,
+            "cold": 316.4219227523445,
+            "solid": 328.4800316029283
+          }
+        },
+        "q_at_3_25": 0.011166390612088833,
+        "heat_at_3_25": 341418.9724146297,
+        "prewrite_common_epochs": [
+          "0",
+          "0.5",
+          "1",
+          "1.5",
+          "2",
+          "3"
+        ]
+      }
+    },
+    "T06": {
+      "phase": "F3",
+      "key": "T06",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 157,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "21898b9f540af93bed72c4190d493eacb8d1025ec5637b1bac5bc2b3160f00c4",
+      "checks_sha256": "e29caeaf7cd022d68aa30ff22ff03c9fcbcfbdfa7c9abe338e2596a97b3485fb",
+      "input_sha256": "9694534d685417394c487d2d18e1df60121a3c426c329b3d950adf3abdaeadb2",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          3600.0,
+          3600.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          16.25,
+          16.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {},
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN_EXPIRED"
+          },
+          "3600": {
+            "C/c0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": null,
+        "max_Tsat_K": 324.5664662275924,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355279.1854941966,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13222070688.711794,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355201.8659065668,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.31748059119127,
+            "solid": 328.47751006414603
+          },
+          "1": {
+            "heat": 341366.1193747932,
+            "stored_J": {
+              "coolant": 591470700.0402575,
+              "hot": 13398138401.570452,
+              "cold": 13222954284.325924,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355126.179840649,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4781653523921,
+            "hot": 320.529626831829,
+            "cold": 316.338619242247,
+            "solid": 328.47751006414603
+          },
+          "1.5": {
+            "heat": 341372.2424552638,
+            "stored_J": {
+              "coolant": 591475639.2431147,
+              "hot": 13398143896.051474,
+              "cold": 13223832603.760296,
+              "solid": 328477673.8862076
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1355052.15357805,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4794104971668,
+            "hot": 320.5297582787434,
+            "cold": 316.3596316689066,
+            "solid": 328.4776738862076
+          },
+          "2": {
+            "heat": 341381.4973724834,
+            "stored_J": {
+              "coolant": 591482724.2707754,
+              "hot": 13398152200.852833,
+              "cold": 13224705693.657309,
+              "solid": 328478108.0389474
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 677489.904432764,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4811965538745,
+            "hot": 320.52995695820175,
+            "cold": 316.38051898701696,
+            "solid": 328.4781080389474
+          },
+          "2.25": {
+            "heat": 341387.7092848371,
+            "stored_J": {
+              "coolant": 591487265.1704985,
+              "hot": 13398157775.0462,
+              "cold": 13225139647.12551,
+              "solid": 328478494.10331327
+            },
+            "dt": 0.5,
+            "boundary_abs_J": 1354944.4864652688,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.48234124052686,
+            "hot": 320.53009031211,
+            "cold": 316.39090064893566,
+            "solid": 328.47849410331327
+          },
+          "2.75": {
+            "heat": 341401.7335066898,
+            "stored_J": {
+              "coolant": 591497286.3501481,
+              "hot": 13398170359.532257,
+              "cold": 13226004985.820856,
+              "solid": 328479455.8876167
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 677437.3497529278,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.48486735075926,
+            "hot": 320.5303913763698,
+            "cold": 316.41160253159944,
+            "solid": 328.47945588761667
+          },
+          "3": {
+            "heat": 341410.3529621452,
+            "stored_J": {
+              "coolant": 591503212.2118475,
+              "hot": 13398178094.108772,
+              "cold": 13226435098.51637,
+              "solid": 328480132.3205095
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 677420.3336488582,
+            "q": 0.011166390612088833,
+            "service": 0,
+            "latched": false,
+            "Tsat": 324.4863610825797,
+            "hot": 320.5305764140855,
+            "cold": 316.4218923090041,
+            "solid": 328.4801323205095
+          }
+        },
+        "q_at_3_25": 0.1,
+        "heat_at_3_25": 2119551.9862386384
+      }
+    },
+    "T03": {
+      "phase": "F4",
+      "key": "T03",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 153,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "5cd63ee7831d0f0713bd437f2dab1b77ceec1d2f759183014ad402d9770e594c",
+      "checks_sha256": "b404ba9e4115732faf2bfe0558ddbe94c7acd90356abd072308ec416428bf66b",
+      "input_sha256": "ac8e834b961c9684a1b2a7cba0e78b2ca5b3c87c72eab603a01c4f5832c5c13e",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          1667.0,
+          1667.0
+        ],
+        "work": [
+          0.0,
+          0.0,
+          0
+        ],
+        "debit": [
+          0,
+          0,
+          0
+        ],
+        "wait_for_public_receipts_s": 0.0,
+        "first": {},
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "OPEN"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN"
+          },
+          "3600": {
+            "C/c0": "OPEN"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": 946.0,
+        "max_Tsat_K": 340.0137757009215,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.788623387,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.25": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221626229.482866,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.788623387,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.3068475952839,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.8430612993,
+            "stored_J": {
+              "coolant": 591468750.5331249,
+              "hot": 13398136358.94479,
+              "cold": 13222069358.000862,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.9783161783,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47767388677585,
+            "hot": 320.5295779651864,
+            "cold": 316.3174487560015,
+            "solid": 328.47751006414603
+          },
+          "0.75": {
+            "heat": 341365.3672175617,
+            "stored_J": {
+              "coolant": 591470017.7690871,
+              "hot": 13398137726.630173,
+              "cold": 13222511161.640923,
+              "solid": 328477530.5419748
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703413.3593552439,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47799335401396,
+            "hot": 320.5296106849324,
+            "cold": 316.32801822107473,
+            "solid": 328.4775305419748
+          },
+          "1": {
+            "heat": 341367.6628060294,
+            "stored_J": {
+              "coolant": 591471874.0601507,
+              "hot": 13398139786.552027,
+              "cold": 13222951646.234695,
+              "solid": 328477588.3934797
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703413.9332523608,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4784613180717,
+            "hot": 320.5296599653595,
+            "cold": 316.3385561300166,
+            "solid": 328.4775883934797
+          },
+          "1.25": {
+            "heat": 341370.73537884874,
+            "stored_J": {
+              "coolant": 591474294.511984,
+              "hot": 13398142543.692509,
+              "cold": 13223390817.611105,
+              "solid": 328477697.5090537
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703414.7013955656,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47907150031267,
+            "hot": 320.5297259256581,
+            "cold": 316.34906262227526,
+            "solid": 328.4776975090537
+          },
+          "1.5": {
+            "heat": 341374.59005387273,
+            "stored_J": {
+              "coolant": 591477257.1436251,
+              "hot": 13398146002.644072,
+              "cold": 13223828681.595148,
+              "solid": 328477869.2579611
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703415.6650643217,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47981835586734,
+            "hot": 320.5298086756955,
+            "cold": 316.3595378372045,
+            "solid": 328.4778692579611
+          },
+          "1.75": {
+            "heat": 341379.23156593455,
+            "stored_J": {
+              "coolant": 591480742.4357703,
+              "hot": 13398150167.655468,
+              "cold": 13224265244.006855,
+              "solid": 328478112.89519936
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703416.8254423371,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48069695983963,
+            "hot": 320.52990831711645,
+            "cold": 316.3699819140396,
+            "solid": 328.47811289519933
+          },
+          "2": {
+            "heat": 341384.66431020666,
+            "stored_J": {
+              "coolant": 591484732.951097,
+              "hot": 13398155042.670658,
+              "cold": 13224700510.660368,
+              "solid": 328478435.9032794
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703418.1836284052,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4817029116574,
+            "hot": 320.5300249442741,
+            "cold": 316.3803949918748,
+            "solid": 328.47843590327943
+          },
+          "2.25": {
+            "heat": 341390.8923789194,
+            "stored_J": {
+              "coolant": 591489213.0151099,
+              "hot": 13398160631.36176,
+              "cold": 13225134487.363129,
+              "solid": 328478844.2793267
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703419.7406455834,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48283225466776,
+            "hot": 320.53015864501816,
+            "cold": 316.3907772096442,
+            "solid": 328.47884427932667
+          },
+          "2.5": {
+            "heat": 341397.91959248664,
+            "stored_J": {
+              "coolant": 591494168.4478376,
+              "hot": 13398166937.156982,
+              "cold": 13225567179.915165,
+              "solid": 328479342.77624434
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703421.4974489751,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.484081408543,
+            "hot": 320.5303095013632,
+            "cold": 316.40112870610443,
+            "solid": 328.4793427762443
+          },
+          "2.75": {
+            "heat": 341405.74952594226,
+            "stored_J": {
+              "coolant": 591499586.3382548,
+              "hot": 13398173963.264345,
+              "cold": 13225998594.108448,
+              "solid": 328479935.10528165
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703423.454932339,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4854471124502,
+            "hot": 320.5304775900561,
+            "cold": 316.41144961981934,
+            "solid": 328.47993510528164
+          },
+          "3": {
+            "heat": 341414.3855314237,
+            "stored_J": {
+              "coolant": 591505454.8546004,
+              "hot": 13398181712.69185,
+              "cold": 13226428735.726318,
+              "solid": 328480624.10617775
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703425.6139337095,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4869263772651,
+            "hot": 320.5306629830586,
+            "cold": 316.4217400891464,
+            "solid": 328.48062410617774
+          }
+        },
+        "q_at_3_25": 0.011166390612088833,
+        "heat_at_3_25": 341423.8307573184,
+        "prewrite_common_epochs": [
+          "0",
+          "0.25",
+          "0.5",
+          "0.75",
+          "1",
+          "1.25",
+          "1.5",
+          "1.75",
+          "2",
+          "2.25",
+          "2.5",
+          "2.75",
+          "3"
+        ]
+      }
+    },
+    "T04": {
+      "phase": "F4",
+      "key": "T04",
+      "status": "PASS",
+      "counts": {
+        "facility": 1,
+        "internal": 22
+      },
+      "assertions": 158,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "4eea4aaa54744340557c8e30bee9bcdc8e47c5c9c850a3e2f1f0cbc32c8bbb14",
+      "checks_sha256": "6354daaf9f16de3e8062d2b12ec3f115f20f7826f2908f155d494f0d03a75abf",
+      "input_sha256": "b47e83d9dbaeeabc9a72979f3731a44d0d6cdd6c7a244152105bf77788aa68b5",
+      "observed": {
+        "decisions": 22,
+        "physical_integrals": [
+          0.0,
+          0.0
+        ],
+        "work": [
+          4.5,
+          4.5,
+          2
+        ],
+        "debit": [
+          16.25,
+          16.25,
+          2
+        ],
+        "wait_for_public_receipts_s": 1.0,
+        "first": {
+          "C/c0": {
+            "time": 7.5,
+            "state": "POST_ACTION_VERIFIED_CURRENT"
+          }
+        },
+        "current": {
+          "5": {
+            "C/c0": "OPEN"
+          },
+          "7.5": {
+            "C/c0": "POST_ACTION_VERIFIED_CURRENT"
+          },
+          "9": {
+            "C/c0": "OPEN"
+          },
+          "10": {
+            "C/c0": "OPEN"
+          },
+          "2700": {
+            "C/c0": "OPEN_EXPIRED"
+          },
+          "3600": {
+            "C/c0": "OPEN_EXPIRED"
+          }
+        },
+        "open_instances": [
+          "C/c0"
+        ],
+        "first_trip": null,
+        "max_Tsat_K": 324.5662634170934,
+        "warm_prefix": {
+          "0": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221181770.253939,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.788623387,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.2962145993765,
+            "solid": 328.47751006414603
+          },
+          "0.25": {
+            "heat": 341363.0842901338,
+            "stored_J": {
+              "coolant": 591468100.6974142,
+              "hot": 13398135678.069569,
+              "cold": 13221626229.482866,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.788623387,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47751006414603,
+            "hot": 320.5295616763055,
+            "cold": 316.3068475952839,
+            "solid": 328.47751006414603
+          },
+          "0.5": {
+            "heat": 341363.8430612993,
+            "stored_J": {
+              "coolant": 591468750.5331249,
+              "hot": 13398136358.94479,
+              "cold": 13222069358.000862,
+              "solid": 328477510.06414604
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703412.9783161783,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47767388677585,
+            "hot": 320.5295779651864,
+            "cold": 316.3174487560015,
+            "solid": 328.47751006414603
+          },
+          "0.75": {
+            "heat": 341365.3672175617,
+            "stored_J": {
+              "coolant": 591470017.7690871,
+              "hot": 13398137726.630173,
+              "cold": 13222511161.640923,
+              "solid": 328477530.5419748
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703413.3593552439,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47799335401396,
+            "hot": 320.5296106849324,
+            "cold": 316.32801822107473,
+            "solid": 328.4775305419748
+          },
+          "1": {
+            "heat": 341367.6628060294,
+            "stored_J": {
+              "coolant": 591471874.0601507,
+              "hot": 13398139786.552027,
+              "cold": 13222951646.234695,
+              "solid": 328477588.3934797
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703413.9332523608,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4784613180717,
+            "hot": 320.5296599653595,
+            "cold": 316.3385561300166,
+            "solid": 328.4775883934797
+          },
+          "1.25": {
+            "heat": 341370.73537884874,
+            "stored_J": {
+              "coolant": 591474294.511984,
+              "hot": 13398142543.692509,
+              "cold": 13223390817.611105,
+              "solid": 328477697.5090537
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703414.7013955656,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47907150031267,
+            "hot": 320.5297259256581,
+            "cold": 316.34906262227526,
+            "solid": 328.4776975090537
+          },
+          "1.5": {
+            "heat": 341374.59005387273,
+            "stored_J": {
+              "coolant": 591477257.1436251,
+              "hot": 13398146002.644072,
+              "cold": 13223828681.595148,
+              "solid": 328477869.2579611
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703415.6650643217,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.47981835586734,
+            "hot": 320.5298086756955,
+            "cold": 316.3595378372045,
+            "solid": 328.4778692579611
+          },
+          "1.75": {
+            "heat": 341379.23156593455,
+            "stored_J": {
+              "coolant": 591480742.4357703,
+              "hot": 13398150167.655468,
+              "cold": 13224265244.006855,
+              "solid": 328478112.89519936
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703416.8254423371,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48069695983963,
+            "hot": 320.52990831711645,
+            "cold": 316.3699819140396,
+            "solid": 328.47811289519933
+          },
+          "2": {
+            "heat": 341384.66431020666,
+            "stored_J": {
+              "coolant": 591484732.951097,
+              "hot": 13398155042.670658,
+              "cold": 13224700510.660368,
+              "solid": 328478435.9032794
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703418.1836284052,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4817029116574,
+            "hot": 320.5300249442741,
+            "cold": 316.3803949918748,
+            "solid": 328.47843590327943
+          },
+          "2.25": {
+            "heat": 341390.8923789194,
+            "stored_J": {
+              "coolant": 591489213.0151099,
+              "hot": 13398160631.36176,
+              "cold": 13225134487.363129,
+              "solid": 328478844.2793267
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703419.7406455834,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.48283225466776,
+            "hot": 320.53015864501816,
+            "cold": 316.3907772096442,
+            "solid": 328.47884427932667
+          },
+          "2.5": {
+            "heat": 341397.91959248664,
+            "stored_J": {
+              "coolant": 591494168.4478376,
+              "hot": 13398166937.156982,
+              "cold": 13225567179.915165,
+              "solid": 328479342.77624434
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703421.4974489751,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.484081408543,
+            "hot": 320.5303095013632,
+            "cold": 316.40112870610443,
+            "solid": 328.4793427762443
+          },
+          "2.75": {
+            "heat": 341405.74952594226,
+            "stored_J": {
+              "coolant": 591499586.3382548,
+              "hot": 13398173963.264345,
+              "cold": 13225998594.108448,
+              "solid": 328479935.10528165
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703423.454932339,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4854471124502,
+            "hot": 320.5304775900561,
+            "cold": 316.41144961981934,
+            "solid": 328.47993510528164
+          },
+          "3": {
+            "heat": 341414.3855314237,
+            "stored_J": {
+              "coolant": 591505454.8546004,
+              "hot": 13398181712.69185,
+              "cold": 13226428735.726318,
+              "solid": 328480624.10617775
+            },
+            "dt": 0.25,
+            "boundary_abs_J": 703425.6139337095,
+            "q": 0.011166390612088833,
+            "service": 1,
+            "latched": false,
+            "Tsat": 324.4869263772651,
+            "hot": 320.5306629830586,
+            "cold": 316.4217400891464,
+            "solid": 328.48062410617774
+          }
+        },
+        "q_at_3_25": 0.1,
+        "heat_at_3_25": 2119577.1172665823
+      }
+    }
+  },
+  "coverage": {
+    "legitimate_openings_duplicates": {
+      "PASS": [
+        "S12",
+        "S14",
+        "S17",
+        "G25"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "cause_and_rights": {
+      "PASS": [
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "G06",
+        "G07",
+        "G08",
+        "G09",
+        "G10",
+        "G11",
+        "G24",
+        "S03",
+        "S04",
+        "S19"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "joint_dependence_and_priors": {
+      "PASS": [
+        "P01-J",
+        "P01-B",
+        "P02-J",
+        "P02-B",
+        "P03-J",
+        "P03-B",
+        "P04-J",
+        "P04-B",
+        "P05-J",
+        "P05-B",
+        "P06-J",
+        "P06-B",
+        "P08-J",
+        "P08-B",
+        "P13-J",
+        "P13-B",
+        "S16"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "transparent_fallback_arrival": {
+      "PASS": [
+        "P07-J",
+        "P07-B",
+        "P09-J",
+        "P09-B",
+        "P10-J",
+        "P10-B",
+        "P11-J",
+        "P11-B",
+        "P12-J",
+        "P12-B",
+        "S12",
+        "S13",
+        "S14",
+        "S15",
+        "S03",
+        "S04"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "budget_route_and_failure": {
+      "PASS": [
+        "G12",
+        "G13",
+        "G14",
+        "G15",
+        "G16",
+        "G17",
+        "G18",
+        "G19",
+        "G20",
+        "G21",
+        "S08",
+        "S17"
+      ],
+      "FAILED_ASSERTION": [
+        "S09"
+      ],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "local_no_action_post_expiry": {
+      "PASS": [
+        "G22",
+        "G23",
+        "S01",
+        "S03",
+        "S05",
+        "S06",
+        "S12",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "network_full_partial_masks": {
+      "PASS": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S10",
+        "S11"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "warming_and_joint_mask": {
+      "PASS": [
+        "T01",
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T06"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    },
+    "legacy": {
+      "PASS": [
+        "L01",
+        "L02"
+      ],
+      "FAILED_ASSERTION": [],
+      "FAILED_EXCEPTION": [],
+      "NOT_RUN": []
+    }
+  },
+  "timed_original_world_checks": {
+    "S12": [
+      {
+        "check": "original worlds and confirmed prefix 1.5",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0",
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0",
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 1.5",
+        "ok": true,
+        "actual": [
+          "W",
+          12.0,
+          0
+        ],
+        "expected": [
+          "W",
+          12,
+          0
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 1.75",
+        "ok": true,
+        "actual": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 1.75",
+        "ok": true,
+        "actual": [
+          "C.A",
+          12.0,
+          0
+        ],
+        "expected": [
+          "C.A",
+          12,
+          0
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 1.75",
+        "ok": true,
+        "actual": [
+          "4",
+          "4"
+        ],
+        "expected": [
+          4,
+          4
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 5",
+        "ok": true,
+        "actual": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 5",
+        "ok": true,
+        "actual": [
+          "W",
+          24.0,
+          6.5
+        ],
+        "expected": [
+          "W",
+          24,
+          6.5
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 5",
+        "ok": true,
+        "actual": [
+          "0",
+          "4"
+        ],
+        "expected": [
+          0,
+          4
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 5.5",
+        "ok": true,
+        "actual": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [],
+          [
+            "C/c0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [],
+          [
+            "C/c0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 5.5",
+        "ok": true,
+        "actual": [
+          "C.R",
+          24.0,
+          6.5
+        ],
+        "expected": [
+          "C.R",
+          24,
+          6.5
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 5.5",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 7.25",
+        "ok": true,
+        "actual": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "F|1|3000000|1@0"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 7.25",
+        "ok": true,
+        "actual": [
+          "W",
+          30.5,
+          0
+        ],
+        "expected": [
+          "W",
+          30.5,
+          0
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 7.25",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      }
+    ],
+    "S14": [
+      {
+        "check": "original worlds and confirmed prefix 1.5",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0",
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0",
+            "F|1|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 1.5",
+        "ok": true,
+        "actual": [
+          "W",
+          12.0,
+          0
+        ],
+        "expected": [
+          "W",
+          12,
+          0
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 1.75",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 1.75",
+        "ok": true,
+        "actual": [
+          "N.A",
+          12.0,
+          0
+        ],
+        "expected": [
+          "N.A",
+          12,
+          0
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 1.75",
+        "ok": true,
+        "actual": [
+          "3",
+          "3"
+        ],
+        "expected": [
+          3,
+          3
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 3",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [],
+          [
+            "N/n0/A"
+          ],
+          [
+            "N/n0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [],
+          [
+            "N/n0/A"
+          ],
+          [
+            "N/n0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 3",
+        "ok": true,
+        "actual": [
+          "W",
+          24.0,
+          8.5
+        ],
+        "expected": [
+          "W",
+          24,
+          8.5
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 3",
+        "ok": true,
+        "actual": [
+          "0",
+          "3"
+        ],
+        "expected": [
+          0,
+          3
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 3.5",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [],
+          [
+            "N/n0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [],
+          [
+            "N/n0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 3.5",
+        "ok": true,
+        "actual": [
+          "N.R",
+          24.0,
+          8.5
+        ],
+        "expected": [
+          "N.R",
+          24,
+          8.5
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 3.5",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 5.25",
+        "ok": true,
+        "actual": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "C0|1/4|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 5.25",
+        "ok": true,
+        "actual": [
+          "W",
+          32.5,
+          0
+        ],
+        "expected": [
+          "W",
+          32.5,
+          0
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 5.25",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      }
+    ],
+    "S16": [
+      {
+        "check": "original worlds and confirmed prefix 0.25",
+        "ok": true,
+        "actual": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 0.25",
+        "ok": true,
+        "actual": [
+          "N.A",
+          12.0,
+          8.25
+        ],
+        "expected": [
+          "N.A",
+          12,
+          8.25
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 0.25",
+        "ok": true,
+        "actual": [
+          "4",
+          "4"
+        ],
+        "expected": [
+          4,
+          4
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 1.5",
+        "ok": true,
+        "actual": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [
+            "C/c0/R",
+            "N/n0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [
+            "C/c0/R",
+            "N/n0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 1.5",
+        "ok": true,
+        "actual": [
+          "W",
+          24.0,
+          18.25
+        ],
+        "expected": [
+          "W",
+          24,
+          18.25
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 1.5",
+        "ok": true,
+        "actual": [
+          "0",
+          "4"
+        ],
+        "expected": [
+          0,
+          4
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 2",
+        "ok": true,
+        "actual": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R",
+            "N/n0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "N/n0/A"
+          ],
+          [
+            "C/c0/A"
+          ],
+          [
+            "C/c0/R",
+            "N/n0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 2",
+        "ok": true,
+        "actual": [
+          "N.R",
+          24.0,
+          18.25
+        ],
+        "expected": [
+          "N.R",
+          24,
+          18.25
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 2",
+        "ok": true,
+        "actual": [
+          "0",
+          "4"
+        ],
+        "expected": [
+          0,
+          4
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 3.75",
+        "ok": true,
+        "actual": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [],
+          [
+            "C/c0/R"
+          ]
+        ],
+        "expected": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [],
+          [
+            "C/c0/R"
+          ]
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 3.75",
+        "ok": true,
+        "actual": [
+          "C.R",
+          34.0,
+          8.25
+        ],
+        "expected": [
+          "C.R",
+          34,
+          8.25
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 3.75",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      },
+      {
+        "check": "original worlds and confirmed prefix 5.5",
+        "ok": true,
+        "actual": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [],
+          []
+        ],
+        "expected": [
+          [
+            "F|0|3000000|1@0"
+          ],
+          [
+            "C/c0/A",
+            "N/n0/A"
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "check": "shared paid prefix and remaining first operation 5.5",
+        "ok": true,
+        "actual": [
+          "W",
+          42.25,
+          0
+        ],
+        "expected": [
+          "W",
+          42.25,
+          0
+        ]
+      },
+      {
+        "check": "W conditional benefit is not an actual write 5.5",
+        "ok": true,
+        "actual": [
+          "0",
+          "0"
+        ],
+        "expected": [
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "s09_arrived_work_messages_at_1_25": [
+    [
+      "N/n0/A",
+      "safety_stop_observed",
+      0.75
+    ],
+    [
+      "N/n0/A",
+      "aborted",
+      0.75
+    ]
+  ],
+  "s06_attempt_history": [
+    {
+      "phase": "F2",
+      "key": "S06",
+      "status": "FAILED_EXCEPTION",
+      "counts": {
+        "facility": 1,
+        "internal": 49
+      },
+      "assertions": 0,
+      "error": "ValueError('Saved native run and private evaluation sidecar differ')",
+      "input_sha256": "dddfdcba9802ba2b4b99ef6fc020d5cbdac0a43d50e7eae1d9b584735a6c3da0"
+    },
+    {
+      "phase": "F6",
+      "key": "S06",
+      "status": "PASS",
+      "counts": {},
+      "recovered_from": "F2",
+      "assertions": 320,
+      "failures": [],
+      "actual_file": "run.json.gz",
+      "actual_sha256": "44e13a8ec19273ad6611ca8de48d05b8750dfc6c2aec49f421dd9f3c1207e310",
+      "checks_sha256": "15a5c4fc9bf97116591cb5f6038a6ca6db48cacf2dc716a8bef1e27811e50e3f",
+      "input_sha256": "dddfdcba9802ba2b4b99ef6fc020d5cbdac0a43d50e7eae1d9b584735a6c3da0"
+    }
+  ],
+  "F7_saved_prefix_audit": {
+    "group": "F7",
+    "job": "134695",
+    "scope": "saved-only original-world and common-prefix audit; previous native classifications retained",
+    "status": "PASS",
+    "assertions": 248,
+    "failures": [],
+    "decision_rows": 15,
+    "plan_and_branch_rows": 34,
+    "checks_sha256": "d8044bafade0f4427bb6ff23e8107a63d4eca4a3634540c59991001d9a35f243",
+    "scope_by_unit": {
+      "S12": [
+        {
+          "time": 1.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            12.0,
+            12.0,
+            1
+          ],
+          "review_reserved": 0
+        },
+        {
+          "time": 1.75,
+          "alternative_and_branch_count": 7,
+          "paid": [
+            12.0,
+            12.0,
+            1
+          ],
+          "review_reserved": 0
+        },
+        {
+          "time": 5,
+          "alternative_and_branch_count": 2,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 6.5
+        },
+        {
+          "time": 5.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 6.5
+        },
+        {
+          "time": 7.25,
+          "alternative_and_branch_count": 2,
+          "paid": [
+            30.5,
+            30.5,
+            3
+          ],
+          "review_reserved": 0
+        }
+      ],
+      "S14": [
+        {
+          "time": 1.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            12.0,
+            12.0,
+            1
+          ],
+          "review_reserved": 0
+        },
+        {
+          "time": 1.75,
+          "alternative_and_branch_count": 7,
+          "paid": [
+            12.0,
+            12.0,
+            1
+          ],
+          "review_reserved": 0
+        },
+        {
+          "time": 3,
+          "alternative_and_branch_count": 2,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 8.5
+        },
+        {
+          "time": 3.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 8.5
+        },
+        {
+          "time": 5.25,
+          "alternative_and_branch_count": 2,
+          "paid": [
+            32.5,
+            32.5,
+            3
+          ],
+          "review_reserved": 0
+        }
+      ],
+      "S16": [
+        {
+          "time": 0.25,
+          "alternative_and_branch_count": 4,
+          "paid": [
+            12.0,
+            12.0,
+            1
+          ],
+          "review_reserved": 8.25
+        },
+        {
+          "time": 1.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 18.25
+        },
+        {
+          "time": 2,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            24.0,
+            24.0,
+            2
+          ],
+          "review_reserved": 18.25
+        },
+        {
+          "time": 3.75,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            34.0,
+            34.0,
+            3
+          ],
+          "review_reserved": 8.25
+        },
+        {
+          "time": 5.5,
+          "alternative_and_branch_count": 1,
+          "paid": [
+            42.25,
+            42.25,
+            4
+          ],
+          "review_reserved": 0
+        }
+      ]
+    },
+    "counts": {
+      "facility": 0,
+      "direct": 0,
+      "internal": 0,
+      "component": 0
+    }
+  },
+  "research_calls": 0,
+  "ordinary_improvement_calls": 0,
+  "RSI_calls": 0,
+  "previous_85_transferred": 0,
+  "phase_three_authorized": false,
+  "private_data_scope": "Frozen public engineered conditions only. Full per-step traces remain on private Slurm storage.",
+  "runtime_identity": {
+    "paths": 66,
+    "source_tree_sha256": "ccd7764f82cdcd73e48cd895730a80b560bf53e97333db287f1981ce52715e55",
+    "execution_identity": "per-run byte manifest matched to archived Git release; S06 saved-only uses original source pin",
+    "native_record_observation": "S01 reports git_commit 7351cbddc2b69a9fa235b4a6607336d437683469 and dirty=true from enclosing /share/home/renly repository. Not the joint export commit. Retained in native raw."
+  }
+}

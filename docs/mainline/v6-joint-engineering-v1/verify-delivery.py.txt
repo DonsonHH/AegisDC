@@ -1,0 +1,89 @@
+"""Static publication verification. From a fresh checkout run with Python -B and the content revision.
+Uses Git blobs, immutable execution manifests and saved summaries only. No project imports."""
+from pathlib import Path
+import gzip
+import hashlib
+import json
+import subprocess
+import sys
+
+P='docs/mainline/v6-joint-engineering-v1/'
+OLD='08eed614a77382672ef94c0fb4d9f2f2ce874890'
+CONTRACT='docs/mainline/v6-joint-cooling-network-v1/'
+def git(*args):
+    return subprocess.check_output(['git',*args])
+def txt(*args):
+    return git(*args).decode().strip()
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+def obj(value):
+    return sha(json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+def checked(condition,label):
+    if not condition:raise ValueError(label)
+def read(path):
+    return json.loads(Path(path).read_bytes())
+
+
+def verify(rev):
+    rev=txt('rev-parse',rev+'^{commit}')
+    result=read(P+'result.json');freeze=read(P+'manifest.json');oracle=read(P+'oracle.json')
+    raw=gzip.decompress(Path(P+'inputs.json.gz').read_bytes())
+    checked(sha(raw)==freeze['expanded_sha256'],'initial expanded identity')
+    checked(all(sha(Path(P+n).read_bytes())==h for n,h in freeze['artifacts'].items()),'initial archive/oracle raw identities')
+    inputs=json.loads(raw)
+    checked(len(inputs)==78 and all(obj(data)==freeze['units'][k] for k,data in inputs.items()),'78 raw complete inputs')
+    checked(set(inputs)==set(oracle['units'])==set(result['units']),'all denominators')
+    for unit,r in result['units'].items():
+        checked(r['input_sha256']==freeze['units'][unit],unit+' source binding')
+    pins={}
+    for name in ('execution-source-lf.json','repair-source.json'):
+        pin=read(P+name);source=pin['revision']
+        checked(all(sha(git('show',source+':'+f))==h for f,h in pin['files'].items()),name+' execution bytes')
+        pins[name]=dict(revision=source,paths=len(pin['files']),release_sha256=sha(Path(P+name).read_bytes()))
+    old_receipt=read(CONTRACT+'integrity.json')
+    frozen=old_receipt['retained_slice57']
+    checked(all(sha(Path(k).read_bytes())==v for k,v in frozen.items()),'slice57')
+    old_runtime=read('docs/mainline/v6-native-research-launch-v1/research-manifest.json')['runtime_and_material_sha256']
+    changed=txt('diff','--name-only',OLD,rev,'--',*old_runtime).splitlines()
+    checked(set(changed)=={'src/aegis_dc/policy_execution.py','src/aegis_dc/inspection_execution.py'},'legacy runtime diff')
+    protected=[CONTRACT,'docs/mainline/v6-native-method-study-v1','docs/mainline/v6-native-method-comparison-v1',
+               'docs/mainline/v6-native-research-launch-v1','docs/mainline/review-gated','evidence','configs']
+    checked(not txt('diff','--name-only',OLD,rev,'--',*protected),'historical materials and science')
+    for row in oracle['budget']['plan']:
+        phase=row[0];actual=result['phases'].get(phase)
+        if actual is None:continue
+        alloc=actual['allocation'];checked(alloc['reserved_cpu_s']==row[2] and alloc['cpus']==1,'reservation '+phase)
+    sums={k:0 for k in ('facility','direct','internal','component')}
+    for phase in result['phases'].values():
+        for k,v in phase.get('actual_counts',{}).items():sums[k]+=v
+    checked(sums==result['total_actual_calls']=={'facility':27,'direct':26,'internal':1103,'component':25},'count reconciliation')
+    last=read(P+'final-prefix-readback.json')
+    checked(sha(Path('scripts/reconcile_v6_joint_prefixes.py').read_bytes())==last['source_sha256']
+            and last['F0_oracle_sha256']==freeze['artifacts']['oracle.json'],'F7 reader and independent expectation pin')
+    checked(result['F7_saved_prefix_audit']['counts']==dict.fromkeys(sums,0)
+            and result['F7_saved_prefix_audit']['status']=='PASS','saved-only prefix report')
+    checked(result['failed_final']==['S09'] and len(result['saved_pair_and_integrity_findings'])==10,'retain unresolved failures')
+    checked(all(result['remote_log_and_receipt_sha256'][k]==result['repair_mandate']['raw_sha256']
+                for k in ('F2/S06/run.json.gz','F6/S06/run.json.gz')),'same recovered native bytes')
+    checked(result['research_calls']==result['ordinary_improvement_calls']==result['RSI_calls']==0,'research gate')
+    checked(result['reserved_cpu_seconds']<=oracle['budget']['all_attempt_caps']['CPU_seconds'],'engineering cap')
+    checked(result['unexecuted_at_delivery']==sorted(set(inputs)-set(result['units'])),'unexecuted suffix')
+    checked(result['s06_attempt_history'][0]['status']=='FAILED_EXCEPTION' and result['s06_attempt_history'][-1]['counts']=={},
+            'original failure and saved-only recovery')
+    progress=read('docs/mainline/progress.json')
+    checked(progress['execution_control']['research_execution']=='CLOSED' and not progress['active_implementations'],'delivery review gate')
+    files=txt('diff','--name-only',OLD,rev).splitlines()
+    evidence={}
+    for path in files:
+        raw=Path(path).read_bytes()
+        checked(raw==git('show',rev+':'+path),'fresh checkout '+path)
+        evidence[path]=dict(bytes=len(raw),sha256=sha(raw),blob=txt('rev-parse',rev+':'+path))
+    return dict(schema='aegisdc-joint-engineering-static-publication-v1',content_revision=rev,baseline=OLD,files=evidence,
+                qualified_source_revision_pins=pins,frozen_units=len(inputs),old_runtime_paths=len(old_runtime),
+                old_runtime_adapters_changed=changed,preserved_slice57=frozen,counts=sums,
+                scope='fresh selected checkout; immutable versioned source + public data and published reports; no raw remote rerun',
+                new_model_or_qualification_calls=0)
+
+
+if __name__=='__main__':
+    print(json.dumps(verify(sys.argv[1]),ensure_ascii=False,indent=2))

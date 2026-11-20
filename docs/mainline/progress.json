@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "STAGE_TWO_JOINT_ENGINEERING_ACTIVE",
+  "status": "STAGE_TWO_ENGINEERING_PARTIAL_DELIVERED_FOR_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "FREEZE_AND_QUALIFY_JOINT_PACKAGE",
+  "current_milestone": "REVIEW_LIMITED_JOINT_ENGINEERING_RESULTS",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "BOUNDED_ENGINEERING",
+  "agent_stage": "STAGE_TWO_ENGINEERING_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,18 +43,16 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "BOUNDED_ENGINEERING",
+    "automatic_goal": "NONE",
     "research_execution": "CLOSED",
-    "authorized_scope": [
-      "Stage-two joint engineering F0–F7 only, once, under the accepted finite ceilings"
-    ],
+    "authorized_scope": [],
     "after_delivery": "STOP_AT_STAGE_TWO_ENGINEERING_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "STAGE_TWO_JOINT_CONTRACT_DELIVERED",
+    "document_authorization_status": "STAGE_TWO_FINITE_ENGINEERING_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -1879,27 +1877,75 @@
     "acceptance": "docs/mainline/v6-native-method-study-v1/acceptance-20261120.json"
   },
   "v6_joint_cooling_network_v1": {
-    "status": "AUTHORIZED_LIMITED_IMPLEMENTATION_AND_QUALIFICATION",
+    "status": "CONTRACT_ACCEPTED_ENGINEERING_AUTHORIZATION_CONSUMED",
     "contract": "docs/mainline/v6-joint-cooling-network-v1/README.md",
     "basis": "docs/mainline/v6-joint-cooling-network-v1/causal-basis.md",
     "engineering_plan": "docs/mainline/v6-joint-cooling-network-v1/engineering.json",
     "stage_one_acceptance": "fa1714146ed639f00de0e31e8aedd2d7797906b3",
-    "new_implementation": false,
-    "new_facility_calls": 0,
-    "new_selector_calls": 0,
-    "new_qualification_checks": 0,
+    "new_implementation": true,
+    "new_facility_calls": 27,
+    "new_selector_calls": 1129,
+    "new_qualification_checks": 78,
     "new_study_calls": 0,
     "proposed_facility_units": 27,
     "proposed_public_snapshot_units": 13,
     "proposed_component_units": 25,
     "budget_transferred_from_stage_one": 0,
-    "implementation_authorized": true,
-    "qualification_authorized": true,
+    "implementation_authorized": false,
+    "qualification_authorized": false,
     "stage_three_authorized": false,
     "independent_confirmation_authorized": false,
     "user_acceptance_pending": false,
     "delivery_integrity": "docs/mainline/v6-joint-cooling-network-v1/integrity.json",
     "accepted_contract_revision": "08eed614a77382672ef94c0fb4d9f2f2ce874890",
-    "execution_package": "docs/mainline/v6-joint-engineering-v1/time-and-authority.md"
+    "execution_package": "docs/mainline/v6-joint-engineering-v1/time-and-authority.md",
+    "input_freeze": "52112e9d",
+    "initial_execution_revision": "a3301fa0",
+    "source_seal": "2d57e661",
+    "completed_preparatory_jobs": {
+      "F0": "134688",
+      "F1": "134689"
+    },
+    "initial_public_policy_calls": 26,
+    "initial_component_units": 25,
+    "counter_units": {
+      "new_selector_calls": "26 direct + 1103 native internal; not samples",
+      "new_qualification_checks": "distinct declared outcome units (not assertions or allocated jobs)"
+    },
+    "result": "docs/mainline/v6-joint-engineering-v1/result.json"
+  },
+  "v6_joint_engineering_v1": {
+    "status": "DELIVERED_PARTIAL_PENDING_USER_REVIEW",
+    "report": "docs/mainline/v6-joint-engineering-v1/README.md",
+    "results": "docs/mainline/v6-joint-engineering-v1/result.json",
+    "integrity": "docs/mainline/v6-joint-engineering-v1/integrity.json",
+    "units_returned": 78,
+    "units_passed": 77,
+    "native_cases": 27,
+    "final_failed_units": [
+      "S09"
+    ],
+    "prewrite_pairs_failed": [
+      "T01/T02",
+      "T05/T06"
+    ],
+    "prewrite_pair_pass": "T03/T04",
+    "unexecuted": [],
+    "first_failure": "F2/S06 retained; recovery from identical native bytes, zero additional facility and selector calls",
+    "repair_rounds_used": 1,
+    "actual_calls": {
+      "facility": 27,
+      "direct": 26,
+      "internal": 1103,
+      "component": 25
+    },
+    "reserved_CPU_s": 11220,
+    "jobs": 8,
+    "unspent_job_slots": 0,
+    "research_trials": 0,
+    "stage_three_authorized": false,
+    "ordinary_improvement_authorized": false,
+    "RSI_authorized": false,
+    "user_acceptance_pending": true
   }
 }
