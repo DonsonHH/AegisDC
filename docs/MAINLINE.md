@@ -8,7 +8,7 @@
 
 在同一完整设施、外生需求、合法证据获取机会和人员／工具预算下，问题触发的证据选择与受约束行动能否改善服务保障？固定改进器的付费反馈能否改进策略，真正修改后续提案程序能否超过同预算强搜索及固定父、固定子？[11 月 3 日研究定位](meetings/2026-11-03-research-reset.md) · [完整设施 ADR](adr/0003-complete-facility-mainline.md)
 
-V6 原生方法比较协议 53cc32b9 已接受并冻结。当前交审的是其有限工程资格：27 个直接公开接口见证、11 个不同设施位置、4 个评价／失败替身；首次失败及唯一一次定向修复分别留账。研究 manifest 保留 17 个条件、85 个待授权位置，本轮研究执行数为 0。原时效收尾的 309/309、316/325、7/16 按各自分母保留。[协议冻结](mainline/v6-native-method-comparison-v1/acceptance-20261120.json) · [有限工程交付](mainline/v6-native-comparison-qualification-v1/README.md) · [待授权研究清单](mainline/v6-native-comparison-qualification-v1/research-manifest.json)
+53cc32b9 的完整设施比较协议已冻结，98407135 的有限工程资格已接受。当前停在研究启动 review：一次性授权入口、跨作业总账及最终 manifest 完成一次零设施验证，真实研究授权尚未消费，85 个研究位置全部待授权。首次 17/18 的原失败、补充 8 ULP 核验及各自作业身份继续保留。[有限验收](mainline/v6-native-comparison-qualification-v1/acceptance-20261120.json) · [研究启动准备与验证](mainline/v6-native-research-launch-v1/README.md) · [最终研究清单](mainline/v6-native-research-launch-v1/research-manifest.json)
 
 ## 事故验证章节保留的 R0–R6 记录
 
