@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "STAGE_TWO_ENGINEERING_PARTIAL_DELIVERED_FOR_REVIEW",
+  "status": "TERMINAL_INTERFACE_CLOSEOUT_AND_STAGE_THREE_PROTOCOL_DRAFT",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_LIMITED_JOINT_ENGINEERING_RESULTS",
+  "current_milestone": "FREEZE_TERMINAL_INTERFACES_AND_LITERAL_ORACLE",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "STAGE_TWO_ENGINEERING_REVIEW",
+  "agent_stage": "BOUNDED_ENGINEERING",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,10 +43,13 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "NONE",
+    "automatic_goal": "BOUNDED_ENGINEERING",
     "research_execution": "CLOSED",
-    "authorized_scope": [],
-    "after_delivery": "STOP_AT_STAGE_TWO_ENGINEERING_REVIEW",
+    "authorized_scope": [
+      "terminal public interface and sealed S09 saved-output closeout, bounded to 128 public/component invocations and two serial one-CPU 300s allocations",
+      "written stage-three protocol candidate only"
+    ],
+    "after_delivery": "STOP_AT_TERMINAL_CLOSEOUT_AND_STAGE_THREE_PROTOCOL_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -1915,7 +1918,7 @@
     "result": "docs/mainline/v6-joint-engineering-v1/result.json"
   },
   "v6_joint_engineering_v1": {
-    "status": "DELIVERED_PARTIAL_PENDING_USER_REVIEW",
+    "status": "USER_ACCEPTED_DECLARED_SUBSET_RETAINING_FAILURES",
     "report": "docs/mainline/v6-joint-engineering-v1/README.md",
     "results": "docs/mainline/v6-joint-engineering-v1/result.json",
     "integrity": "docs/mainline/v6-joint-engineering-v1/integrity.json",
@@ -1946,6 +1949,9 @@
     "stage_three_authorized": false,
     "ordinary_improvement_authorized": false,
     "RSI_authorized": false,
-    "user_acceptance_pending": true
+    "user_acceptance_pending": false,
+    "acceptance": "docs/mainline/v6-joint-engineering-v1/acceptance-20261121.json",
+    "accepted_revision": "b6d45dad087034b7cda720ee8b62b73d8bb0f524",
+    "complete_stage_two_qualification": false
   }
 }
