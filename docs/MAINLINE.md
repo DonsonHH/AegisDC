@@ -1,6 +1,6 @@
 # 当前研究主线：完整算力设施中的风险驱动核查、处置与改进
 
-**完整设施方法是论文主体，Google 事故是其中的有限有效性验证章节。** 用户于 2026 年 11 月 20 日澄清了两者的关系。按 11 月 3 日研究决定和已接受的 ADR-0003，继续以完整八域、四类关系及多源稀疏证据为对象。统一方法、强对照、原能力的适用范围和一个推荐首片集中在[主方法与实施承接说明](mainline/full-facility-method-handoff.md)。
+[完整设施方法总路线](mainline/master-roadmap.md)统领原生首片比较、两类风险联合核查处置、方法配对与机制研究、普通改进、可辨识的 RSI 和整篇论文。[设施方法与接口说明](mainline/full-facility-method-handoff.md)保留方法依据；Google 事故是其中的有限验证章节。
 
 用户确认 e060acfe 的 R4 追加验收和 R5 v1 限定的书面分析。公开开发 19 行与同账号扩展 35 行分别报告。v1 的 216 个开发回合、最多 105 个评估回合均作为未执行历史提案保留，无可用或可转拨配额。[R4 有限验收](mainline/review-gated/R4/finite-extension-study-v1/acceptance-20261118.json) · [原 v1](mainline/review-gated/R5/bounded-improvement-v1/README.md)
 
@@ -8,7 +8,7 @@
 
 在同一完整设施、外生需求、合法证据获取机会和人员／工具预算下，问题触发的证据选择与受约束行动能否改善服务保障？固定改进器的付费反馈能否改进策略，真正修改后续提案程序能否超过同预算强搜索及固定父、固定子？[11 月 3 日研究定位](meetings/2026-11-03-research-reset.md) · [完整设施 ADR](adr/0003-complete-facility-mainline.md)
 
-53cc32b9 的完整设施比较协议已冻结，98407135 的有限工程资格已接受。当前停在研究启动 review：一次性授权入口、跨作业总账及最终 manifest 完成一次零设施验证，真实研究授权尚未消费，85 个研究位置全部待授权。首次 17/18 的原失败、补充 8 ULP 核验及各自作业身份继续保留。[有限验收](mainline/v6-native-comparison-qualification-v1/acceptance-20261120.json) · [研究启动准备与验证](mainline/v6-native-research-launch-v1/README.md) · [最终研究清单](mainline/v6-native-research-launch-v1/research-manifest.json)
+用户已接受 69bc0a52 的有限启动准备，并明确授权对精确 manifest 完成一次 V6 原生比较。本轮按 17 条件、85 个位置、固定 V/D/K/H/P 顺序、零重试及原停止规则交集中验收。[启动准备验收](mainline/v6-native-research-launch-v1/acceptance-20261120.json) · [最终 manifest](mainline/v6-native-research-launch-v1/research-manifest.json) · [当前进度](mainline/progress.json)
 
 ## 事故验证章节保留的 R0–R6 记录
 

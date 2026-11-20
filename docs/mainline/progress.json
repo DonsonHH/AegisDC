@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_STUDY_LAUNCH_READINESS_DELIVERED_FOR_REVIEW",
+  "status": "NATIVE_FIRST_SLICE_ONE_RUN_AUTHORIZED",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "STOP_AT_NATIVE_RESEARCH_LAUNCH_REVIEW",
+  "current_milestone": "PUBLISH_AND_CONSUME_ONE_FROZEN_RESEARCH_GRANT",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "STUDY_LAUNCH_REVIEW",
+  "agent_stage": "FIRST_NATIVE_RESEARCH_COMPARISON",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,12 +36,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "STOP_AT_LAUNCH_REVIEW",
-    "research_execution": "CLOSED",
+    "automatic_goal": "ONLY_THIS_ONE_FROZEN_RESEARCH_BATCH",
+    "research_execution": "AUTHORIZED_ONCE_FOR_NATIVE_FIRST_SLICE",
     "authorized_scope": [
-      "Published launch readiness receipt only. No research approval or consumption."
+      "One native study under manifest 59080339a1846f242e0b8664e80a59b91ac623c768010ad1652e7d648c3b3301; frozen stop rules and no retry."
     ],
-    "after_delivery": "STOP_FOR_USER_REVIEW",
+    "after_delivery": "STOP_AT_CONSOLIDATED_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": null
+    "current_execution_manifest": "docs/mainline/v6-native-research-launch-v1/research-manifest.json"
   },
   "gates": [
     {
@@ -217,7 +217,13 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "branch": "donson/mainline-39c-endpoints",
+      "scope": "One frozen native comparison, no changes to methods or launcher",
+      "activity": "V6-native-method-study-v1"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1786,7 +1792,7 @@
     "accepted_publication": "984071352142239201e3b69a449207ec35cd7cfa"
   },
   "v6_native_study_launch_readiness": {
-    "status": "DELIVERED_AWAITING_USER_REVIEW",
+    "status": "USER_ACCEPTED_DECLARED_LAUNCH_READINESS",
     "baseline": "984071352142239201e3b69a449207ec35cd7cfa",
     "accepted_protocol": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
     "report": "docs/mainline/v6-native-research-launch-v1/README.md",
@@ -1805,6 +1811,26 @@
     "research_consumed": false,
     "actual_study_submissions": 0,
     "study_positions_pending": 85,
-    "next_stage_auto_start": false
+    "next_stage_auto_start": false,
+    "accepted_publication": "69bc0a52677d541e5726db1a919b743287887ca5",
+    "acceptance": "docs/mainline/v6-native-research-launch-v1/acceptance-20261120.json"
+  },
+  "master_roadmap": "docs/mainline/master-roadmap.md",
+  "v6_native_study_v1": {
+    "status": "AUTHORIZED_ONCE_PENDING_CONSUMPTION",
+    "manifest": "docs/mainline/v6-native-research-launch-v1/research-manifest.json",
+    "manifest_sha256": "59080339a1846f242e0b8664e80a59b91ac623c768010ad1652e7d648c3b3301",
+    "grant": "docs/mainline/authorizations/v6-native-method-study-v1.json",
+    "limits": {
+      "conditions": 17,
+      "arm_positions": 85,
+      "public_decisions": 1700,
+      "manual_issues": 216,
+      "serial_jobs": 17,
+      "reserved_cpu_seconds": 2040,
+      "retries": 0
+    },
+    "after": "STOP_AT_CONSOLIDATED_REVIEW",
+    "future_stage_authorized": false
   }
 }
