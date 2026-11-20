@@ -57,7 +57,8 @@ def main():
     if out.exists() or receipt.exists():
         raise FileExistsError('Attempt already has output')
     job=os.environ['SLURM_JOB_ID']
-    result=subprocess.run([sys.executable,'-B',str(ROOT/'scripts/qualify_native_comparison.py'),*args])
+    checker=Path(__file__).with_name('repair_facilities.py') if launch['mode']=='repair' else ROOT/'scripts/qualify_native_comparison.py'
+    result=subprocess.run([sys.executable,'-B',str(checker),*args])
     evidence=dict(job=job,checker_exit=result.returncode,mode=launch['mode'])
     try:
         counts=journal_counts(out/'native',launch['units']['facilities'])
