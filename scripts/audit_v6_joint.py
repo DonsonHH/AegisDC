@@ -61,7 +61,7 @@ def public_case(key,item,actual,expected):
         row=next((r for r in alts if len(r['sequence'])==1 and label(r['sequence'][0])==name and 'branches' in r),None)
         c.compare('conditional paid work '+name,row['score'][1] if row else None,cost)
     return c.report(dict(choice=actual['choice'],support=actual['prefix']['support'],candidates=len(alts),
-        score=actual['selected']['score'] if actual['selected'] else None))
+        score=actual['selected']['score'] if actual['selected'] else None,semantic_decision=digest(actual)))
 
 
 def certificate_from_records(cfg,view,instance,opening):
@@ -113,8 +113,12 @@ def physiology(run):
         tools.append(dt*sum(x['reserved_by'] is not None for x in workforce['tools'].values()))
         energy_tol=p['energy_absolute_tolerance']+p['balance_relative_tolerance']*(abs(b['boundary_input_J'])+abs(b['boundary_output_J']))
         conserved &= all(abs(v)<=energy_tol for v in b['energy_residuals_J'].values()) and abs(b['electrical_residual_W'])*dt<=energy_tol
-        conserved &= all(abs(x['before_kg']+x['in_kg']-x['out_kg']-x['after_kg'])<=p['mass_absolute_tolerance']
-                         for x in b['mass_accounts'].values()) if 'mass_accounts' in b else all(abs(v)<=p['mass_absolute_tolerance'] for v in b['mass_residuals_kg'].values())
+        conserved &= all(abs(math.fsum([x['before_kg'],x['in_kg'],-x['out_kg'],-x['after_kg']]))<=p['mass_absolute_tolerance'] for x in b['mass_accounts_kg'].values())
+        before,after,rates=b['storage_before_J'],b['storage_after_J'],b['component_energy_rates_W']
+        conserved &= before.keys()==after.keys()==rates.keys()
+        conserved &= all(abs((after[k]-before[k])-rates[k]*dt)<=energy_tol for k in rates)
+        inventory_change=math.fsum(after.values())-math.fsum(before.values())
+        conserved &= abs(inventory_change-(b['boundary_input_J']-b['boundary_output_J']))<=energy_tol
     s=run['summary'];whole=(s['final_stored_energy_J']-s['initial_stored_energy_J'])-(s['boundary_input_J']-s['boundary_output_J'])
     conserved &= abs(whole)<=p['energy_absolute_tolerance']+p['balance_relative_tolerance']*(abs(s['boundary_input_J'])+abs(s['boundary_output_J']))
     return dict(rate=[math.fsum(losses),math.fsum(unserved)],balance=[math.fsum(b['service_deficit_time_s'] for b in balances),
@@ -127,6 +131,9 @@ def physiology(run):
 def native_case(key,item,run,oracle):
     c=Checks();expected=oracle['units'][key]
     cfg=item['dispatch_program']['policy_program']
+    c.compare('empty scripted native commands',run['inputs'].get('action_commands',[]),item.get('action_commands',[]))
+    c.compare('empty direct work requests',run['inputs'].get('work_requests',[]),item.get('work_requests',[]))
+    c.compare('private native evaluator identity',digest(run['inputs'].get('business_program')),digest(item.get('business_program')))
     c.compare('frozen source config',digest(run['source_config']),digest(item['scenario']))
     c.compare('frozen public program',digest(run['inputs']['dispatch_program']),digest(item['dispatch_program']))
     c.compare('exogenous and horizon',[run['inputs']['boundary_events'],run['summary']['duration_s'],run['inputs']['maximum_step_s']],
@@ -179,7 +186,7 @@ def native_case(key,item,run,oracle):
             if value in ('NO_ACTION_CURRENT','POST_ACTION_VERIFIED_CURRENT'):
                 first.setdefault(i,dict(time=t,state=value))
         if t in (5,7.5,9,10,12,2700,3600):actual_certs[f'{t:g}']=own
-        views[f'{t:g}']=digest(dict(view=v,choice=choice['choice']))
+        views[f'{t:g}']=digest(dict(view=v,decision=choice))
     ack_wait=math.fsum(x['arrived_at_s']-x['observed_at_s'] for x in native_acks)
     work_summary=account['physical_work']+[len(work)]
     c.compare('administrative latency is separate from person/tool work',ack_wait,len(work)*cfg['latency'])
@@ -242,8 +249,17 @@ def native_case(key,item,run,oracle):
         flow=lambda s:s['facility_cooling']['lake_pump']['volume_flow_m3_s']
         c.condition('dirty flow',.0111<flow(trace[0])<.0113)
         if direct:c.condition('clean observed flow',.0999<flow(trace[3.25])<.1001)
+        energy_by_t={b['start_s']:b for b in run['balances'] if b['start_s']<3.25}
         details.update(first_trip=trips[0] if trips else None,max_Tsat_K=highest,
-            warm_prefix=digest([[s['time_s'],s['domains']['facility_cooling']['plate_hx_heat_W'],s['domains']['it_service']] for s in series if s['time_s']<3.25]),
+            warm_prefix={f"{s['time_s']:g}":dict(heat=s['domains']['facility_cooling']['plate_hx_heat_W'],
+                stored_J={k:energy_by_t[s['time_s']]['storage_before_J'][k] for k in ('coolant','hot','cold','solid')},
+                dt=energy_by_t[s['time_s']]['end_s']-s['time_s'],
+                boundary_abs_J=abs(energy_by_t[s['time_s']]['boundary_input_J'])+abs(energy_by_t[s['time_s']]['boundary_output_J']),
+                q=flow(s['domains']),service=s['domains']['it_service']['delivered'],latched=s['domains']['control_monitoring']['protection_latched'],
+                Tsat=s['domains']['equipment_environment']['refrigerant']['temperature_K'],
+                hot=s['domains']['facility_cooling']['hot_temperature_K'],cold=s['domains']['facility_cooling']['cold_temperature_K'],
+                solid=s['domains']['equipment_environment']['solid_temperature_K'])
+                for s in series if s['time_s']<3.25},
             q_at_3_25=flow(trace[3.25]),heat_at_3_25=trace[3.25]['facility_cooling']['plate_hx_heat_W'])
     return c.report(details)
 

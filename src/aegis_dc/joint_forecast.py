@@ -75,12 +75,12 @@ def support(cfg,view,prefix):
     return [] if disputed else compatible
 
 
-def observe_branch(cfg,world,probe,time,effects):
+def observe_branch(cfg,world,probe,issue,time,effects):
     kind=probe.split('/')[0]
     simulated=signals(world,time,effects,cfg['forecast_window'])
     rights=cfg['types'][kind]['read']
     return tuple((f,str(simulated[f])) for f,period in sorted(rights.items())
-                 if period and period[0]<=time<period[1])
+                 if period and period[0]<=issue<=time<period[1])
 
 
 def permits_correction(kind,signature):

@@ -32,7 +32,12 @@ def instances(cfg, view):
             if '/' in row['origin']:
                 raise ValueError('Unsafe joint source identity')
             stop=row['until'] if row['revoked_at'] is None else min(row['until'],row['revoked_at'])
-            first=next((t for t in cfg['clock'] if row['arrived']<=t<stop and t<=view['time']),None)
+            opposed=[r for r in view['orders'] if r['desk']==row['desk'] and r['target']==row['target'] and
+                     r['observable']==row['observable'] and r['at']==row['at'] and r['value'] is False and
+                     r['copied_from'] is None]
+            first=next((t for t in cfg['clock'] if row['arrived']<=t<stop and t<=view['time']
+                        and not any(r['arrived']<=t<r['until'] and (r['revoked_at'] is None or t<r['revoked_at'])
+                                    for r in opposed)),None)
             key=kind+'/'+row['origin']
             if first is not None and key not in opened and sum(k.startswith(kind+'/') for k in opened)<typ['max_origins']:
                 opened[key]=first

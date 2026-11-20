@@ -2,7 +2,7 @@
 from copy import deepcopy
 from fractions import Fraction
 from itertools import permutations, product
-from .joint_evidence import certificate, instances, observation, own_ack, require
+from .joint_evidence import action_feedback, certificate, instances, observation, own_ack, require
 from .joint_forecast import deficit, observe_branch, permits_correction, support
 from .joint_resources import public_prefix, schedule
 
@@ -73,7 +73,12 @@ def choose(cfg,view):
         return row
     def result(row):
         steps=row.get('steps',[]) if row else []
-        first=steps[0] if steps and steps[0]['at']==view['time'] else None
+        first=steps[0] if row and row['admitted'] and steps and steps[0]['at']==view['time'] else None
+        if first and first['task'].endswith('/R'):
+            action=first['task'][:-1]+'A'
+            received=action_feedback(cfg,view,action)
+            if not received or received['outcome']!='APPLIED':
+                first=None
         if first:
             typ=cfg['types'][first['task'].split('/')[0]]
             if any(not own_ack(cfg,view,t) and
@@ -120,7 +125,7 @@ def choose(cfg,view):
         effects={**pre['confirmed'],**pre['pending']}
         groups={}
         for world in worlds:
-            signature=observe_branch(cfg,world,probe,acquisition['planned_end'],effects)
+            signature=observe_branch(cfg,world,probe,acquisition['at'],acquisition['planned_end'],effects)
             groups.setdefault(signature,[]).append(world)
         branches=[];vectors=[];continuations=set();improves=False
         for signature,group in sorted(groups.items()):

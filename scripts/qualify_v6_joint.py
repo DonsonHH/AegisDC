@@ -115,6 +115,14 @@ def evaluate_unit(key,item,expected,unit,pin,manifest,counts,oracle):
         from aegis_dc.plant import simulate_scenario
         sidecar=private_sidecar(item,pin,manifest,key,sha(ROOT/PACK/'oracle.json'))
         save(unit/'private-evaluation.json',sidecar)
+        if key.startswith(('S','T')) and (item.get('business_program') is not None or
+                item['dispatch_program']['schema']!='aegisdc-policy-run-program-v6' or
+                item['dispatch_program']['policy_program']['schema']!='aegisdc-joint-problem-policy-v1' or
+                item['action_commands'] or item['work_requests']):
+            raise PermissionError('Incorrect native joint entry or external action')
+        if key.startswith('L') and (item['dispatch_program']['schema']!='aegisdc-policy-run-program-v5' or
+                item['business_program']['schema']!='aegisdc-business-composite-evaluation-v1'):
+            raise PermissionError('Incorrect original H10 entry')
         with observe_actual_decisions(key,counts):
             counts.event('facility',key)
             run=simulate_scenario(deepcopy(item['scenario']),duration_s=item['duration_s'],step_s=item['step_s'],
@@ -125,8 +133,9 @@ def evaluate_unit(key,item,expected,unit,pin,manifest,counts,oracle):
         saved=read(unit/artifact)
         if saved['code_identity']['files']!={k:v for k,v in pin['files'].items() if k.startswith('src/aegis_dc/') and k.endswith('.py') or k=='src/patrol_rsi/contracts.py'}:
             raise ValueError('Actual running facility source differs from release')
-        if private_sidecar(item,pin,manifest,key,sha(ROOT/PACK/'oracle.json'))!=read(unit/'private-evaluation.json'):
-            raise ValueError('Private evaluation sidecar identity changed')
+        actual_bind=dict(saved['inputs'],scenario=saved['source_config'],step_s=saved['inputs']['maximum_step_s'])
+        if private_sidecar(actual_bind,pin,manifest,key,sha(ROOT/PACK/'oracle.json'))!=read(unit/'private-evaluation.json'):
+            raise ValueError('Saved native run and private evaluation sidecar differ')
         result=native_case(key,item,saved,oracle)
         del saved;gc.collect()
     save(unit/'checks.json',result)
@@ -141,6 +150,9 @@ def run_group(root,out,group,keys,pin,inputs,oracle,manifest):
         if (root/'F6'/'result.json').exists():raise PermissionError('Repair already consumed')
         for key in keys:
             previous=[row for g in GROUPS if (root/g/'result.json').exists() for row in read(root/g/'result.json')['rows'] if row['key']==key]
+            origin=next(g for g,units in GROUPS.items() if key in units)
+            if not (root/origin/'result.json').is_file():raise PermissionError('Original terminal missing: '+key)
+            if not previous and key not in read(root/origin/'result.json')['unexecuted']:raise PermissionError('No affected exception or suffix')
             if any(r['status']=='PASS' for r in previous):raise PermissionError('Unaffected passed unit cannot rerun: '+key)
     elif keys!=GROUPS[group]:raise PermissionError('Group must use fixed order')
     counts=Counts(out,group);rows=[];stopped=None
@@ -171,8 +183,19 @@ def compare_saved(root,out,pin,inputs,oracle,manifest):
         rp=root/group/'result.json'
         if not rp.is_file():continue
         report=read(rp);prior.append((group,sha(rp)))
+        entries=[json.loads(line) for line in (root/group/'calls.jsonl').read_text().splitlines()] if (root/group/'calls.jsonl').exists() else []
+        observed={k:sum(e[1]==k for e in entries) for k in DIM}
+        checks.compare('durable call and group counters '+group,observed,report['counts'])
+        checks.condition('per-group caps '+group,all(observed[k]<=lim for k,lim in zip(DIM,LIMITS[group])))
+        checks.compare('started and unexecuted suffix '+group,[r['key'] for r in report['rows']]+report['unexecuted'],report['scheduled'])
         for r in report['rows']:
             key=r['key'];unit=root/group/key
+            unit_counts={k:sum(e[:2]==[key,k] for e in entries) for k in DIM}
+            checks.compare('unit counters '+group+'/'+key,unit_counts,{k:r['counts'].get(k,0) for k in DIM})
+            if r['status']=='PASS':
+                native=key[0] in 'STL'
+                ticks=len(inputs[key]['dispatch_program'].get('decision_times_s',inputs[key]['dispatch_program']['policy_program'].get('clock',[]))) if native else 0
+                checks.compare('complete unit calls '+group+'/'+key,list(unit_counts.values()),[int(native),int(key[0]=='P'),ticks,int(key[0]=='G')])
             if r['status']!='PASS':failed.setdefault(key,[]).append([group,r['status']])
             rows[key]=r
             if not r.get('actual_file'):continue
@@ -191,7 +214,21 @@ def compare_saved(root,out,pin,inputs,oracle,manifest):
     for dirty,clean in [('T01','T02'),('T03','T04'),('T05','T06')]:
         if dirty not in details or clean not in details:continue
         a,b=details[dirty],details[clean]
-        checks.compare('pre-intervention hydraulics/heat and service '+dirty,a['warm_prefix'],b['warm_prefix'])
+        common=sorted(a['warm_prefix'].keys() & b['warm_prefix'].keys(),key=float)
+        checks.condition('shared pre-intervention epochs '+dirty,'0' in common and len(common)>=2)
+        for time in common:
+            left,right=a['warm_prefix'][time],b['warm_prefix'][time]
+            checks.compare('pre-write native rates and protection '+dirty+' '+time,
+                           [left[k] for k in ('q','service','latched')],[right[k] for k in ('q','service','latched')])
+            # Compare like quantities on common native epochs. The two per-interval
+            # native balance allowances give an explicit identity guard, not a solver error estimator.
+            params={x['id']:x['value'] for x in inputs[dirty]['scenario']['parameters']}
+            eps=2*params['energy_absolute_tolerance']+params['balance_relative_tolerance']*(left['boundary_abs_J']+right['boundary_abs_J'])
+            dt=min(left['dt'],right['dt'])
+            for field,delta in [('heat',dt*abs(left['heat']-right['heat']))]+[
+                    (k,abs(left['stored_J'][k]-right['stored_J'][k])) for k in left['stored_J']]:
+                checks.condition(f'pre-write {dirty} {time} {field} {delta:g} J <= {eps:g} J',delta<=eps)
+        a['prewrite_common_epochs']=common
         checks.condition('q and heat separate '+dirty,b['q_at_3_25']>a['q_at_3_25'] and b['heat_at_3_25']>a['heat_at_3_25'])
         if dirty=='T05':checks.compare('masked endpoints',a['physical_integrals'],b['physical_integrals'])
         else:checks.condition('step-specific physical direction '+dirty,all(x>y for x,y in zip(a['physical_integrals'],b['physical_integrals'])))
@@ -199,13 +236,15 @@ def compare_saved(root,out,pin,inputs,oracle,manifest):
         a,b=[details[k]['first_trip'] for k in ('T01','T03')]
         checks.condition('first protection tick sensitivity',a is not None and b is not None and abs(a-b)<=1)
     for d in details.values():d.pop('prefix_sha256',None)
+    missing=sorted(set(inputs)-set(rows))
+    checks.condition('all scheduled engineering units reached',not missing)
+    checks.condition('all final units passed',len(rows)==len(inputs) and all(r['status']=='PASS' for r in rows.values()))
     result=checks.report(dict(unit_details=details,prior_result_hashes=prior))
     save(out/'checks.json',result)
-    missing=sorted(set(inputs)-set(rows))
     save(out/'result.json',dict(group=out.name,job=os.environ['SLURM_JOB_ID'],revision=pin['revision'],counts=dict.fromkeys(DIM,0),
         completed=len(rows),missing=missing,all_failures=failed,final_status={k:r['status'] for k,r in rows.items()},
         saved_assertions=result['assertions'],failures=result['failures'],checks_sha256=sha(out/'checks.json'),
-        status='RECONCILED' if result['passed'] else 'RECONCILED_WITH_FINDINGS'))
+        status='FINITE_ENGINEERING_CHECKS_PASSED_PENDING_REVIEW' if result['passed'] else 'FINITE_ENGINEERING_PARTIAL_OR_FAILED'))
     return 0 if result['passed'] else 1
 
 
@@ -213,6 +252,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('root',type=Path);p.add_argument('group',choices=LIMITS);p.add_argument('release_sha');p.add_argument('affected',nargs='*');args=p.parse_args()
     if not os.environ.get('SLURM_JOB_ID') or int(os.environ.get('SLURM_CPUS_PER_TASK','0'))!=1:raise PermissionError('Single-CPU Slurm allocation required')
     pin,inputs,oracle,manifest=load_release(args.release_sha)
+    if pin.get('purpose')!='FINITE_PUBLIC_ENGINEERING' or args.root.resolve()!=Path(pin['activity']).resolve():raise PermissionError('Incorrect activity root or purpose')
     out=args.root/args.group
     with (out/'started.lock').open('x') as f:f.write(os.environ['SLURM_JOB_ID'])
     if args.group in ('F5','F7'):return compare_saved(args.root,out,pin,inputs,oracle,manifest)

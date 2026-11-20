@@ -63,7 +63,8 @@ def public_prefix(cfg,view):
                 confirmed=facts,pending=pending,reviews=reviews,waiting=checks_waiting,contingent=continued)
 
 
-def opportunity(cfg, action_finish, sample, arrival):
+def opportunity(cfg, kind, action_finish, sample, arrival):
+    if not {'lake' if kind=='C' else 'network','service'}<=set(cfg['fixed_on']):return False
     epochs=[x for x in cfg['fixed_epochs'] if x>=action_finish]
     return any(b-a>=1 and (t:=max(arrival,b+cfg['latency']))<=cfg['horizon']
                and t<a+cfg['fixed_ttl'] and t<sample+cfg['paid_ttl']
@@ -113,10 +114,11 @@ def schedule(cfg,view,sequence,*,conditional_positive=(),prefix=None):
                     and r['planned_ack']<=tick<r['planned_end']+cfg['paid_ttl'] for r in steps)
                 if not (live or simulated):reason='OWN_POSITIVE_REQUIRED';break
         else:
-            if not any(window and window[0]<=tick and finish<window[1] for window in typ['read'].values()):
+            enabled=[window is not None and window[0]<=tick and finish<window[1] for window in typ['read'].values()]
+            if not (all(enabled) if phase=='R' else any(enabled)):
                 reason='READ_WINDOW';break
         release=reviews[task][1] if phase=='R' else opens[instance]
-        if phase=='R' and not opportunity(cfg,reviews[task][0],finish,arrived):
+        if phase=='R' and not opportunity(cfg,kind,reviews[task][0],finish,arrived):
             reason='NO_CERTIFICATE_TIME';break
         row=dict(task=task,at=tick,release=release,planned_end=finish,planned_ack=arrived)
         issued[task]=row;steps.append(row)
