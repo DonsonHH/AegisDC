@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "V6_INTAKE_EXPIRY_CLOSEOUT_AUTHORIZED",
+  "status": "V6_EXPIRY_CLOSEOUT_DELIVERED_FOR_FINITE_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "FREEZE_PUBLIC_TIMELINESS_WITNESSES_AND_POST_REVIEW_SPEC",
+  "current_milestone": "STOP_AT_V6_EXPIRY_CLOSEOUT_REVIEW",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "FINITE_ENGINEERING_CLOSEOUT",
+  "agent_stage": "V6_EXPIRY_CLOSEOUT_DELIVERED_FOR_FINITE_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,10 +36,10 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "FINITE_ENGINEERING_ONLY",
+    "automatic_goal": "STOP_AT_FINITE_REVIEW",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "V6 expiry closeout, revision and saved reconciliation; four public decision witnesses."
+      "Finite V6 expiry closeout delivered; further execution requires a separately scoped review decision."
     ],
     "after_delivery": "STOP_FOR_USER_REVIEW",
     "new_experiments_authorized": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": "docs/mainline/v6-intake-expiry-closeout-v1/freeze.json"
+    "current_execution_manifest": null
   },
   "gates": [
     {
@@ -217,13 +217,7 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [
-    {
-      "branch": "donson/mainline-39c-endpoints",
-      "scope": "Time-boundary public interface qualification and saved V6 expiry closeout",
-      "baseline": "a1adc22c"
-    }
-  ],
+  "active_implementations": [],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1657,7 +1651,7 @@
     }
   },
   "v6_intake_engineering": {
-    "status": "DELIVERED_WITH_ONE_FROZEN_SPECIFICATION_EXCEPTION",
+    "status": "USER_ACCEPTED_18_FINITE_UNITS_FIVE_INTERFACES_THREE_PAIRS_ORIGINAL_EXPIRY_FAILED",
     "accepted_written_handoff": "b5a2e9ad",
     "freeze": "4539a48e",
     "manifest": "docs/mainline/v6-intake-engineering-v1/manifest.json",
@@ -1694,9 +1688,29 @@
     "acceptance": "docs/mainline/v6-intake-expiry-closeout-v1/spec.md"
   },
   "v6_intake_expiry_closeout": {
-    "status": "AUTHORIZED_FOR_FOUR_PUBLIC_INTERFACE_WITNESSES_AND_SAVED_RECONCILIATION",
+    "status": "DELIVERED_AWAITING_REVIEW",
     "frozen_basis": "docs/mainline/v6-intake-expiry-closeout-v1/freeze.json",
     "new_facility_budget": 0,
-    "new_research_budget": 0
+    "new_research_budget": 0,
+    "report": "docs/mainline/v6-intake-expiry-closeout-v1/README.md",
+    "result": "docs/mainline/v6-intake-expiry-closeout-v1/result.json",
+    "freeze_revision": "d456ee0b",
+    "checker_revision": "6e0f6da3",
+    "slurm_job": "134664",
+    "new_public_decisions": 4,
+    "new_public_witnesses_passed": 4,
+    "original_full_assertions": [
+      316,
+      325
+    ],
+    "accepted_original_assertions": [
+      309,
+      309
+    ],
+    "expired_read_original_passed": false,
+    "post_review_revision_matched_saved": true,
+    "actual_new_facility_calls": 0,
+    "actual_new_research_runs": 0,
+    "prior_budget_transferred": false
   }
 }
