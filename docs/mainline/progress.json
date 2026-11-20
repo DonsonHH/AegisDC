@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_COMPARISON_PROTOCOL_V1_DELIVERED_FOR_REVIEW",
+  "status": "NATIVE_COMPARISON_FINITE_ENGINEERING_AUTHORIZED",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "STOP_AT_NATIVE_COMPARISON_PROTOCOL_REVIEW",
+  "current_milestone": "FINITE_ENGINEERING_ONLY",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "PROTOCOL_REVIEW",
+  "agent_stage": "FREEZE_ENGINEERING_BEFORE_IMPLEMENTATION",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,12 +36,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "STOP_AT_PROTOCOL_REVIEW",
+    "automatic_goal": "FINITE_ENGINEERING_ONLY",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "Limited expiry acceptance and written comparison protocol only."
+      "D/K native rules, five-arm process runner, saved evaluator, frozen bounded engineering witnesses."
     ],
-    "after_delivery": "STOP_FOR_PROTOCOL_REVIEW",
+    "after_delivery": "STOP_FOR_FINITE_ENGINEERING_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": null
+    "current_execution_manifest": "docs/mainline/v6-native-comparison-qualification-v1/freeze.json"
   },
   "gates": [
     {
@@ -217,7 +217,13 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "branch": "donson/mainline-39c-endpoints",
+      "scope": "native V6 comparison finite engineering",
+      "protocol": "53cc32b93dd62c8ce5ffd725eed9afba167557e5"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1717,7 +1723,7 @@
     "closed": true
   },
   "v6_native_comparison_v1": {
-    "status": "DOCUMENT_DELIVERED_FOR_PROTOCOL_REVIEW",
+    "status": "PROTOCOL_ACCEPTED_AND_FROZEN",
     "protocol": "docs/mainline/v6-native-method-comparison-v1/README.md",
     "conditions": "docs/mainline/v6-native-method-comparison-v1/conditions.json",
     "treatments": "docs/mainline/v6-native-method-comparison-v1/treatments.md",
@@ -1743,6 +1749,8 @@
       "RSI": false,
       "historical_budget_transfer": false
     },
-    "protocol_frozen_by_user": false
+    "protocol_frozen_by_user": true,
+    "accepted_revision": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
+    "acceptance": "docs/mainline/v6-native-method-comparison-v1/acceptance-20261120.json"
   }
 }
