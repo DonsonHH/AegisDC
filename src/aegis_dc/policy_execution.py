@@ -11,6 +11,12 @@ PROGRAM_FIELDS={'schema','id','policy_program','nominal_knowledge','evidence_led
 
 class PolicySession:
     """The selector receives only a validated frame and arrived public feedback."""
+    def __new__(cls,program,duration_s):
+        if type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v6':
+            from .joint_session import JointSession
+            return JointSession(program,duration_s)
+        return super().__new__(cls)
+
     def __init__(self,program,duration_s):
         _plain_json(program)
         version5=type(program) is dict and program.get('schema')=='aegisdc-policy-run-program-v5'

@@ -15,6 +15,12 @@ def fields(v,n,label):require(type(v) is dict and set(v)==n,label+' fields diffe
 
 class InspectionSession:
     """Private event consumer. Only detached arrived ledger/model data are public."""
+    def __new__(cls,scenario,work_program,program):
+        if type(program) is dict and program.get('schema')=='aegisdc-joint-inspection-v1':
+            from .joint_session import JointInspection
+            return JointInspection(scenario,work_program,program)
+        return super().__new__(cls)
+
     def __init__(self,scenario,work_program,program):
         _plain(program);fields(program,{'schema','profile','realizations'},'Inspection program')
         require(program['schema']=='aegisdc-inspection-program-v1','Unknown real inspection program')
