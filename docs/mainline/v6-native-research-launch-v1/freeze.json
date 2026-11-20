@@ -1,0 +1,254 @@
+{
+  "schema": "aegisdc-study-readiness-freeze-v1",
+  "accepted_engineering": "984071352142239201e3b69a449207ec35cd7cfa",
+  "accepted_protocol": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
+  "acceptance_sha256": "c12a18f1e279c5a07067c366b050e82b9ec6a199b1050dc81fbcb6fd101ac938",
+  "accepted_prior_manifest_sha256": "6e04fe74e64ac0cccd91b959003c3267e5a23e9d0cb24784acdcb75b25bb8282",
+  "source_inputs": {
+    "docs/mainline/v6-native-method-comparison-v1/conditions.json": "3212a7096a57438c54a98e7d1143db4e60f89c865c490d3af993f7b981c0cf4a",
+    "docs/mainline/v6-native-comparison-qualification-v1/result.json": "0d623562657dc772c7bb7aa742211818b9979e98ba4203820ca5e7370054585d",
+    "docs/mainline/v6-native-comparison-qualification-v1/research-manifest.json": "6e04fe74e64ac0cccd91b959003c3267e5a23e9d0cb24784acdcb75b25bb8282",
+    "src/aegis_dc/native_compare_run.py": "e9121cf3ce106c7ab058de6403518f69c77d93d867b631a5d2cf229661473222",
+    "src/aegis_dc/native_compare_score.py": "75c7731298981bec6f77c697f4af9e08df3032dab4a3004aab159bfe8eb58e82"
+  },
+  "old_private_output": "/share/home/renly/renly-patrol-rsi/mainline/V6-native-method-qualification-20261120/repair01/output",
+  "saved_C01": {
+    "V": {
+      "condition": "C01",
+      "relative": "native/C01-V/run",
+      "run_sha256": "9dadf17fd3c0e3b356d0fef8b28c92ff412a7d5d75f973c29e694f5750dba29d",
+      "input_sha256": "37050de07c81de2c3688bedc18553ba8afd2a58d7f5cb90b9474d1e3e7279f7f",
+      "score_sha256": "fee2ac44ed872b9f142cba2d045e5a6fcff2d8fb4cd460911f10c27b03bf6f1e",
+      "source_tree": "54656aa59bfd63f8f50845bc7174e9a87b0034c2b61e55938a2d550bcdd8abb8"
+    },
+    "D": {
+      "condition": "C01",
+      "relative": "native/C01-D/run",
+      "run_sha256": "007f1c87949a763a681b9eb2f1176d6c8558e593f0d422e0bd36210d8a7b820a",
+      "input_sha256": "c5c96b24050afaa7faad23e10695d61fbd961b3882904b2893d24ffbd8931d61",
+      "score_sha256": "4a492159d9415ed7141a3a0069e7c3487351bb10fa5c3fe307bb44a4d210fe4d",
+      "source_tree": "54656aa59bfd63f8f50845bc7174e9a87b0034c2b61e55938a2d550bcdd8abb8"
+    },
+    "K": {
+      "condition": "C01",
+      "relative": "native/C01-K/run",
+      "run_sha256": "56193dd5f265523b2113e93962fafd5f18095d17cf39bc4f12d480f4fb3f48f9",
+      "input_sha256": "dd87aa2eaa32c7ae4db159941929cc460b4ec7093fc6c9f7ef554654d488025e",
+      "score_sha256": "0bde584b6d871e1106dba1c2443aec4165da13e36daa38d5c7f687747f4d11c1",
+      "source_tree": "54656aa59bfd63f8f50845bc7174e9a87b0034c2b61e55938a2d550bcdd8abb8"
+    },
+    "H": {
+      "condition": "C01",
+      "relative": "native/C01-H/run",
+      "run_sha256": "5d8f35ec39c2bde2357a4b0f4b7c48b1f3705cc0598e4caa0fd4ae5d32e64704",
+      "input_sha256": "37050de07c81de2c3688bedc18553ba8afd2a58d7f5cb90b9474d1e3e7279f7f",
+      "score_sha256": "0b01605390374114bdcce516a2010bcad383258ef3b41d724e1daf4a139f0caf",
+      "source_tree": "54656aa59bfd63f8f50845bc7174e9a87b0034c2b61e55938a2d550bcdd8abb8"
+    },
+    "P": {
+      "condition": "C01",
+      "relative": "native/C01-P/run",
+      "run_sha256": "f3d997b5adcb40d13e028303875788640af2663d5cc6e06bd9e9853169ce580b",
+      "input_sha256": "3809143a9f0eb6283c76510033dcda40e433bff521b260b4ae0d9ddf1307b87d",
+      "score_sha256": "7f1d5672048a17a4313e9983a1ba432f82a3b7a39fb827f0bb189ee0bb2be588",
+      "source_tree": "54656aa59bfd63f8f50845bc7174e9a87b0034c2b61e55938a2d550bcdd8abb8"
+    }
+  },
+  "final_manifest_identity": "Raw SHA-256 of immutable final manifest sealed after launcher source commit and before this single validation job; same bytes used by CLI and every surrogate.",
+  "tests": [
+    {
+      "id": "A1",
+      "input": "production CLI start with exact final manifest digest and no approval revision; no network review lookup or study state mutation",
+      "expected": {
+        "error": "AUTHORIZATION_REQUIRED",
+        "real_submissions": 0,
+        "production_consumptions": 0
+      }
+    },
+    {
+      "id": "A2",
+      "input": "same admission logic; separate artificial sites. Missing record; wrong branch head; grant with wrong manifest hash, purpose, root or total; mismatched reviewed acceptance; wrong presented manifest digest; wrong actual source byte or interpreter hash.",
+      "expected": {
+        "errors": [
+          "GRANT_ABSENT",
+          "REVIEW_IDENTITY",
+          "GRANT_BINDING",
+          "GRANT_BINDING",
+          "GRANT_BINDING",
+          "GRANT_BINDING",
+          "ACCEPTANCE_IDENTITY",
+          "MANIFEST_IDENTITY",
+          "SOURCE_IDENTITY",
+          "PYTHON_IDENTITY"
+        ],
+        "submitted": 0,
+        "consumed": 0
+      }
+    },
+    {
+      "id": "A3",
+      "input": "valid synthetic grant with existing sentinel output; then two simultaneous admissions in a separate fresh fixture root and one further replay. Inspect sentinel, sibling consumption and 85 positions. No scheduling.",
+      "expected": {
+        "existing": "OUTPUT_EXISTS",
+        "existing_consumed": 0,
+        "concurrent_accepted": 1,
+        "concurrent_refused": 1,
+        "replay": "GRANT_CONSUMED",
+        "reservations": 0,
+        "rows": 85
+      }
+    },
+    {
+      "id": "J1",
+      "input": "one surrogate C01 successful V/D/K/H/P replays using their own saved bytes; next held C02-V process exits 7 before a return. Verify terminal receipts before next submission and global failure latch.",
+      "expected": {
+        "submissions": 2,
+        "ordered": [
+          "C01",
+          "C02"
+        ],
+        "reserved_cpu_s": 240,
+        "started": 6,
+        "complete_returns": 5,
+        "unreturned": 1,
+        "known_decisions": 100,
+        "known_issues": 11,
+        "unknown_decisions": [
+          "C02-V"
+        ],
+        "unexecuted": 79,
+        "vh_equal": true,
+        "retry": false
+      }
+    },
+    {
+      "id": "J2",
+      "input": "C01-V copies its saved run, deletes the internal decision-list field; source and normalized input still match. Raw native result received; valid count unavailable.",
+      "expected": {
+        "submissions": 1,
+        "started": 1,
+        "raw_returns": 1,
+        "complete_returns": 1,
+        "known_decisions": 0,
+        "unknown_decisions": [
+          "C01-V"
+        ],
+        "unexecuted": 84,
+        "score_called": false
+      }
+    },
+    {
+      "id": "J3",
+      "input": "C01 V/D/K/H replays. Change only first public choice reason in H copied run.json to FIXTURE_DIVERGENT_HISTORY. Score real saved records, compare before P.",
+      "expected": {
+        "submissions": 1,
+        "started": 4,
+        "complete_returns": 4,
+        "known_decisions": 80,
+        "known_issues": 11,
+        "unknown_decisions": [],
+        "unexecuted": 81,
+        "error": "VH_MISMATCH"
+      }
+    },
+    {
+      "id": "J4",
+      "input": "one surrogate submission accepted but release outcome not established; stale PREPARED journal in a separate read-only artificial ledger; reject wrong job/CPU/order and worker replay before arm entry.",
+      "expected": {
+        "submissions": 1,
+        "reserved_cpu_s": 120,
+        "confirmed_starts": 0,
+        "unresolved_job": "C01",
+        "suffix": 80,
+        "ambiguous_marker": "C01-V",
+        "errors": [
+          "JOB_IDENTITY",
+          "ALLOCATION",
+          "JOB_ORDER",
+          "WORKER_REPLAY"
+        ]
+      }
+    },
+    {
+      "id": "B1",
+      "input": "static surrogate job ledgers from C01 to C16: each 5 successful arms, 20 decisions/arm and 3,2,3,3,0 issues; then C17 complete, also 3,2,3,3,0. Perturb prior job state, cap or unknown count in isolated copies.",
+      "expected": {
+        "first16": [
+          16,
+          80,
+          1600,
+          176,
+          1920
+        ],
+        "final17": [
+          17,
+          85,
+          1700,
+          187,
+          2040
+        ],
+        "errors": [
+          "JOB_ORDER",
+          "BUDGET_EXCEEDED",
+          "PRIOR_UNRESOLVED",
+          "SCHEDULE_COMPLETE"
+        ]
+      }
+    },
+    {
+      "id": "I1",
+      "input": "original C01-V saved native return; independent one-field derivatives: source file map, source tree, scenario, dispatch, business, exogenous events, duration, max step, nonempty action_commands, nonempty work_requests. No child or facility call.",
+      "expected": {
+        "valid": true,
+        "errors": [
+          "RETURN_SOURCE_FILES",
+          "RETURN_SOURCE_TREE",
+          "RETURN_SCENARIO",
+          "RETURN_DISPATCH",
+          "RETURN_BUSINESS",
+          "RETURN_EVENTS",
+          "RETURN_HORIZON",
+          "RETURN_STEP",
+          "RETURN_COMMANDS",
+          "RETURN_WORK_REQUESTS"
+        ]
+      }
+    },
+    {
+      "id": "H1",
+      "input": "one C01-V child copies original run and all scenario bytes; derive private trace through and including t=5 and positive balances ending at or before 5. Refresh derived artifact counts/hashes, leave native H10/0.01, source and all 20 public decisions. Read files, check identity, attempt score_arm; feed same nonempty contiguous prefix to service().",
+      "expected": {
+        "start_s": 0,
+        "last_s": 5,
+        "nonempty": true,
+        "rows_align": true,
+        "inputs_verified": true,
+        "source_verified": true,
+        "raw_returns": 1,
+        "complete_returns": 1,
+        "known_decisions": 20,
+        "unknown_decisions": [],
+        "unexecuted": 84,
+        "scorer_reason": "Incomplete physical trajectory",
+        "integrator_reason": "Incomplete H10 service window",
+        "first_error_is_file_hash": false
+      }
+    }
+  ],
+  "budget": {
+    "verification_jobs": 1,
+    "cpu": 1,
+    "memory_MiB": 1024,
+    "wall_seconds": 120,
+    "reserved_cpu_seconds": 120,
+    "concurrency": 1,
+    "retries": 0,
+    "gpus": 0,
+    "surrogate_arm_processes_max": 12,
+    "actual_facilities": 0,
+    "actual_public_policy_calls": 0,
+    "actual_research_jobs": 0,
+    "actual_research_grants": 0
+  },
+  "stop": "Retain each refusal/record, all denominators and any unexecuted suffix. Single job; no additional allocation. Failed or unproved portions return to review."
+}

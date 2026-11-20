@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_COMPARISON_ENGINEERING_DELIVERED_FOR_FINITE_REVIEW",
+  "status": "NATIVE_STUDY_LAUNCH_READINESS_ONLY",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "STOP_AT_NATIVE_COMPARISON_FINITE_ENGINEERING_REVIEW",
+  "current_milestone": "FREEZE_ZERO_FACILITY_CHECKS_BEFORE_LAUNCH_PREPARATION",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "FINITE_ENGINEERING_REVIEW",
+  "agent_stage": "STUDY_LAUNCH_ENGINEERING_ONLY",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,12 +36,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "STOP_AT_FINITE_ENGINEERING_REVIEW",
+    "automatic_goal": "LAUNCH_PREPARATION_ONLY",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "Finite engineering delivery only; no additional qualification or research runs authorized by this publication."
+      "Research launch preparation and one zero-facility Slurm verification."
     ],
-    "after_delivery": "STOP_FOR_USER_REVIEW",
+    "after_delivery": "STOP_AT_RESEARCH_LAUNCH_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": null
+    "current_execution_manifest": "docs/mainline/v6-native-research-launch-v1/freeze.json"
   },
   "gates": [
     {
@@ -217,7 +217,13 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [],
+  "active_implementations": [
+    {
+      "branch": "donson/mainline-39c-endpoints",
+      "scope": "separate one-use research launch gate and zero-facility verification",
+      "baseline": "984071352142239201e3b69a449207ec35cd7cfa"
+    }
+  ],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1749,7 +1755,7 @@
     "acceptance": "docs/mainline/v6-native-method-comparison-v1/acceptance-20261120.json"
   },
   "v6_native_comparison_engineering_v1": {
-    "status": "DELIVERED_AWAITING_REVIEW",
+    "status": "USER_ACCEPTED_DECLARED_FINITE_SCOPE",
     "protocol_revision": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
     "original_engineering_freeze": "5836f0f1",
     "initial_execution": "0f5db8c8",
@@ -1781,6 +1787,8 @@
     "all_research_arms_pending": 85,
     "new_research_arms_run": 0,
     "RSI_authorized": false,
-    "user_acceptance_pending": true
+    "user_acceptance_pending": false,
+    "acceptance": "docs/mainline/v6-native-comparison-qualification-v1/acceptance-20261120.json",
+    "accepted_publication": "984071352142239201e3b69a449207ec35cd7cfa"
   }
 }
