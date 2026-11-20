@@ -1,0 +1,554 @@
+{
+  "unit": "one complete exogenous/physical and public-design condition, independently initialized treatment runs",
+  "common_short": {
+    "H": 12,
+    "max_step": 0.01,
+    "public_clock": "k/4, k=0..48 inclusive",
+    "demand": 1,
+    "base": "S-family C02-V cold state without historical network events, eight-domain topology and old automatic protection",
+    "rectifier_efficiency": 1,
+    "grants": "read and write [0,12) unless row overrides; nominal work 1 s, native receipt latency .5 s, paid TTL 8, fixed TTL 3; no extra access failures or external events",
+    "fixed": "current declared lake flow, effective network and common service, native epochs 6..12 and arrival .5 s",
+    "opening": {
+      "SYNC_HALF": {
+        "C": 0.5,
+        "N": 0.5
+      },
+      "N0_C1": {
+        "N": 0,
+        "C": 1
+      }
+    },
+    "placement": "one C and one N original work order, no copied opening; worker_cooling/flow meter at hx, worker_it/diagnostic tool at it; legal work and true route as in prior short engineering",
+    "laws": "take exact full original tuples/weights and observation/response rules from the accepted S/P engineering material. IDs never supplied to policies.",
+    "handling_of_resolved_actions": "fixed J/B opt-in receipt semantics with same paid prefix and shared escrow in every candidate; unresolved remains explicit"
+  },
+  "core_rows": [
+    {
+      "id": "A01",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A02",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A03",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A04",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A05",
+      "public_law": "EX50",
+      "opening": "N0_C1",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_OPEN",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A06",
+      "public_law": "EX50",
+      "opening": "N0_C1",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_OPEN",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A07",
+      "public_law": "EX50",
+      "opening": "N0_C1",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_OPEN",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "A08",
+      "public_law": "EX50",
+      "opening": "N0_C1",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_OPEN",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "B01",
+      "public_law": "COZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 4,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "B02",
+      "public_law": "COZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 1,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "B03",
+      "public_law": "COZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 4,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_ORDER"
+      ]
+    },
+    {
+      "id": "B04",
+      "public_law": "COZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 1,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_ORDER"
+      ]
+    },
+    {
+      "id": "B05",
+      "public_law": "EXZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "B06",
+      "public_law": "EXZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        2
+      ],
+      "filter": 1,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "B07",
+      "public_law": "EXZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_ORDER"
+      ]
+    },
+    {
+      "id": "B08",
+      "public_law": "EXZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 1,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "arms": [
+        "J",
+        "B",
+        "J_ORDER"
+      ]
+    },
+    {
+      "id": "C01",
+      "public_law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "positive_probe",
+      "N_expiry": 12,
+      "reason": "same-low-effective / configuration-limited",
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "C02",
+      "public_law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 1,
+      "rectifier_input_W": 550000,
+      "storage": 1,
+      "N_write": "positive_probe",
+      "N_expiry": 12,
+      "reason": "same-low-effective / supply-limited",
+      "arms": [
+        "J",
+        "B",
+        "J_NO_PROBE"
+      ]
+    },
+    {
+      "id": "C03",
+      "public_law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 550000,
+      "storage": 1,
+      "N_write": "positive_probe",
+      "N_expiry": 12,
+      "reason": "joint low supply and low configured limit, outside N_EQ support",
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "C04",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 0.25,
+      "N_write": "standard",
+      "N_expiry": 12,
+      "reason": "storage masks common service, outside EX50 support",
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "C05",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 1.75,
+      "reason": "earliest N direct completion equals write expiry",
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "C06",
+      "public_law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        60,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "standard",
+      "N_expiry": 2,
+      "reason": "write expiry one public tick later",
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "C07",
+      "public_law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        30.75,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "positive_probe",
+      "N_expiry": 12,
+      "reason": "declared complete N paid branch 1/4 person-second short",
+      "arms": [
+        "J",
+        "B"
+      ]
+    },
+    {
+      "id": "C08",
+      "public_law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        31,
+        60,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "N_write": "positive_probe",
+      "N_expiry": 12,
+      "reason": "declared complete N paid branch at exact person upper bound",
+      "arms": [
+        "J",
+        "B"
+      ]
+    }
+  ],
+  "paired_physical_gate": "Audit to first real manual physical effect t*, then across all common physical effects through the first differing effective physical input tDelta-minus. Compare both sides of common events. If effective histories agree throughout, verify to H; no artificial synchronization.",
+  "tie_precedence": "After per-arm H coverage, conservation, physical prefix eligibility and <=1e-8 absolute rate/balance reconciliation, identical coalesced full-window demand and delivery curves have tie priority, retaining native roundoff. Other cases require both ledgers/both outcomes zero, or all strict in the same direction; otherwise unresolved.",
+  "schema": "aegisdc-cold-phase-three-v2",
+  "state": "COLD_PROTOCOL_REVISED_FOR_PRELAUNCH_REVIEW",
+  "supersedes_cold_revision": "8a806a9af41576b551489c5859ca3bc2a8ba5afe",
+  "planned_study_limits": {
+    "conditions": 24,
+    "primary_pairs": 24,
+    "opening_pairs": 4,
+    "inspection_pairs": 10,
+    "order_pairs": 4,
+    "facility_arms": 66,
+    "internal_policy_calls": 3234,
+    "jobs": 24,
+    "one_cpu_seconds_per_job": 300,
+    "Gib_per_job": 4,
+    "total_reserved_CPU_s": 7200
+  },
+  "warm_included": false,
+  "actual_study_calls": 0
+}

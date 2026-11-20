@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "TERMINAL_CLOSEOUT_AND_STAGE_THREE_CANDIDATE_DELIVERED",
+  "status": "COLD_PHASE_THREE_LIMITED_ENGINEERING_ACTIVE",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_TERMINAL_CLOSEOUT_AND_STAGE_THREE_PROTOCOL",
+  "current_milestone": "FREEZE_COLD_ENGINEERING_COVERAGE_AND_INDEPENDENT_ORACLES",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "TERMINAL_AND_PROTOCOL_REVIEW",
+  "agent_stage": "BOUNDED_ENGINEERING",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,10 +43,13 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "NONE",
+    "automatic_goal": "BOUNDED_ENGINEERING",
     "research_execution": "CLOSED",
-    "authorized_scope": [],
-    "after_delivery": "STOP_AT_TERMINAL_CLOSEOUT_AND_STAGE_THREE_PROTOCOL_REVIEW",
+    "authorized_scope": [
+      "revise cold protocol and materialize review-only manifest",
+      "finite H12 engineering under separate capped schedule, no retries"
+    ],
+    "after_delivery": "STOP_AT_COLD_RESEARCH_LAUNCH_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -1952,7 +1955,7 @@
     "complete_stage_two_qualification": false
   },
   "v6_joint_terminal_v1": {
-    "status": "FINITE_PUBLIC_CLOSEOUT_DELIVERED_PENDING_REVIEW",
+    "status": "USER_ACCEPTED_FINITE_TERMINAL_PUBLIC_INTERFACE",
     "contract": "docs/mainline/v6-joint-terminal-v1/terminal-contract.md",
     "report": "docs/mainline/v6-joint-terminal-v1/README.md",
     "results": "docs/mainline/v6-joint-terminal-v1/result.json",
@@ -1985,7 +1988,8 @@
     "new_studies": 0,
     "complete_stage_two_qualified": false,
     "complete_dual_step_qualified": false,
-    "user_acceptance_pending": true
+    "user_acceptance_pending": false,
+    "acceptance": "docs/mainline/v6-joint-terminal-v1/acceptance-20261121.json"
   },
   "v6_stage_three_candidate_v1": {
     "status": "WRITTEN_CANDIDATE_PENDING_USER_REVIEW",
