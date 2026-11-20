@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "STAGE_TWO_JOINT_CONTRACT_DELIVERED_FOR_REVIEW",
+  "status": "STAGE_TWO_JOINT_ENGINEERING_ACTIVE",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_JOINT_COOLING_NETWORK_CONTRACT",
+  "current_milestone": "FREEZE_AND_QUALIFY_JOINT_PACKAGE",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "STAGE_TWO_CONTRACT_REVIEW",
+  "agent_stage": "BOUNDED_ENGINEERING",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,12 +43,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "DOCUMENTATION_ONLY",
+    "automatic_goal": "BOUNDED_ENGINEERING",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "Register stage-one acceptance and deliver a single stage-two contract and bounded engineering plan."
+      "Stage-two joint engineering F0–F7 only, once, under the accepted finite ceilings"
     ],
-    "after_delivery": "STOP_AT_STAGE_TWO_CONTRACT_REVIEW",
+    "after_delivery": "STOP_AT_STAGE_TWO_ENGINEERING_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -1879,7 +1879,7 @@
     "acceptance": "docs/mainline/v6-native-method-study-v1/acceptance-20261120.json"
   },
   "v6_joint_cooling_network_v1": {
-    "status": "WRITTEN_CONTRACT_PENDING_USER_REVIEW",
+    "status": "AUTHORIZED_LIMITED_IMPLEMENTATION_AND_QUALIFICATION",
     "contract": "docs/mainline/v6-joint-cooling-network-v1/README.md",
     "basis": "docs/mainline/v6-joint-cooling-network-v1/causal-basis.md",
     "engineering_plan": "docs/mainline/v6-joint-cooling-network-v1/engineering.json",
@@ -1893,11 +1893,13 @@
     "proposed_public_snapshot_units": 13,
     "proposed_component_units": 25,
     "budget_transferred_from_stage_one": 0,
-    "implementation_authorized": false,
-    "qualification_authorized": false,
+    "implementation_authorized": true,
+    "qualification_authorized": true,
     "stage_three_authorized": false,
     "independent_confirmation_authorized": false,
-    "user_acceptance_pending": true,
-    "delivery_integrity": "docs/mainline/v6-joint-cooling-network-v1/integrity.json"
+    "user_acceptance_pending": false,
+    "delivery_integrity": "docs/mainline/v6-joint-cooling-network-v1/integrity.json",
+    "accepted_contract_revision": "08eed614a77382672ef94c0fb4d9f2f2ce874890",
+    "execution_package": "docs/mainline/v6-joint-engineering-v1/time-and-authority.md"
   }
 }
