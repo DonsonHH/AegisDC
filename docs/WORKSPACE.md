@@ -2,13 +2,13 @@
 
 本页是代码和文件导航；研究状态仍以 [MAINLINE](MAINLINE.md)、[progress.json](mainline/progress.json)和票面为准。维护记录见 [2026-11-12 整理](maintenance/20261112-workspace/README.md)。
 
-当前方法入口是[完整设施主方法与实施承接说明](mainline/full-facility-method-handoff.md)。它将原生八域运行、证据、价值比较、人员执行和业务评价连到同一设施决策。伦敦 PRE 工作稿保留为有效性验证章节材料。[原版 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [有限验收与字体说明](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
+研究阶段与工包索引见[完整设施总路线](mainline/master-roadmap.md)。方法定义见[完整设施主方法与实施承接说明](mainline/full-facility-method-handoff.md)。它将原生八域运行、证据、价值比较、人员执行和业务评价连到同一设施决策。伦敦 PRE 工作稿保留为有效性验证章节材料。[原版 PDF](mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [有限验收与字体说明](mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
 
 ## 从哪里进入
 
 | 目的 | 入口 |
 |---|---|
-| 了解全设施方法、可承接能力及推荐的首片 | [主方法与实施承接](mainline/full-facility-method-handoff.md) · [伦敦验证关卡](mainline/review-gated/plan.md) |
+| 查看全设施方法、可承接能力及首片结果 | [主方法与实施承接](mainline/full-facility-method-handoff.md) · [原生首片结果](mainline/v6-native-method-study-v1/README.md) · [伦敦验证关卡](mainline/review-gated/plan.md) |
 | 查看当前主线状态 | `python -m aegis_dc status`；安装后也可用 `aegis-dc status` |
 | 看完整设施的场景契约 | `src/aegis_dc/scenario.py`、`configs/full-facility-mainline-reserve-v6.json` |
 | 修改设施行为 | `src/aegis_dc/plant.py` 与对应物理模块 |

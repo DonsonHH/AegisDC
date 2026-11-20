@@ -2,11 +2,11 @@
 
 AegisDC 研究完整算力设施在多系统耦合、多源稀疏证据下，如何形成风险问题，按需核查并受约束地处置和复核，以及固定策略、普通自改进与 RSI 各能贡献什么。原生研究对象是郑州工程参照启发的八域合成设施。Google 事故承担方法论文的有限有效性验证。
 
-**主方法与实施入口**　[统一方法、能力映射及推荐首片](docs/mainline/full-facility-method-handoff.md) · [当前主线](docs/MAINLINE.md) · [进度账](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md)
+**研究入口**　[六阶段总路线](docs/mainline/master-roadmap.md) · [当前主线](docs/MAINLINE.md) · [进度账](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md)
 
 ## 当前状态
 
-**本轮交付完整方法的书面承接。** 推荐首先在原 V6 连接取水低流量工单的风险／行动价值选择与既有清滤、复检和业务评价链，实际实现与运行以随后明确的工作包为准。伦敦 PRE 的 R6 v1.3 已作为验证章节的阶段材料有限接受。[11 月 3 日定位](docs/meetings/2026-11-03-research-reset.md) · [完整设施 ADR](docs/adr/0003-complete-facility-mainline.md) · [伦敦阶段稿原版 PDF](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/manuscript.pdf) · [有限验收](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
+完整八域设施上的首次原生比较已按一次性授权封存，17 个条件、85 个处理位置齐全，停在集中验收点。方法定义及后续研究边界见总路线。伦敦 PRE 的 R6 v1.3 继续作为有限事故验证章节。[本批结果](docs/mainline/v6-native-method-study-v1/README.md) · [原生方法说明](docs/mainline/full-facility-method-handoff.md) · [伦敦章节有限验收](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

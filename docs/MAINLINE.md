@@ -8,7 +8,7 @@
 
 在同一完整设施、外生需求、合法证据获取机会和人员／工具预算下，问题触发的证据选择与受约束行动能否改善服务保障？固定改进器的付费反馈能否改进策略，真正修改后续提案程序能否超过同预算强搜索及固定父、固定子？[11 月 3 日研究定位](meetings/2026-11-03-research-reset.md) · [完整设施 ADR](adr/0003-complete-facility-mainline.md)
 
-用户已接受 69bc0a52 的有限启动准备，并明确授权对精确 manifest 完成一次 V6 原生比较。本轮按 17 条件、85 个位置、固定 V/D/K/H/P 顺序、零重试及原停止规则交集中验收。[启动准备验收](mainline/v6-native-research-launch-v1/acceptance-20261120.json) · [最终 manifest](mainline/v6-native-research-launch-v1/research-manifest.json) · [当前进度](mainline/progress.json)
+原生首片已按一次性授权完成并封存。17 个条件、85 次运行、1,700 个公开决定、131 次人工发行，重试 0。V–D 全部 17 行实际服务持平，V 的资源较少／相同／较多为 3／9／5 行，三项省工均伴随关闭损失。当前停在集中验收点，后继联合方法尚待单独授权。[本批研究报告](mainline/v6-native-method-study-v1/README.md) · [逐臂观测](mainline/v6-native-method-study-v1/per-condition.md) · [唯一授权](mainline/authorizations/v6-native-method-study-v1.json)
 
 ## 事故验证章节保留的 R0–R6 记录
 

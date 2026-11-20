@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_FIRST_SLICE_ONE_RUN_AUTHORIZED",
+  "status": "V6_NATIVE_FIRST_SLICE_STUDY_DELIVERED_FOR_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "PUBLISH_AND_CONSUME_ONE_FROZEN_RESEARCH_GRANT",
+  "current_milestone": "STOP_AT_NATIVE_STUDY_CONSOLIDATED_REVIEW",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "FIRST_NATIVE_RESEARCH_COMPARISON",
+  "agent_stage": "CONSOLIDATED_STUDY_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -32,16 +32,23 @@
       "physical": 216,
       "logical": 324,
       "separate_from_earlier_condition_triplet_counts": true
+    },
+    "native_first_slice": {
+      "scope": "Distinct from the earlier London 19 and 35 triplets and legacy runs",
+      "conditions": 17,
+      "paired_five_arm_groups": 17,
+      "arm_runs": 85,
+      "provenance": "docs/mainline/v6-native-method-study-v1/result.json"
     }
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "ONLY_THIS_ONE_FROZEN_RESEARCH_BATCH",
-    "research_execution": "AUTHORIZED_ONCE_FOR_NATIVE_FIRST_SLICE",
+    "automatic_goal": "STOP_AT_CONSOLIDATED_REVIEW",
+    "research_execution": "CLOSED_AFTER_ONE_COMPLETED_NATIVE_COMPARISON",
     "authorized_scope": [
-      "One native study under manifest 59080339a1846f242e0b8664e80a59b91ac623c768010ad1652e7d648c3b3301; frozen stop rules and no retry."
+      "One approved native study was consumed and sealed. No further research or successor implementation authorized."
     ],
-    "after_delivery": "STOP_AT_CONSOLIDATED_REVIEW",
+    "after_delivery": "STOP_FOR_USER_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +78,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": "docs/mainline/v6-native-research-launch-v1/research-manifest.json"
+    "current_execution_manifest": null
   },
   "gates": [
     {
@@ -217,13 +224,7 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [
-    {
-      "branch": "donson/mainline-39c-endpoints",
-      "scope": "One frozen native comparison, no changes to methods or launcher",
-      "activity": "V6-native-method-study-v1"
-    }
-  ],
+  "active_implementations": [],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1808,16 +1809,17 @@
     "surrogate_arm_processes": 12,
     "real_facility_calls": 0,
     "actual_public_policy_calls": 0,
-    "research_consumed": false,
-    "actual_study_submissions": 0,
-    "study_positions_pending": 85,
+    "research_consumed": true,
+    "actual_study_submissions": 17,
+    "study_positions_pending": 0,
     "next_stage_auto_start": false,
     "accepted_publication": "69bc0a52677d541e5726db1a919b743287887ca5",
-    "acceptance": "docs/mainline/v6-native-research-launch-v1/acceptance-20261120.json"
+    "acceptance": "docs/mainline/v6-native-research-launch-v1/acceptance-20261120.json",
+    "readiness_snapshot": "At 69bc0a52 actual study starts and consumptions were zero; the accepted historical receipt remains unchanged."
   },
   "master_roadmap": "docs/mainline/master-roadmap.md",
   "v6_native_study_v1": {
-    "status": "AUTHORIZED_ONCE_PENDING_CONSUMPTION",
+    "status": "SEALED_FULL_PANEL_DELIVERED_FOR_CONSOLIDATED_REVIEW",
     "manifest": "docs/mainline/v6-native-research-launch-v1/research-manifest.json",
     "manifest_sha256": "59080339a1846f242e0b8664e80a59b91ac623c768010ad1652e7d648c3b3301",
     "grant": "docs/mainline/authorizations/v6-native-method-study-v1.json",
@@ -1831,6 +1833,47 @@
       "retries": 0
     },
     "after": "STOP_AT_CONSOLIDATED_REVIEW",
-    "future_stage_authorized": false
+    "future_stage_authorized": false,
+    "approval_revision": "288c325fcba196c0eab3426a0e10730d13d77bd0",
+    "grant_consumed": true,
+    "uses_consumed": 1,
+    "controller_exit": "0",
+    "accepted_readiness": "69bc0a52677d541e5726db1a919b743287887ca5",
+    "report": "docs/mainline/v6-native-method-study-v1/README.md",
+    "results": "docs/mainline/v6-native-method-study-v1/result.json",
+    "per_condition": "docs/mainline/v6-native-method-study-v1/per-condition.md",
+    "panel_sha256": "0ceeaccd09b3c2461d7beaea860fd8ff1fde683bdfa30b04aa7cbce4b023398a",
+    "actual": {
+      "conditions": 17,
+      "physical_backgrounds": 5,
+      "instances_per_arm": 18,
+      "arm_starts": 85,
+      "valid_returns": 85,
+      "public_decisions": 1700,
+      "manual_issues": 131,
+      "serial_jobs": 17,
+      "reserved_cpu_seconds": 2040,
+      "retries": 0,
+      "unexecuted_positions": 0
+    },
+    "main_comparison": {
+      "arm": "D",
+      "compliant_pairs": 17,
+      "same_actual_service": 17,
+      "resources_less_equal_more": [
+        3,
+        9,
+        5
+      ],
+      "pure_service_improvement": false,
+      "service_and_closure": false,
+      "resources_on_equal_service": false
+    },
+    "VH_consistency_pairs": 17,
+    "user_acceptance_pending": true,
+    "next_implementation_authorized": false,
+    "ordinary_improvement_authorized": false,
+    "RSI_authorized": false,
+    "independent_confirmation_authorized": false
   }
 }
