@@ -1,0 +1,582 @@
+{
+  "schema": "aegisdc-intake-expiry-closeout-freeze-v1",
+  "baseline": "a1adc22cb5fe2a23d6b30185187054bd6dd98ea2",
+  "status": "POST_REVIEW_REVISION_BEFORE_NEW_QUALIFICATION",
+  "spec_sha256": "e59e2e986c91a788e0fdc94554d85e326193bc5fc2b1d5eb82db1794300fd118",
+  "authoring_tool_sha256": "a19901cc284e6c49e7080f87e1790e9854231f61a45fe01cbd008f90893163b4",
+  "public_source_sha256": {
+    "evidence/mainline/engineering/39c-development/slice-53/green/joint/public-decisions.json": "469099b35f710bb27e84d2fb28ba11c458e97ed9d5decc98e5dc5f6810f901fe",
+    "docs/mainline/v6-intake-engineering-v1/inputs.json": "6dcc5feae07b967acbe85eee3dda38cfc078fcd037376051a8c0d040165688e8",
+    "docs/mainline/v6-intake-engineering-v1/expected.json": "33baa3a7116fd81330f3f475b1e81066f2eab52fb57831339dd043c8cba82c67",
+    "docs/mainline/v6-intake-engineering-v1/manifest.json": "33adfd222260718279d6d76e6e413f2dbb39545f2d85259311d28accdee23044",
+    "docs/mainline/v6-intake-engineering-v1/input-binding-addendum.json": "2879b25a6e8c820d3336bc6387e5817b060b32c4f858301c53b9faf90fd172c2",
+    "docs/mainline/v6-intake-engineering-v1/independent-values.json": "500f2f93cb2d980c08810c3aaa86ee49ca0a827520460e86c74c81ace680b037",
+    "docs/mainline/v6-intake-engineering-v1/result.json": "f782741bb2bd964b1579ce1debeb0dc9e52035c4429247a6f2004f472834c036",
+    "docs/mainline/v6-intake-engineering-v1/attempts.json": "b08fd37782f225759b96c8d84adf9e7b9df834e9aa2811add10df297c789b0a9",
+    "docs/mainline/v6-intake-engineering-v1/integrity.json": "88a3de777ac4db2b2f5fc028375abe474c5a9384c58b2084bb57c97b4d15f9ad"
+  },
+  "initial_public_arguments": {
+    "frame": [
+      "evidence/mainline/engineering/39c-development/slice-53/green/joint/public-decisions.json",
+      [
+        0,
+        "frame"
+      ]
+    ],
+    "history": [
+      "evidence/mainline/engineering/39c-development/slice-53/green/joint/public-decisions.json",
+      [
+        0,
+        "history"
+      ]
+    ],
+    "program": [
+      "docs/mainline/v6-intake-engineering-v1/inputs.json",
+      [
+        "common",
+        "dispatch_program",
+        "policy_program"
+      ]
+    ],
+    "closure_program": [
+      "docs/mainline/v6-intake-engineering-v1/inputs.json",
+      [
+        "common",
+        "dispatch_program",
+        "closure_program"
+      ]
+    ]
+  },
+  "canonicalization": "JSON UTF-8, ensure_ascii=true, sorted object keys, compact separators, no NaN. Apply listed path/value replacements in order to a deep copy of the four base arguments.",
+  "public_entry": "aegis_dc.dispatch_policy.choose_work(frame, program, history, intervention_declaration=program.intervention_declaration, closure_program=closure_program)",
+  "new_public_witnesses": [
+    {
+      "id": "T1",
+      "replace": [
+        [
+          [
+            "program",
+            "inspection_declaration",
+            "bindings",
+            0,
+            "validity_s"
+          ],
+          0.75
+        ]
+      ],
+      "public_arguments_sha256": "c399a366ab73325ef055c7ce0b404b93fefe2f6e136187d3a02015540ba1943c",
+      "literal": {
+        "instance": "cooling-direct/question-0",
+        "as_of_s": 0,
+        "root": "MEASURE",
+        "intention": "cooling-direct/inspect-0",
+        "forecast_inspection_finish_s": 3.25,
+        "forecast_report_s": 3.75,
+        "declared_work_ack_s": 3.75,
+        "half_open_end_s": 4,
+        "first_legal_decision_s": 3.75,
+        "inspection_feasible": true,
+        "inspection_blockers": [],
+        "contingent_chain_feasible": true,
+        "contingent_chain_blockers": [],
+        "direct_feasible": true,
+        "direct_recheck_planned_issue_s": 3.75,
+        "common_continuation": {
+          "LOW": "ACT",
+          "NORMAL": "DEFER"
+        }
+      }
+    },
+    {
+      "id": "T2",
+      "replace": [
+        [
+          [
+            "program",
+            "inspection_declaration",
+            "bindings",
+            0,
+            "validity_s"
+          ],
+          0.5
+        ]
+      ],
+      "public_arguments_sha256": "2f523188a7978f4f8c0e0a2500a0a79feeb4c91be514f60ebea95afef258dcf8",
+      "literal": {
+        "instance": "cooling-direct/question-0",
+        "as_of_s": 0,
+        "root": "DIRECT",
+        "intention": "cooling-direct/action-0",
+        "forecast_inspection_finish_s": 3.25,
+        "forecast_report_s": 3.75,
+        "declared_work_ack_s": 3.75,
+        "half_open_end_s": 3.75,
+        "first_legal_decision_s": 3.75,
+        "inspection_feasible": false,
+        "inspection_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "contingent_chain_feasible": false,
+        "contingent_chain_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "direct_feasible": true,
+        "direct_recheck_planned_issue_s": 3.75,
+        "common_continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        }
+      }
+    },
+    {
+      "id": "T3",
+      "replace": [
+        [
+          [
+            "program",
+            "inspection_declaration",
+            "bindings",
+            0,
+            "validity_s"
+          ],
+          0.75
+        ],
+        [
+          [
+            "program",
+            "workforce_profile",
+            "feedback_latency_s"
+          ],
+          1
+        ]
+      ],
+      "public_arguments_sha256": "9234b8c6980887d298315b8ac4f2d3be7565844dbd9f0bf8169ec0411b15d911",
+      "literal": {
+        "instance": "cooling-direct/question-0",
+        "as_of_s": 0,
+        "root": "DIRECT",
+        "intention": "cooling-direct/action-0",
+        "forecast_inspection_finish_s": 3.25,
+        "forecast_report_s": 3.75,
+        "declared_work_ack_s": 4.25,
+        "half_open_end_s": 4,
+        "first_legal_decision_s": 4.5,
+        "inspection_feasible": false,
+        "inspection_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "contingent_chain_feasible": false,
+        "contingent_chain_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "direct_feasible": true,
+        "direct_recheck_planned_issue_s": 4.5,
+        "common_continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        }
+      }
+    },
+    {
+      "id": "T4",
+      "replace": [
+        [
+          [
+            "program",
+            "inspection_declaration",
+            "bindings",
+            0,
+            "validity_s"
+          ],
+          0.75
+        ],
+        [
+          [
+            "program",
+            "value_model",
+            "clock_s"
+          ],
+          [
+            0,
+            0.5,
+            1,
+            2,
+            3.25,
+            4,
+            4.5,
+            5,
+            5.5,
+            5.75,
+            6,
+            6.5,
+            6.75,
+            7,
+            7.25,
+            7.5,
+            8,
+            9,
+            10
+          ]
+        ]
+      ],
+      "public_arguments_sha256": "2ed8a22aaa5ee580dc646177a4d36044637413140a52c0c6bc65b0a2b9edfa84",
+      "literal": {
+        "instance": "cooling-direct/question-0",
+        "as_of_s": 0,
+        "root": "DIRECT",
+        "intention": "cooling-direct/action-0",
+        "forecast_inspection_finish_s": 3.25,
+        "forecast_report_s": 3.75,
+        "declared_work_ack_s": 3.75,
+        "half_open_end_s": 4,
+        "first_legal_decision_s": 4,
+        "inspection_feasible": false,
+        "inspection_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "contingent_chain_feasible": false,
+        "contingent_chain_blockers": [
+          "REPORT_EXPIRED_AT_DECISION"
+        ],
+        "direct_feasible": true,
+        "direct_recheck_planned_issue_s": 4,
+        "common_continuation": {
+          "LOW": "DEFER",
+          "NORMAL": "DEFER"
+        }
+      }
+    }
+  ],
+  "original_acceptance": {
+    "accepted_facility_units": [
+      "measure-low",
+      "measure-normal",
+      "direct",
+      "defer",
+      "delayed-order",
+      "copy-and-competition",
+      "budget-fee",
+      "budget-person",
+      "budget-tool",
+      "recheck-window",
+      "expiry",
+      "unavailable-read",
+      "conflict",
+      "variant-disagreement",
+      "persistent-bottleneck",
+      "matched-protection",
+      "old-v2",
+      "old-expiring-authority"
+    ],
+    "accepted_unit_assertions": [
+      309,
+      309
+    ],
+    "original_full_units": 19,
+    "original_full_assertions": [
+      316,
+      325
+    ],
+    "unmatched_unit": "expired-read",
+    "unmatched_unit_assertions": [
+      7,
+      16
+    ],
+    "accepted_interfaces": [
+      "cross-threshold",
+      "outside-support",
+      "outside-model",
+      "unknown-version",
+      "wrong-channel"
+    ],
+    "accepted_pair_count": 3
+  },
+  "saved": {
+    "prior_activity": "/share/home/renly/renly-patrol-rsi/mainline/V6-intake-20261120",
+    "native_objects": {
+      "expired-read": {
+        "attempt": "green03",
+        "row": "expired-read",
+        "run_sha256": "19bb19c0a8c163c132b03f31d9bce35ac0359494a2b952ad163f58be74702610",
+        "canonical_input_sha256": "19ba6fc57c39b71f3e6e1d135c67d0371d5936be7bca3e8d035690e4fc180f60",
+        "execution_revision": "6aaea863568f01728e3154ea82e34dc1cacd6998",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "direct": {
+        "attempt": "green02",
+        "row": "direct",
+        "run_sha256": "842ba736312b24c4f30ea2e3dc13622e806d787a8215c1e8eab3c523a30747b3",
+        "canonical_input_sha256": "0886fa4b18bd021f24f0a7d059e36c26e3d65720442ddfcb05a26f3dd84d0fd4",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "budget-fee": {
+        "attempt": "green02",
+        "row": "budget-fee",
+        "run_sha256": "0db95a44a8a2cbf3264997d9889b822b4b29aa3a54c8058f8a6273d6903b8642",
+        "canonical_input_sha256": "2ddb3fff5c8749e4ffaf3abf9e44d5967952a71d3e0586d236d2cfd0b1d0f783",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "budget-person": {
+        "attempt": "green02",
+        "row": "budget-person",
+        "run_sha256": "b3fe59d155141cf812fa4aacb63358d4a0c4bc89d23aba0e97c18afa6462b2c9",
+        "canonical_input_sha256": "79bcd110cc0bf78666e430ca904dab8a0750d8065312dd68db0180134d6dd91b",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "budget-tool": {
+        "attempt": "green02",
+        "row": "budget-tool",
+        "run_sha256": "9090e79540afc5fd31c61562f4ed555562bf9728eb8f5034ab8a56c241b025b6",
+        "canonical_input_sha256": "313ac4aabc64a05b1bfdc4892e67e80a112c09d90d1de5fa86c34e993f03445b",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "variant-disagreement": {
+        "attempt": "green02",
+        "row": "variant-disagreement",
+        "run_sha256": "d93cd551d2643e257df283cac7fdc302697d24adc144df4bb49899c5e254a233",
+        "canonical_input_sha256": "70219cc8c7b9b1f04874287189c755ef760a4d7b7840f81ebb62c8b19f8aa6e5",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "measure-low": {
+        "attempt": "green02",
+        "row": "measure-low",
+        "run_sha256": "2cd50562d9aea44bf4b03a6d1abe1665f626a64eeb21cd636220edd005f528b4",
+        "canonical_input_sha256": "084979f17798c416a3138e54fb9c9f63c056ca2ff29c1c8e9178156ce5c4d5a6",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "delayed-order": {
+        "attempt": "green02",
+        "row": "delayed-order",
+        "run_sha256": "669500b4b7e28bd7641829ee75f4dfb930f078e1994b0b2db6c55760a047e51d",
+        "canonical_input_sha256": "cb7398073072910db2a2348e0f8483ccc62a2a77492b6b8236a32c6dea8d9461",
+        "execution_revision": "534fbfa96fbc9d5d2a8023c2765a8752fa8bd190",
+        "runtime_tree_sha256": "1c2344befa6e943ab5318212c8f0d24ed9660c9ef1b92ace158ba546b8f80e3e"
+      },
+      "historical-receipt": {
+        "row": "expired-read",
+        "attempt": "green01",
+        "run_sha256": "96fc0f32e7145bf164c9193302b4731d146109794b07ed38d29ab41d57f14460",
+        "canonical_input_sha256": "19ba6fc57c39b71f3e6e1d135c67d0371d5936be7bca3e8d035690e4fc180f60",
+        "execution_revision": "75675e85d746496b89928b16a049b282302995d1"
+      }
+    },
+    "private_manifests": {
+      "green01": "68ff39a7441b79978ad4cc897fd949237638316b14c40f58150fe326465fc624",
+      "green02": "c71e6ee571976f57721cde9daeea873f62e8afec92cc1ae0d2ff7250cdb88e07",
+      "green03": "166fef5219dd08ec59bb3aa7844f2a568a2d3a9eea88757670089fa0a6105a0f"
+    },
+    "original_19_comparison": {
+      "path": "saved01/output/report.json",
+      "sha256": "2b974302e8df0a038cc8260cb91e5357dc8fe6ea283ca62234710bee74e3ef86"
+    },
+    "original_classifier_parts": {
+      "exact_numeric_conversion": "7ef06ea670e20d55762033a36db76d00794bcb804f2a5da9cdc927786b55a159",
+      "report_class": "34de2c582ed28ac19583430043fe53f3359dbb7bd3d99a83f68d3c0725279b8e",
+      "own_record_and_work_ack_before_supported_continuation": "05e399fad4037e0124c5e0654f948e2483ff94c61c3be5863a5c8d00ad0e2240"
+    },
+    "direct_route_companions": [
+      "direct",
+      "budget-fee",
+      "budget-person",
+      "budget-tool",
+      "variant-disagreement"
+    ],
+    "revised_expired_read": {
+      "order_id": "cooling-claim-0",
+      "first_choice": "DIRECT",
+      "first_intention": "cooling-direct/action-0",
+      "inspection_blockers": [
+        "REPORT_EXPIRED_AT_DECISION"
+      ],
+      "direct_plan_available": true,
+      "issued": [
+        [
+          "cooling-direct/action-0",
+          0
+        ],
+        [
+          "cooling-direct/recheck-0",
+          3.75
+        ]
+      ],
+      "completed": [
+        [
+          "cooling-direct/action-0",
+          3.25
+        ],
+        [
+          "cooling-direct/recheck-0",
+          5
+        ]
+      ],
+      "completed_acks": [
+        [
+          "cooling-direct/action-0",
+          3.25,
+          3.75
+        ],
+        [
+          "cooling-direct/recheck-0",
+          5,
+          5.5
+        ]
+      ],
+      "action_report": [
+        "cooling-direct/action-0",
+        "residual-clean",
+        "APPLIED",
+        3.25,
+        3.75
+      ],
+      "own_record": [
+        "flow-after-clean",
+        "portable-intake-meter",
+        "intake_pump",
+        "flow",
+        "m3/s",
+        5,
+        5.5,
+        10
+      ],
+      "frame_at_first_close": {
+        "condition_sample_s": [
+          6,
+          7
+        ],
+        "service_sample_s": [
+          6,
+          7
+        ],
+        "recheck_availability": "current"
+      },
+      "recheck_at_H": "expired",
+      "remaining_recheck_eligible": false,
+      "envelope": [
+        16.25,
+        16.25,
+        2
+      ],
+      "actual_person_tool": [
+        4.5,
+        4.5
+      ],
+      "paid_issue_cost": 2,
+      "service_deficit_s": 1,
+      "closure": {
+        "first_closed_s": 7.5,
+        "first_current_state": "VERIFIED_CLOSED",
+        "current_at_H": 10,
+        "current_state": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+        "risk_closed": false,
+        "question_closed": false,
+        "own_recheck_current_at_7_5": true,
+        "own_recheck_current_at_10": false,
+        "policy_reason_at_H": "RECHECK_ISSUED",
+        "last_intention": null,
+        "issued_recheck_count": 1,
+        "completed_recheck_count": 1,
+        "issues_since_first_close": []
+      }
+    },
+    "h10_direct_common": {
+      "first_closed_s": 7.5,
+      "first_current_state": "VERIFIED_CLOSED",
+      "current_at_H": 10,
+      "current_state": "SYMPTOM_RETREATED_PENDING_VERIFICATION",
+      "risk_closed": false,
+      "question_closed": false,
+      "own_recheck_current_at_7_5": true,
+      "own_recheck_current_at_10": false,
+      "policy_reason_at_H": "RECHECK_ISSUED",
+      "last_intention": null,
+      "issued_recheck_count": 1,
+      "completed_recheck_count": 1,
+      "issues_since_first_close": []
+    },
+    "historical_arrived": {
+      "inspection_work": [
+        [
+          "cooling-direct/inspect-0",
+          0,
+          3.25
+        ]
+      ],
+      "own_completion_ack": [
+        "cooling-direct/inspect-0",
+        3.25,
+        3.75
+      ],
+      "record": [
+        "flow-before-unused",
+        "portable-intake-meter",
+        "intake_pump",
+        "flow",
+        "m3/s",
+        3.25,
+        3.75,
+        3.75
+      ],
+      "availability": "expired",
+      "classification": "EXPIRED",
+      "next_intention": null,
+      "manual_followups": 0
+    },
+    "delayed_opportunity": {
+      "carried": [
+        "TOO_LATE",
+        0.5,
+        4.25,
+        4
+      ],
+      "actual_opened_s": 0.5,
+      "actual_work_ids": [],
+      "actual_handheld_records": [],
+      "reference_inspection": "cooling-direct/inspect-0",
+      "actual_anchor": [
+        0,
+        2,
+        2.25,
+        3.25,
+        3.75,
+        3.75
+      ],
+      "inferred_from_anchor": {
+        "finish_s": 3.75,
+        "report_s": 4.25,
+        "work_ack_s": 4.25,
+        "first_clock_s": 4.5,
+        "deadline_s": 4,
+        "status": "TOO_LATE"
+      }
+    }
+  },
+  "budget": {
+    "max_jobs": 3,
+    "max_seconds_per_job": 180,
+    "max_reserved_cpu_s": 540,
+    "cpu_per_job": 1,
+    "memory_MiB": 1024,
+    "concurrent_jobs": 1,
+    "gpus": 0,
+    "facility_invocations": 0,
+    "research_runs": 0,
+    "public_units": 4,
+    "initial_public_calls": 4,
+    "max_public_calls_total": 12,
+    "max_per_public_unit": 3
+  },
+  "stop": "One initial job with four independent public calls plus saved reconciliation. Each retry requires terminal accounting and an identified checker/staging repair; only affected or unexecuted units/reads, each at most three times. Stop on any needed policy/science/expected-value change, exhaustions or success. Preserve unique sources, failures, unexecuted suffixes and versions. No facility entry, no new physical trajectory.",
+  "durable": [
+    "acceptance/specification and freeze",
+    "pinned author/check/staging tools",
+    "input identifiers, source archive and interpreter",
+    "per-unit public arguments, returned choices and comparisons, prior raw file read receipts; job stdout/stderr and terminal state",
+    "compact result and final Git integrity receipt"
+  ]
+}
