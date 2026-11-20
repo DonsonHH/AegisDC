@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "NATIVE_COMPARISON_FINITE_ENGINEERING_AUTHORIZED",
+  "status": "NATIVE_COMPARISON_ENGINEERING_DELIVERED_FOR_FINITE_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "FINITE_ENGINEERING_ONLY",
+  "current_milestone": "STOP_AT_NATIVE_COMPARISON_FINITE_ENGINEERING_REVIEW",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "FREEZE_ENGINEERING_BEFORE_IMPLEMENTATION",
+  "agent_stage": "FINITE_ENGINEERING_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -36,12 +36,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "FINITE_ENGINEERING_ONLY",
+    "automatic_goal": "STOP_AT_FINITE_ENGINEERING_REVIEW",
     "research_execution": "CLOSED",
     "authorized_scope": [
-      "D/K native rules, five-arm process runner, saved evaluator, frozen bounded engineering witnesses."
+      "Finite engineering delivery only; no additional qualification or research runs authorized by this publication."
     ],
-    "after_delivery": "STOP_FOR_FINITE_ENGINEERING_REVIEW",
+    "after_delivery": "STOP_FOR_USER_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -71,7 +71,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": "docs/mainline/v6-native-comparison-qualification-v1/freeze.json"
+    "current_execution_manifest": null
   },
   "gates": [
     {
@@ -217,13 +217,7 @@
       "role_in_full_method_paper": "Finite validation chapter; the stage paper and its bounded acceptance remain valid."
     }
   ],
-  "active_implementations": [
-    {
-      "branch": "donson/mainline-39c-endpoints",
-      "scope": "native V6 comparison finite engineering",
-      "protocol": "53cc32b93dd62c8ce5ffd725eed9afba167557e5"
-    }
-  ],
+  "active_implementations": [],
   "review_decisions": [
     {
       "id": "20261112-R0-direction-R1-documents",
@@ -1747,10 +1741,46 @@
       "research_execution": false,
       "ordinary_improvement": false,
       "RSI": false,
-      "historical_budget_transfer": false
+      "historical_budget_transfer": false,
+      "scope": "Research gate after finite engineering delivery; no further executions automatically authorized."
     },
     "protocol_frozen_by_user": true,
     "accepted_revision": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
     "acceptance": "docs/mainline/v6-native-method-comparison-v1/acceptance-20261120.json"
+  },
+  "v6_native_comparison_engineering_v1": {
+    "status": "DELIVERED_AWAITING_REVIEW",
+    "protocol_revision": "53cc32b93dd62c8ce5ffd725eed9afba167557e5",
+    "original_engineering_freeze": "5836f0f1",
+    "initial_execution": "0f5db8c8",
+    "targeted_execution": "721d9662",
+    "report": "docs/mainline/v6-native-comparison-qualification-v1/README.md",
+    "results": "docs/mainline/v6-native-comparison-qualification-v1/result.json",
+    "scope_notes": "docs/mainline/v6-native-comparison-qualification-v1/evidence-scope.json",
+    "pending_research_manifest": "docs/mainline/v6-native-comparison-qualification-v1/research-manifest.json",
+    "unique_engineering_units": {
+      "public_interface": 27,
+      "facility": 11,
+      "substitution": 4
+    },
+    "actual_with_repetition": {
+      "direct_interface": 27,
+      "facility": 12,
+      "facility_decisions": 240,
+      "total_top_level_policy_calls": 267,
+      "substitutions": 4
+    },
+    "slurm_jobs": [
+      "134665",
+      "134666",
+      "134667"
+    ],
+    "reserved_cpu_seconds": 900,
+    "failed_initial_unit": "C01-V",
+    "original_failures_preserved": true,
+    "all_research_arms_pending": 85,
+    "new_research_arms_run": 0,
+    "RSI_authorized": false,
+    "user_acceptance_pending": true
   }
 }

@@ -8,7 +8,7 @@
 
 在同一完整设施、外生需求、合法证据获取机会和人员／工具预算下，问题触发的证据选择与受约束行动能否改善服务保障？固定改进器的付费反馈能否改进策略，真正修改后续提案程序能否超过同预算强搜索及固定父、固定子？[11 月 3 日研究定位](meetings/2026-11-03-research-reset.md) · [完整设施 ADR](adr/0003-complete-facility-mainline.md)
 
-V6 取水时效收尾已限定接受并结项。原 18 行 309/309、完整 19 行 316/325、过期行 7/16 及历史失败各保留原分母。当前交审的是完整设施原生比较协议：17 个已披露条件、5 个处理、5 种物理与外生背景；协议给出拟议预算和最小待补资格。当前研究执行额度为 0。[时效收尾验收](mainline/v6-intake-expiry-closeout-v1/acceptance-20261120.json) · [比较协议与能力差距 v1](mainline/v6-native-method-comparison-v1/README.md)
+V6 原生方法比较协议 53cc32b9 已接受并冻结。当前交审的是其有限工程资格：27 个直接公开接口见证、11 个不同设施位置、4 个评价／失败替身；首次失败及唯一一次定向修复分别留账。研究 manifest 保留 17 个条件、85 个待授权位置，本轮研究执行数为 0。原时效收尾的 309/309、316/325、7/16 按各自分母保留。[协议冻结](mainline/v6-native-method-comparison-v1/acceptance-20261120.json) · [有限工程交付](mainline/v6-native-comparison-qualification-v1/README.md) · [待授权研究清单](mainline/v6-native-comparison-qualification-v1/research-manifest.json)
 
 ## 事故验证章节保留的 R0–R6 记录
 
