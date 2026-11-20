@@ -1,0 +1,3927 @@
+{
+  "schema": "aegisdc-terminal-interface-finite-closeout-v1",
+  "status": "DELIVERED_AWAITING_USER_REVIEW",
+  "accepted_original": "b6d45dad087034b7cda720ee8b62b73d8bb0f524",
+  "original_acceptance": "docs/mainline/v6-joint-engineering-v1/acceptance-20261121.json",
+  "freeze_revision": "64adc697",
+  "frozen_fixtures_sha256": "29c4b8b95313664f6246abbda0b06eb6ed5d91c603ca8af9f5a1661386a9a970",
+  "execution_releases": "execution-releases.json",
+  "activity": "/share/home/renly/renly-patrol-rsi/mainline/V6-joint-terminal-20261121",
+  "phases": {
+    "T0": {
+      "allocation": {
+        "job_id": "134696",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_raw_s": 0,
+        "cpus": 1,
+        "memory": "1G",
+        "seconds_reserved": 300,
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-21T00:16:16",
+        "end": "2026-11-21T00:16:16"
+      },
+      "receipt_sha256": "2efd42a585e3dac8e789578ec48c7a5e21ab7c0eea87b6f75266e8f70791aeca",
+      "phase": "T0",
+      "job": "134696",
+      "status": "RED_REPRODUCED",
+      "source_revision": "803890f77deeaab608c52868b51944fd29ef3c5d",
+      "release_sha256": "811c61471bc4b876592fa5a54e4370f0e71538089f8f4bb2d2aa823b6962eaf0",
+      "fixtures_sha256": "29c4b8b95313664f6246abbda0b06eb6ed5d91c603ca8af9f5a1661386a9a970",
+      "counts": {
+        "policy": 2,
+        "component": 5,
+        "combined": 7,
+        "facility": 0,
+        "thermal": 0,
+        "research": 0
+      },
+      "rows": [
+        {
+          "unit": "A01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 2,
+          "actual": {
+            "value": [
+              "safety_stop_observed",
+              0.75,
+              1,
+              null
+            ]
+          },
+          "expected": {
+            "value": [
+              "safety_stop_observed",
+              0.75,
+              1,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "111bb2fa431f04050e84f37a798b010fd650636a7f79945034b22746800a4868",
+          "input_sha256": "7e5361ee80ab49cc06269c8c7196e9b14b66fe78e4da8b893951b42f3dd0898f"
+        },
+        {
+          "unit": "A02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 2,
+          "actual": {
+            "value": [
+              "queued",
+              0.75,
+              1,
+              null
+            ]
+          },
+          "expected": {
+            "value": [
+              "queued",
+              0.75,
+              1,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "b096fa2953505593134d9789d8d97407b5ab68906e51f7ec8ede564ec5545744",
+          "input_sha256": "ea7eb0c6882f551704b8c766ea01193c0dc4994fb6481a971c1ab4350a06ac1d"
+        },
+        {
+          "unit": "A06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 2,
+          "actual": {
+            "value": [
+              "completed",
+              1.25,
+              2.25,
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "value": [
+              "completed",
+              1.25,
+              2.25,
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "7a90b59253c9dc2b6615e6c1705478cae5ca6cbe00540d316d61de38b076483d",
+          "input_sha256": "d997956443c81fc6b62e0d636ec250f4f35cc7587041b9c9e7651061ad6ef3e2"
+        },
+        {
+          "unit": "A07",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 2,
+          "actual": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "3a3fbe7705879bb47897d5b9dbfcd121a7f9a5edc5abceeb248b007b417a7893",
+          "input_sha256": "70f7e0641fec2e08205a68242b08f5d9fa913468bb2f2ed07480a2fad1e0dc35"
+        },
+        {
+          "unit": "X01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 2,
+          "actual": {
+            "value": [
+              "NO_EFFECT",
+              0.75,
+              1
+            ]
+          },
+          "expected": {
+            "value": [
+              "NO_EFFECT",
+              0.75,
+              1
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "23e2202d7c6983dc58a449240974229ede10a5e2c26dcca929cc2e4303a88246",
+          "input_sha256": "02a4b636121da6b618f3616b37b1fc6e459b0f4da3b7d63a6c4a503a3f20a405"
+        },
+        {
+          "unit": "B01-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 1,
+            "planned_end": 4.25,
+            "C_admitted": true,
+            "C_required": [
+              30.25,
+              30.25,
+              3
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [],
+            "reserve": 0,
+            "C_required": [
+              30.25,
+              30.25,
+              3
+            ],
+            "C_admitted": true
+          },
+          "differences": [],
+          "raw_sha256": "1b86fff8c54840ac15c47196b621bb456d1385b94b03fc2176be36a060d06198",
+          "input_sha256": "12daf0f817b8d7521ff71cd5e9e4cb816d2d71d6d6f77b1dfdabd45c71f8b08f"
+        },
+        {
+          "unit": "B01-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 1,
+            "planned_end": 4.25,
+            "C_admitted": true,
+            "C_required": [
+              30.25,
+              30.25,
+              3
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [],
+            "reserve": 0,
+            "C_required": [
+              30.25,
+              30.25,
+              3
+            ],
+            "C_admitted": true
+          },
+          "differences": [],
+          "raw_sha256": "1b86fff8c54840ac15c47196b621bb456d1385b94b03fc2176be36a060d06198",
+          "input_sha256": "366e22bad21db9a6e64af4d77aa5e5107a2b7a2ff344256d31c5961f0c2903eb"
+        }
+      ],
+      "failed": [],
+      "unexecuted": [],
+      "actual_assertions": 22
+    },
+    "T1": {
+      "allocation": {
+        "job_id": "134697",
+        "partition": "cu",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "elapsed_raw_s": 0,
+        "cpus": 1,
+        "memory": "1G",
+        "seconds_reserved": 300,
+        "allocated_tres": "billing=1,cpu=1,node=1",
+        "node": "cu02",
+        "start": "2026-11-21T00:30:45",
+        "end": "2026-11-21T00:30:45"
+      },
+      "receipt_sha256": "73724984bfa401caea6da33f02a7c08cdc69e5965d61a7b398f4d618e41ad5b8",
+      "phase": "T1",
+      "job": "134697",
+      "status": "FINITE_SCOPE_PASS",
+      "source_revision": "2acfb9803b7781b3f9820d13eb86ab50131217c3",
+      "release_sha256": "48b6789a279841fa97aa373cbb5bd7549b86607b321ef6bc669331855b39b7cc",
+      "fixtures_sha256": "29c4b8b95313664f6246abbda0b06eb6ed5d91c603ca8af9f5a1661386a9a970",
+      "counts": {
+        "policy": 28,
+        "component": 73,
+        "combined": 101,
+        "facility": 0,
+        "thermal": 0,
+        "research": 0
+      },
+      "rows": [
+        {
+          "unit": "A01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "7e5361ee80ab49cc06269c8c7196e9b14b66fe78e4da8b893951b42f3dd0898f",
+          "invoked": true
+        },
+        {
+          "unit": "A02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "ea7eb0c6882f551704b8c766ea01193c0dc4994fb6481a971c1ab4350a06ac1d",
+          "invoked": true
+        },
+        {
+          "unit": "A03",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "864ca0246e0dfa6dc468cf0497071c855968392bd0b241a21bd99241fd15b08a",
+          "invoked": true
+        },
+        {
+          "unit": "A04",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "aborted",
+              0.75,
+              1.5,
+              null
+            ]
+          },
+          "expected": {
+            "value": [
+              "aborted",
+              0.75,
+              1.5,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "f1ac528a94d4a0a45528c64c8da3ae525668a178392abac46f7f559a83b5194d",
+          "input_sha256": "197e962453888c2cb766a7afdd17976a09e45b72f9f937921eafb796de592eb9",
+          "invoked": true
+        },
+        {
+          "unit": "A05",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "aborted",
+              0.75,
+              1.5,
+              null
+            ]
+          },
+          "expected": {
+            "value": [
+              "aborted",
+              0.75,
+              1.5,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "f1ac528a94d4a0a45528c64c8da3ae525668a178392abac46f7f559a83b5194d",
+          "input_sha256": "ae70ce225b0ecc886708ac82afb230035eca41797a24ff61bf6bfe96aece90a0",
+          "invoked": true
+        },
+        {
+          "unit": "A06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "3a3fbe7705879bb47897d5b9dbfcd121a7f9a5edc5abceeb248b007b417a7893",
+          "input_sha256": "d997956443c81fc6b62e0d636ec250f4f35cc7587041b9c9e7651061ad6ef3e2",
+          "invoked": true
+        },
+        {
+          "unit": "A07",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "70f7e0641fec2e08205a68242b08f5d9fa913468bb2f2ed07480a2fad1e0dc35",
+          "invoked": true
+        },
+        {
+          "unit": "A08",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "a7abde7ac226ec3f91f2f22f84e161afb8f6bb51984e305d38304c07cad32f75",
+          "invoked": true
+        },
+        {
+          "unit": "A09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "rejected",
+              0.25,
+              0.75,
+              null
+            ]
+          },
+          "expected": {
+            "value": [
+              "rejected",
+              0.25,
+              0.75,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "8861c97139e3191d92a43ec580ff2ea49cbe11551765dd55956b42754a4d215c",
+          "input_sha256": "3f8ab1b9878d6ad5772a90f9505f0c52a8b6fdd680889dae6129d92707e44517",
+          "invoked": true
+        },
+        {
+          "unit": "A10",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "322ad3b21b9c79a603ab871dc555c36dc517f0db58694b382923e708042547b6",
+          "invoked": true
+        },
+        {
+          "unit": "A11",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "73e981d5212ef56d4f2815155b93611f158e088670baacd87cf6c9b48ab524be",
+          "invoked": true
+        },
+        {
+          "unit": "A12",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "ff1a0aa2df7f6144f3833ddd7274fe8d740501cc9b53501697ba45a4424dc219",
+          "invoked": true
+        },
+        {
+          "unit": "A13",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "0a71059e8dc04bd82b4b748e8c467c6745df5261fa79bf5198c52ef4ebc1cb65",
+          "invoked": true
+        },
+        {
+          "unit": "A14",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "c56439a30c49c3ce61303f7c2eb7c1c09db66a2aeb83f93ea8c95acc35a9a32f",
+          "invoked": true
+        },
+        {
+          "unit": "A15",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "055b3217c1b04589126e094ee22de04b9bdf1aeab76917e11fbbe68238332dda",
+          "invoked": true
+        },
+        {
+          "unit": "A16",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "d18caf6cd6515f85aa322ddab9f3edb3ceb91543ed2884ee6374bb6840657327",
+          "invoked": true
+        },
+        {
+          "unit": "A17",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "2cfbd9b8d72e5422aa2c22fcf50dddc068a780cfaf6224ad0b5bc702200a083a",
+          "invoked": true
+        },
+        {
+          "unit": "A18",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "c6136fd77f4227233e22db685b188f8b5c91a3393b07acc97869e12c8939d521",
+          "invoked": true
+        },
+        {
+          "unit": "A19",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "value": [
+              "completed",
+              1.25,
+              1.75,
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "3a3fbe7705879bb47897d5b9dbfcd121a7f9a5edc5abceeb248b007b417a7893",
+          "input_sha256": "50e1cfe607d221703294470eade51a3861cc95d63e72c0dedd09267c7e4ab3aa",
+          "invoked": true
+        },
+        {
+          "unit": "A20",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "45611a7a01d4332d78f21986399f5c8069b4116465d4ee8ca01bff477f5111c1",
+          "invoked": true
+        },
+        {
+          "unit": "X01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "02a4b636121da6b618f3616b37b1fc6e459b0f4da3b7d63a6c4a503a3f20a405",
+          "invoked": true
+        },
+        {
+          "unit": "X02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "NO_EFFECT",
+              0.75,
+              1
+            ]
+          },
+          "expected": {
+            "value": [
+              "NO_EFFECT",
+              0.75,
+              1
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "23e2202d7c6983dc58a449240974229ede10a5e2c26dcca929cc2e4303a88246",
+          "input_sha256": "48ad6be5a03e86836ad0fb8bd442a2b0b35f9fa7c9e96acffeba9fbaba28b8dd",
+          "invoked": true
+        },
+        {
+          "unit": "X03",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "01a09173bdc21c743dd4509a689f82bcb1f4706d8f140062aa4adf5ae25a7faf",
+          "invoked": true
+        },
+        {
+          "unit": "X04",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "dbd2cb42c866cf1be093a8728b2200cd67cce249f35b916448ba2ae847c55502",
+          "invoked": true
+        },
+        {
+          "unit": "X05",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "APPLIED",
+              1.25,
+              1.5
+            ]
+          },
+          "expected": {
+            "value": [
+              "APPLIED",
+              1.25,
+              1.5
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "626b4ce48386eb92ef92f108f5923b942a76659bc7cf021b615f33a2f16ec3c7",
+          "input_sha256": "6e1672f89487085285dcd78aa249bfc6d702ca76452d39319782c5a73d56f991",
+          "invoked": true
+        },
+        {
+          "unit": "X06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "APPLIED",
+              1.25,
+              1.75
+            ]
+          },
+          "expected": {
+            "value": [
+              "APPLIED",
+              1.25,
+              1.75
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "4de3e5b8cb4608fd775668eda5c55dc21553a6aa8d5458e653036142d3710600",
+          "input_sha256": "799f56ea12b17218d17e393c70c1636345ae05e332c920c16dafce445fff6fe7",
+          "invoked": true
+        },
+        {
+          "unit": "X07",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "5b7c03d2f6d01e36c686934b52049dfe962c8cd8263d122937ec84a453fffbaa",
+          "invoked": true
+        },
+        {
+          "unit": "X08",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "3a24be1622353ace3b433699af2334153f84f2d66ffaccd9bc5084e11ba9344d",
+          "invoked": true
+        },
+        {
+          "unit": "X09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "c71d1be50679388cb1cfb0e4f6d105cc82b6baba465d9219489fbe493cc1ba09",
+          "invoked": true
+        },
+        {
+          "unit": "X10",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "4a5a253298db21c28c9a3952b0a735b67901bfe6d8b58ab4814cbec8f2387612",
+          "invoked": true
+        },
+        {
+          "unit": "X11",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "2c9a3270e77c3e6d1084cb70852b6f6035b95093ceebbd1106ab54d2ad17d226",
+          "invoked": true
+        },
+        {
+          "unit": "X12",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "b0886de50219982e3aede38d770d1a8c4c497f51f1cf303811d274b8a34ff84c",
+          "invoked": true
+        },
+        {
+          "unit": "X13",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "fa19975fb22d5f33b424bdd5b166b4bee1a2bcdb869892c0e628b7fcff04121d",
+          "invoked": true
+        },
+        {
+          "unit": "X14",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "NO_EFFECT",
+              1.25,
+              2
+            ]
+          },
+          "expected": {
+            "value": [
+              "NO_EFFECT",
+              1.25,
+              2
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "588d39d8227872ce279ee85e891d2a5fddd7796c8e9fd3cc5ea891d01d37847c",
+          "input_sha256": "f50c9bb28e2d7f6db1807d088810de2dd3272bed9ff28ab126787585587440b8",
+          "invoked": true
+        },
+        {
+          "unit": "X15",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": [
+              "NO_EFFECT",
+              0.25,
+              0.75
+            ]
+          },
+          "expected": {
+            "value": [
+              "NO_EFFECT",
+              0.25,
+              0.75
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "fcb23436bfba1eb429f4b21548395d86f727b44c350ce080ea0fd8afec9d0dc4",
+          "input_sha256": "b7fcaddb82b24674a7130972e31ef535051bdb607a8d8d23d42d6a957140c211",
+          "invoked": true
+        },
+        {
+          "unit": "R01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "4b7f56739c5cc9c9b1a5091aeb80ce0180801e4cf92835bec8f6943a1c4287c1",
+          "input_sha256": "7791c4d59eacb95c3d5ab03563fb39c99bb2c4c693958f26e13dc71c7feadc3f",
+          "invoked": true
+        },
+        {
+          "unit": "R02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "46597d7154c6a7893b766a1a7925c5ef6cf120fadb5656cb488856e232b2a9fa",
+          "input_sha256": "a678691a80d0aafdd1567c5461c612051570828f5d5c45947dd966323d0bea3e",
+          "invoked": true
+        },
+        {
+          "unit": "R03",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "75fe7477c5328d7ea0474f2a10269939409456ac55df4d6e73382aa256b5a3a6",
+          "input_sha256": "b34030cf348db5270c6585e93f37f806019a9f33878d218fcfe48a7b221ce26e",
+          "invoked": true
+        },
+        {
+          "unit": "R04",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "2338fdd0ee998e384bce871b579b6fffb227968a8a7c9f1aec419286f943c2fc",
+          "input_sha256": "7bc3be0207b2992bc391c899b0550ca6c30c7012083aff7de0754254f4b20441",
+          "invoked": true
+        },
+        {
+          "unit": "R05",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "a56c2ad635ed15eca55eac95809bfc8fd6c3eeb4db754cd013eab2b2f6a096ec",
+          "input_sha256": "fa1352c5228f275f03dd859e7863bf3943feaf3805e1d64546b593eb37f3e7a7",
+          "invoked": true
+        },
+        {
+          "unit": "R06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "2c1d7aa5fd8e1dbb5be5ea342fa035641bd9c737a24dbcba2c106f51d68271b1",
+          "input_sha256": "6bd39b8f799e68acace003a5a6588c81c4c3d49859ac33dc0c4932da7310750c",
+          "invoked": true
+        },
+        {
+          "unit": "R07",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [],
+            "confirmed": [
+              "N/n0/A"
+            ],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [],
+            "confirmed": [
+              "N/n0/A"
+            ],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "d88345c0c22443293f47ab1c7a1e2c3536beeecb233a5c94e27223573244267e",
+          "input_sha256": "236a8c56dd2522c6b99fda29d7b56bd024d7c4492c63feb0a9577cb7d2eaadd0",
+          "invoked": true
+        },
+        {
+          "unit": "R08",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [
+              "tool_it_diagnostic",
+              "worker_it"
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "46597d7154c6a7893b766a1a7925c5ef6cf120fadb5656cb488856e232b2a9fa",
+          "input_sha256": "e875be1a5c1abc76247d6c8521f36739674ec63f80f44b50709994854d920a51",
+          "invoked": true
+        },
+        {
+          "unit": "R09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "confirmed": [],
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "be2ea2f9ef993006769fbd200f2cc0e6d0b4223dea095ec85c030ddea095f5e1",
+          "input_sha256": "c5db91f3299eba9149a0a3ef7acae6aab2e1a2a0f02a26edb66edb2cb77bc049",
+          "invoked": true
+        },
+        {
+          "unit": "R10",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "expected": {
+            "locked": [],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pose": [
+              "loc_it",
+              "loc_it"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "bee36c58321e449de635720e3361546a1244d882e0dea5dec5ce625b2a315768",
+          "input_sha256": "e2a5f6d6ba5b638737d9308c6bec8e3f894a2f0d17e25cc848229f1bdbb43ebf",
+          "invoked": true
+        },
+        {
+          "unit": "B00-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 3,
+          "actual": {
+            "first": "N.A",
+            "task": "N/n0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              0,
+              0,
+              0
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0,
+            "planned_end": 1.25
+          },
+          "expected": {
+            "first": "N.A",
+            "obligations": [],
+            "task": "N/n0/A"
+          },
+          "differences": [],
+          "raw_sha256": "cf2ef91d1f709ca91ad054ff4d2e6d0eb551edd4e0d70683d044783e0fe700a4",
+          "input_sha256": "144325a497c77269a7ff413fe6cd68c817b21d6895c489aececd8224e73b862e",
+          "invoked": true
+        },
+        {
+          "unit": "B00-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 3,
+          "actual": {
+            "first": "N.A",
+            "task": "N/n0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              0,
+              0,
+              0
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0,
+            "planned_end": 1.25
+          },
+          "expected": {
+            "first": "N.A",
+            "obligations": [],
+            "task": "N/n0/A"
+          },
+          "differences": [],
+          "raw_sha256": "cf2ef91d1f709ca91ad054ff4d2e6d0eb551edd4e0d70683d044783e0fe700a4",
+          "input_sha256": "eab89d4e884f5a40762d6782210246f1a65715a8cc750832b67af46008ef2ba8",
+          "invoked": true
+        },
+        {
+          "unit": "B01-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "12daf0f817b8d7521ff71cd5e9e4cb816d2d71d6d6f77b1dfdabd45c71f8b08f",
+          "invoked": true
+        },
+        {
+          "unit": "B01-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "366e22bad21db9a6e64af4d77aa5e5107a2b7a2ff344256d31c5961f0c2903eb",
+          "invoked": true
+        },
+        {
+          "unit": "B02-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "release": 1,
+            "planned_end": 4.25,
+            "C_admitted": true,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": true,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "ffba41a7a50502ea0e0b80e9d31fc7b3f92abdef1f12ee2833c366f3eb450455",
+          "input_sha256": "7a09d85323becb0534b164baabb9498b31707bdb3c0f24a813ec3f7cfd64123c",
+          "invoked": true
+        },
+        {
+          "unit": "B02-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "release": 1,
+            "planned_end": 4.25,
+            "C_admitted": true,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": true,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "ffba41a7a50502ea0e0b80e9d31fc7b3f92abdef1f12ee2833c366f3eb450455",
+          "input_sha256": "8c637404435f869aaeb2be492c02b18d4adbf29691c3030e37ccdc63a4e2e7f0",
+          "invoked": true
+        },
+        {
+          "unit": "B03-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 1,
+            "planned_end": 4.75,
+            "C_admitted": true,
+            "C_required": [
+              29.75,
+              29.75,
+              3
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [],
+            "C_admitted": true,
+            "C_required": [
+              29.75,
+              29.75,
+              3
+            ],
+            "reserve": 0,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "5588e259dc6d9c487b66db0b6430f8c3a224250def44aebe3999bff336b53790",
+          "input_sha256": "e4265d3037422b73c6ae17f21ddb3d31888815995ab850101141193d3d9812c8",
+          "invoked": true
+        },
+        {
+          "unit": "B03-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 1,
+            "planned_end": 4.75,
+            "C_admitted": true,
+            "C_required": [
+              29.75,
+              29.75,
+              3
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [],
+            "C_admitted": true,
+            "C_required": [
+              29.75,
+              29.75,
+              3
+            ],
+            "reserve": 0,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "5588e259dc6d9c487b66db0b6430f8c3a224250def44aebe3999bff336b53790",
+          "input_sha256": "223055fb3b9fbe3e27018d987e563d383fe65fd6daee80c7b5c4104d3914c597",
+          "invoked": true
+        },
+        {
+          "unit": "B04-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "c644b270830019b6f8c5619493961f13465452853ca6a57ce2a968f39f3383b8",
+          "input_sha256": "7beda03bc3dd44c939641ffa88dfa0995e6a0b82b35bce1b2255957a794140fb",
+          "invoked": true
+        },
+        {
+          "unit": "B04-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "c644b270830019b6f8c5619493961f13465452853ca6a57ce2a968f39f3383b8",
+          "input_sha256": "215f62a62f088168149f1a0dac4af54814f3a7325d7612b57114fabccf710e44",
+          "invoked": true
+        },
+        {
+          "unit": "B05-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "f212eb9b23ce1bd662ee6ff9347a8f416053fc3961e16f0d945076d85b7c5efe",
+          "invoked": true
+        },
+        {
+          "unit": "B05-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "c3eeb69319d5dbc07621fa27c2bfa01b0dfecf0f088fe4586f80a0624ebe6914",
+          "invoked": true
+        },
+        {
+          "unit": "B06-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "18c56c2d7febb4e44a05072a531d75b41bedd4f347a799196b538d5509ec185c",
+          "invoked": true
+        },
+        {
+          "unit": "B06-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": false,
+            "C_required": [
+              40.5,
+              40.5,
+              4
+            ],
+            "reserve": 10.25
+          },
+          "differences": [],
+          "raw_sha256": "eb60380386d0d77f3d29468cafcdbb5fc2b3c67e1b2dcba966a19611c375844d",
+          "input_sha256": "f19c12473979ea7e3e5fe2200aee21cb50c9689abf26b452926523d71cdd9926",
+          "invoked": true
+        },
+        {
+          "unit": "B07-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "release": 1,
+            "planned_end": 5.25,
+            "C_admitted": true,
+            "C_required": [
+              39.5,
+              39.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": true,
+            "C_required": [
+              39.5,
+              39.5,
+              4
+            ],
+            "reserve": 10.25,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "0927494ec70e167ae884750b9ab607ed3479c436c39a18059bc072b31908baa7",
+          "input_sha256": "7f5c238600be4824141a725ff8a947bd431c084575bfeffd3f1949d31d46f66d",
+          "invoked": true
+        },
+        {
+          "unit": "B07-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 6,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.25,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [
+              "N/n0/A"
+            ],
+            "release": 1,
+            "planned_end": 5.25,
+            "C_admitted": true,
+            "C_required": [
+              39.5,
+              39.5,
+              4
+            ]
+          },
+          "expected": {
+            "first": "C.A",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "C_admitted": true,
+            "C_required": [
+              39.5,
+              39.5,
+              4
+            ],
+            "reserve": 10.25,
+            "task": "C/c0/A"
+          },
+          "differences": [],
+          "raw_sha256": "0927494ec70e167ae884750b9ab607ed3479c436c39a18059bc072b31908baa7",
+          "input_sha256": "8d3968c335e098aa439929ff38f823437d66ef6b221bf46372f925e312ef21ef",
+          "invoked": true
+        },
+        {
+          "unit": "B08-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "N.R",
+            "task": "N/n0/R",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [
+              "N/n0/A"
+            ],
+            "pending": [],
+            "release": 1.5,
+            "planned_end": 3.25
+          },
+          "expected": {
+            "first": "N.R",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "task": "N/n0/R",
+            "release": 1.5
+          },
+          "differences": [],
+          "raw_sha256": "d62b3d9fec74f62efb5c8e067d9c058ed0adff10b0f85979c69d707a5680a0e6",
+          "input_sha256": "6bfdd41758e30416e718989d0ceb96faa481242fd124d14719361ed602640e7d",
+          "invoked": true
+        },
+        {
+          "unit": "B08-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 5,
+          "actual": {
+            "first": "N.R",
+            "task": "N/n0/R",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [
+              "N/n0/A"
+            ],
+            "pending": [],
+            "release": 1.5,
+            "planned_end": 3.25
+          },
+          "expected": {
+            "first": "N.R",
+            "obligations": [
+              "N/n0/R"
+            ],
+            "reserve": 10.5,
+            "task": "N/n0/R",
+            "release": 1.5
+          },
+          "differences": [],
+          "raw_sha256": "d62b3d9fec74f62efb5c8e067d9c058ed0adff10b0f85979c69d707a5680a0e6",
+          "input_sha256": "c14a01905d7ac5313028985df5c7a10f7c527f74b5c8c4ecfbb121b184017617",
+          "invoked": true
+        },
+        {
+          "unit": "K01",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 3,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": []
+          },
+          "expected": {
+            "first": "W",
+            "obligations": [],
+            "task": null
+          },
+          "differences": [],
+          "raw_sha256": "2154cb17fccb24b704d7d5ee0feaa37dca9b56fcecdc35605d1e7e3b10c96a21",
+          "input_sha256": "b1a8e9bf64de91d11e3ad139770c92218ae5338b5bde66e57fe298032f844076",
+          "invoked": true
+        },
+        {
+          "unit": "K02",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 4,
+          "actual": {
+            "first": "C.I",
+            "task": "C/c1/I",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0.5,
+            "planned_end": 5.25
+          },
+          "expected": {
+            "first": "C.I",
+            "obligations": [],
+            "task": "C/c1/I",
+            "planned_end": 5.25
+          },
+          "differences": [],
+          "raw_sha256": "af4302e7273ae7c3a48c9cd84d504d5c38962467762b8fd1553a1258bf2954d3",
+          "input_sha256": "e07d4df74f61f9391648226d883f391305857c73998fcbf3e9008495a663c128",
+          "invoked": true
+        },
+        {
+          "unit": "D01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "6d0138f1e1e5f267a738ee49a309daebf3f236ffb9d4f6b7c0ac035c651db817",
+          "invoked": true
+        },
+        {
+          "unit": "D02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "62e5f81aafae3b9d267acb406ba542c7b6918699212372e134a9433871ce9dfb",
+          "invoked": true
+        },
+        {
+          "unit": "D03",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "378c0a6fa59f3d9d42b6fbeccb356feed2e88dc26d5b1569a98bb3e9dc2ac766",
+          "invoked": true
+        },
+        {
+          "unit": "D04",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": {
+              "task": "N/n0/A",
+              "at": 0.75,
+              "arrived": 1,
+              "origin": "workforce:N/n0/A",
+              "status": "safety_stop_observed",
+              "location": null,
+              "worker": "worker_it",
+              "tool": "tool_it_diagnostic"
+            }
+          },
+          "expected": {
+            "value": {
+              "task": "N/n0/A",
+              "status": "safety_stop_observed",
+              "at": 0.75,
+              "arrived": 1,
+              "worker": "worker_it",
+              "tool": "tool_it_diagnostic",
+              "location": null,
+              "origin": "workforce:N/n0/A"
+            }
+          },
+          "differences": [],
+          "raw_sha256": "45c88d60a79a025e3850e4f630b48b31580f28319d554dd3d6b4f19cbfdedbcf",
+          "input_sha256": "0ee640b59dd74b5c9d4220c072d274c8c47c64fc4204f1550bfb8df98123a38b",
+          "invoked": true
+        },
+        {
+          "unit": "D05",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": {
+              "task": "N/n0/A",
+              "at": 1.25,
+              "arrived": 1.75,
+              "origin": "intervention:N/n0/A",
+              "outcome": "APPLIED",
+              "operation": "restore_network_capacity"
+            }
+          },
+          "expected": {
+            "value": {
+              "task": "N/n0/A",
+              "outcome": "APPLIED",
+              "at": 1.25,
+              "arrived": 1.75,
+              "operation": "restore_network_capacity",
+              "origin": "intervention:N/n0/A"
+            }
+          },
+          "differences": [],
+          "raw_sha256": "d5bcc0d665cc33d2ab51058cabc690144a269d1bac5362944d591723b058d462",
+          "input_sha256": "7a8b261b05a4806eace3d63ad6f7cae6510e0e0fd5b2da0bad469c174e6e3066",
+          "invoked": true
+        },
+        {
+          "unit": "D06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": null
+          },
+          "expected": {
+            "value": null
+          },
+          "differences": [],
+          "raw_sha256": "38e0b9de817f645c4bec37c0d4a3e58baecccb040f5718dc069a72c7385a0bed",
+          "input_sha256": "ffd53b5dc0de2b11cfcc6eb75cc62c781adf7a5c53c2784c59cc23a7accdbd20",
+          "invoked": true
+        },
+        {
+          "unit": "M01",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 14,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "held_s": {
+              "N/n0/A": 1.5
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.5
+            },
+            "known_tasks": 1,
+            "unresolved": [],
+            "conflicts": [],
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.0,
+            "raw_delay_s": 1.0,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "known_tasks": 1,
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1,
+            "raw_delay_s": 1,
+            "rejected": 0,
+            "conflicts": [],
+            "held_s": {
+              "N/n0/A": 1.5
+            }
+          },
+          "differences": [],
+          "raw_sha256": "850bcda7e7bb0700e4fb4566aacb23b132e89606e6d264a507fe51b4a08e27c2",
+          "input_sha256": "d78b8c1f200ecc66347fb3a35f48405a050fa36c92741a919b1d3d68a5297a33",
+          "invoked": true
+        },
+        {
+          "unit": "M02",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "held_s": {
+              "N/n0/A": 1.5
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.5
+            },
+            "known_tasks": 1,
+            "unresolved": [],
+            "conflicts": [],
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 4,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 2,
+            "logical_delay_s": 1.0,
+            "raw_delay_s": 2.5,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 2
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 2
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "known_tasks": 1,
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 4,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 2,
+            "logical_delay_s": 1,
+            "raw_delay_s": 2.5,
+            "rejected": 0,
+            "conflicts": []
+          },
+          "differences": [],
+          "raw_sha256": "e51011d3e9225666fd23e7237c5cd6a185e2c8d523991e05b34813d8853b1a7e",
+          "input_sha256": "03cd7b5f9d05a3dcb93435250515582b20603a3cc6562255e20c930e10d2ba13",
+          "invoked": true
+        },
+        {
+          "unit": "M03",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 14,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "held_s": {
+              "N/n0/A": null
+            },
+            "terminal_arrivals": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "unresolved": [
+              "N/n0/A"
+            ],
+            "conflicts": [],
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 1,
+            "terminal_count": 0,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.25,
+            "raw_delay_s": 0.25,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "total_wait_s": null,
+            "known_wait_sum_s": 0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 1,
+            "terminal_count": 0,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.25,
+            "raw_delay_s": 0.25,
+            "rejected": 0,
+            "conflicts": [],
+            "held_s": {
+              "N/n0/A": null
+            }
+          },
+          "differences": [],
+          "raw_sha256": "5642ff8141f5e5183006cfdb02d610baed4a36e1b7c4f9db347d1033e86bd3c3",
+          "input_sha256": "1474ca5c22907f82611a93ab0c59290ef9e802fc68ab7ccaec663b1b7afbdd48",
+          "invoked": true
+        },
+        {
+          "unit": "M04",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "held_s": {
+              "N/n0/A": null
+            },
+            "terminal_arrivals": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "unresolved": [
+              "N/n0/A"
+            ],
+            "conflicts": [],
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 1,
+            "terminal_count": 0,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.25,
+            "raw_delay_s": 0.25,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "total_wait_s": null,
+            "known_wait_sum_s": 0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 1,
+            "terminal_count": 0,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.25,
+            "raw_delay_s": 0.25,
+            "rejected": 0,
+            "conflicts": []
+          },
+          "differences": [],
+          "raw_sha256": "5642ff8141f5e5183006cfdb02d610baed4a36e1b7c4f9db347d1033e86bd3c3",
+          "input_sha256": "19f1521c71d31689e00be0c16b1e096c05d63fdfda24d1cb2470cd7612a56339",
+          "invoked": true
+        },
+        {
+          "unit": "M05",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 2,
+            "task_waits": {
+              "N/n0/A": 0.75,
+              "C/c0/A": 0.75
+            },
+            "held_s": {
+              "N/n0/A": 1.5,
+              "C/c0/A": 4
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.5,
+              "C/c0/A": 4
+            },
+            "known_tasks": 2,
+            "unresolved": [],
+            "conflicts": [],
+            "total_wait_s": 1.5,
+            "known_wait_sum_s": 1.5,
+            "raw_count": 3,
+            "unique_count": 3,
+            "process_count": 1,
+            "terminal_count": 2,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.75,
+            "raw_delay_s": 1.75,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "C/c0/A",
+                "origin": "workforce:C/c0/A",
+                "status": "completed",
+                "at": 3.25,
+                "location": "loc_lake",
+                "arrived": 4,
+                "lag_s": 0.75,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.75,
+              "C/c0/A": 0.75
+            },
+            "known_tasks": 2,
+            "total_wait_s": 1.5,
+            "known_wait_sum_s": 1.5,
+            "raw_count": 3,
+            "unique_count": 3,
+            "process_count": 1,
+            "terminal_count": 2,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.75,
+            "raw_delay_s": 1.75,
+            "rejected": 0,
+            "conflicts": []
+          },
+          "differences": [],
+          "raw_sha256": "fd2a7857e4d1b0bfdfd29dae92e02a7cf6bf989d74f13647c56f31373aec80ff",
+          "input_sha256": "00b306cae299fc341c642a7898e5790a67fe3639e9e6143b2cfcc0b27960b2fb",
+          "invoked": true
+        },
+        {
+          "unit": "M06",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "held_s": {
+              "N/n0/A": null
+            },
+            "terminal_arrivals": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "unresolved": [
+              "N/n0/A"
+            ],
+            "conflicts": [
+              "N/n0/A"
+            ],
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.0,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 0,
+            "terminal_count": 2,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.5,
+            "raw_delay_s": 1.5,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "completed",
+                "at": 0.75,
+                "location": "loc_it",
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "total_wait_s": null,
+            "known_wait_sum_s": 0,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 0,
+            "terminal_count": 2,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.5,
+            "raw_delay_s": 1.5,
+            "rejected": 0,
+            "conflicts": [
+              "N/n0/A"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "de49a7508c9014fb8766bcde9924920daf8780819a4ee88509febc5c6059c065",
+          "input_sha256": "120d2105a635aa7d1644fb6d32774839a2c7788a2a90389926c4a51e8f14fc9f",
+          "invoked": true
+        },
+        {
+          "unit": "M07",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "held_s": {
+              "N/n0/A": 1.5
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.5
+            },
+            "known_tasks": 1,
+            "unresolved": [],
+            "conflicts": [],
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 0,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.75,
+            "raw_delay_s": 0.75,
+            "rejected": 2,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.75
+            },
+            "known_tasks": 1,
+            "total_wait_s": 0.75,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 0,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.75,
+            "raw_delay_s": 0.75,
+            "rejected": 2,
+            "conflicts": []
+          },
+          "differences": [],
+          "raw_sha256": "0b82890ac22575892c23b3f8497c5e943727b447b50d5ff2c148c9b89a86e44a",
+          "input_sha256": "0901dde74b914c32a7ea69491beb2141e77debf3625413f216b0301dff8c9368",
+          "invoked": true
+        },
+        {
+          "unit": "M08",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 2,
+            "task_waits": {
+              "N/n0/A": 0.75,
+              "C/c0/A": null
+            },
+            "held_s": {
+              "N/n0/A": 1.5,
+              "C/c0/A": null
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.5,
+              "C/c0/A": null
+            },
+            "known_tasks": 1,
+            "unresolved": [
+              "C/c0/A"
+            ],
+            "conflicts": [],
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.0,
+            "raw_delay_s": 1.0,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.75,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1,
+                "lag_s": 0.25,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.75,
+              "C/c0/A": null
+            },
+            "known_tasks": 1,
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.75,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1,
+            "raw_delay_s": 1,
+            "rejected": 0,
+            "conflicts": []
+          },
+          "differences": [],
+          "raw_sha256": "22a5873dd333a960194c06ea17cdbc8fd705a37ba99e2f9ebb515b59c2260e44",
+          "input_sha256": "e57b46d34500373cc95dde0f86ba12f411476bc93f88e10f26a5980137cf92ea",
+          "invoked": true
+        },
+        {
+          "unit": "M09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 13,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "held_s": {
+              "N/n0/A": null
+            },
+            "terminal_arrivals": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "unresolved": [
+              "N/n0/A"
+            ],
+            "conflicts": [
+              "N/n0/A"
+            ],
+            "total_wait_s": null,
+            "known_wait_sum_s": 0.0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 0,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.5,
+            "raw_delay_s": 0.5,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 1,
+                "location": null,
+                "arrived": 1.5,
+                "lag_s": 0.5,
+                "deliveries": 1
+              }
+            ]
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": null
+            },
+            "known_tasks": 0,
+            "total_wait_s": null,
+            "known_wait_sum_s": 0,
+            "raw_count": 1,
+            "unique_count": 1,
+            "process_count": 0,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 0.5,
+            "raw_delay_s": 0.5,
+            "rejected": 0,
+            "conflicts": [
+              "N/n0/A"
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "144be8fe73b59768dfc3e21d7c0035594d4611a1e04576bd24feb4031ee4c369",
+          "input_sha256": "48cb19961a5ddb4efb99a26234396a6b11469c8c39791de420b396868ef0ba88",
+          "invoked": true
+        },
+        {
+          "unit": "H09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 19,
+          "actual": {
+            "issued_tasks": 1,
+            "task_waits": {
+              "N/n0/A": 0.5
+            },
+            "held_s": {
+              "N/n0/A": 1.25
+            },
+            "terminal_arrivals": {
+              "N/n0/A": 1.25
+            },
+            "known_tasks": 1,
+            "unresolved": [],
+            "conflicts": [],
+            "total_wait_s": 0.5,
+            "known_wait_sum_s": 0.5,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1.0,
+            "raw_delay_s": 1.0,
+            "rejected": 0,
+            "messages": [
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "aborted",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.25,
+                "lag_s": 0.5,
+                "deliveries": 1
+              },
+              {
+                "task": "N/n0/A",
+                "origin": "workforce:N/n0/A",
+                "status": "safety_stop_observed",
+                "at": 0.75,
+                "location": null,
+                "arrived": 1.25,
+                "lag_s": 0.5,
+                "deliveries": 1
+              }
+            ],
+            "real_work": [
+              0.75,
+              0.75,
+              1
+            ],
+            "actual_requests": 1,
+            "execution_outcomes": [
+              "NO_EFFECT"
+            ],
+            "physical_writes": 0,
+            "original_failed_assertion": true
+          },
+          "expected": {
+            "task_waits": {
+              "N/n0/A": 0.5
+            },
+            "known_tasks": 1,
+            "total_wait_s": 0.5,
+            "known_wait_sum_s": 0.5,
+            "raw_count": 2,
+            "unique_count": 2,
+            "process_count": 1,
+            "terminal_count": 1,
+            "duplicate_deliveries": 0,
+            "logical_delay_s": 1,
+            "raw_delay_s": 1,
+            "rejected": 0,
+            "conflicts": [],
+            "held_s": {
+              "N/n0/A": 1.25
+            },
+            "real_work": [
+              0.75,
+              0.75,
+              1
+            ],
+            "actual_requests": 1,
+            "execution_outcomes": [
+              "NO_EFFECT"
+            ],
+            "physical_writes": 0,
+            "original_failed_assertion": true
+          },
+          "differences": [],
+          "raw_sha256": "b037f2240e86a0161095942426ce9c42a10ecf492d32b735eec026a2e223fe6a",
+          "input_sha256": "952376a8b07db2d1b55d0671f75fd242e2cbf851b9968e061afb428a0c52f5ec",
+          "invoked": true
+        },
+        {
+          "unit": "old-P09-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": []
+          },
+          "expected": {
+            "first": "W"
+          },
+          "differences": [],
+          "raw_sha256": "fa68349b3c8512388eddc5189d71a9f391edef91a1d89d942da0aa7c2d989c3b",
+          "input_sha256": "a05dd3c990a51e7775a7f173c1545a01682e63ea05cb07fe37f770f09d5bdd35",
+          "invoked": true
+        },
+        {
+          "unit": "old-P09-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": []
+          },
+          "expected": {
+            "first": "W"
+          },
+          "differences": [],
+          "raw_sha256": "fa68349b3c8512388eddc5189d71a9f391edef91a1d89d942da0aa7c2d989c3b",
+          "input_sha256": "60e799e40ea083cd9b293400eb9fb9eb7ec5b8daf0553542ab35b2ba3405adfe",
+          "invoked": true
+        },
+        {
+          "unit": "old-P10-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0.0,
+            "planned_end": 5.0
+          },
+          "expected": {
+            "first": "C.A"
+          },
+          "differences": [],
+          "raw_sha256": "6ff8efc10884ff393625a38549d82e4949f097e9ee0ffebbacb93acc801d422f",
+          "input_sha256": "f37233fa45cab38d1edc6ee0273045715cd9c67d9321fea9844ea9c690f0c852",
+          "invoked": true
+        },
+        {
+          "unit": "old-P10-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "C.A",
+            "task": "C/c0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0.0,
+            "planned_end": 5.0
+          },
+          "expected": {
+            "first": "C.A"
+          },
+          "differences": [],
+          "raw_sha256": "6ff8efc10884ff393625a38549d82e4949f097e9ee0ffebbacb93acc801d422f",
+          "input_sha256": "23cab4e57de11b9c5cc7e61488783ec6af8c09543a08b14e0b4a62c74fafa831",
+          "invoked": true
+        },
+        {
+          "unit": "old-P11-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "N.A",
+            "task": "N/n0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0.0,
+            "planned_end": 3.0
+          },
+          "expected": {
+            "first": "N.A"
+          },
+          "differences": [],
+          "raw_sha256": "dce3fc86bc8b7c77746db62254c96ccfd971cc0e878a972a21378fd0d715664d",
+          "input_sha256": "abf8062947b7283fca06970d7c884e557c1d218cf6b1a6a309c9557e11980395",
+          "invoked": true
+        },
+        {
+          "unit": "old-P11-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "N.A",
+            "task": "N/n0/A",
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": [],
+            "release": 0.0,
+            "planned_end": 3.0
+          },
+          "expected": {
+            "first": "N.A"
+          },
+          "differences": [],
+          "raw_sha256": "dce3fc86bc8b7c77746db62254c96ccfd971cc0e878a972a21378fd0d715664d",
+          "input_sha256": "21983dfdb5c270e7428e14a24360f6f915d7bc1bf296274da93d9935cdb73d9a",
+          "invoked": true
+        },
+        {
+          "unit": "old-P12-J",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": []
+          },
+          "expected": {
+            "first": "W"
+          },
+          "differences": [],
+          "raw_sha256": "fc8506e571c4ff80f478b689fe1b719b7cd79d9853192280d924adfcf63f5cbf",
+          "input_sha256": "8c0125f49f77e2a0647dd78571b72ead6f5bb5c03e9ea1b041a12b59e86436a8",
+          "invoked": true
+        },
+        {
+          "unit": "old-P12-B",
+          "kind": "policy",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "first": "W",
+            "task": null,
+            "obligations": [],
+            "reserve": 0,
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "confirmed": [],
+            "pending": []
+          },
+          "expected": {
+            "first": "W"
+          },
+          "differences": [],
+          "raw_sha256": "fc8506e571c4ff80f478b689fe1b719b7cd79d9853192280d924adfcf63f5cbf",
+          "input_sha256": "7b950ae032c29f07f804ee6d5e99c5ee3427b6bed156b1a57efbbafb16dc1736",
+          "invoked": true
+        },
+        {
+          "unit": "old-G08-1.75",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "PENDING"
+          },
+          "expected": {
+            "value": "PENDING"
+          },
+          "differences": [],
+          "raw_sha256": "bfb05c9dcd1c97a2f54224df8aad0947abc2e801dd4ee87da86916c5dd4a2230",
+          "input_sha256": "6e977154cdae850ec65a56bf590d4c4672686142b4ecc5059c02f05df0719506",
+          "invoked": true
+        },
+        {
+          "unit": "old-G08-2.25",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "CONFIG_LIMIT_CURRENT"
+          },
+          "expected": {
+            "value": "CONFIG_LIMIT_CURRENT"
+          },
+          "differences": [],
+          "raw_sha256": "c16f1a957e615b243cc30b5e48332fcfe02a4fbba0fd1cef33f8b8f73794c98a",
+          "input_sha256": "e10eb65710122dac315dba22b86928e3a7af1c1f2dc246ba08a0ec82d245a968",
+          "invoked": true
+        },
+        {
+          "unit": "old-G08-2.5",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "EXPIRED"
+          },
+          "expected": {
+            "value": "EXPIRED"
+          },
+          "differences": [],
+          "raw_sha256": "a1bd0f62c9fda77fd55cb809b6ebdf2da8d9df20c01c4325bd91a072275af864",
+          "input_sha256": "e7f029c210501fbe55c4e957bd9ada1b363e5e66f68e9e786b2a56a2034ecfc4",
+          "invoked": true
+        },
+        {
+          "unit": "old-G09",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "EXPIRED"
+          },
+          "expected": {
+            "value": "EXPIRED"
+          },
+          "differences": [],
+          "raw_sha256": "a1bd0f62c9fda77fd55cb809b6ebdf2da8d9df20c01c4325bd91a072275af864",
+          "input_sha256": "1758dabc2e757741fbceec3caacd6b72bcc7407ab7411b41923604500c080c06",
+          "invoked": true
+        },
+        {
+          "unit": "old-G10",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "PENDING"
+          },
+          "expected": {
+            "value": "PENDING"
+          },
+          "differences": [],
+          "raw_sha256": "bfb05c9dcd1c97a2f54224df8aad0947abc2e801dd4ee87da86916c5dd4a2230",
+          "input_sha256": "eeaeee82d2760673fdbe6833c5fec7fc3c01adfa304e1356ee7fb8e02acde500",
+          "invoked": true
+        },
+        {
+          "unit": "old-G20-pre",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 3,
+          "actual": {
+            "emit_now": false,
+            "finish": 5.0,
+            "ack": 5.5
+          },
+          "expected": {
+            "emit_now": false,
+            "finish": 5,
+            "ack": 5.5
+          },
+          "differences": [],
+          "raw_sha256": "0a799f69392b664cd3ebeb1633bf152ecbfc7827d9d1be7184f96006bef857e3",
+          "input_sha256": "0cb9436dee58ad2dc1d0273f122cd1b3c01dbc548aeca2b76ffdfcb752e427ab",
+          "invoked": true
+        },
+        {
+          "unit": "old-G20-post",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 3,
+          "actual": {
+            "emit_now": true,
+            "finish": 5.0,
+            "ack": 5.5
+          },
+          "expected": {
+            "emit_now": true,
+            "finish": 5,
+            "ack": 5.5
+          },
+          "differences": [],
+          "raw_sha256": "0a799f69392b664cd3ebeb1633bf152ecbfc7827d9d1be7184f96006bef857e3",
+          "input_sha256": "d3f8259340ad2ed0bd374c4f3499bac9034b49b32236e646668e8638d536ea60",
+          "invoked": true
+        },
+        {
+          "unit": "old-G21",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 7,
+          "actual": {
+            "locked": [],
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "expected": {
+            "debit": [
+              12,
+              12,
+              1
+            ],
+            "locked": [],
+            "pending": [],
+            "confirmed": [],
+            "obligations": [],
+            "reserve": 0,
+            "pose": [
+              null,
+              null
+            ]
+          },
+          "differences": [],
+          "raw_sha256": "d9043c5a9fda859aae67f1eeaa9acd162eb55ad750715899d73dfff7d00afb0a",
+          "input_sha256": "30eff1dab26681be5e4f4e7cf86c6df797b0759b97273e71c95f23ea0a21e9f6",
+          "invoked": true
+        },
+        {
+          "unit": "old-G22-early",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "NO_ACTION_CURRENT"
+          },
+          "expected": {
+            "value": "NO_ACTION_CURRENT"
+          },
+          "differences": [],
+          "raw_sha256": "275fe17a2d2a756d694c5acc4db120d3fdfc9ffa8d7c7337b839aaf61aa6b2c5",
+          "input_sha256": "abd9afc396ef16b9720ae4cced8b2f1f10be088048c53ce1eda8ec30cdd916ec",
+          "invoked": true
+        },
+        {
+          "unit": "old-G22-expired",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "OPEN_EXPIRED"
+          },
+          "expected": {
+            "value": "OPEN_EXPIRED"
+          },
+          "differences": [],
+          "raw_sha256": "e4fb39a802aa6c5066e741059ddc01df7cccf925eaf54b6a4f3d9d428b84b2ff",
+          "input_sha256": "fb29cb2d616b4d0d7d24d3c8dc5ae877399ab2c2192deb96d3e10570f45af76f",
+          "invoked": true
+        },
+        {
+          "unit": "old-G23",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": "OPEN"
+          },
+          "expected": {
+            "value": "OPEN"
+          },
+          "differences": [],
+          "raw_sha256": "1c026e619a7a8fd666e87078b47d436a4703727d2262e4b28bd4b1b867efd0fe",
+          "input_sha256": "671988934673d8c68a144c936a3a0d122e16c7d7ce53ebf980b3cf3535484a11",
+          "invoked": true
+        },
+        {
+          "unit": "old-G24",
+          "kind": "component",
+          "status": "PASS",
+          "assertions": 1,
+          "actual": {
+            "value": []
+          },
+          "expected": {
+            "value": []
+          },
+          "differences": [],
+          "raw_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "input_sha256": "3b2ca2319c4f38f1251b52e43476377af21d838cf314f7d661926121814022ae",
+          "invoked": true
+        }
+      ],
+      "failed": [],
+      "unexecuted": [],
+      "actual_assertions": 378
+    }
+  },
+  "remote_log_hashes": {
+    "T0": {
+      "result.json": "2efd42a585e3dac8e789578ec48c7a5e21ab7c0eea87b6f75266e8f70791aeca",
+      "calls.jsonl": "dbf81a98c3a72c3b02a19e60a8987228af9df679ca8f56a8f2bb97fdd1585d93",
+      "slurm.out": "e5a4e4ddca49f5cf8dcb40231f99bdb8c444098220a844437fb4a59357afa3ae",
+      "slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "T1": {
+      "result.json": "73724984bfa401caea6da33f02a7c08cdc69e5965d61a7b398f4d618e41ad5b8",
+      "calls.jsonl": "baad824a2f48f847b8ce6feaa67956523a0e8ee59f7ef2a41c7c394b29fcbbff",
+      "slurm.out": "75b2d53bb9991d522835a3b3445308bdfe013f4b78e04511549104ea7ea32db1",
+      "slurm.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "actual": {
+    "policy": 30,
+    "component": 78,
+    "combined": 108,
+    "facility": 0,
+    "thermal": 0,
+    "research": 0
+  },
+  "authorization": {
+    "authorized_combined_max": 128,
+    "red": {
+      "policy": 2,
+      "component": 5,
+      "combined": 7,
+      "job": "T0",
+      "cpus": 1,
+      "seconds": 300,
+      "memory_GiB": 1
+    },
+    "green": {
+      "policy": 28,
+      "component": 73,
+      "combined": 101,
+      "job": "T1",
+      "cpus": 1,
+      "seconds": 300,
+      "memory_GiB": 1
+    },
+    "frozen_total": 108,
+    "max_jobs": 2,
+    "concurrency": 1,
+    "CPU_seconds": 600,
+    "facilities": 0,
+    "thermal": 0,
+    "research": 0,
+    "unscheduled_margin_is_not_extra_runs": true
+  },
+  "slurm_reserved_CPU_s": 600,
+  "slurm_allocations": 2,
+  "green_units": 101,
+  "legacy_projections": 20,
+  "red_repeated_in_green": 7,
+  "authentic_S09_saved_only": {
+    "statistics": {
+      "issued_tasks": 1,
+      "task_waits": {
+        "N/n0/A": 0.5
+      },
+      "held_s": {
+        "N/n0/A": 1.25
+      },
+      "terminal_arrivals": {
+        "N/n0/A": 1.25
+      },
+      "known_tasks": 1,
+      "unresolved": [],
+      "conflicts": [],
+      "total_wait_s": 0.5,
+      "known_wait_sum_s": 0.5,
+      "raw_count": 2,
+      "unique_count": 2,
+      "process_count": 1,
+      "terminal_count": 1,
+      "duplicate_deliveries": 0,
+      "logical_delay_s": 1.0,
+      "raw_delay_s": 1.0,
+      "rejected": 0,
+      "messages": [
+        {
+          "task": "N/n0/A",
+          "origin": "workforce:N/n0/A",
+          "status": "aborted",
+          "at": 0.75,
+          "location": null,
+          "arrived": 1.25,
+          "lag_s": 0.5,
+          "deliveries": 1
+        },
+        {
+          "task": "N/n0/A",
+          "origin": "workforce:N/n0/A",
+          "status": "safety_stop_observed",
+          "at": 0.75,
+          "location": null,
+          "arrived": 1.25,
+          "lag_s": 0.5,
+          "deliveries": 1
+        }
+      ]
+    },
+    "actual": {
+      "real_work": [
+        0.75,
+        0.75,
+        1
+      ],
+      "actual_requests": 1,
+      "execution_outcomes": [
+        "NO_EFFECT"
+      ],
+      "physical_writes": 0,
+      "original_failed_assertion": true
+    },
+    "retained_failure": [
+      {
+        "check": "administrative latency is separate from person/tool work",
+        "ok": false,
+        "actual": 1.0,
+        "expected": 0.5
+      }
+    ],
+    "original_bytes": {
+      "run.json.gz": "b03394e0494525325abb87765cd183894d7d3fa810fe19be74984b5fb3259254",
+      "checks.json": "635c91a75be550b984ca5a8579137fe30cd5e933fdb264fc97de3fe8ba0c874e",
+      "terminal.json": "bcb6bcabba7cedf33cc2862ac9871c8308b277e0f835704a1f07feafab54d69c"
+    },
+    "raw_work_messages": [
+      {
+        "task_id": "N/n0/A",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 0.75,
+        "arrived_at_s": 1.25,
+        "status": "safety_stop_observed",
+        "reason": "onsite_safety_stop",
+        "location_id": null,
+        "origin_id": "workforce:N/n0/A",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      },
+      {
+        "task_id": "N/n0/A",
+        "source_id": "workforce-execution-report",
+        "observed_at_s": 0.75,
+        "arrived_at_s": 1.25,
+        "status": "aborted",
+        "reason": "onsite_safety_stop",
+        "location_id": null,
+        "origin_id": "workforce:N/n0/A",
+        "coverage": "THIS_ISSUED_TASK_ONLY",
+        "basis": "SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"
+      }
+    ],
+    "separate_execution_messages": [
+      {
+        "task_id": "N/n0/A",
+        "operation_id": "restore_network_capacity",
+        "source_id": "intervention-execution-report",
+        "observed_at_s": 0.75,
+        "arrived_at_s": 1.25,
+        "outcome": "NO_EFFECT",
+        "reason": "actual_work_not_completed",
+        "origin_id": "intervention:N/n0/A",
+        "coverage": "THIS_AUTHORIZED_TASK_ONLY",
+        "risk_closed": false
+      }
+    ]
+  },
+  "retained_original_S09_after_SHA256": {
+    "run.json.gz": "b03394e0494525325abb87765cd183894d7d3fa810fe19be74984b5fb3259254",
+    "checks.json": "635c91a75be550b984ca5a8579137fe30cd5e933fdb264fc97de3fe8ba0c874e",
+    "terminal.json": "bcb6bcabba7cedf33cc2862ac9871c8308b277e0f835704a1f07feafab54d69c"
+  },
+  "original_S09_status": "FAILED_ASSERTION at b6d45dad retained",
+  "coverage": {
+    "terminal_identity_order_conflict": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12",
+      "A13",
+      "A14",
+      "A15",
+      "A16",
+      "A17",
+      "A18",
+      "A19",
+      "A20"
+    ],
+    "execution_and_work_pair": [
+      "X01",
+      "X02",
+      "X03",
+      "X04",
+      "X05",
+      "X06",
+      "X07",
+      "X08",
+      "X09",
+      "X10",
+      "X11",
+      "X12",
+      "X13",
+      "X14",
+      "X15"
+    ],
+    "locks_and_conditional_obligations": [
+      "R01",
+      "R02",
+      "R03",
+      "R04",
+      "R05",
+      "R06",
+      "R07",
+      "R08",
+      "R09",
+      "R10"
+    ],
+    "shared_budget_cross_issue": [
+      "B00-J",
+      "B00-B",
+      "B01-J",
+      "B01-B",
+      "B02-J",
+      "B02-B",
+      "B03-J",
+      "B03-B",
+      "B04-J",
+      "B04-B",
+      "B05-J",
+      "B05-B",
+      "B06-J",
+      "B06-B",
+      "B07-J",
+      "B07-B",
+      "B08-J",
+      "B08-B"
+    ],
+    "same_kit_handoff": [
+      "K01",
+      "K02",
+      "old-G20-pre",
+      "old-G20-post"
+    ],
+    "native_origin_and_transport": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05",
+      "D06"
+    ],
+    "separate_latency_denominators": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "M05",
+      "M06",
+      "M07",
+      "M08",
+      "M09",
+      "H09"
+    ],
+    "directly_affected_replays": [
+      "old-P09-J",
+      "old-P09-B",
+      "old-P10-J",
+      "old-P10-B",
+      "old-P11-J",
+      "old-P11-B",
+      "old-P12-J",
+      "old-P12-B",
+      "old-G08-1.75",
+      "old-G08-2.25",
+      "old-G08-2.5",
+      "old-G09",
+      "old-G10",
+      "old-G20-pre",
+      "old-G20-post",
+      "old-G21",
+      "old-G22-early",
+      "old-G22-expired",
+      "old-G23",
+      "old-G24"
+    ]
+  },
+  "unexecuted": [],
+  "full_stage_two_qualified": false,
+  "stage_three_study_authorized": false,
+  "assertions": {
+    "T0": 22,
+    "T1": 378
+  },
+  "limits": "Detached public calls, synthetic terminal delivery timing, and additive read-only S09 statistics. No native end-to-end execution with the repaired adapter; no new thermal/physical, study, ordinary-improvement or RSI calls."
+}

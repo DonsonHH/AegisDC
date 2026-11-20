@@ -8,7 +8,7 @@
 
 在同一完整设施、外生需求、合法证据获取机会和人员／工具预算下，问题触发的证据选择与受约束行动能否改善服务保障？固定改进器的付费反馈能否改进策略，真正修改后续提案程序能否超过同预算强搜索及固定父、固定子？[11 月 3 日研究定位](meetings/2026-11-03-research-reset.md) · [完整设施 ADR](adr/0003-complete-facility-mainline.md)
 
-原生首片已按一次性授权完成并封存。17 个条件、85 次运行、1,700 个公开决定、131 次人工发行，重试 0。V–D 全部 17 行实际服务持平，V 的资源较少／相同／较多为 3／9／5 行，三项省工均伴随关闭损失。第一阶段已完成并登记[有限验收](mainline/v6-native-method-study-v1/acceptance-20261120.json)。[第二阶段总契约](mainline/v6-joint-cooling-network-v1/README.md)已接受。受限实现和 27 次原生设施调用已交付[有限工程验收](mainline/v6-joint-engineering-v1/README.md)，等待用户审查回执计数与热工处置前同轨差异。[本批研究报告](mainline/v6-native-method-study-v1/README.md) · [逐臂观测](mainline/v6-native-method-study-v1/per-condition.md) · [唯一授权](mainline/authorizations/v6-native-method-study-v1.json)
+原生首片已按一次性授权完成并封存。17 个条件、85 次运行、1,700 个公开决定、131 次人工发行，重试 0。V–D 全部 17 行实际服务持平，V 的资源较少／相同／较多为 3／9／5 行，三项省工均伴随关闭损失。第一阶段已完成并登记[有限验收](mainline/v6-native-method-study-v1/acceptance-20261120.json)。[第二阶段总契约](mainline/v6-joint-cooling-network-v1/README.md)已接受。原工程取得[限定的部分验收](mainline/v6-joint-engineering-v1/acceptance-20261121.json)。[终态接口收尾](mainline/v6-joint-terminal-v1/README.md)与[第三阶段协议候选](mainline/v6-stage-three-candidate-v1/README.md)已集中交审。新增设施、热工和研究调用均为零。[本批研究报告](mainline/v6-native-method-study-v1/README.md) · [逐臂观测](mainline/v6-native-method-study-v1/per-condition.md) · [唯一授权](mainline/authorizations/v6-native-method-study-v1.json)
 
 ## 事故验证章节保留的 R0–R6 记录
 

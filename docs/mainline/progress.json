@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "TERMINAL_INTERFACE_CLOSEOUT_AND_STAGE_THREE_PROTOCOL_DRAFT",
+  "status": "TERMINAL_CLOSEOUT_AND_STAGE_THREE_CANDIDATE_DELIVERED",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "FREEZE_TERMINAL_INTERFACES_AND_LITERAL_ORACLE",
+  "current_milestone": "REVIEW_TERMINAL_CLOSEOUT_AND_STAGE_THREE_PROTOCOL",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "BOUNDED_ENGINEERING",
+  "agent_stage": "TERMINAL_AND_PROTOCOL_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,19 +43,16 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "BOUNDED_ENGINEERING",
+    "automatic_goal": "NONE",
     "research_execution": "CLOSED",
-    "authorized_scope": [
-      "terminal public interface and sealed S09 saved-output closeout, bounded to 128 public/component invocations and two serial one-CPU 300s allocations",
-      "written stage-three protocol candidate only"
-    ],
+    "authorized_scope": [],
     "after_delivery": "STOP_AT_TERMINAL_CLOSEOUT_AND_STAGE_THREE_PROTOCOL_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "STAGE_TWO_FINITE_ENGINEERING_DELIVERED",
+    "document_authorization_status": "TERMINAL_CLOSEOUT_AND_STAGE_THREE_CANDIDATE_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -1953,5 +1950,88 @@
     "acceptance": "docs/mainline/v6-joint-engineering-v1/acceptance-20261121.json",
     "accepted_revision": "b6d45dad087034b7cda720ee8b62b73d8bb0f524",
     "complete_stage_two_qualification": false
+  },
+  "v6_joint_terminal_v1": {
+    "status": "FINITE_PUBLIC_CLOSEOUT_DELIVERED_PENDING_REVIEW",
+    "contract": "docs/mainline/v6-joint-terminal-v1/terminal-contract.md",
+    "report": "docs/mainline/v6-joint-terminal-v1/README.md",
+    "results": "docs/mainline/v6-joint-terminal-v1/result.json",
+    "integrity": "docs/mainline/v6-joint-terminal-v1/integrity.json",
+    "freeze_revision": "64adc697",
+    "executed_source": "2acfb9803b7781b3f9820d13eb86ab50131217c3",
+    "accepted_original": "b6d45dad087034b7cda720ee8b62b73d8bb0f524",
+    "S09_original_status": "FAILED_ASSERTION_RETAINED",
+    "S09_appendix": "WORK_TERMINAL_WAIT_0.5__MESSAGE_SUM_1.0",
+    "actual": {
+      "policy": 30,
+      "component": 78,
+      "combined": 108,
+      "facility": 0,
+      "thermal": 0,
+      "research": 0
+    },
+    "jobs": [
+      "134696",
+      "134697"
+    ],
+    "CPU_seconds_reserved": 600,
+    "remaining_job_slots": 0,
+    "green_units": 101,
+    "green_passed": 101,
+    "legacy_projections": 20,
+    "unexecuted": [],
+    "new_facilities": 0,
+    "new_thermal": 0,
+    "new_studies": 0,
+    "complete_stage_two_qualified": false,
+    "complete_dual_step_qualified": false,
+    "user_acceptance_pending": true
+  },
+  "v6_stage_three_candidate_v1": {
+    "status": "WRITTEN_CANDIDATE_PENDING_USER_REVIEW",
+    "protocol": "docs/mainline/v6-stage-three-candidate-v1/README.md",
+    "matrix": "docs/mainline/v6-stage-three-candidate-v1/conditions.json",
+    "proposed_limits": {
+      "core": {
+        "conditions": 24,
+        "primary_pairs": 24,
+        "opening_pairs": 4,
+        "inspection_pairs": 10,
+        "order_pairs": 4,
+        "facility_arms": 66,
+        "internal_policy_calls": 3234,
+        "jobs": 24,
+        "one_cpu_seconds_per_job": 300,
+        "Gib_per_job": 4,
+        "total_reserved_CPU_s": 7200
+      },
+      "warm_conditional": {
+        "conditions": 2,
+        "primary_pairs": 2,
+        "facility_arms": 4,
+        "internal_policy_calls": 88,
+        "jobs": 2,
+        "one_cpu_seconds_per_job": 600,
+        "Gib_per_job": 8,
+        "total_reserved_CPU_s": 1200
+      },
+      "ceiling_only_if_both_authorized": {
+        "conditions": 26,
+        "facility_arms": 70,
+        "internal_policy_calls": 3322,
+        "jobs": 26,
+        "total_reserved_CPU_s": 8400
+      },
+      "order": "lexical row order, one row per serial CPU allocation, arms in declared row order, each in a distinct fresh facility and evidence/receipt ledger",
+      "retry": "0 automatic retries/replacements; retain scheduled, started, returned, invalid, withheld, failed, suffix, confirmed computation and denominators",
+      "qualification_or_migration_included": false
+    },
+    "accepted_protocol": false,
+    "execution_manifest": null,
+    "execution_authorized": false,
+    "research_calls": 0,
+    "thermal_migration_authorized": false,
+    "ordinary_improvement_authorized": false,
+    "RSI_authorized": false
   }
 }

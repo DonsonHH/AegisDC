@@ -1,0 +1,96 @@
+"""Static receipt for the delivered documents, releases and public records; run from a fresh selected checkout."""
+from pathlib import Path
+import gzip
+import hashlib
+import json
+import subprocess
+import sys
+
+BASE='b6d45dad087034b7cda720ee8b62b73d8bb0f524'
+PKG='docs/mainline/v6-joint-terminal-v1/'
+OLD='docs/mainline/v6-joint-engineering-v1/'
+PROTOCOL='docs/mainline/v6-stage-three-candidate-v1/'
+ACCEPT=OLD+'acceptance-20261121.json'
+
+
+def git(*args):
+    return subprocess.check_output(['git',*args])
+
+
+def text(*args):
+    return git(*args).decode('utf8').strip()
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def read(name):
+    return json.loads(Path(name).read_bytes())
+
+
+def require(ok,label):
+    if not ok:raise ValueError(label)
+
+
+def verify(ref):
+    revision=text('rev-parse',ref+'^{commit}')
+    acceptance=read(ACCEPT);result=read(PKG+'result.json');f=read(PKG+'fixtures.json');pin=read(PKG+'execution-releases.json')
+    require(acceptance['accepted_publication']==BASE and len(acceptance['passed_original_units'])==77 and
+            not acceptance['complete_stage_two_qualification'] and not acceptance['complete_dual_step_qualification'],'partial acceptance')
+    require(text('diff','--name-only',BASE,revision,'--',OLD)==ACCEPT,'old engineering originals preserved, acceptance additive')
+    protected=['src/aegis_dc/plant.py','src/aegis_dc/power.py','src/aegis_dc/local_control.py','src/aegis_dc/thermodynamics.py',
+               'src/aegis_dc/intervention_execution.py','src/aegis_dc/workforce_dispatch.py','src/aegis_dc/native_compare_score.py',
+               'docs/mainline/v6-joint-cooling-network-v1','docs/mainline/v6-native-method-study-v1','docs/mainline/review-gated','configs','evidence']
+    require(not text('diff','--name-only',BASE,revision,'--',*protected),'old dynamics, study inputs and results')
+    for name,h in acceptance['originals'].items():
+        raw=Path(OLD+name).read_bytes()
+        require(sha(raw)==h and raw==git('show',BASE+':'+OLD+name),'accepted original '+name)
+    prior=read(OLD+'result.json')
+    require(prior['units']['S09']['status']=='FAILED_ASSERTION' and result['original_S09_status']=='FAILED_ASSERTION at b6d45dad retained','original failure')
+    for path,h in read(OLD+'integrity.json')['preserved_slice57'].items():
+        require(sha(Path(path).read_bytes())==h,'slice57 '+path)
+    old_inputs=json.loads(gzip.decompress(Path(OLD+'inputs.json.gz').read_bytes()))
+    for key,h in f['legacy']['sources'].items():
+        raw=json.dumps(old_inputs[key],sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+        require(sha(raw)==h,'old complete input '+key)
+    require(Path(PKG+'fixtures.json').read_bytes()==git('show','64adc697:'+PKG+'fixtures.json'),'freeze precedes implementation')
+    counts=dict.fromkeys(result['actual'],0);releases={};all_units=0
+    for phase,scope in [('T0','red'),('T1','green')]:
+        report=result['phases'][phase];release=pin[phase];src=release['export']['revision']
+        for name,h in release['export']['files'].items():
+            require(sha(git('show',src+':'+name))==h,'execution source '+name)
+        require('src/aegis_dc/plant.py' not in release['export']['files'] and report['release_sha256']==release['manifest_sha256'],'narrow export')
+        require(report['allocation']['state']=='COMPLETED' and report['allocation']['seconds_reserved']==300 and
+                report['allocation']['cpus']==1 and not report['failed'] and not report['unexecuted'],'terminal allocation')
+        require([r['unit'] for r in report['rows']]==f[scope],'declared ordered entries')
+        for row in report['rows']:
+            key=row['unit'];want=f['red_literal'][key] if phase=='T0' else f['units'][key]['expected']
+            require(row['status']=='PASS' and row['expected']==want and all(k in row['actual'] and row['actual'][k]==v for k,v in want.items()),'literal '+phase+'/'+key)
+            if phase=='T1':require(row['invoked'],'actual interface entry '+key)
+        for k,n in report['counts'].items():counts[k]+=n
+        all_units+=len(report['rows'])
+        releases[phase]=dict(revision=src,files=len(release['export']['files']),job=report['job'],assertions=report['actual_assertions'])
+    require(counts==result['actual']==dict(policy=30,component=78,combined=108,facility=0,thermal=0,research=0) and all_units==108,'calls')
+    s09=result['authentic_S09_saved_only']
+    require(s09['statistics']['total_wait_s']==.5 and s09['statistics']['logical_delay_s']==1 and
+            s09['actual']['real_work']==[.75,.75,1] and result['retained_original_S09_after_SHA256']==s09['original_bytes'],'S09 append')
+    m=read(PROTOCOL+'conditions.json');cold=m['core_rows'];warm=m['conditional_warm']['rows'];limits=m['proposed_research_limits']
+    arm_counts={k:sum(k in row['arms'] for row in cold) for k in ('J','B','J_OPEN','J_NO_PROBE','J_ORDER')}
+    require(len({r['id'] for r in cold})==len(cold)==24 and list(arm_counts.values())==[24,24,4,10,4],'core design')
+    require(sum(arm_counts.values())*49==limits['core']['internal_policy_calls']==3234 and len(warm)==2 and
+            sum(len(r['arms']) for r in warm)*22==88 and m['actual_study_calls']==0,'candidate budgets')
+    g=read('docs/mainline/progress.json')
+    require(not g['active_implementations'] and g['execution_control']['research_execution']=='CLOSED'
+            and not g['v6_stage_three_candidate_v1']['execution_authorized'] and g['v6_joint_terminal_v1']['user_acceptance_pending'],'review gate')
+    files={}
+    for name in text('diff','--name-only',BASE,revision).splitlines():
+        raw=Path(name).read_bytes();require(raw==git('show',revision+':'+name),'fresh blob '+name)
+        files[name]=dict(bytes=len(raw),sha256=sha(raw),git_blob=text('rev-parse',revision+':'+name))
+    return dict(schema='terminal-closeout-fresh-readback-v1',content_revision=revision,baseline=BASE,files=files,
+                checked_execution_releases=releases,original_scope_accepted=77,derived_counts=counts,study_design_arm_counts=arm_counts,
+                original_S09_and_two_thermal_failures_retained=True,slice57_verified=3,new_interface_or_facility_calls=0)
+
+
+if __name__=='__main__':
+    print(json.dumps(verify(sys.argv[1]),ensure_ascii=False,indent=2))

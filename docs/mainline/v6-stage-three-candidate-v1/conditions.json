@@ -555,7 +555,8 @@
         "arms": [
           "J",
           "B"
-        ]
+        ],
+        "initialization": "Reuse original full-load, g=1 warm thermal inventories. Freeze g=0.25 in both initial scenario parameter sets before the first native sample at t=0; no re-equilibration under g=0.25 and no added network event. Qualify this new joint initial state and event family separately."
       }
     ],
     "forbidden_claim": "The short proxy does not forecast temperature, trip time or hour-long losses; these rows only test a predeclared fixed policy under horizon/model shift."
@@ -595,5 +596,7 @@
     "retry": "0 automatic retries/replacements; retain scheduled, started, returned, invalid, withheld, failed, suffix, confirmed computation and denominators",
     "qualification_or_migration_included": false
   },
-  "actual_study_calls": 0
+  "actual_study_calls": 0,
+  "paired_physical_gate": "Audit to first real manual physical effect t*, then across all common physical effects through the first differing effective physical input tDelta-minus. Compare both sides of common events. If effective histories agree throughout, verify to H; no artificial synchronization.",
+  "tie_precedence": "After per-arm H coverage, conservation, physical prefix eligibility and <=1e-8 absolute rate/balance reconciliation, identical coalesced full-window demand and delivery curves have tie priority, retaining native roundoff. Other cases require both ledgers/both outcomes zero, or all strict in the same direction; otherwise unresolved."
 }
