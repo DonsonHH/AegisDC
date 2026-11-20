@@ -165,7 +165,7 @@ def work_receipt_statistics(jobs, messages, cfg, as_of):
         if finite_clock(arrived) and arrived > as_of:
             continue
         task = msg.get('task_id')
-        job = issued.get(task)
+        job = issued.get(task) if isinstance(task,str) else None
         kind = task.split('/')[0] if isinstance(task, str) else None
         typ = cfg['types'].get(kind)
         status = msg.get('status')
@@ -173,6 +173,7 @@ def work_receipt_statistics(jobs, messages, cfg, as_of):
                  and job['issued_at_s'] <= at <= arrived <= as_of
                  and msg.get('source_id') == 'workforce-execution-report' and msg.get('origin_id') == 'workforce:'+task
                  and msg.get('coverage') == 'THIS_ISSUED_TASK_ONLY'
+                 and msg.get('worker_id',typ['worker']) == typ['worker'] and msg.get('tool_id',typ['tool']) == typ['tool']
                  and job['work_interface_id'] == typ['interface'] and job['tool_carrier_id'] == typ['worker']
                  and job['crew'] == [dict(worker_id=typ['worker'],qualification_id=typ['qualification'])]
                  and job['target_id'] == (typ['asset'] if task.endswith('/A') else typ['target'])
@@ -192,10 +193,10 @@ def work_receipt_statistics(jobs, messages, cfg, as_of):
                             arrived=earliest, lag_s=earliest-at, deliveries=len(times)))
         if status != 'safety_stop_observed':
             by_task[task].append((status,at,earliest))
-    waits, held, conflicts = {}, {}, []
+    waits, held, terminal_arrivals, conflicts = {}, {}, {}, []
     for task, terminals in by_task.items():
         job = issued[task]
-        waits[task] = held[task] = None
+        waits[task] = held[task] = terminal_arrivals[task] = None
         if not terminals:
             continue
         if (len(terminals) != 1 or terminals[0][0] != job['status']
@@ -203,11 +204,12 @@ def work_receipt_statistics(jobs, messages, cfg, as_of):
             conflicts.append(task)
             continue
         _, observed, arrived = terminals[0]
+        terminal_arrivals[task] = arrived
         waits[task] = arrived - observed
         held[task] = arrived - job['issued_at_s']
     known = [v for v in waits.values() if v is not None]
     processes = sum(r['status']=='safety_stop_observed' for r in logical)
-    return dict(issued_tasks=len(issued), task_waits=waits, held_s=held, known_tasks=len(known),
+    return dict(issued_tasks=len(issued), task_waits=waits, held_s=held, terminal_arrivals=terminal_arrivals, known_tasks=len(known),
                 unresolved=sorted(k for k,v in waits.items() if v is None), conflicts=sorted(conflicts),
                 total_wait_s=math.fsum(known) if len(known)==len(issued) else None, known_wait_sum_s=math.fsum(known),
                 raw_count=len(raw_lags), unique_count=len(logical), process_count=processes,
@@ -288,8 +290,8 @@ def native_case(key,item,run,oracle):
         e=expected['expected'];chain=oracle['chains'][e['chain']];multi=key=='S17'
         entries=[]
         for x in work:
-            ack=next(a for a in native_acks if a['task_id']==x['id'])
-            entries.append([native_check_label(x['id'],multi),x['issued_at_s'],x['finished_at_s'],ack['arrived_at_s']])
+            entries.append([native_check_label(x['id'],multi),x['issued_at_s'],x['finished_at_s'],
+                            receipt_stats['terminal_arrivals'][x['id']]])
         want=[[name,number(a),number(str(b).split(' ')[0]),number(str(end).split(' ')[0])] for name,a,b,end in chain]
         c.compare('actual chronological stages',entries,want)
         c.compare('literal L and U',account['rate'],[e['L'],e['U']])

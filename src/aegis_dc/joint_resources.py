@@ -48,9 +48,17 @@ def public_prefix(cfg,view):
                 locked.setdefault(obj,[]).append(task)
                 projected_ack=row['planned_ack'] if row['planned_ack']>now else next_tick
                 free[obj]=max(free[obj],projected_ack)
-        if task.endswith('/I') and (not ack or (ack['status']=='completed' and not any(r['task']==task for r in view['paid']))):
-            checks_waiting.append(task)
-            continued[task]=row.get('contingent',[])
+        if task.endswith('/I'):
+            delivered=set()
+            if ack and ack['status']=='completed':
+                kind,origin,phase=task.split('/')
+                delivered={r['field'] for r in view['paid'] if r['task']==task and r['instance']==kind+'/'+origin
+                           and r['phase']==phase and r['source']=='onsite-'+kind and r['target']==typ['target']
+                           and r['at']==ack['at'] and r['bundle']==f"{task}@{ack['at']:g}"
+                           and r['at']<=r['arrived']<=now}
+            if not ack or (ack['status']=='completed' and not set(typ['read'])<=delivered):
+                checks_waiting.append(task)
+                continued[task]=row.get('contingent',[])
         if not task.endswith('/A'):continue
         feedback=action_feedback(cfg,view,task)
         review=task[:-1]+'R'

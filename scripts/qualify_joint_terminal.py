@@ -52,7 +52,11 @@ def prefix_projection(prefix,cfg,task):
         pose=[prefix['pose'][typ[k]] for k in ('worker','tool')])
 
 
-def run_one(fixture,case,old,old_oracles):
+class FrozenInputError(ValueError):
+    pass
+
+
+def run_one(fixture,case,old,old_oracles,entered):
     from aegis_dc.joint_evidence import own_ack,action_feedback,at_time,instances,certificate,observation
     from aegis_dc.joint_forecast import support
     from aegis_dc.joint_resources import public_prefix,schedule
@@ -60,49 +64,66 @@ def run_one(fixture,case,old,old_oracles):
     entry=case['entry'];args=case.get('args',{})
     if 'source_key' in case:
         key=case['source_key'];old_input=old[key]
-        if canonical(old_input)!=fixture['legacy']['sources'][key] or key not in old_oracles:raise ValueError('Historical source mismatch')
+        if canonical(old_input)!=fixture['legacy']['sources'][key] or key not in old_oracles:raise FrozenInputError('Historical source mismatch')
         cfg=old_input['program'];v=old_input['view']
         if 'time' in args:v=at_time(v,args['time'])
     else:
         cfg=fixture['programs'][case['program']];v=case['view']
     cfg=deepcopy(cfg);v=deepcopy(v);task=args.get('task','N/n0/A')
     if entry in ('choose','legacy_choose'):
+        entered()
         actual=choose(cfg,v)
         return policy_projection(actual,args.get('inspect_sequence')),actual
     if entry=='own_ack':
+        entered()
         a=own_ack(cfg,v,task);return {'value':[a[k] for k in ('status','at','arrived','location')] if a else None},a
     if entry=='action_feedback':
+        entered()
         a=action_feedback(cfg,v,task);return {'value':[a[k] for k in ('outcome','at','arrived')] if a else None},a
     if entry in ('public_prefix','legacy_prefix'):
+        entered()
         p=public_prefix(cfg,v);answer=prefix_projection(p,cfg,task);return answer,p
     if entry=='legacy_observation':
+        entered()
         a=observation(cfg,v,task);return {'value':a[0]},a
     if entry=='legacy_route':
+        entered()
         a=schedule(cfg,v,[task]);row=a['steps'][0]
         return dict(emit_now=row['at']==v['time'],finish=row['planned_end'],ack=row['planned_ack']),a
     if entry=='legacy_cert':
+        entered()
         key=args['instance'];a=certificate(cfg,v,key,instances(cfg,v)[key]);return {'value':a},a
     if entry=='legacy_support':
+        entered()
         a=support(cfg,v,public_prefix(cfg,v));return {'value':sorted(w['origin'] for w in a)},a
     if entry=='adapter':
         from aegis_dc.joint_messages import native_message
+        entered()
         a=native_message(cfg,v['issued'],args['raw'],args['channel'],v['time'])
         return {'value':a},a
     if entry in ('statistics','sealed_statistics'):
         from audit_v6_joint import work_receipt_statistics
         if entry=='statistics':
+            entered()
             a=work_receipt_statistics(args['jobs'],args['work'],cfg,args['time']);return a,a
         archive=fixture['original_archive'];folder=Path(archive['path'])
         for f,field in [('run.json.gz','run_sha256'),('checks.json','checks_sha256'),('terminal.json','terminal_sha256')]:
-            if hash_file(folder/f)!=archive[field]:raise ValueError('Original S09 bytes differ: '+f)
+            if hash_file(folder/f)!=archive[field]:raise FrozenInputError('Original S09 bytes differ: '+f)
         raw=read(folder/'run.json.gz');original=read(folder/'checks.json');terminal=read(folder/'terminal.json')
         source=old['S09']
         if canonical(source)!=fixture['legacy']['sources']['S09'] or canonical(raw['source_config'])!=canonical(source['scenario']) or canonical(raw['inputs']['dispatch_program'])!=canonical(source['dispatch_program']):
-            raise ValueError('Original S09 source binding differs')
+            raise FrozenInputError('Original S09 source binding differs')
+        entered()
         a=work_receipt_statistics(raw['work_records'],raw['workforce_public_feedback'],source['dispatch_program']['policy_program'],raw['summary']['duration_s'])
         from math import fsum
-        balances=raw['balances'];work=raw['work_records'];cost=[fsum(r[k] for r in balances for k in
-            ('worker_travel_person_s','worker_work_person_s','worker_wait_person_s')),fsum(r['tool_occupation_tool_s'] for r in balances),len(work)]
+        balances=raw['balances'];work=raw['work_records'];final=raw['policy_public_decisions'][-1]
+        cfg=source['dispatch_program']['policy_program']
+        charged=final['decision']['prefix']['debit'][2]
+        issued=[r['task'] for r in final['view']['issued']]
+        if sorted(issued)!=sorted(r['id'] for r in work) or charged!=len(set(issued))*cfg['fee']:
+            raise ValueError('Sealed S09 fee and actual issued identities differ')
+        cost=[fsum(r[k] for r in balances for k in ('worker_travel_person_s','worker_work_person_s','worker_wait_person_s')),
+              fsum(r['tool_occupation_tool_s'] for r in balances),charged]
         facts=dict(real_work=cost,actual_requests=len(work),execution_outcomes=[r['outcome'] for r in raw['intervention_public_feedback']],
             physical_writes=sum(r['outcome']=='APPLIED' for r in raw['intervention_private_audit']['events']),
             original_failed_assertion=terminal['status']=='FAILED_ASSERTION' and not original['passed'] and
@@ -145,10 +166,14 @@ def main():
         case=f['units'][key];folder=out/key;folder.mkdir()
         kind='policy' if case['entry'] in ('choose','legacy_choose') else 'component'
         save(folder/'input.json',case);want=f['red_literal'][key] if red else case['expected']
-        counts[kind]+=1;counts['combined']+=1
-        with (out/'calls.jsonl').open('a',encoding='utf8') as fp:fp.write(json.dumps([key,kind,counts['combined']])+'\n')
+        mark=[]
+        def enter():
+            if mark or counts['combined']>=len(order):raise PermissionError('Repeated or excess interface invocation')
+            mark.append(True);counts[kind]+=1;counts['combined']+=1
+            with (out/'calls.jsonl').open('a',encoding='utf8') as fp:fp.write(json.dumps([key,kind,counts['combined']])+'\n')
+        input_error=False
         try:
-            actual,raw=run_one(f,case,old,old_oracles)
+            actual,raw=run_one(f,case,old,old_oracles,enter)
             save(folder/'raw.json',raw)
             diffs=[dict(field=k,actual=actual.get(k),expected=value) for k,value in want.items() if k not in actual or actual[k]!=value]
             if red and all(k in actual and actual[k]==v for k,v in case['expected'].items()):
@@ -156,12 +181,14 @@ def main():
             row=dict(unit=key,kind=kind,status='FAIL' if diffs else 'PASS',assertions=len(want)+int(red),actual=actual,expected=want,differences=diffs,
                      raw_sha256=hash_file(folder/'raw.json'),input_sha256=canonical(case))
         except Exception as exc:
+            input_error=isinstance(exc,(FrozenInputError,OSError))
             (folder/'error.txt').write_text(traceback.format_exc(),encoding='utf8');row=dict(unit=key,kind=kind,status='EXCEPTION',error=repr(exc),input_sha256=canonical(case))
+        row['invoked']=bool(mark)
         save(folder/'comparison.json',row);rows.append(row)
         if row['status']!='PASS':
             failed.append(key)
             # Cases are independent snapshots. A missing/corrupt frozen input blocks the remaining schedule.
-            if row['status']=='EXCEPTION' and any(x in row['error'] for x in ('bytes differ','binding differs','source mismatch')):break
+            if input_error:break
     status='FAILED' if failed or len(rows)!=len(order) else 'RED_REPRODUCED' if red else 'FINITE_SCOPE_PASS'
     save(out/'result.json',dict(phase=args.phase,job=os.environ['SLURM_JOB_ID'],status=status,
         source_revision=pin['revision'],release_sha256=args.release_sha,fixtures_sha256=FIXTURE_SHA,counts=counts,
