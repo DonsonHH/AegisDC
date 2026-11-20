@@ -6,7 +6,7 @@ AegisDC 研究完整算力设施在多系统耦合、多源稀疏证据下，如
 
 ## 当前状态
 
-第一阶段的 17 个条件和 85 个处理已完成有限验收。V 与 D 在 17 行的实际服务均持平，三项省工均伴随关闭损失。第二阶段已有[部分验收](docs/mainline/v6-joint-engineering-v1/acceptance-20261121.json)。[终态接口收尾与第三阶段协议候选](docs/mainline/v6-joint-terminal-v1/README.md)已交审，原 S09 与两组半秒热工同轨失败继续保留。伦敦 PRE 的 R6 v1.3 继续作为有限事故验证章节。[本批结果](docs/mainline/v6-native-method-study-v1/README.md) · [原生方法说明](docs/mainline/full-facility-method-handoff.md) · [伦敦章节有限验收](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
+第一阶段的 17 个条件和 85 个处理已完成有限验收。V 与 D 在 17 行的实际服务均持平，三项省工均伴随关闭损失。第二阶段已有[部分验收](docs/mainline/v6-joint-engineering-v1/acceptance-20261121.json)。[终态接口有限验收](docs/mainline/v6-joint-terminal-v1/acceptance-20261121.json)已登记。第三阶段[冷态工程及研究启动审查](docs/mainline/v6-stage-three-cold-v2/README.md)已交付，正式 66 个研究位置启动数为零；原 S09 与两组半秒热工同轨失败继续保留。伦敦 PRE 的 R6 v1.3 继续作为有限事故验证章节。[本批结果](docs/mainline/v6-native-method-study-v1/README.md) · [原生方法说明](docs/mainline/full-facility-method-handoff.md) · [伦敦章节有限验收](docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/acceptance-20261119.md)
 
 维护 [PR #3](https://github.com/DonsonHH/AegisDC/pull/3) 经重新审查后已合入 `donson/mainline-39c-endpoints`，合并提交 `4a9dfdbe`。这不接受旧 39c 整票，也未合入 `main`。维护验证见[回执](docs/maintenance/20261112-workspace/result.json)。
 

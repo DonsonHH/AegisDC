@@ -1,0 +1,122 @@
+"""Static fresh-checkout verification; no project code imports or scientific execution."""
+import ast
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+OLD='8a806a9af41576b551489c5859ca3bc2a8ba5afe'
+FREEZE='71efcd4d716e3e0dd4e1076315b50da3b792b3b1'
+P='docs/mainline/v6-stage-three-cold-v2/'
+PRE='docs/mainline/v6-joint-terminal-v1/'
+ACCEPT=PRE+'acceptance-20261121.json'
+
+
+def git(*args):
+    return subprocess.check_output(['git',*args])
+
+
+def txt(*args):
+    return git(*args).decode('utf8').strip()
+
+
+def h(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def obj(data):
+    return h(json.dumps(data,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode())
+
+
+def read(path):
+    b=Path(path).read_bytes()
+    return json.loads(gzip.decompress(b) if path.endswith('.gz') else b)
+
+
+def check(ok,label):
+    if not ok:raise ValueError(label)
+
+
+def prior_physics(rev):
+    name='src/aegis_dc/plant.py'
+    old=ast.parse(git('show',OLD+':'+name));new=ast.parse(git('show',rev+':'+name))
+    target=next(n for n in new.body if isinstance(n,ast.FunctionDef) and n.name=='simulate_scenario')
+    i=next(i for i,a in enumerate(target.args.kwonlyargs) if a.arg=='private_physical_audit')
+    check(target.args.kw_defaults[i].value is False,'audit is opt-in')
+    target.args.kwonlyargs.pop(i);target.args.kw_defaults.pop(i)
+    class OmitReadback(ast.NodeTransformer):
+        count=0
+        def visit_If(self,node):
+            if ast.unparse(node.test) in ('private_physical_audit','type(private_physical_audit) is not bool'):
+                self.count+=1;return None
+            return self.generic_visit(node)
+    r=OmitReadback();r.visit(target)
+    check(r.count==6 and ast.dump(old)==ast.dump(new),'Original numerical algorithm, integration clock and event order')
+    return r.count
+
+
+def main(ref):
+    rev=txt('rev-parse',ref+'^{commit}');files={}
+    for path in txt('diff','--name-only',OLD,rev).splitlines():
+        raw=Path(path).read_bytes();check(raw==git('show',rev+':'+path),'fresh raw blob '+path)
+        files[path]=dict(sha256=h(raw),bytes=len(raw),blob=txt('rev-parse',rev+':'+path))
+    a=read(ACCEPT)
+    for k,v in a['original_files'].items():check(h(git('show',rev+':'+PRE+k))==v,'terminal original '+k)
+    check(a['publication']==OLD and a['green_units']==101 and not a['full_stage_two_qualified'],'limited acceptance')
+    check(txt('diff','--name-only',OLD,rev,'--',PRE)==ACCEPT,'old terminal results preserved')
+    protected=['docs/mainline/v6-joint-engineering-v1','docs/mainline/v6-stage-three-candidate-v1','docs/mainline/v6-native-method-study-v1',
+               'docs/mainline/review-gated','configs','evidence','src/aegis_dc/power.py','src/aegis_dc/intervention_execution.py','src/aegis_dc/local_control.py',
+               'src/aegis_dc/thermodynamics.py','src/aegis_dc/workforce_dispatch.py','src/aegis_dc/native_compare_score.py']
+    check(not txt('diff','--name-only',OLD,rev,'--',*protected),'Historical scientific records')
+    preserved=read('docs/mainline/v6-joint-engineering-v1/integrity.json')['preserved_slice57']
+    for p,hash_ in preserved.items():check(h(Path(p).read_bytes())==hash_,'slice57 '+p)
+    instrument_blocks=prior_physics(rev);m=read(P+'input-freeze.json');e=read(P+'execution-releases.json')
+    for name in ['input-freeze.json',*m['files']]:
+        raw=Path(P+name).read_bytes();check(raw==git('show',FREEZE+':'+P+name),'immutable input '+name)
+        if name in m['files']:check(h(raw)==m['files'][name],name)
+    data=read(P+'engineering-inputs.json.gz');study=read(P+'study-inputs.json.gz');snaps=read(P+'direct.json')
+    for k,items in [('engineering',data),('study',study),('direct',snaps)]:
+        check(set(items)==set(m[k]) and all(obj(x)==m[k][i] for i,x in items.items()),'full '+k+' identities')
+    result=read(P+'result.json');manifest=read(P+'study-manifest.json');matrix=read(P+'conditions.json')
+    old_matrix=read('docs/mainline/v6-stage-three-candidate-v1/conditions.json')
+    for old,current in zip(old_matrix['core_rows'],matrix['core_rows'],strict=True):
+        if old['id'] in ('A07','A08'):old=dict(old,budget=[60,60,4])
+        check(old==current,'only two cold condition amendments')
+    for key,release in e.items():
+        for path,v in release['files'].items():check(h(git('show',release['revision']+':'+path))==v,'export '+key+' '+path)
+    check(manifest['release_revision']==e['engineering']['revision'] and manifest['release_sha256']==e['engineering']['release_sha256'],'manifest source')
+    check(manifest['execution_file_sha256']==e['engineering']['files'],'study runtime file set')
+    slots=[r for g in manifest['groups'] for r in g['positions']]
+    check(len(slots)==len(study)==66 and [r['position'] for r in slots]==list(range(66)) and
+          all(r['complete_call_sha256']==m['study'][r['input_key']] for r in slots),'research positions')
+    check(manifest['authority'] is None and manifest['study_starts']==0 and result['study_starts']==0,'no research grant')
+    check(h(Path(P+'study-manifest.json').read_bytes())==result['study_manifest_sha256'] and
+          h(Path(P+'engineering-prefix-overlap.json.gz').read_bytes())==manifest['new_observed_prefix_sha256'],'manifest and observed prefix index')
+    d=read(P+'disclosure.json.gz');check(not d['study_duplicates'] and not d['complete_engineering_study_matches'],'complete overlap ledger')
+    totals={k:0 for k in ('facility','direct','internal','component')};budget=read(P+'engineering-plan.json')
+    for phase,seconds,unused in budget['jobs']:
+        row=result['phases'][phase]
+        if 'allocation' not in row:continue
+        check(row['allocation']['reserved_CPU_s']==seconds and row['allocation']['cpus']==1 and seconds<=300,'resource cap '+phase)
+        for k,v in row['counts'].items():totals[k]+=v
+    check(totals==result['calls'] and all(v<=budget['limits'][k] for k,v in totals.items()),'call accounting')
+    check(all(totals[k]==budget['scheduled'][k] for k in totals),'frozen actual schedule')
+    check(not result['hard_failures'] and result['actual_returned']==16 and not result['physically_unstarted'],'all native returns and phases')
+    check(set(result['arm_results'])==set(m['engineering']) and all(v['qualification']=='PASS' and v['execution']['receipt']['input_sha256']==m['engineering'][k]
+          and v['execution']['receipt']['public_decisions']==49 for k,v in result['arm_results'].items()),'saved native qualification')
+    check(len(result['pair_results'])==9 and all(v['qualification']=='PASS' and v['actual']['category']==v['expected']['category']
+          and v['actual']['t_delta']==v['expected']['t_delta'] for v in result['pair_results']),'all nine independent comparisons')
+    check(all(v['status']=='PASS' for v in result['evaluator_controls'].values()),'counterexamples and complete mock denominator')
+    check(result['reserved_CPU_s']<=3000 and result['jobs']<=10 and result['warm_study']==result['RSI']==result['ordinary_improvement']==0,'scope limits')
+    progress=read('docs/mainline/progress.json')
+    check(not progress['active_implementations'] and progress['execution_control']['research_execution']=='CLOSED'
+          and not progress['v6_stage_three_cold_v2']['study_authorized'],'research launch review')
+    return dict(schema='cold-limited-engineering-fresh-receipt-v2',baseline=OLD,content_revision=rev,files=files,inputs=dict(engineering=len(data),study=len(study),direct=len(snaps)),
+        verified_releases={k:dict(revision=v['revision'],files=len(v['files'])) for k,v in e.items()},preserved_slice57=preserved,
+        numerical_AST_matches_without_six_opt_in_audit_blocks=instrument_blocks,counts=totals,jobs=result['jobs'],reserved_CPU_s=result['reserved_CPU_s'],
+        original_S09_and_half_step_failures_retained=True,new_facility_or_policy_invocations=0)
+
+
+if __name__=='__main__':print(json.dumps(main(sys.argv[1]),ensure_ascii=False,indent=2))
