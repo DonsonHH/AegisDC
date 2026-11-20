@@ -1,0 +1,129 @@
+"""Editorial JSON materialization and identity checks only. No project import or policy calls."""
+import copy
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+BASE='ef9ff7e66427d01d5be263e79063897e478e2b54'
+E='docs/mainline/v6-intake-engineering-v1/'
+X='docs/mainline/v6-intake-expiry-closeout-v1/'
+OUT=Path('docs/mainline/v6-native-method-comparison-v1/conditions.json')
+def blob(name):
+    return subprocess.check_output(['git','cat-file','blob',BASE+':'+name])
+def hash_bytes(value):
+    return hashlib.sha256(value).hexdigest()
+def canon(doc):
+    return hash_bytes(json.dumps(doc,sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+def path(doc,keys):
+    for k in keys:doc=doc[k]
+    return doc
+def patch(doc,edits):
+    for keys,value in edits:path(doc,keys[:-1])[keys[-1]]=copy.deepcopy(value)
+def scoped(doc,edits):
+    for e in edits:
+        keys=e['path']
+        if e['op']=='append':
+            assert len(path(doc,keys))==e['old_length']
+            path(doc,keys).append(copy.deepcopy(e['value']))
+        else:
+            assert canon(path(doc,keys))==canon(e['was']),keys
+            if 'parameter_id' in e:assert path(doc,keys[:-1])['id']==e['parameter_id']
+            path(doc,keys[:-1])[keys[-1]]=e['value']
+def bind(doc):
+    d=doc['dispatch_program']; p=d['policy_program']; b=doc['business_program']; ins=d['inspection_program']['profile']
+    p['inspection_declaration']=copy.deepcopy(ins)
+    for x in [p,d['closure_program']]:x['intervention_declaration']=copy.deepcopy(d['intervention_program'])
+    b['run_binding']={'scenario_sha256':canon(doc['scenario']),'dispatch_program_sha256':canon(d),'boundary_events_sha256':canon(doc['boundary_events']),
+        'action_commands_sha256':canon([]),'duration_s':float(doc['duration_s']),'maximum_step_s':float(doc['step_s'])}
+    ref=b['components']['diagnostic']['reference']
+    for key,item in [('scenario',doc['scenario']),('boundary_events',doc['boundary_events']),('nominal_knowledge',d['nominal_knowledge']),
+                     ('ledger',d['evidence_ledger']),('workforce_profile',p['workforce_profile']),('inspection_profile',ins)]:
+        ref[key+'_sha256']=canon(item)
+def replace(keys,old,value,**kw):
+    return dict(op='replace',path=keys,was=old,value=value,**kw)
+def parameter(index,name,old,new):
+    return replace(['scenario','parameters',index,'value'],old,new,parameter_id=name)
+def row(source,family,public,private,nearest,extra=(),closeout=None):
+    return dict(source_unit=source,coverage_family=family,public_stratum=public,private_evaluation_factor=private,
+        known_mechanism_sources=nearest,known_closeout_interface=closeout,row_edits=list(extra))
+units=json.loads(blob(E+'inputs.json')); identities=json.loads(blob(E+'input-binding-addendum.json'))
+all_old={}
+for name,item in units['units'].items():
+    obj=copy.deepcopy(units['common']) if item['base']=='common' else json.loads(blob(units['legacy_path']))
+    patch(obj,item['edits']);assert canon(obj)==item['sha256']
+    patch(obj,identities['units'][name]['edits']);assert canon(obj)==identities['units'][name]['sha256']
+    all_old[name]=obj
+pp=['dispatch_program','policy_program']; grant=['dispatch_program','intervention_program','profile','authorizations',0,'expires_at_s']
+ttl=['dispatch_program','inspection_program','profile','bindings',0,'validity_s']
+common=[replace(['boundary_events',1,'time_s'],2.0,4.0)]
+rows=[
+row('measure-low','cause','standard','filter_multiplier_4',['measure-low']),
+row('measure-normal','cause','standard','filter_multiplier_1',['measure-normal']),
+row('measure-normal','cause','standard','normal_filter_closed_intake_valve',['measure-normal','05-water/finite valve law'],[parameter(80,'lake_valve_opening',1,0)]),
+row('measure-low','coupling','standard','network_to_storage_bottleneck',['measure-low','persistent-bottleneck'],[dict(op='append',path=['boundary_events'],old_length=2,value=dict(time_s=4.0,parameter_id='storage_service_capacity',value=0.5,source_note='Synthetic downstream storage derating at the network recovery epoch.'))]),
+row('measure-low','coupling','standard','common_rectifier_input_cap',['measure-low','11-coupled/shared-rectifier-capacity'],[parameter(39,'rectifier_capacity',5000000,100000)]),
+row('unavailable-read','evidence','measurement_condition_range_0.058_to_1','filter_multiplier_4',['unavailable-read']),
+row('conflict','evidence','standard_plus_an_arrived_independent_report_at_3.75','filter_multiplier_4',['conflict']),
+row('expired-read','evidence','first_inspection_validity_0.75_work_feedback_1','filter_multiplier_4',['expired-read'],[replace(ttl,0.5,0.75),replace(pp+['workforce_profile','feedback_latency_s'],0.5,1)],'T3 timing parameters and root-choice boundary transfer only; its historical public frame plan_id differs from the native C08 frame'),
+row('direct','public_model','single_high_F_variant','filter_multiplier_4',['direct']),
+row('defer','public_model','no_F_in_declared_model','filter_multiplier_4',['defer']),
+row('variant-disagreement','public_model','conflicting_variants','filter_multiplier_4',['variant-disagreement']),
+row('budget-fee','budget','issue_fee_cap_2','filter_multiplier_4',['budget-fee']),
+row('budget-person','budget','person_issue_envelope_24.25','filter_multiplier_4',['budget-person'],[replace(pp+['resource_budget','person_s'],18,24.25)]),
+row('budget-tool','budget','tool_issue_envelope_24.25','filter_multiplier_4',['budget-tool'],[replace(pp+['resource_budget','tool_s'],18,24.25)]),
+row('recheck-window','window_permission','recheck_work_deadline_4.75','filter_multiplier_4',['recheck-window']),
+row('expiry','window_permission','clean_permission_right_end_5','filter_multiplier_4',['expiry'],[replace(grant,3.25,5)]),
+row('copy-and-competition','contention','copy_and_second_order_lawfully_arrive_at_0.5_second_valid_to_0.75','filter_multiplier_4',['copy-and-competition'],[replace(['dispatch_program','evidence_ledger','records',2,'valid_until_s'],10,0.75)])
+]
+methods={'V':dict(schema='aegisdc-problem-driven-policy-v3',policy='intake_value',value_model='retain'),
+         'D':dict(schema='aegisdc-problem-driven-policy-v3',policy='intake_direct_rule_v1',value_model='retain'),
+         'K':dict(schema='aegisdc-problem-driven-policy-v3',policy='intake_threshold_rule_v1',value_model='retain'),
+         'H':dict(schema='aegisdc-problem-driven-policy-v3',policy='intake_value',value_model='retain'),
+         'P':dict(schema='aegisdc-problem-driven-policy-v2',policy='no_human',value_model='remove_from_policy')}
+def fieldsec(doc):
+    d=doc['dispatch_program'];return dict(complete_call=canon(doc),scenario=canon(doc['scenario']),events=canon(doc['boundary_events']),
+      policy_program=canon(d['policy_program']),dispatch=canon(d),business=canon(doc['business_program']))
+old_ids={canon(v):k for k,v in all_old.items()}
+old_world={}
+for k,v in all_old.items():
+    old_world.setdefault((canon(v['scenario']),canon(v['boundary_events'])),[]).append(k)
+for n,r in enumerate(rows,1):
+    r['id']='C%02d'%n
+    obj=copy.deepcopy(all_old[r['source_unit']]);r['source_call_sha256']=canon(obj);scoped(obj,common);scoped(obj,r['row_edits'])
+    r['arms']={}
+    for treatment,definition in methods.items():
+        arm=copy.deepcopy(obj);p=arm['dispatch_program']['policy_program']
+        p.update(schema=definition['schema'],policy=definition['policy'])
+        if definition['value_model']=='remove_from_policy':p.pop('value_model')
+        bind(arm);r['arms'][treatment]=fieldsec(arm)
+        # No object produced by this editorial script is sent to a project interface.
+    r['exact_earlier_19_calls']={arm:old_ids[v['complete_call']] for arm,v in r['arms'].items() if v['complete_call'] in old_ids}
+    r['exact_earlier_19_physical_worlds']=old_world.get((canon(obj['scenario']),canon(obj['boundary_events'])),[])
+pins=[E+'inputs.json',E+'input-binding-addendum.json',E+'expected.json',E+'independent-values.json',E+'contract.md',
+ E+'result.json',E+'attempts.json',X+'freeze.json',X+'result.json',X+'integrity.json','configs/full-facility-mainline-reserve-v6.json',
+ 'evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/shared-rectifier-capacity/scenario.json',
+ 'src/aegis_dc/intake_value.py','src/aegis_dc/problem_actions.py','src/aegis_dc/plant.py','src/aegis_dc/dispatch_policy.py','src/aegis_dc/policy_execution.py',
+ 'src/aegis_dc/problem_closure.py','src/aegis_dc/cost_endpoints.py','src/aegis_dc/business_endpoints.py']
+physics={}
+for r in rows:
+    w=r['arms']['V'];physics.setdefault((w['scenario'],w['events']),[]).append(r['id'])
+assert [len(rows),len(physics)]==[17,5]
+assert all(r['arms']['V']==r['arms']['H'] and not r['exact_earlier_19_calls'] and not r['exact_earlier_19_physical_worlds'] for r in rows)
+assert len({a['complete_call'] for r in rows for a in r['arms'].values()})<=68
+cond=dict(schema='aegisdc-native-method-comparison-conditions-v1',state='DRAFT_FOR_REVIEW_NOT_LAUNCHABLE',
+ baseline=BASE,material_class='all disclosed mechanism-development conditions',protocol='README.md',exact_construction='conditions.md',
+ sources={f:hash_bytes(blob(f)) for f in pins},constructor=dict(source_raw=E+'inputs.json',source_normalization=E+'input-binding-addendum.json',
+ order=['check raw file hashes; resolve prior complete source_unit using both legacy documents and checked complete identities',
+        'apply common_edits, then row_edits with type-preserving original-value checks',
+        'make an independent deep copy for each arm; apply the three policy-token directives',
+        'synchronize inspection/intervention declarations, recompute six reference and six run binding fields per conditions.md; verify all listed hashes'],
+ common_edits=common,arm_tokens=methods,canonical='SHA256(UTF8(SORTED_COMPACT_ASCII_JSON)); no nonfinite values; array order and JSON int vs float preserved'),
+ selection=dict(rule='All predeclared obligations, one row each, no output-dependent additions/drop/replacement',classes={'cause':3,'coupling':2,'evidence':3,'public_model':3,'budget':3,'window_permission':2,'contention':1},
+ old_exact_search_scope='The 19 original complete V6 intake calls, original physical world defined as scenario plus event vector. T1–T4 are interface fixtures only. Other prior materials named as semantic anchors. No unseen claim.',
+ shared_physical_groups=[{'scenario_sha256':key[0],'events_sha256':key[1],'rows':names} for key,names in physics.items()]),
+ treatments_in_fixed_execution_order=list(methods),conditions=rows,counts=dict(common_conditions=17,physical_groups=5,logical_treatments=5,
+ proposed_separate_facility_runs=85,explicit_H_consistency_runs=17,distinct_complete_call_documents=len({a['complete_call'] for r in rows for a in r['arms'].values()}),
+ distinct_policy_documents=len({a['policy_program'] for r in rows for a in r['arms'].values()}),actual_facility_runs=0,actual_decision_calls=0))
+OUT.write_bytes((json.dumps(cond,ensure_ascii=False,indent=2,allow_nan=False)+'\n').encode())
+print(cond['counts'])
