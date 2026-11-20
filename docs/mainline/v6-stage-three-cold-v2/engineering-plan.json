@@ -1,0 +1,1085 @@
+{
+  "schema": "aegisdc-cold-qualification-plan-v1",
+  "purpose": "FINITE_COLD_ENGINEERING_ONLY",
+  "base": "8a806a9af41576b551489c5859ca3bc2a8ba5afe",
+  "protocol_revision": "52a7e8a7",
+  "groups": [
+    {
+      "id": "L",
+      "law": "EX50",
+      "opening": "N0_C1",
+      "budget": [
+        60,
+        60,
+        4
+      ],
+      "filter": 4,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "require_probe": false,
+      "arms": [
+        "J",
+        "J_OPEN"
+      ],
+      "role": "late open after already issued N; two effective writes with a shared initial N prefix"
+    },
+    {
+      "id": "O",
+      "law": "COZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        40.25,
+        40.25,
+        4
+      ],
+      "filter": 4,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "require_probe": false,
+      "arms": [
+        "J",
+        "J_ORDER",
+        "J_NO_PROBE"
+      ],
+      "role": "both feasible orders exactly exhaust the common person/tool envelope; genuine order reversal and no-probe synonym"
+    },
+    {
+      "id": "X",
+      "law": "EXZERO",
+      "opening": "SYNC_HALF",
+      "budget": [
+        40.25,
+        40.25,
+        4
+      ],
+      "filter": 1,
+      "network": 0,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "require_probe": false,
+      "arms": [
+        "J",
+        "B",
+        "J_ORDER"
+      ],
+      "role": "same clinical-free synthetic load and clock as B08 with a binding engineering envelope; order ablation synonymous after purchase"
+    },
+    {
+      "id": "G",
+      "law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        31,
+        31,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "require_probe": true,
+      "arms": [
+        "J",
+        "J_NO_PROBE"
+      ],
+      "role": "both budget dimensions exactly permit the complete positive read chain; no-probe gate"
+    },
+    {
+      "id": "C",
+      "law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        31,
+        31,
+        3
+      ],
+      "filter": 4,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 1,
+      "require_probe": false,
+      "arms": [
+        "J",
+        "J_OPEN"
+      ],
+      "role": "simultaneous opening synonym; normal N reading leads to true C correction and late own report"
+    },
+    {
+      "id": "M",
+      "law": "EX50",
+      "opening": "SYNC_HALF",
+      "budget": [
+        31,
+        31,
+        3
+      ],
+      "filter": 1,
+      "network": 1,
+      "rectifier_input_W": 5000000,
+      "storage": 0.25,
+      "require_probe": false,
+      "arms": [
+        "J",
+        "B"
+      ],
+      "role": "storage masks service and an equal-value C write cannot truncate full-window prefix"
+    },
+    {
+      "id": "U",
+      "law": "N_EQ",
+      "opening": "SYNC_HALF",
+      "budget": [
+        31,
+        31,
+        3
+      ],
+      "filter": 1,
+      "network": 0.25,
+      "rectifier_input_W": 550000,
+      "storage": 1,
+      "require_probe": true,
+      "arms": [
+        "J",
+        "B"
+      ],
+      "role": "initial legally purchase, mixed g/e outside public support, no physical effect and full-window pair"
+    }
+  ],
+  "chains": {
+    "Lboth": [
+      [
+        "N.A",
+        0,
+        1.25,
+        1.75
+      ],
+      [
+        "C.A",
+        1,
+        4.25,
+        4.75
+      ],
+      [
+        "N.R",
+        1.75,
+        3,
+        3.5
+      ],
+      [
+        "C.R",
+        4.75,
+        6,
+        6.5
+      ]
+    ],
+    "Ln": [
+      [
+        "N.A",
+        0,
+        1.25,
+        1.75
+      ],
+      [
+        "N.R",
+        1.75,
+        3,
+        3.5
+      ]
+    ],
+    "Cfirst": [
+      [
+        "C.A",
+        0.5,
+        3.75,
+        4.25
+      ],
+      [
+        "N.A",
+        0.75,
+        2,
+        2.5
+      ],
+      [
+        "N.R",
+        2.5,
+        3.75,
+        4.25
+      ],
+      [
+        "C.R",
+        4.25,
+        5.5,
+        6
+      ]
+    ],
+    "Nfirst": [
+      [
+        "N.A",
+        0.5,
+        1.75,
+        2.25
+      ],
+      [
+        "C.A",
+        0.75,
+        4,
+        4.5
+      ],
+      [
+        "N.R",
+        2.25,
+        3.5,
+        4
+      ],
+      [
+        "C.R",
+        4.5,
+        5.75,
+        6.25
+      ]
+    ],
+    "readN": [
+      [
+        "N.I",
+        0.5,
+        1.75,
+        2.25
+      ],
+      [
+        "N.A",
+        2.25,
+        3.5,
+        4
+      ],
+      [
+        "N.R",
+        4,
+        5.25,
+        5.75
+      ]
+    ],
+    "readC": [
+      [
+        "N.I",
+        0.5,
+        1.75,
+        2.25
+      ],
+      [
+        "C.A",
+        2.25,
+        5.5,
+        6
+      ],
+      [
+        "C.R",
+        6,
+        7.25,
+        7.75
+      ]
+    ],
+    "directC": [
+      [
+        "C.A",
+        0.5,
+        3.75,
+        4.25
+      ],
+      [
+        "C.R",
+        4.25,
+        5.5,
+        6
+      ]
+    ],
+    "readonly": [
+      [
+        "N.I",
+        0.5,
+        1.75,
+        2.25
+      ]
+    ],
+    "none": []
+  },
+  "arms": {
+    "L-J": {
+      "chain": "Lboth",
+      "L": "15/16",
+      "U": "15/16",
+      "person": 7,
+      "tool": 7,
+      "fee": 4,
+      "person_tool_envelope": 40.5,
+      "first": {
+        "C.PV": 7.5,
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "C.PV",
+        "N.PV"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          1.25,
+          "N",
+          0.25,
+          1
+        ],
+        [
+          4.25,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "L-J_OPEN": {
+      "chain": "Ln",
+      "L": "15/16",
+      "U": "15/16",
+      "person": 2.5,
+      "tool": 2.5,
+      "fee": 2,
+      "person_tool_envelope": 22.25,
+      "first": {
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.PV"
+      ],
+      "at_12": [],
+      "effects": [
+        [
+          1.25,
+          "N",
+          0.25,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "O-J": {
+      "chain": "Cfirst",
+      "L": 2,
+      "U": 2,
+      "person": 7,
+      "tool": 7,
+      "fee": 4,
+      "person_tool_envelope": 40.25,
+      "first": {
+        "C.PV": 7.5,
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "C.PV",
+        "N.PV"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          2,
+          "N",
+          0,
+          1
+        ],
+        [
+          3.75,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "O-J_ORDER": {
+      "chain": "Nfirst",
+      "L": 1.75,
+      "U": 1.75,
+      "person": 7,
+      "tool": 7,
+      "fee": 4,
+      "person_tool_envelope": 40.25,
+      "first": {
+        "C.PV": 7.5,
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "C.PV",
+        "N.PV"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          1.75,
+          "N",
+          0,
+          1
+        ],
+        [
+          4,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "O-J_NO_PROBE": {
+      "chain": "Cfirst",
+      "L": 2,
+      "U": 2,
+      "person": 7,
+      "tool": 7,
+      "fee": 4,
+      "person_tool_envelope": 40.25,
+      "first": {
+        "C.PV": 7.5,
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "C.PV",
+        "N.PV"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          2,
+          "N",
+          0,
+          1
+        ],
+        [
+          3.75,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "X-J": {
+      "chain": "readN",
+      "L": 3.5,
+      "U": 3.5,
+      "person": 3.75,
+      "tool": 3.75,
+      "fee": 3,
+      "person_tool_envelope": 31,
+      "first": {
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.PV"
+      ],
+      "at_12": [
+        "N.PV"
+      ],
+      "effects": [
+        [
+          3.5,
+          "N",
+          0,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "X-B": {
+      "chain": "Cfirst",
+      "L": 2,
+      "U": 2,
+      "person": 7,
+      "tool": 7,
+      "fee": 4,
+      "person_tool_envelope": 40.25,
+      "first": {
+        "C.PV": 7.5,
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "C.PV",
+        "N.PV"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          2,
+          "N",
+          0,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "X-J_ORDER": {
+      "chain": "readN",
+      "L": 3.5,
+      "U": 3.5,
+      "person": 3.75,
+      "tool": 3.75,
+      "fee": 3,
+      "person_tool_envelope": 31,
+      "first": {
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.PV"
+      ],
+      "at_12": [
+        "N.PV"
+      ],
+      "effects": [
+        [
+          3.5,
+          "N",
+          0,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "G-J": {
+      "chain": "readN",
+      "L": "21/8",
+      "U": "21/8",
+      "person": 3.75,
+      "tool": 3.75,
+      "fee": 3,
+      "person_tool_envelope": 31,
+      "first": {
+        "N.PV": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.PV"
+      ],
+      "at_12": [
+        "N.PV"
+      ],
+      "effects": [
+        [
+          3.5,
+          "N",
+          0.25,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "G-J_NO_PROBE": {
+      "chain": "none",
+      "L": 9,
+      "U": 9,
+      "person": 0,
+      "tool": 0,
+      "fee": 0,
+      "person_tool_envelope": 0,
+      "first": {},
+      "at_5": [],
+      "at_7_5": [],
+      "at_12": [],
+      "effects": [],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "C-J": {
+      "chain": "readC",
+      "L": 0,
+      "U": 0,
+      "person": 5.75,
+      "tool": 5.75,
+      "fee": 3,
+      "person_tool_envelope": 29,
+      "first": {
+        "N.NA": 7.5,
+        "C.PV": 7.75
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.NA"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          5.5,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "C-J_OPEN": {
+      "chain": "readC",
+      "L": 0,
+      "U": 0,
+      "person": 5.75,
+      "tool": 5.75,
+      "fee": 3,
+      "person_tool_envelope": 29,
+      "first": {
+        "N.NA": 7.5,
+        "C.PV": 7.75
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.NA"
+      ],
+      "at_12": [
+        "C.PV"
+      ],
+      "effects": [
+        [
+          5.5,
+          "C",
+          4,
+          1
+        ]
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "M-J": {
+      "chain": "readC",
+      "L": 9,
+      "U": 9,
+      "person": 5.75,
+      "tool": 5.75,
+      "fee": 3,
+      "person_tool_envelope": 29,
+      "first": {
+        "N.NA": 7.5
+      },
+      "at_5": [],
+      "at_7_5": [
+        "N.NA"
+      ],
+      "at_12": [],
+      "effects": [],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "M-B": {
+      "chain": "directC",
+      "L": 9,
+      "U": 9,
+      "person": 4.5,
+      "tool": 4.5,
+      "fee": 2,
+      "person_tool_envelope": 19.25,
+      "first": {},
+      "at_5": [],
+      "at_7_5": [],
+      "at_12": [],
+      "effects": [],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "U-J": {
+      "chain": "readonly",
+      "L": "954/85",
+      "U": "954/85",
+      "person": 1.25,
+      "tool": 1.25,
+      "fee": 1,
+      "person_tool_envelope": 11.5,
+      "first": {},
+      "at_5": [],
+      "at_7_5": [],
+      "at_12": [],
+      "effects": [],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    },
+    "U-B": {
+      "chain": "readonly",
+      "L": "954/85",
+      "U": "954/85",
+      "person": 1.25,
+      "tool": 1.25,
+      "fee": 1,
+      "person_tool_envelope": 11.5,
+      "first": {},
+      "at_5": [],
+      "at_7_5": [],
+      "at_12": [],
+      "effects": [],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "group": "L",
+      "left": "L-J",
+      "right": "L-J_OPEN",
+      "t_star": 1.25,
+      "t_delta": 4.25,
+      "service": "SAME",
+      "resources": "WORSE",
+      "closures_preserved": true,
+      "category": "SAME"
+    },
+    {
+      "group": "O",
+      "left": "O-J",
+      "right": "O-J_ORDER",
+      "t_star": 1.75,
+      "t_delta": 1.75,
+      "service": "WORSE",
+      "resources": "SAME",
+      "closures_preserved": true,
+      "category": "WORSE"
+    },
+    {
+      "group": "O",
+      "left": "O-J",
+      "right": "O-J_NO_PROBE",
+      "t_star": 2,
+      "t_delta": null,
+      "service": "SAME",
+      "resources": "SAME",
+      "closures_preserved": true,
+      "category": "SAME"
+    },
+    {
+      "group": "X",
+      "left": "X-J",
+      "right": "X-B",
+      "t_star": 2,
+      "t_delta": 2,
+      "service": "WORSE",
+      "resources": "BETTER",
+      "closures_preserved": false,
+      "category": "WORSE"
+    },
+    {
+      "group": "X",
+      "left": "X-J",
+      "right": "X-J_ORDER",
+      "t_star": 3.5,
+      "t_delta": null,
+      "service": "SAME",
+      "resources": "SAME",
+      "closures_preserved": true,
+      "category": "SAME"
+    },
+    {
+      "group": "G",
+      "left": "G-J",
+      "right": "G-J_NO_PROBE",
+      "t_star": 3.5,
+      "t_delta": 3.5,
+      "service": "BETTER",
+      "resources": "WORSE",
+      "closures_preserved": true,
+      "category": "BETTER"
+    },
+    {
+      "group": "C",
+      "left": "C-J",
+      "right": "C-J_OPEN",
+      "t_star": 5.5,
+      "t_delta": null,
+      "service": "SAME",
+      "resources": "SAME",
+      "closures_preserved": true,
+      "category": "SAME"
+    },
+    {
+      "group": "M",
+      "left": "M-J",
+      "right": "M-B",
+      "t_star": null,
+      "t_delta": null,
+      "service": "SAME",
+      "resources": "WORSE",
+      "closures_preserved": true,
+      "category": "SAME"
+    },
+    {
+      "group": "U",
+      "left": "U-J",
+      "right": "U-B",
+      "t_star": null,
+      "t_delta": null,
+      "service": "SAME",
+      "resources": "SAME",
+      "closures_preserved": true,
+      "category": "SAME"
+    }
+  ],
+  "direct": [
+    {
+      "id": "D1",
+      "row": "A05",
+      "method": "J_OPEN",
+      "setup": "pending_N",
+      "time": 1,
+      "first": "W",
+      "admitted": null
+    },
+    {
+      "id": "D2",
+      "row": "A05",
+      "method": "J",
+      "setup": "pending_N",
+      "time": 1,
+      "first": "W",
+      "admitted": false
+    },
+    {
+      "id": "D3",
+      "row": "C07",
+      "method": "J",
+      "setup": ".5_root",
+      "time": 0.5,
+      "first": "W",
+      "admitted": null
+    },
+    {
+      "id": "D4",
+      "row": "C07",
+      "method": "J_NO_PROBE",
+      "setup": ".5_root",
+      "time": 0.5,
+      "first": "W",
+      "admitted": null
+    },
+    {
+      "id": "D5",
+      "row": "B03",
+      "method": "J_ORDER",
+      "setup": "one_order",
+      "time": 0.5,
+      "first": "N.A",
+      "admitted": null
+    },
+    {
+      "id": "D6",
+      "row": "B03",
+      "method": "J",
+      "setup": "one_order",
+      "time": 0.5,
+      "first": "N.A",
+      "admitted": null
+    },
+    {
+      "id": "D7",
+      "row": "C05",
+      "method": "B",
+      "setup": ".5_root",
+      "time": 0.5,
+      "first": "C.A",
+      "admitted": false
+    },
+    {
+      "id": "D8",
+      "row": "C06",
+      "method": "B",
+      "setup": ".5_root",
+      "time": 0.5,
+      "first": "C.A",
+      "admitted": true
+    },
+    {
+      "id": "D9",
+      "row": "C02",
+      "method": "B",
+      "setup": "supply_read",
+      "time": 2.25,
+      "first": "W",
+      "admitted": null
+    }
+  ],
+  "red": [
+    "D1",
+    "D4",
+    "D5"
+  ],
+  "component_ids": {
+    "materialize": [
+      "freeze"
+    ],
+    "order": [
+      "O-branch-travel",
+      "O-first-ready",
+      "O-only-feasible"
+    ],
+    "runner": [
+      "reject-study-purpose",
+      "reject-wrong-input",
+      "fake-driver",
+      "fake-success",
+      "fake-failure",
+      "reject-consumed"
+    ],
+    "saved_pairs": [
+      "left-good",
+      "left-wrong",
+      "left-absent",
+      "drift-after-common",
+      "common-right",
+      "late-noop-drift",
+      "unmatched-mesh",
+      "tie-tail-and-typed-loss",
+      "different-curves-zero",
+      "conflicting-directions",
+      "hard-violation",
+      "unknown-side-effect"
+    ],
+    "panels": [
+      "mock-denominators"
+    ],
+    "finish": [
+      "engineering-panel",
+      "manifest-binding"
+    ]
+  },
+  "jobs": [
+    [
+      "F0",
+      120,
+      "materialize complete engineering and study inputs separately, freeze, then old-token red"
+    ],
+    [
+      "Q",
+      180,
+      "direct positive/gated and order/isolator stand-ins"
+    ],
+    [
+      "N1",
+      300,
+      [
+        "L",
+        "G"
+      ]
+    ],
+    [
+      "N2",
+      240,
+      [
+        "O"
+      ]
+    ],
+    [
+      "N3",
+      240,
+      [
+        "X"
+      ]
+    ],
+    [
+      "N4",
+      300,
+      [
+        "C",
+        "M"
+      ]
+    ],
+    [
+      "N5",
+      180,
+      [
+        "U"
+      ]
+    ],
+    [
+      "A",
+      300,
+      "saved arm / pair / negative fixtures / panels"
+    ],
+    [
+      "M",
+      180,
+      "read-only manifest assembly and overlap"
+    ]
+  ],
+  "limits": {
+    "facility": 16,
+    "internal": 784,
+    "direct": 12,
+    "component": 52,
+    "jobs": 10,
+    "per_job_s": 300,
+    "reserved_CPU_s": 3000,
+    "concurrency": 1,
+    "retries": 0
+  },
+  "scheduled": {
+    "facility": 16,
+    "internal": 784,
+    "direct": 12,
+    "component": 50,
+    "jobs": 9,
+    "reserved_CPU_s": 2040
+  },
+  "oracle_rules": "Normal paths only; compare native stages/times, both exact integration sources (absolute readback 1e-8), independent resource/grant/closure evaluation and actual effective operations. Every planned H12 call is one fresh process. Logical stage entry counts include materialization, mock controller and its two starts, each saved arm, each pair, two explicit panel evaluations and one manifest assembly. No retries. Failed assertions retain evidence; hard integrity/authority/physical-prefix failures stop affected dependencies. All unstarted positions remain in the denominator."
+}
