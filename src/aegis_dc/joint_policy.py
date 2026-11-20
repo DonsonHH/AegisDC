@@ -7,10 +7,13 @@ from .joint_forecast import deficit, observe_branch, permits_correction, support
 from .joint_resources import public_prefix, schedule
 
 
+VALUE_METHODS = frozenset(('J','J_OPEN','J_NO_PROBE','J_ORDER'))
+
+
 def validate(cfg):
     require(set(cfg)==set('schema method types worlds horizon deadline clock forecast_window caps gate latency paid_ttl fixed_ttl fee fixed_epochs fixed_on pose qualification shift routes'.split()),'Closed joint public program')
     require(cfg['schema']=='aegisdc-joint-problem-policy-v1' and cfg['method'] in
-        ('J','B','HOLD','N_PROBE','N_DIRECT','C_DIRECT','C_CHECK'),'Joint token')
+        (VALUE_METHODS | {'B','HOLD','N_PROBE','N_DIRECT','C_DIRECT','C_CHECK'}),'Joint token')
     require(cfg['clock']==sorted(set(cfg['clock'])) and cfg['clock'][0]==0 and cfg['clock'][-1]==cfg['horizon'],'Joint clock')
     require(len(cfg['caps'])==3 and all(x>=0 for x in cfg['caps']),'Resource dimensions')
     roots=set()
@@ -18,7 +21,7 @@ def validate(cfg):
         require(set(w)=={'origin','anchor','cooling','g','A','s','mass'} and w['anchor']==0 and
                 w['cooling'] in ('C0','F','O') and w['origin'] not in roots and Fraction(w['mass'])>0,'Joint original world')
         roots.add(w['origin'])
-    if cfg['method'] in ('J','B'):
+    if cfg['method'] in VALUE_METHODS or cfg['method']=='B':
         require(sum(Fraction(w['mass']) for w in cfg['worlds'])==1,'Single normalized public world table')
 
 
@@ -42,14 +45,34 @@ def short(task):
     return task.split('/')[0]+'.'+task.rsplit('/',1)[1] if task else 'W'
 
 
+def order_exclusions(cfg, options):
+    """Resolve only competing feasible permutations of an identical correction set."""
+    pairs={}
+    for sequence,proposal in options:
+        if len(sequence)!=2 or not proposal['admitted']:
+            continue
+        first=next(step for step in proposal['steps'] if step['task']==sequence[0])
+        kind,origin,_=sequence[0].split('/')
+        typ=cfg['types'][kind]
+        travel=first['planned_end']-first['at']-typ['work_s']
+        key=(first['at'],travel,typ['asset'],origin,tuple(sequence))
+        pairs.setdefault(tuple(sorted(sequence)),[]).append((key,tuple(sequence)))
+    return {sequence for permutations_ in pairs.values() for _,sequence in sorted(permutations_)[1:]}
+
+
 def choose(cfg,view):
     validate(cfg)
     require(set(view)=={'time','orders','issued','work','writes','paid','fixed'} and view['time'] in cfg['clock'],'Public view')
     require(all(r['arrived']<=view['time'] for k in ('orders','work','writes','paid','fixed') for r in view[k]),'Future feedback')
     opens=instances(cfg,view);pre=public_prefix(cfg,view)
     worlds=support(cfg,view,pre)
-    action_ids=sorted(k+'/A' for k in opens if k+'/A' not in pre['issued'])
-    probe_ids=sorted(k+'/I' for k in opens if k+'/I' not in pre['issued'] and k+'/A' not in pre['issued'])
+    method=cfg['method']
+    elective=opens
+    if method=='J_OPEN' and opens:
+        first_epoch=min(opens.values())
+        elective={k:t for k,t in opens.items() if t==first_epoch}
+    action_ids=sorted(k+'/A' for k in elective if k+'/A' not in pre['issued'])
+    probe_ids=[] if method=='J_NO_PROBE' else sorted(k+'/I' for k in elective if k+'/I' not in pre['issued'] and k+'/A' not in pre['issued'])
     sequences=[()]+[(a,) for a in action_ids]+list(permutations(action_ids,2))
     root=dict(debit=pre['debit'],confirmed=sorted(pre['confirmed']),pending=sorted(pre['pending']),
         obligations=sorted(pre['reviews']),reserved_review=sum(cfg['deadline']-v[1] for v in pre['reviews'].values()),
@@ -89,13 +112,12 @@ def choose(cfg,view):
             if first['task'].endswith('/I'):first['contingent']=reservation
         return dict(request=first,choice=short(first['task'] if first else None),prefix=root,alternatives=alternatives,
             selected=row,certificates={k:certificate(cfg,view,k,t) for k,t in opens.items()},
-            reason='ZERO_SUPPORT' if cfg['method'] in ('J','B') and not worlds else 'PUBLIC_PLAN')
+            reason='ZERO_SUPPORT' if (method in VALUE_METHODS or method=='B') and not worlds else 'PUBLIC_PLAN')
     wait=record((),base,scores(cfg,worlds,pre,base) if worlds else None)
     if base['steps'] and base['steps'][0]['at']==view['time'] and base['steps'][0]['task'].endswith('/R') and base['admitted']:
         return result(wait)
     if pre['waiting']:return result(wait)
-    method=cfg['method']
-    if method not in ('J','B'):
+    if method not in VALUE_METHODS and method!='B':
         task=None
         if method=='C_CHECK':task=next((k for k in probe_ids if k.startswith('C/')),None)
         elif method in ('C_DIRECT','N_DIRECT'):task=next((k for k in action_ids if k.startswith(method[0]+'/')),None)
@@ -110,11 +132,15 @@ def choose(cfg,view):
         return result(wait)
     if not worlds or not base['admitted']:return result(wait)
     direct=[]
-    for seq in sequences:
-        plan=base if not seq else trial(seq)
+    plans=[(seq,base if not seq else trial(seq)) for seq in sequences]
+    excluded=order_exclusions(cfg,plans) if method=='J_ORDER' else set()
+    for seq,plan in plans:
         vector=scores(cfg,worlds,pre,plan) if plan['admitted'] else None
         row=wait if not seq else record(seq,plan,vector)
-        if vector is not None:direct.append((vector,tie(seq),row))
+        if seq in excluded:
+            row['excluded_by_order_rule']=True
+        elif vector is not None:
+            direct.append((vector,tie(seq),row))
     best_direct=min(direct,key=lambda item:item[:2])
     options=list(direct)
     for probe in probe_ids:
@@ -130,9 +156,10 @@ def choose(cfg,view):
         for signature,group in sorted(groups.items()):
             positive=[probe.rsplit('/',1)[0]] if permits_correction(probe.split('/')[0],signature) else []
             feasible=[]
-            for seq in sequences:
-                path=one if not seq else trial([probe,*seq],positive)
-                if path['admitted']:
+            paths=[(seq,one if not seq else trial([probe,*seq],positive)) for seq in sequences]
+            excluded=order_exclusions(cfg,paths) if method=='J_ORDER' else set()
+            for seq,path in paths:
+                if path['admitted'] and seq not in excluded:
                     vector=scores(cfg,group,pre,path)
                     feasible.append((vector,tie(seq),seq,path))
             vector,_,seq,path=min(feasible,key=lambda item:item[:2])
@@ -146,7 +173,7 @@ def choose(cfg,view):
         row=record((probe,),one,vector,branches)
         # No conclusion or refusal releases only the unissued contingent branch.
         row['unknown_branch']='WAIT_AND_KEEP_EXISTING_OWN_REVIEWS'
-        if method=='J':options.append((vector,tie((probe,)),row))
+        if method in VALUE_METHODS:options.append((vector,tie((probe,)),row))
         elif len(continuations)>1 and improves:
             dt=acquisition['planned_end']-acquisition['at']
             protected.append(((dt,dt,cfg['fee'],acquisition['planned_ack'],probe),row))

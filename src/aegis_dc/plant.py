@@ -674,7 +674,7 @@ class _Plant:
         }}
 
 
-def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None, dispatch_program=None, business_program=None):
+def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(), boundary_events=(), action_commands=(), work_program=None, inspection_program=None, intervention_program=None, dispatch_program=None, business_program=None, private_physical_audit=False):
     """Run the validated complete facility and return a private engineering trace.
 
     Overrides remain within declared SI ranges. Caller dictionaries are not
@@ -744,9 +744,16 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
             raise ValueError('Actual interventions require a crew work_program')
         from .intervention_execution import InterventionSession
         interventions = InterventionSession(scenario, dispatch.catalog_program if dispatch is not None else work_program, intervention_program)
+    if type(private_physical_audit) is not bool:
+        raise ValueError('Private physical audit flag must be boolean')
+    if private_physical_audit:
+        from .cold_physical_audit import physical_face
+        private_epochs = []
     initial_energy = plant.stored_energy()
     time_s, trace, balances = 0.0, [], []
     while True:
+        if private_physical_audit:
+            left_face = physical_face(plant, plant.point())
         while event_index < len(timed_inputs) and time_due(time_s, timed_inputs[event_index]['time_s']):
             event = timed_inputs[event_index]
             plant.p[event['parameter_id']] = event['value']
@@ -773,6 +780,8 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                 raise ValueError('Reserve source/selector states did not settle at the current instant')
         plant.update_room_work_access(point)
         workforce.process(time_s, plant.blocked_locations())
+        if private_physical_audit:
+            before_manual = physical_face(plant, point)
         if interventions is not None:
             effects = interventions.process(time_s, workforce, plant.p)
             if effects:
@@ -790,6 +799,9 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                         raise ValueError('Post-intervention reserve states did not settle')
                 plant.update_room_work_access(point)
                 workforce.process(time_s, plant.blocked_locations())
+        if private_physical_audit:
+            private_epochs.append(dict(t=time_s, left=left_face, before=before_manual,
+                                       right=physical_face(plant,point)))
         snapshot = plant.snapshot(time_s, point, workforce)
         if inspections is not None:
             inspections.process(time_s, workforce, snapshot)
@@ -868,6 +880,10 @@ def simulate_scenario(scenario, *, duration_s=None, step_s=None, work_requests=(
                        **({'intervention_program': deepcopy(intervention_program)} if interventions is not None else {}),
                        'boundary_events': boundary_inputs, **({'action_commands': commands} if commands else {})},
             'summary': summary, 'trace': trace, 'balances': balances, 'events': plant.events, 'work_records': workforce.records}
+    if private_physical_audit:
+        result['private_physical_audit'] = dict(schema='aegisdc-existing-epoch-faces-v1',
+            visibility='PRIVATE_EVALUATOR_ONLY', epochs=private_epochs)
+        result['inputs']['private_physical_audit'] = True
     if business_program is not None:
         from .business_endpoints import evaluate_business_endpoints
         result['business_evaluation'] = evaluate_business_endpoints(result, business_program)
