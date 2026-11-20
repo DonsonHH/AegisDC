@@ -884,7 +884,15 @@
       "setup": "pending_N",
       "time": 1,
       "first": "W",
-      "admitted": null
+      "admitted": null,
+      "C_elective_exists": false,
+      "reviews": [
+        "N/n0/R"
+      ],
+      "instances": [
+        "C/c0",
+        "N/n0"
+      ]
     },
     {
       "id": "D2",
@@ -893,7 +901,13 @@
       "setup": "pending_N",
       "time": 1,
       "first": "W",
-      "admitted": false
+      "admitted": false,
+      "C_elective_exists": true,
+      "checked_single": "C/c0/A",
+      "reviews": [
+        "N/n0/R"
+      ],
+      "single_reason": "RESOURCE_CAP"
     },
     {
       "id": "D3",
@@ -902,7 +916,9 @@
       "setup": ".5_root",
       "time": 0.5,
       "first": "W",
-      "admitted": null
+      "admitted": null,
+      "own_positive_before_N": true,
+      "probe_in_menu": true
     },
     {
       "id": "D4",
@@ -911,7 +927,9 @@
       "setup": ".5_root",
       "time": 0.5,
       "first": "W",
-      "admitted": null
+      "admitted": null,
+      "own_positive_before_N": true,
+      "probe_in_menu": false
     },
     {
       "id": "D5",
@@ -920,7 +938,12 @@
       "setup": "one_order",
       "time": 0.5,
       "first": "N.A",
-      "admitted": null
+      "admitted": null,
+      "feasible_pair_order": [
+        "N/n0/A",
+        "C/c0/A"
+      ],
+      "reverse_feasible": false
     },
     {
       "id": "D6",
@@ -929,7 +952,12 @@
       "setup": "one_order",
       "time": 0.5,
       "first": "N.A",
-      "admitted": null
+      "admitted": null,
+      "feasible_pair_order": [
+        "N/n0/A",
+        "C/c0/A"
+      ],
+      "reverse_feasible": false
     },
     {
       "id": "D7",
@@ -938,7 +966,9 @@
       "setup": ".5_root",
       "time": 0.5,
       "first": "C.A",
-      "admitted": false
+      "admitted": false,
+      "checked_single": "N/n0/A",
+      "single_reason": "WRITE_WINDOW"
     },
     {
       "id": "D8",
@@ -947,7 +977,21 @@
       "setup": ".5_root",
       "time": 0.5,
       "first": "C.A",
-      "admitted": true
+      "admitted": true,
+      "checked_single": "N/n0/A",
+      "single_reason": null,
+      "single_stages": [
+        [
+          "N.A",
+          0.5,
+          1.75
+        ],
+        [
+          "N.R",
+          2.25,
+          3.5
+        ]
+      ]
     },
     {
       "id": "D9",
@@ -956,7 +1000,11 @@
       "setup": "supply_read",
       "time": 2.25,
       "first": "W",
-      "admitted": null
+      "admitted": null,
+      "original_support": [
+        "C0|1|550000|1@0"
+      ],
+      "reviews": []
     }
   ],
   "red": [
@@ -985,6 +1033,8 @@
       "left-good",
       "left-wrong",
       "left-absent",
+      "before-wrong",
+      "before-absent",
       "drift-after-common",
       "common-right",
       "late-noop-drift",
@@ -1077,9 +1127,11 @@
     "facility": 16,
     "internal": 784,
     "direct": 12,
-    "component": 50,
+    "component": 52,
     "jobs": 9,
     "reserved_CPU_s": 2040
   },
-  "oracle_rules": "Normal paths only; compare native stages/times, both exact integration sources (absolute readback 1e-8), independent resource/grant/closure evaluation and actual effective operations. Every planned H12 call is one fresh process. Logical stage entry counts include materialization, mock controller and its two starts, each saved arm, each pair, two explicit panel evaluations and one manifest assembly. No retries. Failed assertions retain evidence; hard integrity/authority/physical-prefix failures stop affected dependencies. All unstarted positions remain in the denominator."
+  "oracle_rules": "Normal paths only; compare native stages/times, both exact integration sources (absolute readback 1e-8), independent resource/grant/closure evaluation and actual effective operations. Every planned H12 call is one fresh process. Logical stage entry counts include materialization, mock controller and its two starts, each saved arm, each pair, two explicit panel evaluations and one manifest assembly. No retries. Failed assertions retain evidence; hard integrity/authority/physical-prefix failures stop affected dependencies. All unstarted positions remain in the denominator.",
+  "schedule_order": "F0 materializer then old D1,D4,D5. Q executes D1..D9, then frozen order and runner probes in listed order. Native groups and arms in job order and declared arm order. A reads each available scheduled arm once, then nine declared pairs, then 14 surrogate evaluations in the listed order, mock denominator panel and engineering panel. M publishes the sealed input and execution identities plus all coverage boundaries. Per group missing/failed arms remain in the plan; no automatic retry.",
+  "pair_direction": "candidate J vs right; positive B-minus-J is BETTER for J, lower actual person/tool/fee componentwise is BETTER. PV/NA first (at the comparator first time), ever and checkpoints are typed."
 }

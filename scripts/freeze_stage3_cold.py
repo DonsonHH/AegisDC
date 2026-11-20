@@ -100,6 +100,10 @@ def sample_score(effects=(),cert=False):
 def evaluator_fixtures():
     common=(2,'N',.25,1);different=(8,'C',4,1)
     a=sample_score([common,different]);b=sample_score([common])
+    # A shared discrete update between the true left and pre-manual faces.
+    for stub in (a,b):
+        stub['audit'][8]['before']['heat']+=2
+        stub['audit'][8]['right']['heat']+=2
     cases={}
     def pair(key,l,r,expect):
         cases[key]=dict(op='pair',left=deepcopy(l),right=deepcopy(r),expected=expect)
@@ -108,6 +112,10 @@ def evaluator_fixtures():
     pair('left-wrong',bad,b,dict(category='NUMERIC_UNRESOLVED',reason='PREFIX_STATE',time=8,face='left'))
     bad=deepcopy(a);del bad['audit'][8]['left']
     pair('left-absent',bad,b,dict(category='NUMERIC_UNRESOLVED',reason='MISSING_FACE',time=8,face='left'))
+    bad=deepcopy(a);bad['audit'][8]['before']['stocks']['cold']+=1
+    pair('before-wrong',bad,b,dict(category='NUMERIC_UNRESOLVED',reason='PREFIX_STATE',time=8,face='before'))
+    bad=deepcopy(a);del bad['audit'][8]['before']
+    pair('before-absent',bad,b,dict(category='NUMERIC_UNRESOLVED',reason='MISSING_FACE',time=8,face='before'))
     bad=deepcopy(a);bad['audit'][4]['right']['stocks']['hot']+=1
     pair('drift-after-common',bad,b,dict(category='NUMERIC_UNRESOLVED',reason='PREFIX_STATE',time=4,face='right'))
     bad=deepcopy(a);bad['audit'][2]['right']['heat']+=1
@@ -146,9 +154,10 @@ def build(out):
         seqs=[['C/c0/A','N/n0/A'],['N/n0/A','C/c0/A']]
         options=[]
         for seq,chain,ok in zip(seqs,timings,admitted):
-            steps=[dict(task=k,at=t,planned_end=end,planned_ack=end+.5,release=0) for k,t,end in chain]
+            release={k[:-1]+'R':end+.5 for k,t,end in chain if k.endswith('/A')}
+            steps=[dict(task=k,at=t,planned_end=end,planned_ack=end+.5,release=release.get(k,0)) for k,t,end in chain]
             options.append(dict(seq=seq,plan=dict(steps=steps,admitted=ok)))
-        return dict(id=key,config=deepcopy(direct['D5']['config']),options=options,wanted=wanted,prefix=prefix)
+        return dict(id=key,config=dict(types={k:{f:t[f] for f in ('asset','work_s')} for k,t in direct['D5']['config']['types'].items()}),options=options,wanted=wanted,prefix=prefix)
     common=[('N/n0/I',0,1.25)]
     arms1=[common+[('C/c0/A',1.75,5),('N/n0/A',2,3.25),('N/n0/R',3.75,5),('C/c0/R',5.5,6.75)],
            common+[('N/n0/A',1.75,3),('C/c0/A',2,5.25),('N/n0/R',3.5,4.75),('C/c0/R',5.75,7)]]
@@ -174,16 +183,40 @@ def build(out):
     return direct,plan
 
 
+def start_freeze(out,release_sha):
+    release=ROOT/'release.json'
+    if sha(release.read_bytes())!=release_sha:raise ValueError('Materialization release identity')
+    pin=doc(release)
+    if (pin['purpose']!='PUBLIC_ENGINEERING' or out.resolve()!=Path(pin['activity'])/'F0'/'frozen'
+            or os.environ.get('SLURM_CPUS_PER_TASK')!='1'):raise PermissionError('Incorrect F0 activity or allocation')
+    for f,h in pin['files'].items():
+        if sha((ROOT/f).read_bytes())!=h:raise ValueError('F0 file differs: '+f)
+    phase=out.parent
+    write(phase/'started.lock',packed(dict(job=os.environ['SLURM_JOB_ID'],revision=pin['revision'],release=release_sha)))
+    journal=phase/'calls.jsonl';counts=dict(component=0,direct=0,facility=0,internal=0);rows=[]
+    def enter(key,kind):
+        with journal.open('a') as stream:stream.write(json.dumps([key,kind])+'\n')
+        counts[kind]+=1
+    try:
+        enter('freeze','component');direct,plan=build(out);rows.append(['freeze','OK'])
+        from aegis_dc import joint_policy
+        if Path(joint_policy.__file__).resolve() != (ROOT/'src/aegis_dc/joint_policy.py').resolve():
+            raise ValueError('Old policy module path differs from frozen export')
+        for name in plan['red']:
+            enter(name,'direct')
+            try:joint_policy.choose(direct[name]['config'],direct[name]['view'])
+            except ValueError as e:
+                if str(e)!='Joint token':raise
+                rows.append([name,'Joint token'])
+            else:raise ValueError('Old version accepted a new method')
+    except Exception as exc:
+        write(phase/'result.json',packed(dict(status='FAILED',error=repr(exc),rows=rows,counts=counts,
+             job=os.environ['SLURM_JOB_ID'],revision=pin['revision'],uncompleted=[k for k in ['freeze','D1','D4','D5'] if k not in {r[0] for r in rows}])))
+        raise
+    receipt=dict(status='EXPECTED_PRIOR_REJECTIONS',counts=counts,rows=rows,uncompleted=[],job=os.environ['SLURM_JOB_ID'],revision=pin['revision'],release_sha256=release_sha)
+    write(out/'red.json',packed(receipt));write(phase/'result.json',packed(receipt))
+
+
 if __name__=='__main__':
     if not os.environ.get('SLURM_JOB_ID'):raise PermissionError('Use the frozen F0 allocation')
-    out=Path(sys.argv[1]);direct,plan=build(out)
-    from aegis_dc.joint_policy import choose
-    rejected=[]
-    for name in plan['red']:
-        with (out/'red-calls.jsonl').open('a') as f:f.write(json.dumps([name,'direct'])+'\n')
-        try:choose(direct[name]['config'],direct[name]['view'])
-        except ValueError as e:
-            if str(e)!='Joint token':raise
-            rejected.append([name,str(e)])
-        else:raise ValueError('Old version accepted a new method')
-    write(out/'red.json',packed(dict(status='EXPECTED_PRIOR_REJECTIONS',calls=dict(component=1,direct=3,facility=0,internal=0),rejections=rejected)))
+    start_freeze(Path(sys.argv[1]),sys.argv[2])
