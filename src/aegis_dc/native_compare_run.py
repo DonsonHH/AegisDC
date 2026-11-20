@@ -68,10 +68,13 @@ def run_order(directory, order, prepare, read_return, *, on_complete=None):
             if row['exit_code']!=0:
                 raise RuntimeError(f"Child exited {row['exit_code']}; see {path/'stderr'}")
             returned=read_return(case,arm,path)
+            row.update(complete_return=True,returned_ns=time_ns())
             calls=returned.get('internal_policy_calls')
             if type(calls) is not int or calls<0:
-                raise ValueError('Incomplete or malformed native decision count')
-            row.update(complete_return=True,returned_ns=time_ns(),internal_policy_calls=calls)
+                note(events,dict(unit=row['unit'],event='COMPLETE_RETURN',ns=row['returned_ns'],decisions=None))
+                archive()
+                raise ValueError('Native return recorded; internal decision count unknown')
+            row['internal_policy_calls']=calls
             if 'semantic_sha256' in returned:
                 row['semantic_sha256']=returned['semantic_sha256']
             note(events,dict(unit=row['unit'],event='COMPLETE_RETURN',ns=row['returned_ns'],decisions=calls))
