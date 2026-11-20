@@ -1,0 +1,1564 @@
+{
+  "schema": "aegisdc-v6-joint-cooling-network-written-engineering-contract-v1",
+  "state": "PROPOSED_FOR_REVIEW",
+  "source_revision": "ec1e37475360dd5025d8571f04fa75253c67f33e",
+  "purpose": "one future public engineering qualification; independent expectations authored before all new outputs",
+  "authority": {
+    "new_implementation": false,
+    "facility_calls": 0,
+    "policy_calls": 0,
+    "component_calls": 0,
+    "study_positions": 0,
+    "stage_one_credit": 0
+  },
+  "construction": {
+    "base": "Expand C02-V by conditions.json and conditions.md in ../v6-native-method-comparison-v1 from the pinned revision. Verify all six C02-V identities before any overlay; copy all unmentioned scenario parameters, topology, eight domains, four graphs, automatic protection, diagnostic/business bindings. Rebind derived document digests after overlays. L rows alone retain the entire original call unchanged.",
+    "base_complete_call": "69f7074f29d87dc63baa3534fedfa923597cbbfdde146273d89e772882b8a578",
+    "short": {
+      "duration_s": 12,
+      "max_step_s": "1/100",
+      "public_ticks": "k/4 for integers k=0..48 inclusive",
+      "checkpoints_s": [
+        5,
+        "15/2",
+        12
+      ],
+      "demand": 1,
+      "compute_capacity": 1,
+      "network_capacity": 1,
+      "storage_capacity": 1,
+      "demands_and_nominal_W": [
+        2000000,
+        100000,
+        100000
+      ],
+      "rectifier_efficiency": 1,
+      "rectifier_capacity_W": 5000000,
+      "grid": "original adequate supply",
+      "filter_multiplier": 1,
+      "action_filter_residual": 1,
+      "network_write_setting": 1,
+      "other_plant_state": "C02-V cold initial inventories, heat/cooling and reserve parameters; no inherited network events; no leak/standby/other disturbances",
+      "boundary_events": [],
+      "preparation_requests": [],
+      "work_requests": [],
+      "action_commands": [],
+      "default_observation": "exact, no bias, noise, quantization or dropout; delay 1/2 s; own paid sample validity 8 s from completion, fixed validity 3 s from sample, all validity half-open",
+      "fixed": "Only three strategy-facing condition/service channels: lake_mass_flow, network.available_capacity, joint_service_delivered. Native sample and poll phase 6, period 1, report delay 1/2. Own ACK delay 1/2. Other private facility diagnostics continue but are not public inputs.",
+      "public_orders": "Use only the declared row slots. Canonical C0-slot and N0-slot open with original desk work orders at observed=arrived=0, expiry 12. S17 has second origin at 1/2. No inert hidden instance for an absent order.",
+      "permission": "Target/worker/tool/work identity and role-bound affirmative read+write grants [0,12), including native authority at issue and completion; effective and configuration read rights are distinct. Future realization not disclosed.",
+      "resources": {
+        "worker_C": "worker_cooling",
+        "tool_C": "tool_flow_meter",
+        "start_C": "loc_hx",
+        "target_C": "loc_lake",
+        "worker_N": "worker_it",
+        "tool_N": "tool_it_diagnostic",
+        "start_N": "loc_it",
+        "target_N": "loc_it",
+        "work_per_stage_s": 1,
+        "gate_per_edge_or_same_site_s": "1/4",
+        "work_receipt_delay_s": "1/2",
+        "fee_per_issue": 1,
+        "cumulative_caps_person_tool_fee": [
+          60,
+          60,
+          3
+        ],
+        "admission_release": "own opening for initial/action; own APPLIED receipt arrival for recheck; task deadline 12",
+        "public_pose": "signed starting locations at 0, no hidden migration under the short fixture; terminal ACK names carried tool, worker, task and target, both positions advance on completed ACK only",
+        "access_edges_walk_s": [
+          "entry-control:1",
+          "control-hx:1",
+          "hx-lake:2",
+          "control-it:1",
+          "control-electrical:1 with electrical qualification"
+        ],
+        "default_shifts": "both named workers available [0,12] for each short row; finish at or before deadline subject to strict grant; tools physically unique"
+      },
+      "overlay_order": [
+        "base and raw source binding",
+        "short or thermal family",
+        "slots + public law + resource caps and public event overrides",
+        "private physical tuple and named exogenous events",
+        "method token only; same rights and inputs for paired arms",
+        "derive new source/realization/dispatch/business identities; freeze literal expanded inputs before first call"
+      ],
+      "input_isolation": "Compile public program, private facility condition, independent evaluation oracle into separate objects/namespaces; future raw outcomes and P/G/S/T IDs are never policy-visible."
+    },
+    "error_policy": "Use separate archives for failed/partial attempts and suffix. Keep denial, no-op, missing observation, conflicting information, zero support, budget infeasibility and thermal counterexamples. Reject a changed scientific parameter, expected value, base identity or scope before further affected calls."
+  },
+  "components": {
+    "C": {
+      "trigger": [
+        "cooling-service-desk",
+        "intake_pump",
+        "problem_reported",
+        true
+      ],
+      "probe_target": "intake_pump",
+      "read": "intake_pump.volume_flow",
+      "action": [
+        "inspect_facility_cooling",
+        "filter",
+        "clean_filter",
+        1
+      ],
+      "fixed": "lake_mass_flow",
+      "qualified": "qualified_cooling_inspection"
+    },
+    "N": {
+      "trigger": [
+        "network-service-desk",
+        "network",
+        "problem_reported",
+        true
+      ],
+      "probe_target": "network",
+      "read": [
+        "network.available_capacity",
+        "installed network_service_capacity"
+      ],
+      "action": [
+        "inspect_it_service",
+        "network",
+        "restore_network_capacity",
+        1
+      ],
+      "fixed": "new opt-in copy of network.available_capacity at fixed sample epochs",
+      "qualified": "qualified_it_inspection"
+    }
+  },
+  "public_forecast": {
+    "parameter_domain": "C in {F,C0,O}; network g in {0,1/4,1}; cap_A in {3000000,550000}, storage s in {0,1/4,1}; defaults A=3000000 W, s=1; exact rational weights, defaults deterministic observation and successful work for ranking; stops and rights checked separately",
+    "time_base": "short excerpt [8,12) only; full native actual scoring [0,H]. One table is supplied per default public engineering view. Scope does not calibrate priors, probability of failure or thermal lag in the field.",
+    "observation_law": "Full-open valves: C0 q=1/10; F q=sqrt(1/340), represented by conservative public bin [0.0542,0.0543]; O q=0. N observes g and e from same demand/proportional-allocation equation as README. Native actual readings need not fall in a given law; unsupported results stay explicit. Positive-effect synthetic F is only a ranking assumption. No factorization of correlated worlds.",
+    "world_encoding": "each entry [cooling, g, weight]; A and s as above unless specified",
+    "tables": {
+      "EX75": [
+        [
+          "F",
+          1,
+          "3/4"
+        ],
+        [
+          "C0",
+          "1/4",
+          "1/4"
+        ]
+      ],
+      "EX25": [
+        [
+          "F",
+          1,
+          "1/4"
+        ],
+        [
+          "C0",
+          "1/4",
+          "3/4"
+        ]
+      ],
+      "EX50": [
+        [
+          "F",
+          1,
+          "1/2"
+        ],
+        [
+          "C0",
+          "1/4",
+          "1/2"
+        ]
+      ],
+      "COZERO": [
+        [
+          "F",
+          0,
+          "1/2"
+        ],
+        [
+          "C0",
+          1,
+          "1/2"
+        ]
+      ],
+      "EXZERO": [
+        [
+          "F",
+          1,
+          "1/2"
+        ],
+        [
+          "C0",
+          0,
+          "1/2"
+        ]
+      ],
+      "BOTH": [
+        [
+          "F",
+          0,
+          1
+        ]
+      ],
+      "N_MIX": [
+        [
+          "C0",
+          "1/4",
+          "1/2"
+        ],
+        [
+          "C0",
+          1,
+          "1/2"
+        ]
+      ]
+    },
+    "query_order": "Stable keys use actual template, original public work-order source identity and action semantics; world labels/ordering have no tie-breaking authority."
+  },
+  "treatments": {
+    "J": "actual parameterized joint selector described by README; issue one real request at most per tick",
+    "B": "actual transparent joint direct-first baseline including conditional diagnostic fallback; same gates and knowledge",
+    "HOLD": "engineering reference, defer all elective work",
+    "N_DIRECT": "on an N opening, attempt admissible complete direct + own recheck; no initial probe; stop if denied or unwritten",
+    "N_PROBE": "paid N initial, then complete restore + own recheck only for a current co-sampled configuration deficit (configuration-only or mixed); stop on sufficient, supply-only or missing data regardless of evaluation condition",
+    "C_DIRECT": "one authorized C correction plus its genuine own recheck, early-window role",
+    "C_CHECK": "pay for each opened C initial once, leave healthy instances for local no-action certification; no elective correction in this reference",
+    "LEGACY": "exact original C01-V or C01-P program, no new schema"
+  },
+  "policy_cases": [
+    {
+      "id": "P01",
+      "law": "EX75",
+      "fee_cap": 2,
+      "input": "empty",
+      "expected": {
+        "J": "C.A",
+        "B": "C.A",
+        "loss_hold_C_N": [
+          "15/4",
+          "3/4",
+          "3"
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "law": "EX25",
+      "fee_cap": 2,
+      "input": "empty",
+      "expected": {
+        "J": "N.A",
+        "B": "N.A",
+        "loss_hold_C_N": [
+          "13/4",
+          "9/4",
+          1
+        ]
+      }
+    },
+    {
+      "id": "P03",
+      "law": "COZERO",
+      "fee_cap": 2,
+      "input": "empty",
+      "expected": {
+        "J": "W",
+        "B": "W",
+        "loss_hold_C_N": [
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "id": "P04",
+      "law": "EXZERO",
+      "fee_cap": 2,
+      "input": "empty",
+      "expected": {
+        "J": "N.A",
+        "B": "N.A",
+        "loss_hold_C_N": [
+          4,
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "id": "P05",
+      "law": "BOTH",
+      "fee_cap": 4,
+      "input": "empty",
+      "expected": {
+        "J": "C.A",
+        "B": "C.A",
+        "loss_hold_C_N": [
+          4,
+          4,
+          4
+        ],
+        "also": "two corrections together predict 0; second N.A at 1/4; reserve both own checks"
+      }
+    },
+    {
+      "id": "P06",
+      "law": "EX50",
+      "fee_cap": 3,
+      "input": "empty",
+      "expected": {
+        "J": "N.I",
+        "B": "C.A",
+        "loss_hold_C_N": [
+          "7/2",
+          "3/2",
+          2
+        ],
+        "also": "J chooses the zero predicted deficit branch plan; probe-N expected work 19/4 vs probe-C 23/4"
+      }
+    },
+    {
+      "id": "P07",
+      "law": "N_MIX",
+      "fee_cap": 3,
+      "input": "N opening only, grant requires current own actionable N bundle",
+      "expected": {
+        "J": "N.I",
+        "B": "N.I",
+        "also": "B has no eligible direct; both can legally restore after a positive paid result"
+      }
+    },
+    {
+      "id": "P08",
+      "law": "EX50",
+      "fee_cap": 3,
+      "input": "P06 with reversed template/world arrays and renamed external row/world labels",
+      "expected": {
+        "J": "N.I",
+        "B": "C.A",
+        "also": "same semantic option, predicted vectors, budget and causal prefix as P06"
+      }
+    },
+    {
+      "id": "P09",
+      "law": "EX50",
+      "fee_cap": 3,
+      "input": "paid prefix N.I@0, at 3/2 no report/ACK yet; future reading absent",
+      "expected": {
+        "J": "W",
+        "B": "W",
+        "also": "B receives same externally supplied legal prefix for this isolated comparison"
+      }
+    },
+    {
+      "id": "P10",
+      "law": "EX50",
+      "fee_cap": 3,
+      "input": "same prefix at 7/4, now own completion and same-sample g=e=1",
+      "expected": {
+        "J": "C.A",
+        "B": "C.A",
+        "also": "globally choose another issue; remaining complete N treatment unnecessary"
+      }
+    },
+    {
+      "id": "P11",
+      "law": "EX50",
+      "fee_cap": 3,
+      "input": "same prefix at 7/4, now own completion and same-sample g=e=1/4",
+      "expected": {
+        "J": "N.A",
+        "B": "N.A",
+        "also": "same prefix as P10 before 7/4; full actual own recheck owed"
+      }
+    },
+    {
+      "id": "P12",
+      "law": "N_MIX",
+      "fee_cap": 3,
+      "input": "N only, binding positive-bundle write grant; N.I@0 returns e=1/4, g absent, completed at 5/4 and arrived 7/4",
+      "expected": {
+        "J": "W",
+        "B": "W",
+        "also": "unknown cause, document unresolved, cannot re-issue initial or use a private truth label"
+      }
+    }
+  ],
+  "component_cases": [
+    {
+      "id": "G01",
+      "interface": "classify",
+      "inputs": [
+        "g=1/4",
+        "e=1/4"
+      ],
+      "expected": "CONFIG_LIMIT_CURRENT; post-write headroom UNKNOWN"
+    },
+    {
+      "id": "G02",
+      "interface": "classify",
+      "inputs": [
+        "g=1",
+        "e=1/4"
+      ],
+      "expected": "SUPPLY_LIMIT_CURRENT; upstream component UNKNOWN"
+    },
+    {
+      "id": "G03",
+      "interface": "classify",
+      "inputs": [
+        "g=1/4",
+        "e=11/170"
+      ],
+      "expected": "MIXED_LIMIT_CURRENT; residual cap not inferred"
+    },
+    {
+      "id": "G04",
+      "interface": "classify",
+      "inputs": [
+        "g=1",
+        "e=1"
+      ],
+      "expected": "LOCAL_ADEQUATE"
+    },
+    {
+      "id": "G05",
+      "interface": "classify",
+      "inputs": [
+        "g=1",
+        "e interval [0.985,1.005]"
+      ],
+      "expected": "UNKNOWN; does not imply e>=1 or e<1"
+    },
+    {
+      "id": "G06",
+      "interface": "join",
+      "inputs": [
+        "two legitimate but nonmatching sample/task tokens; g at 5/4 from prior task, e at 3 from later task, different bundle epochs"
+      ],
+      "expected": "UNKNOWN; cannot combine"
+    },
+    {
+      "id": "G07",
+      "interface": "partial read",
+      "inputs": [
+        "g field denied and absent, e=1/4, correct own field ACK"
+      ],
+      "expected": "EFFECTIVE_LOW_CAUSE_UNKNOWN; retain partial result and reason; no configured value published"
+    },
+    {
+      "id": "G08",
+      "interface": "current",
+      "inputs": [
+        "sample 5/4, data 7/4, own work ACK 9/4, TTL 5/4, g=e=1/4"
+      ],
+      "expected": "PENDING at 7/4, CONFIG_LIMIT_CURRENT at 9/4, expired at 5/2"
+    },
+    {
+      "id": "G09",
+      "interface": "expiry equality",
+      "inputs": [
+        "same as G08, TTL=1"
+      ],
+      "expected": "PENDING at 7/4, expired at 9/4; no legally usable interval"
+    },
+    {
+      "id": "G10",
+      "interface": "identity",
+      "inputs": [
+        "valid g=e=1; only completed work ACK belongs to another instance"
+      ],
+      "expected": "PENDING; cannot count own work or no-action"
+    },
+    {
+      "id": "G11",
+      "interface": "quarantine",
+      "inputs": [
+        "two distinct authentic same-time current readings of same g on same installed config: [1,1] and [1/4,1/4]; neither supersedes the other"
+      ],
+      "expected": "CONFLICT; keep both origins, no dependent action/certificate"
+    },
+    {
+      "id": "G12",
+      "interface": "shared envelope",
+      "inputs": [
+        "BOTH, C.A@0, N.A@1/4, N.R@2, C.R@15/4",
+        "caps [169/4,169/4,4]"
+      ],
+      "expected": "ACCEPT at equality; releases [0,0,2,15/4]; actual work [7,7], fees 4"
+    },
+    {
+      "id": "G13",
+      "interface": "person bound",
+      "inputs": [
+        "G12 plan, caps [42,60,4]"
+      ],
+      "expected": "REJECT complete plan before first issue; person envelope 169/4"
+    },
+    {
+      "id": "G14",
+      "interface": "tool bound",
+      "inputs": [
+        "G12 plan, caps [60,42,4]"
+      ],
+      "expected": "REJECT complete plan before first issue; tool envelope 169/4"
+    },
+    {
+      "id": "G15",
+      "interface": "fee bound",
+      "inputs": [
+        "G12 plan, caps [60,60,3]"
+      ],
+      "expected": "REJECT complete plan before first issue; fee 4"
+    },
+    {
+      "id": "G16",
+      "interface": "grant equality",
+      "inputs": [
+        "direct N action earliest finish 5/4, write grant [0,5/4)"
+      ],
+      "expected": "NO ISSUE; earliest completion at expiry"
+    },
+    {
+      "id": "G17",
+      "interface": "post evidence feasibility",
+      "inputs": [
+        "N direct complete 5/4, APPLIED 7/4, own recheck sampled 3/arrived 7/2, TTL 9/2; fixed earliest two 6,7 available at 15/2"
+      ],
+      "expected": "REJECT complete plan; paid result expires precisely at 15/2"
+    },
+    {
+      "id": "G18",
+      "interface": "post evidence feasibility",
+      "inputs": [
+        "G17 with recheck TTL 19/4"
+      ],
+      "expected": "ACCEPT scheduling opportunity at 15/2; expires 31/4; normal values still required for positive state"
+    },
+    {
+      "id": "G19",
+      "interface": "route",
+      "inputs": [
+        "worker_cooling last attested loc_control, distinct tool at loc_hx, target loc_lake; issue at 0"
+      ],
+      "expected": "traverse two qualified edges 1 and 2, pay two gates and 1 work; finish 9/2, ACK 5"
+    },
+    {
+      "id": "G20",
+      "interface": "pose handoff",
+      "inputs": [
+        "C task issued at 0 from hx, finishes 13/4, own ACK 15/4 at lake; independent second C waiting"
+      ],
+      "expected": "both worker and meter locked until 15/4; second now starts at lake, finish 5 ACK 11/2"
+    },
+    {
+      "id": "G21",
+      "interface": "abort accounting",
+      "inputs": [
+        "N direct at 0, native it_access_permit lost 3/4 while working, ABORT/NO_EFFECT reports 5/4, duplicate same origin at 3/2"
+      ],
+      "expected": "fee=1, historical envelope [12,12,1], actual [3/4,3/4,1]; pose unknown after abort, no speculative recheck; duplicate changes nothing"
+    },
+    {
+      "id": "G22",
+      "interface": "local certificate",
+      "inputs": [
+        "N healthy paid own initial, valid to 37/4; fixed network normal, joint service 1/4"
+      ],
+      "expected": "NO_ACTION_CURRENT at 15/2, OPEN_EXPIRED at 12, no POST_ACTION ever"
+    },
+    {
+      "id": "G23",
+      "interface": "post identity",
+      "inputs": [
+        "own N APPLIED and work ACK, only other N task's recheck; two copies of one normal fixed sample at 6"
+      ],
+      "expected": "OPEN at 15/2; neither borrowed report nor same-time copies satisfy post verification"
+    },
+    {
+      "id": "G24",
+      "interface": "off-support",
+      "inputs": [
+        "EX50; completed N bundle g=1,e=1/4; no other pending obligation"
+      ],
+      "expected": "ZERO_SUPPORT; WAIT; record unmodeled supply; no renormalization of an empty set"
+    }
+  ],
+  "native_cases": [
+    {
+      "id": "S01",
+      "method": "N_DIRECT",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_A",
+        "L": "15/16",
+        "U": "15/16",
+        "first_and_current_at_7_5": [
+          "N.PV"
+        ],
+        "current_at_H": [],
+        "mechanism": "g:1/4->1 at 5/4, recheck sample 3 expires 11"
+      }
+    },
+    {
+      "id": "S02",
+      "method": "HOLD",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "NONE",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "same physical case as S01, no receipt or paid check"
+      }
+    },
+    {
+      "id": "S03",
+      "method": "N_PROBE",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_IA",
+        "L": "9/4",
+        "U": "9/4",
+        "first_and_current_at_7_5": [
+          "N.PV"
+        ],
+        "current_at_H": [
+          "N.PV"
+        ],
+        "mechanism": "at 7/4 measured g=e=1/4; restoration at 3, post sample 19/4"
+      }
+    },
+    {
+      "id": "S04",
+      "method": "N_PROBE",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        1,
+        1,
+        "P"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_I",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "same public opening and e as S03, measured g=1, e=1/4. SUPPLY_LIMIT, no local healthy or post certificate"
+      }
+    },
+    {
+      "id": "S05",
+      "method": "N_DIRECT",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        1,
+        1,
+        "P"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_A",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "APPLIED old=new=1, e still 1/4; own recheck cannot certify"
+      }
+    },
+    {
+      "id": "S06",
+      "method": "N_DIRECT",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        "1/4",
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_A",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "writes 1; own local e becomes 1, storage holds common service to 1/4"
+      }
+    },
+    {
+      "id": "S07",
+      "method": "HOLD",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        "1/4",
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "NONE",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "paired storage cap masks action throughout"
+      }
+    },
+    {
+      "id": "S08",
+      "method": "N_DIRECT",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "overrides": {
+        "N_write_expiry_s": "5/4"
+      },
+      "expected": {
+        "chain": "NONE",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "completion at grant end cannot be admitted; no write, sampling, fee or lock"
+      }
+    },
+    {
+      "id": "S09",
+      "method": "N_DIRECT",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "overrides": {
+        "boundary_events": [
+          [
+            "3/4",
+            "it_access_permit",
+            0
+          ]
+        ]
+      },
+      "expected": {
+        "chain": "N_ABORT",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "gate 1/4, 1/2 work then access lost; retain debit and failed action, final g=1/4"
+      }
+    },
+    {
+      "id": "S10",
+      "method": "N_PROBE",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "P"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_IA",
+        "L": "3249/340",
+        "U": "3249/340",
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "g=1/4,e=11/170; g becomes 1 at 3, e only 1/4; unresolved after recheck"
+      }
+    },
+    {
+      "id": "S11",
+      "method": "HOLD",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "P"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "NONE",
+        "L": "954/85",
+        "U": "954/85",
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "partial improvement in S10 vs S11 =567/340; no full restoration"
+      }
+    },
+    {
+      "id": "S12",
+      "method": "J",
+      "slots": "C,N",
+      "private_tuple": [
+        4,
+        1,
+        1,
+        "A"
+      ],
+      "public_law": "EX50",
+      "expected": {
+        "chain": "N_I_C_A",
+        "L": 0,
+        "U": 0,
+        "first_and_current_at_7_5": [
+          "N.NA",
+          "C.PV"
+        ],
+        "current_at_H": [
+          "C.PV"
+        ],
+        "mechanism": "N normal, clean m4->1 at 5; N paid result expires at 37/4; joint service cold=1"
+      }
+    },
+    {
+      "id": "S13",
+      "method": "B",
+      "slots": "C,N",
+      "private_tuple": [
+        4,
+        1,
+        1,
+        "A"
+      ],
+      "public_law": "EX50",
+      "expected": {
+        "chain": "C_A",
+        "L": 0,
+        "U": 0,
+        "first_and_current_at_7_5": [
+          "C.PV"
+        ],
+        "current_at_H": [
+          "C.PV"
+        ],
+        "mechanism": "direct C; full-service cold reference, N unresolved (no own sample)"
+      }
+    },
+    {
+      "id": "S14",
+      "method": "J",
+      "slots": "C,N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "EX50",
+      "expected": {
+        "chain": "N_IA",
+        "L": "9/4",
+        "U": "9/4",
+        "first_and_current_at_7_5": [
+          "N.PV"
+        ],
+        "current_at_H": [
+          "N.PV"
+        ],
+        "mechanism": "before 7/4 same detached history as S12; actual g=1/4, N restored at 3; C still open"
+      }
+    },
+    {
+      "id": "S15",
+      "method": "B",
+      "slots": "C,N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "EX50",
+      "expected": {
+        "chain": "C_A",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "same public prefix as S13 before the first action-related public evidence can differ; C writes old=new=1; service stays 1/4, fee left 1 cannot fund a complete remedy"
+      }
+    },
+    {
+      "id": "S16",
+      "method": "J",
+      "slots": "C,N",
+      "private_tuple": [
+        4,
+        0,
+        1,
+        "A"
+      ],
+      "public_law": "BOTH",
+      "overrides": {
+        "fee_cap": 4
+      },
+      "expected": {
+        "chain": "BOTH_A",
+        "L": "3/2",
+        "U": "3/2",
+        "first_and_current_at_7_5": [
+          "C.PV",
+          "N.PV"
+        ],
+        "current_at_H": [
+          "C.PV"
+        ],
+        "mechanism": "both write; net restored at 3/2; N recheck sampled 13/4 expires 45/4"
+      }
+    },
+    {
+      "id": "S17",
+      "method": "C_CHECK",
+      "slots": "C#0,C#1",
+      "private_tuple": [
+        1,
+        1,
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "overrides": {
+        "fee_cap": 2,
+        "openings": [
+          [
+            0,
+            "C",
+            "origin-a"
+          ],
+          [
+            "1/2",
+            "C",
+            "copy(origin-a)"
+          ],
+          [
+            "1/2",
+            "C",
+            "independent-origin-b"
+          ]
+        ]
+      },
+      "expected": {
+        "chain": "TWO_C_I",
+        "L": 0,
+        "U": 0,
+        "first_and_current_at_7_5": [
+          "C#0.NA",
+          "C#1.NA"
+        ],
+        "current_at_H": [
+          "C#1.NA"
+        ],
+        "mechanism": "copied opening produces no third instance; genuine second uses public lake pose, not original hx; first sample expires at 45/4"
+      }
+    },
+    {
+      "id": "S18",
+      "method": "N_PROBE",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        1,
+        "1/4",
+        "A"
+      ],
+      "public_law": "ref",
+      "expected": {
+        "chain": "N_I",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [
+          "N.NA"
+        ],
+        "current_at_H": [],
+        "mechanism": "g=e=1 so N does not need local correction while storage limits service; initial expires 37/4"
+      }
+    },
+    {
+      "id": "S19",
+      "method": "N_PROBE",
+      "slots": "N",
+      "private_tuple": [
+        1,
+        "1/4",
+        1,
+        "A"
+      ],
+      "public_law": "ref",
+      "overrides": {
+        "N_config_read": false
+      },
+      "expected": {
+        "chain": "N_I",
+        "L": 9,
+        "U": 9,
+        "first_and_current_at_7_5": [],
+        "current_at_H": [],
+        "mechanism": "own e=1/4, g legally unavailable, cause unknown; one paid task, no configured sample or repair"
+      }
+    }
+  ],
+  "thermal_cases": [
+    {
+      "id": "T01",
+      "method": "HOLD",
+      "network_g": 1,
+      "max_step_s": "1/2",
+      "expected": "trip by 2700; some positive-duration actual deficit; L>0/U>0"
+    },
+    {
+      "id": "T02",
+      "method": "C_DIRECT",
+      "network_g": 1,
+      "max_step_s": "1/2",
+      "expected": "clean at 13/4, no thermal trip throughout; L=U=0, Tsat<325 K; inequalities vs T01"
+    },
+    {
+      "id": "T03",
+      "method": "HOLD",
+      "network_g": 1,
+      "max_step_s": "1/4",
+      "expected": "same directional conditions as T01; first trip vs T01 differs by <=1 s"
+    },
+    {
+      "id": "T04",
+      "method": "C_DIRECT",
+      "network_g": 1,
+      "max_step_s": "1/4",
+      "expected": "same physical/post expectations as T02; both paired deficits strictly smaller than T03"
+    },
+    {
+      "id": "T05",
+      "method": "HOLD",
+      "network_g": 0,
+      "max_step_s": "1/2",
+      "expected": "g=0 full window masks service, L=U=3600; no mandatory thermal trip claim with this lower load"
+    },
+    {
+      "id": "T06",
+      "method": "C_DIRECT",
+      "network_g": 0,
+      "max_step_s": "1/2",
+      "expected": "m 100->1 and q increases, fixed service 0, L=U=3600; no common-service certificate"
+    }
+  ],
+  "legacy_cases": [
+    {
+      "id": "L01",
+      "original": "C01-V",
+      "expected_semantic_sha256": "c0c20013dd427f5aca3a78b78146fbd279c9a1830b3d0bcaccd08884264f83c8",
+      "expected": "whole original 20 public decisions; inspect@0, act@15/4, recheck@11/2; first closed 15/2, valid H10, three issues; actual person/tool 23/4, fee 3"
+    },
+    {
+      "id": "L02",
+      "original": "C01-P",
+      "expected_semantic_sha256": "ebabb63acf10e2d1c8bab81f1bc3676e50bdbed9a4debc4ab94c4f8578a7510b",
+      "expected": "whole original 20 public decisions; manual issues=0, no close, work/fee=0"
+    }
+  ],
+  "public_fixture": {
+    "default": "Open C0-slot+N0-slot at t=0. New public clerk has valid opening records, starts/no spend/no pending, full point-value rights and earliest legal routes, short clock, financially independent per method. No condition, fixed measurement or anticipated private event at root. Only P09-P12 override with already paid naturally attainable public prefix.",
+    "actions": "C.A,N.A = submit corrective now; C.I,N.I = paid initial; C.R,N.R = paid own post-action recheck; W=WAIT/no issue. Prefix N.I@0 incurs 12/12/1; fee cap includes the prefix. Next elective work follows the actual result and own completed ACK. Each P unit is one call per J and B on distinct copies of the identical specified detached view.",
+    "loss_order": "Where provided, W/C-only/N-only per [8,12) forecast; expected J/B are real first public decisions.",
+    "numerics": "Canonical expected rationals in this document are exact. Check public clock, stage, identity, category and number of issues exactly. Integrated short L/U and physical work use absolute tolerance 1e-8, rational clocks/fees analytical. Thermal directional and energy closure checks use paired step and native conservation thresholds specified separately."
+  },
+  "component_fixture": {
+    "defaults": "Unless overridden: one valid open instance for each relevant template, declared short credentials, zero error; N probe issued 0 sampled at 5/4, observation and its own matching completed work ACK received at 7/4. No action issued. Times and both exact intervals refer to same unique source/task/sample. Each guard is one isolated independent component unit, no facility or policy calls.",
+    "fixed": "Use distinct authentic local and service samples 6 and 7, arrived 6.5/7.5, TTL 3; when checking t=12 use latest samples 10,11, arrived 10.5/11.5. Compare exact state and identity at each listed instant."
+  },
+  "short_input_grammar": {
+    "columns": "Each named S case supplies strategy, set of opening slots, private [filter multiplier, network g, storage s, rectifier input cap W] and public forecast or named deterministic reference, optional declared overrides. No private tuple fields, row identity or oracle in decision view. H12 uses efficiency 1, cap 5000000 abbreviated A, cap 550000 abbreviated P.",
+    "reference_policy": "Routines named in treatments. N_PROBE checks only local lawful config-limited or mixed result. It may pay its permitted e-only field even with separately denied g, because purpose is an engineering interface witness. No other discretionary work for references.",
+    "common_assertions": "All requested operations have correct target, role, stable per-instance ID, minimum work, authorized setting and own completion. No extra issues. Assert both resulting physical g/m values, site pose/lock and outstanding reservations each time; fixed channels do not carry g or instance-private labels. Error/denial rows retain raw endpoint and original issued fee.",
+    "chain_clock_fields": [
+      "task",
+      "issue",
+      "physical completion",
+      "public completed ACK and observation/APPLIED arrival"
+    ],
+    "chains": {
+      "NONE": [],
+      "N_A": [
+        [
+          "N.A",
+          0,
+          "5/4",
+          "7/4"
+        ],
+        [
+          "N.R",
+          "7/4",
+          3,
+          "7/2"
+        ]
+      ],
+      "N_I": [
+        [
+          "N.I",
+          0,
+          "5/4",
+          "7/4"
+        ]
+      ],
+      "N_IA": [
+        [
+          "N.I",
+          0,
+          "5/4",
+          "7/4"
+        ],
+        [
+          "N.A",
+          "7/4",
+          3,
+          "7/2"
+        ],
+        [
+          "N.R",
+          "7/2",
+          "19/4",
+          "21/4"
+        ]
+      ],
+      "C_A": [
+        [
+          "C.A",
+          0,
+          "13/4",
+          "15/4"
+        ],
+        [
+          "C.R",
+          "15/4",
+          5,
+          "11/2"
+        ]
+      ],
+      "N_I_C_A": [
+        [
+          "N.I",
+          0,
+          "5/4",
+          "7/4"
+        ],
+        [
+          "C.A",
+          "7/4",
+          5,
+          "11/2"
+        ],
+        [
+          "C.R",
+          "11/2",
+          "27/4",
+          "29/4"
+        ]
+      ],
+      "BOTH_A": [
+        [
+          "C.A",
+          0,
+          "13/4",
+          "15/4"
+        ],
+        [
+          "N.A",
+          "1/4",
+          "3/2",
+          2
+        ],
+        [
+          "N.R",
+          2,
+          "13/4",
+          "15/4"
+        ],
+        [
+          "C.R",
+          "15/4",
+          5,
+          "11/2"
+        ]
+      ],
+      "TWO_C_I": [
+        [
+          "C#0.I",
+          0,
+          "13/4",
+          "15/4"
+        ],
+        [
+          "C#1.I",
+          "15/4",
+          5,
+          "11/2"
+        ]
+      ],
+      "N_ABORT": [
+        [
+          "N.A",
+          0,
+          "3/4 (abort, no write)",
+          "5/4 (ABORT + NO_EFFECT)"
+        ]
+      ]
+    },
+    "cost_fields": [
+      "actual person seconds",
+      "actual tool seconds",
+      "issued fees",
+      "nonrefunded cumulative person envelope",
+      "nonrefunded cumulative tool envelope"
+    ],
+    "cost_by_chain": {
+      "NONE": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "N_A": [
+        "5/2",
+        "5/2",
+        2,
+        "89/4",
+        "89/4"
+      ],
+      "N_I": [
+        "5/4",
+        "5/4",
+        1,
+        12,
+        12
+      ],
+      "N_IA": [
+        "15/4",
+        "15/4",
+        3,
+        "65/2",
+        "65/2"
+      ],
+      "C_A": [
+        "9/2",
+        "9/2",
+        2,
+        "81/4",
+        "81/4"
+      ],
+      "N_I_C_A": [
+        "23/4",
+        "23/4",
+        3,
+        "61/2",
+        "61/2"
+      ],
+      "BOTH_A": [
+        7,
+        7,
+        4,
+        "169/4",
+        "169/4"
+      ],
+      "TWO_C_I": [
+        "9/2",
+        "9/2",
+        2,
+        "47/2",
+        "47/2"
+      ],
+      "N_ABORT": [
+        "3/4",
+        "3/4",
+        1,
+        12,
+        12
+      ]
+    },
+    "certificate_notation": "Listed events are the complete positive set, at t=7.5 first/current; all slots open at 5. Listed H12 set is complete. NA means NO_ACTION_CURRENT, PV means POST_ACTION_VERIFIED_CURRENT. Reasons explain unresolved/pending/expired, retained in denominator. Do not stamp NO_ACTION for a WAIT or a known supply limit."
+  },
+  "thermal_input": {
+    "base": "Same original C02-V topology and state; replace the entire cold thermal initialization by the explicit clean equilibrium construction in causal-basis.md. Restore native rectifier_efficiency=0.97; ample original AC and 5MW rectifier, normal voltage and cooling controls, thermal sensor has zero bias. Native protective sampling remains every 1 s.",
+    "heat_anchors": "configs/full-facility-mainline-reserve-v6.json; initial private sample in evidence/mainline/engineering/11-coupled/fixtures-b135ecff-01/normal-600s/private-state.jsonl row 1; use original full precision temperatures +20 K and frozen saturation table. Replace lake T with 313.15 K, warm both water stores/solid/refrigerant as appendix. Begin with m=1; common private event at 0 sets m=100. Assign g only as specified in thermal row, storage=1/d=1.",
+    "duration_s": 3600,
+    "public_ticks": [
+      0,
+      "1/2",
+      1,
+      2,
+      "13/4",
+      "15/4",
+      4,
+      "9/2",
+      5,
+      "11/2",
+      "23/4",
+      6,
+      "13/2",
+      "27/4",
+      7,
+      "29/4",
+      "15/2",
+      8,
+      9,
+      10,
+      2700,
+      3600
+    ],
+    "public_setup": "Only one C work order and one lawful C_DIRECT or HOLD per row. Both rights and deadline end at 10, cumulative [60,60,3]. Early stage timing as C_A. Late decisions at 2700/3600 read only. No new issuance at or after 10.",
+    "fixed": "Two authentic samples per fixed signal at 6 and 7 (two phase-offset channels with period 3601, same source/calibration group, delay 1/2, TTL 3). At 2700/3600 no new paid/fixed data; discriminate first vs current. Warm throttling stays private and continues to H.",
+    "physical_comparison": "Two independent solver step sizes check the warm positive relation; before earliest C write paired private rates/states agree up to native numeric tolerance and both protections agree. Then check actual filter write, q, heat flux, inventory balance, local sampled thermal latch, compute permission, actual L and U in causal order. For high network paired H, both native interval and separately saved rate sums must show strict same sign; do not use rounded ties. Native absolute/relative mass+energy and whole-run bounds inherited from parameters; retain all observed residuals and first counterexample. No fixed thermal crossing time beyond limits.",
+    "fixed_observations_current": "For both high-network C_DIRECT rows with lawful normal samples, C.PV first 7.5 and current 10, expired at 2700/3600. HOLD never obtains an own paid certificate. Masked g=0 rows never meet common-service post condition."
+  },
+  "coverage": {
+    "legitimate_openings_duplicates": [
+      "S12",
+      "S14",
+      "S17"
+    ],
+    "cause_and_rights": [
+      "G01",
+      "G02",
+      "G03",
+      "G04",
+      "G05",
+      "G06",
+      "G07",
+      "G08",
+      "G09",
+      "G10",
+      "G11",
+      "G24",
+      "S03",
+      "S04",
+      "S19"
+    ],
+    "joint_dependence_and_priors": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P08",
+      "S16"
+    ],
+    "transparent_fallback_arrival": [
+      "P07",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "S12",
+      "S13",
+      "S14",
+      "S15"
+    ],
+    "budget_route_and_failure": [
+      "G12",
+      "G13",
+      "G14",
+      "G15",
+      "G16",
+      "G17",
+      "G18",
+      "G19",
+      "G20",
+      "G21",
+      "S08",
+      "S09",
+      "S17"
+    ],
+    "local_no_action_post_expiry": [
+      "G22",
+      "G23",
+      "S01",
+      "S03",
+      "S05",
+      "S06",
+      "S12",
+      "S16",
+      "S17",
+      "S18"
+    ],
+    "network_full_partial_masks": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06",
+      "S07",
+      "S10",
+      "S11"
+    ],
+    "warming_and_joint_mask": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T05",
+      "T06"
+    ],
+    "legacy": [
+      "L01",
+      "L02"
+    ]
+  },
+  "execution_if_separately_authorized": {
+    "shared": "Single Slurm CPU, no GPU, concurrency one. Freeze all expanded public programs, private engineering overlays, source and literal expectations before facility/selector calls. Dedicated synthetic engineering directories. Preserve job identity, input/output hash, red stage, actual calls and unexecuted suffix. Independent comparison must not import selector or obtain standards by querying plant.",
+    "budget_rows_fields": [
+      "job",
+      "GiB",
+      "reserved CPU seconds",
+      "units",
+      "facility starts",
+      "standalone policy calls",
+      "internal public decisions",
+      "component units"
+    ],
+    "plan": [
+      [
+        "F0",
+        1,
+        120,
+        "freeze complete materialization, manifest and old schema rejecting new program before any facility/policy (one negative loader probe)",
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        "F1",
+        2,
+        300,
+        "P01-P12 each J/B + G01-G24",
+        0,
+        24,
+        0,
+        24
+      ],
+      [
+        "F2",
+        8,
+        1800,
+        "S01-S19 + L01-L02",
+        21,
+        0,
+        971,
+        0
+      ],
+      [
+        "F3",
+        8,
+        2400,
+        "T01,T02,T05,T06",
+        4,
+        0,
+        88,
+        0
+      ],
+      [
+        "F4",
+        8,
+        2400,
+        "T03,T04",
+        2,
+        0,
+        44,
+        0
+      ],
+      [
+        "F5",
+        2,
+        300,
+        "verify saved artifacts and independent per-row/paired oracles",
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        "F6",
+        8,
+        3600,
+        "optional one affected repair round only; <=1 retry per affected unit",
+        27,
+        24,
+        1103,
+        24
+      ],
+      [
+        "F7",
+        2,
+        300,
+        "optional saved-output reconciliation after F6",
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "initial_caps": {
+      "jobs": 6,
+      "CPU_seconds": 7320,
+      "facility": 27,
+      "direct_policy": 24,
+      "internal_policy": 1103,
+      "component": 24,
+      "old_loader_red": 1
+    },
+    "all_attempt_caps": {
+      "jobs": 8,
+      "CPU_seconds": 11220,
+      "facility": 54,
+      "direct_policy": 48,
+      "internal_policy": 2206,
+      "component": 48,
+      "old_loader_red": 1,
+      "research_units": 0
+    },
+    "early_stop": "Missing identity or purpose stops before affected call. A leaked private view or changed scientific relation stops dependencies for review. Thermal or step-direction counterexample/unresolved is retained; no parameter/threshold grid search. Verify failed job terminal and retain actual failure before in-scope repair, keep inputs and independent oracle identical. Reuse only affected units; stop when any cap reached.",
+    "acceptance": "All declared positive/negative witnesses, actual stages, cost and shared-service records, each current/expired certificate and two original legacy semantic identities are required for the corresponding finite scope. A failed family can be submitted separately with reduced scope and raw failure. Stage-three returns to review with its own comparison, funding and authority."
+  }
+}
