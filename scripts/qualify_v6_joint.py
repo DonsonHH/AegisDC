@@ -90,8 +90,14 @@ def observe_actual_decisions(key,counts):
 
 
 def private_sidecar(item,pin,manifest,key,oracle_sha):
+    events=[]
+    for e in item['boundary_events']:
+        if set(e)!={'time_s','parameter_id','value','source_note'} or any(type(e[k]) not in (int,float) for k in ('time_s','value')):
+            raise ValueError('Unexpected native event input')
+        events.append(dict(e,time_s=float(e['time_s']),value=float(e['value'])))
+    events.sort(key=lambda e:e['time_s'])
     return dict(schema='aegisdc-joint-engineering-evaluation-v1',scenario_sha256=digest(item['scenario']),
-        dispatch_program_sha256=digest(item['dispatch_program']),boundary_events_sha256=digest(item['boundary_events']),
+        literal_input_sha256=manifest['units'][key],dispatch_program_sha256=digest(item['dispatch_program']),boundary_events_sha256=digest(events),
         action_commands_sha256=digest(item.get('action_commands',[])),duration_s=item['duration_s'],maximum_step_s=item['step_s'],
         evaluator_source_sha256=pin['files']['scripts/audit_v6_joint.py'],
         fixture_and_oracle_sha256=digest([manifest['units'][key],oracle_sha]))
@@ -144,8 +150,41 @@ def evaluate_unit(key,item,expected,unit,pin,manifest,counts,oracle):
         checks_sha256=sha(unit/'checks.json'),input_sha256=manifest['units'][key])
 
 
+def recover_sealed(root,unit,key,item,pin,manifest,oracle,repair):
+    original=root/repair['original_group']/key
+    audit_hash=sha(ROOT/PACK/'oracle.json')
+    original_pin=read(ROOT/PACK/repair['prior_execution_pin'])
+    if (sha(original/'run.json.gz')!=repair['raw_sha256'] or sha(original/'private-evaluation.json')!=repair['old_sidecar_sha256']
+        or sha(original/'terminal.json')!=repair['old_terminal_sha256']):raise ValueError('Original S06 evidence identity')
+    old_start=read(original/'start.json')
+    if old_start['input_sha256']!=manifest['units'][key] or old_start['expected_sha256']!=digest(oracle['units'][key]):
+        raise ValueError('Original S06 input or independent oracle differs')
+    new_side=private_sidecar(item,pin,manifest,key,audit_hash)
+    old_side=read(original/'private-evaluation.json')
+    legacy=dict(new_side);legacy.pop('literal_input_sha256')
+    legacy.update(boundary_events_sha256=digest(item['boundary_events']),evaluator_source_sha256=original_pin['files']['scripts/audit_v6_joint.py'])
+    if legacy!=old_side:raise ValueError('Original sidecar differs outside documented normalization')
+    save(unit/'start.json',dict(key=key,job=os.environ['SLURM_JOB_ID'],mode='SAVED_OUTPUT_ONLY',revision=pin['revision'],
+         originating_revision=old_start['revision'],input_sha256=manifest['units'][key],expected_sha256=digest(oracle['units'][key])))
+    save(unit/'private-evaluation.json',new_side);os.link(original/'run.json.gz',unit/'run.json.gz')
+    saved=read(unit/'run.json.gz')
+    runtime={k:v for k,v in original_pin['files'].items() if (k.startswith('src/aegis_dc/') and k.endswith('.py')) or k=='src/patrol_rsi/contracts.py'}
+    if saved['code_identity']['files']!=runtime:raise ValueError('Recovered runtime differs from original execution pin')
+    actual=dict(saved['inputs'],scenario=saved['source_config'],step_s=saved['inputs']['maximum_step_s'])
+    if private_sidecar(actual,pin,manifest,key,audit_hash)!=new_side:raise ValueError('Normalized saved binding differs')
+    result=native_case(key,item,saved,oracle)
+    save(unit/'checks.json',result)
+    return dict(key=key,status='PASS' if result['passed'] else 'FAILED_ASSERTION',counts={},recovered_from=repair['original_group'],
+        assertions=result['assertions'],failures=result['failures'],actual_file='run.json.gz',actual_sha256=repair['raw_sha256'],
+        checks_sha256=sha(unit/'checks.json'),input_sha256=manifest['units'][key])
+
+
 def run_group(root,out,group,keys,pin,inputs,oracle,manifest):
+    repair=None
     if group=='F6':
+        repair=read(ROOT/PACK/'repair-plan.json')
+        if keys!=repair['affected'] or sha(root/repair['original_group']/'result.json')!=repair['original_result_sha256']:
+            raise PermissionError('One repair must match its retained original terminal and ordered affected scope')
         if not keys or len(keys)!=len(set(keys)) or any(k not in inputs for k in keys):raise ValueError('Invalid affected subset')
         if (root/'F6'/'result.json').exists():raise PermissionError('Repair already consumed')
         for key in keys:
@@ -160,7 +199,10 @@ def run_group(root,out,group,keys,pin,inputs,oracle,manifest):
         if stopped:break
         unit=out/key;unit.mkdir();counts.local={}
         try:
-            row=evaluate_unit(key,inputs[key],oracle['units'][key],unit,pin,manifest,counts,oracle)
+            if repair and key==repair['failed_unit']:
+                row=recover_sealed(root,unit,key,inputs[key],pin,manifest,oracle,repair)
+            else:
+                row=evaluate_unit(key,inputs[key],oracle['units'][key],unit,pin,manifest,counts,oracle)
         except Exception as exc:
             (unit/'exception.txt').write_text(traceback.format_exc(),encoding='utf-8')
             row=dict(key=key,status='FAILED_EXCEPTION',counts=counts.local.copy(),assertions=0,error=repr(exc),
@@ -195,7 +237,12 @@ def compare_saved(root,out,pin,inputs,oracle,manifest):
             if r['status']=='PASS':
                 native=key[0] in 'STL'
                 ticks=len(inputs[key]['dispatch_program'].get('decision_times_s',inputs[key]['dispatch_program']['policy_program'].get('clock',[]))) if native else 0
-                checks.compare('complete unit calls '+group+'/'+key,list(unit_counts.values()),[int(native),int(key[0]=='P'),ticks,int(key[0]=='G')])
+                calls=[int(native),int(key[0]=='P'),ticks,int(key[0]=='G')]
+                if 'recovered_from' in r:
+                    origin=read(root/r['recovered_from']/key/'terminal.json')
+                    checks.compare('retained original native consumption '+key,[origin['counts'].get(k,0) for k in DIM],calls)
+                    calls=[0,0,0,0]
+                checks.compare('complete unit calls '+group+'/'+key,list(unit_counts.values()),calls)
             if r['status']!='PASS':failed.setdefault(key,[]).append([group,r['status']])
             rows[key]=r
             if not r.get('actual_file'):continue
