@@ -2,6 +2,8 @@
 from copy import deepcopy
 from itertools import combinations
 
+from .joint_messages import own_ack, action_feedback
+
 
 def require(condition, message):
     if not condition:
@@ -42,26 +44,6 @@ def instances(cfg, view):
             if first is not None and key not in opened and sum(k.startswith(kind+'/') for k in opened)<typ['max_origins']:
                 opened[key]=first
     return opened
-
-
-def own_ack(cfg, view, task):
-    typ=cfg['types'][task.split('/')[0]]
-    issued=next((x for x in view['issued'] if x['task']==task),None)
-    if issued is None:
-        return None
-    return next((r for r in view['work'] if r['task']==task and r['origin']=='workforce:'+task
-                 and r['at']>=issued['at'] and (r['worker'],r['tool'])==(typ['worker'],typ['tool'])
-                 and (r['status']!='completed' or r['location']==typ['location'])),None)
-
-
-def action_feedback(cfg, view, task):
-    ack=own_ack(cfg,view,task)
-    if not ack:
-        return None
-    op=cfg['types'][task.split('/')[0]]['operation']
-    return next((r for r in view['writes'] if r['task']==task and r['operation']==op and r['at']==ack['at']
-                 and r['origin']=='intervention:'+task and (r['outcome']=='NO_EFFECT' or
-                 (r['outcome']=='APPLIED' and ack['status']=='completed'))),None)
 
 
 def observation(cfg, view, task):

@@ -6,6 +6,7 @@ from time import perf_counter_ns
 from .decision_view import DecisionGateway
 from .joint_evidence import at_time, require
 from .joint_policy import choose, validate
+from .joint_messages import native_message
 from .workforce_dispatch import CrewWorkforce
 
 
@@ -135,15 +136,10 @@ class JointSession:
     def process(self,t,workforce,inspections,interventions):
         if self.index>=len(self.cfg['clock']) or t<self.cfg['clock'][self.index]:return False
         require(t==self.cfg['clock'][self.index],'Joint public clock')
-        work=[]
-        for r in workforce.public_feedback(t):
-            require(r['source_id']=='workforce-execution-report','Unknown public work source')
-            task=r['task_id'];typ=self.cfg['types'][task.split('/')[0]]
-            # One bound carrier and one instrument; a successful location receipt attests both.
-            work.append(dict(task=task,at=r['observed_at_s'],arrived=r['arrived_at_s'],status=r['status'],location=r['location_id'],
-                worker=typ['worker'],tool=typ['tool'],origin=r['origin_id']))
-        writes=[dict(task=r['task_id'],at=r['observed_at_s'],arrived=r['arrived_at_s'],outcome=r['outcome'],
-                     operation=r['operation_id'],origin=r['origin_id']) for r in interventions.public_feedback(t)]
+        work=[row for raw in workforce.public_feedback(t)
+              if (row:=native_message(self.cfg,self.issued,raw,'work',t)) is not None]
+        writes=[row for raw in interventions.public_feedback(t)
+                if (row:=native_message(self.cfg,self.issued,raw,'write',t)) is not None]
         view=at_time(dict(orders=self.orders,issued=self.issued,work=work,writes=writes,paid=inspections.public_feedback(t),
                           fixed=self.sensors.rows),t)
         start=perf_counter_ns()

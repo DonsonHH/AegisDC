@@ -2,7 +2,7 @@
 from copy import deepcopy
 from fractions import Fraction
 from itertools import permutations, product
-from .joint_evidence import action_feedback, certificate, instances, observation, own_ack, require
+from .joint_evidence import action_feedback, certificate, instances, observation, require
 from .joint_forecast import deficit, observe_branch, permits_correction, support
 from .joint_resources import public_prefix, schedule
 
@@ -53,7 +53,7 @@ def choose(cfg,view):
     sequences=[()]+[(a,) for a in action_ids]+list(permutations(action_ids,2))
     root=dict(debit=pre['debit'],confirmed=sorted(pre['confirmed']),pending=sorted(pre['pending']),
         obligations=sorted(pre['reviews']),reserved_review=sum(cfg['deadline']-v[1] for v in pre['reviews'].values()),
-        contingent=pre['contingent'],issued=[r['task'] for r in view['issued']],pose=pre['pose'],
+        contingent=pre['contingent'],issued=[r['task'] for r in view['issued']],pose=pre['pose'],locked=pre['locked'],
         support=sorted(w['origin'] for w in worlds))
     projected={}
     for bits in product((False,True),repeat=len(pre['pending'])):
@@ -81,8 +81,7 @@ def choose(cfg,view):
                 first=None
         if first:
             typ=cfg['types'][first['task'].split('/')[0]]
-            if any(not own_ack(cfg,view,t) and
-                   any(typ[k]==cfg['types'][t.split('/')[0]][k] for k in ('worker','tool')) for t in pre['issued']):
+            if typ['worker'] in pre['locked'] or typ['tool'] in pre['locked']:
                 first=None
         reservation=deepcopy(row.get('branches',[])) if row else []
         if first:

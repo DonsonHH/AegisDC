@@ -66,8 +66,24 @@ def public_case(key,item,actual,expected):
 
 def certificate_from_records(cfg,view,instance,opening):
     issued={r['task']:r for r in view['issued']}
-    ack={r['task']:r for r in view['work'] if r['status']=='completed' and r['origin']=='workforce:'+r['task']}
-    writes={r['task']:r for r in view['writes'] if r['outcome']=='APPLIED' and r['origin']=='intervention:'+r['task']}
+    ack={};writes={}
+    for task,issue in issued.items():
+        typ=cfg['types'][task.split('/')[0]]
+        terminal=[r for r in view['work'] if r['task']==task and r['origin']=='workforce:'+task
+                  and r['status'] in ('completed','rejected','aborted')
+                  and (r['worker'],r['tool'])==(typ['worker'],typ['tool'])
+                  and r['location']==(typ['location'] if r['status']=='completed' else None)
+                  and all(type(r[k]) in (int,float) and math.isfinite(r[k]) for k in ('at','arrived'))
+                  and issue['at']<=r['at']<=r['arrived']<=view['time']]
+        if len({(r['status'],r['at']) for r in terminal})!=1 or terminal[0]['status']!='completed':continue
+        ack[task]=min(terminal,key=lambda r:r['arrived'])
+        if not task.endswith('/A'):continue
+        effects=[r for r in view['writes'] if r['task']==task and r['origin']=='intervention:'+task
+                 and r['operation']==typ['operation'] and r['outcome'] in ('APPLIED','NO_EFFECT')
+                 and all(type(r[k]) in (int,float) and math.isfinite(r[k]) for k in ('at','arrived'))
+                 and r['at']==ack[task]['at'] and r['at']<=r['arrived']<=view['time']]
+        if effects and {r['outcome'] for r in effects}=={'APPLIED'}:
+            writes[task]=min(effects,key=lambda r:r['arrived'])
     kind=instance[:1];acted=instance+'/A' in issued;target=instance+('/R' if acted else '/I')
     if acted:
         action=instance+'/A'
@@ -126,6 +142,78 @@ def physiology(run):
         physical_work=[math.fsum(workers),math.fsum(tools)],native_work=[sum(s[k] for k in ('worker_travel_person_s','worker_work_person_s','worker_wait_person_s')),s['tool_occupation_tool_s']],
         continuous=bool(consistent and len(trace)==len(balances)+1 and trace[0]['time_s']==0 and trace[-1]['time_s']==s['duration_s']),
         conserved=bool(conserved))
+
+
+def work_receipt_statistics(jobs, messages, cfg, as_of):
+    """Independent retrospective task waits and work-message latencies.
+
+    Only compare a public terminal with saved physical completion after resolving
+    its public identity. Missing or conflicting tasks remain in the denominator.
+    """
+    def finite_clock(x):
+        return type(x) in (int, float) and math.isfinite(x)
+    if not finite_clock(as_of):
+        raise ValueError('Expected a finite reporting cutoff')
+    issued = {j['id']: j for j in jobs if j['issued_at_s'] <= as_of}
+    if len(issued) != sum(j['issued_at_s'] <= as_of for j in jobs):
+        raise ValueError('Duplicate actual issued task')
+    arrivals = {}
+    raw_lags = []
+    rejected = 0
+    for msg in messages:
+        at, arrived = msg.get('observed_at_s'), msg.get('arrived_at_s')
+        if finite_clock(arrived) and arrived > as_of:
+            continue
+        task = msg.get('task_id')
+        job = issued.get(task)
+        kind = task.split('/')[0] if isinstance(task, str) else None
+        typ = cfg['types'].get(kind)
+        status = msg.get('status')
+        valid = (job is not None and typ is not None and finite_clock(at) and finite_clock(arrived)
+                 and job['issued_at_s'] <= at <= arrived <= as_of
+                 and msg.get('source_id') == 'workforce-execution-report' and msg.get('origin_id') == 'workforce:'+task
+                 and msg.get('coverage') == 'THIS_ISSUED_TASK_ONLY'
+                 and job['work_interface_id'] == typ['interface'] and job['tool_carrier_id'] == typ['worker']
+                 and job['crew'] == [dict(worker_id=typ['worker'],qualification_id=typ['qualification'])]
+                 and job['target_id'] == (typ['asset'] if task.endswith('/A') else typ['target'])
+                 and status in ('completed','aborted','rejected','safety_stop_observed') and 'location_id' in msg
+                 and msg['location_id'] == (typ['location'] if status == 'completed' else None))
+        if not valid:
+            rejected += 1
+            continue
+        identity = (task, msg['origin_id'], status, at, msg['location_id'])
+        raw_lags.append(arrived-at)
+        arrivals.setdefault(identity, []).append(arrived)
+    by_task = {key: [] for key in issued}
+    logical = []
+    for (task, origin, status, at, location), times in sorted(arrivals.items()):
+        earliest = min(times)
+        logical.append(dict(task=task, origin=origin, status=status, at=at, location=location,
+                            arrived=earliest, lag_s=earliest-at, deliveries=len(times)))
+        if status != 'safety_stop_observed':
+            by_task[task].append((status,at,earliest))
+    waits, held, conflicts = {}, {}, []
+    for task, terminals in by_task.items():
+        job = issued[task]
+        waits[task] = held[task] = None
+        if not terminals:
+            continue
+        if (len(terminals) != 1 or terminals[0][0] != job['status']
+                or terminals[0][1] != job.get('finished_at_s')):
+            conflicts.append(task)
+            continue
+        _, observed, arrived = terminals[0]
+        waits[task] = arrived - observed
+        held[task] = arrived - job['issued_at_s']
+    known = [v for v in waits.values() if v is not None]
+    processes = sum(r['status']=='safety_stop_observed' for r in logical)
+    return dict(issued_tasks=len(issued), task_waits=waits, held_s=held, known_tasks=len(known),
+                unresolved=sorted(k for k,v in waits.items() if v is None), conflicts=sorted(conflicts),
+                total_wait_s=math.fsum(known) if len(known)==len(issued) else None, known_wait_sum_s=math.fsum(known),
+                raw_count=len(raw_lags), unique_count=len(logical), process_count=processes,
+                terminal_count=len(logical)-processes, duplicate_deliveries=len(raw_lags)-len(logical),
+                logical_delay_s=math.fsum(r['lag_s'] for r in logical), raw_delay_s=math.fsum(raw_lags),
+                rejected=rejected, messages=logical)
 
 
 def native_case(key,item,run,oracle):
@@ -187,13 +275,15 @@ def native_case(key,item,run,oracle):
                 first.setdefault(i,dict(time=t,state=value))
         if t in (5,7.5,9,10,12,2700,3600):actual_certs[f'{t:g}']=own
         views[f'{t:g}']=digest(dict(view=v,decision=choice))
-    ack_wait=math.fsum(x['arrived_at_s']-x['observed_at_s'] for x in native_acks)
+    receipt_stats=work_receipt_statistics(work,native_acks,cfg,item['duration_s'])
+    ack_wait=receipt_stats['total_wait_s']
     work_summary=account['physical_work']+[len(work)]
-    c.compare('administrative latency is separate from person/tool work',ack_wait,len(work)*cfg['latency'])
+    c.compare('every issued task has one known terminal',receipt_stats['known_tasks'],len(work))
+    c.compare('task terminal delay is separate from message latency and physical work',ack_wait,len(work)*cfg['latency'])
     cap=[sum(cfg['deadline']-x['release'] for x in selected)]*2+[len(work)*cfg['fee']]
     c.condition('actual nonrefunded cap',all(x<=y for x,y in zip(cap,cfg['caps'])))
     details=dict(decisions=len(decisions),physical_integrals=account['rate'],work=work_summary,debit=cap,
-                 wait_for_public_receipts_s=ack_wait,first=first,current=actual_certs,open_instances=list(openings),prefix_sha256=views)
+                 wait_for_public_receipts_s=ack_wait,work_receipt_statistics=receipt_stats,first=first,current=actual_certs,open_instances=list(openings),prefix_sha256=views)
     if key.startswith('S'):
         e=expected['expected'];chain=oracle['chains'][e['chain']];multi=key=='S17'
         entries=[]

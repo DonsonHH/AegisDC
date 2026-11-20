@@ -2,7 +2,8 @@
 from collections import defaultdict
 from copy import deepcopy
 from heapq import heappop, heappush
-from .joint_evidence import action_feedback, instances, observation, own_ack
+from .joint_evidence import instances, observation
+from .joint_messages import action_feedback, own_ack, provisional_review_release
 
 
 def transit(cfg, start, target, quals):
@@ -34,17 +35,19 @@ def public_prefix(cfg,view):
     now=view['time'];pose=deepcopy(cfg['pose']);free=defaultdict(float)
     issued={r['task']:r for r in view['issued']}
     debit=sum(cfg['deadline']-r['release'] for r in issued.values())
-    facts={};pending={};reviews={};continued={};checks_waiting=[]
+    facts={};pending={};reviews={};continued={};checks_waiting=[];locked={}
+    next_tick=next((t for t in cfg['clock'] if t>now),cfg['horizon']+cfg['latency'])
     for task,row in sorted(issued.items(),key=lambda x:(x[1]['at'],x[0])):
         typ=cfg['types'][task.split('/')[0]]
         ack=own_ack(cfg,view,task)
         for obj in (typ['worker'],typ['tool']):
             if ack:
                 pose[obj]=ack['location'] if ack['status']=='completed' else None
-                free[obj]=ack['arrived']
+                free[obj]=max(free[obj],ack['arrived'])
             else:
-                free[obj]=max(row['planned_ack'],now)
-                # Predicted position on the conditional success branch only.
+                locked.setdefault(obj,[]).append(task)
+                projected_ack=row['planned_ack'] if row['planned_ack']>now else next_tick
+                free[obj]=max(free[obj],projected_ack)
         if task.endswith('/I') and (not ack or (ack['status']=='completed' and not any(r['task']==task for r in view['paid']))):
             checks_waiting.append(task)
             continued[task]=row.get('contingent',[])
@@ -56,10 +59,14 @@ def public_prefix(cfg,view):
                 facts[task]=feedback['at']
                 if review not in issued:reviews[review]=(feedback['at'],feedback['arrived'],max(feedback['arrived'],ack['arrived']))
         elif not ack or ack['status']=='completed':
-            pending[task]=row['planned_end']
+            pending[task]=ack['at'] if ack else row['planned_end']
             if review not in issued:
-                reviews[review]=(row['planned_end'],row['planned_ack'],max(now,row['planned_ack']))
-    return dict(issued=issued,pose=pose,free=dict(free),debit=[debit,debit,len(issued)*cfg['fee']],
+                escrow_release=provisional_review_release(cfg,view,row,ack)
+                # Only a future projection can use a missing receipt. Keep the original
+                # financial obligation even when a projected return time is already past.
+                projected_ack=row['planned_ack'] if row['planned_ack']>now else next_tick
+                reviews[review]=(pending[task],escrow_release,projected_ack)
+    return dict(issued=issued,pose=pose,free=dict(free),locked=locked,debit=[debit,debit,len(issued)*cfg['fee']],
                 confirmed=facts,pending=pending,reviews=reviews,waiting=checks_waiting,contingent=continued)
 
 
