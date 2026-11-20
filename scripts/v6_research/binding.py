@@ -22,6 +22,7 @@ ACCEPTANCE=ENGINEERING+'/acceptance-20261120.json'
 PRIOR=ENGINEERING+'/research-manifest.json'
 PROTOCOL='53cc32b93dd62c8ce5ffd725eed9afba167557e5'
 FINITE='984071352142239201e3b69a449207ec35cd7cfa'
+ACCEPTANCE_SHA='c12a18f1e279c5a07067c366b050e82b9ec6a199b1050dc81fbcb6fd101ac938'
 ACCEPTED_PRIOR_SHA='6e04fe74e64ac0cccd91b959003c3267e5a23e9d0cb24784acdcb75b25bb8282'
 BRANCH='donson/mainline-39c-endpoints'
 REPO='DonsonHH/AegisDC'
@@ -85,9 +86,10 @@ def load_release(root, expected_sha):
     check(Path(sys.executable).resolve()==Path(PYTHON).resolve() and m['python']['path']==PYTHON
           and file_hash(Path(sys.executable).resolve())==m['python']['sha256']
           and sys.version.split()[0]==m['python']['version'],'PYTHON_IDENTITY')
-    check(file_hash(root/PRIOR)==ACCEPTED_PRIOR_SHA==m['prior_manifest_sha256'],'PROTOCOL_IDENTITY')
+    check(file_hash(root/PRIOR)==ACCEPTANCE_SHA='c12a18f1e279c5a07067c366b050e82b9ec6a199b1050dc81fbcb6fd101ac938'
+ACCEPTED_PRIOR_SHA==m['prior_manifest_sha256'],'PROTOCOL_IDENTITY')
     prior=load_json((root/PRIOR).read_bytes())
-    check(file_hash(root/ACCEPTANCE)==m['acceptance_sha256'] and load_json((root/ACCEPTANCE).read_bytes())['publication']==FINITE,'ACCEPTANCE_IDENTITY')
+    check(file_hash(root/ACCEPTANCE)==m['acceptance_sha256']==ACCEPTANCE_SHA and load_json((root/ACCEPTANCE).read_bytes())['publication']==FINITE,'ACCEPTANCE_IDENTITY')
     check(digest(m['groups'])==digest(prior['groups']) and digest(m['budget'])==digest(prior['planned'])
           and [r['condition'] for r in m['groups']]==list(CASES) and all(r['fixed_order']==list(ARMS) for r in m['groups']),
           'SCHEDULE_IDENTITY')

@@ -36,6 +36,7 @@ def verify_return(release,case,arm,run,scenario):
 def execute_case(release,case,jobdir,purpose,substitute=None):
     check((purpose==REAL and substitute is None) or (purpose==SURROGATE and callable(substitute)), 'PURPOSE')
     order=[(case,arm) for arm in ARMS]
+    snapshots={}
     def prepare(condition,arm,path):
         call=release.conditions.call(condition,arm)
         check(set(call)=={'scenario','dispatch_program','business_program','boundary_events','duration_s','step_s'},'CALL_SHAPE')
@@ -48,14 +49,18 @@ def execute_case(release,case,jobdir,purpose,substitute=None):
             write_new(filename,value)
             cmd+=['--'+flag,str(filename)]
         cmd+=['--duration',str(call['duration_s']),'--step',str(call['step_s']),'--output',str(path/'run')]
+        actual_python=file_hash(Path(sys.executable).resolve())
+        check(actual_python==release.manifest['python']['sha256'],'PYTHON_IDENTITY')
         write_new(path/'execution-binding.json',dict(purpose=purpose,manifest_sha256=release.sha,
             native_source_tree=release.manifest['native_source_tree'],python=release.manifest['python'],
-            actual_worker_python_sha256=file_hash(Path(sys.executable).resolve()),native_argv=cmd))
+            actual_worker_python_sha256=actual_python,native_argv=cmd))
         if purpose==SURROGATE:
             cmd=substitute(condition,arm,path,cmd)
         return cmd,pins['complete_call']
     def receive(condition,arm,path):
+        raw_sha=file_hash(path/'run/run.json')
         run,trace,balances=read_native(path/'run')
+        check(file_hash(path/'run/run.json')==raw_sha,'RETURN_CHANGED')
         verify_return(release,condition,arm,run,read(path/'run/scenario.json'))
         pins=release.conditions.rows[condition]['arms'][arm]
         check(read(path/'call.json')['input_sha256']==pins['complete_call'],'CALL_IDENTITY')
@@ -70,16 +75,18 @@ def execute_case(release,case,jobdir,purpose,substitute=None):
             and type(d['frame'].get('as_of_s')) in (int,float) and isinstance(d.get('choice'),dict)
             and isinstance(d.get('history'),dict) for d in decisions))
         valid_work=isinstance(work,list) and all(isinstance(w,dict) and isinstance(w.get('id'),str) for w in work)
-        receipt=dict(native_sha256=file_hash(path/'run/run.json'),source_tree=run['code_identity']['source_tree_sha256'],
+        receipt=dict(native_sha256=raw_sha,source_tree=run['code_identity']['source_tree_sha256'],
             full_input=pins['complete_call'],internal_policy_calls=len(decisions) if valid_decisions else None,
             manual_issues=len(work) if valid_work else None,trace_records=len(trace),balance_records=len(balances))
+        snapshots[arm]=(run,trace,balances)
         write_new(path/'native-return.json',receipt)
         return receipt
     def evaluate(condition,arm,path,returned):
         check(returned['internal_policy_calls']==20 and type(returned['manual_issues']) is int,'ARM_BUDGET')
         limit=0 if arm=='P' else 3*(2 if case=='C17' else 1)
         check(0<=returned['manual_issues']<=limit,'ARM_BUDGET')
-        scored=score_arm(*read_native(path/'run'))
+        check(file_hash(path/'run/run.json')==returned['native_sha256'],'RETURN_CHANGED')
+        scored=score_arm(*snapshots.pop(arm))
         check(scored['internal_policy_calls']==returned['internal_policy_calls'],'ARM_BUDGET')
         scored.update(condition=condition,treatment=arm,native_sha256=returned['native_sha256'],input_sha256=returned['full_input'],
                       native_source=returned['source_tree'])

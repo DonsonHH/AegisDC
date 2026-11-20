@@ -95,7 +95,7 @@ def sum_jobs(history):
 def next_position(history, case):
     for index,job in enumerate(history):
         check(index<len(CASES) and job['case']==CASES[index],'JOB_ORDER')
-        check(job['status']=='COMMITTED' and not job['unknown'] and not job['uncertain_starts'],'PRIOR_UNRESOLVED')
+        check(job['status']=='COMMITTED' and not job['unknown'] and not job['unknown_issues'] and not job['uncertain_starts'] and not job.get('accounting_errors'),'PRIOR_UNRESOLVED')
         limit=24 if job['case']=='C17' else 12
         check(job['started']==job['returned']==5 and job['known_decisions']==100 and
               type(job['manual_issues']) is int and 0<=job['manual_issues']<=limit and job['reserved_cpu_s']==120,'BUDGET_EXCEEDED')
@@ -112,10 +112,14 @@ def case_rows(jobdir,case):
     names=[case+'-'+a for a in ARMS]
     result={k:dict(unit=k,state='NOT_EXECUTED',known_start=False,validated_return=False,raw_return=False,
                    decisions=None,issues=None,ambiguous_start=False) for k in names}
+    errors=[]
     ledger=jobdir/'arms/ledger.json'
     if ledger.exists():
-        rows=doc(ledger)['rows']
-        check([r['unit'] for r in rows]==names,'LEDGER_IDENTITY')
+        try:
+            rows=doc(ledger)['rows']
+            check([r['unit'] for r in rows]==names and all(set(('state','started','complete_return','internal_policy_calls','pid','start_ns','returned_ns'))<=r.keys() for r in rows),'LEDGER_IDENTITY')
+        except (OSError,ValueError,TypeError,KeyError) as exc:
+            errors.append('ledger: '+str(exc));rows=[]
         for x in rows:
             r=result[x['unit']]
             r.update(state=x['state'],known_start=x['started'],validated_return=x['complete_return'],
@@ -134,19 +138,24 @@ def case_rows(jobdir,case):
         path=jobdir/'arms'/key
         r['raw_return']=(path/'run/run.json').is_file()
         if (path/'native-return.json').is_file():
-            receipt=doc(path/'native-return.json')
-            r.update(validated_return=True,decisions=receipt['internal_policy_calls'],issues=receipt['manual_issues'],
-                     native_sha256=receipt['native_sha256'])
-        if r.get('before_launch') and not r['known_start']:
+            try:
+                receipt=doc(path/'native-return.json')
+                r.update(validated_return=True,decisions=receipt['internal_policy_calls'],issues=receipt['manual_issues'],
+                         native_sha256=receipt['native_sha256'])
+            except (ValueError,TypeError,KeyError,OSError) as exc:
+                errors.append(key+' native receipt: '+str(exc))
+        if (r.get('before_launch') or (errors and (path/'call.json').exists())) and not r['known_start']:
             r.update(ambiguous_start=True,state='START_UNRESOLVED')
         elif r['known_start'] and r['state'] not in ('COMPLETED','FAILED'):r['state']='UNRESOLVED'
         if (path/'score.json').is_file():r['score_present']=True
+    if errors:result[names[0]]['case_accounting_errors']=errors
     return list(result.values())
 
 
 def case_summary(rows):
     known=lambda v:type(v) is int and v>=0
-    return dict(started=sum(r['known_start'] for r in rows),returned=sum(r['validated_return'] for r in rows),
+    return dict(accounting_errors={r['unit']:r['case_accounting_errors'] for r in rows if r.get('case_accounting_errors')},
+        started=sum(r['known_start'] for r in rows),returned=sum(r['validated_return'] for r in rows),
         raw_returns=sum(r['raw_return'] for r in rows),unreturned=sum(r['known_start'] and not r['validated_return'] for r in rows),
         missing_raw_returns=[r['unit'] for r in rows if r['known_start'] and not r['raw_return']],
         raw_present_unvalidated=[r['unit'] for r in rows if r['raw_return'] and not r['validated_return']],
@@ -177,7 +186,7 @@ def previous(site,release,case):
 
 
 def snapshot(site,release):
-    all_rows=[];jobs=[];potential=[]
+    all_rows=[];jobs=[];potential=[];submit_unknown=[];scheduler_pending=[]
     for case in CASES:
         jobdir=site.activity/'jobs'/case
         rows=case_rows(jobdir,case)
@@ -185,11 +194,15 @@ def snapshot(site,release):
             job=dict(case=case,reserved_cpu_s=120)
             for file,key in [('submitted.json','submitted'),('scheduler-terminal.json','terminal'),('worker-result.json','worker')]:
                 if (jobdir/file).exists():
-                    entry=doc(jobdir/file)
-                    job[key]=entry.get('state',entry.get('job')) if key!='worker' else entry['passed']
+                    try:
+                        entry=doc(jobdir/file)
+                        job[key]=entry.get('state',entry.get('job')) if key!='worker' else entry['passed']
+                    except (OSError,KeyError,TypeError,ValueError) as exc:
+                        rows[0].setdefault('case_accounting_errors',[]).append(file+': '+str(exc))
             job['committed']=(jobdir/'committed.json').exists()
-            if (jobdir/'release-requested.json').exists() and (job.get('terminal') in ('UNKNOWN','UNRESOLVED') or
-                    ('terminal' not in job and (site.activity/'halt.json').exists())) and 'worker' not in job:
+            if 'submitted' not in job:submit_unknown.append(case)
+            if 'submitted' in job and job.get('terminal') in (None,'UNKNOWN','UNRESOLVED'):scheduler_pending.append(case)
+            if (jobdir/'release-requested.json').exists() and 'worker' not in job:
                 potential.append(case)
                 for r in rows:
                     if r['state']=='NOT_EXECUTED':r['state']='JOB_UNRESOLVED'
@@ -198,10 +211,11 @@ def snapshot(site,release):
     counts=case_summary(all_rows)
     return dict(schema='aegisdc-v6-research-global-account-v1',manifest_sha256=release.sha,purpose=site.purpose,
         denominator=85,rows=all_rows,jobs=jobs,job_reservations=len(jobs),confirmed_job_ids=sum('submitted' in j for j in jobs),
-        reserved_cpu_s=120*len(jobs),unresolved_jobs=potential,counts=counts,
+        reserved_cpu_s=120*len(jobs),unresolved_jobs=potential,unknown_submission_ids=submit_unknown,
+        unresolved_scheduler_outcomes=scheduler_pending,confirmed_submissions_exact=None if submit_unknown else len(jobs),counts=counts,
         not_executed=[r['unit'] for r in all_rows if r['state']=='NOT_EXECUTED'],
-        total_starts_exact=None if potential or counts['uncertain_starts'] else counts['started'],
-        total_decisions_exact=None if potential or counts['unknown'] or counts['uncertain_starts'] else counts['known_decisions'],
+        total_starts_exact=None if potential or counts['uncertain_starts'] or counts['accounting_errors'] else counts['started'],
+        total_decisions_exact=None if potential or counts['unknown'] or counts['uncertain_starts'] or counts['accounting_errors'] else counts['known_decisions'],
         research_arms_executed=counts['started'] if site.purpose==REAL else 0)
 
 
@@ -219,7 +233,7 @@ def claim_worker(site,release,case,allocation):
     check(allocation['job']==submitted['job']==doc(jobdir/'release-requested.json')['job'] and submitted['case']==case
           and allocation['name']=='v6-study-'+case,'JOB_IDENTITY')
     check(allocation['cpus']==1 and allocation['mem_MiB']==1024 and allocation['seconds']==120 and allocation['nodes']==1
-          and allocation['partition']=='cu' and allocation['restart']==0 and allocation['requeue']==0
+          and allocation['gpus']==0 and allocation['partition']=='cu' and allocation['restart']==0 and allocation['requeue']==0
           and allocation['state']=='RUNNING' and allocation['user']=='renly','ALLOCATION')
     try:once(jobdir/'worker-claim.json',dict(manifest=release.sha,case=case,allocation=allocation))
     except FileExistsError as exc:raise GateError('WORKER_REPLAY') from exc
@@ -238,17 +252,32 @@ def worker(site,release,case,allocation,substitute=None):
             receipt['failure']=next((r.get('error') for r in ledger['rows'] if r['state']=='FAILED'),'INCOMPLETE_CASE')
         else:
             check(counts['started']==counts['returned']==5 and counts['known_decisions']==100 and not counts['unknown']
-                  and not counts['unknown_issues'] and counts['manual_issues']<=(24 if case=='C17' else 12),'BUDGET_EXCEEDED')
+                  and not counts['unknown_issues'] and not counts['accounting_errors'] and not counts['missing_raw_returns'] and counts['manual_issues']<=(24 if case=='C17' else 12),'BUDGET_EXCEEDED')
             receipt['scores']={arm:file_hash(jobdir/'arms'/(case+'-'+arm)/'score.json') for arm in ARMS}
+            receipt['raw_bindings']={}
+            for arm in ARMS:
+                path=jobdir/'arms'/(case+'-'+arm)
+                ret=doc(path/'native-return.json')
+                check(file_hash(path/'run/run.json')==ret['native_sha256'],'RETURN_CHANGED')
+                receipt['raw_bindings'][arm]=dict(native=ret['native_sha256'],receipt=file_hash(path/'native-return.json'),
+                                                  call=file_hash(path/'call.json'),execution=file_hash(path/'execution-binding.json'))
             if case==CASES[-1]:
                 scores={}
                 for c in CASES:
                     where=site.activity/'jobs'/c
-                    hashes=receipt['scores'] if c==case else doc(where/'worker-result.json')['scores']
+                    evidence=receipt if c==case else doc(where/'worker-result.json')
+                    hashes=evidence['scores']
                     scores[c]={}
                     for arm in ARMS:
                         path=where/'arms'/(c+'-'+arm)/'score.json'
                         check(file_hash(path)==hashes[arm],'SCORE_IDENTITY')
+                        arm_dir=path.parent
+                        raw=evidence['raw_bindings'][arm]
+                        for name,key in [('run/run.json','native'),('native-return.json','receipt'),('call.json','call'),('execution-binding.json','execution')]:
+                            check(file_hash(arm_dir/name)==raw[key],'RETURN_CHANGED')
+                        native=doc(arm_dir/'run/run.json')
+                        for name in ('scenario.json','balances.jsonl','private-state.jsonl'):
+                            check(file_hash(arm_dir/'run'/name)==native['artifacts'][name]['sha256'],'RETURN_CHANGED',name)
                         scores[c][arm]=doc(path)
                 once(jobdir/'panel.json',panel(scores,list(CASES)))
                 receipt['panel_sha256']=file_hash(jobdir/'panel.json')
@@ -292,7 +321,9 @@ def drive(site,release,scheduler):
             once(jobdir/'committed.json',dict(manifest=release.sha,files={f:file_hash(jobdir/f) for f in files}))
             checkpoint(site.activity/'progress.json',snapshot(site,release))
         state=snapshot(site,release)
-        check(state['counts']['returned']==85 and state['total_decisions_exact']==1700 and state['reserved_cpu_s']==2040,'BUDGET_EXCEEDED')
+        check(file_hash(site.activity/'jobs/C17/panel.json')==doc(site.activity/'jobs/C17/worker-result.json')['panel_sha256'],'SCORE_IDENTITY')
+        check(state['counts']['returned']==85 and state['total_decisions_exact']==1700 and state['reserved_cpu_s']==2040 and not state['counts']['unknown_issues'] and not state['counts']['missing_raw_returns']
+              and not state['counts']['accounting_errors'] and state['counts']['raw_returns']==85,'BUDGET_EXCEEDED')
         once(site.activity/'finished.json',dict(manifest=release.sha,panel_sha256=doc(site.activity/'jobs/C17/worker-result.json')['panel_sha256']))
         return True
     except Exception as error:

@@ -39,7 +39,14 @@ def main():
             receipt=worker(site,release,args.case,current_allocation())
             print(json.dumps(receipt));return 0 if receipt['passed'] else 1
         admitted(site,release)
-        print(json.dumps(snapshot(site,release)));return 0
+        state=snapshot(site,release)
+        state['read_only_scheduler_observations']={}
+        for j in state['jobs']:
+            if j['case'] in state['unresolved_scheduler_outcomes'] and 'submitted' in j:
+                try:observation=Slurm().observe(j['submitted'])
+                except Exception as exc:observation=dict(job=j['submitted'],state='UNRESOLVED',detail=str(exc))
+                state['read_only_scheduler_observations'][j['case']]=observation
+        print(json.dumps(state));return 0
     except GateError as error:
         print(json.dumps(dict(code=error.code,detail=str(error))),file=sys.stderr);return 2
     except (ValueError,KeyError,OSError) as error:
