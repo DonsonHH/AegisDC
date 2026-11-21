@@ -14,9 +14,15 @@ def main():
     with (root/'aegis_risk_dispatch'/'settings.json').open(encoding='utf8') as stream:settings=json.load(stream)
     role=sys.argv[1]
     if role not in (*settings['versions'],'PA','B'):raise ValueError('unknown public role')
+    if (settings['H'],settings['coarse_heat_trip_after_onset_s'],settings['thermal_recovery_s'],settings['thermal_loss_fraction'])!=(3600,900,120,.625):
+        raise ValueError('Forecast constants differ from the registered physical surrogate')
+    if settings['family_mix_on_ordinary_equipment']!={k:.25 for k in ('water','access','network','reserve')}:
+        raise ValueError('Prior mixture differs from the registered catalogue')
+    for name in ('common','public_work','aegis_dc.joint_resources','aegis_dc.joint_evidence','aegis_dc.joint_messages'):
+        if not Path(sys.modules[name].__file__).resolve().is_relative_to(root):raise RuntimeError('non-public import '+name)
     # Preload the public prior only. No generator, plant, score, artifact loader, private path, seed or native objects.
     for architecture in ('ordinary','power_board','cooling_board'):knowledge.catalogue(architecture)
-    if any(n in sys.modules for n in ('native','bounds','execute','aegis_dc.plant','incident_facility','generator_v2','score_saved')):
+    if any(n in sys.modules for n in ('native','bounds','execute','aegis_dc.plant','incident_facility','generator_v2','score_saved','facility_inputs','generator','execute','read_development')):
         raise RuntimeError('private module in dispatch interpreter')
     def deny(event,args):
         if (event.startswith(('open','os.','socket.','subprocess.','ctypes.','sys._getframe','sys.settrace','sys.setprofile'))

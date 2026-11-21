@@ -114,8 +114,15 @@ def decide(role,pub,view,settings,gate):
     why='MANDATORY_OWN_WORK' if req else 'VALUE'
     branches=[];first=None
     if not req:
-        waiting=any(r['phase']=='I' and (gate.ack(view,r['task']) is None or
-                    not any(z['task']==r['task'] for z in view['paid'])) for r in view['issued'])
+        waiting=False
+        for r in view['issued']:
+            if r['phase']!='I':continue
+            terminal=gate.ack(view,r['task'])
+            absent=not any(z['task']==r['task'] for z in view['paid'])
+            if terminal is None and view['time']<=r['planned_end']+pub['latency']:
+                waiting=True
+            if terminal and terminal['status']=='completed' and absent and view['time']<terminal['observed_at_s']+pub['latency']:
+                waiting=True
         if not weights:why='UNSUPPORTED_PUBLIC_EVIDENCE'
         elif waiting:why='AWAIT_OWN_PAID_RESULT'
         else:

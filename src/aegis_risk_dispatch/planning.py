@@ -29,7 +29,7 @@ class PublicCalendar:
         self.done={i['task'] for i in view['issued']}
         self.debit=sum(q['planned_end']-q['at'] for q in view['issued'])
         self.reviews={};self.renewals={};self.times={}
-        self.fees=len(view['issued'])
+        self.fees=len(view['issued']);self.stranded=0
         for r in view['issued']:
             s=self.subjects[r['subject']]
             ack=gate.ack(view,r['task'])
@@ -39,8 +39,9 @@ class PublicCalendar:
                 self.pose[k]=s['location'] if not ack else ack['location_id']
                 if ack and ack['status']!='completed':self.unknown.add(k)
             write=next((w for w in view['writes'] if w['task']==r['task']),None)
-            if r['phase']=='A' and r['subject']+'::R' not in self.done and (not write or write['outcome']=='APPLIED'):
-                self.reviews[r['subject']]=max(end,write['arrived'] if write else end)
+            if r['phase']=='A' and r['subject']+'::R' not in self.done:
+                if write and write['outcome']!='APPLIED':self.stranded+=1
+                else:self.reviews[r['subject']]=max(end,write['arrived'] if write else end)
         for s in self.subjects.values():
             k=s['id']
             if k+'::X' in self.done:continue
@@ -88,7 +89,7 @@ class PublicCalendar:
                 if tick==self.t and first is not None and (sid,phase)!=first:return None
                 if tick==self.t and first is None:return None
                 used+=d;fees+=1
-                if used>min(self.pub['resources'][:2]) or fees>self.pub['resources'][2]:return None
+                if used+35*self.stranded>min(self.pub['resources'][:2]) or fees+self.stranded>self.pub['resources'][2]:return None
                 for k in (s['worker'],s['tool']):busy[k]=ack;poses[k]=s['location']
                 closed.add(name);steps.append((sid,s['key'],phase,tick,end,ack))
                 if phase=='R':
@@ -112,16 +113,26 @@ class PublicCalendar:
 
 def expected(plan,distribution,price,fee_equiv,initial_cost):
     steps,effects_=plan
-    loss=person=fees=0.
+    loss=0.;person=float(initial_cost[0]);fees=float(initial_cost[1])
     for w,mass in distribution:
-        actuations=dict(effects_)
+        actuations=dict(effects_);success={};renewable={}
         for _,kind,phase,issue,end,ack in steps:
-            if phase=='A' and not model.write_success(w,kind,end):actuations.pop(kind,None)
-        # This is a conservative prospective price: admitted branch reserves and prices its
-        # successful R/renewal path. Native actual costs, including refusals, are independent.
+            if phase=='A':
+                success[kind]=model.write_success(w,kind,end)
+                if not success[kind]:actuations.pop(kind,None)
         loss+=mass*model.loss(w,tuple(sorted(actuations.items())))
-    person=initial_cost[0]+sum(s[4]-s[3] for s in steps)
-    fees=initial_cost[1]+len(steps)
+        work=0.;bills=0
+        for sid,kind,phase,issue,end,ack in steps:
+            # The plan reserves the complete success branch. A refusal is still
+            # paid, but its contingent unissued reviews/renewals are not paid.
+            if phase in ('R','X') and success.get(kind,True) is False:continue
+            if phase=='X' and not renewable.get(sid,True):continue
+            work+=end-issue;bills+=1
+            if phase in ('I','R'):
+                signature=model.sample(w,kind,end,actuations)
+                renewable[sid]=(signature in ('OK','CONTACT','CLOSED','READY','COMMISSIONED') or
+                    '/RUN' in signature and (phase=='R' or signature.startswith('AUTO')))
+        person+=mass*work;fees+=mass*bills
     return loss,person,fees,loss+price*(person+fee_equiv*fees)
 
 

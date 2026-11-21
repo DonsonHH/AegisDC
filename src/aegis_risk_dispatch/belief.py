@@ -33,11 +33,19 @@ def collected(pub,view):
         old=fixed.get(k)
         if old and r['sampled']==old['sampled'] and r['ok']!=old['ok']:conflicts.append(r['origin'])
         if old is None or r['sampled']>old['sampled']:fixed[k]=r
-    completed={q['task_id']:q for q in view['work'] if q['status']=='completed'}
+    completed={q['task_id']:q for q in view['work'] if q['status']=='completed' and
+               q['source_id']=='workforce-execution-report' and q['origin_id']=='workforce:'+q['task_id']}
+    issued={q['task']:q for q in view['issued']}
+    subjects={s['id']:s for s in pub['subjects']}
     for r in view['paid']:
         sid=r['subject'];a=completed.get(r['task']);fields=r['fields']
         if (not fields or a is None or r['source']!='onsite/'+sid or a['observed_at_s']!=r['sampled'] or
             r['origin']!=f"{r['task']}@{r['sampled']:g}" or not r['arrived']<=now<r['until']):continue
+        receipt=issued.get(r['task'])
+        if (not receipt or r['task']!=sid+'::'+r['phase'] or receipt['at']!=r['issued'] or
+            r['worker']!=subjects[sid]['worker'] or r['tool']!=subjects[sid]['tool'] or
+            r['execution']!=receipt['execution'] or r['parent_epoch']!=receipt['parent_epoch']):continue
+        if r['execution'] is not None and r['physical_epoch']!=r['parent_epoch']:continue
         k=subject[sid];code=model.decode(k,fields)
         if code=='UNKNOWN':continue
         old=paid.get(k)
@@ -80,12 +88,24 @@ def posterior(pub,view,settings):
             times=arrival_options(w)
             if any(r['subject']!=topic or r['arrived'] not in times for r in alarms):continue
             prob/=len(times)  # one source event; copies are never extra observations
+        else:
+            # A single scheduled alarm can be absent because its source time has not
+            # come, or because the report is already stale. Both are legal here.
+            times=arrival_options(w)
+            if w.family in ('power_board','cooling_board'):
+                silent=sum(not (at<=t<max(0,at-30)+660) for at in times)
+            else:
+                silent=sum(not (at<=t<min(3601,at+600)) for at in times)
+            prob*=silent/len(times)
+            if not prob:continue
         if releases and w.family=='cooling_board':
             hand=w.cause in ('normal','safe','handover')
             if any((r['value']=='HANDOVER_RELEASED')!=hand for r in releases):continue
         if returns and (w.family!='cooling_board' or any(r['sampled']!=w.fault+120 or not w.fault for r in returns)):continue
         if any(model.sample(w,k,at,known)!=val for k,(at,val,_) in paid.items()):continue
-        if any(model.write_success(w,typed[r['subject']],r['at'])!=(r['outcome']=='APPLIED') for r in view['writes']):continue
+        completed_actions={q['task_id'] for q in view['work'] if q['status']=='completed'}
+        if any(model.write_success(w,typed[r['subject']],r['at'])!=(r['outcome']=='APPLIED')
+               for r in view['writes'] if r['task'] in completed_actions):continue
         if fixed:
             # Measurements share the plant and its bottleneck. One mixture factor, without multiplying aliases or derived service by component factors.
             matches=sum(model.fixed(w,k,r['sampled'],known)==r['ok'] for k,r in fixed.items())
