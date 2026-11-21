@@ -52,6 +52,7 @@ def independent_closure(sub,t,issued,work,paid,writes,fixed):
 def score(x,run,attached,role):
     from audit_v6_joint import physiology
     a=physiology(run);n=x['native'];prog=n['dispatch_program'];pub=prog['public']
+    insist(run['t3_received_attachment_sha256']==digest(x['attachment']),'received private attachment identity')
     insist(run['source_config']==n['scenario'] and run['inputs']['dispatch_program']==prog and
            run['inputs']['boundary_events']==sorted(n['boundary_events'],key=lambda q:q['time_s']) and
            run['inputs']['maximum_step_s']==.25 and run['inputs']['duration_s']==H,'native input/clock binding')
@@ -108,4 +109,6 @@ def score(x,run,attached,role):
         fee=len(requests),first=first,checkpoints=checkpoints,closure_changes=changes,requests=requests,refusals=denials,
         route=duty,work=[[w['id'],w['status'],w['issued_at_s'],w.get('finished_at_s')] for w in work.values()],
         paid=paid,writes=writes,first_loss=next((start for start,end,d,y in curve if y<d),None),curve=curve,
-        fixed=fixed,public_prefix=public_prefix,attachment=attached,clocks=len(dec),runtime=run['code_identity']['source_tree_sha256'])
+        fixed=fixed,public_prefix=public_prefix,attachment=attached,
+        physical_checkpoints={str(int(s['time_s'])):{k:v['mode'] for k,v in s['domains']['backup']['reserve_states'].items()}
+            for s in trace if s['time_s'] in (0,90,1020,1200)},clocks=len(dec),runtime=run['code_identity']['source_tree_sha256'])

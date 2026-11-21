@@ -96,7 +96,7 @@ def incident_case(seed,draw,family,forced=None):
     donor=dict(initial='S12',physical=phys,step=.25,events=[],records=[],grants={'C':[0,H],'N':[0,H]},
                catalog=[['C','c0','IAR'],['N','n0','IAR']],fixed_epochs=list(range(0,H,300)))
     stream=[msg('order',k,'work-desk',0,0,H+1,'OPEN',origin='order/'+k) for k in subjects]
-    stream.append(msg('alarm',first,'alarm-desk',max(0,alarm-30),alarm,660,'ALARM',origin='risk-review'))
+    stream.append(msg('alarm','power-board' if family=='LONDON' else 'cooling-board','alarm-desk',max(0,alarm-30),alarm,660,'ALARM',origin='risk-review'))
     if family=='NETHERLANDS':
         # A work release is a signed business document, and by itself proves no actual transfer/commission.
         stream.append(msg('release','NC','works-office',60,90,3240,'HANDOVER_RELEASED' if spec['handover'] else 'WORK_OPEN'))
@@ -171,8 +171,14 @@ def qualification(fam,kind,src):
         c['donor'].update(initial='S12',physical={'filter_resistance_multiplier':4 if target=='C/c0' and kind=='PV' else 1,
             'network_service_capacity':.25 if target=='N/n0' and kind=='PV' else 1,'storage_service_capacity':1,'rectifier_capacity':5000000},
             events=[],shift_starts={'C':0,'N':0})
-        if fam=='RESERVE_TRANSFER':c['donor']['physical']['diesel_in_service']=0
-        if fam=='COOLING_ACCESS':c['donor']['physical']['backup_cooling_in_service']=0
+        if fam=='WATER_HEAT':c['donor']['initial']='T03'
+        if fam=='RESERVE_TRANSFER':
+            c['donor']['physical']['diesel_in_service']=0
+            c['donor']['events']=[epoch_event(960,'grid_capacity',0),epoch_event(1080,'grid_capacity',10000000)]
+        if fam=='COOLING_ACCESS':
+            c['donor']['physical']['backup_cooling_in_service']=int(kind=='NA')
+            c['donor']['events']=[epoch_event(60,'backup_cooling_requested',1),epoch_event(120,'backup_cooling_requested',0)]
+
     c['stream']=[msg('order',k,'engineering-desk',0,0,H+1,'OPEN',origin='order/'+k) for k in c['subjects']]
     c['inspect']=[target];c['renew_window']=[1680,H] if kind!='EXPIRE' else [0,1000]
     item=complete(c,src,SEED)

@@ -13,6 +13,8 @@ def engineering_a(src):
                 primary_sample_end=start if kind=='NA' else (215 if start==155 else 95),
                 primary_sample_arrival=(start if kind=='NA' else 215 if start==155 else 95)+15,
                 renewal_sample_end=1715,renewal_arrival=1730,paid_ttl=2100,earliest_legal_first=(360 if kind=='NA' else 660))
+            if family=='RESERVE_TRANSFER':expects['physical_witness']=['1020','ups','supplying']
+            if family=='COOLING_ACCESS':expects['physical_witness']=['90','cooling','active' if kind=='NA' else 'maintenance']
             cases[family+'-'+kind]=(case,meta['plan'],expects)
     case,meta=qualification('NETWORK_POWER','EXPIRE',src)
     cases['NETWORK_POWER-EXPIRY']=(case,meta['plan'],dict(subject='N/n0',states=['NA','NA','OPEN_EXPIRED','OPEN_EXPIRED'],
@@ -47,6 +49,8 @@ def engineering_c(src):
           writes={'LB::A':'NO_EFFECT','LC::A':'APPLIED'},at={'1500':{'request':True,'permission':False,'ready':False,'actual_takeover':False}}))
     build('L-connection','LONDON',{'transfer_ok':False},{120:'LC::A'},dict(L=540,first=1680,
           writes={'LC::A':'APPLIED'},at={'1560':{'permission':True,'ready':True,'actual_takeover':False,'source':'UPS'}}))
+    build('L-hardware','LONDON',{'hardware_ready':False},{120:'LC::A'},dict(L=540,first=1680,
+          writes={'LC::A':'APPLIED'},at={'1560':{'request':True,'permission':True,'ready':False,'actual_takeover':False}}))
     build('N-base','NETHERLANDS',{}, {},dict(L=1920,first=1500,submitted=[],at={'1500':{'group_demand_kW':100,'tripped':True,'controller_on':False},
            '1620':{'controller_on':True,'pump_running':False,'pump_latched':True},'1800':{'capacity':0,'cooling_exhausted':True}}))
     build('N-group','NETHERLANDS',{}, {120:'NR::A'},dict(L=1800,first=1800,
@@ -59,4 +63,6 @@ def engineering_c(src):
           dict(L=0,first=None,writes={'NC::A':'APPLIED'},at={'1000':{'backup_commissioned':True},'1620':{'pump_latched':True,'capacity':1}}))
     build('N-late','NETHERLANDS',{}, {840:'NC::A',1920:'NP::A'},dict(L=335,first=1500,refused=[[840,'NC','A','NO_HANDOVER_RELEASE']],
           writes={'NP::A':'APPLIED'},at={'1955':{'pump_running':True,'cooling_exhausted':True},'2015':{'capacity':1}}))
+    build('N-insufficient','NETHERLANDS',{'transfer_kW':45,'auto_restart':True},{120:'NR::A'},dict(L=120,first=1500,
+          writes={'NR::A':'APPLIED'},at={'1500':{'group_demand_kW':60,'tripped':True},'1620':{'tripped':False,'pump_running':True}}))
     return out

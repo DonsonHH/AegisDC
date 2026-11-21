@@ -2,7 +2,7 @@
 from copy import deepcopy
 from math import inf
 from unittest.mock import patch
-from common import H,CLOCK,CORE,insist
+from common import H,CLOCK,CORE,insist,digest
 import sys
 from public_work import choose,key,entries
 from incident_facility import London,Netherlands,coupled_class
@@ -60,10 +60,17 @@ def native_run(case,role,plan=None,diagnostic_reads=()):
                 k=z['key']
                 if k=='C':v=.099<=dom['facility_cooling']['lake_pump']['volume_flow_m3_s']<=.101
                 elif k=='N':v=it['capacities']['network']>=1
-                else:v=bool(term.cap)
+                elif k=='LC':v=term.source!='NONE'
+                elif k=='LB':v=term.b
+                elif k=='LG':v=term.ready
+                elif k=='NR':v=not term.tripped
+                elif k=='NP':v=term.controller and term.pump and not term.latched
+                elif k=='NC':v=term.commissioned
+                else:raise ValueError(k)
                 values[sid]=v
             for field,v in values.items():
-                self.rows.append(dict(field=field,ok=v,source='meter/'+field,origin=f'meter/{field}@{t:g}',
+                physical_field=spec[field]['key'] if field!='service' else 'service'
+                self.rows.append(dict(field=field,ok=v,source='meter/'+field,origin=f'meter/{physical_field}@{t:g}',
                                       sampled=t,arrived=t+15,until=t+pub['fixed_ttl']))
             self.audit.append(t)
 
@@ -152,5 +159,6 @@ def native_run(case,role,plan=None,diagnostic_reads=()):
             stack.enter_context(patch.object(mod,field,impl))
         if term is not None:stack.enter_context(patch.object(plant,'_Plant',coupled_class(plant._Plant,term)))
         run=plant.simulate_scenario(**nat)
+    run['t3_received_attachment_sha256']=digest(term.cfg if term is not None else None)
     run['t3_unpurchased_evaluator_only']=readonly_samples
     return run,dict(events=term.events,account=term.account()) if term is not None else None

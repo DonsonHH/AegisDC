@@ -132,5 +132,5 @@ def information(x,score,tau):
     # An alarm is not a prior. In c2 the eligible availability must precede the registered alarm as well as the deadline.
     def prior_timely(item):return timely(item) and (not alarm or item[0]<alarm[0])
     return dict(alarm=alarm,prior=prior,paid=paid,paid_is_counterfactual_opportunity=True,all_paid=query,
-        c1=timely(alarm),c2=bool(prior_timely(prior) or prior_timely(paid)),
-        from_record=prior_timely(prior),from_paid=prior_timely(paid))
+        c1=timely(alarm),c2=bool(timely(prior) or timely(paid)),c2_strictly_pre_alarm=bool(prior_timely(prior) or prior_timely(paid)),
+        from_record=timely(prior),from_paid=timely(paid))
