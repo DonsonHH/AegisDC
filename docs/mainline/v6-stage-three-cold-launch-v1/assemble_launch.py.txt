@@ -1,0 +1,60 @@
+"""Publish review-only launch metadata from Git blobs; never calls a study or score function.
+From the repository root: python -B path/to/this/file ADAPTER_REVISION
+"""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+P='docs/mainline/v6-stage-three-cold-launch-v1'
+D='docs/mainline/v6-stage-three-cold-v2'
+SH='/share/home/renly/renly-patrol-rsi/mainline'
+study=SH+'/V6-cold-study-v2-once';release=SH+'/V6-cold-launch-release-v1/source'
+python='/share/home/renly/miniconda3/bin/python';cli='scripts/cold3_study_launch.py'
+def git(*args):return subprocess.check_output(['git',*args])
+def sh(x):return hashlib.sha256(x).hexdigest()
+def encode(x):return json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()
+def write(p,raw):
+    with Path(p).open('xb') as fp:fp.write(raw)
+rev=git('rev-parse',sys.argv[1]+'^{commit}').decode().strip()
+def blob(f):return git('show',rev+':'+f)
+data_bytes=blob(D+'/study-manifest.json');data=json.loads(data_bytes);accept_bytes=blob(D+'/acceptance-20261121.json');ac=json.loads(accept_bytes)
+assert sh(data_bytes)=='cccb296c64264092200cbb763a9c697cbf572557055f9747838ceb399d465fd4' and ac['data_manifest_sha256']==sh(data_bytes)
+files=[cli,P+'/study.sbatch']+['scripts/cold3_launch/'+k+'.py' for k in ('__init__','binding','control','ledger','native','transport')]
+files+=['scripts/v6_research/'+k+'.py' for k in ('__init__','binding','control','native','slurm')]
+launch={f:sh(blob(f)) for f in files}
+assert all(sh(blob(f))==h for f,h in data['execution_file_sha256'].items())
+native={f:h for f,h in data['execution_file_sha256'].items() if f.startswith('src/aegis_dc/') or f=='src/patrol_rsi/contracts.py'}
+entry=[python,'-I','-B',release+'/'+cli]
+c=dict(start=entry+['start','--manifest-sha','{launch}','--approval-revision','{review}'],
+       status=entry+['status','--manifest-sha','{launch}'],worker=entry+['worker','--manifest-sha','{launch}','--case','{row}'],
+       arm=entry+['arm','--manifest-sha','{launch}','--case','{row}','--slot','{slot}'],
+       submit=['sbatch','--parsable','--hold','--no-requeue','--partition=cu','--nodes=1','--ntasks=1','--cpus-per-task=1',
+          '--mem=4G','--time=00:05:00','--job-name=cold3-study-{row}','--chdir='+release,'--output={jobdir}/slurm-%j.out',
+          '--error={jobdir}/slurm-%j.err',release+'/'+P+'/study.sbatch',release,'{launch}','{row}'],
+       release=['scontrol','release','{job}'],observe=['sacct','-X','-nP','-j','{job}','-o','JobIDRaw,State,ExitCode,ElapsedRaw'])
+m=dict(schema='aegisdc-cold-single-use-launch-v1',purpose='NATIVE_COLD_RESEARCH',state='AWAITING_FINAL_USER_LAUNCH_REVIEW',
+    one_time_review_required=True,embedded_grant=None,study_starts_at_publication=0,retries=0,root=study,release_root=release,
+    claim=SH+'/.native-research-approvals/V6-cold-study-v2-once',data_manifest=D+'/study-manifest.json',data_sha256=sh(data_bytes),
+    acceptance_path=D+'/acceptance-20261121.json',acceptance_sha256=sh(accept_bytes),accepted_publication=ac['publication'],input_freeze_revision=ac['input_freeze'],
+    input_archive=D+'/study-inputs.json.gz',input_sha256=data['data_sha256'],core_revision=data['release_revision'],
+    core_files=data['execution_file_sha256'],core_tree=sh(encode(native)),core_release_sha256=data['release_sha256'],
+    adapter_revision=rev,launch_files=launch,launch_tree=sh(encode(launch)),commands=c,groups=data['groups'],limits=data['limits'],
+    denominators={'J/B':24,'J_OPEN':4,'J_NO_PROBE':10,'J_ORDER':4},python={'path':python,'version':'3.13.9','sha256':data['python_sha256']},
+    authority=dict(repository='DonsonHH/AegisDC',branch='donson/mainline-39c-endpoints',path='docs/mainline/authorizations/v6-stage-three-cold-study-v2.json'),
+    validation_contract=P+'/validation-contract.md',validation_freeze_sha256=sh(blob(P+'/validation-freeze.json')),
+    command_fields='launch = hash of these actual manifest bytes, review = separately approved published current commit, row/slot = specified group/position, job = actual held scheduler ID, jobdir = fixed activity/jobs/row',
+    evaluation='Unchanged cold3_evaluation.score_arm, compare_pair and panel on bound saved returns. Retain method-specific incomplete denominators, no interchange with engineering.',
+    trust='Canonical published user decision, trusted renly account and Slurm; no claim of independent custody or resilience against a privileged account owner.',
+    limits_retained=['cold H12 qualified scope only; validate common physical prefix through first difference or H','S09 original and both half-step failures retained','warm, ordinary improvement, RSI and historical allowances are not part of this launch'])
+assert len(m['groups'])==24 and sum(len(g['positions']) for g in m['groups'])==66
+b=encode(m)+b'\n';write(P+'/launch-manifest.json',b);mh=sh(b)
+def expand(name,**fields):
+    return [s.format(launch=mh,**fields) for s in c[name]]
+cb=dict(launch_sha256=mh,start=expand('start',review='<future-user-approved-published-commit>'),status=expand('status'),
+    rows=[dict(row=g['row'],submit_held=expand('submit',row=g['row'],jobdir=study+'/jobs/'+g['row']),worker=expand('worker',row=g['row']),
+                isolated_children=[expand('arm',row=g['row'],slot=x['input_key']) for x in g['positions']]) for g in m['groups']],
+    release=c['release'],observe=c['observe'],real_grant=None)
+write(P+'/commands.json',encode(cb)+b'\n')
+print(mh,rev)

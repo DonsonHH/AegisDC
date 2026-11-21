@@ -135,6 +135,9 @@ class Bench:
         insist(sha(HERE/'verification-pin.json')==pin_hash and pin['launch_sha256']==launch and
                all(sha(HERE/k)==h for k,h in pin['files'].items()),'qualification source binding')
         self.f=read(HERE/'validation-freeze.json')
+        accepted=read(DEPLOY/B.ACCEPT)
+        insist(sha(DEPLOY/B.COLD/'engineering-inputs.json.gz')==self.f['engineering_inputs_sha256'] and
+               sha(DEPLOY/B.COLD/'expected.json')==accepted['binding']['expected.json'],'complete historical inputs and independent oracle')
         self.engineering=read(DEPLOY/B.COLD/'engineering-inputs.json.gz')
         self.donors={c['slot']:c['donor'] for r in self.f['rows'] for c in r['order']}
         self.donor_scores={};self.results=[];self.revision=self.f['fixture_bindings']['review_revision']
@@ -253,7 +256,14 @@ def main():
            real_allocation['state']=='RUNNING' and real_allocation['process_membership'],'live verification allocation')
     once(out/'allocation.json',real_allocation)
     b=Bench(phase,h,pin_hash)
-    if phase=='V1':insist(doc(B.QUAL/'V0/result.json')['status']=='PASS','V0 not qualified')
+    if phase=='V1':
+        from v6_research.slurm import run as slurm_read
+        prior=doc(B.QUAL/'V0/result.json');jid=str(prior['job'])
+        insist(jid.isdecimal() and (B.QUAL/'V0/job.id').read_text().strip()==jid and prior['phase']=='V0' and
+               prior['status']=='PASS' and prior['launch_sha256']==h and prior['verifier_sha256']==pin_hash and
+               prior['checks_sha256']==sha(B.QUAL/'V0/checks.json') and prior['actual_surrogate_entries']==14,'V0 not qualified')
+        rows=[x.split('|') for x in slurm_read('sacct','-X','-nP','-j',jid,'-o','JobIDRaw,State,ExitCode').splitlines() if x.split('|')[0]==jid]
+        insist(len(rows)==1 and rows[0][:3]==[jid,'COMPLETED','0:0'],'no verified V0 terminal')
     def boundary(event,args):
         if event.startswith('socket.connect'):raise PermissionError('External review transport disabled in fixture')
         if event=='subprocess.Popen':
@@ -282,4 +292,19 @@ def main():
     return int(bool(missing or failure))
 
 
-if __name__=='__main__':sys.exit(main())
+if __name__=='__main__':
+    try:
+        sys.exit(main())
+    except Exception as exc:
+        # Distinguish a consumed failed allocation from unstarted verification phases.
+        name=sys.argv[1] if len(sys.argv)>1 else ''
+        if name in ('V0','V1'):
+            folder=B.QUAL/name
+            if ((folder/'started.json').is_file() and doc(folder/'started.json').get('job')==os.environ.get('SLURM_JOB_ID')
+                    and not (folder/'result.json').exists()):
+                journal=folder/'surrogate-entries.jsonl'
+                entries=[json.loads(l) for l in journal.read_text().splitlines()] if journal.exists() else []
+                once(folder/'result.json',dict(phase=name,job=os.environ.get('SLURM_JOB_ID'),status='FAILED_BEFORE_COMPLETION',
+                    error=repr(exc),actual_surrogate_entries=len(entries),observed_entries=entries,real_facility=0,real_policy=0,
+                    real_research=0,retry=False))
+        raise

@@ -53,7 +53,8 @@ def allocation(command=run,environ=None):
     check(inside,'ALLOCATION')
     reported=tres.get('mem')
     check(reported is None or reported in ('4G','4096M','4096'),'ALLOCATION')
-    return dict(node=node,process_membership=True,allocated_mem_tres=reported,job=job,name=f['JobName'],user=f['UserId'].split('(')[0],state=f['JobState'],partition=f['Partition'],
+    return dict(node=node,process_membership=True,allocated_mem_tres=reported,
+        memory_basis='Slurm allocation TRES and request' if reported else 'Slurm per-node request and live allocation environment; memory TRES unadvertised',job=job,name=f['JobName'],user=f['UserId'].split('(')[0],state=f['JobState'],partition=f['Partition'],
         nodes=int(f['NumNodes']),cpus=int(f['NumCPUs']),mem_mib=4096,seconds=300 if f['TimeLimit']=='00:05:00' else None,
         gpus=sum(int(v) for k,v in tres.items() if 'gpu' in k),requeue=int(f['Requeue']),
         restarts=max(int(f.get('Restarts','0')),int(env.get('SLURM_RESTART_COUNT','0'))))
