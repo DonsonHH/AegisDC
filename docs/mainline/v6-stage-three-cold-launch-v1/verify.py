@@ -132,7 +132,8 @@ class Bench:
     def __init__(self,phase,launch,pin_hash):
         self.phase=phase;self.pin_hash=pin_hash;self.out=B.QUAL/phase;self.rel=B.load_release(DEPLOY,launch)
         pin=read(HERE/'verification-pin.json')
-        insist(sha(HERE/'verification-pin.json')==pin_hash and pin['launch_sha256']==launch and
+        insist(set(pin['files'])=={'verify.py','replay_child.py','validation-freeze.json'} and pin['purpose']=='ZERO_FACILITY_COLD_LAUNCH_VERIFICATION' and
+               sha(HERE/'verification-pin.json')==pin_hash and pin['launch_sha256']==launch and
                all(sha(HERE/k)==h for k,h in pin['files'].items()),'qualification source binding')
         self.f=read(HERE/'validation-freeze.json')
         accepted=read(DEPLOY/B.ACCEPT)
@@ -283,11 +284,16 @@ def main():
     b.check('actual surrogate calls including repeats',len(entered),expected)
     b.check('exclusive actual process entries',len({(r['case'],r['slot']) for r in entered}),len(entered))
     b.check('no native modules loaded',all(sys.modules.get(n) is None for n in ('aegis_dc.plant','aegis_dc.joint_policy','aegis_dc.joint_session')),True)
+    order=([['full',k] for k in b.f['position_order']] if phase=='V1' else
+           [[s['id'],k] for s in b.f['faults'] for k in s['ordered_substitute_entries']])
+    actual_order=[[r['case'],r['slot']] for r in entered]
+    b.check('full frozen ordered entry ledger',actual_order,order)
+    unstarted=[r for r in order if r not in actual_order]
     missing=[r['check'] for r in b.results if not r['ok']]
     once(out/'checks.json',b.results)
     once(out/'result.json',dict(status='PASS' if not missing and not failure else 'FAILED',phase=phase,job=os.environ['SLURM_JOB_ID'],launch_sha256=h,
         verifier_sha256=pin_hash,actual_surrogate_entries=len(entered),real_facility=0,real_policy=0,real_research=0,real_grants_created=0,
-        real_grants_consumed=0,actual_assertions=len(b.results),failures=missing,exception=failure,cases=cases,checks_sha256=sha(out/'checks.json')))
+        real_grants_consumed=0,planned_entries=order,actual_entries=actual_order,unstarted=unstarted,actual_assertions=len(b.results),failures=missing,exception=failure,cases=cases,checks_sha256=sha(out/'checks.json')))
     print(phase,len(entered),len(b.results),missing,failure,flush=True)
     return int(bool(missing or failure))
 
