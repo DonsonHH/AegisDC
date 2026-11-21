@@ -1,0 +1,81 @@
+"""Summarize the official saved comparisons; no study policy or evaluator imports."""
+from collections import Counter
+from fractions import Fraction
+import json
+from pathlib import Path
+import sys
+
+P=Path('docs/mainline/v6-stage-three-cold-study-v2')
+MECHANISMS=('J_OPEN','J_NO_PROBE','J_ORDER')
+
+def build(r):
+    catalog={row['row']:row for row in r['rows']}
+    groups={m:[] for m in ('J/B',*MECHANISMS)}
+    for p in r['comparisons']:
+        row=p['row'];c=p['comparison_type'];off=p['official'];a=catalog[row]['positions'][p['candidate']].get('actual')
+        b=catalog[row]['positions'][p['comparator']].get('actual')
+        first=off.get('first_issue_difference')
+        if not a or not b or 'first_issue_difference' not in off:
+            outcome='UNAVAILABLE';explanation='The frozen pair lacks a qualified public-prefix comparison.'
+        elif first is None:
+            outcome='SAME_ISSUES';explanation='Both actually issued the same task or WAIT at every public decision.'
+        elif c=='J_OPEN':
+            task=first.get('candidate')
+            opens=a['opened']
+            late={name for name,t in opens.items() if t>min(opens.values())}
+            direct=bool(task and task.rsplit('/',1)[0] in late and task[-1] in ('A','I'))
+            outcome='LATE_PROBLEM_ACTUALLY_SELECTED' if direct else 'OTHER_OBSERVED_SPLIT'
+            explanation='J selected an elective task owned by a late opening; the restricted arm first chose a different task or WAIT.' if direct else 'See complete choice evidence; the first different task is not a direct late elective.'
+        elif c=='J_NO_PROBE':
+            task=first.get('candidate')
+            used=bool(task and task.endswith('/I'))
+            outcome='ELECTIVE_PROBE_ACTUALLY_SELECTED' if used else 'OTHER_OBSERVED_SPLIT'
+            explanation='J actually issued a paid initial probe at the shared prefix; J_NO_PROBE took the recorded alternative.' if used else 'First different issue was not an initial probe.'
+        elif c=='J_ORDER':
+            def pairs(which):
+                return {tuple(seq):(admit,dropped) for seq,admit,dropped in first[which] if len(seq)==2}
+            j=pairs('candidate_choices');k=pairs('comparator_choices')
+            order_effect=(len(j)==2 and set(j)==set(k) and all(v[0] for v in j.values()) and
+                all(v[0] for v in k.values()) and any(v[1] for v in k.values()) and not any(v[1] for v in j.values())
+                and first['candidate'] is not None and first['comparator'] is not None and first['candidate'].endswith('/A')
+                and first['comparator'].endswith('/A') and first['candidate']!=first['comparator'])
+            outcome='TWO_LEGAL_ORDERS_ACTUALLY_DIFFER' if order_effect else 'OTHER_OBSERVED_SPLIT'
+            explanation='Both orders reached and were legal on that public branch; the ordering restriction changes the first actual issue.' if order_effect else 'The first observed divergence is retained without attributing unobserved alternatives.'
+        else:
+            outcome='FIRST_ISSUE_DIFFERS';explanation='Actual different requests at one common public prefix.'
+        change=dict(row=row,classification=off['category'],resource_direction=off.get('resources'),
+            preserves_closure=off.get('closures_preserved'),lost=off.get('lost'),gained=off.get('gained'),
+            first_menu_difference=off.get('first_menu_difference'),first_different_issue=p['issued_choice_difference'],
+            public_difference=outcome,interpretation=explanation,delta=off.get('service_delta'),resources_delta=off.get('resource_delta'),
+            t_star=off.get('t_star'),t_delta=off.get('t_delta'),through=off.get('through'))
+        groups[c].append(change)
+    summary={}
+    for c,entries in groups.items():
+        summary[c]=dict(denominator=len(entries),outcomes=dict(Counter(x['classification'] for x in entries)),
+            stages=dict(Counter(x['public_difference'] for x in entries)),resource_directions=dict(Counter(str(x['resource_direction']) for x in entries)),
+            changed=[x['row'] for x in entries if x['first_different_issue']],same_issues=[x['row'] for x in entries if x['public_difference']=='SAME_ISSUES'],
+            lost_closure_rows=[x['row'] for x in entries if x['preserves_closure'] is False],
+            gained_closure_rows=[x['row'] for x in entries if x['gained']],per_condition=entries)
+    b08=next(p for p in r['comparisons'] if p['row']=='B08' and p['control']=='B')
+    j=catalog['B08']['positions']['B08-J'].get('actual');b=catalog['B08']['positions']['B08-B'].get('actual')
+    detailed=dict(predeclared=dict(J_network_restore=3.5,B_network_restore=2,B_minus_J_deficit='-3/2'),
+        observed=None,comparison=b08['classification'])
+    if j and b:
+        def detail(arm):
+            return dict(stages=arm['stages'],network_restored_at=next((t for t,k,old,new in arm['effects'] if k=='N' and old==0 and new==1),None),
+                        all_writes=arm['all_writes'],effective_writes=arm['effects'],service=arm['service'],resources=arm['resources'],first=arm['first'],
+                        checkpoints={t:arm['states'][t] for t in ('5','7.5','12')})
+        jo,bo=detail(j),detail(b);delta=b08['official'].get('service_delta',{})
+        detailed['observed']=dict(J=jo,B=bo,delta=delta,meets_network_timing=(jo['network_restored_at']==3.5 and bo['network_restored_at']==2),
+            independent_rate_delta_matches=all(Fraction(v)==Fraction('-3/2') for v in delta.get('rate',[])) if delta.get('rate') else None)
+    return dict(orientation='control minus J',scope='descriptive readback of frozen pair receipts; no new runs or tests of scientific hypotheses',
+        groups=summary,B08=detailed)
+
+
+if __name__=='__main__':
+    data=build(json.loads((P/'result.json').read_bytes()))
+    out=(json.dumps(data,ensure_ascii=False,indent=2)+'\n').encode()
+    if sys.argv[1:]==['--write']:
+        with (P/'mechanisms.json').open('xb') as fp:fp.write(out)
+    elif (P/'mechanisms.json').read_bytes()!=out:raise ValueError('Written mechanism summary differs from saved comparisons')
+    print({k:(v['denominator'],v['outcomes'],v['stages']) for k,v in data['groups'].items()})

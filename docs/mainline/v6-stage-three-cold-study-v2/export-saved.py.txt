@@ -1,0 +1,132 @@
+"""Copy lightweight saved receipts and score projections after the official controller exits.
+Runs as file/identity collection on the login node. It does not import the project or score a run.
+The study and one-use claim are opened read-only. Usage: python -I -B this_file CONTROLLER_LOG_DIR OUTPUT_DIR.
+"""
+import gzip
+import hashlib
+import io
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tarfile
+
+MAIN=Path('/share/home/renly/renly-patrol-rsi/mainline')
+STUDY=MAIN/'V6-cold-study-v2-once'
+CLAIM=MAIN/'.native-research-approvals'/STUDY.name
+DEPLOY=MAIN/'V6-cold-launch-release-v1/source'
+COLD=DEPLOY/'docs/mainline/v6-stage-three-cold-v2'
+LAUNCH=DEPLOY/'docs/mainline/v6-stage-three-cold-launch-v1'
+LAUNCH_SHA='491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b'
+REVIEW='be0fe1a92437510cb24234579982212b0f4c7fd3'
+PYTHON='/share/home/renly/miniconda3/bin/python'
+
+def require(ok,why):
+    if not ok:raise ValueError(why)
+def read(p):
+    if p.suffix=='.gz':
+        with gzip.open(p,'rb') as s:return json.load(s)
+    return json.loads(p.read_bytes())
+def sha(p):
+    with p.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
+def encoded(x):return (json.dumps(x,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n').encode()
+def write(p,data):
+    with p.open('xb') as stream:stream.write(data)
+
+
+def compact_score(path):
+    s=read(path)
+    val={k:v for k,v in s.items() if k not in ('audit','resource_history','decisions')}
+    val['private_score_sha256']=sha(path)
+    val['actual_clock']=[r['time'] for r in s['decisions']]
+    if s['resource_history']:
+        val['final_resource_state']=s['resource_history'][-1]
+    val['public_choices']=[dict(time=r['time'],task=r['task'],selected=r['selected'],support=r['support'],paid=r['debit'])
+        for r in s['decisions'] if r['task'] is not None]
+    transitions=[];prior=None
+    for r in s['decisions']:
+        if r['support']!=prior:
+            transitions.append([r['time'],r['support']]);prior=r['support']
+    val['support_transitions']=transitions
+    final_pose=None;events=[]
+    for r in s['resource_history']:
+        projection=[r['spent'],r['review_reserved'],r['obligations'],r['locked'],r['pose']]
+        if projection!=final_pose:
+            events.append(dict(time=r['time'],spent=projection[0],review_reserved=projection[1],obligations=projection[2],locked=projection[3],pose=projection[4]))
+            final_pose=projection
+    val['resource_transitions']=events
+    return val
+
+
+def add_bytes(archive,name,b):
+    i=tarfile.TarInfo(name);i.size=len(b);i.mtime=0;i.mode=0o600
+    archive.addfile(i,io.BytesIO(b))
+
+
+def collect(controller,output):
+    controller=controller.resolve()
+    require(controller==MAIN/('V6-cold-study-v2-controller-'+REVIEW[:8]) and output.resolve().parent==controller,'delivery directory')
+    require((controller/'exit.status').is_file(),'controller has no terminal status')
+    output.mkdir(exist_ok=False)
+    state_argv=read(LAUNCH/'commands.json')['status']
+    require(state_argv==[PYTHON,'-I','-B',str(DEPLOY/'scripts/cold3_study_launch.py'),'status','--manifest-sha',LAUNCH_SHA],'status identity')
+    # The controller already wrote its final accounting. Read that exact snapshot
+    # directly so that collection does not even call the panel aggregation entry again.
+    state=dict(activity_present=STUDY.is_dir(),claim_present=CLAIM.is_dir(),state=read(STUDY/'progress.json'))
+    status_bytes=encoded(state)
+    require(state['activity_present'] and state['claim_present'],'research admission missing')
+    m=read(LAUNCH/'launch-manifest.json');data=read(COLD/'study-manifest.json')
+    require(sha(LAUNCH/'launch-manifest.json')==LAUNCH_SHA and sha(COLD/'study-manifest.json')==m['data_sha256'],'bound manifests')
+    require(m['groups']==data['groups'] and sha(DEPLOY/m['input_archive'])==m['input_sha256'],'frozen schedule/input')
+    admission=read(STUDY/'admission.json');require(admission['purpose']=='NATIVE_COLD_RESEARCH' and
+        admission['approval']['review_revision']==REVIEW and (STUDY/'admission.json').read_bytes()==(CLAIM/'consumption.json').read_bytes(),'consumed review')
+    digest_map={};metadata={};compacted={}
+    for path in sorted(STUDY.rglob('*')):
+        if not path.is_file():continue
+        require(not path.is_symlink() and path.resolve().is_relative_to(STUDY),'unexpected link '+str(path))
+        name=path.relative_to(STUDY).as_posix()
+        digest_map[name]=[sha(path),path.stat().st_size]
+        if path.name=='score.json.gz':
+            if (path.parent/'scored.json').is_file():
+                expected=read(path.parent/'scored.json')['score_sha256']
+                require(expected==digest_map[name][0],'score commitment: '+name)
+                compacted[path.parent.name]=compact_score(path)
+        elif path.name not in ('input.json','run.json.gz'):
+            metadata['activity/'+name]=path
+    for proof_path in ('controller.pid','controller-once.intent','production-command.json','stdout.log','stderr.log','exit.status','controller.sh'):
+        path=controller/proof_path
+        if path.is_file():metadata['outer/'+proof_path]=path
+    metadata['claim/consumption.json']=CLAIM/'consumption.json'
+    submitted={g['row']:read(STUDY/'jobs'/g['row']/'submitted.json')['job'] for g in m['groups']
+               if (STUDY/'jobs'/g['row']/'submitted.json').is_file()}
+    records=[]
+    if submitted:
+        raw=subprocess.check_output(['sacct','-X','-nP','-j',','.join(submitted.values()),'-o',
+            'JobIDRaw,JobName%40,Partition,State,ExitCode,ElapsedRaw,TimelimitRaw,AllocCPUS,ReqMem,AllocTRES,NodeList,Start,End'],text=True)
+        for line in raw.splitlines():
+            if not line.strip():continue
+            jid,jobname,part,jobstate,rc,elapsed,minutes,cpus,mem,tres,node,start,end=line.split('|')
+            case=next(r for r,j in submitted.items() if j==jid)
+            records.append(dict(row=case,job=jid,name=jobname,partition=part,state=jobstate,exit_code=rc,
+                elapsed_s=int(elapsed),time_limit_s=60*int(minutes),cpus=int(cpus),requested_mem=mem,allocated_tres=tres,node=node,start=start,end=end))
+        write(output/'sacct.txt',raw.encode());metadata['readback/sacct.txt']=output/'sacct.txt'
+    deploy_files={p:sha(DEPLOY/p) for p in m['core_files']|m['launch_files']}
+    require(deploy_files==m['core_files']|m['launch_files'],'deployed core/adapter byte identity')
+    command_receipt=read(controller/'production-command.json')
+    require(command_receipt['review_revision']==REVIEW and command_receipt['argv'][-1]==REVIEW,'actual controller argument')
+    readback=dict(provenance='Read-only saved artifacts after single controller terminal; no evaluation/qualification rerun',
+        status_sha256=hashlib.sha256(status_bytes).hexdigest(),input_archives_sha256=sha(DEPLOY/m['input_archive']),
+        consumption_sha256=sha(CLAIM/'consumption.json'),production_command=command_receipt,outer_exit=(controller/'exit.status').read_text().strip(),
+        deployed_files_sha256=deploy_files,slurm_records=records,submitted=submitted,all_files=len(digest_map),small_files=len(metadata),
+        scores=len(compacted),never_imported_facility_policy_or_evaluator=True)
+    archive_path=output/'sealed-receipts.tar.gz'
+    with archive_path.open('xb') as file,gzip.GzipFile(filename='',fileobj=file,mode='wb',compresslevel=6,mtime=0) as gz,tarfile.open(fileobj=gz,mode='w|') as tar:
+        for name,path in sorted(metadata.items()):add_bytes(tar,name,path.read_bytes())
+        add_bytes(tar,'readback/status.json',status_bytes);add_bytes(tar,'readback/files.json',encoded(digest_map))
+        add_bytes(tar,'readback/arm-summaries.json',encoded(compacted));add_bytes(tar,'readback/receipt.json',encoded(readback))
+    write(output/'receipt.json',encoded(dict(size=archive_path.stat().st_size,sha256=sha(archive_path),**readback)))
+    print(json.dumps(dict(sha256=sha(archive_path),bytes=archive_path.stat().st_size,scores=len(compacted),files=len(digest_map),jobs=len(submitted),
+                         outer_exit=readback['outer_exit'])))
+
+
+if __name__=='__main__':collect(Path(sys.argv[1]),Path(sys.argv[2]))

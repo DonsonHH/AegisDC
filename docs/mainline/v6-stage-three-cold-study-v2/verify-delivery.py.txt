@@ -1,0 +1,89 @@
+"""Reproduce the public study result from saved production artifacts in a fresh checkout.
+Pass the delivery content commit. This reads files and Git blobs only; no native import, policy, or study run.
+"""
+from pathlib import Path
+import gzip
+import hashlib
+import json
+import runpy
+import subprocess
+import sys
+import tarfile
+
+PK=Path('docs/mainline/v6-stage-three-cold-study-v2')
+COLD=Path('docs/mainline/v6-stage-three-cold-v2')
+LAUNCH=Path('docs/mainline/v6-stage-three-cold-launch-v1')
+WALK=Path('docs/mainline/v6-stage-three-cold-launch-full-walk-v1')
+BASE='98bda5618ea40ae7bf47af6ffc95a0d65e6f9c9a'
+REVIEW='be0fe1a92437510cb24234579982212b0f4c7fd3'
+
+def git(*args):return subprocess.check_output(['git',*args])
+def text(*args):return git(*args).decode('utf8').strip()
+def hashbytes(b):return hashlib.sha256(b).hexdigest()
+def encoded(x):return (json.dumps(x,ensure_ascii=False,indent=2)+'\n').encode()
+def digest(x):return hashbytes(json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+def read(p):return json.loads(p.read_bytes())
+def need(v,label):
+    if not v:raise ValueError(label)
+
+
+def verify(ref):
+    rev=text('rev-parse',ref+'^{commit}');files={}
+    for f in text('diff','--name-only',BASE,rev).splitlines():
+        raw=Path(f).read_bytes()
+        need(raw==git('show',rev+':'+f),'fresh blob '+f)
+        files[f]=dict(bytes=len(raw),sha256=hashbytes(raw),git_blob=text('rev-parse',rev+':'+f))
+    keep=['src','configs','scripts','evidence',COLD.as_posix(),LAUNCH.as_posix(),'docs/mainline/review-gated',
+          'docs/mainline/v6-stage-three-candidate-v1','docs/mainline/v6-joint-terminal-v1','docs/mainline/v6-joint-engineering-v1']
+    need(not text('diff','--name-only',BASE,rev,'--',*keep),'unchanged scientific and launch programs, historical evidence')
+    need(text('diff','--name-only',BASE,rev,'--',WALK.as_posix())==(WALK/'acceptance-20261121.json').as_posix(),'additive launch acceptance')
+    model=read(LAUNCH/'launch-manifest.json');dataset=read(COLD/'study-manifest.json');accept=read(WALK/'acceptance-20261121.json')
+    need(accept['publication']==BASE and model['adapter_revision']==accept['production_adapter_revision'] and model['core_revision']==accept['core_revision'],'finite acceptance identity')
+    for f,h in accept['accepted_files'].items():
+        need(hashbytes(git('show',BASE+':'+(WALK/f).as_posix()))==h,'prior immutable '+f)
+    need(hashbytes((LAUNCH/'launch-manifest.json').read_bytes())==accept['launch_sha256'] and
+         hashbytes((COLD/'study-manifest.json').read_bytes())==accept['data_sha256'],'manifests')
+    need(dataset['groups']==model['groups'] and model['limits']==dataset['limits'] and dataset['study_starts']==0,'original protocol')
+    packed=(COLD/'study-inputs.json.gz').read_bytes();need(hashbytes(packed)==model['input_sha256'],'frozen archive')
+    all_inputs=json.loads(gzip.decompress(packed));positions=[p for row in model['groups'] for p in row['positions']]
+    need(len(positions)==len(all_inputs)==66 and all(digest(all_inputs[p['input_key']])==p['complete_call_sha256'] for p in positions),'all 66 original inputs')
+    for version,mapping in [(model['core_revision'],model['core_files']),(model['adapter_revision'],model['launch_files'])]:
+        for name,h in mapping.items():need(hashbytes(git('show',version+':'+name))==h,'source '+name)
+    grant=Path(model['authority']['path'])
+    need(grant.read_bytes()==git('show',REVIEW+':'+grant.as_posix()),'actual published one-use grant retained')
+    module=runpy.run_path(str(PK/'read-delivery.py.txt'),run_name='static_study_reader')
+    result=module['load_saved']()
+    need(encoded(result)==(PK/'result.json').read_bytes(),'full saved report')
+    for fn,n in [('render_arms','per-arm.md'),('render_pairs','comparisons.md')]:
+        need(module[fn](result).encode()==(PK/n).read_bytes(),'full row/arm report '+n)
+    with tarfile.open(PK/'sealed-receipts.tar.gz') as archive:
+        index=json.load(archive.extractfile('readback/files.json'))
+    inventory=json.loads(gzip.decompress((PK/'originals-index.json.gz').read_bytes()))
+    need(inventory['research_root']==model['root'] and inventory['files']==index,'complete private original index')
+    mechanism=runpy.run_path(str(PK/'mechanisms.py.txt'),run_name='static_mechanism_reader')['build'](result)
+    need(encoded(mechanism)==(PK/'mechanisms.json').read_bytes(),'mechanism group report')
+    need(result['official_panel']['denominators']=={'J/B':24,'J_OPEN':4,'J_NO_PROBE':10,'J_ORDER':4}
+         and len(result['comparisons'])==42 and len(result['rows'])==24,'complete registered pair denominator')
+    need(hashbytes((PK/'consumption.json').read_bytes())==result['grant']['consumption_sha256'],'published original consumption')
+    need(hashbytes((PK/'sealed-panel.json').read_bytes())==result['final_seal']['controller_panel_sha256'],'published native panel bytes')
+    excerpts=json.loads(gzip.decompress((PK/'public-decision-excerpts.json.gz').read_bytes()))
+    linked={k:v for row in result['rows'] for k,v in row['positions'].items()}
+    need(excerpts['new_calls']==0 and all(v['source_sha256']==linked[k]['raw_sha256'] for k,v in excerpts['positions'].items()),'saved legal-choice excerpts')
+    x=result['actual'];lim=model['limits']
+    need(x['reserved_jobs']<=lim['jobs'] and x['reserved_CPU_s']<=lim['total_reserved_CPU_s'] and
+         x['confirmed_arm_entries']<=lim['facility_arms'] and x['known_policy_calls']<=lim['internal_policy_calls'] and
+         x['warm_starts']==x['ordinary_improvement']==x['RSI']==x['automatic_retries']==0,'study boundaries')
+    old=read(Path('docs/mainline/v6-joint-engineering-v1/integrity.json'))['preserved_slice57']
+    for f,h in old.items():need(hashbytes(Path(f).read_bytes())==h,'slice57')
+    progress=read(Path('docs/mainline/progress.json'))
+    need(not progress['active_implementations'] and progress['v6_cold_study_v2']['user_acceptance_pending']
+         and progress['execution_control']['research_execution']=='CLOSED','results review only')
+    return dict(schema='cold-formal-study-static-delivery-v2',content_revision=rev,baseline=BASE,review_revision=REVIEW,
+        files=files,study_state=result['status'],core_revision=model['core_revision'],adapter_revision=model['adapter_revision'],
+        core_source_files_verified=len(model['core_files']),launcher_files_verified=len(model['launch_files']),research_inputs_verified=66,
+        actual=result['actual'],paired_denominators=result['official_panel']['denominators'],grant_digest=result['grant']['canonical_digest'],
+        sealed_panel_sha256=result['final_seal']['controller_panel_sha256'],unchanged_slice57=old,
+        new_study_policy_or_qualification_calls_during_readback=0)
+
+
+if __name__=='__main__':print(json.dumps(verify(sys.argv[1]),ensure_ascii=False,indent=2))

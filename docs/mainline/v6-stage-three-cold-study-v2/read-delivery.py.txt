@@ -1,0 +1,255 @@
+"""Static publication and accounting of one frozen cold study. No facility, decision, or scoring module is imported.
+Run from the checkout root. Default: reproduce result.json and two tables and compare bytes. --write-documents writes these derived outputs once.
+"""
+from collections import Counter,defaultdict
+from fractions import Fraction
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import sys
+import tarfile
+
+P=Path('docs/mainline/v6-stage-three-cold-study-v2')
+L=Path('docs/mainline/v6-stage-three-cold-launch-v1')
+D=Path('docs/mainline/v6-stage-three-cold-v2')
+GRANT=Path('docs/mainline/authorizations/v6-stage-three-cold-study-v2.json')
+LAUNCH='491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b'
+DATA='cccb296c64264092200cbb763a9c697cbf572557055f9747838ceb399d465fd4'
+REVIEW='be0fe1a92437510cb24234579982212b0f4c7fd3'
+LABEL={'BETTER':'改善','WORSE':'较差','SAME':'持平','MIXED':'取舍','NUMERIC_UNRESOLVED':'数值未决','NONCOMPLIANT':'不合规','NO_PAIR':'未取得配对'}
+TYPES={'NO_ACTION_CURRENT':'NA','POST_ACTION_VERIFIED_CURRENT':'PV','OPEN':'O','OPEN_EXPIRED':'E'}
+METHODS=('J/B','J_OPEN','J_NO_PROBE','J_ORDER')
+
+def check(test,label):
+    if not test:raise ValueError(label)
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def logical(obj):return sha(json.dumps(obj,sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+def read(p):return json.loads(Path(p).read_bytes())
+def fmt(x):
+    if x is None:return '—'
+    v=Fraction(str(x))
+    if v==int(v):return str(int(v))
+    if 0<abs(v)<Fraction('1e-6'):return f'{float(v):.3e}'
+    return f'{float(v):.6f}'.rstrip('0').rstrip('.')
+def signed(x):
+    t=fmt(x)
+    return '+'+t if x is not None and Fraction(str(x))>0 else t
+def vec(x):return '/'.join(fmt(a) for a in x)
+def fullname(k):return k.split('/')[0]+'.'+k.split('/')[-1]
+def delta_values(v):return '/'.join(signed(a) for a in v)
+def effects(s):
+    if not s['all_writes']:return '无'
+    return '，'.join(f'{kind}@{fmt(t)} {fmt(before)}→{fmt(after)}' for t,kind,before,after in s['all_writes'])
+def stages(s):
+    return ' → '.join(f'{phase} {fmt(issue)}/{fmt(end)}/{fmt(ack)}' for phase,issue,end,ack in s['stages']) or '全窗暂缓'
+def firsts(s):
+    a=[]
+    for kind,types in sorted(s['first'].items()):
+        a.extend(f'{kind[0]}.{k}@{fmt(t)}' for k,t in sorted(types.items()))
+    return '，'.join(a) or '无'
+def state_at(s,t):
+    return '/'.join(TYPES.get(s['states'][t].get(k),s['states'][t].get(k,'未开题')) for k in ('C/c0','N/n0'))
+def close_changes(row):
+    if not row.get('lost') and not row.get('gained'):return '无'
+    def labels(xs):
+        out=[]
+        for name,when,typ,*t in xs:
+            mark=('首次@'+fmt(t[0]) if when=='first-at' and t else '曾达' if when=='ever' else str(when))
+            out.append(f'{name[0]}.{typ}({mark})')
+        return ', '.join(out)
+    return '；'.join(k+labels(row[x]) for k,x in [('失去 ','lost'),('多得 ','gained')] if row.get(x))
+
+
+def load_saved():
+    archive=P/'sealed-receipts.tar.gz'
+    with tarfile.open(archive) as tar:
+        ms=tar.getmembers();check(len({m.name for m in ms})==len(ms) and all(m.isfile() and '..' not in Path(m.name).parts and not Path(m.name).is_absolute() for m in ms),'portable bundle')
+        files={m.name:tar.extractfile(m).read() for m in ms}
+    doc=lambda k:json.loads(files[k])
+    index=doc('readback/files.json');meta=doc('readback/receipt.json');shorts=doc('readback/arm-summaries.json')
+    for k,b in files.items():
+        if k.startswith('activity/'):check(index[k[9:]]==[sha(b),len(b)],'archive bytes '+k)
+    only={k for k in index if 'activity/'+k not in files}
+    check(all(Path(k).name in ('score.json.gz','run.json.gz','input.json') for k in only),'omitted archive member')
+    # The root is named activity/ in this portable copy. Original research root is in the grant.
+    jsonat=lambda name:doc('activity/'+name)
+    exists=lambda name:'activity/'+name in files
+    status=doc('readback/status.json')
+    check(sha(files['readback/status.json'])==meta['status_sha256'],'final status bytes')
+    st=status['state'];full=exists('finished.json');halt=jsonat('halt.json') if exists('halt.json') else None
+    check(full != bool(halt or meta['outer_exit']!='0'),'terminal controller state')
+    launch=read(L/'launch-manifest.json');manifest=read(D/'study-manifest.json');protocol=read(D/'conditions.json')
+    check(sha((L/'launch-manifest.json').read_bytes())==LAUNCH and sha((D/'study-manifest.json').read_bytes())==DATA and
+        meta['input_archives_sha256']==launch['input_sha256']==manifest['data_sha256'],'launch and inputs')
+    g=read(GRANT);claim=doc('claim/consumption.json')
+    check(files['claim/consumption.json']==files['activity/admission.json'] and sha(files['claim/consumption.json'])==meta['consumption_sha256']
+          and claim['approval']['grant']==g and claim['approval']['grant_digest']==logical(g) and claim['purpose']==g['purpose']=='NATIVE_COLD_RESEARCH'
+          and claim['approval']['review_revision']==REVIEW and claim['launch']==g['launch_sha256']==LAUNCH and g['uses']==1,'one actual grant')
+    check(g['order_sha256']==logical(manifest['groups']) and g['limits_sha256']==logical(manifest['limits'])
+          and meta['deployed_files_sha256']==launch['core_files']|launch['launch_files'],'source and schedule')
+    canonical_status=jsonat('progress.json')
+    check(st==canonical_status,'read-only terminal view matches sealed progress')
+    official_panel=jsonat('panel.json') if full else st['panel'];check(official_panel==st['panel'],'saved panel versus status')
+    paired_map={(x['row'],x['control']):x for x in official_panel['comparisons']}
+    check(official_panel['denominators']==launch['denominators'] and len(paired_map)==42,'whole denominator')
+    check(sum(len(g['positions']) for g in launch['groups'])==66 and [q['row'] for q in launch['groups']]==[q['id'] for q in protocol['core_rows']],'whole schedule')
+    slots={r['slot']:r for r in st['rows']}
+    check(list(slots)==[x['input_key'] for gr in launch['groups'] for x in gr['positions']],'position order')
+    scheduler={r['row']:r for r in meta['slurm_records']}
+    prev_end=None;seen=set();starts=0;clock=0;issuances=0;rows=[];pairrows=[]
+    for ix,(group,cond) in enumerate(zip(manifest['groups'],protocol['core_rows'],strict=True)):
+        name=group['row'];base='jobs/'+name+'/';job=scheduler.get(name);wr=jsonat(base+'worker-result.json') if exists(base+'worker-result.json') else None
+        sealed=jsonat(base+'committed.json') if exists(base+'committed.json') else None
+        if job:
+            check(job['job']==jsonat(base+'submitted.json')['job'] and job['name']=='cold3-study-'+name and job['partition']=='cu' and
+                  job['cpus']==1 and job['requested_mem'] in ('4G','4096M') and job['time_limit_s']==300 and 'gpu' not in job['allocated_tres'],'boundary '+name)
+            if prev_end and job['start'] not in ('Unknown','None'):check(prev_end<=job['start'],'serial jobs '+name)
+            prev_end=job['end']
+        if sealed:
+            check(job and wr and wr['passed'] and wr['row']==name and wr['job']==job['job'] and job['state']=='COMPLETED' and job['exit_code']=='0:0','committed job '+name)
+            for key,actual in [('worker','worker-result'),('terminal','scheduler-terminal'),('reserved','reserved'),('submitted','submitted'),('release-requested','release-requested'),('worker-claim','worker-claim')]:
+                check(sealed[key+'_sha256']==index[base+actual+'.json'][0],'job seal '+name+'/'+key)
+        keys=[s['input_key'] for s in group['positions']];arm_info={}
+        if wr:check([r['slot'] for r in wr['rows']]==keys,'worker order '+name)
+        for slotinfo in group['positions']:
+            key=slotinfo['input_key'];unit=base+'arms/'+key+'/';s=shorts.get(key);pos=slots[key]
+            dims=dict(state=pos['state'],position=slotinfo['position'],input_sha256=slotinfo['complete_call_sha256'],source=pos,scored=s is not None)
+            if wr:
+                for file,h in wr['arm_hashes'][key].items():check(index.get(unit+file,[None])[0]==h,'per-slot hash '+key+'/'+file)
+            if s is not None:
+                entry=jsonat(unit+'entry.json');spawn=jsonat(unit+'spawn.json');ret=jsonat(unit+'return.json')
+                val=jsonat(unit+'validated.json');end=jsonat(unit+'clock-end.json');score=jsonat(unit+'scored.json')
+                check(pos['known'] and pos['raw'] and pos['validated'] and pos['scored'] and s['private_inputs_digest']==val['request_sha256']==val['evidence_sha256']==slotinfo['complete_call_sha256'],'slot identity '+key)
+                check(entry['purpose']==ret['purpose']=='NATIVE_COLD_RESEARCH' and entry['launch']==ret['launch']==LAUNCH and entry['job']==job['job'],'native purpose '+key)
+                check(entry['pid']==spawn['pid']==ret['pid']==val['pid'] and entry['parent']==spawn['parent']==ret['parent']==jsonat(base+'worker-claim.json')['worker_pid'],
+                      'independent child identity '+key)
+                check((job['job'],entry['pid']) not in seen,'child reused within allocation');seen.add((job['job'],entry['pid']))
+                check(s['private_score_sha256']==score['score_sha256']==index[unit+'score.json.gz'][0] and index[unit+'run.json.gz'][0]==ret['raw_sha256']==val['raw_sha256'] and
+                      index[unit+'return.json'][0]==val['return_sha256'] and val['clock_sha256']==index[unit+'decisions.jsonl'][0] and
+                      end['journal_sha256']==val['clock_sha256'] and index[unit+'validated.json'][0]==score['validated_sha256'],'native bytes '+key)
+                check(s['runtime']==launch['core_tree'] and s['horizon']==12 and s['actual_clock']==[k/4 for k in range(49)] and val['calls']==end['calls']==pos['internal_exact']==49,
+                      'H12 / source '+key)
+                journal=[json.loads(line) for line in files['activity/'+unit+'decisions.jsonl'].splitlines()]
+                check(journal==[dict(slot=key,n=i+1,at=i/4) for i in range(49)] and pos['manual']==val['issues']==len(s['work_outcomes'])==len(s['stages']),'clock and work '+key)
+                command=jsonat(unit+'command.json')
+                cmd_template=launch['commands']['arm'];frozen_argv=[a.format(launch=LAUNCH,row=name,slot=key) for a in cmd_template]
+                check(command['executed']==command['proposed']==frozen_argv and jsonat(unit+'prelaunch.json')['purpose']=='NATIVE_COLD_RESEARCH','actual production child command '+key)
+                check(all(not v.endswith('/donor.json') for v in index if v.startswith(unit)),'no substitute artifacts')
+                dims.update(pid=entry['pid'],worker_pid=entry['parent'],raw_sha256=val['raw_sha256'],score_sha256=score['score_sha256'],clock_sha256=end['journal_sha256'],
+                    actual=s)
+                starts+=1;clock+=49;issuances+=len(s['stages'])
+            arm_info[key]=dims
+        rows.append(dict(row=name,specification=cond,job=job,worker_status=wr['code'] if wr and not wr['passed'] else 'PASS' if wr else None,
+            committed=sealed is not None,commit_sha256=index[base+'committed.json'][0] if sealed else None,
+            worker_sha256=index[base+'worker-result.json'][0] if wr else None,positions=arm_info))
+        for left,right in [group['primary'],*group['mechanism_pairs']]:
+            control=right.split('-',1)[1];p=paired_map[name,control];path=base+'pairs/'+right+'.json'
+            if exists(path):
+                raw=jsonat(path);check(raw['launch']==LAUNCH and (raw['left'],raw['right'])==(left,right),'pair identity '+right)
+                if wr:check(wr['pair_hashes'][right]==index[path][0],'pair seal '+right)
+                if p['category']!='NO_PAIR':check(all(p[k]==v for k,v in raw['result'].items()),'official classification '+right)
+            a=shorts.get(left);b=shorts.get(right)
+            # Read the scorer's existing decision/coverage fields; this does not rerun a classifier.
+            diff=p.get('first_issue_difference')
+            split_phase=None if not diff else [diff['time'],diff.get('candidate'),diff.get('comparator')]
+            pairrows.append(dict(row=name,candidate=left,comparator=right,control=control,comparison_type='J/B' if control=='B' else control,
+                classification=p['category'],receipt_sha256=index[path][0] if exists(path) else None,
+                service_levels={left:a['service'] if a else None,right:b['service'] if b else None},
+                resource_levels={left:a['resources'] if a else None,right:b['resources'] if b else None},
+                issued_choice_difference=split_phase,official=p))
+    check(len(rows)==24 and len(pairrows)==42,'registered rows')
+    if full:
+        last='jobs/'+manifest['groups'][-1]['row']+'/'
+        fh=index['panel.json'][0];check(fh==index[last+'panel.json'][0]==jsonat(last+'worker-result.json')['panel_sha256']==jsonat('finished.json')['panel_sha256'] and
+            files['activity/panel.json']==files['activity/'+last+'panel.json'],'byte-identical last and root panels')
+        check(starts==66 and clock==st['internal_exact']==3234 and len(rows)==st['committed_jobs']==24 and issuances==st['manual_exact'] and
+              not st['unknown_internal'] and not st['potential_slots'] and not st['known_unstarted'] and not st['accounting_errors'],'full actual account')
+    else:fh=None
+    resource_elapsed=sum(j['elapsed_s'] for j in scheduler.values())
+    result=dict(schema='cold-finite-same-account-study-v2-results',status='SEALED_COMPLETE_PENDING_USER_REVIEW' if full else 'STOPPED_WITH_SUFFIX_PENDING_USER_REVIEW',study_kind='same-account publicly designed finite synthetic study; not independent confirmation',
+        launch_sha256=LAUNCH,data_manifest_sha256=DATA,study_inputs_sha256=manifest['data_sha256'],input_freeze_revision=launch['input_freeze_revision'],core_revision=launch['core_revision'],
+        adapter_revision=launch['adapter_revision'],core_runtime_tree=launch['core_tree'],accepted_launch_publication='98bda5618ea40ae7bf47af6ffc95a0d65e6f9c9a',review_commit=REVIEW,
+        grant=dict(path=GRANT.as_posix(),raw_sha256=sha(GRANT.read_bytes()),canonical_digest=logical(g),uses_consumed=1,
+            external_claim_root=launch['claim'],consumption_sha256=meta['consumption_sha256'],admission_sha256=index['admission.json'][0],decision_reference=g['user_decision_reference']),
+        controller_command=meta['production_command'],controller_exit=meta['outer_exit'],output_root=launch['root'],readback_only=True,
+        actual=dict(reserved_jobs=st['reservations'],submitted_jobs=st['submitted'],committed_jobs=st['committed_jobs'],reserved_CPU_s=st['reserved_cpu_s'],
+            occupied_CPU_s=resource_elapsed,confirmed_arm_entries=st['known_starts'],arm_entries_exact=st['starts_exact'],validated_returns=st['validated_returns'],scored=st['scored'],
+            known_policy_calls=st['known_internal'],policy_calls_exact=st['internal_exact'],known_manual_issues=st['known_manual'],manual_issues_exact=st['manual_exact'],
+            raw_returns=st['raw_present'],independent_scored_process_ids=len(seen),unreturned=[r['slot'] for r in st['rows'] if r['known'] and not r['validated']],
+            unexecuted=st['known_unstarted'],unknown_internal=st['unknown_internal'],unknown_manual=st['unknown_manual'],potential=st['potential_slots'],
+            unknown_submission_ids=st['unknown_submission_ids'],unresolved_scheduler=st['unresolved_scheduler'],accounting_errors=st['accounting_errors'],automatic_retries=0,
+            additional_engineering_jobs=0,posthoc_model_or_evaluator_calls=0,warm_starts=0,ordinary_improvement=0,RSI=0),
+        halt=halt,limits=launch['limits'],qualifications_preserved=['old V1 job 134709 pre-entry failure','S09 initial failure and half-step trajectory mismatches','full stage-two qualification remains limited'],
+        official_panel=official_panel,rows=rows,comparisons=pairrows,private_index=dict(files=len(index),portable_sha256=sha(archive.read_bytes()),
+            portable_contents='all receipts and full journals except the three bulky files of each arm; per-file byte counts and SHA included, plus saved score excerpts',
+            full_window_work_by_instance='task_resources, resource_transitions, waits, work_outcomes, paid_fields and states on all public epochs in each returned arm'),
+        final_seal=dict(worker_panel_sha256=fh,controller_panel_sha256=fh,finished_sha256=index['finished.json'][0] if full else None,
+            final_progress_sha256=index['progress.json'][0],status_sha256=meta['status_sha256'],raw_bytes_compared=full))
+    return result
+
+
+def render_pairs(result):
+    text=['# 冷态研究逐配对结果','',
+        '所有差值均为比较臂减 J。L 是全窗服务缺额的秒数，U 是未交付服务单位·秒，需求恒为 1。表中列出独立分段率积分，数值最多保留六位小数，微小非零尾差用科学记数法；精确有理数、余额差及分段率差均保存在[结果账](result.json)。资源为真实人员秒／工具秒／发行费。t* 是任一臂首次实际生效，tΔ 是首次不同作用；“整窗”表示相同物理作用下核验至 H12。每项的首次、5／7.5／12 秒当前关闭和完整行动链见[逐臂账](per-arm.md)。','']
+    for kind in METHODS:
+        pairs=[p for p in result['comparisons'] if p['comparison_type']==kind]
+        text+=['## '+kind+f'（{len(pairs)} 对）','',
+            '| 条件 | J 的 L/U | 对照 L/U | 服务差 ΔL/ΔU | 判定 | J 人/具/费 | 对照人/具/费 | 资源差 | 首次不同发行（时刻，J／对照） | t*／tΔ，核对至（历元／状态面） | 关闭保有变化 |',
+            '|---|---:|---:|---:|---|---:|---:|---:|---|---|---|']
+        for p in pairs:
+            l,r=p['candidate'],p['comparator'];s=p['service_levels'];resources=p['resource_levels'];official=p['official']
+            if s[l] is None or s[r] is None:
+                text.append(f"| {p['row']} | — | — | — | {LABEL[p['classification']]} | — | — | — | — | — | — |");continue
+            d=official.get('first_issue_difference')
+            split=(fmt(d['time'])+'，'+(fullname(d['candidate']) if d['candidate'] else 'W')+'／'+(fullname(d['comparator']) if d['comparator'] else 'W')) if d else '全窗同序' if 'first_issue_difference' in official else '未判'
+            times=(fmt(official.get('t_star'))+'／'+fmt(official.get('t_delta'))+'；'+('整窗 12' if official.get('through')==12 else fmt(official.get('through'))))
+            if 'points' in official and 'faces' in official:times+=f"（{official['points']}/{official['faces']}）"
+            rawdelta=official.get('service_delta',{}).get('rate')
+            resource_delta=official.get('resource_delta')
+            label=f"[{p['row']}](per-arm.md#{p['row'].lower()})"
+            text.append('| '+' | '.join([label,vec(s[l]['rate']),vec(s[r]['rate']),delta_values(rawdelta) if rawdelta else '未判',
+                  LABEL[p['classification']],vec(resources[l]),vec(resources[r]),delta_values(resource_delta) if resource_delta else '未判',split,times,close_changes(official) if 'closures_preserved' in official else '未判'])+' |')
+        text.append('')
+    return '\n'.join(text).rstrip()+'\n'
+
+
+def render_arms(result):
+    out=['# 冷态研究逐臂工作、服务与具名关闭','',
+       '阶段 I、A、R 分别为付费初检、具名处置和本人复检。每项依次记录发行／物理终止／首个合法终态回执到达的秒数。状态依次列 C、N 两个工单。NA 表示本人证据支持无需处置，PV 表示本人处置后复核通过，O 表示仍未解决，E 表示已过期。当前 L/U 以独立分段率计算；完整原生余额、每个时点的状态与原始数值见[结果账](result.json)。','']
+    for row in result['rows']:
+        spec=row['specification'];j=row['job']
+        out+=[f"## {row['row']}",'',
+            f"公开假设表 {spec['public_law']}，开题 {spec['opening']}，入场上限 {vec(spec['budget'])}。私有评价背景为滤阻 {spec['filter']}、网络 {fmt(spec['network'])}、存储 {fmt(spec['storage'])}、整流输入上限 {spec['rectifier_input_W']} W。"+(f"Slurm 作业 {j['job']}，{j['state']} {j['exit_code']}。" if j else '没有确证作业号。'),'',
+            '| 处理 | 全窗 L/U | 人/具/费 | 入场人/具/费 | 实际阶段，发行/终止/回执 | 写前→写后 | 具名首次关闭 | 5 s C/N | 7.5 s C/N | 12 s C/N |',
+            '|---|---:|---:|---:|---|---|---|---|---|---|']
+        for k,v in row['positions'].items():
+            s=v.get('actual')
+            if s is None:
+                out+=['| '+' | '.join([k.split('-',1)[1],'—','—','—',v['state'],'—','—','—','—','—'])+' |'];continue
+            out+=['| '+' | '.join([k.split('-',1)[1],vec(s['service']['rate']),vec(s['resources']),vec(s['admission']),stages(s),effects(s),firsts(s),
+                                  state_at(s,'5'),state_at(s,'7.5'),state_at(s,'12')])+' |']
+        out+=['']
+    return '\n'.join(out).rstrip()+'\n'
+
+
+if __name__=='__main__':
+    result=load_saved()
+    outputs={'result.json':(json.dumps(result,ensure_ascii=False,indent=2)+'\n').encode(),
+             'comparisons.md':render_pairs(result).encode(),'per-arm.md':render_arms(result).encode()}
+    with tarfile.open(P/'sealed-receipts.tar.gz') as archive:
+        originals=json.load(archive.extractfile('readback/files.json'))
+    inventory=dict(schema='cold-study-original-artifact-index-v1',research_root=result['output_root'],
+                   content_unit='path => [sha256, raw byte length]',files=originals,private_raw_runs_and_scores_retained=True)
+    original_bytes=(json.dumps(inventory,sort_keys=True,ensure_ascii=True,separators=(',',':'))+'\n').encode()
+    index=P/'originals-index.json.gz'
+    if sys.argv[1:]==['--write-documents']:
+        compressed=gzip.compress(original_bytes,mtime=0)
+        with index.open('xb') as fp:fp.write(compressed)
+    else:check(gzip.decompress(index.read_bytes())==original_bytes,'public original index')
+    for name,data in outputs.items():
+        path=P/name
+        if sys.argv[1:]==['--write-documents']:
+            with path.open('xb') as f:f.write(data)
+        else:check(path.read_bytes()==data,'published projection '+name)
+    print(result['status'],len(result['rows']),len(result['comparisons']),result['actual']['arm_entries_exact'],result['actual']['policy_calls_exact'])

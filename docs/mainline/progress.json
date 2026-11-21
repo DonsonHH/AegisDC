@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "COLD_FORMAL_RESEARCH_ONE_USE_AUTHORIZED",
+  "status": "COLD_FORMAL_STUDY_SEALED_RESULTS_PENDING_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "RUN_SINGLE_REVIEWED_COLD_STUDY_OR_STOP_AT_FROZEN_HALT",
+  "current_milestone": "REVIEW_COLD_STUDY_SERVICE_RESOURCES_CLOSURE_AND_MECHANISMS",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "COLD_FORMAL_RESEARCH",
+  "agent_stage": "COLD_STUDY_RESULTS_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -39,22 +39,28 @@
       "paired_five_arm_groups": 17,
       "arm_runs": 85,
       "provenance": "docs/mainline/v6-native-method-study-v1/result.json"
+    },
+    "cold_phase_three_v2": {
+      "scope": "Same-account disclosed finite synthetic H12 study, separate from the stage-one panel, qualification replays, and the London cases.",
+      "conditions": 24,
+      "arm_runs": 66,
+      "primary_pairs": 24,
+      "mechanism_pairs": 18,
+      "provenance": "docs/mainline/v6-stage-three-cold-study-v2/result.json"
     }
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "ONE_FROZEN_STUDY",
-    "research_execution": "ONE_COLD_STUDY_ONLY",
-    "authorized_scope": [
-      "one cold H12 study on the exact 24-row 66-position manifest only"
-    ],
+    "automatic_goal": "NONE",
+    "research_execution": "CLOSED",
+    "authorized_scope": [],
     "after_delivery": "STOP_AT_COLD_STUDY_RESULTS_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "COLD_FULL_WALK_SUPPLEMENT_DELIVERED",
+    "document_authorization_status": "COLD_FORMAL_RESEARCH_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -78,7 +84,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json"
+    "current_execution_manifest": null
   },
   "gates": [
     {
@@ -2210,7 +2216,7 @@
     "accepted_publication": "98bda5618ea40ae7bf47af6ffc95a0d65e6f9c9a"
   },
   "v6_cold_study_v2": {
-    "status": "AUTHORIZED_NO_RECEIPT_AT_COMMIT",
+    "status": "SEALED_COMPLETE_PENDING_USER_REVIEW",
     "finite_launch_acceptance": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/acceptance-20261121.json",
     "grant": "docs/mainline/authorizations/v6-stage-three-cold-study-v2.json",
     "launch_sha256": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b",
@@ -2239,6 +2245,119 @@
     "automatic_retry": false,
     "warm_authorized": false,
     "ordinary_improvement_authorized": false,
-    "RSI_authorized": false
+    "RSI_authorized": false,
+    "user_acceptance_pending": true,
+    "report": "docs/mainline/v6-stage-three-cold-study-v2/README.md",
+    "results": "docs/mainline/v6-stage-three-cold-study-v2/result.json",
+    "comparisons": "docs/mainline/v6-stage-three-cold-study-v2/comparisons.md",
+    "arms": "docs/mainline/v6-stage-three-cold-study-v2/per-arm.md",
+    "mechanisms": "docs/mainline/v6-stage-three-cold-study-v2/mechanisms.json",
+    "integrity": "docs/mainline/v6-stage-three-cold-study-v2/integrity.json",
+    "actual_review_commit": "be0fe1a92437510cb24234579982212b0f4c7fd3",
+    "uses_consumed": 1,
+    "remaining_uses": 0,
+    "consumption_sha256": "3b5525eaf0991be9b83636a93703ecae31af7436cb3e8f730b6804f492eb2468",
+    "panel_sha256": "e72fe4cc358174bd647a9773c8e6806e7e61898a8f88303b7e14ae3bc5bb9b14",
+    "controller_exit": "0",
+    "actual": {
+      "reserved_jobs": 24,
+      "submitted_jobs": 24,
+      "committed_jobs": 24,
+      "reserved_CPU_s": 7200,
+      "occupied_CPU_s": 787,
+      "confirmed_arm_entries": 66,
+      "arm_entries_exact": 66,
+      "validated_returns": 66,
+      "scored": 66,
+      "known_policy_calls": 3234,
+      "policy_calls_exact": 3234,
+      "known_manual_issues": 155,
+      "manual_issues_exact": 155,
+      "raw_returns": 66,
+      "independent_scored_process_ids": 66,
+      "unreturned": [],
+      "unexecuted": [],
+      "unknown_internal": [],
+      "unknown_manual": [],
+      "potential": [],
+      "unknown_submission_ids": [],
+      "unresolved_scheduler": [],
+      "accounting_errors": [],
+      "automatic_retries": 0,
+      "additional_engineering_jobs": 0,
+      "posthoc_model_or_evaluator_calls": 0,
+      "warm_starts": 0,
+      "ordinary_improvement": 0,
+      "RSI": 0
+    },
+    "main_outcomes": {
+      "BETTER": 1,
+      "NONCOMPLIANT": 0,
+      "NO_PAIR": 0,
+      "NUMERIC_UNRESOLVED": 0,
+      "SAME": 22,
+      "WORSE": 1
+    },
+    "mainline_claims": {
+      "service_dominance": false,
+      "service_with_closure": false,
+      "equal_service_resource_with_closure": false
+    },
+    "mechanism_counts": {
+      "J_OPEN": {
+        "denominator": 4,
+        "outcomes": {
+          "SAME": 4
+        },
+        "actual_split_positions": [
+          "A07",
+          "A08"
+        ],
+        "identical_issued_histories": [
+          "A05",
+          "A06"
+        ]
+      },
+      "J_NO_PROBE": {
+        "denominator": 10,
+        "outcomes": {
+          "SAME": 8,
+          "BETTER": 2
+        },
+        "actual_split_positions": [
+          "A03",
+          "A04",
+          "C01",
+          "C02"
+        ],
+        "identical_issued_histories": [
+          "A01",
+          "A02",
+          "A05",
+          "A06",
+          "A07",
+          "A08"
+        ]
+      },
+      "J_ORDER": {
+        "denominator": 4,
+        "outcomes": {
+          "WORSE": 1,
+          "SAME": 3
+        },
+        "actual_split_positions": [
+          "B03",
+          "B04"
+        ],
+        "identical_issued_histories": [
+          "B07",
+          "B08"
+        ]
+      }
+    },
+    "B08_prospective_direction_matched": true,
+    "real_study_starts": 66,
+    "additional_cold_study_authorized": false,
+    "source_raw_index": "docs/mainline/v6-stage-three-cold-study-v2/originals-index.json.gz"
   }
 }
