@@ -132,7 +132,9 @@ class Bench:
     def __init__(self,phase,launch,pin_hash):
         self.phase=phase;self.pin_hash=pin_hash;self.out=B.QUAL/phase;self.rel=B.load_release(DEPLOY,launch)
         pin=read(HERE/'verification-pin.json')
-        insist(set(pin['files'])=={'verify.py','replay_child.py','validation-freeze.json'} and pin['purpose']=='ZERO_FACILITY_COLD_LAUNCH_VERIFICATION' and
+        required={'verify.py','replay_child.py','validation-freeze.json'}
+        if phase=='V1':required.add('predecessor-terminal.json')
+        insist(set(pin['files'])==required and pin['purpose']=='ZERO_FACILITY_COLD_LAUNCH_VERIFICATION' and
                sha(HERE/'verification-pin.json')==pin_hash and pin['launch_sha256']==launch and
                all(sha(HERE/k)==h for k,h in pin['files'].items()),'qualification source binding')
         self.f=read(HERE/'validation-freeze.json')
@@ -258,13 +260,20 @@ def main():
     once(out/'allocation.json',real_allocation)
     b=Bench(phase,h,pin_hash)
     if phase=='V1':
-        from v6_research.slurm import run as slurm_read
-        prior=doc(B.QUAL/'V0/result.json');jid=str(prior['job'])
-        insist(jid.isdecimal() and (B.QUAL/'V0/job.id').read_text().strip()==jid and prior['phase']=='V0' and
-               prior['status']=='PASS' and prior['launch_sha256']==h and prior['verifier_sha256']==pin_hash and
-               prior['checks_sha256']==sha(B.QUAL/'V0/checks.json') and prior['actual_surrogate_entries']==14,'V0 not qualified')
-        rows=[x.split('|') for x in slurm_read('sacct','-X','-nP','-j',jid,'-o','JobIDRaw,State,ExitCode').splitlines() if x.split('|')[0]==jid]
-        insist(len(rows)==1 and rows[0][:3]==[jid,'COMPLETED','0:0'],'no verified V0 terminal')
+        # Accounting lives on the login node on this cluster. A later separately
+        # authorized allocation must bind its exported proof, not contact SlurmDB.
+        prior_dir=B.QUAL/'V0';prior=doc(prior_dir/'result.json');proof=read(HERE/'predecessor-terminal.json')
+        fields=proof['raw_sacct'].split('|');jid=str(prior['job'])
+        insist(proof['schema']=='cold-zero-facility-login-terminal-handoff-v1' and proof['namespace']==str(prior_dir)
+               and proof['source_host']=='mu01' and proof['account']=='renly' and proof['phase']==prior['phase']=='V0'
+               and jid.isdecimal() and jid==proof['job_id']==(prior_dir/'job.id').read_text().strip()
+               and fields[:3]==[jid,'COMPLETED','0:0'] and fields[4:7]==['5','1','4G']
+               and (proof['terminal'],proof['exit_code'])==('COMPLETED','0:0') and prior['status']=='PASS'
+               and prior['launch_sha256']==proof['launch_sha256']==h and prior['verifier_sha256']==proof['predecessor_verifier_sha256']
+               and prior['actual_surrogate_entries']==proof['surrogate_entries']==14,'prior login evidence')
+        files=proof['raw_hashes']
+        insist(set(files)=={'result.json','checks.json','surrogate-entries.jsonl','allocation.json'} and
+               all(sha(prior_dir/k)==v for k,v in files.items()) and prior['checks_sha256']==files['checks.json'],'prior receipt bytes')
     def boundary(event,args):
         if event.startswith('socket.connect'):raise PermissionError('External review transport disabled in fixture')
         if event=='subprocess.Popen':

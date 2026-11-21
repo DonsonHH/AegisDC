@@ -1,0 +1,30 @@
+{
+  "schema": "cold-zero-facility-login-terminal-handoff-v1",
+  "source_host": "mu01",
+  "account": "renly",
+  "command": [
+    "sacct",
+    "-X",
+    "-nP",
+    "-j",
+    "134708",
+    "-o",
+    "JobIDRaw,State,ExitCode,ElapsedRaw,TimelimitRaw,AllocCPUS,ReqMem,AllocTRES,NodeList,Start,End"
+  ],
+  "raw_sacct": "134708|COMPLETED|0:0|25|5|1|4G|billing=1,cpu=1,node=1|cu02|2026-11-21T10:49:42|2026-11-21T10:50:07",
+  "namespace": "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-qualification-20261121/V0",
+  "phase": "V0",
+  "job_id": "134708",
+  "terminal": "COMPLETED",
+  "exit_code": "0:0",
+  "launch_sha256": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b",
+  "predecessor_verifier_sha256": "365c019d8ab7406f6ee98c64d0a6374a22c726fc3422327c4e1b5318a6c1329a",
+  "surrogate_entries": 14,
+  "raw_hashes": {
+    "result.json": "82d9e2eb8ddc8cc03b13221c43c7a135076482cbe5d682595e9fc657176d31e4",
+    "checks.json": "13229e82c62fe6684ebba6858c4af3c45fbf9af1bd077c905c4ac6a46aa70e0f",
+    "surrogate-entries.jsonl": "d6cb6498cc511cfa268db82f5f32bf195fb099135e6642186f3cdf03753e4439",
+    "allocation.json": "5d83c55e53ce99592cede4763befb3e5c482469912b8d66f45e8bfe452d18709"
+  },
+  "scope": "Read-only login-node evidence captured after closure. This handoff does not authorize another allocation."
+}
