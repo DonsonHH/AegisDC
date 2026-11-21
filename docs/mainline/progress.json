@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "COLD_PHASE_THREE_ENGINEERING_DELIVERED_FOR_RESEARCH_LAUNCH_REVIEW",
+  "status": "COLD_STUDY_LAUNCH_ADAPTER_AUTHORIZED_NO_NATIVE",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_EXPANDED_COLD_STUDY_MANIFEST",
+  "current_milestone": "FREEZE_SUBSTITUTE_SCHEDULE_AND_INDEPENDENT_OUTCOMES",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "COLD_STUDY_LAUNCH_REVIEW",
+  "agent_stage": "ZERO_FACILITY_ENGINEERING",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,10 +43,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "NONE",
+    "automatic_goal": "BOUNDED_ENGINEERING",
     "research_execution": "CLOSED",
-    "authorized_scope": [],
-    "after_delivery": "STOP_AT_COLD_RESEARCH_LAUNCH_REVIEW",
+    "authorized_scope": [
+      "cold study launch mapping and zero-facility substitute qualification only"
+    ],
+    "after_delivery": "STOP_AT_FINAL_COLD_STUDY_LAUNCH_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -2037,7 +2039,7 @@
     "successor_cold_protocol": "docs/mainline/v6-stage-three-cold-v2/protocol.md"
   },
   "v6_stage_three_cold_v2": {
-    "status": "FINITE_ENGINEERING_DELIVERED_PENDING_LAUNCH_REVIEW",
+    "status": "USER_ACCEPTED_FINITE_COLD_ENGINEERING",
     "protocol": "docs/mainline/v6-stage-three-cold-v2/protocol.md",
     "schedule": "docs/mainline/v6-stage-three-cold-v2/engineering-plan.json",
     "input_freeze": "71efcd4d716e3e0dd4e1076315b50da3b792b3b1",
@@ -2066,7 +2068,7 @@
     "unstarted_engineering": [],
     "all_scheduled_phases_complete": true,
     "engineering_authority_consumed": true,
-    "user_engineering_acceptance_pending": true,
+    "user_engineering_acceptance_pending": false,
     "launch_grant": null,
     "warm_authorized": false,
     "ordinary_improvement_authorized": false,
@@ -2086,6 +2088,8 @@
     },
     "original_S09_failure_retained": true,
     "half_step_failures_retained": true,
-    "full_stage_two_qualified": false
+    "full_stage_two_qualified": false,
+    "acceptance": "docs/mainline/v6-stage-three-cold-v2/acceptance-20261121.json",
+    "accepted_publication": "4fa886c0ccf75a7e61fd219ad85b0abd269faacc"
   }
 }
