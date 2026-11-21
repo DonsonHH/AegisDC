@@ -12,7 +12,11 @@
 
 ## T1 研究余量诊断
 
-[集中报告](mainline/t1-research-margin-v1/README.md)按用户指令先查明可改进余量。首片 17 行均已达到合法最小 L，冷态 24 行新补的诊断 P 有 13 行存在硬许可下的余量。第四阶段 v1 保留原文和零执行状态，未建立 v2。T2 仅有范围建议，当前停在 T1 review。[诊断数据](mainline/t1-research-margin-v1/diagnostic-data.json.gz) · [作业账](mainline/t1-research-margin-v1/receipt.json)
+[集中报告](mainline/t1-research-margin-v1/README.md)按用户指令先查明可改进余量。首片 17 行均已达到合法最小 L，冷态 24 行新补的诊断 P 有 13 行存在硬许可下的余量。第四阶段 v1 保留原文和零执行状态，未建立 v2。[T1 的有限诊断验收](mainline/t1-research-margin-v1/acceptance-20261121.json)已登记。[诊断数据](mainline/t1-research-margin-v1/diagnostic-data.json.gz) · [作业账](mainline/t1-research-margin-v1/receipt.json)
+
+## T2　一小时设施与三种现状基线
+
+[A 资格和 T2 集中报告](mainline/t2-minute-facility-v1/README.md)已交审。0.25／0.125 秒两网格的 61 次公共唤醒、一小时积分和原生资源见证通过。48 个条件、144 份基线及 48 份评价端全知见证齐全。6 个条件满足现状均未救回而全知完全可救，按登记前兆有提前量的子集为 0。条件是公开有限抽样。当前停在 T2 结果审查。
 
 ## 第四阶段普通改进原稿
 
