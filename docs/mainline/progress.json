@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-21",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "STAGE_FOUR_ORDINARY_IMPROVEMENT_PROTOCOL_V1_PENDING_REVIEW",
+  "status": "T1_MARGIN_DIAGNOSTIC_DELIVERED_FOR_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_STAGE_FOUR_PUBLIC_TIME_FORECAST_ORDINARY_IMPROVEMENT_PROTOCOL",
+  "current_milestone": "REVIEW_RESEARCH_MARGIN_DIAGNOSTIC",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "STAGE_FOUR_PROTOCOL_REVIEW",
+  "agent_stage": "T1_DIAGNOSTIC_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -54,13 +54,13 @@
     "automatic_goal": "NONE",
     "research_execution": "CLOSED",
     "authorized_scope": [],
-    "after_delivery": "STOP_AT_STAGE_FOUR_PROTOCOL_REVIEW",
+    "after_delivery": "STOP_AT_T1_DIAGNOSTIC_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "STAGE_FOUR_PROTOCOL_DOCUMENTATION_DELIVERED",
+    "document_authorization_status": "T1_DIAGNOSTIC_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -2364,7 +2364,7 @@
     "acceptance": "docs/mainline/v6-stage-three-cold-study-v2/acceptance-20261121.json"
   },
   "v6_stage_four_ordinary_improvement_v1": {
-    "status": "PROTOCOL_PROPOSED_FOR_USER_REVIEW",
+    "status": "RETAINED_UNFROZEN_UNEXECUTED",
     "protocol": "docs/mainline/v6-stage-four-ordinary-improvement-v1/README.md",
     "task_design_and_budgets": "docs/mainline/v6-stage-four-ordinary-improvement-v1/tasks-and-budget.md",
     "qualification_plan": "docs/mainline/v6-stage-four-ordinary-improvement-v1/qualification.md",
@@ -2411,6 +2411,33 @@
       "SERVICE_MEASUREMENT_ONLY_WITH_STRICT_PRACTICAL_EVALUATION"
     ],
     "recommended_jobs_if_strict_only": 0,
-    "selection_mode_chosen": null
+    "selection_mode_chosen": null,
+    "superseding_activity": "T1 diagnosis, no stage-four v2 requested"
+  },
+  "t1_research_margin_diagnosis": {
+    "status": "DELIVERED_PENDING_USER_REVIEW",
+    "report": "docs/mainline/t1-research-margin-v1/README.md",
+    "data": "docs/mainline/t1-research-margin-v1/diagnostic-data.json.gz",
+    "receipt": "docs/mainline/t1-research-margin-v1/receipt.json",
+    "freeze": "3d2b4dd21da897d4e6b66a450bd0f2a4b4dff84c",
+    "saved_panels": {
+      "London_dev": 19,
+      "London_ext": 35,
+      "V6_first": 17,
+      "cold_historical_JB": 24
+    },
+    "diagnostic_only": {
+      "jobs": 6,
+      "allocated_cpu_seconds": 340,
+      "reserved_cpu_seconds": 1620,
+      "original_cold_P": 0,
+      "new_cold_P": 24,
+      "new_existing_program_attainers": 6,
+      "policy_clock_ticks": 1470,
+      "certified_cold": 24,
+      "certified_first": 17
+    },
+    "method_study_runs": 0,
+    "next_stage_authorized": false
   }
 }

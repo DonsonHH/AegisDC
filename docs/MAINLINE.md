@@ -10,9 +10,13 @@
 
 原生首片已按一次性授权完成并封存。17 个条件、85 次运行、1,700 个公开决定、131 次人工发行，重试 0。V–D 全部 17 行实际服务持平，V 的资源较少／相同／较多为 3／9／5 行，三项省工均伴随关闭损失。第一阶段已完成并登记[有限验收](mainline/v6-native-method-study-v1/acceptance-20261120.json)。[第二阶段总契约](mainline/v6-joint-cooling-network-v1/README.md)已接受。原工程取得[限定的部分验收](mainline/v6-joint-engineering-v1/acceptance-20261121.json)。[终态接口的有限范围](mainline/v6-joint-terminal-v1/acceptance-20261121.json)已接受。第三阶段[冷态有限工程](mainline/v6-stage-three-cold-v2/acceptance-20261121.json)已接受。[原 V0 的有限验证](mainline/v6-stage-three-cold-launch-v1/v0-acceptance-20261121.json)已接受。[完整替身遍历的有限验收](mainline/v6-stage-three-cold-launch-full-walk-v1/acceptance-20261121.json)已登记。[冷态正式研究](mainline/v6-stage-three-cold-study-v2/README.md)按 be0fe1a9 的一次性授权封存 24 行、66 个位置与 42 个配对。J–B 服务改善 1 行、持平 22 行、较差 1 行，其中 A04 改善、B08 退化，A03、B07、B08 各有具名关闭损失，三项整板主张均未成立。[有限结果验收](mainline/v6-stage-three-cold-study-v2/acceptance-20261121.json)已登记。[第一阶段研究报告](mainline/v6-native-method-study-v1/README.md) · [第一阶段逐臂观测](mainline/v6-native-method-study-v1/per-condition.md) · [本次冷态研究授权](mainline/authorizations/v6-stage-three-cold-study-v2.json)
 
-## 第四阶段普通改进
+## T1 研究余量诊断
 
-[公开时间预测与核查处置排序的普通改进协议 v1](mainline/v6-stage-four-ordinary-improvement-v1/README.md)已集中交审。固定 U0 用已付开发反馈在四份通用规则中提案和锁定，后续任务与开发、验证分开。人工候选、原 J/B、旧 J_ORDER 和同预算穷举均有明确比较。D01/V01 的“无需处置”证书与 E04 在 12 秒的复检过期构成严格晋级的事前条件性否决。仅为量取服务与代价而提名候选的方案另待决定。所有新执行额度为零。[任务和预算](mainline/v6-stage-four-ordinary-improvement-v1/tasks-and-budget.md) · [能力差距与独立资格计划](mainline/v6-stage-four-ordinary-improvement-v1/qualification.md)
+[集中报告](mainline/t1-research-margin-v1/README.md)按用户指令先查明可改进余量。首片 17 行均已达到合法最小 L，冷态 24 行新补的诊断 P 有 13 行存在硬许可下的余量。第四阶段 v1 保留原文和零执行状态，未建立 v2。T2 仅有范围建议，当前停在 T1 review。[诊断数据](mainline/t1-research-margin-v1/diagnostic-data.json.gz) · [作业账](mainline/t1-research-margin-v1/receipt.json)
+
+## 第四阶段普通改进原稿
+
+[公开时间预测与核查处置排序的普通改进协议 v1](mainline/v6-stage-four-ordinary-improvement-v1/README.md)已集中交审。固定 U0 用已付开发反馈在四份通用规则中提案和锁定，后续任务与开发、验证分开。人工候选、原 J/B、旧 J_ORDER 和同预算穷举均有明确比较。D01/V01 的“无需处置”证书与 E04 在 12 秒的复检过期构成严格晋级的事前条件性否决。该方案此次不冻结、不执行。[任务和预算](mainline/v6-stage-four-ordinary-improvement-v1/tasks-and-budget.md) · [能力差距与独立资格计划](mainline/v6-stage-four-ordinary-improvement-v1/qualification.md)
 
 ## 事故验证章节保留的 R0–R6 记录
 
