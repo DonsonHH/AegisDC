@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "COLD_LAUNCH_FULL_SURROGATE_WALK_PENDING_FINAL_ACCEPTANCE",
+  "status": "COLD_FORMAL_RESEARCH_ONE_USE_AUTHORIZED",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_COMPLETE_SURROGATE_LAUNCH_PATH",
+  "current_milestone": "RUN_SINGLE_REVIEWED_COLD_STUDY_OR_STOP_AT_FROZEN_HALT",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "FINAL_COLD_LAUNCH_ACCEPTANCE",
+  "agent_stage": "COLD_FORMAL_RESEARCH",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,10 +43,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "NONE",
-    "research_execution": "CLOSED",
-    "authorized_scope": [],
-    "after_delivery": "STOP_AT_FINAL_COLD_LAUNCH_ACCEPTANCE",
+    "automatic_goal": "ONE_FROZEN_STUDY",
+    "research_execution": "ONE_COLD_STUDY_ONLY",
+    "authorized_scope": [
+      "one cold H12 study on the exact 24-row 66-position manifest only"
+    ],
+    "after_delivery": "STOP_AT_COLD_STUDY_RESULTS_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -76,7 +78,7 @@
     "R6_execution_authorized": false,
     "R5_protocol_design_authorized_for_this_delivery": false,
     "RSI_execution_authorized": false,
-    "current_execution_manifest": null
+    "current_execution_manifest": "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json"
   },
   "gates": [
     {
@@ -2145,7 +2147,7 @@
     "supplement": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/result.json"
   },
   "cold_launch_full_walk_supplement": {
-    "status": "COMPLETE_SURROGATE_WALK_PENDING_FINAL_USER_ACCEPTANCE",
+    "status": "USER_ACCEPTED_FINITE_COLD_LAUNCH_PATH",
     "report": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/README.md",
     "results": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/result.json",
     "source_pin": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/verification-pin.json",
@@ -2196,12 +2198,46 @@
     "failed": [],
     "unexecuted": [],
     "unknown": [],
-    "user_acceptance_pending": true,
+    "user_acceptance_pending": false,
     "real_grant": null,
     "research_launch_authorized": false,
     "real_study_starts": 0,
     "remaining_job_slots": 0,
     "warm_study_authorized": false,
+    "ordinary_improvement_authorized": false,
+    "RSI_authorized": false,
+    "acceptance": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/acceptance-20261121.json",
+    "accepted_publication": "98bda5618ea40ae7bf47af6ffc95a0d65e6f9c9a"
+  },
+  "v6_cold_study_v2": {
+    "status": "AUTHORIZED_NO_RECEIPT_AT_COMMIT",
+    "finite_launch_acceptance": "docs/mainline/v6-stage-three-cold-launch-full-walk-v1/acceptance-20261121.json",
+    "grant": "docs/mainline/authorizations/v6-stage-three-cold-study-v2.json",
+    "launch_sha256": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b",
+    "data_sha256": "cccb296c64264092200cbb763a9c697cbf572557055f9747838ceb399d465fd4",
+    "grant_digest": "f7f66597a9953a63161b413c086e65ac85e7e20fdaa04ec8dd9f3d716edb8dcb",
+    "frozen_limits": {
+      "Gib_per_job": 4,
+      "conditions": 24,
+      "facility_arms": 66,
+      "inspection_pairs": 10,
+      "internal_policy_calls": 3234,
+      "jobs": 24,
+      "one_cpu_seconds_per_job": 300,
+      "opening_pairs": 4,
+      "order_pairs": 4,
+      "primary_pairs": 24,
+      "total_reserved_CPU_s": 7200
+    },
+    "denominators": {
+      "J/B": 24,
+      "J_NO_PROBE": 10,
+      "J_OPEN": 4,
+      "J_ORDER": 4
+    },
+    "independent_confirmation": false,
+    "automatic_retry": false,
+    "warm_authorized": false,
     "ordinary_improvement_authorized": false,
     "RSI_authorized": false
   }
