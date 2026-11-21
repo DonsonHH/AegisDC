@@ -1,0 +1,22 @@
+{
+  "schema":"t4a-public-risk-price-v1",
+  "versions":{"V1":0.0,"V2":4.0,"V3":1.0},
+  "primary_version":"V3",
+  "fee_in_person_seconds":30,
+  "H":3600,
+  "coarse_heat_trip_after_onset_s":900,
+  "thermal_recovery_s":120,
+  "thermal_loss_fraction":0.625,
+  "unknown_report_probability":0.03125,
+  "fixed_match_probability":0.95,
+  "warm_magnitude_quadrature":"bin all three severe filter multipliers as low flow, common timing surrogate",
+  "family_mix_on_ordinary_equipment":{"water":0.25,"access":0.25,"network":0.25,"reserve":0.25},
+  "channels":{
+    "water":[["maintenance_calendar","work-desk",0.75,0.25,15,15,780],["trend_review","hydrology-record",0.5,0.25,45,15,600]],
+    "network":[["revision_review","configuration-register",0.75,0.25,15,15,780],["capacity_trend","capacity-history",0.5,0.25,45,15,600]],
+    "reserve":[["test_review","reserve-test-register",0.75,0.25,15,15,780],["service_handover","maintenance-desk",0.5,0.25,45,15,600]],
+    "access":[["handover_review","worksite-desk",0.75,0.25,15,15,780],["trend_review","cooling-history",0.5,0.25,45,15,600]],
+    "power_board":[["maintenance_review","path-work-register",0.75,0.25,30,30,900],["version_review","control-release-register",0.5,0.25,90,30,720]],
+    "cooling_board":[["handover_review","construction-register",0.75,0.25,30,30,900],["test_review","return-test-register",0.5,0.25,90,30,720]]
+  }
+}
