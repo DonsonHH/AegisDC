@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
 
-def main(root):
+def main(root, output):
     with gzip.open(root/'development-result.json.gz','rt') as stream:
         data=json.load(stream)
     roles=data['scopes']['overall']['by_role']
@@ -25,7 +25,7 @@ def main(root):
     ax.plot(*zip(*points),color='#15705d',lw=1.6,zorder=2)
     ticks=(('V1',r'V1  $\lambda=0$'),('V3',r'V*  $\lambda=1$'),('V2',r'V2  $\lambda=4$'),
            ('PA','PA'),('B','B'))
-    offsets={'V1':(7,-14),'V2':(7,8),'V3':(7,8),'B':(7,-13),'PA':(7,7)}
+    offsets={'V1':(2,-17),'V2':(7,8),'V3':(-24,13),'B':(7,7),'PA':(7,7)}
     for key,label in ticks:
         q=roles[key]
         control=key in ('B','PA')
@@ -34,16 +34,17 @@ def main(root):
         ax.annotate(label,(q['person'],q['L']),xytext=offsets[key],textcoords='offset points',
                     fontsize=10,weight='bold' if key=='V3' else 'normal',color='#233438')
     ax.margins(x=.15,y=.18)
+    ax.set_xlim(left=0)
     ax.xaxis.set_major_locator(MaxNLocator(7))
     ax.yaxis.set_major_locator(MaxNLocator(7))
     ax.set_xlabel('Mean personnel time per condition (s)',labelpad=10)
     ax.set_ylabel('Mean normalized service deficit L (s)',labelpad=10)
     ax.set_title('Service and personnel across three predeclared prices',loc='left',size=14,pad=12)
     fig.text(.13,.045,'72 disclosed development conditions per point. Connected points share one decision rule.',fontsize=9,color='#455458')
-    fig.savefig(root/'service-personnel.png',dpi=180,facecolor='white')
-    fig.savefig(root/'service-personnel.pdf',facecolor='white',metadata={'CreationDate':None,'ModDate':None})
+    fig.savefig(output/'service-personnel.png',dpi=180,facecolor='white')
+    fig.savefig(output/'service-personnel.pdf',facecolor='white',metadata={'CreationDate':None,'ModDate':None})
     plt.close(fig)
 
 
 if __name__=='__main__':
-    main(Path(sys.argv[1]))
+    main(Path(sys.argv[1]),Path(sys.argv[2]) if len(sys.argv)>2 else Path(sys.argv[1]))
