@@ -1,0 +1,276 @@
+{
+  "schema": "aegisdc-t1-evaluator-only-freeze-v1",
+  "date": "2026-11-21",
+  "predecessor": "b6636cf95f571ea50568db7ff131cf7e0bb8ff2b",
+  "purpose": "diagnostic capacity and feasible attainment only",
+  "files": {
+    "docs/mainline/t1-research-margin-v1/bounds.py": "876a15da4eb9f6ff0163d0ab3ae10b80240d189805b440bbaf1fd887179955cd",
+    "docs/mainline/t1-research-margin-v1/diagnose.py": "28ccc03b6d94763695e838c4f0e0d5c194ec7cb502fe3fcad74db48b267be36e",
+    "docs/mainline/t1-research-margin-v1/run.sbatch": "81fff8971f4e8506dd5a54cc5601bbc123f14ad7a59c12d98e753c84fd04b9b9",
+    "docs/mainline/v6-stage-three-cold-v2/study-inputs.json.gz": "262141513151e678038d31c77d36fd785890f2d13413bb0631569f1f8a2d276b",
+    "docs/mainline/v6-stage-three-cold-v2/conditions.json": "8840e14cc95a4152906e75c310e89db46a11e57718349b89e9103e2990ab4f9b",
+    "docs/mainline/v6-stage-three-cold-study-v2/result.json": "9f557af196019f061c17ddd1b1fad8ec284aafcd7a38858d74426b0640bdacbe",
+    "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b",
+    "docs/mainline/v6-native-method-study-v1/result.json": "bab770cca1cc208aa6d61c663a30517ac2f9a3e77c9df692a43c9b4590624d89",
+    "docs/mainline/v6-native-research-launch-v1/research-manifest.json": "59080339a1846f242e0b8664e80a59b91ac623c768010ad1652e7d648c3b3301",
+    "docs/mainline/review-gated/R4/public-development-v1/terminal.json": "f554b18a916ad3cf7fb0785e4aeb2b8a16df53d5ba5e896949634e3297f254f5",
+    "docs/mainline/review-gated/R4/finite-extension-study-v1/paired-results.json": "e167cbe40b7791a9e94d0658e28fb8786244b3e40856f6d07aec025a20dd0bdc"
+  },
+  "core_revision": "0e5afde1a5e734a04489f1bf27804db6a3325497",
+  "core_tree": "67db74467194edf547cc7994a702019fa4040b8aa1cebf1eaa33574327b7b735",
+  "python": {
+    "path": "/share/home/renly/miniconda3/bin/python",
+    "sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+    "version": "3.13.9"
+  },
+  "cold_inputs": {
+    "A01": {
+      "base": "206d78f618fe4982387a19a48193c5054227fc2ad3e4ec31b986f9b0843e9b61",
+      "registered_derivatives": {
+        "HOLD": "353b516dda330be1acc3ef944cde6bcab46d4f439141d26db0413428300b797e",
+        "N_DIRECT": "2d9bb10566fe6f0ea6ba2e7e7be14b06d17591fe9c99e38414a375d272155644",
+        "N_PROBE": "eaff6efda1508463c9906585ebc13ddad0e7f4445d44178aa51f2002cd2252a8"
+      }
+    },
+    "A02": {
+      "base": "5eb43d65e9b2368d49e758cb758fe0264c555144cbdd3dcecc77e17fe56a6f84",
+      "registered_derivatives": {
+        "HOLD": "a39d60f65cb3f2059dec79398ebbc13bc42e78be5d6f3855445867150232c9de",
+        "N_DIRECT": "f01078899ce922b8380011fcc087a8212a02efa598fb2b89da4a154989918e34",
+        "N_PROBE": "0e95bf49cbd71c6b4d34e498748afb91ed0d86a850d72fe83ca68b01266375e2"
+      }
+    },
+    "A03": {
+      "base": "a0a89637152be23d8eb8e73bdce6d07545bc6c4dc46b034fda9fbdc2d1c1658a",
+      "registered_derivatives": {
+        "HOLD": "c38c8b621436baac6d121a4b737eeea19490c25a8f43a443b4d70c0b66c05adc",
+        "N_DIRECT": "cce9fb85ea1c95a5108900dc101a3fefd57ce3aa04b1b887db29895b28904e8d",
+        "N_PROBE": "b693cbebdc05137d3d9dc444f69677f56700354bdc94a520d162a030ff83e417"
+      }
+    },
+    "A04": {
+      "base": "d4e0508c7f8780d1463cc8ffbfffd7023814508288e4a6419a2fab22ef970784",
+      "registered_derivatives": {
+        "HOLD": "dca21e2b25b15acc6d2965a12505517237f2196b28110d84684e550ae38eea99",
+        "N_DIRECT": "f68181bfb3d973a1005b812dffa99a32aedd3d74a01425ff902d0683fa0d27d9",
+        "N_PROBE": "7d3e255cab9014db66e9907465b29ff526d3196f3c1523f248bb88a8b4264d71"
+      }
+    },
+    "A05": {
+      "base": "65400ec9652c590ec2d8f33dc4002939bdb6cbdab2f62603f21e8a32d6be52c7",
+      "registered_derivatives": {
+        "HOLD": "fe37745285aa8d4138e092569db9d464baef8dc9bb347e00cb107359b6ddfce7",
+        "N_DIRECT": "0b7b24eeb92bd1dda71d9b378f65afddb72137292b41c483a8cede09c291fe27",
+        "N_PROBE": "26f8feb9caa62bacda9a9ed701e8cf8ac740e0b003ead54ddd99fe35c0a500f7"
+      }
+    },
+    "A06": {
+      "base": "679ca0bdc4a4e9d796af4c57d4efef6a875cf48ef8f7e35a774cfe3454c5fe25",
+      "registered_derivatives": {
+        "HOLD": "5e0d26691efa21a1f4902bffd92faa0ea28f02120a1b98318b0fd93344f55217",
+        "N_DIRECT": "8fad47828576507b3d47a1752a8ccdb22d9d0f2cc09fcc461cf69e64fe7c59a5",
+        "N_PROBE": "b675848bb06421ba3e591fa08aedd150f61473ac416d0fdadf81f154ae9c2efa"
+      }
+    },
+    "A07": {
+      "base": "a1b466f5e4b0c6324f9182813b69b9b46993fadc94f178ff4145d2a2ce000d1f",
+      "registered_derivatives": {
+        "HOLD": "2b4a2e8673e214b349fbacc77a960061c1ed2f62bb90d266c9996a7bcb4e0e0c",
+        "N_DIRECT": "09a3a0cb728a317cb2c1fc9b5a2c4d4004f27b36b7ec8132c0e6a83ca6e94f27",
+        "N_PROBE": "4202d5b70531ee01cd9b6d040c652a04cdfd13cf7124d1425de47e39a8f6ed7e"
+      }
+    },
+    "A08": {
+      "base": "0edbb1c14d8eb08d546ae5d97ed30e53c0f74b6ab244718115464094672d302f",
+      "registered_derivatives": {
+        "HOLD": "9536fc403d93192380f10f3b1728434b520f5ccc6dce68ac5f2511bb3276f5eb",
+        "N_DIRECT": "851d9833669e87bc055e6f94cb578b9c16f32dad3130dc85ad85de93468db988",
+        "N_PROBE": "c8df6275ee5f2d88b91f7a6fc1918fd603fd14fd12aa954fec6dd867286eecd9"
+      }
+    },
+    "B01": {
+      "base": "2f5e92ed41e1f8cfe802aebac2f11e6e3079607c2393ca6fd24b2d12f17d1fb7",
+      "registered_derivatives": {
+        "HOLD": "b1ecce82a7586fa863645cd951ad69d914a191c10e3f57ae932a85224f799da5",
+        "N_DIRECT": "351c59a45dc720f7f570042c3390c47eb237ee5616e943e1fba099ec4f115085",
+        "N_PROBE": "16affc36c7132676705d0b8fac3dcbf4f04478e9f9db259727267cc283712043"
+      }
+    },
+    "B02": {
+      "base": "0f66ad1edadd6484aab5e0b971f3ac8f28d8f6f0dab1b68082299c2dd7e75b0a",
+      "registered_derivatives": {
+        "HOLD": "c6a336c57bee90ef553ca6cd9ff1656da22e39b20518f0d842bdae241feac74c",
+        "N_DIRECT": "ff5421293e8c604780edd83d715c4bf10652b849e01929fb25be31fe039c9a1a",
+        "N_PROBE": "16537b844725f85c73fba6d6e0d9afd41aa3cedfd92a2fde8cefa2a56cf0c146"
+      }
+    },
+    "B03": {
+      "base": "9b5a0abd837eac00082efc28a62a5f20c05ca9b6e678ad798ca75f3a8b386260",
+      "registered_derivatives": {
+        "HOLD": "392a1a492dbade547cf4c3e507bb76683929c66f58608dd5fdf45869a695e4c2",
+        "N_DIRECT": "65f646efccae5ff32c65ef0852299a2e5365972cd68f9cc6d5813c5e0bfaac56",
+        "N_PROBE": "f15e219de4b88d495c299786c74b8237a0866c4c96b53ee1add926e6163a126c"
+      }
+    },
+    "B04": {
+      "base": "afff06cc60a836ffe4be42fa0f146c6746e0a89fb2f47a14375bc050201f34a5",
+      "registered_derivatives": {
+        "HOLD": "d6520c96918195c28733a37be0fa02252d2597f782c896eb164b682e25935001",
+        "N_DIRECT": "a832bea6f9a8c3e3714df6049a17bd56b4813412f835a0b372669d90088f6645",
+        "N_PROBE": "e764f5cc09c094ceb05c7cf6658b4d08f08228de2fde2ef272362b886768c85c"
+      }
+    },
+    "B05": {
+      "base": "2b8ad7a458d0a0d01bac9697f492be2d41c35a853353abdb013929c9ea27ad7b",
+      "registered_derivatives": {
+        "HOLD": "a9369d8a34dc20a18e4becb15e825c9275d6d3760d6caf394745b4381a8977b0",
+        "N_DIRECT": "e8794f01fcba4c4619b8cb8ec359936e239343428b96a6cf16c187941b422f9c",
+        "N_PROBE": "0084b39470a31831803b8a5753a870a99793c4db9adbc1f76871015d0cebdf11"
+      }
+    },
+    "B06": {
+      "base": "c2437641b19f0842ae945625a61086644b67b8e0def69e1d6f215fceeedbf384",
+      "registered_derivatives": {
+        "HOLD": "6370baa171b7f6a3a6731056fbc97020d7a49efe361f748e348a12d040acf39c",
+        "N_DIRECT": "c8611728c2219358c2c23c6d348447b615d45b8b63173f6dcb59bb086b842f6c",
+        "N_PROBE": "ac786325a300a14089656c748ea523ad4de27928d0abda0c4be8c68d88f32c0b"
+      }
+    },
+    "B07": {
+      "base": "9e1cd0b54c05fa3262ac5b85320e2b41d62765a5d804820c15bae24fe9c14005",
+      "registered_derivatives": {
+        "HOLD": "69cbf349ad86f33d754fa6f30c4907f0c58a3c585889ffe4f1643d5591588529",
+        "N_DIRECT": "5fe7dbf10e3f42f9237c868f031c3e564b80a1a51bc83a9fdb1646f8757374a7",
+        "N_PROBE": "2badc80cec5bb9b792cc81e0d303b3a8119a6b75d7e2298ac120f999eeba7425"
+      }
+    },
+    "B08": {
+      "base": "eea196dea998fea204c83fb5a1fb974e3f4066d7c0fb6827369b06cecd298abc",
+      "registered_derivatives": {
+        "HOLD": "e6abf11f9fba1c2d3b88db3c2529ca3913d7250bff2b992e6d5d24acb0bb5b79",
+        "N_DIRECT": "ee4fad13bc933377135a4b259cb231af7b834dbe72dbc8ce9aa24c697c069e7e",
+        "N_PROBE": "934344e281343d8fd51b8e30194b3d352796a3bb0de6ff9940fbef24b1510dd1"
+      }
+    },
+    "C01": {
+      "base": "cdadf83afbbdf5895ed89eef008bffa4a453ff8ba24d1a15971e160e0c6a8b7a",
+      "registered_derivatives": {
+        "HOLD": "2854ee4aa1abcb6ce13dbae611fb18d52c7f4d2fb52c0581e1665deaa2e17587",
+        "N_DIRECT": "89c8b9b1d16b239c2a4622d6d8436d62d483960348b254f09f434bcfcc04d575",
+        "N_PROBE": "f4779e3eaa7d7e04f32601dc3ba7fb9bebd1347f028b037ed8e1a6084bec26c6"
+      }
+    },
+    "C02": {
+      "base": "7b29b36dbc9bdeab0b8c5a254925711089e6e014b12ca0e9ca2506c9c813fc51",
+      "registered_derivatives": {
+        "HOLD": "b867b2bc4f40560e695c588387671e07c896270e93b64eb91dec78e888da513d",
+        "N_DIRECT": "8337767b9709a5bca564783ed32171f338d913522a62f865b19afb2602f2bcc1",
+        "N_PROBE": "87e873c82e3af57b61ae4a9f3350120a6e2fa57df4f0c150d7a96e60818fde0b"
+      }
+    },
+    "C03": {
+      "base": "706fb1a0ec9207377857aacaeb02e3e0a865b9b2c7bee1e217261058fbc60bb6",
+      "registered_derivatives": {
+        "HOLD": "382eb09bea02de5103687cefbbe35773b26332a54efcbb73b97037b8092e1922",
+        "N_DIRECT": "3aaf22046612304666ac4e6420dd84157aae95da09d4586f21599fa87e04fc7f",
+        "N_PROBE": "80b8dc73872aa4e5ffcbc2d167bc392843ca454566773900936de88eb086d2b9"
+      }
+    },
+    "C04": {
+      "base": "0f5bad85512edd2d557de4314bab9dbefd70ca59bccca5d6095cb71fbbeb3224",
+      "registered_derivatives": {
+        "HOLD": "35bc7e6af82e5351428817365753b1a1ade4af50275b77f6e57f981a92098e36",
+        "N_DIRECT": "3f2d8c1251ebb90ad73c64d79ec7630c263362098071ad4c8b1431a43d5b8a28",
+        "N_PROBE": "96277880d70ab30bcaaf4d83c05e43d88fc0ca5446ce0b96d175aed4a7c79610"
+      }
+    },
+    "C05": {
+      "base": "9cc10cf4e86e1d1f7347ae86621009cd561ff735b58a33ac184462622c8a1323",
+      "registered_derivatives": {
+        "HOLD": "cefeed37eda10e35734fc697977df3aca60618313a462fb2be47637abcfe8ccf",
+        "N_DIRECT": "03ff13ab3d8f9f5af01691c7974436d12e6a541ccfdb08513e1269e70df1b574",
+        "N_PROBE": "5fc76878a4616ec47c04fbeab36ff9c2833a233a0bfd624f56c7d2f22c6358b2"
+      }
+    },
+    "C06": {
+      "base": "a47df855a9a62a0a78453eb06823d3103c27cfd57677a085e600aa2034b6fef0",
+      "registered_derivatives": {
+        "HOLD": "6ea1d2c344cf4429b5a2ca5f0116571ff64b93dd5e87ef22b6c8775b6a5fcd11",
+        "N_DIRECT": "ba11caeba2ff1ae9a3e080abeaf36eb1317c0800c7e9f656e670fffa062983d1",
+        "N_PROBE": "a17f8003dbc34d216984ca5f20f50282215618e85995303009ef1d1d13ff392f"
+      }
+    },
+    "C07": {
+      "base": "6057ae36294ec69f1bb7bdb447d1f19f0bee4162c785c052067f165dbbad49f3",
+      "registered_derivatives": {
+        "HOLD": "9dbe5a0bc6a8ce2a66fdcdbe0bf57d25a4bb7266b6034093b7a516da80adb166",
+        "N_DIRECT": "6778b72f12afab9123d8233cf65c59ba2117222bb2f0d569e192234880a1f75a",
+        "N_PROBE": "aa38e60ac590605d8a67c605e04eb920051d9657517cff36584db02fec278ea0"
+      }
+    },
+    "C08": {
+      "base": "eb6b24c8d5ddeb4a3bd7a1fe35d566def98af91cb17cc93db48d96169f2648a3",
+      "registered_derivatives": {
+        "HOLD": "4596eb634f3570dd782071d2a30ca3269fa7cbad3912ff47a68e542a02f0d4dd",
+        "N_DIRECT": "609a63a6f7d4b5de589896fac1973be12bacd0ba64c01746d73dbf4d465f1c66",
+        "N_PROBE": "dca8246d505532afa7f4e1022264faa1ed49ce547f3f348bc096f397d227a6de"
+      }
+    }
+  },
+  "batches": {
+    "cold1": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06"
+    ],
+    "cold2": [
+      "A07",
+      "A08",
+      "B01",
+      "B02",
+      "B03",
+      "B04"
+    ],
+    "cold3": [
+      "B05",
+      "B06",
+      "B07",
+      "B08",
+      "C01",
+      "C02"
+    ],
+    "cold4": [
+      "C03",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08"
+    ]
+  },
+  "constraints": {
+    "jobs_max": 8,
+    "reserved_CPU_seconds_max": 2400,
+    "one_cpu_per_job": 1,
+    "max_seconds_per_job": 300,
+    "concurrency": 1,
+    "scheduled_groups": [
+      "saved",
+      "cold1",
+      "cold2",
+      "cold3",
+      "cold4"
+    ],
+    "required_cold_HOLD_starts": 24,
+    "optional_nonP_certificate_runs_per_cold_condition": 1,
+    "repeated_P": false,
+    "original_studies_reexecuted": false,
+    "scientific_or_policy_updates": false
+  },
+  "solver": "Relax cooling and upstream limitations, retain rectifier/component bounds; enumerate every eligible N access/issuance tick and mandatory review budget, then demand a matching legal native trajectory. H10 only has filter write. All timings/gaps retained; a bound without attainment is labelled uncertified.",
+  "policy_scope": "Positive-read grant requires the actual paid measurement even with private truth. Report separately C03 under the public zero-support abstention. Private scores/answers never enter any policy.",
+  "recovery": "No repeated P. Reuse hash-bound completed receipts. Terminal failure must be archived before any correction, re-freeze affected solver/input and do not exceed 8 serial allocations or 2400 CPU-s."
+}
