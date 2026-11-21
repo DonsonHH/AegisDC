@@ -1,0 +1,222 @@
+{
+  "schema": "aegisdc-t1-margin-receipt-v1",
+  "scope": "Diagnostic only. Existing evidence read back, private oracle and native feasibility witnesses confined to evaluation.",
+  "content_revision": "20af3ef478e2687a35d4012986ffc3827006ec7b",
+  "predecessor": "b6636cf95f571ea50568db7ff131cf7e0bb8ff2b",
+  "solver_and_input_freeze": "3d2b4dd21da897d4e6b66a450bd0f2a4b4dff84c",
+  "readback_source": "35c88117effea11a06f869d2e12821c2b3a02c44",
+  "diagnostic_root": "/share/home/renly/renly-patrol-rsi/mainline/T1-margin-20261121-v1",
+  "declared_files": {
+    "docs/mainline/t1-research-margin-v1/diagnostic-data.json.gz": "017230f962439b853a6b2a51354d801b93ad979760c72bd22114fe68862d8975",
+    "docs/mainline/t1-research-margin-v1/freeze.json": "a79cf955f81cae724dab7da60b56f3c1361e199f6ddb77ad6ad3e39ed2745ac9",
+    "docs/mainline/t1-research-margin-v1/README.md": "a72c3bb4026043e65d36652e6ffb3055f8457a8059759220d7ec12f2900f97da",
+    "docs/mainline/t1-research-margin-v1/collect_saved.py": "3ce7c71d33170656495271de90e8c81d9f05532c855a9cba185d875c6a83ca32",
+    "docs/mainline/t1-research-margin-v1/diagnose.py": "28ccc03b6d94763695e838c4f0e0d5c194ec7cb502fe3fcad74db48b267be36e",
+    "docs/mainline/t1-research-margin-v1/bounds.py": "876a15da4eb9f6ff0163d0ab3ae10b80240d189805b440bbaf1fd887179955cd",
+    "docs/mainline/t1-research-margin-v1/run.sbatch": "81fff8971f4e8506dd5a54cc5601bbc123f14ad7a59c12d98e753c84fd04b9b9"
+  },
+  "ordered_jobs": [
+    {
+      "id": "134740",
+      "purpose": "T1-saved",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "4G",
+      "reserved_CPU_s": 300,
+      "allocation_elapsed_s": 0,
+      "start": "2026-11-21T20:00:07",
+      "end": "2026-11-21T20:00:07",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    },
+    {
+      "id": "134741",
+      "purpose": "T1-cold1",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "4G",
+      "reserved_CPU_s": 300,
+      "allocation_elapsed_s": 90,
+      "start": "2026-11-21T20:00:35",
+      "end": "2026-11-21T20:02:05",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    },
+    {
+      "id": "134742",
+      "purpose": "T1-cold2",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "4G",
+      "reserved_CPU_s": 300,
+      "allocation_elapsed_s": 79,
+      "start": "2026-11-21T20:02:06",
+      "end": "2026-11-21T20:03:25",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    },
+    {
+      "id": "134743",
+      "purpose": "T1-cold3",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "4G",
+      "reserved_CPU_s": 300,
+      "allocation_elapsed_s": 79,
+      "start": "2026-11-21T20:03:25",
+      "end": "2026-11-21T20:04:44",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    },
+    {
+      "id": "134744",
+      "purpose": "T1-cold4",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "4G",
+      "reserved_CPU_s": 300,
+      "allocation_elapsed_s": 90,
+      "start": "2026-11-21T20:04:45",
+      "end": "2026-11-21T20:06:15",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    },
+    {
+      "id": "134745",
+      "purpose": "T1-readback",
+      "partition": "cu",
+      "cpu": 1,
+      "memory": "2G",
+      "reserved_CPU_s": 120,
+      "allocation_elapsed_s": 2,
+      "start": "2026-11-21T20:06:16",
+      "end": "2026-11-21T20:06:18",
+      "node": "cu02",
+      "state": "COMPLETED",
+      "exit": "0:0"
+    }
+  ],
+  "remote_index_sha256": "a02010b0df735e2d94b8605993ad4489ff072106d7cb42c961a16f6803395569",
+  "accounting_sha256": "06a7d2264a0dff479f1d079eac4ee8a54e92e142e382d7779d92663c6399d232",
+  "raw_index": "saved-sha256.txt; detailed per-position original digests and paths in diagnostic-data.json.gz",
+  "budget": {
+    "max_jobs": 8,
+    "max_reserved_CPU_s": 2400,
+    "used_jobs": 6,
+    "reserved_CPU_s": 1620,
+    "single_CPU_allocation_elapsed_s": 340,
+    "max_concurrent": 1,
+    "failures": [],
+    "retries": 0,
+    "unexecuted_conditions": []
+  },
+  "calls": {
+    "diagnostic_native_positions": 30,
+    "P": 24,
+    "already_existing_attainment_modes": {
+      "N_DIRECT": 5,
+      "N_PROBE": 1
+    },
+    "new_native_public_decisions": 1470,
+    "new_native_scores": 30,
+    "fresh_facility_starts_for_previous_H10_or_London": 0,
+    "original_study_positions_added": 0,
+    "new_policies_or_improvers": 0
+  },
+  "summary": {
+    "dev19": {
+      "rows": 19,
+      "P_positive": 14,
+      "Pminus_best_all_positive": 8,
+      "Pminus_best_eligible_positive": 8
+    },
+    "ext35": {
+      "rows": 35,
+      "P_positive": 8,
+      "Pminus_best_all_positive": 6,
+      "Pminus_best_eligible_positive": 6
+    },
+    "V6-17": {
+      "rows": 17,
+      "P_positive": 17,
+      "Pminus_best_all_positive": 0,
+      "Pminus_best_eligible_positive": 0
+    },
+    "cold": {
+      "rows": 24,
+      "certified": 24,
+      "P_positive": 16,
+      "positive_gaps": {
+        "P": [
+          "A02",
+          "A04",
+          "A06",
+          "A08",
+          "B01",
+          "B03",
+          "B06",
+          "B08",
+          "C01",
+          "C03",
+          "C06",
+          "C07",
+          "C08"
+        ],
+        "B": [
+          "A02",
+          "A04",
+          "B01",
+          "B03",
+          "B08",
+          "C03",
+          "C06"
+        ],
+        "J": [
+          "A02",
+          "A04",
+          "B01",
+          "B03",
+          "B08",
+          "C03",
+          "C06"
+        ]
+      },
+      "new_native": {
+        "HOLD": 24,
+        "N_DIRECT": 5,
+        "N_PROBE": 1
+      },
+      "new_public_ticks": 1470,
+      "P_minus_best_stored_JB_positive": [
+        "A04",
+        "A06",
+        "A08",
+        "B03",
+        "B06",
+        "B08",
+        "C01",
+        "C07",
+        "C08"
+      ]
+    }
+  },
+  "preservation": {
+    "slice57": {
+      "tests/fixtures/39c-business-record-replay-57.json": "9b63097411f9971b7bc796605f7170066ae003a91b2c839b4e8ade123530e70f",
+      "docs/mainline/39c-business-record-replay-contract-57.md": "3300ea819f2c9ab3ac561cd3d9b331f4874a233e242e1b74bdb57cf6a698e2dd",
+      "evidence/mainline/engineering/39c-development/slice-57/result.json": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7"
+    },
+    "stage4_v1": "original tree identical; not frozen or executed",
+    "prior_results": "original source, protocols, evidence and failure trees identical",
+    "T2": "scope recommendation only",
+    "next_gate": "T1_RESULT_USER_REVIEW"
+  },
+  "fresh_checkout_files_verified": 41,
+  "protocol_links_checked": 26,
+  "row_tables_checked": 136
+}
