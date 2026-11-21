@@ -275,6 +275,8 @@ def main():
                and (proof['terminal'],proof['exit_code'])==('COMPLETED','0:0') and prior['status']=='PASS'
                and prior['launch_sha256']==proof['launch_sha256']==h and prior['verifier_sha256']==proof['predecessor_verifier_sha256']==sha(B.QUAL/'tools/verification-pin.json')
                and prior['actual_surrogate_entries']==proof['surrogate_entries']==14,'prior login evidence')
+        original_pin=read(B.QUAL/'tools/verification-pin.json')
+        insist(sha(HERE/'validation-freeze.json')==original_pin['files']['validation-freeze.json'],'original frozen walk bytes')
         files=proof['raw_hashes']
         insist(set(files)=={'result.json','checks.json','surrogate-entries.jsonl','allocation.json'} and
                all(sha(prior_dir/k)==v for k,v in files.items()) and prior['checks_sha256']==files['checks.json'],'prior receipt bytes')
