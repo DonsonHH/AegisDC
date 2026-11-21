@@ -1,0 +1,80 @@
+"""Read-only proof for this PARTIAL delivery. Use a fresh selected checkout and the content revision.
+Verifies frozen files, historical sources and saved terminal records only; never invokes an arm or a policy.
+"""
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+BASE='4fa886c0ccf75a7e61fd219ad85b0abd269faacc'
+P='docs/mainline/v6-stage-three-cold-launch-v1/'
+D='docs/mainline/v6-stage-three-cold-v2/'
+DATA='cccb296c64264092200cbb763a9c697cbf572557055f9747838ceb399d465fd4'
+LAUNCH='491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b'
+
+
+def git(*args):return subprocess.check_output(['git',*args])
+def txt(*args):return git(*args).decode().strip()
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def read(p):
+    raw=Path(p).read_bytes()
+    return json.loads(gzip.decompress(raw) if p.endswith('.gz') else raw)
+def h(v):return sha(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode())
+def need(ok,label):
+    if not ok:raise ValueError(label)
+
+
+def main(ref):
+    rev=txt('rev-parse',ref+'^{commit}');r=read(P+'result.json');m=read(P+'launch-manifest.json')
+    old=read(D+'study-manifest.json');accept=read(D+'acceptance-20261121.json')
+    need(txt('diff','--name-only',BASE,rev,'--',D)==D+'acceptance-20261121.json','original cold package, only additive acceptance')
+    need(not txt('diff','--name-only',BASE,rev,'--','src','configs','evidence','scripts/v6_research','scripts/v6_research_launch.py',
+         'scripts/cold3_runner.py','scripts/cold3_evaluation.py','docs/mainline/v6-stage-three-candidate-v1',
+         'docs/mainline/v6-joint-engineering-v1','docs/mainline/v6-joint-terminal-v1','docs/mainline/v6-native-method-study-v1','docs/mainline/review-gated'),'earlier science and launches')
+    need(accept['publication']==BASE and accept['execution_revision']==m['core_revision'] and accept['input_freeze']==m['input_freeze_revision'],'finite acceptance')
+    for name,v in accept['binding'].items():need(sha(git('show',BASE+':'+D+name))==v,'old original '+name)
+    need(sha(Path(D+'study-manifest.json').read_bytes())==m['data_sha256']==r['data_manifest_sha256']==DATA,'data identity')
+    need(sha(Path(P+'launch-manifest.json').read_bytes())==r['launch_manifest_sha256']==LAUNCH,'launch identity')
+    need(m['embedded_grant'] is None and old['authority'] is None and m['groups']==old['groups'] and m['limits']==old['limits'],'no embedded authorization')
+    items=read(D+'study-inputs.json.gz');slots=[p for row in m['groups'] for p in row['positions']]
+    need(len(items)==len(slots)==66 and all(h(items[p['input_key']])==p['complete_call_sha256'] for p in slots),'66 complete slots')
+    f=read(P+'validation-freeze.json');order=[p['input_key'] for p in slots];need(order==f['position_order'],'frozen ordering')
+    pairs=sum(len(g['mechanism_pairs'])+1 for g in m['groups'])
+    need(len(m['groups'])==24 and pairs==42 and m['limits']['internal_policy_calls']==3234 and m['limits']['total_reserved_CPU_s']==7200,'full denominators')
+    need(m['core_files']==old['execution_file_sha256'],'core set')
+    for name,v in m['core_files'].items():need(sha(git('show',m['core_revision']+':'+name))==v,'core version '+name)
+    for name,v in m['launch_files'].items():need(sha(git('show',m['adapter_revision']+':'+name))==v,'launch version '+name)
+    vp=read(P+'verification-pin.json');need(set(vp['files'])=={'verify.py','replay_child.py','validation-freeze.json'},'verifier set')
+    for name,v in vp['files'].items():need(sha(git('show',vp['revision']+':'+P+name))==v,'actual executed verifier '+name)
+    fix=read(P+'predecessor-terminal.json');need(fix['terminal']=='COMPLETED' and fix['exit_code']=='0:0' and fix['job_id']=='134708' and
+          fix['raw_hashes']['result.json']==r['remote_receipts']['V0/result.json'],'post-failure login handoff')
+    need(r['allocations']['V0']['state']=='COMPLETED' and r['allocations']['V1']['state']=='FAILED' and r['actual']['real_Slurm_jobs']==2
+         and r['actual']['reserved_CPU_seconds']==600 and r['actual']['surrogate_arm_entries']==14,'resource accounting')
+    need(len(r['V0']['case_readbacks'])==len(f['faults'])==11,'all scheduled negatives')
+    for report,case in zip(r['V0']['case_readbacks'],f['faults'],strict=True):
+        need(report['id']==case['id'] and report['observed']==case['expected'],'fault '+case['id'])
+    need(r['V1']['unexecuted']==order and r['V1']['confirmed_entries']==0 and not r['V1']['full_panel_exercised']
+         and r['V1']['original']['status']=='FAILED_BEFORE_COMPLETION' and 'Connection refused' in r['V1']['original']['error'],'retain V1 failure')
+    need(sha(Path(P+'V1-stderr.txt').read_bytes())==r['V1']['stderr_sha256']==r['remote_receipts']['V1/slurm.err'],'failure bytes')
+    need(not txt('ls-tree','--name-only',rev,'--',m['authority']['path']),'no grant published')
+    count=0
+    for name,val in r['deployed_files_sha256'].items():
+        need(sha(git('show',rev+':'+name))==val,'deployed bytes '+name);count+=1
+    g=read('docs/mainline/progress.json');need(g['execution_control']['research_execution']=='CLOSED' and not g['active_implementations']
+        and not g['v6_stage_three_cold_launch_v1']['study_authorized'],'review stop')
+    s57=read('docs/mainline/v6-joint-engineering-v1/integrity.json')['preserved_slice57']
+    for name,val in s57.items():need(sha(Path(name).read_bytes())==val,'slice57')
+    original={}
+    for name in txt('diff','--name-only',BASE,rev).splitlines():
+        b=Path(name).read_bytes();need(git('show',rev+':'+name)==b,'fresh blob '+name)
+        original[name]=dict(bytes=len(b),sha256=sha(b),git_blob=txt('rev-parse',rev+':'+name))
+    return dict(schema='cold-launch-partial-fresh-readback-v1',status='FULL_TRAVERSAL_UNVERIFIED',baseline=BASE,content_revision=rev,
+        files=original,deployed_files_verified=count,core_identity_files=len(m['core_files']),adapter_identity_files=len(m['launch_files']),
+        data_sha256=DATA,launch_sha256=LAUNCH,actual_verification_revision=vp['revision'],unexecuted_fix=r['correction_revision'],
+        study_slots=66,pairs=42,actual_surrogate_entries=14,unexecuted_full_walk=66,study_approved=False,
+        preserved_slice57=s57,real_facility_or_policy_calls_in_readback=0)
+
+
+if __name__=='__main__':print(json.dumps(main(sys.argv[1]),ensure_ascii=False,indent=2))

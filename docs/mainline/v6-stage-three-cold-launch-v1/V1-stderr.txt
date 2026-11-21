@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-qualification-20261121/tools/verify.py", line 303, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-qualification-20261121/tools/verify.py", line 266, in main
+    rows=[x.split('|') for x in slurm_read('sacct','-X','-nP','-j',jid,'-o','JobIDRaw,State,ExitCode').splitlines() if x.split('|')[0]==jid]
+                                ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-release-v1/source/scripts/v6_research/slurm.py", line 14, in run
+    check(proc.returncode==0,'SCHEDULER_IO',proc.stderr[-500:])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-release-v1/source/scripts/v6_research/binding.py", line 50, in check
+    raise GateError(code,detail)
+v6_research.binding.GateError: SCHEDULER_IO: sacct: error: slurm_persist_conn_open_without_init: failed to open persistent connection to host:localhost:6819: Connection refused
+sacct: error: Sending PersistInit msg: Connection refused
+sacct: error: Problem talking to the database: Connection refused
+
