@@ -1,0 +1,23 @@
+{
+  "schema": "t3-minute-prior-generator-v2",
+  "development_seed": 2026112143,
+  "H": 3600, "clock_s": 60, "step_s": 0.25,
+  "business_ticks": [900,1800,2700,3600],
+  "fixed_period_s": 300, "fixed_latency_s": 15, "fixed_ttl_s": 720,
+  "paid_latency_s": 15, "paid_ttl_s": 2100, "renewal_opens_s": 1680,
+  "original_fixed_program": "one normal native work + paid reading, APPLIED and own R for post-action, one real renewal at/after 1680 on same instance/version; two current fixed epochs with at least 300s separation",
+  "max_person_s": 2400, "max_tool_s": 2400, "fee_cap": 24,
+  "development_families": ["WATER_HEAT","NETWORK_POWER","RESERVE_TRANSFER","COOLING_ACCESS","LONDON","NETHERLANDS"],
+  "information_law": {
+    "WATER_HEAT": [["maintenance_calendar","work-desk",0.75,0.25,15,15,780],["trend_review","hydrology-record",0.5,0.25,45,15,600]],
+    "NETWORK_POWER": [["revision_review","configuration-register",0.75,0.25,15,15,780],["capacity_trend","capacity-history",0.5,0.25,45,15,600]],
+    "RESERVE_TRANSFER": [["test_review","reserve-test-register",0.75,0.25,15,15,780],["service_handover","maintenance-desk",0.5,0.25,45,15,600]],
+    "COOLING_ACCESS": [["handover_review","worksite-desk",0.75,0.25,15,15,780],["trend_review","cooling-history",0.5,0.25,45,15,600]],
+    "LONDON": [["maintenance_review","path-work-register",0.75,0.25,30,30,900],["version_review","control-release-register",0.5,0.25,90,30,720]],
+    "NETHERLANDS": [["handover_review","construction-register",0.75,0.25,30,30,900],["test_review","return-test-register",0.5,0.25,90,30,720]]
+  },
+  "copy_probability": 0.25, "copy_delay_s": 20,
+  "window_comparison": "L and U both independently reconciled within 1e-7. c uses latest first necessary manual start attaining the certified minimum for the legally avoidable part. Separately flag total prevention, partial prevention and dated decision usability.",
+  "max_engineering_jobs": 10, "max_engineering_reserved_CPU_s": 21600,
+  "max_development_jobs": 24, "max_development_reserved_CPU_s": 72000
+}
