@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 import subprocess
 import sys
+import time
 from unittest.mock import patch
 
 from cold3_evaluation import score_arm, compare_pair
@@ -46,6 +47,12 @@ def child_admission(rel,site,case,key,allocation):
     check(binding==dict(slot=key,launch=rel.sha,purpose=site.purpose,job=allocation['job'],request_sha256=digest(item),
         command=argv(rel,'arm',row=case,slot=key)),'PRELAUNCH_IDENTITY')
     check(not (unit/'entry.json').exists(),'ARM_REPLAY')
+    deadline=time.monotonic()+10
+    while not (unit/'spawn.json').is_file() and time.monotonic()<deadline:
+        time.sleep(.01)
+    check((unit/'spawn.json').is_file(),'SPAWN_IDENTITY')
+    spawn=doc(unit/'spawn.json')
+    check(spawn==dict(slot=key,launch=rel.sha,pid=os.getpid(),parent=os.getppid()),'SPAWN_IDENTITY')
     return unit,item
 
 

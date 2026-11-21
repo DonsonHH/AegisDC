@@ -7,7 +7,7 @@ from aegis_dc.native_compare_run import checkpoint
 from cold3_runner import execute_group, sha, digest
 from v6_research.control import once, doc
 from .binding import REAL, SURROGATE, ACCEPT_SHA, Review, GateError, bind_grant, check, host
-from .ledger import slot_state, summary
+from .ledger import slot_state, summary, fingerprint, retained
 from .native import archived_score, run_slot
 from .transport import ColdSlurm
 
@@ -59,6 +59,9 @@ def reservation(site,rel,case):
               term['job']==w['job'] and term['state']=='COMPLETED' and term['exit']=='0:0','PRIOR_UNRESOLVED')
         check([r['slot'] for r in w['rows']]==keys and all(r['known'] and r['validated'] and r['scored'] and
             r['internal_exact']==49 and not r['errors'] for r in w['rows']),'PRIOR_UNRESOLVED')
+        for k in keys:
+            check(not retained(folder/'arms'/k,w['arm_hashes'][k],w['file_stats'][k]),'ARCHIVE_IDENTITY',k)
+        for k,h in w['pair_hashes'].items():check(sha(folder/'pairs'/(k+'.json'))==h,'ARCHIVE_IDENTITY',k)
         starts+=len(keys);calls+=sum(r['internal_exact'] for r in w['rows'])
     slots=rel.keys(case);lim=rel.data['limits']
     check(index+1<=lim['jobs'] and starts+len(slots)<=lim['facility_arms'] and calls+49*len(slots)<=lim['internal_policy_calls']
@@ -73,14 +76,19 @@ def verify_worker_identity(site,rel,case,alloc,claimed=False):
     check((folder/'reserved.json').is_file() and (folder/'release-requested.json').is_file(),'WORKER_ORDER')
     if not claimed:check(not (folder/'worker-claim.json').exists(),'WORKER_REPLAY')
     check(not (site.activity/'halt.json').exists() and not (site.activity/'finished.json').exists(),'PRIOR_UNRESOLVED')
-    check(doc(folder/'reserved.json')==reservation(site,rel,case),'WORKER_ORDER')
+    if not claimed:check(doc(folder/'reserved.json')==reservation(site,rel,case),'WORKER_ORDER')
+    else:
+        reserved=doc(folder/'reserved.json')
+        check(reserved['row']==case and reserved['slots']==rel.keys(case) and reserved['launch']==rel.sha,'WORKER_ORDER')
     submission=doc(folder/'submitted.json')
     check(alloc['job']==submission['job']==doc(folder/'release-requested.json')['job'] and submission['row']==case
           and alloc['name']=='cold3-study-'+case,'JOB_IDENTITY')
     check(alloc['partition']=='cu' and alloc['cpus']==alloc['nodes']==1 and alloc['seconds']==300 and alloc['mem_mib']==4096
           and alloc['gpus']==alloc['requeue']==alloc['restarts']==0 and alloc['state']=='RUNNING' and alloc['user']=='renly','ALLOCATION')
-    claim=dict(launch=rel.sha,row=case,allocation=alloc)
-    if claimed:check(doc(folder/'worker-claim.json')==claim,'WORKER_CLAIM')
+    claim=dict(launch=rel.sha,row=case,allocation=alloc,worker_pid=os.getpid(),reservation_sha256=sha(folder/'reserved.json'))
+    if claimed:
+        claim['worker_pid']=os.getppid()
+        check(doc(folder/'worker-claim.json')==claim,'WORKER_CLAIM')
     else:
         try:once(folder/'worker-claim.json',claim)
         except FileExistsError as e:raise GateError('WORKER_REPLAY') from e
@@ -113,14 +121,14 @@ def worker(site,rel,case,alloc,substitute=None):
     pair_hashes={k:sha(folder/'pairs'/(k+'.json')) for k in order[1:] if (folder/'pairs'/(k+'.json')).is_file()}
     if not code and (len(pair_hashes)!=len(order)-1 or any(r['state']!='RETURNED' or r['internal_exact']!=49 for r in slots)):
         code='WORKER_ACCOUNTING'
-    arm_hashes={}
+    arm_hashes={};file_stats={}
     for key in order:
         unit=arms/key
-        arm_hashes[key]={name:sha(unit/name) for name in
-            ('input.json','prelaunch.json','entry.json','spawn.json','exit.json','clock-end.json','return.json','validated.json','scored.json')
-            if (unit/name).is_file()}
-        if (unit/'validated.json').is_file():arm_hashes[key]['run.json.gz']=doc(unit/'validated.json')['raw_sha256']
-        if (unit/'scored.json').is_file():arm_hashes[key]['score.json.gz']=doc(unit/'scored.json')['score_sha256']
+        names=('input.json','intent.json','command.json','prelaunch.json','entry.json','spawn.json','exit.json',
+               'decisions.jsonl','clock-end.json','return.json','run.json.gz','validated.json','score.json.gz',
+               'scored.json','arm-error.json','failure.txt','stdout.log','stderr.log')
+        arm_hashes[key]={name:sha(unit/name) for name in names if (unit/name).is_file()}
+        file_stats[key]={name:fingerprint(unit/name) for name in arm_hashes[key]}
     panel_hash=None
     if code is None and case==rel.cases[-1]:
         try:
@@ -136,7 +144,7 @@ def worker(site,rel,case,alloc,substitute=None):
         except Exception as exc:
             code=getattr(exc,'code','ARCHIVE_IO');errors.append(traceback.format_exc())
     result=dict(launch=rel.sha,row=case,job=alloc['job'],passed=code is None,code=code,rows=slots,pair_hashes=pair_hashes,
-        arm_hashes=arm_hashes,panel_sha256=panel_hash,errors=errors)
+        arm_hashes=arm_hashes,file_stats=file_stats,panel_sha256=panel_hash,errors=errors)
     once(folder/'worker-result.json',result)
     return result
 
@@ -184,8 +192,8 @@ def drive(site,rel,scheduler):
         last=site.activity/'jobs'/rel.cases[-1]
         check(doc(last/'worker-result.json')['panel_sha256']==sha(last/'panel.json') and doc(last/'panel.json')==state['panel'],'PANEL_IDENTITY')
         once(site.activity/'panel.json',state['panel'])
+        checkpoint(site.activity/'progress.json',state)
         once(site.activity/'finished.json',dict(launch=rel.sha,purpose=site.purpose,panel_sha256=sha(site.activity/'panel.json'),counts=[24,66,3234,7200]))
-        persist_progress(site,rel)
         return True
     except Exception as exc:
         once(site.activity/'halt.json',dict(row=case,code=getattr(exc,'code','SCHEDULER_UNKNOWN' if case and

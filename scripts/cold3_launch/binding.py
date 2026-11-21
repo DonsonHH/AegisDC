@@ -99,6 +99,8 @@ def load_release(root,expected):
           and digest(m['launch_files'])==m['launch_tree'],'SOURCE_IDENTITY')
     from .transport import commands
     check(m['commands']==commands(),'COMMAND_IDENTITY')
+    native={k:v for k,v in m['core_files'].items() if k.startswith('src/aegis_dc/') or k=='src/patrol_rsi/contracts.py'}
+    check(digest(native)==m['core_tree'],'SOURCE_IDENTITY','pinned native tree')
     files=m['core_files']|m['launch_files']
     for folder in ('src/aegis_dc','src/patrol_rsi','scripts/v6_research','scripts/cold3_launch'):
         deployed={p.relative_to(root).as_posix() for p in (root/folder).rglob('*.py')}

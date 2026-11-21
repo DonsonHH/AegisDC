@@ -14,13 +14,29 @@ def safe_file(path,errors):
         errors.append(path.name+': '+str(exc));return None
 
 
+def fingerprint(path):
+    x=path.stat()
+    return [x.st_size,x.st_mtime_ns,x.st_ctime_ns,x.st_ino]
+
+
+def retained(unit,hashes,stats,deep=False):
+    faults=[]
+    for name,h in hashes.items():
+        p=unit/name
+        try:
+            if not p.is_file() or ((deep or stats.get(name)!=fingerprint(p)) and sha(p)!=h):
+                faults.append('missing/changed '+name)
+        except OSError as exc:faults.append(name+': '+str(exc))
+    return faults
+
+
 def clock_count(path,slot,launch,errors):
     journal=path/'decisions.jsonl';n=0
     if journal.is_file():
         try:
             for line in journal.read_bytes().splitlines():
                 e=load_json(line)
-                check(e=={'slot':slot,'n':n+1,'at':n/4} and n<49,'INTERNAL_LEDGER')
+                check(type(e.get('n')) is int and type(e.get('at')) in (int,float) and e=={'slot':slot,'n':n+1,'at':n/4} and n<49,'INTERNAL_LEDGER')
                 n+=1
         except (KeyError,TypeError,OSError,ValueError) as exc:errors.append('decisions: '+str(exc))
     end=safe_file(path/'clock-end.json',errors)
@@ -76,13 +92,13 @@ def summary(site,rel,deep=False):
             if not commit or not wr or commit.get('worker_sha256')!=sha(folder/'worker-result.json') or not terminal or commit.get('terminal_sha256')!=sha(folder/'scheduler-terminal.json'):
                 errors.append(case+' commit changed')
         for slot in keys:
-            if sealed and not deep:r=dict(water[slot])
-            else:
-                r=slot_state(folder,slot,rel)
-                if slot in water:
-                    saved=water[slot]
-                    if (saved['known'] and not r['known']) or (saved['validated'] and not r['validated']) or (saved['scored'] and not r['scored']) or saved['internal_lower']>r['internal_lower']:
-                        r=dict(saved,state='SAVED_EVIDENCE_UNAVAILABLE',errors=[*r['errors'],'missing evidence; sealed subtotals retained'])
+            if sealed:
+                r=dict(water[slot]);unit=folder/'arms'/slot
+                faults=retained(unit,wr['arm_hashes'][slot],wr.get('file_stats',{}).get(slot,{}),deep)
+                if faults:
+                    r.update(state='SAVED_EVIDENCE_UNAVAILABLE',raw=(unit/'run.json.gz').is_file(),
+                             errors=[*r['errors'],*faults,'sealed start, return and clock subtotals retained'])
+            else:r=slot_state(folder,slot,rel)
             if requested and not sealed and r['state']=='UNEXECUTED' and not (terminal and terminal.get('state') in ('FAILED','TIMEOUT','OUT_OF_MEMORY','CANCELLED')):
                 r.update(state='JOB_UNRESOLVED',potential=True)
             if r['potential']:potential.append(slot)
@@ -107,13 +123,15 @@ def summary(site,rel,deep=False):
     mapped={r['slot']:r['state'] for r in positions}
     plan=[dict(id=g['row'],arms=[s['arm'] for s in g['positions']]) for g in rel.data['groups']]
     classified=panel(plan,pairs,mapped)
-    return dict(launch_sha256=rel.sha,purpose=site.purpose,rows=positions,jobs=jobs,panel=classified,paired={k:v['category'] for k,v in pairs.items()},
+    return dict(launch_sha256=rel.sha,purpose=site.purpose,rows=positions,jobs=jobs,panel=classified,archived_pairs={k:v['category'] for k,v in pairs.items()},
+        paired={k:v['category'] for k,v in pairs.items() if mapped[k]=='RETURNED' and mapped[k.split('-')[0]+'-J']=='RETURNED'},
         reservations=len(jobs),submitted=sum(j['id'] is not None for j in jobs),submissions_exact=None if unknown_submit else len(jobs),
         unknown_submission_ids=unknown_submit,unresolved_scheduler=unknown_terminal,committed_jobs=sum(j['committed'] for j in jobs),
         reserved_cpu_s=300*len(jobs),known_starts=started,starts_exact=None if potential or errors else started,
         raw_present=sum(r['raw'] for r in positions),validated_returns=sum(r['validated'] for r in positions),scored=sum(r['scored'] for r in positions),
         known_internal=lower,internal_exact=None if potential or unknown or errors else lower,unknown_internal=unknown,
+        validated_without_raw=[r['slot'] for r in positions if r['validated'] and not r['raw']],
         known_manual=sum(r['manual'] for r in positions if type(r['manual']) is int),unknown_manual=unknown_manual,
         manual_exact=None if unknown_manual or potential or errors else sum(r['manual'] or 0 for r in positions),
         potential_slots=potential,known_unstarted=[r['slot'] for r in positions if not r['known'] and not r['potential']],
-        accounting_errors=errors,real_research_entries=0 if site.purpose==SURROGATE else started)
+        accounting_errors=errors,real_research_entries=0 if site.purpose==SURROGATE else None if potential or errors else started)
