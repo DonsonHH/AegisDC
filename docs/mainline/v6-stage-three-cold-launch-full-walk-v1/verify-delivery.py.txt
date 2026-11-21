@@ -1,0 +1,155 @@
+"""Static portable byte and ledger verification. From a fresh selected checkout supply the content commit.
+Only standard-library reads and Git object checks are performed. No facility, policy, or substitute calls.
+"""
+from pathlib import Path
+import gzip
+import hashlib
+import json
+import subprocess
+import sys
+import tarfile
+
+BASE='9bc7cab3e9a752cd4ff9dc8b1ff7da3bd01051de'
+P=Path('docs/mainline/v6-stage-three-cold-launch-full-walk-v1')
+OLD=Path('docs/mainline/v6-stage-three-cold-launch-v1')
+LAUNCH='491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b'
+
+
+def need(ok,label):
+    if not ok:raise ValueError(label)
+
+
+def sha(data):return hashlib.sha256(data).hexdigest()
+def read(path):return json.loads(path.read_bytes())
+def git(*args):return subprocess.check_output(['git',*args])
+def text(*args):return git(*args).decode('utf8').strip()
+def lines(raw):return [json.loads(l) for l in raw.splitlines()]
+def hashes(raw):return {row.split(None,1)[1].strip():row.split(None,1)[0] for row in raw.decode().splitlines()}
+
+
+def audit_receipts():
+    pin=read(P/'verification-pin.json');ph=sha((P/'verification-pin.json').read_bytes())
+    commands=read(P/'commands.json');fixture=read(OLD/'validation-freeze.json');oracle=fixture['full']
+    order=fixture['position_order'];base='V1/full/sandbox/V6-cold-study-v2-once/'
+    with tarfile.open(P/'sealed-receipts.tar.gz') as tar:
+        members=tar.getmembers()
+        need(len({m.name for m in members})==len(members) and all(m.isfile() and not Path(m.name).is_absolute() and '..' not in Path(m.name).parts for m in members),'portable files')
+        raw={m.name:tar.extractfile(m).read() for m in members}
+    index=hashes(raw.pop('delivery/job-files.sha256'))
+    need(all(index[name]==sha(b) for name,b in raw.items()),'metadata files match remote byte inventory')
+    omitted=set(index)-set(raw)
+    need(omitted=={base+'jobs/'+k.split('-')[0]+'/arms/'+k+'/'+name for k in order for name in ('input.json','score.json.gz','run.json.gz')},'all metadata except three declared private bodies per arm')
+    def doc(path):return json.loads(raw[path])
+    result,checks,seal,state=(doc(x) for x in ('V1/result.json','V1/checks.json','V1/supplement-seals.json','V1/full/readback.json'))
+    checked={x['check']:x for x in checks}
+    need(result['status']=='PASS' and len(checks)==result['actual_assertions'] and len(checked)==len(checks) and
+         all(x['ok'] and x['actual']==x['expected'] for x in checks) and not result['unstarted'] and
+         result['failures']==[] and result['exception'] is None,'original V1 frozen verdict')
+    need(result['checks_sha256']==seal['checks_sha256']==index['V1/checks.json'] and result['launch_sha256']==seal['launch']==pin['launch_sha256']==LAUNCH,'launch & checks')
+    need(result['verifier_sha256']==seal['pin_sha256']==commands['pin_sha256']==ph,'supplement verifier identity')
+    entries=lines(raw['V1/surrogate-entries.jsonl'])
+    need(len(entries)==len({e['pid'] for e in entries})==66 and [e['slot'] for e in entries]==order and
+         all(e['case']=='full' and str(result['job'])==e['job'] for e in entries),'full order, isolated processes')
+    need(result['actual_entries']==result['planned_entries']==[['full',k] for k in order] and
+         result['actual_surrogate_entries']==66,'all entered once')
+    need(index['V1/surrogate-entries.jsonl']==seal['surrogate_entries_sha256'] and
+         sha(raw['V1/full/readback.json'])==result['cases'][0]['readback_sha256']==seal['ledger_sha256'],'complete ledger')
+    need(result['cases'][0]['observed']==oracle['expected'] and result['cases'][0]['real_research_entries']==0,'original literal full projection')
+    need(state['purpose']=='PUBLIC_COLD_LAUNCH_SURROGATE' and state['real_research_entries']==0 and
+         [v['slot'] for v in state['rows']]==order and doc(base+'progress.json')==state,'complete controller state')
+    need(all(not state[k] for k in ('accounting_errors','potential_slots','known_unstarted','unknown_internal','unknown_manual',
+        'unknown_submission_ids','unresolved_scheduler','validated_without_raw')),'no unresolved slots')
+    need(all(state[k]==66 for k in ('known_starts','starts_exact','raw_present','validated_returns','scored'))
+         and state['known_internal']==state['internal_exact']==3234 and state['known_manual']==state['manual_exact']==196,'counts from full record')
+    need(checked['worker replay']['actual']==seal['duplicate_worker']==oracle['duplicate_worker']=='WORKER_REPLAY' and
+         checked['consumed full launch']['actual']==seal['duplicate_full_controller_start']==oracle['repeat_start']=='GRANT_CONSUMED' and
+         seal['repeat_start_new_entries']==0,'duplicate worker and actual controller start rejected')
+    panel=doc(base+'panel.json');finished=doc(base+'finished.json')
+    pairs={p['row']+'-'+p['control']:p['category'] for p in panel['comparisons']}
+    need(len(panel['comparisons'])==len(pairs)==42 and pairs==oracle['expected']['material_pairs']==seal['paired']
+         and panel['denominators']==fixture['denominators']==seal['denominators'],'complete named comparisons')
+    need(panel==state['panel'] and finished['counts']==[24,66,3234,7200] and finished['purpose']==state['purpose']
+         and raw[base+'panel.json']==raw[base+'jobs/C08/panel.json'],'worker and controller panel bytes')
+    panel_hash=index[base+'panel.json']
+    need(set(seal['panel_seals'].values())=={panel_hash} and panel_hash==doc(base+'jobs/C08/worker-result.json')['panel_sha256']==finished['panel_sha256'],'four-way panel commitment')
+    by_id={e['slot']:e for e in entries};rows=[];pair_rows=[];count=manual=0
+    for i,g in enumerate(fixture['rows']):
+        row=g['row'];folder=base+'jobs/'+row+'/';job=str(900001+i)
+        worker=doc(folder+'worker-result.json');commit=doc(folder+'committed.json');srow=state['jobs'][i]
+        need(worker['passed'] and (worker['row'],worker['job'])==(row,job) and srow['id']==job and srow['committed'] and srow['worker_sealed'] and
+             srow['terminal']['state']=='COMPLETED' and srow['terminal']['exit']=='0:0','row terminal '+row)
+        need(all(commit[k+'_sha256']==index[folder+n+'.json'] for k,n in [('worker','worker-result'),('terminal','scheduler-terminal'),('reserved','reserved'),
+             ('submitted','submitted'),('release-requested','release-requested'),('worker-claim','worker-claim')]),'row seal '+row)
+        row_keys=[x['slot'] for x in g['order']]
+        need([x['slot'] for x in worker['rows']]==row_keys and doc(folder+'arms/group.json')['unexecuted']==[],'row order '+row)
+        for position in g['order']:
+            slot=position['slot'];donor=fixture['donor_sources'][position['donor']];unit=folder+'arms/'+slot+'/';e=by_id[slot]
+            ack=doc(unit+'return.json');sc=doc(unit+'scored.json');vr=doc(unit+'validated.json');p=doc(unit+'donor.json')
+            observed=state['rows'][count]
+            need(observed['known'] and observed['spawned'] and observed['state']=='RETURNED' and not observed['errors'] and observed['scored'] and
+                 observed['validated'] and observed['internal_exact']==observed['internal_lower']==49,'slot terminal '+slot)
+            need(e['pid']==observed['pid']==ack['pid']==doc(unit+'entry.json')['pid']==doc(unit+'spawn.json')['pid'] and
+                 ack['parent']==doc(folder+'worker-claim.json')['worker_pid'] and doc(unit+'exit.json')['code']==0,'child identity '+slot)
+            need(doc(unit+'command.json')['executed']==commands['subprocesses'][count]['argv'],'pinned replay command '+slot)
+            need(p['mode']=='COPY' and p['donor']==position['donor']==e['donor'] and
+                 p['requested']==position['request_sha256']==ack['request_sha256']==vr['request_sha256'] and
+                 p['evidence_input']==donor['source_input']==ack['evidence_sha256'] and
+                 p['original_sha256']==donor['raw_sha256']==vr['raw_sha256']==index[unit+'run.json.gz'],'request vs donor '+slot)
+            need(doc(unit+'clock-end.json')['journal_sha256']==vr['clock_sha256']==index[unit+'decisions.jsonl'] and
+                 lines(raw[unit+'decisions.jsonl'])==[dict(slot=slot,n=j+1,at=j/4) for j in range(49)],'saved clock '+slot)
+            need(vr['issues']==observed['manual']==donor['manual_issues'] and ack['internal']==vr['calls']==49,'saved manual and ticks '+slot)
+            need(all(index[unit+n]==h for n,h in worker['arm_hashes'][slot].items()) and
+                 sc['score_sha256']==index[unit+'score.json.gz'] and checked['full old score identity '+slot]['ok'],'source/score closure '+slot)
+            count+=1;manual+=vr['issues']
+        for expected_pair in g['pairs']:
+            k=expected_pair['right'];pair=doc(folder+'pairs/'+k+'.json')
+            need((pair['left'],pair['right'])==(row_keys[0],k) and pair['result']['category']==expected_pair['category'] and
+                 worker['pair_hashes'][k]==index[folder+'pairs/'+k+'.json'],'pair '+k)
+            pair_rows.append(dict(left=row_keys[0],right=k,donor_result_category=expected_pair['category'],receipt_sha256=worker['pair_hashes'][k]))
+        rows.append(dict(row=row,slots=row_keys,simulated_job=job,worker_sha256=commit['worker_sha256'],commit_sha256=index[folder+'committed.json']))
+    need(len(rows)==24 and count==66 and manual==196 and len(pair_rows)==42,'total receipts')
+    return dict(job=result['job'],pin=ph,launch=LAUNCH,rows=rows,pairs=pair_rows,pair_denominators=panel['denominators'],
+        donor_pair_classes=panel['counts'],panel_sha256=panel_hash,worker_and_controller_seals=seal['panel_seals'],
+        finished_sha256=seal['controller_finished_sha256'],terminal_ledger_sha256=seal['ledger_sha256'],score_assertions=result['actual_assertions'],
+        process_entries=count,unique_child_pids=len({e['pid'] for e in entries}),saved_decisions=state['internal_exact'],
+        saved_manual_issues=manual,unknown_slots=[],unstarted_slots=[],sealed_file_count=len(index),portable_files_excluding_index=len(raw),
+        full_bundle_sha256=sha((P/'sealed-receipts.tar.gz').read_bytes()),duplicate_worker=seal['duplicate_worker'],
+        duplicate_start=seal['duplicate_full_controller_start'],duplicate_start_new_entries=seal['repeat_start_new_entries'])
+
+
+def verify(rev):
+    rev=text('rev-parse',rev+'^{commit}');files={}
+    for path in text('diff','--name-only',BASE,rev).splitlines():
+        b=Path(path).read_bytes();need(b==git('show',rev+':'+path),'fresh file '+path)
+        files[path]=dict(bytes=len(b),sha256=sha(b),git_blob=text('rev-parse',rev+':'+path))
+    need(text('diff','--name-only',BASE,rev,'--',OLD.as_posix())==(OLD/'v0-acceptance-20261121.json').as_posix(),'old qualification originals')
+    need(not text('diff','--name-only',BASE,rev,'--','scripts','src','configs','evidence','docs/mainline/review-gated','docs/mainline/v6-stage-three-cold-v2',
+                  'docs/mainline/v6-joint-engineering-v1','docs/mainline/v6-joint-terminal-v1'),'unchanged scientific assets and production adapter')
+    need(sha((OLD/'launch-manifest.json').read_bytes())==LAUNCH,'original launch')
+    pin=read(P/'verification-pin.json');stage=read(P/'deployment.json');res=read(P/'result.json')
+    for name,source in pin['file_sources'].items():
+        need(sha(git('show',source['revision']+':'+source['git_path']))==stage['tar_files_sha256'][name],'executed bytes '+name)
+    need(pin['files']['validation-freeze.json']==read(OLD/'verification-pin.json')['files']['validation-freeze.json']==sha((OLD/'validation-freeze.json').read_bytes()),'old oracle bytes')
+    need(sha((OLD/'predecessor-terminal.json').read_bytes())==pin['predecessor']['handoff_sha256']
+         and sha((OLD/'verification-pin.json').read_bytes())==pin['predecessor']['original_verifier_sha256'],'V0 handoff')
+    audit=audit_receipts()
+    need(res['complete_walk']==audit,'published terminal facts')
+    inventory=gzip.decompress((P/'prior-file-sha256.txt.gz').read_bytes());preservation=res['preservation']
+    need(sha(inventory)==preservation['prior_before_sha256']==preservation['prior_after_sha256'] and
+         len(hashes(inventory))==preservation['prior_file_count']==657 and preservation['prior_changed_files']==[],'657 former originals')
+    for path,h in preservation['production_files_sha256'].items():
+        need(sha(git('show',rev+':'+path))==h,'deployed production bytes '+path)
+    prior=read(OLD/'result.json');need(prior['V0']['checks']==148 and prior['V1']['confirmed_entries']==0 and len(prior['V1']['unexecuted'])==66,'old failure retained')
+    need(res['actual']['jobs']==1 and res['actual']['reserved_CPU_seconds']==300 and res['actual']['automatic_retries']==0 and
+         all(res['actual'][k]==0 for k in ('real_facility_calls','real_policy_calls','real_study_starts','real_grants_created','real_grants_consumed')),'independent scope')
+    g=read(Path('docs/mainline/progress.json'));need(g['execution_control']['research_execution']=='CLOSED' and not g['active_implementations']
+         and not g['cold_launch_full_walk_supplement']['research_launch_authorized'],'final acceptance stop')
+    return dict(schema='cold-supplement-fresh-verification-v1',content_revision=rev,base=BASE,files=files,
+                input_oracle=pin['files']['validation-freeze.json'],pin=audit['pin'],launch=LAUNCH,
+                job=audit['job'],sealed_output_files=audit['sealed_file_count'],portable_verified=audit['portable_files_excluding_index'],
+                panel=audit['panel_sha256'],rows=24,positions=66,pairs=42,prior_files_unchanged=657,production_files_verified=len(preservation['production_files_sha256']),
+                grade='FINITE_SURROGATE_COMPLETE_PENDING_USER_ACCEPTANCE',research_authorized=False,new_scientific_or_surrogate_calls=0)
+
+
+if __name__=='__main__':
+    print(json.dumps(verify(sys.argv[1]),ensure_ascii=False,indent=2))
