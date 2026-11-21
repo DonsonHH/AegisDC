@@ -20,7 +20,11 @@
 
 ## T3　报警前信息、关闭端点与开发面板
 
-[集中报告](mainline/t3-prior-information-v2/README.md)已交审。六族的 NA/PV 与过期反例均有实际作业证明，伦敦式／荷兰式抽象接口已做限定资格。72 个开发条件、216 个现状基线位置及 72 个全知见证完成。正式 T4 条件为 2-02、2-12 和 5-07，其中 5-07 的周期巡检已达到部分可救下界。留出只公布 SHA-256 承诺，生成和执行均为零。[开发结果](mainline/t3-prior-information-v2/development-result.json.gz) · [作业与证据账](mainline/t3-prior-information-v2/receipt.json)
+[集中报告](mainline/t3-prior-information-v2/README.md)已按[公开开发范围验收](mainline/t3-prior-information-v2/acceptance-20261122.json)。六族的 NA/PV 与过期反例均有实际作业证明，伦敦式／荷兰式抽象接口已做限定资格。72 个开发条件、216 个现状基线位置及 72 个全知见证完成。正式 T4 条件为 2-02、2-12 和 5-07，其中 5-07 的周期巡检已达到部分可救下界。留出只公布 SHA-256 承诺，生成和执行均为零。[开发结果](mainline/t3-prior-information-v2/development-result.json.gz) · [作业与证据账](mainline/t3-prior-information-v2/receipt.json)
+
+## T4a　风险驱动方法与组合现状的公开开发比较
+
+六族 72 个条件已完成三版 V 与 PA、B 的 360 个新增位置。V* 相对 PA 的平均 ΔL 为 -279.2 秒（95% 开发重抽区间 -423.1 至 -147.9），平均人员占用 109.1 对 650.8 秒。第三版 λ=1 已冻结，停在开发结果审查。144 条留出仍为书面协议。[集中报告](mainline/t4a-public-risk-v1/README.md) · [V* 冻结](mainline/t4a-public-risk-v1/vstar-freeze.json) · [留出确认协议](mainline/t4a-public-risk-v1/confirmation-protocol.md)
 
 ## 第四阶段普通改进原稿
 

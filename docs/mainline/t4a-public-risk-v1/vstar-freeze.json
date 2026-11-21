@@ -1,0 +1,186 @@
+{
+  "schema": "aegisdc-risk-dispatch-Vstar-t4a",
+  "status": "FROZEN_AFTER_PUBLIC_DEVELOPMENT_AWAITING_REVIEW",
+  "predeclared_source": "fb3bf15064ec1bc75527d8179cac942f0c7e0ee5",
+  "full_method_input_freeze_sha256": "a4051c0def4989d462bbb8bf9ffa1bdf997a16163b974dd53dbf1f0763a65cce",
+  "public_process_bundle_sha256": "634a89e94e440f15697aec49fcacf011dc31f0eb88dd5cfbc4a6315698223fa6",
+  "primary": "V3",
+  "versions": {
+    "V1": 0.0,
+    "V2": 4.0,
+    "V3": 1.0
+  },
+  "lambda_L_seconds_per_person_second": 1,
+  "fee_in_person_seconds": 30,
+  "public_step_seconds": 60,
+  "window_seconds": 3600,
+  "physical_step_seconds": 0.25,
+  "candidate_rule": "min E[full-window L] + lambda * (E[person seconds] + 30 * E[issue fee]); handle due own review and eligible renewal first",
+  "controls": [
+    "PA",
+    "PERIODIC",
+    "ALARM",
+    "B"
+  ],
+  "fixed_comparison": "paired V3 minus executable PA",
+  "previously_run_comparators": [
+    "PERIODIC",
+    "ALARM",
+    "P",
+    "ORACLE"
+  ],
+  "roles_and_dependencies": {
+    "src/aegis_risk_dispatch/__init__.py": "9090fbd97da21d3634122e297225158e66d7e478225c4fb86023f54e978ced25",
+    "src/aegis_risk_dispatch/belief.py": "fbd042bef46bd2e35d553b09852ba81571fc3c44b0d830401ae33458d045eba8",
+    "src/aegis_risk_dispatch/knowledge.py": "f474d84b68862ca27a8d3053708ecc7823445a2539c57bf86a8862f7818b9d09",
+    "src/aegis_risk_dispatch/planning.py": "db08db6b51602655a30b30873d429016ed4d269bc2d96e683b935c40b85623c0",
+    "src/aegis_risk_dispatch/policy.py": "f2c7974a167bc6f94de510d4a9dc78ddd04605e9b59c7b1c873d79e081d96810",
+    "src/aegis_risk_dispatch/settings.json": "e1af4c0d4faedcd9c2082b763ec2969ad36a92b9dbde3b92a8b3dbd8babff502",
+    "src/aegis_risk_dispatch/worker.py": "0c54c045ea3adb25cc44959c8a17eb3d9191fc3f8f1bdbab00a6c7eac1330bef",
+    "docs/mainline/t4a-public-risk-v1/protocol.md": "9090041e325829bffad1b4e49529bc931ac426f991f3858d8a8048402571b18c",
+    "docs/mainline/t4a-public-risk-v1/confirmation-protocol.md": "c33025bf7f6e89fe4a29b7c1d6dd7ba734cefa28391f54ca07c60b7229c673b7",
+    "docs/mainline/t4a-public-risk-v1/isolation.py": "cfb811889800fc277356757ac8b3f3dd1a178ec55e973d9753f8378198974322",
+    "docs/mainline/t4a-public-risk-v1/bridge.py": "bd038c87ee592bb939193ca393cc1bb8cd69efb8a3fd597b3dc336e9c9d7fa71",
+    "docs/mainline/t4a-public-risk-v1/run_panel.py": "5637f72199ecf67a10945d85042f63bb7a4aeba23ce3534bbc08a2536a390297",
+    "docs/mainline/t4a-public-risk-v1/analysis.py": "2dce417125c5e1787da10135f4e13e60b9f8ede9f75f5f93c051e780e753745f",
+    "src/aegis_dc/__init__.py": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d",
+    "src/aegis_dc/joint_resources.py": "d37855b190fcb82edd2a9f911d99ade610ce24ba1ab3d33008f790d6a7a338ad",
+    "src/aegis_dc/joint_evidence.py": "f6ac2eb94d5c14be67f59f6f68943d29b1a11e0482f366689bcfd9fa235f6f9d",
+    "src/aegis_dc/joint_messages.py": "73766531c253e1057815a2d918fabf18b70295155ae7142bb5805355dd1a50ab",
+    "docs/mainline/t3-prior-information-v2/native.py": "faa39ed7a1181b7e7014b8be55e5ec340b9d6582027a7f5ef966880747be462e",
+    "docs/mainline/t3-prior-information-v2/incident_facility.py": "3e4f902641ca8bd9b2fa2f851d1dc56b350727ddd07679feb6ecd3f88295cb63",
+    "docs/mainline/t3-prior-information-v2/public_work.py": "e1f56a8d8c642bcc2803937311d2528e1812ac64d85ef3e6c63abe8aed15bc80",
+    "docs/mainline/t3-prior-information-v2/common.py": "a81f749f1115a1fe266bf2de1209b7cdf8109ed6b411764e9d97b3d123ce87ec",
+    "docs/mainline/t3-prior-information-v2/score_saved.py": "db496d491c98f97a5cbd2b9fddf4e303dcf31e83c83ad0306d47265bef1e4c41",
+    "docs/mainline/t3-prior-information-v2/development-inputs.json": "21520e8ec4339a2f9b0d9dfc6afa904c601c6a8bab05379a4321621dc392869e",
+    "docs/mainline/t3-prior-information-v2/development-result.json.gz": "ffcaa80539129ac56c9ef754310b563de365d6a6e7bf38243e4e98307e41b766",
+    "docs/mainline/t3-prior-information-v2/settings.json": "0511ab6b8ee679c753580ab312f88522b82cca607729d3d5611466ac40bd5936",
+    "docs/mainline/t2-minute-facility-v1/facility_inputs.py": "c0aceb1ccb1c6217f0eeff8f1e437ba0c273e4e379891b342f9748ff3609f8e1",
+    "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b"
+  },
+  "exact_source_settings_and_analysis": {
+    "src/aegis_risk_dispatch/__init__.py": {
+      "git_blob": "579bc7d87befbbd47de05f991efd1d32ec8df4e7",
+      "sha256": "9090fbd97da21d3634122e297225158e66d7e478225c4fb86023f54e978ced25"
+    },
+    "src/aegis_risk_dispatch/belief.py": {
+      "git_blob": "953e7e28a6b9335af0ca42663da9f962c2d12c76",
+      "sha256": "fbd042bef46bd2e35d553b09852ba81571fc3c44b0d830401ae33458d045eba8"
+    },
+    "src/aegis_risk_dispatch/knowledge.py": {
+      "git_blob": "4d23832bb3255d613f056e5dd0de93a0f7b7f4e9",
+      "sha256": "f474d84b68862ca27a8d3053708ecc7823445a2539c57bf86a8862f7818b9d09"
+    },
+    "src/aegis_risk_dispatch/planning.py": {
+      "git_blob": "a70bef0e8044c9ae81078102c8817a2cb3914675",
+      "sha256": "db08db6b51602655a30b30873d429016ed4d269bc2d96e683b935c40b85623c0"
+    },
+    "src/aegis_risk_dispatch/policy.py": {
+      "git_blob": "be7386aeb73c08b867f166af9e4a0a6b48325262",
+      "sha256": "f2c7974a167bc6f94de510d4a9dc78ddd04605e9b59c7b1c873d79e081d96810"
+    },
+    "src/aegis_risk_dispatch/settings.json": {
+      "git_blob": "e178ddc4503018f55e2f6d3cd3f0da477a0ce220",
+      "sha256": "e1af4c0d4faedcd9c2082b763ec2969ad36a92b9dbde3b92a8b3dbd8babff502"
+    },
+    "src/aegis_risk_dispatch/worker.py": {
+      "git_blob": "6f08178cbe35aa43231f789c2e7c2ff838d8296a",
+      "sha256": "0c54c045ea3adb25cc44959c8a17eb3d9191fc3f8f1bdbab00a6c7eac1330bef"
+    },
+    "docs/mainline/t4a-public-risk-v1/isolation.py": {
+      "git_blob": "ac56b7c693cb39f92f4866cea397c599767a1491",
+      "sha256": "cfb811889800fc277356757ac8b3f3dd1a178ec55e973d9753f8378198974322"
+    },
+    "docs/mainline/t4a-public-risk-v1/bridge.py": {
+      "git_blob": "835b0b34efd7ee20b60a30a4e51e739b43601a50",
+      "sha256": "bd038c87ee592bb939193ca393cc1bb8cd69efb8a3fd597b3dc336e9c9d7fa71"
+    },
+    "docs/mainline/t4a-public-risk-v1/run_panel.py": {
+      "git_blob": "31d79dfe10937e8b24579804b97fc007ff4bee4f",
+      "sha256": "5637f72199ecf67a10945d85042f63bb7a4aeba23ce3534bbc08a2536a390297"
+    },
+    "docs/mainline/t4a-public-risk-v1/analysis.py": {
+      "git_blob": "4284faa030349134aa5399c6f3221a2293ea01d9",
+      "sha256": "2dce417125c5e1787da10135f4e13e60b9f8ede9f75f5f93c051e780e753745f"
+    },
+    "src/aegis_dc/__init__.py": {
+      "git_blob": "f8b6ed7728e3487ff8d7d5a822bb9518d321cd96",
+      "sha256": "32c7ae44be5f74a3d9d1c44cbe6df95e58637bfe74564ef41c463e1269cd013d"
+    },
+    "src/aegis_dc/joint_resources.py": {
+      "git_blob": "845d195ddee9e5a668f0bb26c2bc4ea1abcb0fa4",
+      "sha256": "d37855b190fcb82edd2a9f911d99ade610ce24ba1ab3d33008f790d6a7a338ad"
+    },
+    "src/aegis_dc/joint_evidence.py": {
+      "git_blob": "66963a68154240cdb72696cf7750343e7423372a",
+      "sha256": "f6ac2eb94d5c14be67f59f6f68943d29b1a11e0482f366689bcfd9fa235f6f9d"
+    },
+    "src/aegis_dc/joint_messages.py": {
+      "git_blob": "e5f5daa63dcca674563ca0814826fbaa2cd60cbc",
+      "sha256": "73766531c253e1057815a2d918fabf18b70295155ae7142bb5805355dd1a50ab"
+    },
+    "docs/mainline/t3-prior-information-v2/native.py": {
+      "git_blob": "280ca7bc8f6ad2db8a2decaa9c7a6e50f920e6cc",
+      "sha256": "faa39ed7a1181b7e7014b8be55e5ec340b9d6582027a7f5ef966880747be462e"
+    },
+    "docs/mainline/t3-prior-information-v2/incident_facility.py": {
+      "git_blob": "d4e192f8d2a617547502e768ede1e0d60095639c",
+      "sha256": "3e4f902641ca8bd9b2fa2f851d1dc56b350727ddd07679feb6ecd3f88295cb63"
+    },
+    "docs/mainline/t3-prior-information-v2/public_work.py": {
+      "git_blob": "ea7b8205250f6538565600b7cf25ecfee588d71d",
+      "sha256": "e1f56a8d8c642bcc2803937311d2528e1812ac64d85ef3e6c63abe8aed15bc80"
+    },
+    "docs/mainline/t3-prior-information-v2/common.py": {
+      "git_blob": "8cb682efa91273e40b97a207107090b5952ef247",
+      "sha256": "a81f749f1115a1fe266bf2de1209b7cdf8109ed6b411764e9d97b3d123ce87ec"
+    },
+    "docs/mainline/t3-prior-information-v2/score_saved.py": {
+      "git_blob": "2106286c44d98b4ec807bc3e36faba77ccbb1966",
+      "sha256": "db496d491c98f97a5cbd2b9fddf4e303dcf31e83c83ad0306d47265bef1e4c41"
+    },
+    "docs/mainline/t3-prior-information-v2/development-inputs.json": {
+      "git_blob": "ec7535593e73f0abd61298e945cb2e27f73c5039",
+      "sha256": "21520e8ec4339a2f9b0d9dfc6afa904c601c6a8bab05379a4321621dc392869e"
+    },
+    "docs/mainline/t3-prior-information-v2/settings.json": {
+      "git_blob": "47c46453920d12401b672a1b2242ca09ff575586",
+      "sha256": "0511ab6b8ee679c753580ab312f88522b82cca607729d3d5611466ac40bd5936"
+    },
+    "docs/mainline/t2-minute-facility-v1/facility_inputs.py": {
+      "git_blob": "6b09b142213bb8213fe665550d7b7a0a6bea2fbf",
+      "sha256": "c0aceb1ccb1c6217f0eeff8f1e437ba0c273e4e379891b342f9748ff3609f8e1"
+    },
+    "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json": {
+      "git_blob": "f66d3301cee3d165d1a0bcb5568c8edfedb64671",
+      "sha256": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b"
+    }
+  },
+  "shim_source": "docs/mainline/t4a-public-risk-v1/bridge.py::SHIM (included in bundle)",
+  "source_runtime": {
+    "native_release": "0e5afde1a5e734a04489f1bf27804db6a3325497",
+    "native_tree": "67db74467194edf547cc7994a702019fa4040b8aa1cebf1eaa33574327b7b735",
+    "python": {
+      "path": "/share/home/renly/miniconda3/bin/python",
+      "sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+      "version": "3.13.9"
+    },
+    "numpy": "2.2.6"
+  },
+  "protocol_sha256": "c33025bf7f6e89fe4a29b7c1d6dd7ba734cefa28391f54ca07c60b7229c673b7",
+  "analysis_sha256": "2dce417125c5e1787da10135f4e13e60b9f8ede9f75f5f93c051e780e753745f",
+  "design_knowledge": "T3 generator family and channel laws plus public recipes; no realized seed, condition ID, private cause or oracle supplied",
+  "holdout_sha256_commitment": "73347bfb1fb120365e8f7f46ec2e342c63c3e464a3601e5c7312a987c8b4ea25",
+  "planned_conditions": 144,
+  "per_family": 24,
+  "primary_endpoint": "upper 95% percentile paired mean L difference < 0 AND mean personnel seconds(V3) <= mean personnel seconds(PA)",
+  "bootstrap": "10000 within-family paired condition draws, fixed scope PCG64 text seed and linear quantiles in confirmation-protocol.md",
+  "secondary": "PERIODIC, ALARM and B paired loss; residual gap over P minus oracle, sensitivity PA minus oracle; London, Netherlands, all families/layers, NA/PV at four checkpoints.",
+  "development_sha256": "b5b8465635e10441677d1301fcbc42060fa20c93ad466a38d66679094b493728",
+  "development_positions": 360,
+  "after_last_V3": true,
+  "holdout_accessed": false,
+  "holdout_generated": 0,
+  "holdout_executed": 0,
+  "user_acceptance_pending": true
+}

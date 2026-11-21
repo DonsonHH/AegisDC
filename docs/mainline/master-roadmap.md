@@ -13,4 +13,4 @@
 
 **阶段 1 的接续资产。** 现有原生设施已经把计算、网络、存储有效容量与需求合成为同一个服务交付值；稀疏记录、到达时钟、本人回执、完整分支包络、收费、隔离运行和独立积分都可复用。后续最小接缝是增加能区分网络容量与下游瓶颈的合法观测和工单绑定，限定受权网络操作及其复核，在同一账本上比较两类问题的可行分支。联合服务缺额只积分一次，保留共享工具／人员冲突、时间顺序和信息仍不足的例子。具名操作和聚合服务测点已有源码接口，网络侧诊断、联合排序及跨实例位置承接的已执行范围见阶段二工程包。[共同服务交付](../../src/aegis_dc/plant.py) · [观测目录](../../src/aegis_dc/sensor_channels.py) · [具名操作目录](../../src/aegis_dc/intervention_execution.py)
 
-具体版本、授权是否消费及当前停止点由[进度账](progress.json)登记。首片已结项，阶段二已部分验收，第三阶段冷态有限结果已验收，T1 已有限验收，[T2 分钟级一小时设施、情景源与三种现状基线](t2-minute-facility-v1/README.md)已交审。T2 已[有限验收](t2-minute-facility-v1/acceptance-20261121.json)，当前停在[T3 开发面板结果审查](t3-prior-information-v2/README.md)。暖层、普通改进、RSI、原独立确认和历史队列均有独立执行门。
+具体版本、授权是否消费及当前停止点由[进度账](progress.json)登记。首片已结项，阶段二已部分验收，第三阶段冷态有限结果已验收，T1 已有限验收，[T2 分钟级一小时设施、情景源与三种现状基线](t2-minute-facility-v1/README.md)已交审。T2 已[有限验收](t2-minute-facility-v1/acceptance-20261121.json)，[T3 开发面板](t3-prior-information-v2/acceptance-20261122.json)已接受。三版方法及 PA、B 已完成 360 个公开开发位置，当前停在[T4a 方法与组合基线的结果审查](t4a-public-risk-v1/README.md)。144 条留出采用[已冻结协议](t4a-public-risk-v1/confirmation-protocol.md)。暖层、普通改进、RSI、原独立确认和历史队列均有独立执行门。
