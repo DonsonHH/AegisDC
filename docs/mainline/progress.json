@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-20",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "COLD_LAUNCH_VERIFICATION_PARTIAL_DELIVERED_NO_STUDY",
+  "status": "COLD_FULL_WALK_SUPPLEMENT_AUTHORIZED",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_PARTIAL_LAUNCH_EVIDENCE_AND_MISSING_66_SLOT_TRAVERSAL",
+  "current_milestone": "FREEZE_ONE_SUPPLEMENTAL_FULL_WALK",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "COLD_LAUNCH_REVIEW_WITH_FULL_WALK_PENDING",
+  "agent_stage": "ZERO_FACILITY_VERIFICATION",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -43,10 +43,12 @@
   },
   "execution_control": {
     "mode": "USER_REVIEW_EACH_GATE",
-    "automatic_goal": "NONE",
+    "automatic_goal": "BOUNDED_ENGINEERING",
     "research_execution": "CLOSED",
-    "authorized_scope": [],
-    "after_delivery": "STOP_BEFORE_COLD_RESEARCH_LAUNCH",
+    "authorized_scope": [
+      "one new serial Slurm CPU allocation only, 300s, 4 GiB, full 66 substitute walk in a new child namespace"
+    ],
+    "after_delivery": "STOP_AT_FINAL_COLD_LAUNCH_ACCEPTANCE",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
@@ -2136,6 +2138,10 @@
     "ordinary_improvement_authorized": false,
     "RSI_authorized": false,
     "remaining_job_slots": 0,
-    "user_review_pending": true
+    "user_review_pending": true,
+    "limited_V0_user_accepted": true,
+    "original_failure_registration_accepted": true,
+    "partial_acceptance": "docs/mainline/v6-stage-three-cold-launch-v1/v0-acceptance-20261121.json",
+    "original_V1_complete": false
   }
 }
