@@ -131,7 +131,7 @@ def verify(rev):
         need(sha(git('show',source['revision']+':'+source['git_path']))==stage['tar_files_sha256'][name],'executed bytes '+name)
     need(pin['files']['validation-freeze.json']==read(OLD/'verification-pin.json')['files']['validation-freeze.json']==sha((OLD/'validation-freeze.json').read_bytes()),'old oracle bytes')
     need(sha((OLD/'predecessor-terminal.json').read_bytes())==pin['predecessor']['handoff_sha256']
-         and sha((OLD/'verification-pin.json').read_bytes())==pin['predecessor']['original_verifier_sha256'],'V0 handoff')
+         and sha((OLD/'verification-pin.json').read_bytes())==pin['predecessor']['old_verifier_sha256'],'V0 handoff')
     audit=audit_receipts()
     need(res['complete_walk']==audit,'published terminal facts')
     inventory=gzip.decompress((P/'prior-file-sha256.txt.gz').read_bytes());preservation=res['preservation']
