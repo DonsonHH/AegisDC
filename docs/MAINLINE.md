@@ -12,7 +12,7 @@
 
 ## 第四阶段普通改进
 
-[公开时间预测与核查处置排序的普通改进协议 v1](mainline/v6-stage-four-ordinary-improvement-v1/README.md)已集中交审。固定 U0 用已付开发反馈在四份通用规则中提案和锁定，后续任务与开发、验证分开。人工候选、原 J/B、旧 J_ORDER 和同预算穷举均有明确比较。当前仅有书面方案，所有新执行额度为零。[任务和预算](mainline/v6-stage-four-ordinary-improvement-v1/tasks-and-budget.md) · [能力差距与独立资格计划](mainline/v6-stage-four-ordinary-improvement-v1/qualification.md)
+[公开时间预测与核查处置排序的普通改进协议 v1](mainline/v6-stage-four-ordinary-improvement-v1/README.md)已集中交审。固定 U0 用已付开发反馈在四份通用规则中提案和锁定，后续任务与开发、验证分开。人工候选、原 J/B、旧 J_ORDER 和同预算穷举均有明确比较。D01/V01 的“无需处置”证书与 E04 在 12 秒的复检过期构成严格晋级的事前条件性否决。仅为量取服务与代价而提名候选的方案另待决定。所有新执行额度为零。[任务和预算](mainline/v6-stage-four-ordinary-improvement-v1/tasks-and-budget.md) · [能力差距与独立资格计划](mainline/v6-stage-four-ordinary-improvement-v1/qualification.md)
 
 ## 事故验证章节保留的 R0–R6 记录
 
