@@ -1,0 +1,74 @@
+{
+  "schema": "aegisdc-t4b-holdout-registration-v3",
+  "status": "USER_OFFLINE_COMMITMENTS_REGISTERED_H1_HANDOFF_RECEIVED",
+  "accepted_development": {
+    "T4c": "cef45c0275ce330eaf2652362bfd5090dffd5aa6",
+    "T4d": "036ccfdf2d6e5d4b39ba11da480fa2a3d69c1f9f"
+  },
+  "confirmation_protocol": {
+    "path": "docs/mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md",
+    "revision": "35b7bf4213c1cc8c1efb5dcf295f7821a1af15ff",
+    "sha256": "8cb5a56d8ebf4ef56c3e7df354334d5fd2683760b6f1fe1eda38f522b96032e1"
+  },
+  "run_manifest": "docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json",
+  "run_manifest_sha256": "8b66db7e8eccebee6d070bfda956ca0dc80ca0896ffa725b40d501a032b1a56f",
+  "run_manifest_git_blob": "3ddd8784ea5235187d4c21a4862b6c4d74e03eb2",
+  "v3_rules_sha256": "7bae889a0302c2d420a9f0c3dfd199251f914b0dfaa2abeaed9a30f1013246f5",
+  "seeds": {
+    "H1": {
+      "sha256": "1f44fb44d9bae1b4d03912742fc948ea96c8f3afaf8b0bb28ff15c700ea3a178",
+      "purpose": "T4b common holdout panel for H1, H2 and H3",
+      "handoff_status": "RECEIVED_BEFORE_V3_PUBLICATION"
+    },
+    "H2": {
+      "sha256": "d109391b198bea2754c4b9b383ad0fdb742e1b0c160277a68cbacc8c63314665",
+      "purpose": "Future ordinary improvement and RSI evaluation",
+      "handoff_status": "WITHHELD_FROM_T4B",
+      "execution_team_has_seed_file": false
+    }
+  },
+  "custody": {
+    "origin": "用户离线环境生成",
+    "independent_external_custody": true,
+    "sha256_input": "Exactly 32 raw binary bytes for each seed",
+    "published_material": "User-supplied SHA-256 commitments only",
+    "H2_held_by_user": true
+  },
+  "superseded_commitments": {
+    "revision": "b6395ecb306849f69db2edd554b0f2b7739d21cc",
+    "registration": "docs/mainline/t4b-holdout-confirmation-v2/holdout-registration-v2.json",
+    "H1": {
+      "sha256": "7d9c8080e78a7ca6ddc76ad3b6b22910701f331a168b320bdb80465bd8cade97",
+      "status": "RETIRED_NOT_FOR_CONFIRMATION",
+      "reason": "执行方本机同账号生成，已由用户离线种子替换"
+    },
+    "H2": {
+      "sha256": "c36057e9c1830097f3e01a7e5374711de2eca464ee892ea43bcfd3c1b53be43b",
+      "status": "RETIRED_NOT_FOR_CONFIRMATION",
+      "reason": "执行方本机同账号生成，已由用户离线种子替换"
+    }
+  },
+  "legacy_commitment": {
+    "sha256": "73347bfb1fb120365e8f7f46ec2e342c63c3e464a3601e5c7312a987c8b4ea25",
+    "status": "RETIRED_NOT_FOR_CONFIRMATION",
+    "source": "docs/mainline/t4c-action-cost-v3/holdout-registration.json",
+    "note": "执行方生成，同账号可读，不用于确认"
+  },
+  "handoff_order_note": "D:\\AegisDC-H1.bin 在本次补登发布之前已经交接。交接到补登发布之间，留出条件生成、条件访问、设施启动、Slurm 作业提交和结果访问均为 0。",
+  "initial_handoff_verification": {
+    "registered_revision": "b6395ecb306849f69db2edd554b0f2b7739d21cc",
+    "provided_H1_bytes": 32,
+    "provided_H1_file_sha256": "1f44fb44d9bae1b4d03912742fc948ea96c8f3afaf8b0bb28ff15c700ea3a178",
+    "H1_matches_user_provided_sha256": true,
+    "H1_matches_original_registration": false,
+    "provided_H2_sha256_matches_original_registration": false,
+    "outcome": "STOPPED_BEFORE_GENERATION"
+  },
+  "execution_at_registration": {
+    "conditions_generated": 0,
+    "conditions_accessed": 0,
+    "facility_starts": 0,
+    "slurm_jobs_submitted": 0,
+    "results_accessed": 0
+  }
+}
