@@ -6,7 +6,7 @@ import sys
 import time
 from unittest.mock import patch
 
-from landscape import ACT, LOCK, PK, batches, check, check_source, config, job, manifest, read, sha, verify_bundle, write
+from landscape import ACT, LOCK, PK, batches, check, check_source, config, job, manifest, read, sha, write
 
 NAME="identity-witness-a2"
 AUX=ACT/"auxiliary-P-a2"
@@ -87,7 +87,7 @@ def run():
 def unit(key,lane):
     import public_ipc
     import score_positions
-    from context_v2 import references
+    from context_v2 import references, verify_bundle
 
     refs=references()
     identity,base,files=refs["V_COST"]
