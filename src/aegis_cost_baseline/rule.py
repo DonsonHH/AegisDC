@@ -32,24 +32,41 @@ def lawful_signals(pub,view,sub):
     return sorted(set(signals))
 
 
-def legal_times(pub,view,sub,gate):
-    """Hold the current public evidence and outstanding resources fixed; let clocks and expiry advance."""
-    now=view['time'];high=sub['write_window'][1]
+def legal_times(pub,view,sub,gate,after=None):
+    """Reserve expected completion and own reviews on a private copy of the public schedule.
+
+    Projected receipts only account for time/position under successful completion. They
+    never enter the operating view, the fault filter, certificates or the native facility.
+    """
+    clock=pub['clock'];subjects=work.entries(pub);now=view['time']
+    issues=list(view['issued']);work_rows=list(view['work']);writes=list(view['writes'])
+    if after:issues.append(after)
+    returned={r['task_id'] for r in work_rows if r['status'] in ('completed','rejected','aborted')}
+    known_writes={r['task'] for r in writes}
     options=[]
-    for t in pub['clock']:
-        if now<=t<high:
-            frame=dict(view,time=t)
-            admitted,_=gate.admit(pub,frame,sub,'A')
-            if admitted:options.append(t)
+    for t in clock:
+        if t<now or (after and t==now):continue
+        if t>=sub['write_window'][1]:break
+        if t>now:
+            for req in issues:
+                name=req['task'];arrival=req['planned_end']+pub['latency']
+                if arrival>t or name in returned:continue
+                returned.add(name)
+                work_rows.append(dict(task_id=name,status='completed',arrived_at_s=arrival,
+                    location_id=subjects[req['subject']]['location']))
+                if req['phase']=='A' and name not in known_writes:
+                    known_writes.add(name)
+                    writes.append(dict(task=name,outcome='APPLIED',execution='schedule-only/'+name,epoch=1,arrived=arrival))
+        frame=dict(view,time=t,issued=issues,work=work_rows,writes=writes)
+        planned={r['task'] for r in issues}
+        due=sorted((k for k in pub['routes'] if k+'::A' in planned and k+'::R' not in planned),
+                   key=lambda k:(subjects[k]['read_window'][1],pub['routes'].index(k)))
+        review=next((r for sid in due if (r:=gate.admit(pub,frame,subjects[sid],'R')[0])),None)
+        if review:
+            issues.append(review)
+            continue
+        if gate.admit(pub,frame,sub,'A')[0]:options.append(t)
     return options
-
-
-def can_share(first,second,recovery,latency):
-    """Two already-eligible changes can share a window in this order if its second start still fits."""
-    request=first['request'];after=request['planned_end']+recovery
-    if request['worker']==second['request']['worker'] or request['tool']==second['request']['tool']:
-        after=max(after,request['planned_end']+latency)
-    return any(t>request['at'] and t>=after for t in second['slots'])
 
 
 def decide(pub,view,recovery):
@@ -81,7 +98,8 @@ def decide(pub,view,recovery):
     if ready:
         leading=min(ready,key=lambda o:(o['deadline'],index[o['subject']]))
         conflict=[o for o in ready if o is not leading and
-                  not can_share(leading,o,recovery,pub['latency']) and not can_share(o,leading,recovery,pub['latency'])]
+                  not legal_times(pub,view,subjects[o['subject']],gate,after=leading['request']) and
+                  not legal_times(pub,view,subjects[leading['subject']],gate,after=o['request'])]
         selected=min([leading,*conflict],key=lambda o:index[o['subject']])
         return response(selected['request'],('ROUTE_CONFLICT/' if conflict else '')+selected['basis'])
     # A renewal consumes the same resources and may narrow a future deferred write.

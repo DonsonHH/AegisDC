@@ -1,6 +1,7 @@
 """Execute the preregistered positions; account for each call before entering the frozen simulator."""
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 import math
 import subprocess
 import time
@@ -43,6 +44,7 @@ def unit(group,mode,key,role):
     os.sched_setaffinity(0,{int(os.environ['T4D_CPU'])})
     release=verify_source();m=manifest();plan=spec();acceptance_gate(group,plan,m)
     batch=read(ACT/'batches'/group/'entry.json')
+    must(not (ACT/'batches'/group/'failure.json').exists(),'native entry closed following a hard failure')
     must(batch['job']==job() and batch['positions']==plan['groups'][group]['positions'] and [mode,key,role] in batch['positions']
          and batch['source']==os.environ['T4D_SOURCE'] and batch['inputs']==os.environ['T4D_INPUTS'],'registered execution')
     ip=case_file(mode,key);ident=m['items'][mode][key];must(filehash(ip)==ident['sha256'],'bound complete case')
@@ -90,20 +92,37 @@ def group(name):
     registration=plan['groups'][name];n=registration['cpus'];slots=registration['positions']
     affinity=sorted(os.sched_getaffinity(0))
     must(n==int(os.environ['SLURM_CPUS_PER_TASK']) and n<=len(affinity),'allocation')
+    from submit import allocation,resources
+    submitted=ACT/'registrations'/(name+'.json')
+    for _ in range(20):
+        if submitted.exists():break
+        time.sleep(.1)
+    launch=read(submitted);need=resources(name)[:2]
+    must(launch['job']==job() and launch['source']==os.environ['T4D_SOURCE'] and launch['inputs']==os.environ['T4D_INPUTS']
+         and (launch['cores'],launch['minutes'])==need and allocation(job())==need,'actual Slurm resource request')
     dest=ACT/'batches'/name;dest.mkdir()
     save(dest/'entry.json',dict(job=job(),positions=slots,cpus=n,source=os.environ['T4D_SOURCE'],inputs=os.environ['T4D_INPUTS']))
-    begin=time.monotonic()
+    begin=time.monotonic();stop=Event()
     def lane(i):
         returned=[]
         for mode,key,role in slots[i::n]:
+            if stop.is_set():break
             with (dest/(mode+'-'+key+'-'+role+'.log')).open('x') as out:
                 ret=subprocess.run([sys.executable,'-B',str(Path(__file__).resolve()),'unit',name,mode,key,role],stdout=out,stderr=subprocess.STDOUT,
                     env=dict(os.environ,T4D_CPU=str(affinity[i]),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1'))
             returned.append([mode,key,role,ret.returncode])
+            if ret.returncode:
+                stop.set()
+                try:save(dest/'failure.json',dict(mode=mode,key=key,role=role,exit_code=ret.returncode,job=job()))
+                except FileExistsError:pass
+                break
         return returned
     with ThreadPoolExecutor(max_workers=n) as pool:returns=[a for b in pool.map(lane,range(n)) for a in b]
-    elapsed=time.monotonic()-begin;save(dest/'return.json',dict(job=job(),entries=returns,wall_s=elapsed))
-    must(all(v[-1]==0 for v in returns),'stored failed attempt; stop suffix')
+    elapsed=time.monotonic()-begin
+    started={tuple(v[:3]) for v in returns}
+    unstarted=[s for s in slots if tuple(s) not in started]
+    save(dest/'return.json',dict(job=job(),entries=returns,unstarted=unstarted,wall_s=elapsed))
+    must(not unstarted and all(v[-1]==0 for v in returns),'stored failed attempt; stop suffix')
     if name=='pilot':
         durations=[read(ACT/'positions'/mode/(k+'-'+r)/'score.json')['elapsed_s'] for mode,k,r in slots]
         longest=max(elapsed,*durations)

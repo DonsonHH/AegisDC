@@ -53,12 +53,12 @@ def transparent_fixture(a,inventory,path):
     # Shared one-slot issue window: both candidates are admissible individually.
     conflict=deepcopy(pub);routes=conflict['routes'];routes[:]=['LG','LC','LB']
     for sub in conflict['subjects']:
-        sub['write_window']=[0,36] if sub['id'] in ('LG','LC') else [1,2]
-    proc=Worker('BASE','B_COST',inventory,path/'rule-conflict.stderr');proc.start(conflict)
+        sub['write_window']={'LG':[0,100],'LC':[0,96]}.get(sub['id'],[1,2])
+    proc=Worker('S2','B_COST',inventory,path/'rule-conflict.stderr');proc.start(conflict)
     try:
         v=next(history_frames([start],0));choice=proc.choose(conflict,v,'B_COST',{})
         must(choice['request']['task']=='LG::A' and choice['rationale']['reason'].startswith('ROUTE_CONFLICT'),'default route')
-        tests.append(['one_window','LG::A'])
+        tests.append(['two_slots_one_mandatory_review','route_precedes_earlier_deadline','LG::A'])
     finally:proc.close()
     return tests
 
