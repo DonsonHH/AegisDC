@@ -1,0 +1,32 @@
+{
+  "schema": "T5-v2-U-no-anchors",
+  "U": {
+    "rounds": 3,
+    "batch_size": 2,
+    "max_charged_fit_per_search": 72,
+    "exploration_credit_s": 24,
+    "random_operator_probability": 0.25,
+    "background_mutation_probability": 0.08,
+    "replay_draw_limit_per_slot": 128,
+    "mutation_density_levels": [
+      0.2,
+      0.55,
+      1
+    ],
+    "stop_on_missing_fit": true,
+    "patience_rounds": 3,
+    "minimum_accept_gain_s": 0.01,
+    "search_rng_domain": "AegisDC/T5-v2/search/v1",
+    "search_seeds_per_method": 3,
+    "random_engine": "numpy.PCG64",
+    "incumbent": {
+      "FIT loss": true,
+      "tie_break": [
+        "person",
+        "tool",
+        "fee",
+        "descriptor_digest"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1054 @@
+{
+  "schema": "T5-v2-public-choice-space",
+  "action_types": [
+    "C",
+    "N",
+    "LC",
+    "LB",
+    "LG",
+    "NR",
+    "NP",
+    "NC"
+  ],
+  "slack_band_upper_s": [
+    120,
+    180,
+    240,
+    360
+  ],
+  "no_forecast_reference_credit_s": 30,
+  "coordinates": [
+    {
+      "id": "lookahead",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "lookahead"
+    },
+    {
+      "id": "nr_need",
+      "levels": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "prevention"
+    },
+    {
+      "id": "nr_slack",
+      "levels": [
+        0,
+        60,
+        120,
+        180,
+        240,
+        360
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "prevention"
+    },
+    {
+      "id": "nr_credit",
+      "levels": [
+        0,
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "prevention"
+    },
+    {
+      "id": "C.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "C.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "C.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "C.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "C.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "C.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "N.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "N.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "N.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "N.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "N.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "N.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "LC.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "LC.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LC.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LC.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LC.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "LC.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "LB.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "LB.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LB.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LB.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LB.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "LB.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "LG.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "LG.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "LG.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LG.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "LG.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "LG.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "NR.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "NR.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NR.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NR.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NR.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "NR.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "NP.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "NP.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NP.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NP.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NP.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "NP.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    },
+    {
+      "id": "NC.deadline_0",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.deadline_1",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.deadline_2",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.deadline_3",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.deadline_4",
+      "levels": [
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.probe_credit",
+      "levels": [
+        -120,
+        0,
+        120
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "inspection"
+    },
+    {
+      "id": "NC.displacement",
+      "levels": [
+        0,
+        100,
+        240
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "priority"
+    },
+    {
+      "id": "NC.bypass_weight",
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "main": 0,
+      "hot": null,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NC.veto",
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "main": 0,
+      "hot": 0,
+      "operator": "safeguard"
+    },
+    {
+      "id": "NC.fast_need",
+      "levels": [
+        0,
+        0.15,
+        0.35,
+        0.55,
+        0.75,
+        1.01
+      ],
+      "main": 1.01,
+      "hot": 1.01,
+      "operator": "inspection"
+    },
+    {
+      "id": "NC.fast_slack",
+      "levels": [
+        60,
+        120,
+        180,
+        300,
+        600
+      ],
+      "main": 60,
+      "hot": 60,
+      "operator": "inspection"
+    }
+  ],
+  "roots": {
+    "MAIN": "Exact frozen B_cost on the initial vector",
+    "HOT": "Exact frozen V** on the initial vector"
+  },
+  "behavior_lower_bound": {
+    "coordinates": 40,
+    "alphabet": 2,
+    "count": "1099511627776",
+    "domain": "40 lawful controlled public frames, eight work types by five distinct completion-deadline slack bands",
+    "also_report": "Unique realized operational transcripts on three frozen 61-frame development histories, by arm and round."
+  }
+}

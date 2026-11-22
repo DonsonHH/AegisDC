@@ -1,0 +1,81 @@
+{
+  "schema": "T5-v2-frozen-development-v1",
+  "families": [
+    "WATER_HEAT",
+    "NETWORK_POWER",
+    "RESERVE_TRANSFER",
+    "COOLING_ACCESS",
+    "LONDON",
+    "NETHERLANDS"
+  ],
+  "fit_per_family": 2,
+  "dev_per_family": 4,
+  "panel_draw_slots": {
+    "FIT": [
+      0,
+      12
+    ],
+    "DEV": [
+      0,
+      1,
+      12,
+      13
+    ]
+  },
+  "attempts_per_slot": 64,
+  "filters": {
+    "compare_full_and_operative": true,
+    "public_identity_corpora": [
+      "docs/mainline/t4b-holdout-confirmation-v2/condition-summary.json",
+      "docs/mainline/t5-ordinary-improvement-development-v1/inputs.json"
+    ]
+  },
+  "replay": {
+    "kind": "three immutable T3 public histories P, with a standardized 600 s signed maintenance clause as in T4b isolation",
+    "keys": [
+      "2-02",
+      "5-04",
+      "6-02"
+    ],
+    "clocks": 61
+  },
+  "sampling_seed_domain": "AegisDC/T5-v2/new-development/v1",
+  "bootstrap": {
+    "seed_prefix": "AegisDC/T5-v2/development/v1|",
+    "repetitions": 10000,
+    "interval_percentiles": [
+      2.5,
+      97.5
+    ],
+    "quantile_interpolation": "linear"
+  },
+  "main_gate": {
+    "upper_vs_R_strictly_below": 0,
+    "upper_vs_B_COST_strictly_below": 0,
+    "paired_dev_conditions": 24,
+    "search_seeds": 3
+  },
+  "references": [
+    "B",
+    "B_COST",
+    "V_COST",
+    "V_COST_NOPROBE",
+    "M",
+    "M_HOT"
+  ],
+  "max_jobs": 90,
+  "max_reserved_cpu_s": 270000,
+  "pilot": {
+    "cpus": 24,
+    "minutes": 4,
+    "round": 1,
+    "positions": 24
+  },
+  "offload": {
+    "prepare_minutes": 12,
+    "per_update_minutes": 8,
+    "final_minutes": 15,
+    "position_batch_size": 24,
+    "forecast_seconds_per_job_lane_formula": "ceil((2*(1.20*t_max+8)+6)/60)"
+  }
+}
