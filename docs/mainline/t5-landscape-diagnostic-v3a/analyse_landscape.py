@@ -1,5 +1,6 @@
 """Reconcile saved originals, certify each oracle and estimate the cross-half landscape."""
 from collections import Counter
+from fractions import Fraction
 import gzip
 import json
 import os
@@ -38,14 +39,14 @@ def audit_score(label,key,case,m,reg,worker_ids):
               entered=marker.is_file(),status="UNSUBMITTED" if reg is None else "NO_ENTRY")
     if not marker.is_file():
         return None,base
-    e=read(marker)
     base.update(status="ENTERED_NO_VALID_SCORE",entry_sha256=sha(marker))
     if not path.is_file():
         if raw.is_file():base["raw_sha256"]=sha(raw)
         return None,base
     try:
-        s=read(path)
-        check(reg is not None and s["entry"]==e and [label,key] in reg["slots"] and e["job"]==reg["job"]
+        e=read(marker);s=read(path)
+        check(reg is not None and s["entry"]==e and (e["label"],e["key"],e["group"])==(label,key,reg["name"])
+              and [label,key] in reg["slots"] and e["job"]==reg["job"]
               and e["input"]==m["conditions"][key]["sha256"] and e["panel"]==os.environ["V3A_PANEL"] and e["source"]==sha(LOCK),"entry binding")
         descriptor,manual=binding(label,m)
         identity=worker_ids["manual" if manual else "learned"] if descriptor is not None else worker_ids.get(label)
@@ -69,10 +70,14 @@ def audit_score(label,key,case,m,reg,worker_ids):
                 reply={k:v for k,v in d["decision"].items() if k!="certificates"}
                 messages.append([prop["at"],digest(operative_view(d["view"])),digest(reply)])
             check(digest(messages)==s["worker_ipc"],"filtered baseline")
-        check(all(abs(a-b)<=EPS for a,b in zip((s["L"],s["U"]),s["integral_balances"],strict=True)) and s["clocks"]==61,
+        native_summary=meta["summary"]
+        original_integrals=(native_summary["service_deficit_time_s"],native_summary["demand_service_unit_s"]-native_summary["delivered_service_unit_s"])
+        check(all(abs(a-b)<=EPS and abs(a-c)<=EPS for a,b,c in zip((s["L"],s["U"]),s["integral_balances"],original_integrals,strict=True)) and s["clocks"]==61,
               "two independent service accounts")
-    except (OSError,KeyError,ValueError,TypeError) as error:
-        return None,dict(base,status="INVALID_RECORD",error=str(error))
+    except (OSError,EOFError,StopIteration,KeyError,ValueError,TypeError) as error:
+        return None,dict(base,status="INVALID_RECORD",error=type(error).__name__+": "+str(error),
+                         score_sha256=sha(path) if path.is_file() else None,
+                         raw_sha256=sha(raw) if raw.is_file() else None)
     return s,dict(base,status="SCORED",raw_sha256=s["raw"],score_sha256=sha(path),worker=e["worker_pid"],pid=e["pid"],
                   descriptor=e["vector_sha256"],transcript=s["proposal"])
 
@@ -150,8 +155,18 @@ def main():
     if valid_random:
         matrix={h:np.asarray([[r["arms"][label]["L"] for r in rows] for label in random]) for h,rows in half.items()}
         mean_a,mean_b=(matrix[k].mean(axis=1) for k in ("A","B"))
-        rng=np.random.Generator(np.random.PCG64(stream_int(seed_bytes("curves"),cfg["seeds"]["curves"],"paired-2000-permutations")))
-        profile=curves(mean_a,mean_b,baseline,oracle,attributes,rng)
+        resampling_seed=stream_int(seed_bytes("curves"),cfg["seeds"]["curves"],"paired-2000-permutations")
+        rng=np.random.Generator(np.random.PCG64(resampling_seed))
+        exact=None
+        if all(oracle[h] is not None and baseline[h] is not None and baseline[h]>oracle[h] for h in half):
+            def rational_mean(vals):
+                return sum(Fraction.from_float(float(v)) for v in vals)/len(vals)
+            exact={h:[rational_mean(list(row)) for row in matrix[h]] for h in half}
+            exact["baseline"]=sum(rational_mean([r["arms"]["B_COST"]["L"] for r in rows]) for rows in half.values())
+            exact["oracle"]=sum(rational_mean([r["minimum"]["certified_min"] for r in rows]) for rows in half.values())
+        profile=curves(mean_a,mean_b,baseline,oracle,attributes,rng,exact=exact)
+        profile["PCG64_resampling_seed_hex"]=format(resampling_seed,"064x")
+        profile["permutation_index_order"]=random
         transfer=dict(spearman=spearman(mean_a,mean_b),subsets=selected_subsets(matrix["A"],mean_b,[r["family"] for r in half["A"]],
                                                                             attributes["subsets_per_family"]))
         vals=np.asarray([overall[k]["mean_L"] for k in random])

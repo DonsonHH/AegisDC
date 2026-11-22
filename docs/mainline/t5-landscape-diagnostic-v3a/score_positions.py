@@ -21,14 +21,20 @@ def oracle_plan(case):
         return dict(plan={},lower=None,proof="independent bound unavailable",error=type(error).__name__)
 
 
-def witness(certificate,metrics):
+def witness(certificate,metrics,decisions):
     if certificate is None:
         return None
     plan=certificate["plan"]
-    chain=all([int(t),task] in metrics["requests"] and
-              any(w["task"]==task and w["outcome"]=="APPLIED" for w in metrics["writes"]) and
-              any(q["task"]==task[:-1]+"R" and q["fields"] and q["execution"] for q in metrics["paid"])
-              for t,task in plan.items())
+    requested={d["decision"]["request"]["task"]:d["decision"]["request"] for d in decisions if d["decision"]["request"]}
+    def confirmed(t,task):
+        w=next((w for w in metrics["writes"] if w["task"]==task and w["outcome"]=="APPLIED"),None)
+        name=task[:-1]+"R";req=requested.get(name)
+        if w is None or req is None or [int(t),task] not in metrics["requests"]:return False
+        return (req["parent"]==task and req["execution"]==w["execution"] and req["parent_epoch"]==w["epoch"] and req["at"]>=w["arrived"]
+                and any(q["task"]==name and q["fields"] and q["execution"]==w["execution"]
+                        and q["parent"]==task and q["parent_epoch"]==q["physical_epoch"]==w["epoch"]
+                        and req["at"]==q["issued"]<=q["sampled"]<=q["arrived"] for q in metrics["paid"]))
+    chain=all(confirmed(t,task) for t,task in plan.items())
     lower=certificate["lower"]
     attained=lower is not None and chain and max(abs(metrics[k]-lower) for k in ("L","U"))<=1e-7
     return dict(certificate,status="ATTAINED" if attained else "UNRESOLVED",
@@ -83,7 +89,7 @@ def unit(group,label,key,lane):
     if label=="B_COST":
         check(not any(n.endswith("::I") for _,n in metrics["requests"]),"unmodified cost baseline")
     summary={k:metrics[k] for k in ("L","U","integral_balances","person","tool","fee","requests","paid","writes","curve","clocks","runtime")}
-    summary.update(entry=entry,raw=sha(raw),wall_s=time.monotonic()-started,oracle=witness(cert,metrics),
+    summary.update(entry=entry,raw=sha(raw),wall_s=time.monotonic()-started,oracle=witness(cert,metrics,run["policy_public_decisions"]),
                    worker_ipc=digest(worker.ipc) if worker else None,proposal=digest(worker.events) if worker else None)
     write(dst/"score.json",summary)
     print(label,key,"scored",flush=True)

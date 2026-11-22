@@ -1,6 +1,7 @@
 """Preregistered opposite-half selection, recovery and rank-transfer estimators."""
 from itertools import combinations, product
 import hashlib
+from fractions import Fraction
 import numpy as np
 
 
@@ -57,18 +58,18 @@ def selected_subsets(a,b,family_ids,sizes):
 def verdict(r6,r24):
     if r6 is None or r24 is None:
         return "INDETERMINATE"
-    if r6>=0.8:
+    if r6>=Fraction(4,5):
         return "TOO_EASY"
-    if r6<0.6 and r24>=r6+0.15:
+    if r6<Fraction(3,5) and r24-r6>=Fraction(3,20):
         return "SEARCH_HEADROOM"
     return "UNCERTAIN"
 
 
-def curves(mean_a,mean_b,base,oracle,settings,rng):
+def curves(mean_a,mean_b,base,oracle,settings,rng,exact=None):
     n=len(mean_a)
     permutations=np.array([rng.permutation(n) for _ in range(settings["repetitions"])])
     both_valid=all(oracle[h] is not None and base[h] is not None and base[h]>oracle[h] for h in ("A","B"))
-    answer={};samples={}
+    answer={};samples={};exact_recovery={}
     for k in settings["k"]:
         bag=permutations[:,:k]
         take_a=winners(mean_a,bag)
@@ -84,13 +85,19 @@ def curves(mean_a,mean_b,base,oracle,settings,rng):
         if both_valid:
             fractions=((base["A"]-test_a)+(base["B"]-test_b))/((base["A"]-oracle["A"])+(base["B"]-oracle["B"]))
             samples[k]=fractions
+            if exact is not None and k in (6,24):
+                ca=np.bincount(take_a,minlength=n);cb=np.bincount(take_b,minlength=n)
+                received=sum(int(c)*v for c,v in zip(ca,exact["B"]))+sum(int(c)*v for c,v in zip(cb,exact["A"]))
+                exact_recovery[k]=(exact["baseline"]-received/settings["repetitions"])/(exact["baseline"]-exact["oracle"])
         values["pooled"]=dict(target_L=interval(pooled),recovered=interval(fractions) if fractions is not None else None)
         answer[str(k)]=values
     gain=interval(samples[24]-samples[6]) if 6 in samples and 24 in samples else None
     r6=answer.get("6",{}).get("pooled",{}).get("recovered")
     r24=answer.get("24",{}).get("pooled",{}).get("recovered")
-    status=verdict(r6["mean"] if r6 else None,r24["mean"] if r24 else None)
+    status=verdict(exact_recovery.get(6,Fraction(str(r6["mean"])) if r6 else None),
+                   exact_recovery.get(24,Fraction(str(r24["mean"])) if r24 else None))
     return dict(curves=answer,delta_24_minus_6=gain,decision=status,
+                exact_mean_recovery={str(k):str(v) for k,v in exact_recovery.items()},
                 permutation_sha256=hashlib.sha256(permutations.astype("<i4").tobytes()).hexdigest())
 
 
@@ -101,7 +108,8 @@ def selfcheck():
     assert list(winners(a,bags))==[0,1,0] and list(winners(b,bags))==[1,2,2]
     assert np.allclose(ordered_ranks([3,1,1]),[3,1.5,1.5])
     assert spearman([4,4,4],[1,2,3]) is None and abs(spearman([1,2,3],[3,2,1])+1)<1e-12
-    assert verdict(0.8,0.8)=="TOO_EASY" and verdict(0.60,1)=="UNCERTAIN" and verdict(0.50,0.65)=="SEARCH_HEADROOM"
+    assert verdict(Fraction("0.8"),Fraction("0.8"))=="TOO_EASY" and verdict(Fraction("0.60"),1)=="UNCERTAIN"
+    assert verdict(Fraction("0.28"),Fraction("0.43"))=="SEARCH_HEADROOM" and verdict(Fraction("0.28"),Fraction("0.429999"))=="UNCERTAIN"
     assert verdict(None,0.8)=="INDETERMINATE"
     trial=curves(a,b,{"A":5,"B":12},{"A":1,"B":2},dict(k=[3],repetitions=7),np.random.default_rng(14))
     g=trial["curves"]["3"]
