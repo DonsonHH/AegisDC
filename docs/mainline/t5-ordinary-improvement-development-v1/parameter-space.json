@@ -1,0 +1,178 @@
+{
+  "schema": "T5-public-policy-space-v1",
+  "action_kinds": [
+    "C",
+    "N",
+    "LC",
+    "LB",
+    "LG",
+    "NR",
+    "NP",
+    "NC"
+  ],
+  "subject_parameters": {
+    "probe_margin_s": {
+      "levels": [
+        0,
+        35,
+        90
+      ],
+      "initial": 0,
+      "meaning": "Additional service-equivalent margin for a first inspection."
+    },
+    "probe_target_s": {
+      "levels": [
+        -55,
+        0,
+        55
+      ],
+      "initial": 0,
+      "meaning": "Ranks inspection subjects by expected uncertainty reduction."
+    },
+    "deadline_credit_s": {
+      "levels": [
+        -45,
+        0,
+        90
+      ],
+      "initial": 0,
+      "meaning": "Priority adjustment for public write-window slack."
+    },
+    "exclusive_bid_s": {
+      "levels": [
+        0,
+        90,
+        210
+      ],
+      "initial": 0,
+      "meaning": "Charge per competing legal write displaced by exclusive recovery."
+    },
+    "bypass_risk_weight": {
+      "levels": [
+        0,
+        0.5,
+        1
+      ],
+      "initial": 0,
+      "meaning": "Additional weight on the public maintenance bypass exposure."
+    },
+    "prewrite_evidence": {
+      "levels": [
+        0,
+        1,
+        2
+      ],
+      "initial": 0,
+      "meaning": "Accept prior rule, veto after own adequate read, or also check later normal fixed reading."
+    },
+    "no_probe_need": {
+      "levels": [
+        0.35,
+        0.55,
+        1.01
+      ],
+      "initial": 1.01,
+      "meaning": "Probability of need for a legal direct correction before buying a delay-prone reading."
+    },
+    "no_probe_slack_s": {
+      "levels": [
+        60,
+        120,
+        240
+      ],
+      "initial": 60,
+      "meaning": "Maximum public time to last legal start for the direct-over-probe rule."
+    }
+  },
+  "global_parameters": {
+    "forecast_weight": {
+      "levels": [
+        0,
+        0.7,
+        1
+      ],
+      "initial": {
+        "MAIN": 0,
+        "HOT": 1
+      },
+      "meaning": "Weight on the frozen public forecast; the complete MAIN initial vector invokes B_cost exactly."
+    },
+    "baseline_credit_s": {
+      "levels": [
+        40,
+        100,
+        220
+      ],
+      "initial": {
+        "MAIN": 40,
+        "HOT": 40
+      },
+      "meaning": "Main-track preference for the exact B_cost root decision."
+    },
+    "nr_need": {
+      "levels": [
+        0.3,
+        0.55,
+        1.01
+      ],
+      "initial": {
+        "MAIN": 1.01,
+        "HOT": 1.01
+      },
+      "meaning": "Minimum public posterior support for preventive NR in a closing window."
+    },
+    "nr_window_s": {
+      "levels": [
+        0,
+        120,
+        300
+      ],
+      "initial": {
+        "MAIN": 0,
+        "HOT": 0
+      },
+      "meaning": "How far in advance of the last legal NR start it can receive extra priority."
+    },
+    "nr_credit_s": {
+      "levels": [
+        90,
+        180,
+        330
+      ],
+      "initial": {
+        "MAIN": 180,
+        "HOT": 180
+      },
+      "meaning": "Preventive NR priority credit in service-equivalent seconds."
+    }
+  },
+  "track_initial": {
+    "MAIN": {
+      "behavior": "B_COST",
+      "selector": "exact B_cost on the full initial vector"
+    },
+    "HOT": {
+      "behavior": "V_COST",
+      "selector": "exact V** on the full initial vector"
+    }
+  },
+  "hot_mutable": {
+    "global": [
+      "nr_need",
+      "nr_window_s",
+      "nr_credit_s"
+    ],
+    "subject": [
+      "prewrite_evidence",
+      "no_probe_need",
+      "no_probe_slack_s"
+    ]
+  },
+  "count": {
+    "main_parameters": 69,
+    "main_parameter_vectors": "834385168331080533771857328695283",
+    "hot_parameters": 27,
+    "hot_parameter_vectors": "7625597484987",
+    "nominal_lower_bound": "3^32 = 1,853,020,188,851,841 with four distinct per-kind adjustments across eight kinds. Behavior equivalence in a finite panel is measured separately."
+  }
+}

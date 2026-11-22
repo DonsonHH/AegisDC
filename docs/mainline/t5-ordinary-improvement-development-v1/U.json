@@ -1,0 +1,145 @@
+{
+  "schema": "T5-U-default-v1",
+  "U": {
+    "version": "fixed-steepest-neighbor-with-adaptive-operator-credit",
+    "fit_rounds": 4,
+    "candidates_per_round": 3,
+    "fit_cases_per_family": 6,
+    "fit_families": 6,
+    "pilot_cases_per_family": 1,
+    "evaluation_cases_per_family": 8,
+    "per_track_native_budget": 468,
+    "pilot_included": true,
+    "initial_primary_candidate_index": 1,
+    "spent_metric": "one charged actual facility position, including failures",
+    "objective": {
+      "metric": "L",
+      "min_gain_s": 0.01,
+      "tie_break": [
+        "mean_person_s",
+        "mean_tool_s",
+        "mean_fee",
+        "descriptor_digest"
+      ]
+    },
+    "exploration_s": 30,
+    "patience_rounds": 4,
+    "minimum_successful_fit_cases": 36,
+    "proposal": {
+      "random_probability": 0.34,
+      "edited_subject_counts": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "all_subjects_probability": 0.35,
+      "max_unique_attempts": 64,
+      "credit_floor_s": -3600,
+      "generator": "PCG64; domain seed uses fixed seed text, track and round",
+      "generator_seed_text": "AegisDC/T5/U-default/20261122/withdrawn-hash-5d2f",
+      "operator_credit": "Successful paired L reduction against current parent in the purchased fit panel, mean over attempted proposals for each operator.",
+      "operator_priority": "mean credit plus exploration_s * sqrt(log(1+total_attempts)/(1+operator_attempts)); tie by registered order",
+      "operators": {
+        "MAIN": [
+          "forecast",
+          "inspection",
+          "deadlines",
+          "exclusive",
+          "bypass",
+          "verification",
+          "fast_direct",
+          "prevention"
+        ],
+        "HOT": [
+          "prevention",
+          "verification",
+          "fast_direct"
+        ]
+      },
+      "first_batch": {
+        "MAIN": [
+          "forecast",
+          "inspection",
+          "deadlines"
+        ],
+        "HOT": [
+          "prevention",
+          "verification",
+          "fast_direct"
+        ]
+      },
+      "first_batch_levels": {
+        "MAIN": [
+          {
+            "forecast_weight": 1,
+            "baseline_credit_s": 40
+          },
+          {
+            "forecast_weight": 1,
+            "baseline_credit_s": 100,
+            "probe_target_s": 55,
+            "probe_margin_s": 0,
+            "prewrite_evidence": 1
+          },
+          {
+            "forecast_weight": 0.7,
+            "baseline_credit_s": 40,
+            "deadline_credit_s": 90,
+            "exclusive_bid_s": 90,
+            "prewrite_evidence": 2,
+          "nr_need": 0.3,
+            "nr_window_s": 120
+          }
+        ],
+        "HOT": [
+          {
+          "nr_need": 0.3,
+            "nr_window_s": 120,
+            "nr_credit_s": 330
+          },
+          {
+            "prewrite_evidence": 2
+          },
+          {
+            "no_probe_need": 0.35,
+            "no_probe_slack_s": 240
+          }
+        ]
+      },
+      "mutation_groups": {
+        "forecast": [
+          "forecast_weight",
+          "baseline_credit_s"
+        ],
+        "inspection": [
+          "probe_margin_s",
+          "probe_target_s"
+        ],
+        "deadlines": [
+          "deadline_credit_s"
+        ],
+        "exclusive": [
+          "exclusive_bid_s"
+        ],
+        "bypass": [
+          "bypass_risk_weight"
+        ],
+        "verification": [
+          "prewrite_evidence"
+        ],
+        "fast_direct": [
+          "no_probe_need",
+          "no_probe_slack_s"
+        ],
+        "prevention": [
+          "nr_need",
+          "nr_window_s",
+          "nr_credit_s"
+        ]
+      }
+    },
+    "early_stop": "Stop a track after patience_rounds consecutive paid rounds with no sufficient gain, after fit_rounds, or when a required full score panel is incomplete. If no distinct registered neighbor is available after the fixed attempts, exhaust it and retain the incumbent.",
+    "fee_accounting": "Offline query purchases and charged physical work in the chosen plant arm are recorded separately."
+  }
+}

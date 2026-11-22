@@ -1,0 +1,49 @@
+{
+  "schema": "T5-development-design-v1",
+  "protocol": "protocol.md",
+  "max_jobs": 90,
+  "max_reserved_cpu_s": 270000,
+  "fit_cases_per_family": 6,
+  "evaluation_cases_per_family": 8,
+  "per_family_blocks": 2,
+  "duplicates": {
+    "attempts_per_slot": 64,
+    "forbidden_meta_path": "docs/mainline/t4b-holdout-confirmation-v2/condition-summary.json",
+    "reference": "T4b canonical operative identity native, attachment, and maintenance plus full condition digest"
+  },
+  "paid_arm_budget": 1320,
+  "bootstrap": {
+    "prefix": "AegisDC/T5/development/v1|",
+    "draws": 10000,
+    "quantiles": [
+      2.5,
+      97.5
+    ],
+    "interpolation": "linear"
+  },
+  "gates": {
+    "B_cost_upper_strictly_below_s": 0,
+    "V_upper_at_most_s": 30
+  },
+  "pilot": {
+    "roles": [
+      "MAIN-root",
+      "MAIN-r01-c01",
+      "HOT-root",
+      "HOT-r01-c01"
+    ],
+    "families": 6,
+    "cpus": 24,
+    "minutes": 4
+  },
+  "evaluation_roles": [
+    "P",
+    "B",
+    "B_COST",
+    "V_COST",
+    "V_COST_NOPROBE",
+    "MAIN",
+    "HOT",
+    "HOT_NOPROBE"
+  ]
+}
