@@ -2,13 +2,13 @@
   "schema": "aegisdc-review-gated-progress-v2",
   "date": "2026-11-22",
   "mainline_id": "complete-facility-risk-inspection-v1",
-  "status": "T4C_ACTION_COST_V3_PUBLIC_DEVELOPMENT_PENDING_REVIEW",
+  "status": "T4D_PUBLIC_COST_BASELINE_AND_SENSITIVITY_PENDING_REVIEW",
   "goal": "在完整八域算力设施中，研究多系统耦合与多源稀疏证据下的风险驱动按需核查、受约束处置以及普通自改进和 RSI 的独立增量。Google 事故提供有限有效性验证。",
   "current_ticket": null,
-  "current_milestone": "REVIEW_T4C_PUBLIC_MAINTENANCE_COST_STUDY",
+  "current_milestone": "REVIEW_T4D_PUBLIC_COMPARISONS_AND_FAILURES",
   "plan": "docs/mainline/full-facility-method-handoff.md",
   "meeting": "docs/meetings/2026-11-03-research-reset.md",
-  "agent_stage": "T4C_DEVELOPMENT_RESULTS_REVIEW",
+  "agent_stage": "T4D_DEVELOPMENT_RESULTS_REVIEW",
   "rsi_gain": "NOT_MEASURED",
   "field_calibration": "PENDING",
   "research_trials": {
@@ -54,13 +54,13 @@
     "automatic_goal": "NONE",
     "research_execution": "CLOSED",
     "authorized_scope": [],
-    "after_delivery": "STOP_AT_T4C_DEVELOPMENT_REVIEW",
+    "after_delivery": "STOP_AT_T4D_PUBLIC_DEVELOPMENT_REVIEW",
     "new_experiments_authorized": false,
     "next_gate_auto_start": false,
     "legacy_queue_auto_resume": false,
     "document_work_authorized": false,
     "R2_authorized": false,
-    "document_authorization_status": "T4C_DEVELOPMENT_DELIVERED",
+    "document_authorization_status": "T4D_PUBLIC_DEVELOPMENT_DELIVERED",
     "R2_contract_drafting_authorized": true,
     "R2_implementation_authorized": false,
     "R2_relation_tables_authorized": true,
@@ -2584,7 +2584,7 @@
     "next_stage_authorized": false
   },
   "t4c_v3_development": {
-    "status": "T4C_ACTION_COST_V3_PUBLIC_DEVELOPMENT_PENDING_REVIEW",
+    "status": "USER_ACCEPTED_T4C_FINITE_DEVELOPMENT",
     "report": "docs/mainline/t4c-action-cost-v3/README.md",
     "receipt": "docs/mainline/t4c-action-cost-v3/receipt.json",
     "results": "docs/mainline/t4c-action-cost-v3/development.json.gz",
@@ -2639,6 +2639,90 @@
     "old_confirmation_commitment_retired": true,
     "ordinary_improvement_runs": 0,
     "RSI_runs": 0,
-    "user_acceptance_pending": true
+    "user_acceptance_pending": false,
+    "acceptance": "docs/mainline/t4d-cost-baseline-v1/t4c-acceptance.json"
+  },
+  "t4d_public_cost_baseline": {
+    "status": "T4D_PUBLIC_COST_BASELINE_AND_SENSITIVITY_PENDING_REVIEW",
+    "report": "docs/mainline/t4d-cost-baseline-v1/README.md",
+    "results": "docs/mainline/t4d-cost-baseline-v1/development-result.json.gz",
+    "integrity": "docs/mainline/t4d-cost-baseline-v1/receipt.json",
+    "failure_cases": "docs/mainline/t4d-cost-baseline-v1/failure-evidence.json.gz",
+    "confirmation_v2": "docs/mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md",
+    "pre_outcome_protocol": "35b7bf42",
+    "scientific_freeze": "bd6ca74f",
+    "inputs_version": "4d40ba11",
+    "original_parent": "cef45c02",
+    "main_conditions": 72,
+    "sensitivity_conditions": 36,
+    "settings": [
+      "S1",
+      "S2",
+      "S0"
+    ],
+    "sensitivity_positions": 540,
+    "new_native_positions": 612,
+    "B_cost_share_of_V_service_gain": {
+      "fraction": 0.15567306189916202,
+      "total_B_minus_Bcost": 4732.5,
+      "total_B_minus_V": 30400.25
+    },
+    "probe_difference_by_setting": {
+      "S1": {
+        "hi": -26.656250000000153,
+        "lo": -102.08333333333333,
+        "mean": -62.083333333333336
+      },
+      "S2": {
+        "hi": 1.25,
+        "lo": -147.47222222222223,
+        "mean": -64.36111111111111
+      },
+      "S0": {
+        "hi": 3.75,
+        "lo": 0.0,
+        "mean": 1.25
+      }
+    },
+    "S0_worse": [
+      {
+        "B": 326.25,
+        "V": 371.25,
+        "delta": 45.0,
+        "family": "RESERVE_TRANSFER",
+        "key": "3-02"
+      },
+      {
+        "B": 0.0,
+        "V": 120.0,
+        "delta": 120.0,
+        "family": "NETHERLANDS",
+        "key": "6-05"
+      },
+      {
+        "B": 0.0,
+        "V": 120.0,
+        "delta": 120.0,
+        "family": "NETHERLANDS",
+        "key": "6-06"
+      }
+    ],
+    "current_H1_user_sha256": null,
+    "future_H2_user_sha256": null,
+    "holdout_generated": 0,
+    "holdout_run": 0,
+    "holdout_results_accessed": 0,
+    "ordinary_improvement_runs": 0,
+    "RSI_runs": 0,
+    "slurm": {
+      "jobs": 33,
+      "reserved_cpu_s": 95160,
+      "elapsed_times_cpus_s": 62900,
+      "nonzero": [
+        "134883"
+      ]
+    },
+    "review_pending": true,
+    "next_stage_authorized": false
   }
 }

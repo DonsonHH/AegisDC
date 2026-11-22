@@ -28,7 +28,11 @@
 
 ## T4c　行动代价与付费核查的开发比较
 
-在六族各 12 条新开发条件上，V** 相对透明直接 B 的平均 L 差为 -422.23 秒，95% 族内重抽区间为 [-568.45, -287.62]。两版均有真实禁购初检消融，792 个新增位置已归档，停在用户审查。v3 的用户离线种子承诺待提供。[集中报告](mainline/t4c-action-cost-v3/README.md) · [冻结与留出协议](mainline/t4c-action-cost-v3/confirmation-protocol.md)
+在六族各 12 条新开发条件上，V** 相对透明直接 B 的平均 L 差为 -422.23 秒，95% 族内重抽区间为 [-568.45, -287.62]。两版均有真实禁购初检消融，792 个新增位置已归档，并已取得[T4c 有限开发验收](mainline/t4d-cost-baseline-v1/t4c-acceptance.json)。[集中报告](mainline/t4c-action-cost-v3/README.md) · [冻结与留出协议](mainline/t4c-action-cost-v3/confirmation-protocol.md)
+
+## T4d　成本感知透明基线及参数敏感性
+
+原 v3 的 72 条条件中，B_cost 取得 V\*\* 相对 B 服务缺额降幅的 15.57%。另有三组相同 36 条条件的参数对照，开发结果待审。两份用户离线承诺均待提供。[集中报告](mainline/t4d-cost-baseline-v1/README.md) · [顺序确认协议 v2](mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md)
 
 ## 第四阶段普通改进原稿
 
