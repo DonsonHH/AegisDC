@@ -24,7 +24,11 @@
 
 ## T4a　风险驱动方法与组合现状的公开开发比较
 
-六族 72 个条件已完成三版 V 与 PA、B 的 360 个新增位置。V* 相对 PA 的平均 ΔL 为 -279.2 秒（95% 开发重抽区间 -423.1 至 -147.9），平均人员占用 109.1 对 650.8 秒。第三版 λ=1 已冻结，停在开发结果审查。144 条留出仍为书面协议。[集中报告](mainline/t4a-public-risk-v1/README.md) · [V* 冻结](mainline/t4a-public-risk-v1/vstar-freeze.json) · [留出确认协议](mainline/t4a-public-risk-v1/confirmation-protocol.md)
+六族 72 个条件已完成三版 V 与 PA、B 的 360 个新增位置。V* 相对 PA 的平均 ΔL 为 -279.2 秒（95% 开发重抽区间 -423.1 至 -147.9），平均人员占用 109.1 对 650.8 秒。第三版 λ=1 已冻结。[T4a 有限开发验收](mainline/t4c-action-cost-v3/t4a-acceptance.json)已登记。144 条留出仍为书面协议。[集中报告](mainline/t4a-public-risk-v1/README.md) · [V* 冻结](mainline/t4a-public-risk-v1/vstar-freeze.json) · [留出确认协议](mainline/t4a-public-risk-v1/confirmation-protocol.md)
+
+## T4c　行动代价与付费核查的开发比较
+
+在六族各 12 条新开发条件上，V** 相对透明直接 B 的平均 L 差为 -422.23 秒，95% 族内重抽区间为 [-568.45, -287.62]。两版均有真实禁购初检消融，792 个新增位置已归档，停在用户审查。v3 的用户离线种子承诺待提供。[集中报告](mainline/t4c-action-cost-v3/README.md) · [冻结与留出协议](mainline/t4c-action-cost-v3/confirmation-protocol.md)
 
 ## 第四阶段普通改进原稿
 
