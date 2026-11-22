@@ -38,13 +38,26 @@ def expected_engineering(metrics, expected, maintenance, locks):
         check(event['indicated']==a['indicated'] and event['until']==a['penalty_until'],'precondition and service interval')
 
 
-def unit(phase,key,role,manifest_id,attempt):
+def check_stage(phase,name):
+    check((ACT/'isolation/result.json').is_file() and phase==('eng' if name.startswith('eng') else 'dev'),'registered phase and isolation')
+    if phase=='dev':
+        check((ACT/'engineering-accepted-by-checks.json').is_file(),'engineering gate')
+        if name!='pilot':check(read(ACT/'pilot-budget.json')['continue'],'pilot budget stop')
+        if name.startswith(('ctrl','new')):check((ACT/'ref-complete.json').is_file(),'frozen reference first')
+        if name.startswith('new'):check((ACT/'controls-complete.json').is_file(),'controls complete')
+
+
+def unit(phase,key,role,manifest_id,attempt,name):
     if 'T4C_CPU' in os.environ:os.sched_setaffinity(0,{int(os.environ['T4C_CPU'])})
     spec=pinned()
     bundle=read(ACT/'bundles.json')
     froot=ACT/(phase+'-inputs')
     check(sha(froot/'manifest.json')==manifest_id,'input version')
-    m=read(froot/'manifest.json');file=froot/(key+'.json')
+    m=sealed_manifest(phase);file=froot/(key+'.json')
+    check_stage(phase,name)
+    group_entry=read(ACT/'batches'/name/attempt/'entry.json')
+    check(group_entry['job']==job() and group_entry['manifest']==manifest_id and group_entry['positions']==spec['groups'][name]
+          and [key,role] in group_entry['positions'] and attempt=='a1','bound Slurm group membership')
     check(sha(file)==m['files'][key] and m['source_freeze']==sha(PK/'freeze.json'),'input and pre-role rules')
     x=read(file)
     engineering=phase=='eng'
@@ -102,14 +115,10 @@ def minutes(pilot_seconds,waves):
 
 
 def group(phase,name,attempt='a1'):
-    plan=pinned();schema=read(ACT/(phase+'-inputs')/'manifest.json');mhash=sha(ACT/(phase+'-inputs')/'manifest.json')
+    plan=pinned();schema=sealed_manifest(phase);mhash=sha(ACT/(phase+'-inputs')/'manifest.json')
     check(schema['source_freeze']==sha(PK/'freeze.json') and (ACT/'isolation/result.json').exists(),'pre-run material')
     slots=plan['groups'][name]
-    if phase=='dev':
-        check((ACT/'engineering-accepted-by-checks.json').is_file(),'qualification required')
-        if name!='pilot':check(read(ACT/'pilot-budget.json')['continue'],'pilot stop')
-        if name.startswith(('ctrl','new')):check((ACT/'ref-complete.json').is_file(),'original method first')
-        if name.startswith('new'):check((ACT/'controls-complete.json').is_file(),'reference diagnoses first')
+    check_stage(phase,name);check(attempt=='a1','only registered first attempts')
     n=int(os.environ['SLURM_CPUS_PER_TASK']);cpus=sorted(os.sched_getaffinity(0))
     check(len(cpus)>=n and n==plan['cpus'][name],'allocation')
     out=ACT/'batches'/name/attempt;out.mkdir(parents=True,exist_ok=False)
@@ -121,7 +130,7 @@ def group(phase,name,attempt='a1'):
             k,r=slots[index]
             env=dict(os.environ,T4C_CPU=str(cpus[i]),OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
             with (out/(k+'-'+r+'.log')).open('x') as fp:
-                ret=subprocess.run([sys.executable,'-B',str(Path(__file__).resolve()),'unit',phase,k,r,mhash,attempt],
+            ret=subprocess.run([sys.executable,'-B',str(Path(__file__).resolve()),'unit',phase,k,r,mhash,attempt,name],
                                    stdout=fp,stderr=subprocess.STDOUT,env=env)
             done.append([k,r,ret.returncode])
         return done

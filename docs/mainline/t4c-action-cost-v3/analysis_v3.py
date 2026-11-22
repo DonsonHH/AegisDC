@@ -15,6 +15,7 @@ def saved(phase,key,role,original=False):
     base=ACT/'positions'/(phase+'-'+key+'-'+role)
     paths=sorted(base.glob('*/score.json'));check(len(paths)==1,'exactly one returned score '+str(base))
     path=paths[0];s=read(path);d=path.parent;e=read(d/'entry.json');n=read(d/'native-entry.json')
+    check(e['input']==sealed_manifest(phase)['files'][key] and e['manifest']==sha(ACT/(phase+'-inputs')/'manifest.json'),'registered artifact')
     check(s['entry']==e and (e['phase'],e['key'],e['role'])==(phase,key,role) and n['pid']==e['pid']
         and s['worker_pid']==n['worker_pid'] and s['clocks']==61 and sha(ACT/(phase+'-inputs')/(key+'.json'))==e['input'],'entry and case')
     if original:
@@ -52,7 +53,9 @@ def gates(stage):
         info[role]=dict(n=len(arms),L=mean(a['L'] for a in arms),person=mean(a['person'] for a in arms),
            initial_reads=sum(sum(s.endswith('::I') for _,s in a['requests']) for a in arms),
            wrong_service_exposures=sum(sum(q['until']>q['at'] for q in a['maintenance']) for a in arms),
-           realized_lock_refusals=sum(len(a['locks']) for a in arms),scores=[a['score_sha256'] for a in arms])
+           external_proposal_vetoes=sum(len(a['locks']) for a in arms),
+           public_candidate_busy_refusals=sum(sum(item[-1]=='MAINTENANCE_CHANGE_BUSY' for item in a['refusals'])-len(a['locks']) for a in arms),
+           scores=[a['score_sha256'] for a in arms])
     write(ACT/(stage+'-complete.json'),dict(job=job(),roles=info,next_rule='predeclared, not chosen from ranks'))
     print(stage,{k:(v['n'],round(v['L'],2),v['wrong_service_exposures']) for k,v in info.items()},flush=True)
 

@@ -34,6 +34,15 @@ def gzwrite(path,value):
     with Path(path).open('xb') as fp:fp.write(gzip.compress(compact(value)+b'\n',compresslevel=5,mtime=0))
 def job():
     return os.environ['SLURM_JOB_ID']
+def sealed_manifest(phase):
+    lock=PK/'input-commitments.json'
+    check(phase in ('eng','dev') and sha(lock)==os.environ['T4C_INPUT_LOCK'],'published complete input commitments')
+    binding=read(lock);m=ACT/(phase+'-inputs')/'manifest.json'
+    check(binding['source_freeze']==sha(PK/'freeze.json') and sha(m)==binding[phase]['manifest_sha256'],'pre-role complete manifest')
+    result=read(m)
+    check(result['purpose']==phase and result['source_freeze']==binding['source_freeze']
+          and result['input_archive']==binding[phase]['archive_sha256'],'phase and input archive')
+    return result
 def pinned():
     job()
     f=read(PK/'freeze.json')

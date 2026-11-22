@@ -4,7 +4,7 @@ from generator_v2 import FAMILIES,complete,base_case,incident_case,source_rng,DE
 from common import templates
 
 RULES=read(SRC/'rules.json')
-SEED=RULES['development_seed']
+SEED=2026112251
 SID=('C/c0','N/n0','N/n0','C/c0','LC','NR')
 SECOND=('N/n0','C/c0','C/c0','N/n0','LG','NC')
 
@@ -16,18 +16,19 @@ def attach(x,seconds):
     return x
 
 
-def make_dev(i,n,templates_):
+def condition(seed,i,n,templates_):
     fam=FAMILIES[i]
     if i>=4:
-        desc=incident_case(SEED,n,fam)
+        desc=incident_case(seed,n,fam)
     else:
-        desc=base_case(SEED,n,fam,templates_)
+        desc=base_case(seed,n,fam,templates_)
         target=desc['first']
         other='C/c0' if target=='N/n0' else 'N/n0'
         desc['windows'][other]=[0,desc['windows'][target][1]]
     menu=[s for s,count in zip(RULES['exposure_menu_s'],RULES['counts_per_twelve'],strict=True) for _ in range(count)]
-    source_rng(SEED,'maintenance-bypass-v3',fam,0).shuffle(menu)
-    return attach(complete(desc,templates_,SEED),menu[n])
+    block,slot=divmod(n,12)
+    source_rng(seed,'maintenance-bypass-v3',fam,block).shuffle(menu)
+    return attach(complete(desc,templates_,seed),menu[slot])
 
 
 def fixture(i,source,case):
@@ -85,7 +86,7 @@ def prepare():
                 items=[(f'{i+1}-{c}',fixture(i,src,c)) for i in range(6) for c in ('wrong','bypass','lock','clear')]
                 items.extend((c,fixture(1,src,c)) for c in ('direct','lock-loss','lock-clear'))
             else:
-                items=[(f'{i+1}-{n+1:02d}',make_dev(i,n,src)) for n in range(12) for i in range(6)]
+                items=[(f'{i+1}-{n+1:02d}',condition(SEED,i,n,src)) for n in range(12) for i in range(6)]
             for k,x in items:
                 path=dest/(k+'.json');write(path,x);files[k]=sha(path);keys.append(k)
                 out.write(json.dumps([k,x],separators=(',',':'),allow_nan=False)+'\n')

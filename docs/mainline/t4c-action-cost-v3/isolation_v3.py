@@ -11,7 +11,11 @@ def initialize():
     frozen=read(T4/'freeze.json')
     old=bridge.bundle_files(frozen)
     check(bridge.BUNDLE==OLD_BUNDLE and bridge.check_bundle(frozen)==read(T4/'isolation-witness.json')['bundle'],'original V*')
-    extra={'aegis_action_cost/'+v.name:sha(v) for v in SRC.iterdir() if v.suffix in ('.py','.json')}
+    pins=read(PK/'freeze.json')['files']
+    extra={k.removeprefix('src/'):v for k,v in pins.items() if k.startswith('src/aegis_action_cost/')}
+    check(set(read(SRC/'rules.json'))=={'schema','window_s','exclusive_recovery_s','exposure_menu_s',
+          'counts_per_twelve','bypass_capacity','public_order_prefix','lambda','fee_person_seconds','versions','main','engineering_caps','development_caps'},
+          'only predeclared public design constants, no realized factors or seed')
     BUNDLE.mkdir()
     for k,h in {**old,**extra}.items():
         target=BUNDLE/k;target.parent.mkdir(exist_ok=True)
@@ -48,7 +52,7 @@ class Child(bridge.PublicProcess):
 
 
 def main():
-    pinned();folder=ACT/'isolation';folder.mkdir();bundle=initialize()
+    pinned();sealed_manifest('eng');sealed_manifest('dev');folder=ACT/'isolation';folder.mkdir();bundle=initialize()
     a,b=(prior_witness.history(k) for k in ('5-04','5-10'))
     check(a[:2]==b[:2] and a[2]!=b[2],'two actual private worlds with identical public history')
     from copy import deepcopy
