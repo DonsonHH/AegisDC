@@ -1,0 +1,224 @@
+{
+  "schema": "aegisdc-t4b-frozen-holdout-run-manifest-v2",
+  "purpose": "One-time confirmatory v3 holdout after H1 handoff",
+  "registration": "docs/mainline/t4b-holdout-confirmation-v2/holdout-registration-v2.json",
+  "fixed_identities": {
+    "T4c": "cef45c0275ce330eaf2652362bfd5090dffd5aa6",
+    "T4d": "036ccfdf2d6e5d4b39ba11da480fa2a3d69c1f9f",
+    "confirmation_protocol_revision": "35b7bf4213c1cc8c1efb5dcf295f7821a1af15ff",
+    "path_sha256": {
+      "docs/mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md": "8cb5a56d8ebf4ef56c3e7df354334d5fd2683760b6f1fe1eda38f522b96032e1",
+      "docs/mainline/t4c-action-cost-v3/freeze.json": "e57df99eab28a8922e49e3e6dae5dda13b3a67a1ee935dc1fda03c66dd7728c0",
+      "docs/mainline/t4c-action-cost-v3/v-double-star-freeze.json": "17e5e4c98b46b7859621608efa3ea3378baf5f5be6209c28a91dee998f55c462",
+      "docs/mainline/t4c-action-cost-v3/inputs_v3.py": "87217f756992e58c25ec90506896433d83bc5e7f3c6194e8c2dcdf82e681d6f3",
+      "docs/mainline/t4c-action-cost-v3/native_v3.py": "3e0ed452ead5312c93723dc55d00a639c972faec1d307415cfb44886100babb2",
+      "docs/mainline/t3-prior-information-v2/bounds.py": "a94918b3b05573fff3a6f0c5c27df7bd66f304f44f4b4b51d3350c41a84f462a",
+      "docs/mainline/t3-prior-information-v2/score_saved.py": "db496d491c98f97a5cbd2b9fddf4e303dcf31e83c83ad0306d47265bef1e4c41",
+      "docs/mainline/t4d-cost-baseline-v1/source-manifest.json": "8ebe0ac4ed91fec6e10bb63da09e9029016e69695deb8a3e6e3d8e4fe96ca6d9",
+      "docs/mainline/t4d-cost-baseline-v1/input-manifest.json": "6796bf1ab4b85632eeec3fe3e3853eac6c603acfb5ec15285b43225f006d9fda",
+      "docs/mainline/t4d-cost-baseline-v1/receipt.json": "52d4af7d72d029c715482cb668fc45e383bf111035da5b308318a943462c391b",
+      "docs/mainline/t4c-action-cost-v3/receipt.json": "78863bc0da8cfdd69517e1d434ece90b41ef2eecfb57350502e5b2bbf2dc4278",
+      "docs/mainline/v6-stage-three-cold-launch-v1/launch-manifest.json": "491043eac0c2441623e9666f8eb249fd7ba43d564c99160e458de5bd9ebfac5b"
+    },
+    "v3_rules_sha256": "7bae889a0302c2d420a9f0c3dfd199251f914b0dfaa2abeaed9a30f1013246f5",
+    "native_core": "0e5afde1a5e734a04489f1bf27804db6a3325497",
+    "native_runtime_sha256": "67db74467194edf547cc7994a702019fa4040b8aa1cebf1eaa33574327b7b735",
+    "public_bundles": {
+      "t4a_B_PA": {
+        "sha256": "634a89e94e440f15697aec49fcacf011dc31f0eb88dd5cfbc4a6315698223fa6",
+        "roles": [
+          "B",
+          "PA"
+        ]
+      },
+      "t4c_v3": {
+        "sha256": "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd",
+        "roles": [
+          "P",
+          "PERIODIC",
+          "ALARM",
+          "BPLUS",
+          "V_COST",
+          "V_COST_NOPROBE"
+        ]
+      },
+      "t4d_B_cost": {
+        "sha256": "91ab45763d3dc567c386dbe24ab7a2951513469ea51fdc9537f6f44e060ca050",
+        "roles": [
+          "B_COST"
+        ]
+      }
+    },
+    "slice57_sha256": {
+      "tests/fixtures/39c-business-record-replay-57.json": "9b63097411f9971b7bc796605f7170066ae003a91b2c839b4e8ade123530e70f",
+      "docs/mainline/39c-business-record-replay-contract-57.md": "3300ea819f2c9ab3ac561cd3d9b331f4874a233e242e1b74bdb57cf6a698e2dd",
+      "evidence/mainline/engineering/39c-development/slice-57/result.json": "c4ff3bd9dea67c488f26c8915d3b4a8a6a569cef6f89e54f56bff0a6c2d09ca7"
+    }
+  },
+  "execution_gate": {
+    "state": "AWAITING_H1_HANDOFF",
+    "before_generation": [
+      "Receive explicit release of the H1 seed file from the user after verifying the published registration commit.",
+      "Verify the handed-off file is exactly 32 bytes and its SHA-256 matches registered H1. A mismatch ends the attempt before creation of any condition.",
+      "Verify the original source, physical parameters, policy bundles and analysis precommitment."
+    ],
+    "generation_record": "Generate one complete panel under Slurm. Submit and push ordered condition digests and generator identity before any facility start. Keep seed bytes and full conditions away from Git and policy processes.",
+    "H2_use": "Reserved commitment metadata only",
+    "purpose_bound_one_time_run": true
+  },
+  "panel": {
+    "conditions": 144,
+    "conditions_per_family": 24,
+    "blocks_per_family": 2,
+    "conditions_per_block": 12,
+    "family_order": [
+      "WATER_HEAT",
+      "NETWORK_POWER",
+      "RESERVE_TRANSFER",
+      "COOLING_ACCESS",
+      "LONDON",
+      "NETHERLANDS"
+    ],
+    "role_order": [
+      "P",
+      "PERIODIC",
+      "ALARM",
+      "PA",
+      "B",
+      "BPLUS",
+      "B_COST",
+      "V_COST",
+      "V_COST_NOPROBE",
+      "ORACLE"
+    ],
+    "position_count": 1440,
+    "independent_state_per_position": true,
+    "generator": "Frozen inputs_v3.condition(seed, family_index, draw, templates) with one unsigned big-endian integer decoded from the 32 original H1 bytes",
+    "design": "Original v3. Each family's two twelve-cell blocks use the generator's block-specific streams. Exactly four of each maintenance duration per block.",
+    "maintenance_support_capacity": 0.5,
+    "additional_write_gap_s": 180,
+    "maintenance_duration_s": [
+      0,
+      600,
+      1200
+    ],
+    "order": "Draw 0 through 23 in ascending order, then family in the registered order. Abstract position keys use 1-based family and 1-based draw, e.g. 1-01.",
+    "repeat_audit": "Compare complete condition identity and canonical operative inputs (native, attachment and maintenance) within the panel and against the registered public development inputs. Report matches with their registered positions and retain the draw order. Never redraw, replace a position or count a previous facility output as a new execution."
+  },
+  "dispatch": {
+    "worker_input": "Declared public configuration and legally arrived view only. The accepted native adapter, admission and scoring paths mediate all roles. The evaluator holds private state, future fault times and the oracle plan.",
+    "certificates": "Actual named NA or PV evidence at 900, 1800, 2700 and 3600 s using the accepted original scorer.",
+    "horizon_s": 3600,
+    "physical_step_s": 0.25,
+    "wake_s": 60,
+    "oracle": "Use the independently derived lower bound and check a fresh lawful native execution, actual operation and own review identity. For the existing structural identity-only case, use P as the bound only with a verified no-effect proof and an independent oracle witness. For any failure to establish or attain an independent bound, record UNRESOLVED and leave the certified minimum empty."
+  },
+  "slurm": {
+    "execution": "CPU-only Slurm on a partition selected from verified live topology. Keep complete original traces and job logs on the private cluster.",
+    "pilot": {
+      "selector": "Draw 0 in each family, all ten roles. These are the first 60 planned study positions and are included in the full panel.",
+      "jobs": 6,
+      "conditions_per_job": 1,
+      "cpus_per_job": 10,
+      "positions_per_job": 10,
+      "wall_minutes_per_job": 4,
+      "scheduling": "One bound processor lane per role. Wait for the entire six-family pilot to reach a recorded terminal outcome before any remaining research job is submitted."
+    },
+    "remainder": {
+      "jobs": 69,
+      "conditions_per_job": 2,
+      "cpus_per_job": 10,
+      "positions_per_job": 20,
+      "grouping": "Remove the six pilot conditions from the frozen study order and split the remaining 138 into consecutive pairs. Each processor lane runs the same assigned role over its pair sequentially from fresh independent state.",
+      "wall_minutes_formula": "ceil((2 * (1.20 * longest_complete_pilot_wall_seconds + 8) + 6) / 60)",
+      "pilot_wall_basis": "Slowest fully returned pilot job's scientific wall time, including start, execution, scoring and native evidence saving. Use all six complete jobs. Count Slurm reservations from the ledger."
+    },
+    "overhead_jobs": [
+      {
+        "purpose": "Input authoring and condition commitments",
+        "cpus": 1,
+        "wall_minutes": 5
+      },
+      {
+        "purpose": "Frozen entry identity and zero-facility isolation checks",
+        "cpus": 1,
+        "wall_minutes": 4
+      },
+      {
+        "purpose": "Saved-origins readback, frozen statistics and report summaries",
+        "cpus": 1,
+        "wall_minutes": 15
+      }
+    ],
+    "projection": {
+      "basis": "Accepted T4d receipt, Slurm job 134890: 214 seconds for 24 positions on 12 lanes with two positions per lane. 107 seconds per position is a planning reference only. Replace it with this holdout's measured maximum after the complete pilots.",
+      "reference_single_position_seconds": 107,
+      "expected_remaining_wall_minutes": 5,
+      "planned_jobs_without_retries": 78,
+      "reserved_cpu_s_at_reference": 222840,
+      "reserved_cpu_hours_at_reference": 61.9,
+      "max_jobs": 90,
+      "max_reserved_cpu_s": 270000,
+      "accounting": "For every attempt count actual Slurm allocation CPUs times requested wall seconds. Recompute spent reservations including failed starts and the final readback envelope plus all unscheduled registered jobs. Stop before any over-cap submission. If either cap would be exceeded after the pilots, seal the observed evidence and full unexecuted suffix."
+    }
+  },
+  "failure_handling": {
+    "retry_allowed_if": "Slurm-layer failure with verified terminal status, zero facility entries anywhere in the affected job and zero result. Only run the original group with the same published condition bytes and registered roles. Preserve the first attempt and account for both reservations.",
+    "facility_entry_accounting": "Record immutable job, attempt, condition and role identity immediately before the first facility call. Retain statuses, raw output or explicit missing return, allocations and the untouched unexecuted suffix.",
+    "after_first_facility_call": "No rerun or replacement in that job. Keep all actual returns and mark absent or unusable results in the original denominator.",
+    "oracle_unresolved": "Keep native response and independent bound attempt. Leave L* unset. Any summary requiring a missing L* is undefined for its original scope.",
+    "missing_counterfactuals": "Register missing or invalid pairs by condition and role. Formal hypothesis requiring incomplete pairs is INDETERMINATE. Subsequent comparisons are descriptive. Use explicit observed-pair denominators for any available descriptive estimates."
+  },
+  "analysis": {
+    "direction": "V_COST minus the named comparator in whole-window normalized service deficit L",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "comparator": "B"
+      },
+      {
+        "id": "H2",
+        "comparator": "V_COST_NOPROBE"
+      },
+      {
+        "id": "H3",
+        "comparator": "B_COST"
+      }
+    ],
+    "order_rule": "A formal step succeeds only when its two-sided 95% percentile interval has upper endpoint strictly below zero. Once a formal step fails or is indeterminate, later steps are descriptive only.",
+    "bootstrap": {
+      "repetitions": 10000,
+      "within_family_condition_resampling": true,
+      "original_counts": true,
+      "paired_all_roles": true,
+      "rng": "NumPy PCG64",
+      "seed_prefix": "AegisDC/T4b/holdout/v1|",
+      "scope_key_overall": "overall",
+      "seed_derivation": "SHA-256(prefix + scope key), first 16 bytes unsigned big-endian",
+      "interval_percentiles": [
+        2.5,
+        97.5
+      ],
+      "quantile_interpolation": "linear"
+    },
+    "descriptive": [
+      "L, U, personnel seconds, tool seconds and charges",
+      "Each family, explicitly London and Netherlands",
+      "Maintenance duration 0, 600 and 1200 seconds",
+      "Original observed four-bit strata",
+      "Each role's NA/PV at 900, 1800, 2700 and 3600 seconds",
+      "sum(L(V_COST) - L*) / sum(L(P) - L*) with a positive denominator and all required certified minima"
+    ],
+    "t4d_failure_counts": {
+      "source": "docs/mainline/t4d-cost-baseline-v1/README.md#九条失效记录与-t5-输入",
+      "count_unit": "Condition exhibiting each mechanism in retained original traces. The same condition may contribute to more than one count. Record assessed and indeterminate denominators.",
+      "missed_preventive_window": "Dutch NR was legal at a pre-fault public tick and V_COST missed effective NR before transfer. B achieved timely effective NR and avoided a positive transfer-loss interval that V_COST incurred. Record later pump handling separately.",
+      "measurement_vs_action_need": "V_COST purchased a lawful initial read then accepted a non-indicated write for that subject. Its timed maintenance-capacity restriction bound delivered service with positive loss. Also report the subset with zero P loss.",
+      "measurement_delayed_necessary_action": "V_COST purchased an initial reading before the same indicated correction that V_COST_NOPROBE issued at least one public tick earlier. Use real paired traces to verify additional service deficit during the interval between the effective corrections."
+    }
+  },
+  "delivery": {
+    "after_this_commit": "Report the two-file publication revision and wait for the user's explicit H1 handoff.",
+    "after_phase_2": "First paragraph states the H1, H2 and H3 dispositions, point estimates and intervals. Provide the full denominators, the descriptive results, failure counts and one integrity receipt, then stop at user review."
+  }
+}
