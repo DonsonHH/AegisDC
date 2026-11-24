@@ -1,0 +1,677 @@
+{
+  "schema": "t5-stop-loss-evidence-v1",
+  "frozen_revision": "25f86d8c7de5cad37e6b47d01a4991f161db0539",
+  "sources": {
+    "dev": {
+      "path": "docs/mainline/t5-observable-selector-v3c/development.json",
+      "sha256": "7e59346944392f01174c9958e5c9ad7f636eb24794b455c5249d6e18786623e5",
+      "git_blob": "7d593b172ad34053bbd9c9cf62f6e086752fe4dd"
+    },
+    "new": {
+      "path": "docs/mainline/t5-observable-selector-v3c/confirmation-result.json",
+      "sha256": "2fda45d3824ff0c979bb4c27a31287526b7809f4eaa26dbb81e44ada2cf28907",
+      "git_blob": "f5f6c9be186d25a7bcc68c8413c0dd2a6b2f9aac"
+    },
+    "lock": {
+      "path": "docs/mainline/t5-observable-selector-v3c/locked-selector.json",
+      "sha256": "be81c6f49b5c5429323ec809528e7a243c92d6cb3bf78f5be82366859733f0ed",
+      "git_blob": "cad2c4aa7abc9ec79b7c6e4d21256150e41b8a2d"
+    },
+    "panel": {
+      "path": "docs/mainline/t5-observable-selector-v3c/new-panel.json",
+      "sha256": "ec7c6505b0869d75651acc941debf78411e4c0777c0f23ccabb8a306ddd14553",
+      "git_blob": "d64070a6ed29b92747df492326e39494b7673dc8"
+    },
+    "receipt": {
+      "path": "docs/mainline/t5-observable-selector-v3c/confirmation-receipt.json",
+      "sha256": "8408497f4db4850a205a05f82935798c95a9af95f05d14b31abc1089fbe8b2a6",
+      "git_blob": "82a34b9d35f25b589cfdc3d0eb85a122734ae027"
+    },
+    "dev_receipt": {
+      "path": "docs/mainline/t5-observable-selector-v3c/development-receipt.json",
+      "sha256": "03071aeea013535f7455e08bd3b32ad5059b46216ca7dc842adad9f422b9b5c9",
+      "git_blob": "6d1803a05c84457d7a74f91b1d8458289ea33c1e"
+    },
+    "v1": {
+      "path": "docs/mainline/t5-ordinary-improvement-development-v1/results.json.gz",
+      "sha256": "30978b9a47a0b71c51745a74d6b315298f2eaa16b534095ced596ebcf43ff4d5",
+      "git_blob": "8bb6219422921474a9c541751d47d31b24a88436"
+    },
+    "v1_attribution": {
+      "path": "docs/mainline/t5-ordinary-improvement-development-v2/manual-references.json",
+      "sha256": "5e3d7a2fd8e933c781f1e80ce1795455eb430a71a5c245b085dc662f83a4c4ea",
+      "git_blob": "a9afba2b4f9b9b983a69b0dceabd68efc5724a5d"
+    },
+    "v2": {
+      "path": "docs/mainline/t5-ordinary-improvement-development-v2/results.json.gz",
+      "sha256": "655fc94bdd0ab86be24e5cf66f6789f8622b41535b7747c2740d2abe6c3a1ad2",
+      "git_blob": "889ec3a9d27242110704d66dbe33d6533d1f0d36"
+    },
+    "v3a": {
+      "path": "docs/mainline/t5-landscape-diagnostic-v3a/results.json.gz",
+      "sha256": "41521edd0e20b465529392de6b6a70857f3e84ddf0048f4541c7dfbbbff614ee",
+      "git_blob": "8ea1d1ebce3864cb0f4c5e2215a2b11790d3b5be"
+    },
+    "v3b": {
+      "path": "docs/mainline/t5-block-recombination-v3b/result.json",
+      "sha256": "62ee7624832c313d4d008b25448edb1911546202f9cbfb9cd3de6ca503371886",
+      "git_blob": "904acc9840170d4215fdb10dc36b37149a7a224f"
+    },
+    "stage0_account": {
+      "path": "docs/mainline/t5-observable-selector-v3c/sacct.psv",
+      "sha256": "e264f37a6cfcd2252f148a66ba75f42badd3798f736fd197df484a58f4910194",
+      "git_blob": "296b1b1e61ec4bba32af7e21dc48d050a1bffb2b"
+    },
+    "stage1_account": {
+      "path": "docs/mainline/t5-observable-selector-v3c/confirm-sacct.psv",
+      "sha256": "832c2a10df5d52685109f2558e543dc9bfc5b1136df09e184769d2fd15b145f7",
+      "git_blob": "aff71cf1ed0f46810cbce88adf405f5520270e2c"
+    }
+  },
+  "prior_stages": {
+    "v1": {
+      "source": "v1#/overall/pairs/MAIN",
+      "original_gate": true,
+      "relative_to_V_COST": {
+        "hi": -6.25,
+        "lo": -122.03125,
+        "mean": -49.635416666666664
+      },
+      "attribution_source": "v1_attribution#/interpretation",
+      "attribution": "v1 final vectors originated from handwritten first-batch anchors. Their saved development results are retained as manual references and do not substantiate ordinary improvement."
+    },
+    "v2": {
+      "source": "v2#/comparisons/MAIN/estimates/U",
+      "gate": false,
+      "U_minus_R": {
+        "conditions": 24,
+        "hi": 485.00520833333326,
+        "lo": 197.18750000000003,
+        "mean": 379.58333333333337
+      },
+      "U_minus_B_cost": {
+        "conditions": 24,
+        "hi": 0.0,
+        "lo": -310.734375,
+        "mean": -47.23958333333326
+      }
+    },
+    "v3a": {
+      "source": "v3a#/landscape/curves/{k}/pooled/recovered",
+      "decision": "UNCERTAIN",
+      "k6": {
+        "hi": 0.7930451221332272,
+        "lo": 0.4289836326550918,
+        "mean": 0.636301203920203
+      },
+      "k24": {
+        "hi": 0.7455847967762798,
+        "lo": 0.39432532378156976,
+        "mean": 0.5688856109977944
+      }
+    },
+    "v3b": {
+      "source": "v3b#/contrasts",
+      "gate": "FAIL_STOP",
+      "winner": "MAIN-R-3",
+      "n": 36,
+      "comparisons": [
+        {
+          "by_family": {
+            "COOLING_ACCESS": 529.3333333333334,
+            "LONDON": 0.0,
+            "NETHERLANDS": 250.0,
+            "NETWORK_POWER": 47.916666666666664,
+            "RESERVE_TRANSFER": 114.58333333333333,
+            "WATER_HEAT": 1175.9166666666667
+          },
+          "mean": 352.9583333333333,
+          "upper95": 493.4215277777777
+        },
+        {
+          "by_family": {
+            "COOLING_ACCESS": 529.3333333333334,
+            "LONDON": 0.0,
+            "NETHERLANDS": 250.0,
+            "NETWORK_POWER": 47.916666666666664,
+            "RESERVE_TRANSFER": 114.58333333333333,
+            "WATER_HEAT": 1175.9166666666667
+          },
+          "mean": 352.9583333333333,
+          "upper95": 493.4215277777777
+        }
+      ]
+    }
+  },
+  "development": {
+    "source": "dev#/rows; dev#/means; dev#/primary",
+    "n": 36,
+    "row_comparison": {
+      "better": 9,
+      "equal": 26,
+      "worse": 1
+    },
+    "means": {
+      "F_gap": 91.77083333333333,
+      "S_gap": 84.875,
+      "W_gap": 226.00694444444446,
+      "delta": -141.13194444444446
+    },
+    "ci": {
+      "lower": null,
+      "mean": -141.13194444444446,
+      "repetitions": 10000,
+      "sides": 1,
+      "upper": -40.0
+    },
+    "gate0": "PASS",
+    "gate1": "PASS",
+    "ties_reference_source": "lock#/historic_reference_diagnostics",
+    "tie_orders": {
+      "Q48": 91.77083333333333,
+      "alphabetical58": 120.36805555555556,
+      "frozen58": 91.77083333333333,
+      "references_first": 124.53472222222223,
+      "stored_arm_order": 120.36805555555556
+    }
+  },
+  "confirmation": {
+    "source": "new#/conditions; new#/roles; new#/comparisons",
+    "n": 36,
+    "verdict": "FAIL",
+    "W": "MAIN-R-3",
+    "row_comparison": {
+      "better": 0,
+      "equal": 26,
+      "worse": 10
+    },
+    "roles": {
+      "ALARM": {
+        "bound_pairs": 36,
+        "gap": 368.2361111111111,
+        "mean_L": 897.5416666666666,
+        "planned": 36,
+        "scored": 36
+      },
+      "B_COST": {
+        "bound_pairs": 36,
+        "gap": 292.9861111111111,
+        "mean_L": 822.2916666666666,
+        "planned": 36,
+        "scored": 36
+      },
+      "M_HOT": {
+        "bound_pairs": 36,
+        "gap": 16.666666666666668,
+        "mean_L": 545.9722222222222,
+        "planned": 36,
+        "scored": 36
+      },
+      "ORACLE": {
+        "bound_pairs": 36,
+        "gap": 0.0,
+        "mean_L": 529.3055555555555,
+        "planned": 36,
+        "scored": 36
+      },
+      "P": {
+        "bound_pairs": 36,
+        "gap": 575.1111111111111,
+        "mean_L": 1104.4166666666667,
+        "planned": 36,
+        "scored": 36
+      },
+      "PERIODIC": {
+        "bound_pairs": 36,
+        "gap": 326.30555555555554,
+        "mean_L": 855.6111111111111,
+        "planned": 36,
+        "scored": 36
+      },
+      "S": {
+        "bound_pairs": 36,
+        "gap": 80.48611111111111,
+        "mean_L": 609.7916666666666,
+        "planned": 36,
+        "scored": 36
+      },
+      "V_COST": {
+        "bound_pairs": 36,
+        "gap": 23.333333333333332,
+        "mean_L": 552.6388888888889,
+        "planned": 36,
+        "scored": 36
+      },
+      "W": {
+        "bound_pairs": 36,
+        "gap": 0.0,
+        "mean_L": 529.3055555555555,
+        "planned": 36,
+        "scored": 36
+      }
+    },
+    "W_attained_keys": [
+      "new-1-01",
+      "new-2-01",
+      "new-3-01",
+      "new-4-01",
+      "new-5-01",
+      "new-6-01",
+      "new-1-02",
+      "new-2-02",
+      "new-3-02",
+      "new-4-02",
+      "new-5-02",
+      "new-6-02",
+      "new-1-03",
+      "new-2-03",
+      "new-3-03",
+      "new-4-03",
+      "new-5-03",
+      "new-6-03",
+      "new-1-04",
+      "new-2-04",
+      "new-3-04",
+      "new-4-04",
+      "new-5-04",
+      "new-6-04",
+      "new-1-05",
+      "new-2-05",
+      "new-3-05",
+      "new-4-05",
+      "new-5-05",
+      "new-6-05",
+      "new-1-06",
+      "new-2-06",
+      "new-3-06",
+      "new-4-06",
+      "new-5-06",
+      "new-6-06"
+    ],
+    "oracle_states": {
+      "ATTAINED": 36
+    },
+    "oracle_actual_chain_false": [],
+    "worse_rows": [
+      {
+        "key": "new-3-01",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/2",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 347.5,
+        "W_L": 317.5,
+        "certified_min": 317.5,
+        "S_minus_W": 30.0,
+        "S_gap": 30.0
+      },
+      {
+        "key": "new-3-02",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/8",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 600.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 600.0,
+        "S_gap": 600.0
+      },
+      {
+        "key": "new-3-03",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/14",
+        "cell": "MAIN|N|abnormal_meter",
+        "selected": "Q01",
+        "S_L": 377.5,
+        "W_L": 347.5,
+        "certified_min": 347.5,
+        "S_minus_W": 30.0,
+        "S_gap": 30.0
+      },
+      {
+        "key": "new-3-04",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/20",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 900.0,
+        "W_L": 300.0,
+        "certified_min": 300.0,
+        "S_minus_W": 600.0,
+        "S_gap": 600.0
+      },
+      {
+        "key": "new-4-04",
+        "family": "COOLING_ACCESS",
+        "source": "new#/conditions/21",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 300.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 300.0,
+        "S_gap": 300.0
+      },
+      {
+        "key": "new-6-04",
+        "family": "NETHERLANDS",
+        "source": "new#/conditions/23",
+        "cell": "NETHERLANDS_STYLE|NONE|NONE",
+        "selected": "Q01",
+        "S_L": 120.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 120.0,
+        "S_gap": 120.0
+      },
+      {
+        "key": "new-3-05",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/26",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 300.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 300.0,
+        "S_gap": 300.0
+      },
+      {
+        "key": "new-2-06",
+        "family": "NETWORK_POWER",
+        "source": "new#/conditions/31",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 377.5,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 377.5,
+        "S_gap": 377.5
+      },
+      {
+        "key": "new-3-06",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/32",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 600.0,
+        "W_L": 300.0,
+        "certified_min": 300.0,
+        "S_minus_W": 300.0,
+        "S_gap": 300.0
+      },
+      {
+        "key": "new-5-06",
+        "family": "LONDON",
+        "source": "new#/conditions/34",
+        "cell": "LONDON_STYLE|NONE|NONE",
+        "selected": "Q05",
+        "S_L": 600.0,
+        "W_L": 360.0,
+        "certified_min": 360.0,
+        "S_minus_W": 240.0,
+        "S_gap": 240.0
+      }
+    ],
+    "worse_by_cell": {
+      "MAIN|NONE|NONE": 7,
+      "MAIN|N|abnormal_meter": 1,
+      "NETHERLANDS_STYLE|NONE|NONE": 1,
+      "LONDON_STYLE|NONE|NONE": 1
+    },
+    "reserve_rows": [
+      {
+        "key": "new-3-01",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/2",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 347.5,
+        "W_L": 317.5,
+        "certified_min": 317.5,
+        "S_minus_W": 30.0,
+        "S_gap": 30.0
+      },
+      {
+        "key": "new-3-02",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/8",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 600.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 600.0,
+        "S_gap": 600.0
+      },
+      {
+        "key": "new-3-03",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/14",
+        "cell": "MAIN|N|abnormal_meter",
+        "selected": "Q01",
+        "S_L": 377.5,
+        "W_L": 347.5,
+        "certified_min": 347.5,
+        "S_minus_W": 30.0,
+        "S_gap": 30.0
+      },
+      {
+        "key": "new-3-04",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/20",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 900.0,
+        "W_L": 300.0,
+        "certified_min": 300.0,
+        "S_minus_W": 600.0,
+        "S_gap": 600.0
+      },
+      {
+        "key": "new-3-05",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/26",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 300.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 300.0,
+        "S_gap": 300.0
+      },
+      {
+        "key": "new-3-06",
+        "family": "RESERVE_TRANSFER",
+        "source": "new#/conditions/32",
+        "cell": "MAIN|NONE|NONE",
+        "selected": "MAIN-U-3",
+        "S_L": 600.0,
+        "W_L": 300.0,
+        "certified_min": 300.0,
+        "S_minus_W": 300.0,
+        "S_gap": 300.0
+      }
+    ],
+    "reserve_mean_gap": 310.0,
+    "fallback_rows": [
+      {
+        "key": "new-5-01",
+        "family": "LONDON",
+        "source": "new#/conditions/4",
+        "cell": "LONDON_STYLE|LB|abnormal_meter",
+        "selected": "MAIN-R-3",
+        "S_L": 0.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 0.0,
+        "S_gap": 0.0
+      },
+      {
+        "key": "new-1-04",
+        "family": "WATER_HEAT",
+        "source": "new#/conditions/18",
+        "cell": "MAIN|UNSCOPED|prior:maintenance_calendar",
+        "selected": "MAIN-R-3",
+        "S_L": 0.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 0.0,
+        "S_gap": 0.0
+      },
+      {
+        "key": "new-4-06",
+        "family": "COOLING_ACCESS",
+        "source": "new#/conditions/33",
+        "cell": "MAIN|C|alarm",
+        "selected": "MAIN-R-3",
+        "S_L": 0.0,
+        "W_L": 0.0,
+        "certified_min": 0,
+        "S_minus_W": 0.0,
+        "S_gap": 0.0
+      }
+    ],
+    "contrasts": {
+      "ALARM": {
+        "source": "new#/comparisons/ALARM",
+        "pairs": 36,
+        "lower": -470.59027777777777,
+        "mean": -287.75,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": -119.7743055555556
+      },
+      "B_COST": {
+        "source": "new#/comparisons/B_COST",
+        "pairs": 36,
+        "lower": -356.32118055555554,
+        "mean": -212.5,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": -81.10763888888894
+      },
+      "M_HOT": {
+        "source": "new#/comparisons/M_HOT",
+        "pairs": 36,
+        "lower": 24.166666666666668,
+        "mean": 63.81944444444444,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": 106.9496527777777
+      },
+      "P": {
+        "source": "new#/comparisons/P",
+        "pairs": 36,
+        "lower": -743.5725694444444,
+        "mean": -494.625,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": -257.4583333333333
+      },
+      "PERIODIC": {
+        "source": "new#/comparisons/PERIODIC",
+        "pairs": 36,
+        "lower": -463.31944444444446,
+        "mean": -245.81944444444446,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": -45.68888888888897
+      },
+      "V_COST": {
+        "source": "new#/comparisons/V_COST",
+        "pairs": 36,
+        "lower": 17.5,
+        "mean": 57.15277777777778,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": 100.13888888888889
+      },
+      "W": {
+        "source": "new#/comparisons/W",
+        "pairs": 36,
+        "lower": 41.31076388888889,
+        "mean": 80.48611111111111,
+        "repetitions": 10000,
+        "sides": 2,
+        "upper": 123.4756944444444
+      }
+    },
+    "signed_and_L_mirrors": {
+      "new-1-01": true,
+      "new-2-01": true,
+      "new-3-01": true
+    }
+  },
+  "audit": {
+    "source": "new#/errors; new#/overlap; receipt#/combined",
+    "positions_planned": 327,
+    "positions_scored": 327,
+    "errors": [],
+    "retries": [],
+    "overlap": {
+      "T4b": {
+        "full": 0,
+        "operative": 0
+      },
+      "T5-v1": {
+        "full": 0,
+        "operative": 0
+      },
+      "T5-v2": {
+        "full": 0,
+        "operative": 0
+      },
+      "v3a": {
+        "full": 0,
+        "operative": 0
+      }
+    },
+    "panel_duplicates": 0,
+    "new_panel_redraws": 5,
+    "source_rosters": [
+      144,
+      84,
+      36,
+      36
+    ],
+    "combined_original_compute": {
+      "jobs": 29,
+      "reserved_cpu_s": 40680,
+      "process_cpu_s": 32940.281,
+      "allocated_wall_cpu_s": 33812
+    },
+    "readback_recovery": {
+      "first": "ca3e877e",
+      "repair": "86fbeee7",
+      "first_source_sha256": "577ec771350317972f0cc04df1da5bafa2ec884edd16a1a51ebfe74c2e47e7d7",
+      "first_error_sha256": "559a9710962e8833eb7ec1c8718c4163367cc99a0dc3e28de1ea150ad0bf12ff",
+      "error": "ambiguous historical schedule import before any scientific readback",
+      "repair_source_sha256": "f51b42bb07c8d3c47ab091535b2e57d28584f40c6d15ad793fe2a4d322a04bae",
+      "extra_facility_calls": 0,
+      "extra_slurm_jobs": 0
+    },
+    "source_before_its_job": [
+      {
+        "git_commit": "ab6a8ad5f867c16b85092bb946c17736e084d9e1",
+        "committer_time": "2026-11-24T16:54:25+08:00",
+        "slurm_start": "2026-11-24T16:55:10+08:00",
+        "job": "135468",
+        "source": "stage0_account: allocation record column 10 (Start); Git committer timestamp %cI"
+      },
+      {
+        "git_commit": "f3027bd7314d627e12df41945c2912c58ddb4eb9",
+        "committer_time": "2026-11-24T17:08:21+08:00",
+        "slurm_start": "2026-11-24T17:09:11+08:00",
+        "job": "135471",
+        "source": "stage1_account: allocation record column 10 (Start); Git committer timestamp %cI"
+      }
+    ],
+    "sealed_H2": {
+      "H2_generated": 0,
+      "H2_accessed": 0,
+      "H2_derived": 0
+    }
+  }
+}
