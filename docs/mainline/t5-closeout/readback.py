@@ -9,6 +9,11 @@ from math import isclose
 from pathlib import Path
 from statistics import mean
 import subprocess
+import sys
+
+sys.dont_write_bytecode = True  # A standalone --check must not create a cache in the delivery tree.
+from counterexamples import make_supplement
+from counterexample_tables import check_surfaces
 
 BASE = "25f86d8c7de5cad37e6b47d01a4991f161db0539"
 OUT = Path(__file__).resolve().parent
@@ -111,7 +116,7 @@ def build():
         require(ct<st,"source precedes job")
         times.append({"git_commit":git("rev-parse",rev).decode().strip(),"committer_time":ct.isoformat(),"slurm_start":st.isoformat(),"job":jid,
                       "source":label+": allocation record column 10 (Start); Git committer timestamp %cI"})
-    return {
+    original={
         "schema":"t5-stop-loss-evidence-v1","frozen_revision":BASE,"sources":sources,"prior_stages":earlier,
         "development":{"source":"dev#/rows; dev#/means; dev#/primary","n":len(a),"row_comparison":signs(da),"means":old["means"],"ci":old["primary"],
             "gate0":old["gate0"],"gate1":old["gate1"],"ties_reference_source":"lock#/historic_reference_diagnostics","tie_orders":reg["historic_reference_diagnostics"]},
@@ -126,6 +131,9 @@ def build():
             "readback_recovery":receipt["readback_recovery"],"source_before_its_job":times,
             "sealed_H2":{k:new[k] for k in ("H2_generated","H2_accessed","H2_derived")}},
     }
+    previous_closeout=git("show","0379fb43972c8f76df1b2ac3a2dc4b70005e1e73:docs/mainline/t5-closeout/evidence.json")
+    require(json.loads(previous_closeout)==original,"existing closeout claims changed")
+    return {**original,"v_cost_vs_p_counterexamples":make_supplement(OUT,git)}
 
 
 if __name__=="__main__":
@@ -135,7 +143,19 @@ if __name__=="__main__":
     data=build()
     payload=(json.dumps(data,ensure_ascii=False,indent=2,allow_nan=False)+"\n").encode("utf8")
     dest=OUT/"evidence.json"
-    if args.check:require(dest.read_bytes()==payload,"closeout ledger differs from Git-backed readback")
+    if args.check:
+        require(dest.read_bytes()==payload,"closeout ledger differs from Git-backed readback")
+        check_surfaces(OUT,data["v_cost_vs_p_counterexamples"])
     else:
-        with dest.open("xb") as stream:stream.write(payload)
+        if dest.exists():
+            baseline=git("show","0379fb43972c8f76df1b2ac3a2dc4b70005e1e73:docs/mainline/t5-closeout/evidence.json")
+            current=json.loads(dest.read_bytes())
+            inherited={k:v for k,v in current.items() if k!="v_cost_vs_p_counterexamples"}
+            require(inherited==json.loads(baseline),"refusing to replace unrelated local ledger edits")
+        dest.write_bytes(payload)
     print("Verified paired development and new panels, recorded intervals, four previous stages, and two release timestamps.")
+    if args.check:
+        s=data["v_cost_vs_p_counterexamples"];n=s["v3c"];t=s["t4b"];c=t["families"]["COOLING_ACCESS"]
+        print(f"V_COST-P: v3c {n['n']} pairs, {n['counts']['worse']} strict losses; T4b {t['n']} pairs, {t['counts']['worse']} strict losses.")
+        print(f"COOLING_ACCESS: fixed P {c['mean_delta_s']:+.2f} s; rowwise best status quo {s['cooling_comparator_check']['best_of_status_quo']['mean_delta_s']:+.2f} s.")
+        print("Verified sealed issued-action witnesses, all six T4b strata, README and both visible HTML tables.")
