@@ -1,0 +1,130 @@
+{
+  "schema": "T5-v3c-development-readback",
+  "release": "ab6a8ad5f867c16b85092bb946c17736e084d9e1",
+  "gate0": "PASS",
+  "gate1": "PASS",
+  "compared_complete_trajectories": 2088,
+  "compared_prefix_hashes": 2552,
+  "frozen_positions": [
+    36,
+    58
+  ],
+  "complete_full_frame_replay": 127368,
+  "checked_conditions": 36,
+  "unexecuted": [],
+  "jobs": [
+    {
+      "id": "135468",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "wall": "81",
+      "cpus": "2",
+      "minutes": "2",
+      "total_cpu": "02:36.379",
+      "user_cpu": "02:28.624",
+      "sys_cpu": "00:07.754",
+      "start": "2026-11-24T16:55:10",
+      "end": "2026-11-24T16:56:31",
+      "node": "cu02",
+      "name": "pilot",
+      "process_cpu_s": 156.379,
+      "reserved_cpu_s": 240,
+      "allocated_wall_cpu_s": 162,
+      "actual_ratio": 1.534732924497535,
+      "within_2x": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1d7b053b1c29c1958b2057d4913e548742fa8d09d4bc66cc6496777f8091889"
+    },
+    {
+      "id": "135469",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "wall": "160",
+      "cpus": "2",
+      "minutes": "4",
+      "total_cpu": "05:06.966",
+      "user_cpu": "04:50.897",
+      "sys_cpu": "00:16.068",
+      "start": "2026-11-24T16:56:53",
+      "end": "2026-11-24T16:59:33",
+      "node": "cu02",
+      "name": "remaining",
+      "process_cpu_s": 306.966,
+      "reserved_cpu_s": 480,
+      "allocated_wall_cpu_s": 320,
+      "actual_ratio": 1.5636910928246124,
+      "within_2x": true,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ea79b2a669e6e7245ca1f5685c4fda2eb60d12d77ee56a8ffcb40d41b24a9ebb"
+    }
+  ],
+  "totals": {
+    "jobs": 2,
+    "reserved_cpu_s": 720,
+    "process_cpu_s": 463.345,
+    "allocated_wall_cpu_s": 482,
+    "individual_within_2x": true,
+    "abnormal_job_ids": []
+  },
+  "pilot_projection": {
+    "cpus": 2,
+    "estimated_remaining_process_s": 312.758,
+    "minutes": 4,
+    "pilot": {
+      "AllocCPUS": "2",
+      "ElapsedRaw": "81",
+      "End": "2026-11-24T16:56:31",
+      "ExitCode": "0:0",
+      "JobID": "135468",
+      "NodeList": "cu02",
+      "Start": "2026-11-24T16:55:10",
+      "State": "COMPLETED",
+      "SystemCPU": "00:07.754",
+      "TimelimitRaw": "2",
+      "TotalCPU": "02:36.379",
+      "UserCPU": "02:28.624",
+      "process_s": 156.379,
+      "reserved_s": 240
+    },
+    "proceed": true,
+    "projected_jobs": 2,
+    "projected_reserved_s": 720,
+    "reserved_remaining_s": 480
+  },
+  "result_sha256": "7e59346944392f01174c9958e5c9ad7f636eb24794b455c5249d6e18786623e5",
+  "evidence_index_sha256": "7f6b83e46ce9b7fb2f346219d306fa6df8c093911bab09823e2af3646ec44384",
+  "stage_A_source_files": {
+    ".gitattributes": "84aaab5469b3b475a35716eaf5b864ea10345f7f724498642fa0f1fdf94d45db",
+    "analysis.py": "ee437b1cf28b09a70c8746a9ccd41ddaaa654a2ef673cd9a97bdacbea206ca20",
+    "development.py": "8f634c075266feda447a4fc8bf6c954b89097c833abbcb9c045d151892674845",
+    "predecessors.json": "f9a55cbcf429d4a5951346d0965a303d566db9df19dbfde638a5dfc1eec1dab0",
+    "protocol.md": "319424d9e0527f2a512217312446b047258c943b5d618ab8df1ed617107539f7",
+    "schedule.py": "d38a31fcf7f861863dd5dcc4f5d983ccf51583f0f020b6a938ec6e5b12f5f3b7",
+    "selector.py": "a988104a53d4fc3179ff7090043a6042dc415be8d65602204c2dddede9cb7911"
+  },
+  "prior_sources_file_sha256": "f9a55cbcf429d4a5951346d0965a303d566db9df19dbfde638a5dfc1eec1dab0",
+  "remote_root": "/share/home/renly/renly-patrol-rsi/mainline/T5-observable-selector-v3c",
+  "raw_layout": "prefix/<case>/<role>/record.json; checks/<case>.json; registrations/<batch>.{intent,json}; logs/<job>.{out,err}",
+  "stage0_new_facility_runs": 0,
+  "H2": {
+    "generated": 0,
+    "accessed": 0,
+    "derived": 0
+  },
+  "selfcheck": {
+    "checks": [
+      "cutoff",
+      "copy/order",
+      "first signal",
+      "projection",
+      "hash mismatch",
+      "fallback",
+      "tie",
+      "six strata",
+      "zero boundary"
+    ],
+    "job": "135468",
+    "new_facility": 0,
+    "status": "PASS"
+  }
+}
