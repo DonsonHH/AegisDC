@@ -2,18 +2,28 @@
 
 ### 结论
 
-固定改进器用付费开发反馈提出或挑选调度策略。公开选择器 {{name|S}} 在任一候选首次提出请求时，按设施类型、首个已到达风险信号的域和类别选定完整策略，沿用至观测窗结束。若此时尚无风险信号，就按“无信号”分组。对照 {{name|W}} 在开发条件上选取平均整窗服务缺额最低的策略，对所有新条件沿用。选择器在旧板的跨半评价中减少了缺额。在同一合成发生器的新板上，冻结选择器的平均缺额高于冻结对照，预注册的迁移命题不成立。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
+固定改进器用付费开发反馈提出或挑选调度策略。任一候选首次提出请求，公开选择器 {{name|S}} 就要选定整套策略。它读取设施类型，以及首个已到达风险信号所属的域与类别。若尚无风险信号，就按“无信号”分组。选定后不再换策略。
+
+对照 {{name|W}} 在开发条件上选取平均整窗服务缺额最低的策略，对所有新条件沿用。选择器在旧板的跨半评价中减少了缺额。在同一发生器上评价新条件，S 平均缺额高于 W。预注册迁移命题未成立。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
 
 ### 数字
 
 {{name|v1}} 的主轨在 {{metric|C3.v1.n|i}} 个开发条件上相对 {{name|V_COST}} 的平均缺额差为 {{metric|C3.v1.V_COST.mean|s2}} 秒。主轨和热启动轨锁定的向量都来自首批手写方案，付费评价选中了它们，向量的构造不能归因于反馈。{{ref|T5v1}}
 
-{{name|v2}} 去掉手写锚点，付费反馈会更新变异算子的得分。每次变异仍从根向量出发，没有沿当前胜者继续爬山。对每个搜索种子先求共同开发条件上的平均缺额，再比较各算法的种子中位数，改进器 {{name|U}} 相对等预算随机搜索 {{name|R}} 的差为 {{metric|C3.v2.R.mean|s2}} 秒，相对成本感知规则 {{name|B_COST}} 的双侧区间上端为 {{metric|C3.v2.B_COST.hi|d2}} 秒，均未通过开发门槛。{{ref|T5v2}}
+{{name|v2}} 去掉手写锚点，付费反馈会更新变异算子的得分。每次变异仍从根向量出发，没有沿当前胜者继续爬山。
 
-{{name|v3a}} 在半板选优、对侧计分，再调换方向。以成本感知规则到认证全知下界的距离为分母，候选数从 {{metric|C3.v3a.k6|i}} 扩至 {{metric|C3.v3a.k24|i}} 时，双向合并的缺额回收率由 {{metric|C3.v3a.k6.recovery|pct2}} 降至 {{metric|C3.v3a.k24.recovery|pct2}}，预注册判读为“不确定”。{{ref|T5v3a}} {{name|v3b}} 按动作域拼接各族优胜者的参数，与最佳完整向量相比，开发板的平均缺额差为 {{metric|C3.v3b.delta.mean|s2}} 秒，单侧上界为 {{metric|C3.v3b.delta.hi|s2}} 秒。分块重组未通过开发门槛，后续搜索未启动。{{ref|T5v3b}}
+每个搜索种子先在共同开发条件上计平均缺额，再取各算法的种子中位数。改进器 {{name|U}} 相对等预算随机搜索 {{name|R}} 的差为 {{metric|C3.v2.R.mean|s2}} 秒。相对成本感知规则 {{name|B_COST}} 的双侧区间上端为 {{metric|C3.v2.B_COST.hi|d2}} 秒。两项都未过开发门槛。{{ref|T5v2}}
 
-{{name|v3c}} 旧板跨半评价中，{{name|S}} 相对各训练半赢家的均差为 {{metric|C3.v3c_dev.delta.mean|s2}} 秒，单侧上界为 {{metric|C3.v3c_dev.delta.hi|s2}} 秒，通过开发门槛。在整块旧板重新拟合并冻结后，新板 {{metric|C3.v3c_new.n|i}} 个配对的 {{name|S}}−{{name|W}} 均差为 {{metric|C3.v3c_new.delta.mean|s2}} 秒，预注册双侧区间为 [{{metric|C3.v3c_new.delta.lo|s2}}, {{metric|C3.v3c_new.delta.hi|s2}}] 秒。选择器在 {{metric|C3.v3c_new.better|i}} 个条件上更优、{{metric|C3.v3c_new.equal|i}} 个持平、{{metric|C3.v3c_new.worse|i}} 个更差。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
+{{name|v3a}} 在半板选优、对侧计分，再调换方向。回收率以成本感知规则到认证全知下界的距离为分母。候选数从 {{metric|C3.v3a.k6|i}} 扩至 {{metric|C3.v3a.k24|i}} 时，双向回收率由 {{metric|C3.v3a.k6.recovery|pct2}} 降至 {{metric|C3.v3a.k24.recovery|pct2}}，预注册判读为“不确定”。{{ref|T5v3a}}
+
+{{name|v3b}} 拼接各族优胜者的动作域参数。与最佳完整向量相比，开发板的平均缺额差为 {{metric|C3.v3b.delta.mean|s2}} 秒，单侧上界为 {{metric|C3.v3b.delta.hi|s2}} 秒。分块重组未通过开发门槛，后续搜索未启动。{{ref|T5v3b}}
+
+{{name|v3c}} 旧板跨半评价中，{{name|S}} 相对各训练半赢家的均差为 {{metric|C3.v3c_dev.delta.mean|s2}} 秒，单侧上界为 {{metric|C3.v3c_dev.delta.hi|s2}} 秒，通过开发门槛。
+
+在整块旧板重新拟合并冻结后，新板 {{metric|C3.v3c_new.n|i}} 个配对的 {{name|S}}−{{name|W}} 均差为 {{metric|C3.v3c_new.delta.mean|s2}} 秒，预注册双侧区间为 [{{metric|C3.v3c_new.delta.lo|s2}}, {{metric|C3.v3c_new.delta.hi|s2}}] 秒。选择器在 {{metric|C3.v3c_new.better|i}} 个条件上更优、{{metric|C3.v3c_new.equal|i}} 个持平、{{metric|C3.v3c_new.worse|i}} 个更差。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
 
 ### 失效条件与反例
 
-旧板 {{name|A-2-01}} 已出现反例，选择器比该训练半赢家多损失 {{metric|C3.v3c_dev.loss.A-2-01.delta|d2}} 秒。新板有限备用族的 {{metric|C3.v3c_new.reserve.n|i}} 个条件平均多损失 {{metric|C3.v3c_new.reserve.delta|d2}} 秒。其中 {{name|new-3-02}} 在首次提案时尚无风险信号，选择器采用 {{name|MAIN-U-3}}，整窗缺额为 {{metric|C3.v3c_new.loss.new-3-02.candidate|d2}} 秒，同条件的整板赢家 {{name|MAIN-R-3}} 为 {{metric|C3.v3c_new.loss.new-3-02.control|d2}} 秒。这项确认只检验了冻结的公开选择规则相对整板赢家的迁移。更换候选空间或反馈规则后的表现仍需另行比较。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
+旧板 {{name|A-2-01}} 已出现反例，选择器比该训练半赢家多损失 {{metric|C3.v3c_dev.loss.A-2-01.delta|d2}} 秒。新板有限备用族的 {{metric|C3.v3c_new.reserve.n|i}} 个条件平均多损失 {{metric|C3.v3c_new.reserve.delta|d2}} 秒。在 {{name|new-3-02}}，首次提案时尚无风险信号。选择器采用 {{name|MAIN-U-3}}，整窗缺额为 {{metric|C3.v3c_new.loss.new-3-02.candidate|d2}} 秒，同条件的整板赢家 {{name|MAIN-R-3}} 为 {{metric|C3.v3c_new.loss.new-3-02.control|d2}} 秒。
+
+这项确认只检验冻结选择规则相对整板赢家的迁移。更换候选空间或反馈规则后的表现仍需另行比较。{{ref|T5v3cDev}} {{ref|T5v3cNew}}
