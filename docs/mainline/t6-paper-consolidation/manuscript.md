@@ -20,7 +20,7 @@ V\*\* 依据公开材料比较仍有支持的风险解释，估计核查会怎�
 
 下文以候选 L 减对照 L。负差表示候选少损失服务。合法全知排程遵守相同动作和资源约束，用于核实每个条件能达到的下界，其私有信息不进入实际策略。 [T4b 留出结果](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/README.md) [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)
 
-## C1 按需核查降低了整板平均缺额，但不能逐条件替代直接处置
+## C1 允许先核查的决策规则降低了整板平均缺额
 
 ### 结论
 
@@ -30,7 +30,9 @@ V\*\* 依据公开材料比较仍有支持的风险解释，估计核查会怎�
 
 T4b 的 [144](stage3/evidence-notes.md#n002) 条条件全部成对。V\*\*−B 为 [−343.90](stage3/evidence-notes.md#n003) 秒，封存双侧区间为 [[−445.94](stage3/evidence-notes.md#n004), [−244.22](stage3/evidence-notes.md#n005)] 秒，上界低于零。
 
-与关闭自选初检的同一方法相比，差为 [−55.83](stage3/evidence-notes.md#n006) 秒；与成本感知透明规则 B_cost 相比为 [−390.48](stage3/evidence-notes.md#n007) 秒。原协议依次检验全板均值。分族结果只用来描述差异。 [T4b 留出结果](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/README.md)
+与关闭自选初检的同一方法相比，差为 [−55.83](stage3/evidence-notes.md#n006) 秒；与成本感知透明规则 B_cost 相比为 [−390.48](stage3/evidence-notes.md#n007) 秒。前者在同一方法内关闭自选初检，更直接地衡量该项选择的贡献。V\*\* 对 B 的总差还包含派工排序、暂缓和直接处置的不同选择，不全归因于核查。 [自选初检与整套决策规则的比较口径](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4c-action-cost-v3/README.md#L19-L37)
+
+原协议依次检验全板均值。分族结果只用来描述差异。 [T4b 留出结果](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/README.md)
 
 | 描述性参照 | T4b 留出：V\*\*−参照（秒） | v3c 新板：V\*\*−参照（秒） |
 |---|---:|---:|
@@ -54,7 +56,7 @@ T4b 的 [144](stage3/evidence-notes.md#n002) 条条件全部成对。V\*\*−B �
 
 核查改变服务后果，需要证据到达后仍有可执行的处置。伦敦式工况中，移交后才能恢复隔离的备用路径。若控制器把上游有电误判为备用路径可供电，可申请修正共享判断或预启动机组。
 
-荷兰式工况中，转供前减轻过载可减少供电损失，来电后恢复泵送可减少冷却损失。两类行动各有许可和窗口。Google 事后报告给出了故障链。现场能否提前识别并避免损失，仍未建立。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)
+荷兰式工况中，转供前减轻过载可减少供电损失，来电后恢复泵送可减少冷却损失。两类行动各有许可和窗口。Google 事后报告给出了故障链。现场能否提前识别并避免损失，仍未建立。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)
 
 ### 数字
 
@@ -96,7 +98,7 @@ V6 完整设施的取水清滤首片中，策略 V 与直接规则 D 的 [17](st
 
 ### 数字
 
-v1 的主轨在 [48](stage3/evidence-notes.md#n076) 个开发条件上相对 V\*\* 的平均缺额差为 [−49.64](stage3/evidence-notes.md#n077) 秒。主轨和热启动轨锁定的向量都来自首批手写方案，付费评价选中了它们，向量的构造不能归因于反馈。 [人工锚点的归因更正](https://github.com/DonsonHH/AegisDC/blob/0e89b678c7da4b3060d364d3625bd66952ff113f/docs/mainline/t5-ordinary-improvement-development-v2/manual-references.json)
+v1 的主轨在 [48](stage3/evidence-notes.md#n076) 个开发条件上相对 V\*\* 的平均缺额差为 [−49.64](stage3/evidence-notes.md#n077) 秒。主轨和热启动轨锁定的向量都来自首批手写方案，付费评价选中了它们，向量的构造不能归因于反馈。 [普通改进首版开发成绩](https://github.com/DonsonHH/AegisDC/blob/4ade92174994e378d4bdb97961d51d8aa58e9803/docs/mainline/t5-ordinary-improvement-development-v1/results.json.gz)  [人工锚点的归因更正](https://github.com/DonsonHH/AegisDC/blob/0e89b678c7da4b3060d364d3625bd66952ff113f/docs/mainline/t5-ordinary-improvement-development-v2/manual-references.json)
 
 v2 去掉手写锚点，付费反馈会更新变异算子的得分。每次变异仍从根向量出发，没有沿当前胜者继续爬山。
 
@@ -122,7 +124,7 @@ v3c 旧板跨半评价中，S 相对各训练半赢家的均差为 [−141.13](s
 
 在该合成发生器范围内，依据现有对照，递归自我改进（RSI）相对固定改进器的增量不可辨识。普通改进用既定程序提出和筛选调度策略。RSI 要求开发经验能改变后续提案程序。问题是：在相同预算下，新程序选出的策略能否再减少服务缺额？
 
-封存研究已经比较固定策略，并为每个条件认证了服务缺额下界。尚未执行同预算的 RSI 与固定改进器对照，因而无法从这些成绩估计改变提案程序带来了多少收益。 [固定向量和逐条件最小值的复算](https://github.com/DonsonHH/AegisDC/blob/383c00c3137958dd146d784a6e6251dbe9e603e7/docs/mainline/t6-paper-consolidation/README.md)
+封存研究已经比较固定策略，并为每个条件认证了服务缺额下界。要识别增量，需同预算比较可改变提案程序的 RSI、固定改进器，以及不随反馈改变的父代、子代。现有面板没有执行这组对照。 [固定向量和逐条件最小值的复算](https://github.com/DonsonHH/AegisDC/blob/383c00c3137958dd146d784a6e6251dbe9e603e7/docs/mainline/t6-paper-consolidation/README.md)
 
 ### 数字
 
@@ -146,30 +148,32 @@ v3c 旧板跨半评价中，S 相对各训练半赢家的均差为 [−141.13](s
 | B-1-01 | [1643.00](stage3/evidence-notes.md#n116) | Q03 |
 | B-3-03 | [45.00](stage3/evidence-notes.md#n117) | Q09 |
 
-确认新板实际使用的 W 为 MAIN-R-3，[36](stage3/evidence-notes.md#n118)/[36](stage3/evidence-notes.md#n119) 个条件贴界，平均剩余为 [0.00](stage3/evidence-notes.md#n120) 秒。固定参照已逐条件达到认证下界。在这块新板上，保持服务端点和行动权限不变，无法再降低缺额。这项界限只约束该面板的比较，其他任务和现场设施上 RSI 的收益仍未建立。 [公开选择器的新板确认](https://github.com/DonsonHH/AegisDC/blob/87cdd7183970a7787616c666246b38b9fce8320b/docs/mainline/t5-observable-selector-v3c/README.md)  [固定向量和逐条件最小值的复算](https://github.com/DonsonHH/AegisDC/blob/383c00c3137958dd146d784a6e6251dbe9e603e7/docs/mainline/t6-paper-consolidation/README.md)
+下面是确认面板的描述性读回。该面板的正式检验是 S−W。新板实际使用的 W 为 MAIN-R-3，[36](stage3/evidence-notes.md#n118)/[36](stage3/evidence-notes.md#n119) 个条件贴界，平均剩余为 [0.00](stage3/evidence-notes.md#n120) 秒。
+
+固定参照已逐条件达到认证下界。在这块新板上，保持服务端点和行动权限不变，无法再降低缺额。这项界限只约束该面板的比较，其他任务和现场设施上 RSI 的收益仍未建立。 [公开选择器的新板确认](https://github.com/DonsonHH/AegisDC/blob/87cdd7183970a7787616c666246b38b9fce8320b/docs/mainline/t5-observable-selector-v3c/README.md)  [固定向量和逐条件最小值的复算](https://github.com/DonsonHH/AegisDC/blob/383c00c3137958dd146d784a6e6251dbe9e603e7/docs/mainline/t6-paper-consolidation/README.md)
 
 ## 导师五问
 
 ### 伦敦
 
-**识别了什么。** 待核查的是维护期间备用供电能否接管。Google 事后查明，备用馈线断路器已断开，控制器却共用上游电压判断。运行馈线失电时，发电机没有收到启动信号。 [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)
+**识别了什么。** 维护期间，备用供电还能否接管？Google 记载备用馈线已断开，两路控制器仍用上游电压判断，故障时未发启动信号。合成开发板要付费查路径才可能区分两种解释，现场事前识别未建立，缺当班记录。 [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)
 
 **凭什么当时知道。** 合成开发条件 5-01 的路径维护复查提示在 [60](stage3/evidence-notes.md#n121) 秒到达。从起点付费查路径，读数可在 [50](stage3/evidence-notes.md#n122) 秒到达，仅购买方可取得。提示本身不能诊断故障。现场人员当时可见的材料未建立，缺工单版本、收件人和到达记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)
 
 **能采取什么行动。** 合成设施可在获准后恢复已移交的路径、预启动机组或修正共享判断。接管还要求接线正确、硬件就绪。现场有事后切至备用市电的记录，事前操作权未建立，缺当班授权单。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)
 
-**是否来得及。** 5-01 要挽回全部可避免损失，最迟须在 [720](stage3/evidence-notes.md#n123) 秒开始恢复获准路径，报警在 [990](stage3/evidence-notes.md#n124) 秒才到。现场余量未建立。同版报告的事件表把失电与影响起点记在电池耗尽时，产品说明却将部分不可用记在馈线故障时。时刻尚未对齐，也缺实际剩余电量。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L18-L32)
+**是否来得及。** 5-01 要挽回全部可避免损失，最迟须在 [720](stage3/evidence-notes.md#n123) 秒开始恢复获准路径，报警在 [990](stage3/evidence-notes.md#n124) 秒才到。现场余量未建立。同版报告的事件表把失电与影响起点记在电池耗尽时，产品说明却将部分不可用记在馈线故障时。时刻尚未对齐，也缺实际剩余电量。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [伦敦同版报告的时标冲突](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L50-L51)
 
 **额外收益从何而来。** 伦敦 PRE 同账号扩展条件 B01 中，否定读数使核查方停手，避开了直接修订带来的隔离和重启。先核查、直接修订、仅既有保护的缺额依次为 [0](stage3/evidence-notes.md#n125)、[7](stage3/evidence-notes.md#n126)、[0](stage3/evidence-notes.md#n127) 秒。现场增益未建立，缺同工况的合法替代处置结果。 [伦敦维护降级 PRE 的有限证据](https://github.com/DonsonHH/AegisDC/blob/84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69/docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/claim-evidence-matrix.md)
 
 ### 荷兰
 
-**识别了什么。** Google 事后记载，转供触发过载保护，部分负载失电。控制器离线后泵未随来电重启，施工又使备用冷却无法接替。需要核查的风险因此从电力转供延伸到复电后的冷却。 [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)  [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)
+**识别了什么。** 事后复盘记载，转供过载使部分负载失电；复电后泵未重启，备用冷却仍在施工。合成开发板须分别查转供余量和泵状态，早期公开记录不足以唯一选定行动。现场事前识别未建立，缺当班观测和方法输出。 [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)  [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)
 
-**凭什么当时知道。** 合成开发条件 6-02 的复电测试提示在 [120](stage3/evidence-notes.md#n128) 秒到达，付费读数最早可在 [50](stage3/evidence-notes.md#n129) 秒到达。未派工的策略看不到读数。现场能否提前判断转供余量和泵的状态未建立，缺当时收到的负荷测量和控制器记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)
+**凭什么当时知道。** 合成开发条件 6-02 的复电测试提示在 [120](stage3/evidence-notes.md#n128) 秒到达，付费读数最早可在 [50](stage3/evidence-notes.md#n129) 秒到达。未派工的策略看不到读数。现场能否提前判断转供余量和泵的状态未建立，缺当时收到的负荷测量和控制器记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)
 
-**能采取什么行动。** 合成设施在另路有余量且许可有效时可提前重分组，来电后可依权限重启泵，备用冷却须在施工移交后复役。现场事前操作权未建立，缺授权记录。人工切泵发生在恢复期，临时不间断电源是事后部署。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)
+**能采取什么行动。** 合成设施在另路有余量且许可有效时可提前重分组，来电后可依权限重启泵，备用冷却须在施工移交后复役。现场事前操作权未建立，缺授权记录。人工切泵发生在恢复期，临时不间断电源是事后部署。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)
 
-**是否来得及。** 6-02 要挽回全部可避免损失，最迟须在 [540](stage3/evidence-notes.md#n130) 秒启动重分组，正式报警在 [990](stage3/evidence-notes.md#n131) 秒到达。现场能否在跳闸前完成重分组、在热缓冲耗尽前恢复泵送，未建立，缺作业时长和库存记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)
+**是否来得及。** 6-02 要挽回全部可避免损失，最迟须在 [540](stage3/evidence-notes.md#n130) 秒启动重分组，正式报警在 [990](stage3/evidence-notes.md#n131) 秒到达。现场能否在跳闸前完成重分组、在热缓冲耗尽前恢复泵送，未建立，缺作业时长和库存记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)
 
-**额外收益从何而来。** 合成工程见证中，仅既有保护的缺额为 [1920](stage3/evidence-notes.md#n132) 秒。只重分组仍有冷却损失 [1800](stage3/evidence-notes.md#n133) 秒，只重启泵仍有供电损失 [120](stage3/evidence-notes.md#n134) 秒，及时重分组并重启泵的缺额为 [0](stage3/evidence-notes.md#n135) 秒。现场减损幅度未建立，缺可比的替代处置记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L43)
+**额外收益从何而来。** 合成工程见证中，仅既有保护的缺额为 [1920](stage3/evidence-notes.md#n132) 秒。只重分组仍有冷却损失 [1800](stage3/evidence-notes.md#n133) 秒，只重启泵仍有供电损失 [120](stage3/evidence-notes.md#n134) 秒，及时重分组并重启泵的缺额为 [0](stage3/evidence-notes.md#n135) 秒。现场减损幅度未建立，缺可比的替代处置记录。 [事故族与事前证据的开发记录](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/README.md)  [荷兰事故官方复盘定位](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/review-gated/R1/sources.md#L34-L44)

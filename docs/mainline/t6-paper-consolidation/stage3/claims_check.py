@@ -10,6 +10,7 @@ import hashlib
 from html.parser import HTMLParser
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -29,14 +30,17 @@ REFS={
     "Facility":("完整设施的方法和公开证据边界",ACCEPTED,"docs/mainline/full-facility-method-handoff.md","#L11"),
     "T4bProtocol":("T4b 预注册检验及对照", "3487276af9e9759357771d16eb45feceaa3c948a","docs/mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md","#L7-L17"),
     "T4b":("T4b 留出结果","3487276af9e9759357771d16eb45feceaa3c948a","docs/mainline/t4b-holdout-confirmation-v2/README.md",""),
+    "Ablation":("自选初检与整套决策规则的比较口径","3487276af9e9759357771d16eb45feceaa3c948a","docs/mainline/t4c-action-cost-v3/README.md","#L19-L37"),
     "T4d":("成本基线的原开发板","036ccfdf2d6e5d4b39ba11da480fa2a3d69c1f9f","docs/mainline/t4d-cost-baseline-v1/README.md",""),
     "T3":("事故族与事前证据的开发记录","85af7e48b60e61dc453456b5b7bc73ab832900b5","docs/mainline/t3-prior-information-v2/README.md",""),
     "LondonReport":("伦敦事故官方复盘定位","85af7e48b60e61dc453456b5b7bc73ab832900b5","docs/mainline/review-gated/R1/sources.md","#L18-L32"),
-    "DutchReport":("荷兰事故官方复盘定位","85af7e48b60e61dc453456b5b7bc73ab832900b5","docs/mainline/review-gated/R1/sources.md","#L34-L43"),
+    "DutchReport":("荷兰事故官方复盘定位","85af7e48b60e61dc453456b5b7bc73ab832900b5","docs/mainline/review-gated/R1/sources.md","#L34-L44"),
+    "LondonTime":("伦敦同版报告的时标冲突","85af7e48b60e61dc453456b5b7bc73ab832900b5","docs/mainline/review-gated/R1/sources.md","#L50-L51"),
     "R6":("伦敦维护降级 PRE 的有限证据","84eaa73d8e1365abd1ff1b8f6c0b83d01470bd69","docs/mainline/review-gated/R6/london-pre-manuscript-v1.3/claim-evidence-matrix.md",""),
     "V6first":("完整设施的原生首片比较","ec1e37475360dd5025d8571f04fa75253c67f33e","docs/mainline/v6-native-method-study-v1/README.md",""),
     "V6cold":("完整设施的联合冷态比较","b867628f1d0cd1a8355b9d5e4394bce9b12bd992","docs/mainline/v6-stage-three-cold-study-v2/README.md",""),
-    "T5v1":("人工锚点的归因更正","0e89b678c7da4b3060d364d3625bd66952ff113f","docs/mainline/t5-ordinary-improvement-development-v2/manual-references.json",""),
+    "T5v1":("普通改进首版开发成绩","4ade92174994e378d4bdb97961d51d8aa58e9803","docs/mainline/t5-ordinary-improvement-development-v1/results.json.gz",""),
+    "T5v1Manual":("人工锚点的归因更正","0e89b678c7da4b3060d364d3625bd66952ff113f","docs/mainline/t5-ordinary-improvement-development-v2/manual-references.json",""),
     "T5v2":("无锚点开发结果","0e89b678c7da4b3060d364d3625bd66952ff113f","docs/mainline/t5-ordinary-improvement-development-v2/README.md",""),
     "T5v3a":("候选空间的开发诊断","29ac5a2eac2e6527cbfd04145b0caa2c9206c09e","docs/mainline/t5-landscape-diagnostic-v3a/README.md",""),
     "T5v3b":("分块重组的开发门槛","9360a3c8f9c06f4b85f4706ef529c2fc4ef811a3","docs/mainline/t5-block-recombination-v3b/README.md",""),
@@ -78,7 +82,8 @@ def validate_revision():
     mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
     require(mod.run(True)==text(folder/"verification.txt"),"validated H1 and r2 transcript")
     # Accepted complete checker runs at its original version; the import occurs in that process only.
-    proc=subprocess.run([sys.executable,"-B",str(T6/"claims_check.py"),"--check"],cwd=ROOT,capture_output=True)
+    proc=subprocess.run([sys.executable,"-B",str(T6/"claims_check.py"),"--check"],cwd=ROOT,capture_output=True,
+                        env={**os.environ,"PYTHONIOENCODING":"utf-8"})
     require(proc.returncode==0 and proc.stdout.replace(b"\r\n",b"\n")==git(ACCEPTED,PREFIX+"claims-verification.txt"),
             "stage-2 original numeric-source verification: "+proc.stderr.decode("utf8",errors="replace"))
     return json.loads(git(R2,PREFIX+STAGE2_PATH))
@@ -124,6 +129,17 @@ def contains_id(label,ledger_text):
 def narrative(ledger):
     metrics={m["id"]:m for c in ledger["claims"] for m in c["numbers"]}
     require(len(metrics)==sum(len(c["numbers"]) for c in ledger["claims"]),"unique metric IDs")
+    raw=git(R2,PREFIX+STAGE2_PATH).decode("utf8").splitlines()
+    index={}
+    for i,line in enumerate(raw):
+        match=re.fullmatch(r'(\s+)"id": "([^"]+)",',line)
+        if not match or match[2] not in metrics:continue
+        end=next(j for j in range(i+1,len(raw)) if raw[j].rstrip(",")==match[1][:-2]+"}")
+        excerpt="{"+ "\n".join(raw[i:end]) +"}"
+        require(json.loads(excerpt)==metrics[match[2]],"browser ledger line range includes exact source and value for "+match[2])
+        require(match[2] not in index,"unique published numeric object line anchor")
+        index[match[2]]=(i+1,end)
+    require(index.keys()==metrics.keys(),"all numeric objects have an immutable browser line range")
     serialized=json.dumps(ledger,ensure_ascii=False)
     lines=[];preview=[];occurrences=[];labels=[];references={};part="";heads=[];site=None;helps={}
     for name in INPUTS:
@@ -150,10 +166,13 @@ def narrative(ledger):
                     require(part not in ("C1","C2","C3","C4") or id.startswith(part+".") or
                             (part=="C1" and id=="C2.T4b.NETHERLANDS.window_missed"),"unexpected cross-chapter metric "+id)
                     idx=len(occurrences)+1;anchor=f"n{idx:03}"
-                    a.append(f"[{word}](stage3/evidence-notes.md#{anchor})");b.append(word)
+                    note=f"[{word}](stage3/evidence-notes.md#{anchor})"
+                    lo,hi=index[id]
+                    url=f"https://github.com/DonsonHH/AegisDC/blob/{R2}/{PREFIX}{STAGE2_PATH}#L{lo}-L{hi}"
+                    a.append(note);b.append(f"[{word}]({url})")
                     occurrences.append(dict(anchor=anchor,chapter=part or "front",template=name,template_line=no,manuscript_line=len(lines)+1,
                           id=id,display=word,format=fmt,signed_value=m["value"],exact=m["exact"],unit=m["unit"],original_commit=m["commit"],
-                          original_path=m["path"],fields=m["fields"],op=m["op"],rows=m.get("rows")))
+                          original_path=m["path"],fields=m["fields"],op=m["op"],rows=m.get("rows"),browser_ledger_url=url))
                 elif tag=="name":
                     require(len(args)==1 and contains_id(args[0],serialized),f"{name}:{no}: unknown name "+str(args))
                     shown={"V_COST":"V\\*\\*","B_COST":"B_cost"}.get(args[0],args[0])
@@ -181,7 +200,7 @@ def narrative(ledger):
         require("stage3/evidence-notes.md#" in chunks[-1] and len(section)>10,"same-section sourced counterexample "+h)
     require(list(helps)==["伦敦","荷兰"] and all(tuple(q for q,_ in a)==QHEAD for a in helps.values()),"five questions in both sites")
     for name,a in helps.items():
-        require(all("未建立" in line for q,line in a if q!="识别了什么"),"explicit historical identification limit for unresolved site questions "+name)
+        require(all("未建立" in line for _,line in a),"explicit historical identification limit for each site question "+name)
     requirement={"C1":{"C1.T4b.H1.mean","C1.T4b.H1.lo","C1.T4b.H1.hi","C1.T4b.ALL.B.worse","C1.T4b.NETHERLANDS.B.worse",
                        "C1.T4b.COOLING_ACCESS.PERIODIC.loss_mean","C1.T4b.COOLING_ACCESS.PERIODIC.staff_delta","C1.v3c.ALL.B_COST.loss_mean"},
                  "C4":{"C4.fixed54.best","C4.fixed54.posthoc","C4.fixed54.conditional_room","C4.new.attained","C4.new.n","C4.new.room"}}
@@ -205,6 +224,20 @@ def notes_for(metrics,occurrences):
     return "\n".join(out).rstrip()+"\n"
 
 
+NATIVE_NAMES=re.compile(r"(?<![A-Za-z0-9_-])(?:C[1-4]|T[3456](?:[abcd])?|H[123]|[RV]6|v(?:1\.3|[12]|3[abc])|MAIN-[RU]-\d+|Q\d{2}|(?:new-|[AB]-)?\d+-\d{2}|[A-K]\d{2}[ab]?)(?![A-Za-z0-9_-])")
+
+
+def check_literal_hygiene(md):
+    # Re-scan the *published* text independently of the authoring lexer. Remove payload
+    # links entirely and identifiers only as whole tokens; naked decimal digits must not survive.
+    residue=LINK.sub(lambda m:"" if re.fullmatch(r"stage3/evidence-notes\.md#n\d+",m[2]) else m[1],md)
+    residue=NATIVE_NAMES.sub("",residue)
+    require(not re.search(r"[0-9０-９]",residue),"numeric literal not covered by a ledger link in manuscript")
+    # Chinese quantitative magnitudes cannot be substituted to evade the Arabic-number check.
+    q=re.search(r"[零〇一二两三四五六七八九十百千万亿]+(?:点[零一二三四五六七八九]+)?\s*(?:人秒|秒|分钟|小时|百分比|个百分点)",residue)
+    require(q is None,"unbound spelled-out measurement "+(q[0] if q else ""))
+
+
 def html_draft(body):
     lines=body.splitlines();title=lines.pop(0).removeprefix("# ")
     htmlrows=["---","title: "+title,"file: t6-manuscript","template: doc","theme: paper","lang: zh","---"]
@@ -217,26 +250,77 @@ def html_draft(body):
 
 class Panels(HTMLParser):
     def __init__(self):
-        super().__init__(convert_charrefs=True);self.panels=[];self.current=None;self.depth=0;self.ignored=0
+        super().__init__(convert_charrefs=True);self.panels=[];self.current=None;self.depth=0;self.ignored=0;self.numeric_links=[]
+        self.blocks=[];self.inblock=None;self.anchor=None;self.links=[];self.groups=[]
     def handle_starttag(self,t,a):
         if t in ("script","style","template"):self.ignored+=1;return
         if self.ignored:return
+        if t=="a" and self.current is not None:
+            href=dict(a).get("href") or ""
+            if f"/{R2}/{PREFIX}{STAGE2_PATH}#L" in href:self.numeric_links.append(href)
+            # Some UI controls sit outside the manuscript paragraphs.
+            if self.inblock is not None:self.anchor=(href,[])
         if t=="section":
             if self.current is not None:self.depth+=1
-            elif "am-panel" in dict(a).get("class","").split():self.current=[];self.depth=1
+            elif "am-panel" in dict(a).get("class","").split():self.current=[];self.depth=1;self.blocks=[]
+        if self.current is not None and t in ("h2","h3","p","th","td"):
+            require(self.inblock is None,"overlapping manuscript text blocks");self.inblock=(t,[])
     def handle_endtag(self,t):
         if t in ("script","style","template"):self.ignored-=1;return
         if self.ignored:return
+        if t=="a" and self.anchor is not None:
+            href,parts=self.anchor;self.links.append((href,"".join(parts)));self.anchor=None
+        if self.inblock is not None and t==self.inblock[0]:
+            self.blocks.append((t,"".join(self.inblock[1])));self.inblock=None
         if t=="section" and self.current is not None:
             self.depth-=1
-            if self.depth==0:self.panels.append(" ".join(self.current));self.current=None
+            if self.depth==0:self.panels.append(" ".join(self.current));self.groups.append(self.blocks);self.current=None
     def handle_data(self,data):
         if not self.ignored and self.current is not None:self.current.append(data)
+        if not self.ignored and self.inblock is not None:self.inblock[1].append(data)
+        if not self.ignored and self.anchor is not None:self.anchor[1].append(data)
 
 
-def check_visible(markup,occurrences):
+LINK=re.compile(r"\[([^\[\]\n]+)\]\(([^)\n]+)\)")
+
+
+def plain_inline(fragment):
+    """This manuscript uses only simple links, bold, code spans and escaped asterisks."""
+    s=LINK.sub(lambda m:m[1],fragment)
+    code=re.escape(chr(96))
+    s=re.sub(code+"([^"+code+"]*)"+code,lambda m:m[1].replace("*","\x01"),s)
+    return " ".join(s.replace("\\*", "\x01").replace("**","").replace("\x01","*").split())
+
+
+def expected_blocks(markdown):
+    groups=[];current=None
+    for l in markdown.splitlines():
+        if l.startswith("## "):
+            current=[];groups.append(current);current.append(("h2",plain_inline(l[3:])))
+        elif current is not None and l.strip():
+            if l.startswith("### "):current.append(("h3",plain_inline(l[4:])))
+            elif l.startswith("|"):
+                cells=[c.strip() for c in l.strip("|").split("|")]
+                if all(re.fullmatch(r":?-+:?",c) for c in cells):continue
+                tag="td" if current[-1][0] in ("td","th") else "th"
+                current.extend((tag,plain_inline(c)) for c in cells)
+            else:current.append(("p",plain_inline(l)))
+    return groups
+
+
+def check_visible(markup,occurrences,markdown):
     parser=Panels();parser.feed(markup);parser.close()
     require(len(parser.panels)==7,"seven visible sections, four undivided chapter panels")
+    require(parser.numeric_links==[q["browser_ledger_url"] for q in occurrences],"every visible number links to its exact immutable ledger object")
+    browser={f"stage3/evidence-notes.md#{q['anchor']}":q["browser_ledger_url"] for q in occurrences}
+    links=[(browser.get(url,url),plain_inline(label)) for label,url in LINK.findall(markdown)]
+    require(parser.links==links,"all visible numeric displays and qualitative URLs must exactly match the manuscript")
+    expected=expected_blocks(markdown)
+    for i,(got,want) in enumerate(zip(parser.groups,expected,strict=True)):
+        actual=[(t," ".join(s.split())) for t,s in got]
+        if actual!=want:
+            mismatch=next(((j,x,y) for j,(x,y) in enumerate(zip(actual,want)) if x!=y),(len(actual),len(want)))
+            raise ValueError(f"HTML chapter {i}: visible paragraph, heading or table cell does not match manuscript: {mismatch}")
     order=["摘要","研究问题与计量","C1","C2","C3","C4","导师五问"]
     for k,p in zip(order,parser.panels,strict=True):
         require(k in p,"HTML chapter "+k)
@@ -267,16 +351,21 @@ def outputs():
 
 def log_for(data,occ,refs):
     by=Counter(q["chapter"] for q in occ)
+    nums={n["id"]:n for c in data["claims"] for n in c["numbers"]}
+    val=lambda key,fmt:display(nums[key],fmt)
+    c1,c2,c3,c4=data["claims"]
+    cond=c1["T4b_sequential_confirmations"][0];sub=c1["subclaims"][0]
+    bounds=f"{val('C4.new.attained','i')}/{val('C4.new.n','i')}"
     return "\n".join([
         "Accepted stage 2 (0ca350d1): original --check passed; original claims.json and delivery files unchanged.",
-        "r2 (6fe021c8): H1=MET => C1.B=成立, 确认, whole-board mean only. C1=部分成立; 14 B loss rows including 10 Dutch retained.",
+        f"r2 ({R2[:8]}): {cond['test']}={cond['original_decision']} => C1.B={sub['status']}, {sub['level']}, whole-board mean only. C1={c1['status']}; {val('C1.T4b.ALL.B.worse','i')} B loss rows including {val('C1.T4b.NETHERLANDS.B.worse','i')} Dutch retained.",
         f"Current ledger: {sum(len(c['numbers']) for c in data['claims'])} original numeric entries unchanged; C4 uses option A; RSI increment status remains 未建立.",
         f"Manuscript: {len(occ)} numeric occurrences / {len({q['id'] for q in occ})} distinct metric IDs resolved to commits, files, fields and displays.",
         "Numeric occurrences by section: "+"; ".join(f"{s}={by[s]}" for s in ("摘要","研究问题与计量","C1","C2","C3","C4","导师五问"))+".",
         f"Sources: {len(refs)} qualitative references checked. Each claim chapter keeps its conclusion, numbers and counterexamples together.",
         "Advisor questions: London 5/5; Netherlands 5/5. Historical unknowns and conditional synthetic results kept separate.",
-        "C4: 82.03 s fixed; 0.00 s hindsight (not deployable); old conditional room 82.03 s; new W at bound 36/36, room 0.00 s. No field extrapolation.",
-        "Manuscript and visible HTML agree. Facility=0; Slurm=0; H2 generated/read/derived=0. STOP FOR REVIEW."
+        f"C4: {val('C4.fixed54.best','d2')} s fixed; {val('C4.fixed54.posthoc','d2')} s hindsight (not deployable); old conditional room {val('C4.fixed54.conditional_room','d2')} s; new W at bound {bounds}, room {val('C4.new.room','d2')} s. No field extrapolation.",
+        "Manuscript, all visible paragraphs, heading roles, table cells and clickable citations agree. Facility=0; Slurm=0; H2 generated/read/derived=0. STOP FOR REVIEW."
     ])+"\n"
 
 
@@ -289,8 +378,9 @@ def command():
         for p,b in files.items():p.write_bytes(b)
         return
     for p,b in files.items():require(p.read_bytes()==b,"recorded generated artifact differs: "+str(p.name))
-    check_visible(text(T6/"manuscript.html"),occ)
     md=files[OUTPUT_MD].decode();notes=files[HERE/"evidence-notes.md"].decode()
+    check_literal_hygiene(md)
+    check_visible(text(T6/"manuscript.html"),occ,md)
     require(re.findall(r"\]\(stage3/evidence-notes.md#(n\d+)\)",md)==[q["anchor"] for q in occ] and
             re.findall(r'<a id="(n\d+)"></a>',notes)==[q["anchor"] for q in occ],"each numeric link has a unique corresponding note")
     transcript=log_for(data,occ,refs)
@@ -308,4 +398,6 @@ def command():
     print(transcript,end="")
 
 
-if __name__=="__main__":command()
+if __name__=="__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
+    command()
