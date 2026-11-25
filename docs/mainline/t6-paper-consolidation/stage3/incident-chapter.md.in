@@ -1,0 +1,33 @@
+## C2 事故机制在什么条件下会改变服务损失
+
+### 结论
+
+有限合成研究在部分条件下支持按需核查。伦敦式工况中，隔离的备用路径可以在移交后恢复，控制器把上游有电误判为备用路径可供电时，可以修正共享判断或申请预启动机组。荷兰式工况中，转供前减轻过载和来电后恢复泵送，分别作用于供电和冷却造成的损失。核查能否减少服务缺额，取决于证据能否改变行动、人员是否有权执行，以及作业能否赶上窗口。Google 的事后报告给出了故障链，现场能否提前避免这些损失仍未建立。{{ref|T3}} {{ref|LondonReport}} {{ref|DutchReport}}
+
+### 数字
+
+{{name|T3}} 公开开发条件的平均服务缺额如下，单位为秒。全知排程仅供评价端确定同等许可下能达到的最低缺额。{{ref|T3}}
+
+| 事故族 | 开发条件 | 仅既有保护 P | 周期巡检 | 报警响应 | 合法全知排程 |
+|---|---:|---:|---:|---:|---:|
+| 伦敦式 | {{metric|C2.T3.LONDON.n|i}} | {{metric|C2.T3.LONDON.mean_P|i}} | {{metric|C2.T3.LONDON.mean_PERIODIC|i}} | {{metric|C2.T3.LONDON.mean_ALARM|i}} | {{metric|C2.T3.LONDON.mean_ORACLE|i}} |
+| 荷兰式 | {{metric|C2.T3.NETHERLANDS.n|i}} | {{metric|C2.T3.NETHERLANDS.mean_P|i}} | {{metric|C2.T3.NETHERLANDS.mean_PERIODIC|i}} | {{metric|C2.T3.NETHERLANDS.mean_ALARM|i}} | {{metric|C2.T3.NETHERLANDS.mean_ORACLE|i}} |
+
+在另行留出的 {{name|T4b}} 条件上，下表给出风险策略 `V**` 减去透明直接规则 B 的服务缺额。负差表示少损失服务。分族结果是描述性比较，预注册主检验针对整板均值。{{ref|T4b}}
+
+| 事故族 | 配对条件 | 平均差（秒） | 原封存双侧区间（秒） | 较少／持平／较多 |
+|---|---:|---:|---|---|
+| 伦敦式 | {{metric|C2.T4b.LONDON.n|i}} | {{metric|C2.T4b.LONDON.mean|s2}} | [{{metric|C2.T4b.LONDON.lo|s2}}, {{metric|C2.T4b.LONDON.hi|s2}}] | {{metric|C2.T4b.LONDON.better|i}}／{{metric|C2.T4b.LONDON.equal|i}}／{{metric|C2.T4b.LONDON.worse|i}} |
+| 荷兰式 | {{metric|C2.T4b.NETHERLANDS.n|i}} | {{metric|C2.T4b.NETHERLANDS.mean|s2}} | [{{metric|C2.T4b.NETHERLANDS.lo|s2}}, {{metric|C2.T4b.NETHERLANDS.hi|s2}}] | {{metric|C2.T4b.NETHERLANDS.better|i}}／{{metric|C2.T4b.NETHERLANDS.equal|i}}／{{metric|C2.T4b.NETHERLANDS.worse|i}} |
+
+伦敦事前就绪性研究（PRE，{{name|R6}} {{name|v1.3}}）另行比较固定先核查 I 与合法直接修订 D。公开开发共 {{metric|C2.R6.dev19.all|i}} 条，其中 {{metric|C2.R6.dev19.valid|i}} 条合规，I 的缺额较少／持平／较多为 {{metric|C2.R6.dev19.D_better|i}}／{{metric|C2.R6.dev19.D_equal|i}}／{{metric|C2.R6.dev19.D_worse|i}} 条。同账号合成扩展共 {{metric|C2.R6.ext35.all|i}} 条，其中 {{metric|C2.R6.ext35.valid|i}} 条合规，相应为 {{metric|C2.R6.ext35.D_better|i}}／{{metric|C2.R6.ext35.D_equal|i}}／{{metric|C2.R6.ext35.D_worse|i}} 条。开发条件 {{name|C09b}} 与扩展条件 {{name|B03}} 中，I 与 D 退出时均超过预留工时，原面板各自保留该条件。{{ref|R6}}
+
+{{name|V6}} 完整设施的取水清滤首片中，策略 V 与直接规则 D 的 {{metric|C2.V6.first.pairs|i}} 个主配对全窗服务均持平，V 节省人员、工具和费用的 {{metric|C2.V6.first.resource_BETTER|i}} 条均失去了 D 曾取得的合法关闭。另在公开设计的冷却与网络联合工单冷态面板中，策略 J 对 B 的 {{metric|C2.V6.cold.pairs|i}} 个主配对有 {{metric|C2.V6.cold.BETTER|i}} 条改善、{{metric|C2.V6.cold.SAME|i}} 条持平、{{metric|C2.V6.cold.WORSE|i}} 条退化。{{name|A04}} 的冷却正常，网络配置限制服务。J 核查网络、修正配置并通过复核，B 清滤时写回原值，J−B 服务缺额为 {{metric|C2.V6.cold.A04_delta|s3}} 秒。{{ref|V6first}} {{ref|V6cold}}
+
+### 失效条件与反例
+
+伦敦式开发条件 {{name|5-04}} 与 {{name|5-10}} 在仅既有保护时全窗公开记录相同，合法全知排程却分别恢复路径和修正共享判断。付费核查路径的移交状态与连接位置可以区分它们。另在独立工程见证中，备用路径尚未移交、连接位置不对或发电机硬件未就绪时，控制修正虽已执行，终端仍会失电。{{ref|T3}}
+
+伦敦式留出条件 {{name|5-08}} 中，风险策略比 B 多损失 {{metric|C2.T4b.LONDON.5-08_delta|i}} 秒。荷兰式留出中有 {{metric|C2.T4b.NETHERLANDS.window_missed|i}} 条错过预防性重分组窗口，B 已在转供前完成重分组，稍后重启泵无法追回切断供电期间的服务。{{ref|T4b}}
+
+冷态 {{name|B08}} 中，B 有权直接安排冷却和网络处置，网络在 {{metric|C2.V6.cold.B08_B_restore|d2}} 秒恢复。J 先查后改，到 {{metric|C2.V6.cold.B08_J_restore|d2}} 秒才恢复网络，服务缺额差为 {{metric|C2.V6.cold.B08_delta|s2}} 秒。J 虽少用人员和工具，却失去了 B 对冷却工单取得的处置后复核关闭。{{name|A04}} 与 {{name|B08}} 均属于完整设施冷态比较，观察到的服务变化不能用于估算真实事故的损失。{{ref|V6cold}}
