@@ -1,0 +1,239 @@
+{
+  "schema": "AegisDC.T7.incident-preregistration.v1",
+  "stage": "STAGE_0_REGISTERED_FOR_REVIEW",
+  "scope": "伦敦式和荷兰式合成条件上的一次前瞻性比较。阶段 0 只登记；每个后续阶段各自交审并取得授权。",
+  "accepted_manuscript_revision": "d9f0d5365e4aad97b2c5bfb99ee573cf93eed832",
+  "baseline": {
+    "revision": "3487276af9e9759357771d16eb45feceaa3c948a",
+    "run_manifest": "docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json",
+    "run_manifest_sha256": "8b66db7e8eccebee6d070bfda956ca0dc80ca0896ffa725b40d501a032b1a56f",
+    "source_manifest": "docs/mainline/t4b-holdout-confirmation-v2/phase2-sources.json",
+    "source_manifest_sha256": "e649b5a6dd71a3a3417af23f944dba237f6fa609ed9efd380351929e1f78d423",
+    "native_revision": "0e5afde1a5e734a04489f1bf27804db6a3325497",
+    "generator": "docs/mainline/t4c-action-cost-v3/inputs_v3.py::condition",
+    "score": "docs/mainline/t3-prior-information-v2/score_saved.py::score",
+    "method": "V_COST",
+    "arm_bundles": {
+      "V_COST": "t4c_v3",
+      "P": "t4c_v3",
+      "ALARM": "t4c_v3",
+      "PERIODIC": "t4c_v3",
+      "B": "t4a_B_PA"
+    },
+    "parameters": "沿用基线代码、v3 参数、公开策略包、整窗评价器和原生设施。历史 T4b 仍以 B 为首项确认对照。"
+  },
+  "custody": {
+    "seed_id": "T7-H3",
+    "purpose": "T7 阶段 2 的两族一次性确认",
+    "raw_byte_length": 32,
+    "commitment_algorithm": "SHA-256 of the raw 32 bytes",
+    "sha256": "1f6b1aea45c6c1a2fd2479e1c704bc9f0b8068b0b1d04460463b9abf068bec94",
+    "source": "用户返回保管脚本打印的摘要。执行方无种子文件；本次未独立检查保管设备或原文。",
+    "executor_has_seed_file": false,
+    "release": "阶段 2 单独授权后，原始 32 字节与本承诺相符方可生成条件。承诺本身不作发生器输入。提前交接、摘要不符或揭盲污染均须留痕交审。",
+    "H2": "WITHHELD_FOR_FUTURE_ORDINARY_IMPROVEMENT_AND_RSI",
+    "historical_label": "T4b 的 H3 是历史假设编号，T7-H3 是此次新种子。"
+  },
+  "panel": {
+    "families": [
+      "LONDON",
+      "NETHERLANDS"
+    ],
+    "frozen_family_indices_zero_based": [
+      4,
+      5
+    ],
+    "family_weights": [
+      0.5,
+      0.5
+    ],
+    "conditions_per_block": 12,
+    "blocks_per_family": 5,
+    "conditions_per_family": 60,
+    "total_conditions": 120,
+    "role_order": [
+      "P",
+      "PERIODIC",
+      "ALARM",
+      "B",
+      "V_COST"
+    ],
+    "total_planned_positions": 600,
+    "order": "阶段 2 获准后，将种子的原始字节转为无符号大端整数。按 draw=0..59，每个 draw 先 LONDON 再 NETHERLANDS，传入既有 condition(seed, family_index, draw, templates)。沿用原始插槽、配额和块号 draw//12；不改种子流标签。",
+    "pairing": "每个条件共享原生输入、附属故障与维护条件；五臂各建独立状态、材料、预算和回执。策略仅接收原公共视图及合法到时记录。",
+    "overlap": "按冻结 author.py 的完整与 operative 两套身份，比对板内、T4b 同族历史条件及 T4c 已披露开发条件。记录重合对与分母，原位保留。T3 的同名行注明开发来源。同名不构成同一输入。"
+  },
+  "endpoints": {
+    "L": "原生评价器返回的整窗归一化未交付服务积分，单位秒。",
+    "person": "原生评价器 person，单位人秒。",
+    "event": {
+      "field": "L",
+      "operator": ">",
+      "threshold": 0,
+      "unit": "condition",
+      "positive": "同一臂在整个评价窗内有未交付服务。合法评分以未舍入的原生字段判定；严格零记无事件。"
+    },
+    "pair_orientation": "V_COST minus comparator",
+    "primary": [
+      {
+        "id": "HA",
+        "comparator": "P",
+        "outcome": "L",
+        "unit": "s"
+      },
+      {
+        "id": "HB",
+        "comparator": "ALARM",
+        "outcome": "L",
+        "unit": "s"
+      },
+      {
+        "id": "HC",
+        "comparator": "P",
+        "outcome": "event",
+        "unit": "proportion"
+      }
+    ],
+    "secondary": [
+      {
+        "comparator": "PERIODIC",
+        "outcomes": [
+          "L",
+          "person"
+        ],
+        "use": "分别报告服务与人员差、分母和方向，不合成胜负。"
+      },
+      {
+        "comparator": "B",
+        "outcomes": [
+          "L"
+        ],
+        "use": "描述性复核。"
+      }
+    ],
+    "event_reporting": "逐族列 V_COST 与 P 的有/无事件四格、两臂事件数和完整条件分母 N，并列出两类不一致配对的条件编号。族内事件率差 = [n(V_COST 有、P 无) − n(V_COST 无、P 有)] / N，以比例和百分点报告。"
+  },
+  "inference": {
+    "estimand": "在冻结发生器的各族配额设计内，对每行的臂内配对差先作族内等权平均，再取两族均值的算术平均。三个端点共用原始行与块编号。",
+    "resampling": "逐族对五个完整配额块有放回抽取五块。保留块内全部行及配对臂，两个族的抽取独立。取该分层配对 bootstrap 分布的精确方差，无随机次数或分析种子。可枚举每族所有等概率有序抽法，或用等价的闭式计算。",
+    "standard_error": "令 g=5，m_fb 为族 f、块 b 内的配对差均值，s_f^2 为该族 g 个块均值的无偏样本方差。bootstrap 方差乘 g/(g-1) 去除有限经验分布的缩放。SE^2=(s_LONDON^2+s_NETHERLANDS^2)/(4g)。HC 同法处理行内指示变量差。",
+    "interval": "各端点的边际双侧 95% 区间为 delta ± t_(0.975,g-1)*SE。用同一校正 bootstrap 标准误和较小的自由度 g-1 作小样本 t 近似；HC 的检验和区间均用未截断的比例差。",
+    "raw_p": "对总体配额均差等于零，p=2*t.sf(abs(delta/SE),g-1)。这是合成块均值的名义推断；仅有五块每族，偏态和重复条件可影响校准。",
+    "adjustment": "Holm step-down",
+    "familywise_alpha": 0.05,
+    "decision": "三项原始双侧 p 按 (p, HA/HB/HC 原序) 排序。第 i 项的调整 p 为此前及本项 (3-j+1)*p_(j) 的最大值，上限 1，j 从 1 起。MET 要求调整 p<=0.05、估计为负且边际区间上界严格小于 0。阈值比较使用未舍入数；完整但未过记 NOT_MET。三项全部 MET 方可作合并肯定表述。",
+    "missing_or_degenerate": "任一所需臂缺失、非合规、数值未决、非有限或缺额为负，保留条件原分母；依赖它的端点记 INDETERMINATE。两族块间样本方差同时为零时同样处理。Holm 中给不可判项 p=1 以保留三项分母；其他端点仅在自身配对完整时照常检验。可观察子集可描述，另列有效/计划分母。",
+    "failures": "确认仅一次。首次失败和所有已调用、未完成及未执行后缀均保留；零重试、零替补，不按结果扩样或更改端点。"
+  },
+  "power": {
+    "script": "stage0.py",
+    "ledger": "power.json",
+    "prior": "已公开 T4b 两族各 24 行的配对效应及方差，仅作 T7 规划。",
+    "max_conditions_per_family": 96,
+    "target_joint_planning_power": 0.8,
+    "selection": "规划效应为各族各端点历史配对均值的 0.75 倍，历史方差取值沿用原登记。按 12 行配额块逐级检查。每族至少两块才可估计块间方差。各族按 max(行配对差方差,12×块均值方差) 规划行尺度方差；用第一步 Bonferroni 双侧临界值、每族块数减一的自由度及非中心 t 的负向尾功效。三项边际功效的并集界达到目标的首个规模入选。",
+    "interpretation": "功效取决于历史效应、方差和小样本参考分布；历史每族只有两个块。三项联合界是规划模型内的计算，不是对留出结果的保证。",
+    "effect_multiplier": 0.75,
+    "reported_effect_multipliers": [
+      1,
+      0.75,
+      0.5
+    ]
+  },
+  "risk": {
+    "field_frequency": "频率未建立",
+    "weights": "只报告两族各自的条件均值、配对事件比例及两族等权合成设计均值。无现场发生率权重、年化事故概率或损失。",
+    "field_data_needed": "按暴露时间带分母的维护/故障记录、当班可见材料、授权与实际操作时长、剩余储能或冷却状态。"
+  },
+  "companion_sha256": {
+    ".gitattributes": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+    "README.md": "1892673ee999999c52ea86b7884ce4edede11c3f5c6409c793b686814b594e7c",
+    "contamination.md": "4a4137de2f544fec036db273e0c2d0192eb0633467bd0e032853ebdef200f209",
+    "custodian-h3.ps1": "6784d8106b486a529fcd8c666e25c6c5f09afaec9c5c9177ec7a813a73c0a0a8",
+    "power.json": "95f9f03d2033b58c603e81a16d26fa4a8a66841fa2615b6dc85a2ba091d02d79",
+    "stage0.py": "030f7439fcde504a9b4ff677621e8bcf03997171f82d35823a1bf2f72b9bcbab"
+  },
+  "at_registration": {
+    "H3_plaintext_received": 0,
+    "H3_conditions_generated": 0,
+    "H3_results_accessed": 0,
+    "facility_calls": 0,
+    "slurm_jobs": 0,
+    "reserved_cpu_seconds": 0,
+    "slurm_cpu_seconds_used": 0,
+    "H2_generated": 0,
+    "H2_read": 0,
+    "H2_derived": 0
+  },
+  "stop": "提交并核对阶段 0 后交审。阶段 1 的开发补臂、阶段 2 的 H3 确认和 T8 均需另行授权。",
+  "revision": {
+    "id": "r1",
+    "parent_commit": "51ddd5784ceeaff1b26d3cec28920f6e86e08453",
+    "parent_path": "docs/mainline/t7-incident-counterfactual/registration.json",
+    "parent_sha256": "cc1d69e07769df3783965883036b4d7f431a5ddcda0703fc356899166d04d787",
+    "parent_review": "有条件接受",
+    "reason": "两族及主对照都在 T4b 结果已知后选定。用未收缩的历史均差规划，每族 48 条对效应衰减的余量有限。本修订在 H3 原文交接、条件生成和结果访问之前登记。",
+    "file_scope": "companion_sha256 指向原登记提交的六件附件。r1 的 power.script、power.ledger 均相对于本目录；本次交付件的哈希在 delivery.json，其哈希同登记哈希写入提交说明。"
+  },
+  "overlap_sensitivity": {
+    "use": "仅描述。三项主分析使用全部 120 个原始条件及原判据，MET 只由主分析给出。筛除结果不参加 Holm 判定，不反馈给策略。",
+    "identity": "沿用 T4b author.py::operative，对完整 native、attachment、maintenance 三项按 context_t4b.compact 序列化（键排序、紧凑分隔、ASCII、禁用 NaN），以 SHA-256 标识。",
+    "historical_reference": {
+      "revision": "3487276af9e9759357771d16eb45feceaa3c948a",
+      "path": "docs/mainline/t4b-holdout-confirmation-v2/condition-summary.json",
+      "sha256": "745b99b439bd8267817768010d04e0eec157fd235515f911c7623038990e1504",
+      "match": "逐族匹配 T4b 同族 24 条的 operative_sha256。"
+    },
+    "development_reference": {
+      "revision": "3487276af9e9759357771d16eb45feceaa3c948a",
+      "manifest": "docs/mainline/t4c-action-cost-v3/dev-manifest.json",
+      "manifest_sha256": "1408fa54fe27ee616954e8d9b4016e151a4171f724f7531fb817e8da5301b47d",
+      "archive": "docs/mainline/t4c-action-cost-v3/dev-inputs.jsonl.gz",
+      "archive_sha256": "882d4c17b91eb2067ff49885d95b535649a78f5e89ec8422f097fe448b0abf2e",
+      "operative_map_sha256": "d74b27c4decec5d7819bf7c9fab83a126d572b3e8154b5589e87d992dcec6cc5",
+      "operative_map_format": "对全部 72 条建立 {原条件编号: operative 摘要}，以同一 compact 规则序列化，无换行，计算 SHA-256。",
+      "match": "对 T4c 已披露开发清单的全部 72 条验明整行身份，再按同一投影匹配，六族均在参考集中。"
+    },
+    "exclusion": "在读取留出评分前固定筛选账。两参考集任一命中即删除该条件整行的全部臂。多次命中只删除一次，列出全部来源与原编号。仅板内重复、同编号或相同工况名不触发此筛选；板内单独重复仍在主重合账中报告。",
+    "denominators": "逐族逐块列计划行数、命中两来源的行数及交集、去重后剔除数、保留数和每端点有效配对数。报告原始分母 60/族、120 合计。两套参考清单均完整且无命中时写“无需敏感性”。匹配证据缺失时标“重合未建立”，不把未核对记为零。",
+    "estimate": "保留行数可因块而异。对 HA、HB、HC 分别用原配对差，族内每条保留行等权，两个族均值各占一半。HC 加列两方向不一致配对。原块号保留；不补抽条件、不重配对、不把剩余行拼成新的十二行块。",
+    "interval": "对每族 f 的 k_f 个非空原块，记 n_b 为块内保留行数、S_b 为配对差之和。有放回抽 k_f 块，每次统计量为所抽 S_b 总和除以所抽 n_b 总和。取全部等概率有序抽法的精确方差 V_f，按 k_f/(k_f−1) 校正。SE²=[k_L/(k_L−1)·V_L+k_N/(k_N−1)·V_N]/4。描述性双侧 95% 区间为点估计 ± t_(0.975,min(k_L,k_N)−1)·SE。完整等长块时退化为原登记公式。",
+    "sparse_or_invalid": "任一族保留行数为零，合并点估计和区间均未建立。两族均有行但任一族不足两个非空块，或两族方差同时为零，给出可计算点估计，区间未建立。对所需臂缺失、非合规或数值未决的保留行，沿用原端点失效规则，不以可用行替代该端点的完整子集。其他端点依各自配对报告。"
+  },
+  "stage1_development": {
+    "status": "仅登记来源和将来可交审的接法。开发级，不入确认。阶段 1 的实测和兼容性验证尚未执行，须取得单独授权。",
+    "t3": {
+      "revision": "85af7e48b60e61dc453456b5b7bc73ab832900b5",
+      "directory": "docs/mainline/t3-prior-information-v2",
+      "generator": "generator_v2.py::dev_case → incident_case → complete；以 execute.py 生成并封存的逐条输入为准。",
+      "generator_sha256": "cdd386f585a05c401a0153802028a7e9cc2f895f682c4b8bf4bed00f8d66c630",
+      "parameters": "settings.json",
+      "parameters_sha256": "0511ab6b8ee679c753580ab312f88522b82cca607729d3d5611466ac40bd5936",
+      "freeze_sha256": "f8cc8891c0e747ef900c647079990af622601e045f158c8df77aaf120860511d",
+      "public_development_seed": 2026112143,
+      "manifest": "development-inputs.json",
+      "manifest_sha256": "21520e8ec4339a2f9b0d9dfc6afa904c601c6a8bab05379a4321621dc392869e",
+      "archive": "development-inputs.jsonl.gz",
+      "archive_sha256": "6a0836ded5b28056a5c50ab711940405a9747a6d94c9fd4bed26344dff34df6a",
+      "candidate_roster": "从已封存开发清单按原序选两族各 12 条：5-01..5-12、6-01..6-12。5-01 和 6-02 各是其中一行。阶段 1 的授权决定实际执行范围。使用原始行字节及 T3 原评分口径。",
+      "representative_input_sha256": {
+        "5-01": "40742a119ad8eae95daebf239927482b983eac2d968ce183ace532407636cba3",
+        "6-02": "87dd1031e7d77c980840b915e91b20e2364e7cbe2f6dfd58eebb064358b070e2"
+      }
+    },
+    "policy": {
+      "reference_revision": "3487276af9e9759357771d16eb45feceaa3c948a",
+      "freeze": "docs/mainline/t4c-action-cost-v3/v-double-star-freeze.json",
+      "freeze_sha256": "17e5e4c98b46b7859621608efa3ea3378baf5f5be6209c28a91dee998f55c462",
+      "bundle": "t4c_v3",
+      "bundle_sha256": "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd",
+      "role": "V_COST",
+      "public_rules": "src/aegis_action_cost/rules.json",
+      "public_rules_sha256": "ef5e73cfd6489e99b94b8a5a5697903dc257cec17060337d117d6f69635dcc97"
+    },
+    "direct_compatibility": "T3 原件只有 native、attachment、evaluation，公开工单值为 OPEN。T4c native_v3.native_run 直接索引 case['maintenance']，完整 v3 运行器无法原样载入 T3 行。T3 的默认 choose 没有 V_COST 决策逻辑。T4c 的同名行来自不同开发输入，不能填入 T3 的实测栏。",
+    "exact_input_route": "后续获准后优先保留 T3 原始输入和 T3 原生设施/评分，按 T4a run_panel.py::unit 已用过的公开决策接法绑定 t4c_v3 的独立 V_COST 工人（公开静态目录握手、每次仅到时 view、计划为空）。T3 的 OPEN 保留原值，冻结 permit.exposure 对缺少 MAINT 标签返回 0；工人继续执行自己的 180 秒写入间隔。T3 设施沿用自己的执行规则。该组合目前只有静态接口依据。需核对输入/策略哈希、实际 IPC、派工及有身份的读数到达回执，方能登记为原 T3 输入上的开发观察。",
+    "fallback": "若在任何设施调用前已确认原样接法不兼容，记录原因，原 T3 的 V_COST 读数仍为“未建立”。可交阶段 1 授权的替代是对原始 T3 行的副本应用冻结的 inputs_v3.attach(copy, 0)，赋予 0 秒暴露、0.5 容量和 180 秒恢复，并把公开工单标为 OPEN/MAINT-0。用独立输入身份、t4c_v3 的 V_COST 与 native_v3 记账。该副本有不同的动作准入与工单，只能报告为派生开发条件；不得填回 T3 原行。发生调用后的失败留原件，不能自动换接法重跑。",
+    "restriction": "阶段 1 的任何输出只属于开发，不回改本登记的样本量、判据或确认清单。"
+  }
+}
