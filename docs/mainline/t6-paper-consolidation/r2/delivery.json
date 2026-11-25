@@ -1,0 +1,53 @@
+{
+  "schema": "aegisdc-t6-claims-amendment-r2",
+  "baseline": "0ca350d1cb54ecc20fd99db5d69167d886cdef34",
+  "accepted_path": "docs/mainline/t6-paper-consolidation/claims.json",
+  "corrected_path": "docs/mainline/t6-paper-consolidation/r2/claims.json",
+  "original_sha256": "40bca8fec1a3eb559b4ffec41dd1afeca51dee0015cb6abca070d105e8c373f9",
+  "corrected_sha256": "22f80b57d1305657166f781a3389c606578e3c712690bd175d4cb30399f98bf7",
+  "changed_lines": [
+    {
+      "line": 25814,
+      "pointer": "/claims/0/subclaims/0/scope",
+      "old_line": "          \"scope\": \"T4b\",",
+      "new_line": "          \"scope\": \"仅 T4b 整板的等权平均服务缺额 L（预注册 H1：V_COST−B）。\","
+    },
+    {
+      "line": 25863,
+      "pointer": "/claims/0/subclaims/0/status",
+      "old_line": "          \"status\": \"部分成立\"",
+      "new_line": "          \"status\": \"成立\""
+    }
+  ],
+  "unchanged_level": {
+    "pointer": "/claims/0/subclaims/0/level",
+    "value": "确认"
+  },
+  "unchanged_limits": [
+    "/claims/0/status",
+    "/claims/0/failure_conditions",
+    "/claims/0/subclaims/0/failure_conditions",
+    "/claims/0/subclaims/0/counterexamples"
+  ],
+  "H1_source": {
+    "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
+    "path": "docs/mainline/t4b-holdout-confirmation-v2/results.json.gz",
+    "sha256": "cc1ad6ada702738e1e5c3662f4d041c40231a72f8d40e738ef8abccafe02c136",
+    "fields": [
+      "/hypotheses/0/id",
+      "/hypotheses/0/comparator",
+      "/hypotheses/0/decision",
+      "/hypotheses/0/comparison/available",
+      "/hypotheses/0/comparison/planned",
+      "/hypotheses/0/comparison/metrics/L",
+      "/hypotheses/0/comparison/directions"
+    ]
+  },
+  "files": {
+    "claims.json": "22f80b57d1305657166f781a3389c606578e3c712690bd175d4cb30399f98bf7",
+    "claims_check.py": "9080365f8071e8bccfd7bba3a77b9c033d94772fe93380c3f9766721dc3150f5",
+    "verification.txt": "6cb8c77a66ec0042704c8a279e3c32054baf1937c5118d3560aa52a4425056af",
+    "README.md": "cb5d122f735482e62d15bf3d0c461472563545a2048f985cb377356396f478b5"
+  },
+  "scope": "This additive ledger supersedes only C1.B scope and status. All accepted scientific values and prior files are retained."
+}
