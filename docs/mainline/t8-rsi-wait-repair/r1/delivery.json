@@ -1,0 +1,274 @@
+{
+  "schema": "AegisDC.T8.stage1a.delivery.v1",
+  "scope": "Stage A and synthetic B delivered for review",
+  "stage_A_decision": "A 无需改动",
+  "status": "AWAIT_USER_REVIEW_REAL_FIT_NOT_AUTHORIZED",
+  "versions": {
+    "r0": "6b63c4f4db6b8b19d01b2d00b99f740fba68525e",
+    "audit_definition": "a765993d1f74f57052767c2703eb8ea37fc0f90d",
+    "audit_results": "e8d07b9f6abbdd69ed816938e785fdaa63f9891b",
+    "reviewed_math": "055e20edbcde41733938ae6ba35adf914d82151b",
+    "initial_fixture": "7850c42130744f80f2e153bbcaed90a9554462ad",
+    "corrected_fixture": "91c6468d226c7ea08583527de34b63709ce228b7"
+  },
+  "private_cluster_root": "/share/home/renly/renly-patrol-rsi/mainline/T8-stage1a-wait-audit-v1",
+  "jobs": {
+    "135551": {
+      "purpose": "A input enumeration",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "reserved_cpu_s": 2400,
+      "actual_cpu_s": "311.265",
+      "frozen_or_identical_published_code": "a765993d1f74f57052767c2703eb8ea37fc0f90d",
+      "private_relative_path": "enumeration",
+      "source_tar": "source.tar",
+      "source_tar_sha256": "b48a1a430e2396e13094bd54911b7f32dc00294d04a33fe94fd97e0d3bf05921"
+    },
+    "135552": {
+      "purpose": "A original planning arithmetic",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "reserved_cpu_s": 120,
+      "actual_cpu_s": "0.793",
+      "frozen_or_identical_published_code": "e8d07b9f6abbdd69ed816938e785fdaa63f9891b",
+      "private_relative_path": "math",
+      "source_tar": "math-source.tar",
+      "source_tar_sha256": "139df6a35b29e37089de44a2e4873c1561cd72c3ce15310d16261d124b52753e",
+      "inference_sha256": "9e1eded3e51dde470c75b056c3358c60022c67b6c1d84af4ca8daff54bf25b8b"
+    },
+    "135554": {
+      "purpose": "A reviewed planning arithmetic",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "reserved_cpu_s": 120,
+      "actual_cpu_s": "0.806",
+      "frozen_or_identical_published_code": "055e20edbcde41733938ae6ba35adf914d82151b",
+      "private_relative_path": "math-reviewed",
+      "staging_script": "inference-reviewed.py",
+      "inference_sha256": "7050f9be546466d7776283dd694024ba51e2bae831163b35a8b3bd31c87e98a9"
+    },
+    "135555": {
+      "purpose": "B initial fixture; output assertion looked for O/R above arms",
+      "state": "FAILED",
+      "exit": "1:0",
+      "reserved_cpu_s": 600,
+      "actual_cpu_s": "1.523",
+      "frozen_or_identical_published_code": "7850c42130744f80f2e153bbcaed90a9554462ad",
+      "private_relative_path": "fixture-7850c421/job-135555",
+      "source_tar_sha256": "265baa7bcacc5d137d4ba720388c7c5af3bfa3827375d30f9dc9e14d0e37d8f6",
+      "launch_sh_sha256": "b735ef9fc268c51aea49773815bca3c2f2250b5e6f847eb3c589a35b3e1a9e0a",
+      "preserved_rounds": 8,
+      "fixture_tokens": 1584,
+      "full_suite_completed": false
+    },
+    "135556": {
+      "purpose": "B corrected fixture and read-only independent replay",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "reserved_cpu_s": 600,
+      "actual_cpu_s": "7.185",
+      "frozen_or_identical_published_code": "91c6468d226c7ea08583527de34b63709ce228b7",
+      "private_relative_path": "fixture-91c6468d/job-135556",
+      "source_tar_sha256": "084fe43c5ca98d717eb1c09be30e6e32b5184db7cf1a9b476f42064cec704dd2",
+      "launch_sh_sha256": "07b6f61dd7d0bfcc6293d2ccf93756836e0c465b956a0a6164a5a4303bc4599f",
+      "preserved_rounds": 80,
+      "fixture_tokens": 5867,
+      "full_suite_completed": true
+    }
+  },
+  "runtimes": {
+    "A": {
+      "executable": "/share/home/renly/miniconda3/bin/python",
+      "sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+      "python": "3.13.9",
+      "scipy": "1.16.1"
+    },
+    "B": {
+      "executable": "/share/home/renly/miniconda3/envs/sd/bin/python",
+      "sha256": "25bccdcbf79b6ba8a5208fa03bd8923bfd64b102d0660d2d9cb551e7d6c2bce4",
+      "python": "3.10.11",
+      "cryptography": "45.0.5",
+      "jsonschema": "4.25.0"
+    }
+  },
+  "execution_boundaries": {
+    "real_facility_calls": 0,
+    "actual_child_study_scores": 0,
+    "real_FIT_rows": 0,
+    "real_DEV_rows": 0,
+    "official_overlap_queries": 0,
+    "H2_generation_read_derivation": 0,
+    "H3_access_including_index": 0
+  },
+  "self_review": {
+    "standards": "Old evidence, r0, local user files and historical worktree retained. Both engineering attempts archived. The corrected source reads result.arms and all ten original scenarios.",
+    "spec": "Capacity is a conservative bound. Only block differences enter MET. Eight cluster signatures gate design. The supplemental interval is descriptive. Stage B proves the bounded control mechanism on artificial tokens; independent role mounts, processes and native study launch remain pre-FIT obligations."
+  },
+  "artifacts": {
+    "HANDOFF.md": {
+      "group": "handover_and_readback",
+      "bytes": 5140,
+      "sha256": "a0d07a37e3f5e06e72461740c6d85e6537f8ec8dfc7402b87636a7f5125b9ea5"
+    },
+    "review.html": {
+      "group": "handover_and_readback",
+      "bytes": 180513,
+      "sha256": "68387ec2d06a49715f3e5d7f72ba155a631ac93a38bffa4c89c120238ab6dc9c"
+    },
+    "check.py": {
+      "group": "handover_and_readback",
+      "bytes": 8109,
+      "sha256": "25769bf959cd41e7d10ec8c3b29b0f93a1e44b471ac9dfa80e47f42775e94cd6"
+    },
+    "check-output.txt": {
+      "group": "handover_and_readback",
+      "bytes": 1003,
+      "sha256": "8da1412ac4ff26311307f3291445268881c208933b535c6628811e24a66fc740"
+    },
+    ".gitattributes": {
+      "group": "A_frozen_input_audit",
+      "bytes": 12,
+      "sha256": "dc867bfa424d5804f4b790b2901bb95c32df7bb3341b3aac822dfc76751093fe"
+    },
+    "audit-plan.json": {
+      "group": "A_frozen_input_audit",
+      "bytes": 5876,
+      "sha256": "37c2992d31186689038c6bd5a52df28367dd4bbf2d0cd1055cda0abb5f1fc5a4"
+    },
+    "audit-sources.json": {
+      "group": "A_frozen_input_audit",
+      "bytes": 3190,
+      "sha256": "7be88fbbc4f1b6c2af06eff1d9d910060122b3db4468ed5a1bdaf555d0cb41ae"
+    },
+    "capacity_audit.py": {
+      "group": "A_frozen_input_audit",
+      "bytes": 12621,
+      "sha256": "7af13654c0616bed088c10595f049345ff24df7ac05420d36afed5032ceadb34"
+    },
+    "capacity.json": {
+      "group": "A_frozen_input_audit",
+      "bytes": 6616,
+      "sha256": "5c5d2828399dfe8d52319a48305fdb802d9aba831e846ae043e0bea18cd85831"
+    },
+    "LONDON-audit-blocks.json.gz": {
+      "group": "A_frozen_input_audit",
+      "bytes": 83343,
+      "sha256": "1dedda964be0a056356237a4c671bc85dcc7022f7feb45a78e7dfbe506e4048c"
+    },
+    "NETHERLANDS-audit-blocks.json.gz": {
+      "group": "A_frozen_input_audit",
+      "bytes": 91449,
+      "sha256": "e5b7b3c03f21ab38c52c273693b5e5e1da64ced881daa0afa075426ddcf3feb3"
+    },
+    "enumeration-accounting.psv": {
+      "group": "A_frozen_input_audit",
+      "bytes": 175,
+      "sha256": "779543be9b18d5d8536f77e87519113c5fec83027ab9080264afbe9c7a2b0be2"
+    },
+    "stage-A.md": {
+      "group": "A_design_and_planning",
+      "bytes": 8327,
+      "sha256": "21aa0807c4c7d64edcfc066ae29c870d7e170ca4a0c89c95ad137b706928a98a"
+    },
+    "supplement.json": {
+      "group": "A_design_and_planning",
+      "bytes": 7294,
+      "sha256": "6bf0d919bd91b4f02c1708c451aa8b63344f6c39f1436e1a43da133d97cf702c"
+    },
+    "inference.py": {
+      "group": "A_design_and_planning",
+      "bytes": 11637,
+      "sha256": "7050f9be546466d7776283dd694024ba51e2bae831163b35a8b3bd31c87e98a9"
+    },
+    "power-audit.json": {
+      "group": "A_design_and_planning",
+      "bytes": 56374,
+      "sha256": "1c25466555d7b578bd5c0c7c8f4d43b5b5813f963dccc43e6698555cf2cca347"
+    },
+    "check_a.py": {
+      "group": "A_design_and_planning",
+      "bytes": 8416,
+      "sha256": "caadcca45cfa45bd04b3622f9a900fb772a1f4c827691cc6fb46b76d8c499394"
+    },
+    "math-accounting.psv": {
+      "group": "A_design_and_planning",
+      "bytes": 168,
+      "sha256": "5c67ace7055acf669130b0e244a4067d91e02aaa1493cfe23d7fd5e6b21a8465"
+    },
+    "math-reviewed-accounting.psv": {
+      "group": "A_design_and_planning",
+      "bytes": 168,
+      "sha256": "fa575c7858f4c73f77b361fd9c0e7dbf817f4318267600ea6a842a7b281e60cd"
+    },
+    "b-freeze.json": {
+      "group": "B_frozen_loop",
+      "bytes": 4176,
+      "sha256": "4a24454e79996fd160fe6de86ba30b39fc6f329b284476b5d0176cf789115619"
+    },
+    "fit_program.py": {
+      "group": "B_frozen_loop",
+      "bytes": 7770,
+      "sha256": "131c1fa5875c9c14587873042e49fa8e8a3da969e3722ded64cfa01675e2e134"
+    },
+    "fit_loop.py": {
+      "group": "B_frozen_loop",
+      "bytes": 15295,
+      "sha256": "613c6662c15291c735f20541c98149fe547bfa8b687ec2417a3cc8b04c147b9e"
+    },
+    "fit_broker.py": {
+      "group": "B_frozen_loop",
+      "bytes": 4405,
+      "sha256": "2695427872732873c58456d1d8036f83ee68bf2c6d075b77987d52dae4520f8c"
+    },
+    "fit_evidence.py": {
+      "group": "B_frozen_loop",
+      "bytes": 3617,
+      "sha256": "877a7edb1758752b4ae8462ed4541a0951041d2b7331923e0c0016d5713b021a"
+    },
+    "public_fixture.py": {
+      "group": "B_frozen_loop",
+      "bytes": 4805,
+      "sha256": "8cd7f04e0b39f71be85427ee356dd0e9edfc9d2fa7cccf1c889e4cdde0f20568"
+    },
+    "synthetic_selftest.py": {
+      "group": "B_frozen_loop",
+      "bytes": 9985,
+      "sha256": "c76311b8ad17829e20cb149e7d49cc25b68547076d5bd75ed6332b2aac39a8fe"
+    },
+    "read_fit.py": {
+      "group": "B_frozen_loop",
+      "bytes": 16801,
+      "sha256": "3d56db742f1ecee111b0b67eb942c8b58bbd1c62b5f1719a01e9773825f3bd9d"
+    },
+    "standin-failed-135555.tar.gz": {
+      "group": "B_engineering_evidence",
+      "bytes": 86752,
+      "sha256": "1f23c71b3f3f57b4c8e121378a6a67a52cadf026b8daa2fd00c39c35c215ebbe"
+    },
+    "failed-135555.log": {
+      "group": "B_engineering_evidence",
+      "bytes": 537,
+      "sha256": "064d0f0b2c30c13a25bfb8631f62ee0568c9b620dccddc084f687acc050e822b"
+    },
+    "standin-records.tar.gz": {
+      "group": "B_engineering_evidence",
+      "bytes": 379540,
+      "sha256": "314c8965fa56ce21d464b17b6683f5bbbc8957a812a98dd8381ad4a786d31eab"
+    },
+    "selftest.json": {
+      "group": "B_engineering_evidence",
+      "bytes": 16223,
+      "sha256": "295877ed7ffbe8d45db1135f971425bfb4d89d2307b3a915fbc2f032493ed2e0"
+    },
+    "fixture-readback.txt": {
+      "group": "B_engineering_evidence",
+      "bytes": 433,
+      "sha256": "188b5779ceee6299c33ffe261a902e78d3d503b1ffa88639863fc92635bc9d4f"
+    },
+    "stage1a-accounting.psv": {
+      "group": "B_engineering_evidence",
+      "bytes": 533,
+      "sha256": "4a225af3c08af81adf1a1a3f954aa73934dbdc5754267bf16a2f7d1c487a57bd"
+    }
+  }
+}
