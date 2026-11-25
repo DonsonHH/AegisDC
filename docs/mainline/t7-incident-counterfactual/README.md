@@ -42,7 +42,7 @@
 
 ## 复核与停止点
 
-H3 的公开 SHA-256 为 `1f6b1aea45c6c1a2fd2479e1c704bc9f0b8068b0b1d04460463b9abf068bec94`。用户保管脚本返回了该摘要，执行方无种子文件。正式登记的 SHA-256 写入 Git 提交说明的 `Registration-SHA256` 行。[离线保管脚本](custodian-h3.ps1)
+H3 的公开 SHA-256 为 `1f6b1aea45c6c1a2fd2479e1c704bc9f0b8068b0b1d04460463b9abf068bec94`。用户保管脚本返回了该摘要，执行方无种子文件。正式登记的 SHA-256 写入 Git 提交说明的 `Registration-SHA256` 行。登记内的哈希覆盖另六件交付文件，复核时将检出与登记提交逐件比较。[离线保管脚本](custodian-h3.ps1)
 
 本次复算环境为 Python 3.11.9、SciPy 1.14.1 和 Git。在包含登记提交的完整检出中运行以下命令；全新检出使用 `core.autocrlf=false`，以便直接核对工作树字节。
 

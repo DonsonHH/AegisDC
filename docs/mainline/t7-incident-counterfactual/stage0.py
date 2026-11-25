@@ -34,6 +34,8 @@ PUBLIC_INPUTS = {
 FAMILIES = ("LONDON", "NETHERLANDS")
 COMPARATORS = {"HA": "P", "HB": "ALARM", "HC": "P"}
 BLOCK = 12
+COMPANIONS = (".gitattributes", "README.md", "contamination.md", "custodian-h3.ps1",
+              "power.json", "stage0.py")
 
 
 def require(condition, detail):
@@ -217,18 +219,29 @@ def verify_references(archive, history):
     print("PASS task references: four archived incident contrasts, T4b decisions and two T3 cases")
 
 
+def verify_companions(r):
+    pins = r["companion_sha256"]
+    require(set(pins) == set(COMPANIONS), "registration companion inventory")
+    for name in COMPANIONS:
+        require(sha((HERE / name).read_bytes()) == pins[name], "package SHA-256 mismatch: " + name)
+    print(f"PASS registration binds the bytes of all {len(pins)} companion files")
+
+
 def verify_checkout():
     folder = HERE.relative_to(ROOT).as_posix()
-    members = git("ls-tree", "-r", "--name-only", "HEAD", "--", folder).decode().splitlines()
-    require(folder + "/registration.json" in members, "registration has not been committed")
-    for member in members:
-        require((ROOT / member).read_bytes() == git("show", "HEAD:" + member), "package bytes: " + member)
     commit = git("log", "-1", "--format=%H", "HEAD", "--", folder + "/registration.json").decode().strip()
+    require(bool(commit), "registration has not been committed")
+    expected = {folder + "/" + name for name in (*COMPANIONS, "registration.json")}
+    for revision in (commit, "HEAD"):
+        found = git("ls-tree", "-r", "--name-only", revision, "--", folder).decode().splitlines()
+        require(set(found) == expected, "incomplete or extended package at " + revision)
+        for member in expected:
+            require((ROOT / member).read_bytes() == git("show", revision + ":" + member),
+                    "checkout differs from registered package: " + member)
     message = git("show", "-s", "--format=%B", commit).decode()
     digest = sha((HERE / "registration.json").read_bytes())
     require("Registration-SHA256: " + digest in message.splitlines(), "registration SHA in commit message")
-    require((HERE / "contamination.md").is_file(), "missing contamination disclosure")
-    print(f"PASS fresh checkout: {len(members)} package files, all historical pins, registration hash trailer")
+    print(f"PASS fresh checkout: {len(expected)} registered package files, all historical pins, registration hash trailer")
 
 
 def main():
@@ -248,6 +261,7 @@ def main():
     if args.power:
         sys.stdout.buffer.write(json_bytes(power))
         return
+    verify_companions(r)
     verify_baseline(r, args.checkout_bytes)
     verify_references(archive, history)
     panel = r["panel"]

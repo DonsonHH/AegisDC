@@ -62,7 +62,7 @@
       {"comparator": "PERIODIC", "outcomes": ["L", "person"], "use": "分别报告服务与人员差、分母和方向，不合成胜负。"},
       {"comparator": "B", "outcomes": ["L"], "use": "描述性复核。"}
     ],
-    "event_reporting": "逐族列 V_COST 与 P 的有/无事件四格、两臂事件数和条件分母，同时列 P 有而 V_COST 无、P 无而 V_COST 有的行。效应为两方向差除以完整分母并以比例和百分点报告。"
+    "event_reporting": "逐族列 V_COST 与 P 的有/无事件四格、两臂事件数和完整条件分母 N，并列出两类不一致配对的条件编号。族内事件率差 = [n(V_COST 有、P 无) − n(V_COST 无、P 有)] / N，以比例和百分点报告。"
   },
   "inference": {
     "estimand": "在冻结发生器的各族配额设计内，对每行的臂内配对差先作族内等权平均，再取两族均值的算术平均。三个端点共用原始行与块编号。",
@@ -89,6 +89,14 @@
     "field_frequency": "频率未建立",
     "weights": "只报告两族各自的条件均值、配对事件比例及两族等权合成设计均值。无现场发生率权重、年化事故概率或损失。",
     "field_data_needed": "按暴露时间带分母的维护/故障记录、当班可见材料、授权与实际操作时长、剩余储能或冷却状态。"
+  },
+  "companion_sha256": {
+    ".gitattributes": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+    "README.md": "1892673ee999999c52ea86b7884ce4edede11c3f5c6409c793b686814b594e7c",
+    "contamination.md": "4a4137de2f544fec036db273e0c2d0192eb0633467bd0e032853ebdef200f209",
+    "custodian-h3.ps1": "6784d8106b486a529fcd8c666e25c6c5f09afaec9c5c9177ec7a813a73c0a0a8",
+    "power.json": "95f9f03d2033b58c603e81a16d26fa4a8a66841fa2615b6dc85a2ba091d02d79",
+    "stage0.py": "030f7439fcde504a9b4ff677621e8bcf03997171f82d35823a1bf2f72b9bcbab"
   },
   "at_registration": {
     "H3_plaintext_received": 0,
