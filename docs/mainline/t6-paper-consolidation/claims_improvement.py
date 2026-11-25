@@ -99,10 +99,6 @@ def build(book):
         add("v3a", f"k{k}", "选择半抽取的候选数", "向量", A_DESIGN, f"/analysis/k/{registered_k.index(k)}")
         add("v3a", f"k{k}.recovery", f"k={k} 双向合并的平均余量回收率", "比例", V3A,
             f"/landscape/curves/{k}/pooled/recovered/mean")
-    for key, label in (("easy_at_least", "空间过易的回收率下限"),
-                       ("search_strictly_below", "有搜索余量所要求的回收率严格上限"),
-                       ("extra_gain_at_least", "有搜索余量所要求的回收率增量下限")):
-        add("v3a", key, label, "比例", A_DESIGN, "/analysis/decision/" + key)
     add("v3a", "delta", "扩大候选集后的双向平均回收率之差", "比例差", V3A, "/landscape/delta_24_minus_6/mean")
     for direction in ("A_to_B", "B_to_A"):
         add("v3a", "gap." + direction, direction + " 评价半的 B_cost 至全知距离", "秒", V3A,
