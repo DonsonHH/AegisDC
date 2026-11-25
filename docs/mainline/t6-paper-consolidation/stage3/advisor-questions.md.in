@@ -1,0 +1,25 @@
+## 导师五问
+
+### 伦敦
+
+**识别了什么。** 待核查的是维护期间备用供电能否接管。Google 事后查明，备用馈线断路器已断开，控制器却共用上游电压判断。运行馈线失电时，发电机没有收到启动信号。{{ref|LondonReport}}
+
+**凭什么当时知道。** 合成开发条件 {{name|5-01}} 的路径维护复查提示在 {{metric|C2.T3.LONDON.5-01_prior|i}} 秒到达。从起点付费查路径，读数可在 {{metric|C2.T3.LONDON.5-01_paid|i}} 秒到达，仅购买方可取得。提示本身不能诊断故障。现场人员当时可见的材料未建立，缺工单版本、收件人和到达记录。{{ref|T3}} {{ref|LondonReport}}
+
+**能采取什么行动。** 合成设施可在获准后恢复已移交的路径、预启动机组或修正共享判断。接管还要求接线正确、硬件就绪。现场有事后切至备用市电的记录，事前操作权未建立，缺当班授权单。{{ref|T3}} {{ref|LondonReport}}
+
+**是否来得及。** {{name|5-01}} 要挽回全部可避免损失，最迟须在 {{metric|C2.T3.LONDON.5-01_latest|i}} 秒开始恢复获准路径，报警在 {{metric|C2.T3.LONDON.5-01_alarm|i}} 秒才到。现场余量未建立。同版报告的事件表把失电与影响起点记在电池耗尽时，产品说明却将部分不可用记在馈线故障时。时刻尚未对齐，也缺实际剩余电量。{{ref|T3}} {{ref|LondonReport}}
+
+**额外收益从何而来。** 伦敦 PRE 同账号扩展条件 {{name|B01}} 中，否定读数使核查方停手，避开了直接修订带来的隔离和重启。先核查、直接修订、仅既有保护的缺额依次为 {{metric|C2.R6.ext35.B01_I_L|i}}、{{metric|C2.R6.ext35.B01_D_L|i}}、{{metric|C2.R6.ext35.B01_P_L|i}} 秒。现场增益未建立，缺同工况的合法替代处置结果。{{ref|R6}}
+
+### 荷兰
+
+**识别了什么。** Google 事后记载，转供触发过载保护，部分负载失电。控制器离线后泵未随来电重启，施工又使备用冷却无法接替。需要核查的风险因此从电力转供延伸到复电后的冷却。{{ref|DutchReport}} {{ref|T3}}
+
+**凭什么当时知道。** 合成开发条件 {{name|6-02}} 的复电测试提示在 {{metric|C2.T3.NETHERLANDS.6-02_prior|i}} 秒到达，付费读数最早可在 {{metric|C2.T3.NETHERLANDS.6-02_paid|i}} 秒到达。未派工的策略看不到读数。现场能否提前判断转供余量和泵的状态未建立，缺当时收到的负荷测量和控制器记录。{{ref|T3}} {{ref|DutchReport}}
+
+**能采取什么行动。** 合成设施在另路有余量且许可有效时可提前重分组，来电后可依权限重启泵，备用冷却须在施工移交后复役。现场事前操作权未建立，缺授权记录。人工切泵发生在恢复期，临时不间断电源是事后部署。{{ref|T3}} {{ref|DutchReport}}
+
+**是否来得及。** {{name|6-02}} 要挽回全部可避免损失，最迟须在 {{metric|C2.T3.NETHERLANDS.6-02_latest|i}} 秒启动重分组，正式报警在 {{metric|C2.T3.NETHERLANDS.6-02_alarm|i}} 秒到达。现场能否在跳闸前完成重分组、在热缓冲耗尽前恢复泵送，未建立，缺作业时长和库存记录。{{ref|T3}} {{ref|DutchReport}}
+
+**额外收益从何而来。** 合成工程见证中，仅既有保护的缺额为 {{metric|C2.T3.NETHERLANDS.qualification.C-N-base|i}} 秒。只重分组仍有冷却损失 {{metric|C2.T3.NETHERLANDS.qualification.C-N-group|i}} 秒，只重启泵仍有供电损失 {{metric|C2.T3.NETHERLANDS.qualification.C-N-restart|i}} 秒，及时重分组并重启泵的缺额为 {{metric|C2.T3.NETHERLANDS.qualification.C-N-both|i}} 秒。现场减损幅度未建立，缺可比的替代处置记录。{{ref|T3}} {{ref|DutchReport}}
