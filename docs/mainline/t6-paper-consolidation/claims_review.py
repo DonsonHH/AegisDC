@@ -59,10 +59,10 @@ def make(data):
     incident=[]
     for f in ("LONDON","NETHERLANDS"):
         k="C2.T3."+f
-        incident.append((NAMES[f]+"式 T3","开发","P／巡检／报警／合法全知的平均 L（秒）",
+        incident.append((NAMES[f]+" T3","开发","P／巡检／报警／合法全知的平均 L（秒）",
                          "／".join(val(k+".mean_"+role) for role in ("P","PERIODIC","ALARM","ORACLE"))))
         k="C2.T4b."+f
-        incident.append((NAMES[f]+"式 T4b","确认面板，分族描述","V_COST−B 平均 L 及原分族区间（秒）",
+        incident.append((NAMES[f]+" T4b","确认面板，分族描述","V_COST−B 平均 L 及原分族区间（秒）",
                          val(k+".mean",True)+" ["+val(k+".lo",True)+", "+val(k+".hi",True)+"]"))
     for key,desc in (("dev19","R6 公开开发"),("ext35","R6 同账号有限扩展")):
         pre="C2.R6."+key+"."
@@ -116,6 +116,7 @@ def documents(data):
           "","## 如何逐项复核","","[主张台账](claims.json)的每个 numbers 条目含数值 ID、未舍入有理数、单位、提交、仓库路径、字段及运算。"
           "rows 与字段内 {i} 展开为确切源行；比较差均为候选减对照。counterexamples 通过 ID 回指这些数值。"
           "运行 python docs/mainline/t6-paper-consolidation/claims_check.py --check，只用标准库及 git show 读取封存文件。",
+          "","与阶段 2 任务书及补充口径的数值差异：无。在旧板，把逐行事后择优和全板固定策略分别列账，不能互换。",
           "","[完整核验输出](claims-verification.txt) · [交付清单](claims-delivery.json) · [HTML 审阅页](claims-review.html)。"
           "本轮设施、Slurm、H2 均为零。待用户审查，不编写论文正文。"]
     # The public HTML uses the short view; its numerical tables are checked cell for cell.

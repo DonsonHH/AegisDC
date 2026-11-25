@@ -28,7 +28,7 @@ def build(book):
         scopes={"ALL":indices,**{k:[i for i in indices if rows[i]["family"]==k] for k in FAMS}}
         pre=st["C1"][panel]["scopes"];require(set(pre)==set(scopes),"C1 stage-1 family coverage")
         table={};joint={};losses={}
-        panel_level="确认" if panel=="T4b" else "确认面板中的描述性读回"
+        panel_source="T4b 顺序留出" if panel=="T4b" else "v3c 新面板，原正式主比较为 S−W"
         for scope,ii in scopes.items():
             table[scope]={};losses[scope]={}
             prefix="C1."+panel+"."+scope
@@ -39,12 +39,13 @@ def build(book):
                 require(entry["planned"]==tot,"C1 paired denominator")
                 if role=="B" and panel=="v3c":
                     require(all("B" not in rows[i]["arms"] for i in ii) and entry["state"]=="ARM_NOT_PRESENT","no substitution for B")
-                    table[scope][role]=dict(state="无该臂",level=panel_level,denominator=n,estimate=None,personnel=None,counterexample_ids=[],
+                    table[scope][role]=dict(state="无该臂",level="确认",evidence_use="未观测",panel_design=panel_source,denominator=n,estimate=None,personnel=None,counterexample_ids=[],
                         absence_source=dict(commit=rev,path=path,fields=[group+f"/{i}/arms" for i in ii]))
                     continue
                 controls=("P","PERIODIC","ALARM") if role==POST else (role,)
                 fields=[group+"/{i}/arms/"+r+"/L" for r in ("V_COST",*controls)]
-                scale="确认主比较" if (panel,role)==("T4b","B") else "事后描述性参照，非可部署" if role==POST else "描述性"
+                formal=(panel,scope,role)==("T4b","ALL","B")
+                scale="确认主比较" if formal else "事后描述性参照，非可部署" if role==POST else "主对照的分族描述，不作单独检验" if role=="B" else "描述性"
                 est,v=add(name+".loss_mean","配对平均服务缺额差","秒",rev,path,fields,"mean_delta",ii)
                 require(F(nums[-1]["exact"])==F(entry["mean"]["fraction"]),"C1 original vs accepted stage-1 mean "+name)
                 sign_ids={}
@@ -62,7 +63,7 @@ def build(book):
                     x,_=add(rid+".V_L","V_COST 实际 L","秒",rev,path,[cand_field])
                     y,_=add(rid+".comparator_L","对照实际 L","秒",rev,path,[cmp_field])
                     z,_=add(rid+".delta","严格劣行的 V_COST−对照","秒",rev,path,[cand_field,cmp_field],"subtract")
-                    rec=dict(id=rid,panel=panel,level=panel_level,family=r["family"],key=r["key"],candidate="V_COST",comparator=role,
+                    rec=dict(id=rid,panel=panel,level="确认",evidence_use="逐行描述，非单行假设检验",family=r["family"],key=r["key"],candidate="V_COST",comparator=role,
                         definition=scale,V_L=x,comparator_L=y,delta=z,metrics=[x,y,z],source=book.ref(rev,path,base),scopes=["ALL",r["family"]])
                     if role==POST:
                         rec.update(posthoc=True,minimum_roles=chosen,alternative_fields=[book.ref(rev,path,base+"/arms/"+q+"/L") for q in controls])
@@ -74,14 +75,15 @@ def build(book):
                     pv,av=add(name+".staff_V","V_COST 平均实际人员占用","人秒",rev,path,[pf[0]],"mean",ii)
                     pb,ab=add(name+".staff_control","对照平均实际人员占用","人秒",rev,path,[pf[1]],"mean",ii)
                     ident,pd=add(name+".staff_delta","平均实际人员占用差","人秒",rev,path,pf,"mean_delta",ii)
-                    people=dict(V=pv,control=pb,delta=ident)
-                table[scope][role]=dict(state="已取得",comparison_role=scale,level=panel_level,denominator=n,estimate=est,
+                    people=dict(V=pv,control=pb,delta=ident,evidence_use="实际人员占用的描述性对照，非确认终点")
+                table[scope][role]=dict(state="已取得",comparison_role=scale,level="确认",panel_design=panel_source,
+                    formal_L_test=formal,denominator=n,estimate=est,
                     directions=sign_ids,personnel=people,counterexample_ids=worse)
                 cache[panel,scope,role]=(v,pd)
                 losses[scope][role]=len(worse)
             p,sp=cache[panel,scope,"PERIODIC"];a,_=cache[panel,scope,"ALARM"]
             joint[scope]=dict(service_better_than_periodic=p<0,service_better_than_alarm=a<0,less_staff_than_periodic=sp<0,
-                all_three=p<0 and a<0 and sp<0,level=panel_level,denominator=n,
+                all_three=p<0 and a<0 and sp<0,level="确认",panel_design=panel_source,evidence_use="并列读回三个均差；描述性联合条件，非正式联合检验",denominator=n,
                 metrics=[table[scope]["PERIODIC"]["estimate"],table[scope]["ALARM"]["estimate"],table[scope]["PERIODIC"]["personnel"]["delta"]],
                 reading=("两项服务均差均为负，且平均工时少于周期巡检。" if p<0 and a<0 and sp<0 else
                          "工时须与服务分别判断；本族未同时取得两项严格服务改善和规定的工时减少。"))
@@ -112,14 +114,15 @@ def build(book):
         bad.append(dict(id=rid,panel="T4d.BASE",level="开发",family=r["family"],key=r["key"],candidate="B",comparator="P",
                         metrics=metrics,delta=metrics[-1],source=book.ref(T4D,P4D,base)))
     tab=ledger["panel_tables"];cool=tab["T4b"]["COOLING_ACCESS"]["PERIODIC"];dutch=tab["T4b"]["NETHERLANDS"]["B"]
-    def subset(id,stmt,comp,den,metric_ids,examples,fail,scope,status):
-        return dict(id=id,statement=stmt,level="确认",scope=scope,comparator=comp,denominator=den,numbers=metric_ids,
+    def subset(id,stmt,comp,den,metric_ids,examples,fail,scope,status,use,level):
+        return dict(id=id,statement=stmt,level=level,panel_level="确认",evidence_use=use,scope=scope,comparator=comp,denominator=den,numbers=metric_ids,
                     failure_conditions=fail,counterexamples=examples,status=status)
     main=tab["T4b"]["ALL"]["B"]
     ledger["subclaims"].append(subset("C1.B","T4b 全板平均 L 低于强透明 B；该方向不能逐条件成立。","V_COST−B",
         main["denominator"],[main["estimate"],*main["directions"].values(),dutch["directions"]["worse"],"C1.T4b.H1.lo","C1.T4b.H1.hi"],
         main["counterexample_ids"],[dict(condition="荷兰式族有 10 条 V_COST 缺额大于 B；全板严格劣行共 14 条。",
-            metrics=[dutch["directions"]["worse"],main["directions"]["worse"]],counterexamples=dutch["counterexample_ids"])],"T4b","部分成立"))
+            metrics=[dutch["directions"]["worse"],main["directions"]["worse"]],counterexamples=dutch["counterexample_ids"])],"T4b","部分成立",
+        "正式检验只针对 T4b 整板平均 L；族及劣行作为限制主张的描述性证据。","确认"))
     joint_fail=[]
     for panel in ("T4b","v3c"):
         by=ledger["joint_service_and_staff"][panel]
@@ -131,7 +134,10 @@ def build(book):
     conds=[e["id"] for e in bad if e["panel"] in ("T4b","v3c") and e["comparator"] in ("PERIODIC","ALARM")]
     ledger["subclaims"].append(subset("C1.现状联合","全板平均同时优于巡检、报警且比巡检省工；逐族并非全部成立。","V_COST 对 PERIODIC 与 ALARM 的服务差；V_COST 对 PERIODIC 的人时差",
         {p:tab[p]["ALL"]["PERIODIC"]["denominator"] for p in tab},
-        [s for p in tab for s in ledger["joint_service_and_staff"][p]["ALL"]["metrics"]],conds,joint_fail,"T4b 留出与新板描述性比较，分别判断","部分成立"))
+        [s for p in tab for s in ledger["joint_service_and_staff"][p]["ALL"]["metrics"]],conds,joint_fail,"T4b 留出与新板描述性比较，分别判断","部分成立",
+        "两块确认设计面板上的描述性读回；未对现状对照或人员秒另设正式联合成功检验。","确认面板中的描述性读回"))
+    ledger["scope_authority"]=[book.ref(T4B,"docs/mainline/t4d-cost-baseline-v1/confirmation-protocol-v2.md","L7-L17"),
+                               book.ref(NEW,"docs/mainline/t5-observable-selector-v3c/confirmation-protocol.md","L3-L8")]
     ledger["failure_conditions"]=[
         dict(condition="荷兰式族的主对照 B 比较有严格劣行，强规则的全板均差不保证每个条件获益。",metrics=[main["directions"]["worse"],dutch["directions"]["worse"]],applies_to="C1.B"),
         dict(condition="冷却与通行族是“优于巡检且更省工”的边界；不能把服务和工时折为一个胜负。",metrics=[cool["estimate"],*cool["directions"].values(),cool["personnel"]["delta"]],applies_to="C1.现状联合"),

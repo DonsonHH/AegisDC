@@ -66,7 +66,7 @@ def build(book):
                  metric_ids=[*best_ids,*second_ids,anchors[main],anchors[second]],roster_ref="pools"),
             dict(id="C4.b",level="开发",reading="事后信息，非可部署策略。各条件可以选不同向量，平均剩余为 0.00 秒；旧板相对最佳固定向量有 82.03 秒的条件化余量。没有证据说明决策时可取得这部分余量。",
                  metric_ids=[*post_ids,*room_ids,old_hits,old_room,threshold],label="事后信息，非可部署策略"),
-            dict(id="C4.c",level="确认",reading="新板实际使用的 W 是 MAIN-R-3。36/36 条都达到有原生见证的下界，实际平均剩余为零，故本板相对 W 的服务缺额条件化余量为 0。",
+            dict(id="C4.c",level="确认面板中的描述性读回",panel_level="确认",reading="新板实际使用的 W 是 MAIN-R-3。36/36 条都达到有原生见证的下界，实际平均剩余为零，故本板相对 W 的服务缺额条件化余量为 0。",
                  metric_ids=[new_n,hits,remaining,threshold],scope="同一新板、同一服务端点、同一合法动作条件")],
         pools=rosters,
         named_roster_evidence=[book.ref(OLD,PDESIGN,"/roles/random"),book.ref(OLD,PDESIGN,"/roles/reference"),book.ref(BASE,P1,"/C4/only_in_58")],

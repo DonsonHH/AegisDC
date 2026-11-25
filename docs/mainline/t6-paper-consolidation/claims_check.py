@@ -7,7 +7,7 @@ from collections import Counter
 from fractions import Fraction as F
 import json
 
-from claims_sources import BASE,OUT,T4B,T4D,NEW,OLD,P4B,P4D,PNEW,POLD,P1,FAMS,Book,require,packed,sha,revision,roster
+from claims_sources import BASE,OUT,ROOT,T4B,T4D,NEW,OLD,P4B,P4D,PNEW,POLD,P1,FAMS,Book,require,packed,sha,revision,roster,git_bytes
 
 SCHEMA="aegisdc-t6-claims-stage2-v1"
 FILES=("claims.json","claims-stage2.md","claims-review-draft.md","claims-review.html","claims-verification.txt","claims_check.py",
@@ -59,6 +59,7 @@ def audit_c1(book,c,m):
                 if role=="B" and panel=="v3c":
                     require(all("B" not in r["arms"] for r in rows) and cell["estimate"] is None and
                             cell["personnel"] is None and cell["state"]=="无该臂" and accepted["pairs"]==0,"do not impute B");continue
+                require(cell["formal_L_test"]==((panel,scope,role)==("T4b","ALL","B")),"formal test only on prespecified full-panel endpoint")
                 vals=[];bad=[];post=role.startswith("POSTHOC_")
                 for r in rows:
                     arms=r["arms"];cv=min(F(arms[k]["L"]) for k in ("P","PERIODIC","ALARM")) if post else F(arms[role]["L"])
@@ -77,6 +78,7 @@ def audit_c1(book,c,m):
                     require(m[people["V"]]==vmean and m[people["control"]]==bmean and m[people["delta"]]==vmean-bmean,"actual staffing per family")
                     staffcells+=1
             pair=c["joint_service_and_staff"][panel][scope]
+            require("描述性" in pair["evidence_use"] and "描述性" in tab["PERIODIC"]["personnel"]["evidence_use"],"do not promote status quo and staff readbacks to formal endpoints")
             truth=[m[tab["PERIODIC"]["estimate"]]<0,m[tab["ALARM"]["estimate"]]<0,m[tab["PERIODIC"]["personnel"]["delta"]]<0]
             require(truth==[pair[k] for k in ("service_better_than_periodic","service_better_than_alarm","less_staff_than_periodic")]
                     and pair["all_three"]==all(truth),"strict family joint criterion")
@@ -89,7 +91,8 @@ def audit_c1(book,c,m):
     require(set(actual)==expect and t4d==stage["T4d"]["worse"],"missing/extra/duplicated C1 counterexample")
     subs={s["id"]:s for s in c["subclaims"]}
     primary=subs["C1.B"];joint=subs["C1.现状联合"]
-    require(primary["status"]==joint["status"]=="部分成立" and c["status"]=="部分成立","primary and joint conditional status")
+    require(primary["status"]==joint["status"]=="部分成立" and c["status"]=="部分成立" and
+            primary["level"]=="确认" and joint["level"]=="确认面板中的描述性读回","primary and descriptive joint conditional status")
     dutch=c["panel_tables"]["T4b"]["NETHERLANDS"]["B"]
     require(len(dutch["counterexample_ids"])==10 and any(set(f["counterexamples"])==set(dutch["counterexample_ids"]) for f in primary["failure_conditions"]),
             "Dutch B losses must limit the claim itself")
@@ -100,7 +103,7 @@ def audit_c1(book,c,m):
 
 
 def audit_c4(book,c,m):
-    require(c["statement"]=="" and c["status"]=="未建立","C4 wording reserved for user")
+    require(c["statement"]=="" and c["status"]=="未建立" and c["sections"][2]["level"]=="确认面板中的描述性读回","C4 wording reserved; W readback is descriptive")
     require("事后信息，非可部署策略" in c["sections"][1]["reading"] and len(c["sections"])==3,"three mandatory, separate items")
     old=book.get(OLD,POLD)["conditions"];new=book.get(NEW,PNEW)["conditions"];pools=roster(book)
     for (name,pool),members in zip(c["pools"].items(),pools,strict=True):
@@ -138,8 +141,9 @@ def audit(book,obj):
     require(all(sha(book.raw(s["commit"],s["path"]))==s["sha256"] for s in obj["sources"]),"all source hashes")
     counts,t4d,ncells,staff=audit_c1(book,claims[0],numeric)
     audit_c4(book,claims[3],numeric)
+    numeric_sources={(n["commit"],n["path"]) for c in claims for n in c["numbers"]}
     return dict(summary=summary,counts={k:sum(v.values()) for k,v in counts.items()},t4d=t4d,loss_cells=ncells,staff_cells=staff,
-                total_metrics=len(numeric),sources=len(obj["sources"]))
+                total_metrics=len(numeric),numeric_sources=len(numeric_sources),sources=len(obj["sources"]))
 
 
 def transcript(report):
@@ -147,7 +151,7 @@ def transcript(report):
     lanes="; ".join(f"{id}={m} metrics/{e} counterexamples" for id,m,e in report["summary"])
     return "\n".join([
         "Stage 2 ledger: C1, C2, C3, C4; required claim fields present.",
-        f"Numeric readback: {report['total_metrics']} unique metrics, individually resolved to {report['sources']} sealed Git sources; exact values and units registered.",
+        f"Numeric readback: {report['total_metrics']} unique metrics, {report['numeric_sources']} numeric Git sources; {report['sources']} sealed sources including protocols, code and context.",
         lanes+".",
         f"C1: {report['loss_cells']} board/family comparison cells including absent B; {report['staff_cells']} fixed-arm staffing cells verified from original person seconds.",
         f"C1 strict-loss coverage: T4b={n['T4b']}, v3c={n['v3c']}, T4d BASE B>P={report['t4d']}; {first[2]} panel/comparator/condition records, no missing or spurious rows.",
@@ -163,6 +167,8 @@ def command():
     m.add_argument("--seal",action="store_true",help="bind checked HTML and stage-2 files after rendering")
     m.add_argument("--check",action="store_true",help="read-only verification; no files or caches are written")
     args=p.parse_args()
+    parser_path=OUT/"stage1_report.py";rel=parser_path.relative_to(ROOT).as_posix()
+    require(parser_path.read_bytes()==git_bytes(BASE,rel),"accepted stage-1 visible table parser bytes before import")
     from claims_review import documents,check_html
     book=Book();generated=build(book)
     file=OUT/"claims.json"
@@ -186,6 +192,7 @@ def command():
     if args.seal:(OUT/"claims-verification.txt").write_bytes(out.encode("utf8"))
     else:require((OUT/"claims-verification.txt").read_bytes()==out.encode("utf8"),"full saved verification transcript")
     manifest=dict(schema="aegisdc-t6-claims-delivery-v1",accepted_baseline=BASE,files={f:sha((OUT/f).read_bytes()) for f in FILES},
+                  inherited_reader=dict(commit=BASE,path=rel,sha256=sha(git_bytes(BASE,rel))),
                   operations="Standard-library readback of immutable git show objects; no new model scores, bootstrap draws or Slurm allocations.",
                   html_renderer="answer-me-with-html 0.6.4 (Node 24.22.3); LF delivery",stopped="AWAITING_STAGE_2_REVIEW")
     if args.seal:(OUT/"claims-delivery.json").write_bytes(packed(manifest))
