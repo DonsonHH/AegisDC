@@ -108,7 +108,7 @@ lang: zh
 
 ## E C4 五数
 
-每条条件均核对原生全知见证。贴界阈值为 0.01 秒。
+本表的剩余为 g = L − L*。L* 是本条件有原生见证的认证下界。0.00 秒表示逐行所选向量达到该下界；该条件的服务缺额 L 仍可以大于零。贴界阈值为 0.01 秒。
 
 | C4 待核项 | 任务书指针 | 封存逐行复算 | 数值核对 |
 | --- | --- | --- | --- |
@@ -121,6 +121,8 @@ lang: zh
 ## F 逐行与整板的区别
 
 按原复算的逐条件取最小口径，v3a 的 54 项和 58 项均为 **0.00 秒**。若全板始终用同一个向量，两套集合的最佳平均剩余均为 **82.03 秒**，均由 MAIN-R-3 取得。两种计算只交换了取最小和求平均的顺序。
+
+v3a 的逐行最小原始 L 平均为 650.45 秒，与平均认证下界 650.45 秒相等。全板固定 MAIN-R-3 的平均原始 L 为 732.48 秒。
 
 | v3a 候选集 | 逐行最小后平均（秒） | 全板固定一项的最小均值（秒） | 全板优胜向量 | 逐行最低达界 |
 | --- | --- | --- | --- | --- |
@@ -152,3 +154,19 @@ lang: zh
 | 1a 数值 | 任务书逐项参考 | 无 | 按展示精度核均差；优／平／劣与分母逐项相等。 |
 | 1b 五数 | 原复算：逐行最小后平均 | 无 | 秒值容差 0.01；计数要求完全相同。 |
 | 1b 文字口径 | 整板只用一个固定向量时是否为 0.00 秒 | 82.03 秒 | 逐行换向量得到的 0.00 秒不适用于一个整板策略。 |
+
+## H 数字从哪里来
+
+C1 的 i 为本格所有配对的冻结行号；C4 的 i 为该面板的冻结行号。下表给出完整提交与字段。每一格的行号、分子、分母和逐个候选见[数字台账](stage1-evidence.json)。
+
+| 来源标识 | 仓库内路径 | 冻结提交 | JSON 字段 |
+| --- | --- | --- | --- |
+| t4b | docs/mainline/t4b-holdout-confirmation-v2/results.json.gz | 3487276af9e9759357771d16eb45feceaa3c948a | /rows/{i}/key, family, arms/{V_COST,B,P,PERIODIC,ALARM}/L |
+| t4d | docs/mainline/t4d-cost-baseline-v1/development-result.json.gz | 036ccfdf2d6e5d4b39ba11da480fa2a3d69c1f9f | /panels/BASE/{i}/key, family, arms/{B,P}/L |
+| new | docs/mainline/t5-observable-selector-v3c/confirmation-result.json | 87cdd7183970a7787616c666246b38b9fce8320b | /conditions/{i}/key, family, arms/{V_COST,P,PERIODIC,ALARM,B_COST,W}/L; arms/W/entry/actual; lower/{status,certified_min,actual_chain,native_L}; arms/ORACLE/L |
+| old | docs/mainline/t5-landscape-diagnostic-v3a/results.json.gz | 29ac5a2eac2e6527cbfd04145b0caa2c9206c09e | /conditions/{i}/key, family, arms/{member}/L; minimum/{status,certified_min,actual_chain,native_L}; arms/ORACLE/L |
+| design | docs/mainline/t5-landscape-diagnostic-v3a/design.json | 29ac5a2eac2e6527cbfd04145b0caa2c9206c09e | /roles/random; /roles/reference |
+| panel | docs/mainline/t5-landscape-diagnostic-v3a/panel-and-strategies.json | 29ac5a2eac2e6527cbfd04145b0caa2c9206c09e | /vectors; /reference_identities |
+| lock | docs/mainline/t5-observable-selector-v3c/locked-selector.json | 87cdd7183970a7787616c666246b38b9fce8320b | /roster; /fit/winner |
+
+[查看完整复算报告](README.md) · [查看复核输出](verification.txt)

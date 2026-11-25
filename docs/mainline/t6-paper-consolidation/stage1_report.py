@@ -58,6 +58,16 @@ def tables(obj):
            sec(q["best_single_vector_mean_gap"]["seconds"])+" 秒","逐行换向量得到的 0.00 秒不适用于一个整板策略。")]
     for v in a["differences"]:rows.append((v["stage"],v["item"],str(v["observed"]),"任务书："+str(v["reference"])))
     out["differences"]=table(("项目","核对对象","差异／封存值","原因或判定规则"),rows)
+    fields={
+        "t4b":"/rows/{i}/key, family, arms/{V_COST,B,P,PERIODIC,ALARM}/L",
+        "t4d":"/panels/BASE/{i}/key, family, arms/{B,P}/L",
+        "new":"/conditions/{i}/key, family, arms/{V_COST,P,PERIODIC,ALARM,B_COST,W}/L; arms/W/entry/actual; lower/{status,certified_min,actual_chain,native_L}; arms/ORACLE/L",
+        "old":"/conditions/{i}/key, family, arms/{member}/L; minimum/{status,certified_min,actual_chain,native_L}; arms/ORACLE/L",
+        "design":"/roles/random; /roles/reference",
+        "panel":"/vectors; /reference_identities",
+        "lock":"/roster; /fit/winner"}
+    out["source_paths"]=table(("来源标识","仓库内路径","冻结提交","JSON 字段"),[
+        (k,obj["sources"][k]["path"],obj["sources"][k]["commit"],p) for k,p in fields.items()])
     return out
 
 
@@ -74,6 +84,10 @@ def documents(obj):
     headline=("按原复算的逐条件取最小口径，v3a 的 54 项和 58 项均为 **"
               +sec(p["rowwise_best_mean_gap"]["seconds"])+" 秒**。若全板始终用同一个向量，两套集合的最佳平均剩余均为 **"
               +sec(p["best_single_vector_mean_gap"]["seconds"])+" 秒**，均由 MAIN-R-3 取得。两种计算只交换了取最小和求平均的顺序。")
+    scale=c["loss_scale"]
+    raw_note=("v3a 的逐行最小原始 L 平均为 "+sec(scale["rowwise_mean_raw_L_s"]["fixed54"]["seconds"])
+              +" 秒，与平均认证下界 "+sec(scale["old_mean_certified_lower_s"]["seconds"])+" 秒相等。"
+              "全板固定 MAIN-R-3 的平均原始 L 为 "+sec(scale["best_single_mean_raw_L_s"]["fixed54"]["seconds"])+" 秒。")
     desc="同一条件上，以 V_COST（V**）的 L 减去对照的 L。负差表示 V_COST 服务缺额较小；优／平／劣按未舍入差值计数。L 和差值均为整窗归一化服务缺额秒。"
     post="逐行最优一栏先查看 P、周期巡检、报警响应的实际 L，再取三者的最小值。该参照使用事后结果，不能部署。"
     newdesc="新板的正式主比较是 S−W。这里的 V_COST 比较属于描述性读回。新板没有 B 臂，全板和每族均标为无该臂，B_COST 另列。"
@@ -104,7 +118,7 @@ def documents(obj):
        "","## 1b　C4 五数与计算顺序","",md(t["five"]),"",md(t["pool"]),"",
        "记 g(i,j)=L(i,j)−L*(i)，L* 是本条件已认证、原生全知角色实际达到的下界。"
        "原复算是 mean_i min_j g(i,j)：候选集合预先固定，达到每行最小值的 j 可以不同。"
-       "单向量口径是 min_j mean_i g(i,j)：同一个 j 必须覆盖全部条件。前一种取法使用评价结果，不是策略在运行时拥有的选择权。",
+       "单向量口径是 min_j mean_i g(i,j)：同一个 j 必须覆盖全部条件。前一种取法使用评价结果，不是策略在运行时拥有的选择权。","",raw_note,
        "","贴界按 0 ≤ g ≤ 0.01 秒计，g > 0.01 秒才计为尚有余量。逐条核验 ORACLE 的实际 L 等于认证下界；新板每个 W 的实际身份均为 MAIN-R-3。",
        "","### 名册与逐行见证","","54 项：48 个开发抽样向量加 6 个锁定的 MAIN 向量。完整成员：","",
        *["、".join(part) for part in opts],"",
@@ -124,10 +138,14 @@ def documents(obj):
           "","## B T4b 六族","","主对照为 B；三种现状为描述性对照。"+post,"",md(t["T4b"]),
           "","## C v3c 新板六族","","每族含 6 条条件。没有 B 的行保留原分母。","",md(t["v3c"]),
           "","## D T4d 原开发面板","","原设置单列；不合并参数敏感性面板。","",md(t["t4d"]),
-          "","## E C4 五数","","每条条件均核对原生全知见证。贴界阈值为 0.01 秒。","",md(t["five"]),
-          "","## F 逐行与整板的区别","",headline,"",md(t["pool"]),"",md(t["membership"]),
+          "","## E C4 五数","","本表的剩余为 g = L − L*。L* 是本条件有原生见证的认证下界。"
+          "0.00 秒表示逐行所选向量达到该下界；该条件的服务缺额 L 仍可以大于零。贴界阈值为 0.01 秒。","",md(t["five"]),
+          "","## F 逐行与整板的区别","",headline,"",raw_note,"",md(t["pool"]),"",md(t["membership"]),
           "","逐行选择使用事后成绩。使用单个整板向量时，每一行必须取同一项。","",md(t["room"]),
-          "","## G 指针对账","","数值来自封存的逐条件 L；本阶段不拟定 RSI 主张。","",md(t["differences"])]
+          "","## G 指针对账","","数值来自封存的逐条件 L；本阶段不拟定 RSI 主张。","",md(t["differences"]),
+          "","## H 数字从哪里来","","C1 的 i 为本格所有配对的冻结行号；C4 的 i 为该面板的冻结行号。"
+          "下表给出完整提交与字段。每一格的行号、分子、分母和逐个候选见[数字台账](stage1-evidence.json)。","",
+          md(t["source_paths"]),"","[查看完整复算报告](README.md) · [查看复核输出](verification.txt)"]
     return "\n".join(r)+"\n","\n".join(html)+"\n"
 
 
@@ -155,7 +173,7 @@ class VisibleTables(HTMLParser):
 
 def check_html(path,obj):
     p=VisibleTables();p.feed(path.read_text(encoding="utf8"));p.close()
-    order=("overall","T4b","v3c","t4d","five","pool","membership","room","differences")
+    order=("overall","T4b","v3c","t4d","five","pool","membership","room","differences","source_paths")
     t=tables(obj);expected=[[t[k][0],*t[k][1]] for k in order]
     if p.tables!=expected:
         for i,(got,want) in enumerate(zip(p.tables,expected)):

@@ -214,6 +214,10 @@ def c4_evidence(data):
                 operations=dict(pointer_best="mean over conditions of min over named members (L - certified_min), retrospective",
                     single_fixed="min over named members of mean over all conditions (L - certified_min), same member for every condition"),
                 pools=pools,only_in_54=[],only_in_58=extra,excluded_evaluator="ORACLE and auxiliary P are not members",
+                loss_scale=dict(old_mean_certified_lower_s=exact_seconds(mean([number(r["bound_s"]) for r in scores])),
+                    rowwise_mean_raw_L_s={n:exact_seconds(mean([number(r["bound_s"])+number(r[n]["row_min_gap_s"]) for r in scores])) for n in definitions},
+                    best_single_mean_raw_L_s={n:exact_seconds(F(q["best_single_vector_mean_gap"]["fraction"])+mean([number(r["bound_s"]) for r in scores]))
+                                              for n,q in pools.items()}),
                 old_R3_mean_gap=exact_seconds(means[MAIN]),old_R3_attained=sum(r["R3_within_tolerance"] for r in scores),
                 old_n=len(scores),old_R3_room=[r["key"] for r in scores if not r["R3_within_tolerance"]],
                 new_R3_attained=sum(r["R3_within_tolerance"] for r in new_scores),new_n=len(new_scores),
