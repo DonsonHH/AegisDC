@@ -5,7 +5,7 @@ from collections import Counter
 import gzip
 import hashlib
 import json
-from math import factorial, isclose, sqrt
+from math import isclose, sqrt
 from pathlib import Path
 import subprocess
 from scipy.special import stdtrit
@@ -69,6 +69,8 @@ def check(private=None):
     require(cap["audit_condition_calls"]==34584 and all(cap[x]==0 for x in
             ("facility_calls","policy_decisions","scores","FIT_conditions","DEV_conditions","H2_access","H3_access","official_overlap_queries")),"A boundary")
     gross=sum(sum(r["counts"]) for r in old["historical_catalogue"]["entries"])
+    require([row["family"] for row in cap["families"]]==list(FAMILIES) and
+            sum(row["audit_rows"] for row in cap["families"])==cap["audit_condition_calls"],"both family receipts and actual rows")
     for r in cap["families"]:
         f=r["family"];p=HERE/(f+"-audit-blocks.json.gz")
         require(sha(p.read_bytes())==r["block_file_sha256"],"aggregate feature hash")
@@ -98,7 +100,7 @@ def check(private=None):
             require(abs(lower_tail(g,d)-dev["curves"][name]["values"][g-2])<5.1e-9,"independent one-sided joint tail")
     for row in dev["cluster_prefix_38"]:
         gl,gn=row["effective_blocks"]
-        for gain in (15,60):
+        for gain in (7.5,10,15,60):
             require(abs(lower_tail(38,gain,nl_units=gn,london_units=gl,df=row["df"])-row["gains"][str(gain)]["joint_Q1_to_Q3"])<1e-7,"cluster power")
     # Exact arithmetic check with unequal cluster masses; no endpoint or study data here.
     ci=structure_interval([0,2,4,6],[(0,),(0,),(1,),(1,)],2)
@@ -106,7 +108,12 @@ def check(private=None):
             isclose(ci["upper"],3+2*float(stdtrit(1,.95))),"cluster sandwich")
     require(structure_interval([0,1],[(0,),(0,)],3)["upper"] is None and
             structure_interval([0,0],[(0,),(1,)],2)["upper"] is None,"no invented zero-variation structural CI")
+    equal_cluster_values=([0]*18+[1])*2
+    require(structure_interval(equal_cluster_values,[(0,)]*19+[(1,)]*19,2)["upper"] is None,
+            "exactly equal cluster totals must not gain a rounding-width interval")
     require(h2_from_dev_blocks([],[])["selected_blocks"] is None and h2_grid([0,20],[30,30])["selected_blocks"] is None,"H2 fails closed")
+    require(h2_from_dev_blocks([0]*37+[None],[1]*38)["selected_blocks"] is None and
+            structure_interval([1,None],[(0,),(1,)],2)["upper"] is None,"null is missing, not zero")
     require(h2_grid([20,20],[30,30])["selected_blocks"]==46 and h2_grid([15,20],[30,30])["selected_blocks"]==65,"H2 example sizes")
     require(sup["decision"]=="A 无需改动" and dev["curves"]["primary_15"]["first_blocks"]==38 and
             power["H2"]["actual_H2_N"] is None,"stage A disposition or H2 evidence boundary")

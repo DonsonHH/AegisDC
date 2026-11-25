@@ -4,6 +4,7 @@ from collections import Counter, defaultdict
 import gzip
 import json
 import math
+from fractions import Fraction
 from pathlib import Path
 from statistics import mean, median, stdev
 import os
@@ -30,22 +31,28 @@ def finite(x):
     return round(float(x),8)
 
 
+def valid_number(x):
+    return isinstance(x,(int,float,Fraction)) and not isinstance(x,bool) and math.isfinite(x)
+
+
 def structure_interval(differences, signatures, k_other, level=.95):
     """Parallel descriptive UCB, same block weighting, arbitrary within-signature dependence."""
-    if not differences or len(differences)!=len(signatures) or not all(math.isfinite(v) for v in differences):
+    if not differences or len(differences)!=len(signatures) or not all(valid_number(v) for v in differences):
         return {"mean":None,"upper":None,"reason":"missing pairs/blocks"}
-    delta=mean(differences)
-    totals=defaultdict(float)
-    for d,s in zip(differences,signatures,strict=True):
+    values=[Fraction(str(x)) for x in differences]
+    delta=sum(values)/len(values)
+    totals=defaultdict(Fraction)
+    for d,s in zip(values,signatures,strict=True):
         totals[tuple(s)]+=d-delta
     k=len(totals);df=min(k,k_other)-1
-    result={"mean":delta,"k":k,"df":df,"se":None,"upper":None}
+    result={"mean":float(delta),"k":k,"df":df,"se":None,"upper":None}
     if df<1:
         return dict(result,reason="fewer than two distinct structures in at least one family")
-    se=math.sqrt(k/(k-1)*math.fsum(x*x for x in totals.values()))/len(differences)
+    variance=Fraction(k,k-1)*sum(x*x for x in totals.values())/len(values)**2
+    se=math.sqrt(variance)
     if se==0:
         return dict(result,se=0,reason="zero cluster score variation")
-    return dict(result,se=se,upper=delta+float(t.ppf(level,df))*se,reason="DESCRIPTIVE_ONLY")
+    return dict(result,se=se,upper=float(delta)+float(t.ppf(level,df))*se,reason="DESCRIPTIVE_ONLY")
 
 
 def stratum_information(counts, rho):
@@ -97,13 +104,14 @@ def development(sigs,capacity):
     for rho in (0,.5,1):
         gl,gn=[stratum_information(c,rho) for c in counts]
         row={"working_intra_signature_rho":rho,"effective_blocks":[finite(gl),finite(gn)],"df":cluster_df,
-             "gains":{str(d):qualification(d,gl,gn,cluster_df,incremental_gain=7.5) for d in (15,60)}}
+             "gains":{str(d):qualification(d,gl,gn,cluster_df,incremental_gain=7.5) for d in (7.5,10,15,60)}}
         cluster.append(row)
     windows=[]
     for start in range(0,len(sigs[0])-NOMINAL+1,NOMINAL):
         batch=[Counter(f[start:start+NOMINAL]) for f in sigs]
         k=[len(c) for c in batch];df_window=min(k)-1
-        row={"offset":start,"k":k,"df":df_window,"df_only_15":qualification(15,NOMINAL,NOMINAL,df_window)["joint_Q1_to_Q3"]}
+        row={"offset":start,"k":k,"df":df_window,"df_only_15":qualification(15,NOMINAL,NOMINAL,df_window)["joint_Q1_to_Q3"],
+             "df_only_10":qualification(10,NOMINAL,NOMINAL,df_window)["joint_Q1_to_Q3"]}
         gl,gn=[stratum_information(c,1) for c in batch]
         row["rho1_15"]=qualification(15,gl,gn,df_window)["joint_Q1_to_Q3"]
         windows.append(row)
@@ -116,7 +124,7 @@ def development(sigs,capacity):
 
 
 def h2_grid(dev_gains,dev_sds):
-    if any(x is None or not math.isfinite(x) or x<=0 for x in (*dev_gains,*dev_sds)):
+    if len(dev_gains)!=2 or len(dev_sds)!=2 or any(not valid_number(x) or x<=0 for x in (*dev_gains,*dev_sds)):
         return {"eligible_precision":False,"selected_blocks":None,"reason":"no complete positive net gain or measurable block variation"}
     g=np.arange(2,77);df=g-1
     gains=[min(15,0.75*x) for x in dev_gains];sds=[max(30,x) for x in dev_sds]
@@ -128,10 +136,15 @@ def h2_grid(dev_gains,dev_sds):
     ix=np.nonzero(bound>=.80)[0]
     first=None if not len(ix) else int(g[ix[0]])
     raw=[nct.sf(critical,df,gain*np.sqrt(g)/sd) for gain,sd in zip(dev_gains,dev_sds)]
+    def raw_plugin(i):
+        return {"primary":finite(raw[0][i]),"secondary":finite(raw[1][i]),
+                "joint_bound":finite(max(0,raw[0][i]+raw[1][i]-1-HARD_RISK))}
     return {"assumed_DEV_net_gains_s":dev_gains,"assumed_DEV_block_sds_s":dev_sds,
             "registered_H2_gains_s":gains,"registered_H2_sds_s":sds,"selected_blocks":first,
             "at_76":{"primary":finite(curves[0][-1]),"secondary":finite(curves[1][-1]),"joint_bound":finite(bound[-1])},
             "unshrunk_DEV_plugin_joint_at_76_descriptive":finite(max(0,raw[0][-1]+raw[1][-1]-1-HARD_RISK)),
+            "unshrunk_DEV_plugin_at_76":raw_plugin(-1),
+            "unshrunk_DEV_plugin_at_registered_first":raw_plugin(first-2) if first is not None else None,
             "at_first":None if first is None else {"primary":finite(curves[0][first-2]),
                     "secondary":finite(curves[1][first-2]),"joint_bound":finite(bound[first-2])},
             "joint_by_g2_through_76":[finite(x) for x in bound]}
@@ -139,7 +152,7 @@ def h2_grid(dev_gains,dev_sds):
 
 def h2_from_dev_blocks(r_minus_o, r_minus_parent):
     """Future sufficient statistics only. No DEV seed/file argument and no permission to run H2."""
-    if any(len(v)!=NOMINAL or not all(math.isfinite(x) for x in v) for v in (r_minus_o,r_minus_parent)):
+    if any(len(v)!=NOMINAL or not all(valid_number(x) for x in v) for v in (r_minus_o,r_minus_parent)):
         return {"selected_blocks":None,"reason":"incomplete Dutch DEV block pairs"}
     return h2_grid([-mean(v) for v in (r_minus_o,r_minus_parent)], [stdev(v) for v in (r_minus_o,r_minus_parent)])
 
@@ -170,12 +183,13 @@ def constrained_menu(rows,roles,cap):
 
 def old_development():
     name="docs/mainline/t7-incident-counterfactual/stage1/comparison.json"
-    if os.environ.get("SLURM_JOB_ID"):
+    if os.environ.get("T8_A_EXPORTED_MATH")=="1":
         raw=(HERE.parent/"public-development/comparison.json").read_bytes()
     else:
         raw=subprocess.check_output(["git","cat-file","blob",PRIOR+":"+name],cwd=ROOT)
     import hashlib
-    assert hashlib.sha256(raw).hexdigest()=="0e4c33b5b1a466e02d0e4be7d2d1deac09861d3b899ff00a606cded56ae7be50"
+    if hashlib.sha256(raw).hexdigest()!="0e4c33b5b1a466e02d0e4be7d2d1deac09861d3b899ff00a606cded56ae7be50":
+        raise ValueError("archived development score digest")
     rows=[r["arms"] for r in json.loads(raw)["rows"] if r["family"]=="NETHERLANDS"]
     cap=sum(x["V_COST"]["person"] for x in rows)+5*len(rows)
     return {"source":PRIOR+":"+name,"n":len(rows),"audit_person_cap":cap,"parent_mean_L":mean(r["V_COST"]["L"] for r in rows),
