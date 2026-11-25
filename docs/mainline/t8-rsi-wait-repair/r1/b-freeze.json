@@ -1,0 +1,72 @@
+{
+  "schema": "AegisDC.T8.stage1a.synthetic-loop-freeze.v1",
+  "scope": "Engineering fixture only. Stage 1a does not materialize a research split, score a child on a facility, release DEV, or access H2 or H3.",
+  "r0_revision": "6b63c4f4db6b8b19d01b2d00b99f740fba68525e",
+  "r0": {
+    "registration.json": "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b",
+    "design.json": "d7086b26d427266dea39fea4be4dbc88008b46f13af4e4158a2c1d692c8ca4c4",
+    "round-ledger.schema.json": "54b54a48c9425a4aa784ca6f312ce048ff5634ec0166578857c4de03564a7f3f"
+  },
+  "sources": {
+    "fit_program.py": "131c1fa5875c9c14587873042e49fa8e8a3da969e3722ded64cfa01675e2e134",
+    "fit_broker.py": "2695427872732873c58456d1d8036f83ee68bf2c6d075b77987d52dae4520f8c",
+    "fit_evidence.py": "877a7edb1758752b4ae8462ed4541a0951041d2b7331923e0c0016d5713b021a",
+    "fit_loop.py": "613c6662c15291c735f20541c98149fe547bfa8b687ec2417a3cc8b04c147b9e",
+    "read_fit.py": "3d56db742f1ecee111b0b67eb942c8b58bbd1c62b5f1719a01e9773825f3bd9d",
+    "public_fixture.py": "8cd7f04e0b39f71be85427ee356dd0e9edfc9d2fa7cccf1c889e4cdde0f20568",
+    "synthetic_selftest.py": "4911ba78f69a135e3ab99f744cb468baf4065bffe350af00c034eda0d4a3367e"
+  },
+  "schedule": {
+    "rounds": 4,
+    "slots_per_round_per_arm": 4,
+    "positions_per_slot": 48,
+    "shared_parent_positions": 48,
+    "position_cpu_seconds": 180,
+    "control_cpu_seconds_per_arm_per_round": 60,
+    "per_arm_cpu_seconds": 138480,
+    "retries": 0
+  },
+  "mutable_rule": "Only R can replace the root with one of twelve signed cell/companion emit_then macros. A complete admissible paid single edit with strictly smaller summed L than the starting incumbent supplies credit. Tie order is L, person, six levels. O performs the same credit audit and retains base. Terminal rounds select the child and leave the program alone. Original grammar, score, caps, cell levels, selection and the rewrite rule are immutable.",
+  "fabricated_tokens": {
+    "namespace": "engineering-stage1a/fixture-one-through-48",
+    "ordinals": "1..48, identical on both arms, no facility input",
+    "loss": "1000 minus dot(levels,[40,5,4,30,2,1]) plus decimal .0000005",
+    "person": "10 plus level sum plus decimal .0000015",
+    "plateau": "constant L despite varying person",
+    "hard": "single DIRECT_NEAR +1 gets zero base loss and one hard violation on first token"
+  },
+  "cases": [
+    "gain",
+    "plateau",
+    "hard",
+    "partial",
+    "cap",
+    "bad-signature",
+    "foreign-binding",
+    "extra-field",
+    "missing",
+    "baseline-stop"
+  ],
+  "expected": [
+    "gain: O byte-identical four rounds, R winner is round 1 slot 1 followed by a membership-different round 2 slot 1 on the selected ancestry",
+    "plateau: no promotion or edit",
+    "hard: full counts, attractive hard violation ineligible",
+    "partial: R round 2 slot 2 starts 7 and completes 6; paired stop then two unrun rounds",
+    "cap: simulated CPU meter >180 s on O round 1 slot 1 token 3; retain charge and stop",
+    "bad signature, foreign binding, extra field, missing packet: first batch remains prepaid and incomplete",
+    "invalid shared baseline: one started with unknown CPU, zero candidates locked"
+  ],
+  "standin_access": {
+    "role": "same-account local-to-job engineering adapters and ephemeral signing keys; no independent production principal",
+    "inputs": [
+      "three listed r0 documents",
+      "hashed B programs",
+      "48 public synthetic ordinals",
+      "own signed aggregate packets and fixed caps"
+    ],
+    "outputs": "isolated immutable case directories, position tokens, signed audit events, round records and lock/stop",
+    "proposer": "pure frozen rank/rewrite sees own aggregate packets only",
+    "accounting": "per-token stand-in meters plus measured per-arm control sections; shared broker/logging, schema and readback overhead visible in Slurm TotalCPU; injected limit values labelled separately",
+    "production_gate": "real immutable images, distinct unprivileged identities, denial and read receipts, single FIT overlap grant, native interface/accounting parity and separate user authorization remain before real FIT"
+  }
+}
