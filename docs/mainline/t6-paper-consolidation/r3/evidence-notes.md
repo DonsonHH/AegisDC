@@ -6,9 +6,12 @@
 **−343.90** · 封存的 L 配对 mean（秒）。ID：C1.T4b.H1.mean。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/0/comparison/metrics/L/mean；原值：-6049879479899477/17592186044416；运算：value。
 
 <a id="n136"></a>
-**−445.94** · 封存的 L 配对 lo（秒）。ID：C1.T4b.H1.lo。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/0/comparison/metrics/L/lo；原值：-7845125415344537/17592186044416；运算：value。
+**95** · T4b 预注册双侧区间的名义置信水平（%）。ID：C1.r3.T4b.CI.level。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json)；字段：/analysis/bootstrap/interval_percentiles/1, /analysis/bootstrap/interval_percentiles/0；原值：95；运算：subtract。
 
 <a id="n137"></a>
+**−445.94** · 封存的 L 配对 lo（秒）。ID：C1.T4b.H1.lo。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/0/comparison/metrics/L/lo；原值：-7845125415344537/17592186044416；运算：value。
+
+<a id="n138"></a>
 **−244.22** · 封存的 L 配对 hi（秒）。ID：C1.T4b.H1.hi。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/0/comparison/metrics/L/hi；原值：-8592684898168925/35184372088832；运算：value。
 
 <a id="n002"></a>
@@ -26,19 +29,25 @@
 <a id="n006"></a>
 **−55.83** · 封存的 L 配对 mean（秒）。ID：C1.T4b.H2.mean。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/1/comparison/metrics/L/mean；原值：-7857843099839147/140737488355328；运算：value。
 
-<a id="n138"></a>
+<a id="n139"></a>
+**95** · T4b 预注册双侧区间的名义置信水平（%）。ID：C1.r3.T4b.CI.level。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json)；字段：/analysis/bootstrap/interval_percentiles/1, /analysis/bootstrap/interval_percentiles/0；原值：95；运算：subtract。
+
+<a id="n140"></a>
 **−110.00** · 封存的 L 配对 lo（秒）。ID：C1.T4b.H2.lo。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/1/comparison/metrics/L/lo；原值：-7740372499207145/70368744177664；运算：value。
 
-<a id="n139"></a>
+<a id="n141"></a>
 **−11.61** · 封存的 L 配对 hi（秒）。ID：C1.T4b.H2.hi。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/1/comparison/metrics/L/hi；原值：-6538380279324491/562949953421312；运算：value。
 
 <a id="n007"></a>
 **−390.48** · 封存的 L 配对 mean（秒）。ID：C1.T4b.H3.mean。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/2/comparison/metrics/L/mean；原值：-3434660531244601/8796093022208；运算：value。
 
-<a id="n140"></a>
+<a id="n142"></a>
+**95** · T4b 预注册双侧区间的名义置信水平（%）。ID：C1.r3.T4b.CI.level。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json)；字段：/analysis/bootstrap/interval_percentiles/1, /analysis/bootstrap/interval_percentiles/0；原值：95；运算：subtract。
+
+<a id="n143"></a>
 **−488.63** · 封存的 L 配对 lo（秒）。ID：C1.T4b.H3.lo。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/2/comparison/metrics/L/lo；原值：-8596049861879763/17592186044416；运算：value。
 
-<a id="n141"></a>
+<a id="n144"></a>
 **−292.83** · 封存的 L 配对 hi（秒）。ID：C1.T4b.H3.hi。 [封存文件 3487276a](https://github.com/DonsonHH/AegisDC/blob/3487276af9e9759357771d16eb45feceaa3c948a/docs/mainline/t4b-holdout-confirmation-v2/results.json.gz)；字段：/hypotheses/2/comparison/metrics/L/hi；原值：-5151485326938021/17592186044416；运算：value。
 
 <a id="n008"></a>
@@ -386,16 +395,16 @@
 <a id="n122"></a>
 **50** · 5-01 付费读数可到达（秒）。ID：C2.T3.LONDON.5-01_paid。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/4/info/paid/0；原值：50；运算：value。
 
-<a id="n142"></a>
+<a id="n145"></a>
 **0** · 评价端反事实可买初检的派工时刻（秒）。ID：C2.r3.LONDON.5-01.opportunity.dispatch。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/4/info/paid/3；原值：0；运算：value。
 
-<a id="n143"></a>
+<a id="n146"></a>
 **720** · 5-01 挽回全部可避免缺额的最晚必要启动（秒）。ID：C2.T3.LONDON.5-01_latest。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/4/latest；原值：720；运算：value。
 
-<a id="n144"></a>
+<a id="n147"></a>
 **50** · 本臂实际首份可用的付费读数到达（秒）。ID：C2.r3.LONDON.5-01.PERIODIC.first_arrival。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/4/arms/PERIODIC/paid/0/arrived；原值：50；运算：value。
 
-<a id="n145"></a>
+<a id="n148"></a>
 **110** · 与机会同一目标的实际初检读数到达（秒）。ID：C2.r3.LONDON.5-01.PERIODIC.target_arrival。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/4/arms/PERIODIC/paid/1/arrived；原值：110；运算：value。
 
 <a id="n123"></a>
@@ -416,22 +425,22 @@
 <a id="n128"></a>
 **120** · 6-02 事前记录到达（秒）。ID：C2.T3.NETHERLANDS.6-02_prior。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/info/prior/0；原值：120；运算：value。
 
-<a id="n146"></a>
+<a id="n149"></a>
 **90** · 施工未移交业务记录到达（秒）。ID：C2.r3.NETHERLANDS.6-02.works_status.arrived。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-inputs.jsonl.gz)；字段：/11/value/native/dispatch_program/channel/4/arrived；原值：90；运算：value。
 
 <a id="n129"></a>
 **50** · 6-02 付费读数可到达（秒）。ID：C2.T3.NETHERLANDS.6-02_paid。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/info/paid/0；原值：50；运算：value。
 
-<a id="n147"></a>
+<a id="n150"></a>
 **0** · 评价端反事实可买初检的派工时刻（秒）。ID：C2.r3.NETHERLANDS.6-02.opportunity.dispatch。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/info/paid/3；原值：0；运算：value。
 
-<a id="n148"></a>
+<a id="n151"></a>
 **540** · 6-02 挽回全部可避免缺额的最晚必要启动（秒）。ID：C2.T3.NETHERLANDS.6-02_latest。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/latest；原值：540；运算：value。
 
-<a id="n149"></a>
+<a id="n152"></a>
 **50** · 本臂实际首份可用的付费读数到达（秒）。ID：C2.r3.NETHERLANDS.6-02.PERIODIC.first_arrival。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/arms/PERIODIC/paid/0/arrived；原值：50；运算：value。
 
-<a id="n150"></a>
+<a id="n153"></a>
 **230** · 与机会同一目标的实际初检读数到达（秒）。ID：C2.r3.NETHERLANDS.6-02.PERIODIC.target_arrival。 [封存文件 85af7e48](https://github.com/DonsonHH/AegisDC/blob/85af7e48b60e61dc453456b5b7bc73ab832900b5/docs/mainline/t3-prior-information-v2/development-result.json.gz)；字段：/rows/11/arms/PERIODIC/paid/2/arrived；原值：230；运算：value。
 
 <a id="n130"></a>

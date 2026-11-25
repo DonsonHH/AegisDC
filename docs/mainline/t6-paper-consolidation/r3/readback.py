@@ -21,6 +21,7 @@ INPUTS=DIR+"development-inputs.jsonl.gz"
 MANIFEST=DIR+"development-inputs.json"
 RECEIPT=DIR+"receipt.json"
 HYP="docs/mainline/t4b-holdout-confirmation-v2/results.json.gz"
+ANALYSIS="docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json"
 V_MANIFEST="docs/mainline/t4c-action-cost-v3/dev-manifest.json"
 SITES=(("LONDON","5-01"),("NETHERLANDS","6-02"))
 BASELINES=("P","PERIODIC","ALARM")
@@ -76,10 +77,10 @@ def collect():
     alt_raw=git(T4C,V_MANIFEST);alt=json.loads(alt_raw)
     assets[V_MANIFEST]=dict(commit=T4C,sha256=sha(alt_raw))
     extra=[];reports={}
-    def metric(id,label,unit,path,fields,value,op="value",**kwargs):
+    def metric(id,label,unit,path,fields,value,op="value",commit=T3,**kwargs):
         need(id not in orig_metrics and id not in {v["id"] for v in extra},"unique supplemental metric")
         val=Fraction(value)
-        extra.append(dict(id=id,label=label,unit=unit,commit=T3,path=path,fields=list(fields),op=op,**kwargs,
+        extra.append(dict(id=id,label=label,unit=unit,commit=commit,path=path,fields=list(fields),op=op,**kwargs,
                           value=int(val) if val.denominator==1 else float(val),exact=str(val)))
         return id
     for family,k in SITES:
@@ -150,6 +151,11 @@ def collect():
             source=ref(T3,RESULT,"/roles","/new_method_runs",rb+"/arms"))
         need("V_COST" not in r["arms"] and set(r["arms"])==set(results["roles"]),"do not invent a V_COST observation")
         reports[k]=report
+    cfg=git(T4B,ANALYSIS);pct=json.loads(cfg)["analysis"]["bootstrap"]["interval_percentiles"]
+    need(pct==[2.5,97.5],"original two-sided percentile limits")
+    coverage=metric("C1.r3.T4b.CI.level","T4b 预注册双侧区间的名义置信水平","%",ANALYSIS,
+        ["/analysis/bootstrap/interval_percentiles/1","/analysis/bootstrap/interval_percentiles/0"],Fraction(pct[1])-Fraction(pct[0]),"subtract",commit=T4B)
+    assets[ANALYSIS]=dict(commit=T4B,sha256=sha(cfg))
     hraw=git(T4B,HYP);hyps=json.loads(gzip.decompress(hraw))["hypotheses"];checklist={}
     for i,h in enumerate(hyps):
         id=f"H{i+1}";need(h["id"]==id and h["decision"]=="MET" and h["comparison"]["metrics"]["L"]["hi"]<0,"sequential frozen MET")
@@ -159,7 +165,7 @@ def collect():
             need(n["fields"]==[pt] and n["commit"]==T4B and n["path"]==HYP and
                  Fraction(n["exact"])==Fraction(h["comparison"]["metrics"]["L"][name]),"original signed interval "+metric_id)
             fields[name]=metric_id
-        checklist[id]=dict(status=h["decision"],level="确认",comparator=h["comparator"],metrics=fields,
+        checklist[id]=dict(status=h["decision"],level="确认",comparator=h["comparator"],metrics=fields,confidence_metric=coverage,
                            source=ref(T4B,HYP,f"/hypotheses/{i}/decision",f"/hypotheses/{i}/comparison/metrics/L"))
     assets[HYP]=dict(commit=T4B,sha256=sha(hraw))
     c4=ledger["claims"][3]

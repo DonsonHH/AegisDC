@@ -34734,6 +34734,20 @@
         "op": "value",
         "value": 230,
         "exact": "230"
+      },
+      {
+        "id": "C1.r3.T4b.CI.level",
+        "label": "T4b 预注册双侧区间的名义置信水平",
+        "unit": "%",
+        "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
+        "path": "docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json",
+        "fields": [
+          "/analysis/bootstrap/interval_percentiles/1",
+          "/analysis/bootstrap/interval_percentiles/0"
+        ],
+        "op": "subtract",
+        "value": 95,
+        "exact": "95"
       }
     ],
     "conditions": {
@@ -35157,6 +35171,7 @@
           "lo": "C1.T4b.H1.lo",
           "hi": "C1.T4b.H1.hi"
         },
+        "confidence_metric": "C1.r3.T4b.CI.level",
         "source": {
           "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
           "path": "docs/mainline/t4b-holdout-confirmation-v2/results.json.gz",
@@ -35175,6 +35190,7 @@
           "lo": "C1.T4b.H2.lo",
           "hi": "C1.T4b.H2.hi"
         },
+        "confidence_metric": "C1.r3.T4b.CI.level",
         "source": {
           "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
           "path": "docs/mainline/t4b-holdout-confirmation-v2/results.json.gz",
@@ -35193,6 +35209,7 @@
           "lo": "C1.T4b.H3.lo",
           "hi": "C1.T4b.H3.hi"
         },
+        "confidence_metric": "C1.r3.T4b.CI.level",
         "source": {
           "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
           "path": "docs/mainline/t4b-holdout-confirmation-v2/results.json.gz",
@@ -35223,6 +35240,10 @@
       "docs/mainline/t4c-action-cost-v3/dev-manifest.json": {
         "commit": "cef45c0275ce330eaf2652362bfd5090dffd5aa6",
         "sha256": "1408fa54fe27ee616954e8d9b4016e151a4171f724f7531fb817e8da5301b47d"
+      },
+      "docs/mainline/t4b-holdout-confirmation-v2/run-manifest.json": {
+        "commit": "3487276af9e9759357771d16eb45feceaa3c948a",
+        "sha256": "8b66db7e8eccebee6d070bfda956ca0dc80ca0896ffa725b40d501a032b1a56f"
       },
       "docs/mainline/t4b-holdout-confirmation-v2/results.json.gz": {
         "commit": "3487276af9e9759357771d16eb45feceaa3c948a",

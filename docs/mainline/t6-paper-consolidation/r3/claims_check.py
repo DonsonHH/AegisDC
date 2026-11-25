@@ -13,14 +13,13 @@ from pathlib import Path
 import re
 import subprocess
 
-from readback import BASE,HERE,HYP,OWNER,PREFIX,RESULT,ROOT,SITES,T3,T4B,T6,collect,git,need,pack,sha
+from readback import BASE,HERE,OWNER,PREFIX,RESULT,ROOT,SITES,T3,T6,collect,git,need,pack,sha
 
 OLD_STAGE="stage3/"
 TOKEN=re.compile(r"\{\{(old|add|ref):([^{}\n]+)\}\}")
 NOTE=re.compile(r"\[([^\[\]\n]+)\]\(evidence-notes\.md#(n\d+)\)")
 OLD_NOTE=re.compile(r"\[([^\[\]\n]+)\]\(stage3/evidence-notes\.md#(n\d+)\)")
 NUMERIC_URL="numeric-source.html#"
-BUILDER_PATH="C:/Users/Donson/.codex/skills/answer-me-with-html/scripts/am.mjs"
 RENDERER_SHA="44e4610c22917cfd760e35619c394726b69e57881a3f211c2797cb973e41fa88"
 
 
@@ -52,12 +51,49 @@ def primary_map():
     return json.loads(git(BASE,PREFIX+"stage3/manuscript-numbers.json"))
 
 
+def check_meaning(md,occurrences,ledger):
+    """Bind the actual prose to the appropriate hypotheses, arms and receipts."""
+    lines=md.splitlines()
+    supplement=ledger["r3_supplement"];hyps=supplement["pre_registered_tests"]
+    def tagged(line):
+        return NOTE.sub(lambda x:"{"+occurrences[x[2]]["id"]+"}",line).replace("\\*","*")
+    def unique(snippet):
+        xs=[line for line in lines if snippet in line];need(len(xs)==1,"unique assertion: "+snippet);return tagged(xs[0])
+    def token(id):return "{"+id+"}"
+    for h,tag,identity in [("H1","预注册 H1 确认检验","在 T4b 合成留出面板上，以 V** 的 L 减去 B 的 L"),
+                            ("H2","预注册 H2（确认，MET）","V** 比同一方法关闭自选初检时的平均服务缺额少"),
+                            ("H3","预注册 H3（确认，MET）","V** 相对成本感知透明规则 B_cost 的配对差")]:
+        row=hyps[h];fields=row["metrics"];line=unique(tag)
+        expected=token(fields["mean"])+" 秒，双侧 "+token(row["confidence_metric"])+"% 区间 ["+token(fields["lo"])+", "+token(fields["hi"])+"] 秒"
+        reported="预注册 H1 确认检验的封存判定为 "+row["status"] if h=="H1" else tag
+        need(row["comparator"]=={"H1":"B","H2":"V_COST_NOPROBE","H3":"B_COST"}[h] and row["status"]=="MET" and
+             expected in line and identity in line and reported in line,"test identity, candidate, confidence and endpoints bound to "+h)
+    for fam,key in SITES:
+        r=supplement["conditions"][key]
+        where=next(i for i,l in enumerate(lines) if l.startswith("**凭什么当时知道。** 合成开发条件 "+key))
+        a=tagged(lines[where]);b=tagged(lines[where+2]);pr=r["opportunity"];statuses=r["roles"]
+        need("首条登记类事前材料是" in a and token(r["registered_pre_risk_prior"]["metric"])+" 秒到达" in a and
+             f"评价端核实的 {token(pr['arrival'])} 秒是" in a and pr["target"] in a and
+             "**反事实可买机会**：假设在 "+token(pr["dispatch"])+" 秒派工" in a and
+             not r["risk_trigger_present_at_zero"] and "当时只有常规开工授权，没有公开风险触发" in a,"site-specific available vs bought exposure: "+key)
+        if r["earlier_public_business_records"]:
+            need("施工未移交的业务记录在 "+token(r["earlier_public_business_records"][0]["metric"])+" 秒已到达" in a,"do not suppress an earlier business record")
+        first=statuses["PERIODIC"]["first_received"];target=statuses["PERIODIC"]["target_received"]
+        need("最晚必要启动为 "+token(pr["deadline"])+" 秒" in b and statuses["PERIODIC"]["state"]=="有" and
+             re.search(r"实际回执显示，周期巡检在 "+re.escape(token(first["arrival"]))+r" 秒先收到[^。；]*?"+first["subject"]+
+                       r" 的初检读数，在 "+re.escape(token(target["arrival"]))+r" 秒收到 "+target["subject"]+r" 的初检读数，均早于截止",b),
+             "PERIODIC actual first and target-specific receipts before the correct deadline: "+key)
+        need(statuses["P"]["state"]==statuses["ALARM"]["state"]=="未取得" and "P 和报警响应均未在截止前取得付费读数" in b and
+             statuses["V_COST"]["state"]=="未建立" and "本条件没有 V** 臂，其实际取得情况**未建立**。" in b,
+             "actual receipt polarity and missing arm: "+key)
+
+
 def delta_table():
     return "\n".join([
         "| 比对项目 | 任务书指针 | 封存读回 | 差异 |","|---|---|---|---|",
         "| H1、H2、H3 均差及区间 | 摘要补 H1 区间；C1 补 H2、H3 区间及确认标注 | H1 −343.90 [−445.94, −244.22]；H2 −55.83 [−110.00, −11.61]；H3 −390.48 [−488.63, −292.83] 秒；均 MET | 数值无差异 |",
         "| 两站反事实机会 | 假设从 0 秒派工，50 秒可得 | 两站均如此；供评价端核实，不是必然发生的购买 | 无 |",
-        "| 首条登记提示 | 伦敦 60 秒；荷兰 120 秒 | 分别为路径维护提示、复电测试提示；两站起点只有常规开工授权，未见风险触发 | 登记提示时刻无差异；若把“公开材料”解释为所有公开频道记录，荷兰此前在 90 秒已有施工未移交记录 |",
+        "| 首条登记提示 | 伦敦 60 秒；荷兰 120 秒 | 分别为路径维护提示、复电测试提示；两站起点只有常规开工授权，未见风险触发 | 登记提示时刻无差异。“公开材料”若泛指任何公开频道，则还包括常规工单、另行发布的固定测点；荷兰在 90 秒已有施工未移交记录 |",
         "| 同一条件、截止前的实际购买 | 以各臂实际回执填报；证据不足写“未建立” | 两站 P 和报警响应均未取得；周期巡检均取得；V** 在 T3 无该臂，未建立 | 没有任务书预给的实际观测值；新结果不代替反事实机会 |",
         "| C4 措辞归属 | 在两种归属中据实填列 | 用户授权执行者选择；沿用选项 A | 无 |",
         "| 旧数值与状态 | 960 个原数值、135 处旧报告、全部状态和全部反例不变 | 完全一致；新增的只读观测 ID 单独列附记 | 无 |"])
@@ -131,11 +167,7 @@ def compose(ledger,old,edits):
     matched=NOTE.findall(manuscript)
     need([(q["display"],a) for a,q in records.items()]==matched,"all displayed quantitative values in source order")
     need(not any("{{" in p or "}}" in p for p in md),"unexpanded source markers")
-    need("H2（确认，MET）" in manuscript and "H3（确认，MET）" in manuscript and
-         "预注册 H1 确认检验" in md[changes[0]["new_lines"][0]-1],"confirmation labels in requested sections")
-    for change in changes[-2:]:
-        need("反事实可买机会" in change["new_text"] and "没有公开风险触发" in change["new_text"] and "没有 V\\*\\* 臂" in change["new_text"] and
-             "未建立" in change["new_text"] and "实际回执" in change["new_text"],"two-site source/actual separation")
+    check_meaning(manuscript,records,ledger)
     return manuscript,old.html_draft(htext),records,changes,refs
 
 
@@ -209,7 +241,24 @@ class Notes(HTMLParser):
 
 def check_surfaces(old,files,records):
     md=files["manuscript.md"].decode();browser=(HERE/"manuscript.html").read_text(encoding="utf8")
-    parser=old.Panels();parser.feed(browser);parser.close()
+    class VisiblePanels(old.Panels):
+        def __init__(self):
+            super().__init__();self.visibility_stack=[]
+        def handle_starttag(self,tag,attrs):
+            d=dict(attrs)
+            panel=tag=="section" and "am-panel" in d.get("class","").split()
+            style="".join(d.get("style","").lower().split())
+            hidden=("hidden" in d or "inert" in d or (d.get("aria-hidden") or "").lower()=="true" or
+                    re.search(r"(?:display:none|visibility:(?:hidden|collapse)|opacity:0(?:[;!]|$))",style) is not None)
+            if (self.current is not None or panel) and not self.ignored and tag not in ("script","style","template"):
+                need(not hidden and not any(state for _,state in self.visibility_stack),"hidden manuscript content")
+            if tag not in ("area","base","br","col","embed","hr","img","input","link","meta","param","source","track","wbr"):
+                self.visibility_stack.append((tag,hidden))
+            super().handle_starttag(tag,attrs)
+        def handle_endtag(self,tag):
+            if self.visibility_stack and self.visibility_stack[-1][0]==tag:self.visibility_stack.pop()
+            super().handle_endtag(tag)
+    parser=VisiblePanels();parser.feed(browser);parser.close()
     must=old.expected_blocks(md)
     norm=lambda s:" ".join(s.split())
     need(len(parser.groups)==len(must)==7 and [[(t,norm(v)) for t,v in g] for g in parser.groups]==must,
@@ -228,14 +277,19 @@ def check_surfaces(old,files,records):
 
 def log(ledger,records):
     s=ledger["r3_supplement"];old=[r for r in records.values() if r["kind"]=="retained"]
+    lookup={m["id"]:m for c in ledger["claims"] for m in c["numbers"]};lookup.update({m["id"]:m for m in s["numbers"]})
+    val=lambda id:lookup[id]["value"]
+    tests=s["pre_registered_tests"];coverage=val(tests["H1"]["confidence_metric"])
+    lon,nl=[s["conditions"][key] for _,key in SITES]
     lines=["Reviewed stage3 (21a4624b), r2 and stage2 baseline --check: PASS. No original file modified.",
         f"Original: {sum(len(c['numbers']) for c in ledger['claims'])}/960 numeric entries, all claim statuses and counterexamples, {len(old)}/135 numeric occurrences preserved.",
         f"r3: {len(s['numbers'])} additional evidence IDs; {len(records)-len(old)} additional printed occurrences; {len(records)} total.",
-        "T4b H1/H2/H3: preregistered confirmation, MET/MET/MET; means and interval endpoints verified in original order.",
-        "T3: paid opportunity (dispatch 0, potential arrival 50); first registered prior London 60, Netherlands 120; no risk trigger at dispatch. Dutch WORK_OPEN arrived at 90.",
-        "5-01 / deadline 720: PERIODIC first LC::I at 50, LB::I at 110; P and ALARM no paid receipt before deadline; V_COST absent (not established).",
-        "6-02 / deadline 540: PERIODIC first NR::I at 50, NP::I at 230; P and ALARM no paid receipt before deadline; V_COST absent (not established).",
-        "C4 wording_owner=用户授权执行者选择; option A retained; all original statements and statuses unchanged.",
+        f"T4b H1/H2/H3: preregistered confirmation, {'/'.join(t['status'] for t in tests.values())}; all three means, paired {coverage}% intervals, directions and endpoints bound to the correct prose.",
+        f"T3: paid opportunity (dispatch {val(lon['opportunity']['dispatch'])}, potential arrival {val(lon['opportunity']['arrival'])}); first registered prior London {val(lon['registered_pre_risk_prior']['metric'])}, Netherlands {val(nl['registered_pre_risk_prior']['metric'])}; no risk trigger at dispatch. Dutch WORK_OPEN arrived at {val(nl['earlier_public_business_records'][0]['metric'])}."]
+    for r in (lon,nl):
+        first=r["roles"]["PERIODIC"]["first_received"];target=r["roles"]["PERIODIC"]["target_received"]
+        lines.append(f"{r['key']} / deadline {val(r['opportunity']['deadline'])}: PERIODIC first {first['task']} at {val(first['arrival'])}, {target['task']} at {val(target['arrival'])}; P and ALARM no paid receipt before deadline; V_COST absent (not established).")
+    lines += [f"C4 wording_owner={ledger['claims'][3]['wording_owner']}; option A retained; all original statements and statuses unchanged.",
         "Markdown, visible HTML, each numeric link, bindings, change list and task/reference differences: PASS.",
         "Facility calls=0; Slurm jobs=0; H2 seed generated/read/derived=0. STOP FOR REVIEW."]
     return "\n".join(lines)+"\n"
