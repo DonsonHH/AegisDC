@@ -59,3 +59,17 @@ PR #3 已再次复核并合入 `donson/mainline-39c-endpoints`，合并提交 `4
 [原完整设施主线快照](mainline/history/20261112-before-reset/README.md)和旧工程、失败及研究原件保留。八域设施继续承载主方法。原 180 次比较保留其预设派工及负结果范围，39c 五项尚未整票验收。历史队列与执行额度均不自动恢复。[旧比较范围](mainline/preset-study-scope.json) · [39c 复核](mainline/audits/20261112-39c-whole-ticket/README.md)
 
 本地负责编辑、传输和文件完整性核对。计算与留痕见[远端规则](agents/compute-storage.md)，本活动授权边界见[进度账](mainline/progress.json)。
+
+## T5 封存状态（2026-11-25 追加）
+
+| 工作包 | 已发布提交 | 判读 |
+|---|---|---|
+| [v1](mainline/t5-ordinary-improvement-development-v1/README.md) | `4ade9217` | 原开发成绩保留；锁定策略来自人工锚点，归为人工参照。 |
+| [v2](mainline/t5-ordinary-improvement-development-v2/README.md) | `0e89b678` | 主轨未过等预算随机搜索对照；突变以根向量为起点，未实现从现任优胜者连续爬山。 |
+| [v3a](mainline/t5-landscape-diagnostic-v3a/README.md) | `29ac5a2e` | 跨半选优的地形诊断按原门槛判为“不确定”。 |
+| [v3b](mainline/t5-block-recombination-v3b/README.md) | `9360a3c8` | 固定的分块重组未通过开发门槛，未启动后续搜索比较。 |
+| [v3c](mainline/t5-observable-selector-v3c/README.md) | `25f86d8c` | 可观测选择器通过旧板开发门槛，新板对冻结整板赢家的主比较失败。 |
+| [收尾](mainline/t5-closeout/README.md) | `0379fb43` | 按预注册止损结束 T5；相对现状的比较保留为描述性证据。 |
+| [补件 r2](mainline/t5-closeout/evidence.json) | `ce3ee630` | 已验收；反例与主结论同页，分别报告固定 P 和事后逐行最优现状。 |
+
+本条记录接续前面的历史状态。下一交审点是 [T6 阶段 1 封存数字复算](mainline/t6-paper-consolidation/README.md)；C4 的论文措辞另行裁决。
