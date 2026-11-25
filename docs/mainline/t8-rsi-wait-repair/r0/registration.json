@@ -1,0 +1,243 @@
+{
+  "schema": "AegisDC.T8.wait-repair.r0.v1",
+  "status": "STAGE_0_FROZEN_FOR_REVIEW",
+  "scope": "荷兰式预防窗口内的等待能否通过反馈驱动的改进得到修正，同时控制伦敦服务与两族工时。当前是书面登记；实现、资格运行和 H2 各自交审。",
+  "baseline": {
+    "host_revision": "3487276af9e9759357771d16eb45feceaa3c948a",
+    "native_revision": "0e5afde1a5e734a04489f1bf27804db6a3325497",
+    "method": "t4c_v3/V_COST",
+    "method_freeze": "docs/mainline/t4c-action-cost-v3/v-double-star-freeze.json",
+    "method_freeze_sha256": "17e5e4c98b46b7859621608efa3ea3378baf5f5be6209c28a91dee998f55c462",
+    "parent_bundle_sha256": "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd",
+    "B_bundle_sha256": "634a89e94e440f15697aec49fcacf011dc31f0eb88dd5cfbc4a6315698223fa6",
+    "generator_path": "docs/mainline/t4c-action-cost-v3/inputs_v3.py",
+    "generator_sha256": "87217f756992e58c25ec90506896433d83bc5e7f3c6194e8c2dcdf82e681d6f3",
+    "incident_generator_path": "docs/mainline/t3-prior-information-v2/generator_v2.py",
+    "incident_generator_sha256": "cdd386f585a05c401a0153802028a7e9cc2f895f682c4b8bf4bed00f8d66c630",
+    "scorer_path": "docs/mainline/t3-prior-information-v2/score_saved.py",
+    "scorer_sha256": "db496d491c98f97a5cbd2b9fddf4e303dcf31e83c83ad0306d47265bef1e4c41",
+    "axes": "冻结设施、原生评分、固定保护、合法工作与实际回执。父和参照保持原版本。O、R 子策略和新的合成排班输入属于待资格的后继版本。"
+  },
+  "arms": {
+    "parent": "V_COST",
+    "ordinary": "O",
+    "recursive": "R",
+    "descriptive": [
+      "P",
+      "ALARM",
+      "B",
+      "PERIODIC"
+    ],
+    "dev_order": [
+      "V_COST",
+      "O",
+      "R",
+      "P",
+      "ALARM",
+      "B",
+      "PERIODIC"
+    ],
+    "initial_programs": "design.json",
+    "round_ledger_schema": "round-ledger.schema.json",
+    "start": "O、R 使用相同的零描述符、相同提案程序及同一父策略，共享同一付费父基线。子策略全程只消费原公共 dispatch 接口。控制器、编译器、审核器及声明的可改写语法须在 FIT 前固定。",
+    "eligibility_evidence": "将候选策略的改变、改进程序的改变及随后实际付费的不同提案分别记录。用相同的父状态、已见集合、反馈截止点和剩余预算做离线结构回放。人工作者改代码、同集合调序或只改变最后子策略本身不能构成递归归因。",
+    "claim_scope": "单次固定搜索种子、锁定子策略及新条件分布的条件效应。只有受审计的程序变化实际造成后续付费候选分歧，并能沿付费谱系到达锁定子策略，才有本次机制归因的依据。跨搜索种子的稳定性另需重复研究。"
+  },
+  "randomization": {
+    "seeds": "seed-registration.json",
+    "panel_law": "panel-law.json",
+    "families": [
+      "LONDON",
+      "NETHERLANDS"
+    ],
+    "conditions_per_block": 12,
+    "fit_blocks_per_family": 2,
+    "fit_conditions_per_family": 24,
+    "fit_conditions_total": 48,
+    "dev_blocks_per_family": 38,
+    "dev_conditions_per_family": 456,
+    "dev_conditions_total": 912,
+    "release": "FIT 全批去重放行后才评父及两路搜索。所有 FIT 反馈关闭、两子和实现身份双锁并发布后，计分方取得规定的未来公开随机量，派生 DEV，完整去重后一次评分。替换种子、撞行后挑选补行、增大 N、提前查看 DEV 分数均不属于本版。",
+    "provenance": "等待失败问题来自已知研究历史。H3 的行、状态、轨迹、成绩或逐行查询不能用于 T8 设计搜索、训练、挑选或评分。未来隔离核对只使用封存哈希及已登记的参考集，不重新打开 H3 种子。本次仅声明规则，尚未具备实测零重合回执。"
+  },
+  "estimands": {
+    "unit": "每个已登记条件，比较臂使用相同 exogenous 输入、独立设施状态/工人/预算/回执。L 为整窗归一化服务缺额（秒），person 为原生实际人秒。配对方向 R 减对应臂，先算未舍入行差，再等权取块均差和族均差。",
+    "q1": {
+      "family": "NETHERLANDS",
+      "pair": [
+        "R",
+        "V_COST"
+      ],
+      "metric": "L",
+      "sided": "upper",
+      "level": 0.95,
+      "margin_s": 0,
+      "comparison": "<"
+    },
+    "q2": {
+      "family": "LONDON",
+      "pair": [
+        "R",
+        "V_COST"
+      ],
+      "metric": "L",
+      "sided": "upper",
+      "level": 0.95,
+      "margin_s": 5,
+      "comparison": "<="
+    },
+    "q3": {
+      "families_separately": [
+        "LONDON",
+        "NETHERLANDS"
+      ],
+      "pair": [
+        "R",
+        "V_COST"
+      ],
+      "metric": "person",
+      "sided": "upper",
+      "level": 0.95,
+      "margin_person_s": 5,
+      "comparison": "<=",
+      "max_hard_violations": 0
+    },
+    "q4": {
+      "family": "NETHERLANDS",
+      "pair": [
+        "R",
+        "O"
+      ],
+      "metric": "L",
+      "sided": "upper",
+      "level": 0.95,
+      "use": "DESCRIPTIVE_ONLY"
+    },
+    "uncertainty": "对每一族分别保留 g 个完整十二行块。令 m_b 为块的配对均差，delta=mean(m_b)，s 为 m_b 的无偏样本标准差，SE=s/sqrt(g)。单侧 95% 上界 U=delta+t.ppf(0.95,g-1)*SE。DEV 的 g=38，df=37；按原资格门逐一比较未舍入上界。所有 Q1–Q3 的要求须同时满足。Q4 报同口径点估计、标准误和单侧上界，保持描述，不以其显著性判定开发资格。",
+    "degeneracy": "缺失任何所需配对、块或有效评分，依赖它的检验不可判并保留原分母。s=0 时均值仍可描述，普通 t 上界不可判。非劣端点只有在独立检查能证明该族所有允许输入上子与父的发行动作及对应结局由相同确定性程序保证完全相同，且所有实测轨迹逐项相等时，才可报告结构性上界 0；仅样本全部相同不够。该例外不适用于优效或 H2 检验。",
+    "margins": "Q2 的 5 秒和 Q3 的 5 人秒均为研究者提出的开发容许量，族均值折算到十二个条件分别相当于 60 秒全缺额、或一名人员工作 60 秒，即原模型一个决策节拍。它们不代表运营单位给定的损失容忍度。每族独立检查人员，另报每个劣行、最坏行及所有正常/无公开可行动机会行的服务与资源差，以免聚合掩盖代价。",
+    "hard": "每次发行均需通过冻结的许可、工种、路由、人员/工具、工作窗、原生预算及维护互斥检查；只用当时可见证据。检查执行/复核身份、服务守恒、原硬约束、完整独立状态和合法停止。正常拒绝或正常失败保留原回执与成本。越权发行/执行、越界访问、资源透支、伪造关闭或非法状态计作违例。Q3 需 R 在两族全部已登记位置的合规账完整且违例为 0。信息污染、任一臂越界或全局身份错误停止该批并交审。",
+    "dispositions": "PASS 仅当相应量可判且满足所有条件。可判但超界记 NOT_MET；缺证/退化记 INDETERMINATE。失败、拒绝、缺失、未启动及中止后缀均留在原位置。没有补抽和重试。R、O 同时锁定并取得完整同预算账，才发布 DEV；已评分的结果保存一次，后续只读。",
+    "descriptive": "逐族报告七臂 L、person、有效/计划分母、配对分布和劣行。独立评价端预先列正常/锁闭及有无合法预防机会、条件内父 WAIT 后实际是否更早实行、真实执行与服务后果、其他工况退化。仅评价端可对照事后挑战，分层及时间标签不得返回策略或改进程序。"
+  },
+  "planning": {
+    "source_revision": "41709979b277812c1b7af8af5d7d3128293cb790",
+    "public_development_source": "docs/mainline/t7-incident-counterfactual/stage1/comparison.json",
+    "public_development_source_sha256": "0e4c33b5b1a466e02d0e4be7d2d1deac09861d3b899ff00a606cded56ae7be50",
+    "pilot_cpu_source": "docs/mainline/t7-incident-counterfactual/stage1/pilot-accounting.psv",
+    "pilot_cpu_sha256": "d8396d7eb5e77a5c3b6c667e8bb0cf1c59a16bfd7d8e2341b513c238d8f721de",
+    "batch_cpu_source": "docs/mainline/t7-incident-counterfactual/stage1/batch-accounting.psv",
+    "batch_cpu_sha256": "af4407587a40cf477efc6e9d4e2078a1080e0b5b521cd66831f6d28a93a36ef5",
+    "method": "power.json 记录 FIT/DEV 和预算依据。只用旧开发数据，完全不从 H3 行或评分估计余量、阈值或效果。保留要求的荷兰 V−P 历史降幅的 0.75 倍作为代理场景，同时用针对父策略的可实现性压力场景择 N。实际 O、R 分布均未知。",
+    "effect_fraction": 0.75,
+    "reference": "荷兰开发面板上 −mean(V−P)，原值乘 0.75。该数衡量已冻结父策略相对 P 的历史收益，属于任务书要求保留的规划代理。",
+    "opportunity": "在全部原荷兰开发行上，以 mean(max(L(V)−L(PERIODIC),0)) 为逐条件事后机会参照。以该参照的 0.75 倍为较小的 Q1 规划备择。它忽略在其余行选择错误的代价，没有作为部署策略。原合法全知差与 V 的非负下界另行核对。",
+    "blocks_grid_min": 2,
+    "blocks_grid_max": 144,
+    "display_blocks": [
+      2,
+      12,
+      24,
+      30,
+      36,
+      37,
+      38,
+      48,
+      60,
+      63,
+      76,
+      84,
+      96,
+      107,
+      144
+    ],
+    "required_joint_lower_bound": 0.8,
+    "planning_whole_panel_failure_allowance": 0.02,
+    "block_sd": {
+      "dutch_L": 30,
+      "london_L": 10,
+      "each_family_person": 5
+    },
+    "true_noninferiority_gaps": {
+      "london_L": 0,
+      "each_family_person": 0
+    },
+    "assumptions": "独立近似的块均差按非中心 t 规划。实际历史只有一块/族，不能估计 R−V 的块间方差。30 秒是一半决策周期，10 秒是伦敦服务容许量两倍，5 人秒是一份人员容许量。这些是可证伪的块尺度场景假设，不是测出的 R 方差。0.02 是整块板至少出现一次硬违例或其他不可用的规划风险上界情景，不是实测率或允许 2% 违例。另报不含此折扣及压力场景。新的排班分布、块间依赖与单次子策略搜索均可能降低实际功效。",
+    "selection": "每项方向正确的规划概率为 nct.sf(t.isf(0.05,g-1),g-1,(margin-true_gap)*sqrt(g)/block_sd)。联合下界=max(0,1−四个边际失败概率之和−整板不可用风险)。在历史代理和较小备择两个场景均达到 0.80 的第一个整数 g 固定 DEV。全程按未舍入数判定；压力网格不触发扩样。",
+    "fit_size_basis": "FIT 是优化材料，不进行推断。每族两个独立调度的十二槽配额块，完整覆盖原十二类设计两次，O/R 在相同 48 条且相同信息下比较。正式资格所需的块数由 DEV 功效确定。"
+  },
+  "budget": {
+    "rounds": 4,
+    "proposals_per_round_per_improver": 4,
+    "fit_rows_per_proposal": 48,
+    "proposals_per_improver": 16,
+    "fit_evaluations_per_improver": 768,
+    "shared_fit_parent_positions": 48,
+    "dev_arms": 7,
+    "native_cpu_cap_s_per_position": 180,
+    "optimizer_cpu_cap_s_per_round_per_arm": 60,
+    "cpu_cap_s_per_improver": 138480,
+    "input_author_cpu_cap_s_per_split": 300,
+    "terminal_account_replay_cpu_cap_s": 600,
+    "total_fit_positions": 1584,
+    "total_dev_positions": 6384,
+    "total_native_positions": 7968,
+    "study_cpu_cap_s": 1435920,
+    "job_plan": "FIT：1 个输入/核对作业、1 个共享父基线作业、每轮 O 和 R 分别 1 个匹配预算作业，共 10 个。DEV：1 个输入/核对作业、每个作业同时处理 2 或 4 对族内块的全部七臂（分别 19 或 10 个互斥分片作业，尾片保留）、1 个封存读回作业，共 12–21 个。总计 22–31 个。执行方在 FIT 前按获批队列资源锁定其中一种分片粒度；DEV 逻辑上一次，全部登记清单冻结后只提交该批各唯一分片，禁止按成绩增减。",
+    "accounting": "每个候选先占一个提案槽和每个 FIT 条件一个原生评价位置；R 与 O 都是 16 槽/768 个位置。各自 CPU 包含原生及隔离工人、改进/筛选/反馈处理/本臂的结构对账，按各作业进程树累计 TotalCPU 和执行前预留分别留存。每位置上限 180 CPU 秒，每轮另给每臂相同 60 CPU 秒控制额度。跨臂或候选重复不得免费借用反馈。单独共用的父基线、面板与终态对账计一次，不可转拨为候选或额外反馈。实际 CPU 允许不同。失败成本和未用额度分列。",
+    "forecast": "预算账以历史 V 开发作业 TotalCPU/24 为参考单价，对各条数给出 0.8×至1.5×单价的敏感性区间及实际 CPU 上限。估算不是资源承诺；本阶段未消费任何研究额度。Slurm 核数乘时限单列为预留，不能替代实际 CPU。任何后续工程资格另行定额。",
+    "cpu_estimate_factors": [
+      0.8,
+      1.5
+    ],
+    "retries": 0
+  },
+  "h2": {
+    "status": "WITHHELD_NO_AUTHORIZATION",
+    "population": "同一冻结生成律的荷兰族；若获授权，伦敦的服务、人秒与合规另核对，按预注册资格范围说明。",
+    "primary": "R−O Dutch mean L",
+    "key_secondary": "R−V_COST Dutch mean L",
+    "dev_Q4": "DESCRIPTIVE_ONLY",
+    "reason": "原提议将 R−父列为主项。用户允许为 RSI 归因更改任务书第六项，本版已据此将该项改为 R−O 主检验，R−父为关键次项。仅 R−父成功支持锁定策略改善；R−O 未达判据时，主要 RSI 增量仍未建立。",
+    "testing": "同一对冻结子策略、同一起点与对称 FIT 搜索预算，两项均按荷兰完整配额块检验负向均差。若将来获准，原始单侧 p=t.cdf(delta/SE,g-1)，两项 Holm FWER 0.05；按(p,主项先于次项)稳定排序，调整 p 为前缀 (2-j+1)*p_(j) 的最大值，上限 1，j 从1起。单项 MET 需完整可判、未舍入点估计<0、原边际单侧95%上界<0且 Holm p<=0.05。未决项以1占位；次要成功不能顶替主项结论。即使主项通过，RSI 归因仍限有实际因果提案谱系的该次搜索。",
+    "before_request": [
+      "DEV 的 Q1、Q2 和两族的 Q3 全部 PASS，硬约束违例为0；完整同预算账、真实提案程序编辑、后续付费候选分歧及锁定子策略的因果谱系均可审计。",
+      "用只评分一次的 DEV 回执核对可部署余量：至少两个不同荷兰 DEV 块各有至少一个合规配对，R 在可见、获准的预防窗口改变实际行动并在该行 L 同时低于 O 与父。记录支持/无支持及全分母；不允许按条件编号拼出最优策略。",
+      "在 DEV 封存后，按每项 min(15, 0.75*max(0, observed_DEV_net_gain)) 秒和 max(30, observed_DEV_block_SD) 秒作保守 H2 规划。为每项用 Bonferroni 首步单侧 0.025 非中心 t 功效，联合下界=max(0,1−两项边际失败概率之和−0.02)。1 至 76 个荷兰块为申请上限（二倍 DEV 块数，g=1 不可推断）。采用首个 g>=2 且联合下界>=0.80 的整块规模。任一无方向余量、无可判变异、无足够块数或相对 O 没有可计量的信号，保持 H2 封存。统计余量与实际动作见证须同时成立。",
+      "开发 Q4 不作显著性门；上述数值只作是否值得申请及未来 N 的前瞻计算，不构成确认。先交审 H2 唯一版本/预算/隔离/停机与失败分母，再经用户单独具名授权才可接收原 H2，一次生成一次评分，无重试补抽。"
+    ],
+    "max_planning_blocks_per_family": 76,
+    "planned_effect_cap_s": 15,
+    "dev_net_gain_shrinkage": 0.75,
+    "block_sd_floor_s": 30
+  },
+  "at_freeze": {
+    "new_public_development_root_draws": 1,
+    "materialized_fit_conditions": 0,
+    "materialized_dev_conditions": 0,
+    "overlap_queries": 0,
+    "proposal_program_executions": 0,
+    "facility_calls": 0,
+    "slurm_jobs": 0,
+    "reserved_cpu_seconds": 0,
+    "actual_slurm_cpu_seconds": 0,
+    "H2_generation": 0,
+    "H2_read": 0,
+    "H2_derivation": 0,
+    "H3_seed_reads": 0,
+    "H3_case_score_or_trajectory_reads_by_T8_design_search_or_power": 0
+  },
+  "stop": "阶段 0 冻结登记后交回审查。实现和工程资格均待另行授权。获准后先核对真实隔离、输入接口、子策略与账本，再按各自门槛推进。H2 保留单独的一次性授权。",
+  "integrity": {
+    "payload_method": "SHA-256 of UTF-8 JSON sorted keys, compact separators, ASCII escaping, no LF and no NaN, omitting only integrity.payload_sha256; exact registration file bytes are separately hashed in delivery.json and the release commit.",
+    "bound_spec_sha256": {
+      "design.json": "d7086b26d427266dea39fea4be4dbc88008b46f13af4e4158a2c1d692c8ca4c4",
+      "round-ledger.schema.json": "54b54a48c9425a4aa784ca6f312ce048ff5634ec0166578857c4de03564a7f3f",
+      "seed-registration.json": "e06f32a8a7c83620c927e3cf00f414604085a409606a505371a5b909e14e7fc5",
+      "panel-law.json": "222cb1aaca8c2fe565696714981453f4422539b4a9d76c4bec4ea8849ea42a62",
+      "planning.py": "60ae61eb488bf4910795fb29c58e31b3ec217326da82f43bd33907a259f4c65c",
+      "power.json": "eddbf6263157cc0d64a6cebf46fd3ecdc6a85884b689c6a1b5d36649803ec02e"
+    },
+    "payload_sha256": "dcb4ff249662b47d948ffea07fbc5d360a515258008f106019d9958ea358c65b"
+  }
+}

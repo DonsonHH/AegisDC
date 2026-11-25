@@ -1,0 +1,25 @@
+{
+  "schema": "AegisDC.T8.r0.development-randomness.v1",
+  "fresh_public_development_root_hex": "f785d69af2c29a5b3a18f3c7542d4b0f2921595eac8d8bb8786b1e29b8e4f2c3",
+  "root_sha256": "6bff1ac504f095529ec763907991d1d727bb8d72eda60a76f0d87458f6e52f62",
+  "fit_seed_hex": "9ddd02fb6a12b51461371fe56d1c1fd9cb317b1bb828df7f0481ee1fbe720470",
+  "fit_derivation": "SHA256(UTF8(\"AegisDC/T8/r0/FIT/v1\") || one 0x00 byte || raw 32-byte public root). The input generator uses the unsigned big-endian integer of the resulting 32 bytes.",
+  "generation_receipt": "One fresh OS-CSPRNG root generated for this registration; no condition or role was executed.",
+  "dev": {
+    "state": "future signed round, no DEV seed or panel materialized in r0",
+    "chain_hash": "52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971",
+    "public_key_hex": "83cf0f2896adee7eb8b5f01fcad3912212c437e0073e911fb90022d3e760183c8c4b450b6a0a6c3ac6a5776a2d1064510d1fec758c921cc22b0e17e63aaf4bcb5ed66304de9cf809bd274ca73bab4af5a6e9c76a4bc09e76eae8991ef5ece45a",
+    "scheme": "bls-unchained-g1-rfc9380",
+    "genesis_unix_utc_s": 1692803367,
+    "period_s": 3,
+    "publication_lead_s": 120,
+    "target_rule": "Independent custodian admits the FIRST complete signed dual-policy/implementation lock exactly once. Let T be floor(UTC Unix seconds of its independently time-stamped and append-only receipt). Freeze r = 1 + ceil((T + 120 - genesis_unix_utc_s)/3). Publish receipt, both child hashes, lock-file SHA-256 and r before genesis+3*(r-1); no clock or round chosen by either improver and no second lock. Archive receipt and proof of publication time.",
+    "verification": "After the lock, the scorer obtains the specified quicknet round from any relay or an offline copy, verifies the BLS signature for that round and pinned chain key/scheme using the official verification routine, then takes SHA256(raw signature) as the 32-byte beacon randomness. Archive the signed response and verifier version. A late or unverifiable lock is retained as unscored; a temporarily unavailable response can only be fetched for the same r.",
+    "derivation": "SHA256(UTF8(\"AegisDC/T8/r0/DEV/v1\") || one 0x00 byte || raw public root || raw 32-byte SHA-256 of the immutable dual-lock artifact || verified 32-byte beacon randomness). Use its unsigned big-endian integer. Only the scorer constructs DEV after both locks. No round data was fetched at r0.",
+    "sources": [
+      "https://docs.drand.love/docs/specification/",
+      "https://docs.drand.love/developer/http-api/",
+      "https://api.drand.sh/v2/beacons/quicknet/info"
+    ]
+  }
+}

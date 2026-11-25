@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aegisdc:t8:r0:round-ledger:v1",
+  "title": "An immutable FIT round and its before/after proposal-program evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "registration_sha256", "design_sha256", "arm", "round", "terminal", "status",
+    "previous_record_sha256", "frozen", "before", "slots", "feedback", "selection",
+    "rewrite", "after", "incoming_witness", "next_witness", "accounting", "audit", "stop"
+  ],
+  "properties": {
+    "schema": {"const": "AegisDC.T8.r0.round.v1"},
+    "registration_sha256": {"$ref": "#/$defs/hash"},
+    "design_sha256": {"$ref": "#/$defs/hash"},
+    "arm": {"enum": ["O", "R"]},
+    "round": {"type": "integer", "minimum": 1},
+    "terminal": {"type": "boolean", "description": "True only for the prospectively scheduled final round."},
+    "status": {"enum": ["CLOSED", "INCOMPLETE", "UNRUN"]},
+    "previous_record_sha256": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+    "frozen": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parent_bundle", "policy_compiler", "search_interpreter", "selector", "facility_metrics", "score_adapter", "sandbox", "resource_envelope", "fit_commitment"],
+      "properties": {
+        "parent_bundle": {"const": "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd"},
+        "policy_compiler": {"$ref": "#/$defs/hash"}, "search_interpreter": {"$ref": "#/$defs/hash"},
+        "selector": {"$ref": "#/$defs/hash"}, "facility_metrics": {"$ref": "#/$defs/hash"},
+        "score_adapter": {"$ref": "#/$defs/hash"}, "sandbox": {"$ref": "#/$defs/hash"},
+        "resource_envelope": {"$ref": "#/$defs/hash"}, "fit_commitment": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "before": {"anyOf": [{"$ref": "#/$defs/state"}, {"type": "null"}]},
+    "after": {"anyOf": [{"$ref": "#/$defs/state"}, {"type": "null"}]},
+    "slots": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/slot"}},
+    "feedback": {"$ref": "#/$defs/nullableBlob"},
+    "selection": {
+      "anyOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["ranked_eligible_slots", "accepted_slot", "decision", "rank_evidence"],
+          "properties": {
+            "ranked_eligible_slots": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/positive"}},
+            "accepted_slot": {"anyOf": [{"$ref": "#/$defs/positive"}, {"type": "null"}]},
+            "decision": {"enum": ["STRICT_L_GAIN", "RETAIN_INCUMBENT"]},
+            "rank_evidence": {"$ref": "#/$defs/blob"}
+          },
+          "allOf": [
+            {"if": {"properties": {"decision": {"const": "STRICT_L_GAIN"}}}, "then": {"properties": {"accepted_slot": {"$ref": "#/$defs/positive"}}},
+             "else": {"properties": {"accepted_slot": {"type": "null"}}}}
+          ]
+        },
+        {"type": "null"}
+      ]
+    },
+    "rewrite": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reason", "credit", "patch", "patch_bytes"],
+      "properties": {
+        "reason": {"enum": ["INSTALLED_CREDITED_PRODUCTION", "O_PROGRAM_FIXED", "NO_BENEFICIAL_SINGLE_EDIT", "SAME_PRODUCTION", "TERMINAL", "INCOMPLETE", "UNRUN"]},
+        "credit": {
+          "anyOf": [
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["slot", "cell", "direction", "incumbent_L_sum_us", "candidate_L_sum_us", "candidate_minus_incumbent_L_sum_us", "feedback_receipt"],
+              "properties": {
+                "slot": {"$ref": "#/$defs/positive"}, "cell": {"$ref": "#/$defs/cell"}, "direction": {"enum": [-1, 1]},
+                "incumbent_L_sum_us": {"$ref": "#/$defs/count"}, "candidate_L_sum_us": {"$ref": "#/$defs/count"},
+                "candidate_minus_incumbent_L_sum_us": {"type": "integer", "maximum": -1}, "feedback_receipt": {"$ref": "#/$defs/blob"}
+              }
+            },
+            {"type": "null"}
+          ]
+        },
+        "patch": {"type": "array", "maxItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["op", "path", "value"], "properties": {"op": {"const": "replace"}, "path": {"const": ""}, "value": {"$ref": "#/$defs/macro"}}}},
+        "patch_bytes": {"$ref": "#/$defs/nullableBlob"}
+      },
+      "allOf": [
+        {"if": {"properties": {"reason": {"const": "INSTALLED_CREDITED_PRODUCTION"}}},
+         "then": {"properties": {"patch": {"minItems": 1}, "patch_bytes": {"$ref": "#/$defs/blob"}, "credit": {"type": "object"}}},
+         "else": {"properties": {"patch": {"maxItems": 0}}}},
+        {"if": {"properties": {"reason": {"const": "SAME_PRODUCTION"}}}, "then": {"properties": {"credit": {"type": "object"}}}},
+        {"if": {"properties": {"reason": {"enum": ["NO_BENEFICIAL_SINGLE_EDIT", "INCOMPLETE", "UNRUN"]}}}, "then": {"properties": {"credit": {"type": "null"}}}}
+      ]
+    },
+    "incoming_witness": {
+      "anyOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["previous_record", "predicted_after_roster", "actual_prepaid_roster", "matches", "actually_paid_new_slots", "audit_receipt"],
+          "properties": {
+            "previous_record": {"$ref": "#/$defs/hash"}, "predicted_after_roster": {"$ref": "#/$defs/hash"},
+            "actual_prepaid_roster": {"$ref": "#/$defs/hash"}, "matches": {"type": "boolean"},
+            "actually_paid_new_slots": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/positive"}},
+            "audit_receipt": {"$ref": "#/$defs/blob"}
+          }
+        }, {"type": "null"}
+      ]
+    },
+    "next_witness": {
+      "anyOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["next_round", "common_inputs", "before_roster", "after_roster", "before_policy_ids", "after_policy_ids", "ordered_difference", "membership_difference", "classification", "audit_receipt"],
+          "properties": {
+            "next_round": {"$ref": "#/$defs/positive"},
+            "common_inputs": {"$ref": "#/$defs/blob", "description": "Same selected incumbent, seen set, clock/round, K and frozen interpreter for both treatments."},
+            "before_roster": {"$ref": "#/$defs/blob"}, "after_roster": {"$ref": "#/$defs/blob"},
+            "before_policy_ids": {"$ref": "#/$defs/roster"}, "after_policy_ids": {"$ref": "#/$defs/roster"},
+            "ordered_difference": {"type": "boolean"}, "membership_difference": {"type": "boolean"},
+            "classification": {"enum": ["NO_OP", "EDITED_IDENTICAL_LIST", "ORDER_ONLY", "CHANGED_MEMBERSHIP"]},
+            "audit_receipt": {"$ref": "#/$defs/blob"}
+          },
+          "allOf": [
+            {"if": {"properties": {"classification": {"const": "CHANGED_MEMBERSHIP"}}}, "then": {"properties": {"ordered_difference": {"const": true}, "membership_difference": {"const": true}}}},
+            {"if": {"properties": {"classification": {"const": "ORDER_ONLY"}}}, "then": {"properties": {"ordered_difference": {"const": true}, "membership_difference": {"const": false}}}},
+            {"if": {"properties": {"classification": {"enum": ["NO_OP", "EDITED_IDENTICAL_LIST"]}}}, "then": {"properties": {"ordered_difference": {"const": false}, "membership_difference": {"const": false}}}}
+          ]
+        }, {"type": "null"}
+      ]
+    },
+    "accounting": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scheduled_proposals", "emitted_proposals", "scheduled_positions", "started_positions", "complete_positions", "actual_process_cpu_us", "allocations_receipt"],
+      "properties": {
+        "scheduled_proposals": {"$ref": "#/$defs/positive"}, "emitted_proposals": {"$ref": "#/$defs/count"},
+        "scheduled_positions": {"$ref": "#/$defs/positive"}, "started_positions": {"$ref": "#/$defs/count"},
+        "complete_positions": {"$ref": "#/$defs/count"}, "actual_process_cpu_us": {"anyOf": [{"$ref": "#/$defs/count"}, {"type": "null"}]},
+        "allocations_receipt": {"$ref": "#/$defs/nullableBlob"}
+      }
+    },
+    "audit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["catalogue_and_exclusions", "roster_seal_before_feedback", "score_release_receipt", "sandbox_and_read_receipt", "record_seal"],
+      "properties": {
+        "catalogue_and_exclusions": {"$ref": "#/$defs/nullableBlob"}, "roster_seal_before_feedback": {"$ref": "#/$defs/nullableBlob"},
+        "score_release_receipt": {"$ref": "#/$defs/nullableBlob"}, "sandbox_and_read_receipt": {"$ref": "#/$defs/nullableBlob"},
+        "record_seal": {"$ref": "#/$defs/blob", "description": "Signed external append-only log receipt for the record payload excluding this receipt field. The next round hashes the complete finalized record."}
+      }
+    },
+    "stop": {
+      "anyOf": [
+        {"type": "object", "additionalProperties": false, "required": ["reason", "evidence"], "properties": {"reason": {"type": "string", "minLength": 1}, "evidence": {"$ref": "#/$defs/blob"}}},
+        {"type": "null"}
+      ]
+    }
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "count": {"type": "integer", "minimum": 0}, "positive": {"type": "integer", "minimum": 1},
+    "cell": {"enum": ["DIRECT_NEAR", "ALARM_NEAR", "ORDER_NEAR", "DIRECT_FAR", "ALARM_FAR", "ORDER_FAR"]},
+    "levels": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "integer", "minimum": 0, "maximum": 3}},
+    "base": {"type": "object", "additionalProperties": false, "required": ["op"], "properties": {"op": {"const": "base"}}},
+    "step": {"type": "object", "additionalProperties": false, "required": ["op", "cell", "step"], "properties": {"op": {"const": "step"}, "cell": {"$ref": "#/$defs/cell"}, "step": {"enum": [-1, 1]}}},
+    "macro": {
+      "type": "object", "additionalProperties": false, "required": ["op", "productions", "then"],
+      "properties": {
+        "op": {"const": "emit_then"}, "then": {"$ref": "#/$defs/base"},
+        "productions": {
+          "type": "array", "minItems": 3, "maxItems": 3, "items": false,
+          "allOf": [
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["DIRECT_NEAR","DIRECT_FAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"DIRECT_FAR"}}},{"properties":{"cell":{"const":"DIRECT_NEAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["ALARM_NEAR","ALARM_FAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"ALARM_FAR"}}},{"properties":{"cell":{"const":"ALARM_NEAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["ORDER_NEAR","ORDER_FAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"ORDER_FAR"}}},{"properties":{"cell":{"const":"ORDER_NEAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["DIRECT_FAR","DIRECT_NEAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"DIRECT_NEAR"}}},{"properties":{"cell":{"const":"DIRECT_FAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["ALARM_FAR","ALARM_NEAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"ALARM_NEAR"}}},{"properties":{"cell":{"const":"ALARM_FAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"cells":{"const":["ORDER_FAR","ORDER_NEAR"]}}}]},"then":{"prefixItems":[{},{"properties":{"cell":{"const":"ORDER_NEAR"}}},{"properties":{"cell":{"const":"ORDER_FAR"}}}]}},
+            {"if":{"prefixItems":[{"properties":{"step":{"const":-1}}}]},"then":{"prefixItems":[{},{"properties":{"step":{"const":-1}}},{"properties":{"step":{"const":-1}}}]}},
+            {"if":{"prefixItems":[{"properties":{"step":{"const":1}}}]},"then":{"prefixItems":[{},{"properties":{"step":{"const":1}}},{"properties":{"step":{"const":1}}}]}}
+          ],
+          "prefixItems": [
+            {"type": "object", "additionalProperties": false, "required": ["op", "cells", "step"], "properties": {"op": {"const": "step_pair"}, "cells": {"enum": [
+              ["DIRECT_NEAR", "DIRECT_FAR"], ["DIRECT_FAR", "DIRECT_NEAR"], ["ALARM_NEAR", "ALARM_FAR"],
+              ["ALARM_FAR", "ALARM_NEAR"], ["ORDER_NEAR", "ORDER_FAR"], ["ORDER_FAR", "ORDER_NEAR"]
+            ]}, "step": {"enum": [-1, 1]}}}, {"$ref": "#/$defs/step"}, {"$ref": "#/$defs/step"}
+          ]
+        }
+      },
+      "$comment": "The three concrete productions use one credited cell, its companion and one signed step. Independent semantic readback must bind that cell and direction to the actual paid FIT witness."
+    },
+    "blob": {
+      "type": "object", "additionalProperties": false, "required": ["sha256", "bytes", "locator"],
+      "properties": {"sha256": {"$ref": "#/$defs/hash"}, "bytes": {"$ref": "#/$defs/count"}, "locator": {"type": "string", "minLength": 1}},
+      "description": "Opaque readback locator for immutable bytes in the appropriate role's archive. Protected paths, identifiers and seed material must not be contained in public receipts."
+    },
+    "nullableBlob": {"anyOf": [{"$ref": "#/$defs/blob"}, {"type": "null"}]},
+    "roster": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}},
+    "policy": {
+      "type": "object", "additionalProperties": false, "required": ["id", "levels", "bytes"],
+      "properties": {"id": {"$ref": "#/$defs/hash"}, "levels": {"$ref": "#/$defs/levels"}, "bytes": {"$ref": "#/$defs/blob"}}
+    },
+    "origin": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["kind", "receipt"], "properties": {"kind": {"const": "PARENT_BASELINE"}, "receipt": {"$ref": "#/$defs/blob"}}},
+        {"type": "object", "additionalProperties": false, "required": ["kind", "round", "slot", "parent_policy_id", "receipt"], "properties": {"kind": {"const": "PAID_SLOT"}, "round": {"$ref": "#/$defs/positive"}, "slot": {"$ref": "#/$defs/positive"}, "parent_policy_id": {"$ref": "#/$defs/hash"}, "receipt": {"$ref": "#/$defs/blob"}}}
+      ]
+    },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ast", "program_bytes", "incumbent", "incumbent_origin", "paid_score_receipt", "seen_set_bytes"],
+      "properties": {
+        "ast": {"oneOf": [{"$ref": "#/$defs/base"}, {"$ref": "#/$defs/macro"}]}, "program_bytes": {"$ref": "#/$defs/blob"},
+        "incumbent": {"$ref": "#/$defs/policy"}, "incumbent_origin": {"$ref": "#/$defs/origin"},
+        "paid_score_receipt": {"$ref": "#/$defs/blob"}, "seen_set_bytes": {"$ref": "#/$defs/blob"}
+      }
+    },
+    "return": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fit_n", "L_sum_us", "person_sum_us", "hard_violations", "receipt"],
+      "properties": {
+        "fit_n": {"$ref": "#/$defs/positive"}, "L_sum_us": {"$ref": "#/$defs/count"}, "person_sum_us": {"$ref": "#/$defs/count"},
+        "hard_violations": {"$ref": "#/$defs/count"}, "receipt": {"$ref": "#/$defs/blob"}
+      }
+    },
+    "slot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["slot", "status", "policy", "parent_policy_id", "changed_cells", "scheduled_fit_n", "started_fit_n", "complete_fit_n", "fit_return", "attempts_receipt", "failure_reason"],
+      "properties": {
+        "slot": {"$ref": "#/$defs/positive"},
+        "status": {"enum": ["COMPLETE", "HARD_VIOLATION", "INVALID_DESCRIPTOR", "DUPLICATE_POSTCOMMIT", "TIMEOUT", "FAILED", "PARTIAL", "UNRUN"]},
+        "policy": {"anyOf": [{"$ref": "#/$defs/policy"}, {"type": "null"}]}, "parent_policy_id": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+        "changed_cells": {"anyOf": [{"type": "array", "minItems": 1, "maxItems": 6, "uniqueItems": true, "items": {"$ref": "#/$defs/cell"}}, {"type": "null"}]},
+        "scheduled_fit_n": {"$ref": "#/$defs/positive"}, "started_fit_n": {"$ref": "#/$defs/count"}, "complete_fit_n": {"$ref": "#/$defs/count"},
+        "fit_return": {"anyOf": [{"$ref": "#/$defs/return"}, {"type": "null"}]}, "attempts_receipt": {"$ref": "#/$defs/nullableBlob"},
+        "failure_reason": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"enum": ["COMPLETE", "HARD_VIOLATION"]}}},
+         "then": {"properties": {"policy": {"$ref": "#/$defs/policy"}, "parent_policy_id": {"$ref": "#/$defs/hash"}, "changed_cells": {"type": "array"}, "fit_return": {"$ref": "#/$defs/return"}, "attempts_receipt": {"$ref": "#/$defs/blob"}, "failure_reason": {"type": "null"}}},
+         "else": {"properties": {"fit_return": {"type": "null"}, "failure_reason": {"type": "string", "minLength": 1}}}},
+        {"if": {"properties": {"status": {"const": "COMPLETE"}}}, "then": {"properties": {"fit_return": {"properties": {"hard_violations": {"const": 0}}}}}},
+        {"if": {"properties": {"status": {"const": "HARD_VIOLATION"}}}, "then": {"properties": {"fit_return": {"properties": {"hard_violations": {"minimum": 1}}}}}},
+        {"if": {"properties": {"status": {"const": "UNRUN"}}}, "then": {"properties": {"started_fit_n": {"const": 0}, "complete_fit_n": {"const": 0}}}}
+      ]
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"round": {"const": 1}}},
+     "then": {"properties": {"previous_record_sha256": {"type": "null"}, "incoming_witness": {"type": "null"}, "before": {"properties": {"ast": {"$ref": "#/$defs/base"}, "incumbent": {"properties": {"levels": {"const": [0, 0, 0, 0, 0, 0]}}}, "incumbent_origin": {"properties": {"kind": {"const": "PARENT_BASELINE"}}}}}}},
+     "else": {"properties": {"previous_record_sha256": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"arm": {"const": "O"}}}, "then": {"properties": {"before": {"properties": {"ast": {"$ref": "#/$defs/base"}}}, "after": {"properties": {"ast": {"$ref": "#/$defs/base"}}}, "rewrite": {"properties": {"reason": {"enum": ["O_PROGRAM_FIXED", "TERMINAL", "INCOMPLETE", "UNRUN"]}, "patch": {"maxItems": 0}}}}}},
+    {"if": {"properties": {"arm": {"const": "R"}}}, "then": {"properties": {"rewrite": {"properties": {"reason": {"enum": ["INSTALLED_CREDITED_PRODUCTION", "NO_BENEFICIAL_SINGLE_EDIT", "SAME_PRODUCTION", "TERMINAL", "INCOMPLETE", "UNRUN"]}}}}}},
+    {"if": {"properties": {"status": {"const": "CLOSED"}}},
+     "then": {"properties": {
+       "before": {"$ref": "#/$defs/state"}, "after": {"$ref": "#/$defs/state"}, "feedback": {"$ref": "#/$defs/blob"},
+       "selection": {"type": "object"}, "slots": {"items": {"properties": {"status": {"enum": ["COMPLETE", "HARD_VIOLATION"]}}}},
+       "rewrite": {"properties": {"patch_bytes": {"$ref": "#/$defs/blob"}, "reason": {"enum": ["INSTALLED_CREDITED_PRODUCTION", "O_PROGRAM_FIXED", "NO_BENEFICIAL_SINGLE_EDIT", "SAME_PRODUCTION", "TERMINAL"]}}},
+       "accounting": {"properties": {"actual_process_cpu_us": {"$ref": "#/$defs/count"}, "allocations_receipt": {"$ref": "#/$defs/blob"}}},
+       "audit": {"properties": {"catalogue_and_exclusions": {"$ref": "#/$defs/blob"}, "roster_seal_before_feedback": {"$ref": "#/$defs/blob"}, "score_release_receipt": {"$ref": "#/$defs/blob"}, "sandbox_and_read_receipt": {"$ref": "#/$defs/blob"}}},
+       "stop": {"type": "null"}
+     }},
+     "else": {"properties": {"selection": {"type": "null"}, "after": {"type": "null"}, "next_witness": {"type": "null"}, "stop": {"type": "object"}}}},
+    {"if": {"properties": {"status": {"const": "CLOSED"}, "round": {"minimum": 2}}}, "then": {"properties": {"incoming_witness": {"type": "object", "properties": {"matches": {"const": true}}}}}},
+    {"if": {"properties": {"status": {"const": "CLOSED"}, "terminal": {"const": false}}}, "then": {"properties": {"next_witness": {"type": "object"}, "rewrite": {"properties": {"reason": {"enum": ["INSTALLED_CREDITED_PRODUCTION", "O_PROGRAM_FIXED", "NO_BENEFICIAL_SINGLE_EDIT", "SAME_PRODUCTION"]}}}}}},
+    {"if": {"properties": {"status": {"const": "CLOSED"}, "terminal": {"const": true}}}, "then": {"properties": {"next_witness": {"type": "null"}, "rewrite": {"properties": {"reason": {"const": "TERMINAL"}}}}}},
+    {"if": {"properties": {"status": {"const": "INCOMPLETE"}}}, "then": {"properties": {"rewrite": {"properties": {"reason": {"const": "INCOMPLETE"}}}}}},
+    {"if": {"properties": {"status": {"const": "UNRUN"}}}, "then": {"properties": {"before": {"type": "null"}, "feedback": {"type": "null"}, "incoming_witness": {"type": "null"}, "slots": {"items": {"properties": {"status": {"const": "UNRUN"}}}}, "accounting": {"properties": {"emitted_proposals": {"const": 0}, "started_positions": {"const": 0}, "complete_positions": {"const": 0}}}, "rewrite": {"properties": {"reason": {"const": "UNRUN"}}}}}}
+  ],
+  "$comment": "Cross-record readback obligations in design.json are normative. Verify all blobs and hashes, signed times, exact numeric slots, completeness, CPU caps, before-after state equality, patch semantics, single-edit credit and L arithmetic, before/after next rosters, actual paid membership and terminal lineage. JSON Schema alone cannot express equality or causal ordering across immutable records."
+}
