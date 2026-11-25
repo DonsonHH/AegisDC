@@ -1,0 +1,33 @@
+{
+  "schema": "AegisDC.T8.stage1a.supplement.v1",
+  "parent_registration_revision": "6b63c4f4db6b8b19d01b2d00b99f740fba68525e",
+  "parent_registration_sha256": "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b",
+  "audit_definition_revision": "a765993d1f74f57052767c2703eb8ea37fc0f90d",
+  "decision": "A 无需改动",
+  "basis": "两族完整无重用调度块上限各 1441，按旧目录 714 个历史成员最不利计，至少各有 727 个完整可选块，超过门槛 57。预先冻结的结构签名数分别为 11、32，均不少于 8。保留 38 块/族和荷兰族均减损 15 秒的规划备择，主规划联合下界 0.81247326。60 秒按整族假想和按受影响行折算均单列；它不替换原备择。新增簇层统计只作描述，不改原资格门。",
+  "unchanged": ["all three policy identities/designs in r0","48 FIT rows, 4 rounds, 4 proposals per arm per round","38 blocks/456 DEV rows in each family, 7 one-pass DEV arms","Q1/Q2/Q3 thresholds, one-sided 95% primary block method and r0 degeneracy rule","Q4 descriptive only","H2 primary R−O and secondary R−V_COST with Holm, separate authorization"],
+  "capacity_scope": "上限指按冻结的无放回班次规则，一份单独构造能同时容纳多少个完整块。下限指在 r0 登记历史目录内不同旧成员数即使全部集中于一族时，候选池仍可构造的完整块数。历史同一条件的各可比编码都保留该族同一对人员的班次，因此至多消耗该族一个候选块。官方未来 FIT、DEV 仍各只允许一次隔离核对，命中则保留现场并停止；本次可达性与未来实际零重合放行是两个账。",
+  "diversity": {
+    "specification": "audit-plan.json#structure",
+    "threshold": "每族审计候选池不同粗结构签名数 k_f≥8；低于该数交 r1 修订、停止 B。最初 38 块及互不重叠的完整 38 块窗口另报，不以窗口多样性挑样。",
+    "future_assignment": "正式评分前由隔离计分方用同一个五整数签名登记各块及其匿名簇、k_f 与簇大小，单独签名。此结构使用外生时刻、静态公开机会的事后对齐，只供评价；绝不发送给搜索器或策略。DEV 的实际 k_f、簇方差与区间尚未观测。",
+    "primary": "主结果依 r0，在族内对十二行等权块均差做单侧 t 上界。输入粗特征同构时披露覆盖限制；端点有可判的非零块方差时按原门判定。相应端点块间差方差为零或有效块少于二，统计上界记‘未建立’并保留点估计和原分母。非劣项仍仅可按 r0 单列具有全允许域独立确定性证明的零界，绝不从样本相同推出证明。缺失/硬违例依 r0。",
+    "secondary_cluster": "在同一组完整配对上并排报告结构层不确定性。每个族仍按块等权，点估计 delta_f 不变。以预封的结构 c 为簇，u_fc=sum_{b in c}(m_fb-delta_f)，SE_C²=(k_f/(k_f−1))*sum_c(u_fc²)/g_f²。两族共用自由度 min(k_L,k_N)−1，单侧 95% 描述上界=delta_f+t_(.95,df)*SE_C。它允许同簇块相关，只描述已覆盖结构及其设计权重。任一族无两个簇、所需配对无效或聚合后的簇变异为零，结构层区间未建立。不得用它修改 Q1–Q4 或 H2 判定、重新抽取 DEV 或替换主上界。",
+    "power_sensitivity": "第一份 38 块审计窗口的两族簇数及簇大小在看任何实际终点前已定。ρ=0 的版本只替换 df；ρ=0.5、1 用 g_eff=g²/[(1−ρ)g+ρ·sum_c n_c²] 调整规划 SE。两族按各自 g_eff、共享 min(k_f)−1 自由度。ρ 是敏感性假设，真实 DEV 构成及簇相关未知；所有版本均不参加资格判定。"
+  },
+  "power": {
+    "scope": "Q1、Q2、Q3 两族人员共四个统计要求，另扣整板不可用概率压力 0.02，实测硬违规必须零。名义联合下界由四项边际失败概率的并集上界给出，对端点间独立性无要求。Q4 没有通过标准，不能给它分配第五个正式功效门。另示在假设 R−O 改善 7.5 秒、块 SD 30 时 Q4 的上界低于零的概率，以及非判定性的五项同时发生概率下界。",
+    "two_scales": "15 秒是全荷兰族每个条件的规划均差。每个受影响行改善 60 秒折成整族备择为 60×受影响占比；另把 60 秒当作整个族均差列示，以便核对两种数量的差异。原 T3 开发族每 12 行 2 行有周期巡检局部机会，示例 60×2/12=10 秒。发生率不是来自 H3。人员真差和块 SD 的工作假设均沿用 r0。",
+    "h2_inputs": "未来只接收封存 DEV 的两组完整荷兰块均差：R−O、R−父。净增益取均差相反数，方差按各自 DEV 块均差样本方差。并列 DEV 点代入与 r0 的保守版本；只有后者用于提出申请：每项备择=min(15,0.75×正向 DEV 净增益)，块 SD=max(30,观测 DEV SD)。缺少任何配对、无正向净余量或没有可判变异时不选 N。当前对应实测输入及 H2 实际 N 均为 null。",
+    "h2_size": "分别计算 2..76 块。在双单侧 Holm 首步 alpha=0.025 下计算主 R−O 与次 R−父边际功效，以 max(0,pi_primary+pi_secondary−1−0.02) 为两项联合下界。取保守下界首次≥0.80的整数块数，否则不申请。在未来 H2 数据上仍执行原 Holm 阶梯校正，不用规划的 Bonferroni 边际临界值替换它。",
+    "h2_gate": "实际申请还需 r0 的 Q1–Q3、零硬违例、同预算与改写证据、不同荷兰块的真实动作余量、完整隔离和用户另行具名授权。情景表中的 N 不触发 H2。若主要 R−O 达标，只有证实改写实际改变付费候选并连接到锁定子时才陈述本次递归增量；主项未达或未建立时保持相应结论，R−父结果只说明策略层表现。"
+  },
+  "future_cost_stop": {
+    "FIT": {"max_jobs":10,"max_actual_cpu_s":285900,"positions":1584,"per_improver_positions":768,"per_improver_cpu_s":138480,"per_improver_proposals":16},
+    "DEV": {"max_jobs":21,"max_actual_cpu_s":1150020,"positions":6384,"score_releases":1},
+    "FIT_plus_DEV": {"max_jobs":31,"max_actual_cpu_s":1435920,"max_native_positions":7968},
+    "H2_prospective_only": {"max_blocks_per_family":76,"arms":["V_COST","O","R"],"families":2,"rows_per_family_per_block":12,"max_positions":5472,"max_jobs":40,"max_actual_cpu_s":985860,"authorization":"WITHHELD"},
+    "accounting": "H2 规模预算按荷兰主次比较与同规模伦敦安全描述单列，3 臂、两族、每族每块 12 条。每位置 180 实耗 CPU 秒上限，另给输入/完整性 300 和终态核对 600 CPU 秒；2 或4 对族块一个评分作业，再加2个公共作业。H2 的单独授权可收紧但不能无审扩张该估算。真实 FIT/DEV 的作业提交前原子预留，按评测位置与各臂额度开账；实时计入进程树实际 CPU，预留和实耗分栏。预测不能容纳下一个完整登记单元则不发；撞线/实测超限立即停止下一提交、保留原件、原成本和未执行后缀并交审。无重试、替补和额度转拨。阶段 1a 审计和替身费用单独记账。"
+  },
+  "continuation": "只进入 B 的环路代码、冻结和无设施替身自测。真实 FIT、DEV、H2 及正式隔离去重查询均无本轮授权。"
+}
