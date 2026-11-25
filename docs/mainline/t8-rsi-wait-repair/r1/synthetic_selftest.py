@@ -72,7 +72,7 @@ class FixtureBroker(Broker):
 
 
 def check_expectations(case, result, summary):
-    o,r=result["O"],result["R"]
+    o,r=result["arms"]["O"],result["arms"]["R"]
     if case in ("gain","plateau","hard"):
         require(all(a["statuses"]==["CLOSED"]*4 and a["emitted"]==16 and a["started"]==a["completed"]==768
                     for a in (o,r)) and summary["service_calls"]==1584, "balanced complete fixture")
