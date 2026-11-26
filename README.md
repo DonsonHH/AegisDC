@@ -1,5 +1,7 @@
 # AegisDC
 
+**论文与公开复核**　[投稿修订稿（PDF）](docs/mainline/t9-submission-r1/manuscript.pdf) · [可编辑正文](docs/mainline/t9-submission-r1/manuscript.md) · [方法、图表与证据入口](docs/mainline/t9-submission-r1/README.md)。T8 已停在 FIT，T1–T9 的实验已收口。原验收稿见 [T9 定稿](docs/mainline/t9-paper-final/manuscript.md)。
+
 AegisDC 研究完整算力设施在多系统耦合、多源稀疏证据下，如何形成风险问题，按需核查并受约束地处置和复核，以及固定策略、普通自改进与 RSI 各能贡献什么。原生研究对象是郑州工程参照启发的八域合成设施。Google 事故承担方法论文的有限有效性验证。
 
 **研究入口**　[六阶段总路线](docs/mainline/master-roadmap.md) · [当前主线](docs/MAINLINE.md) · [进度账](docs/mainline/progress.json) · [工作区地图](docs/WORKSPACE.md)
