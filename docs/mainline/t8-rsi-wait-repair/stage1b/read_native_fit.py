@@ -176,12 +176,48 @@ def make(study,package):
     return report,slurm
 
 
+def public_evidence(study, output):
+    """Publish the eight actual round files and verifiable aggregate/structural objects only."""
+    from fit_evidence import dereference
+    evidence=study/"evidence";summary=read(evidence/"case.json")
+    objects={}
+    def keep(ref):
+        if not ref:return
+        obj=dereference(evidence,ref)
+        objects[ref["sha256"]]=obj
+    parent=read(study/"baseline.json")["slot"]
+    keep(summary["result"]["shared"]);keep(summary["result"]["dual_lock"])
+    if parent["fit_return"]:keep(parent["fit_return"]["receipt"])
+    keep(parent["policy"]["bytes"])
+    folder=output/"rounds";folder.mkdir()
+    for a in ("O","R"):
+        for n in range(1,5):
+            name=f"{a}-{n}.json";raw=(evidence/"rounds"/name).read_bytes();rec=json.loads(raw)
+            with (folder/name).open("xb") as f:f.write(raw)
+            keep(rec["audit"]["record_seal"]);keep(rec["rewrite"]["patch_bytes"]);keep(rec["feedback"])
+            if rec["selection"]:keep(rec["selection"]["rank_evidence"])
+            for state in (rec["before"],rec["after"]):
+                if state:
+                    for k in ("program_bytes","seen_set_bytes","paid_score_receipt"):keep(state[k])
+                    keep(state["incumbent"]["bytes"])
+            for slot in rec["slots"]:
+                if slot["policy"]:keep(slot["policy"]["bytes"])
+                if slot["fit_return"]:keep(slot["fit_return"]["receipt"])
+            if rec["next_witness"]:
+                w=rec["next_witness"]
+                for k in ("common_inputs","before_roster","after_roster"):keep(w[k])
+    proof={"context":summary["context"],"journal_public":summary["journal_key"],"score_public":summary["score_key"],
+           "shared":summary["result"]["shared"],"dual_lock":summary["result"]["dual_lock"],"objects":objects}
+    with (output/"public-proof.json").open("xb") as f:f.write(canonical(proof)+b"\n")
+
+
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--study",type=Path,required=True);parser.add_argument("--package",type=Path,required=True)
     parser.add_argument("--output",type=Path,required=True)
     args=parser.parse_args();report,rows=make(args.study,args.package)
     args.output.mkdir(exist_ok=False)
+    public_evidence(args.study,args.output)
     with (args.output/"results.json").open("xb") as f:f.write(canonical(report)+b"\n")
     with (args.output/"sacct.psv").open("x",newline="") as f:f.write(rows)
     print("VERIFIED",report["status"],report["native_starts"],report["scored_positions"],"native positions;",report["rounds_verified"],"rounds")
