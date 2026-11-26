@@ -26,6 +26,10 @@ def require(v, msg):
     if not v: raise ValueError(msg)
 
 
+class HardViolation(ValueError):
+    pass
+
+
 def store(name, value):
     with (Path("/out")/name).open("xb") as stream:
         stream.write(packed(value)+b"\n")
@@ -54,8 +58,8 @@ def run():
         if issued:
             real, why = gate.admit(pub,view,subjects[issued["subject"]],issued["phase"],issued["patrol_slot"])
             # The original physical adapter itself also performs the final gate at issue.
-            require((real == issued and why == "ALLOW") or (real is None and why == "MAINTENANCE_CHANGE_BUSY"),
-                    "issued public gate mismatch")
+            if not ((real == issued and why == "ALLOW") or (real is None and why == "MAINTENANCE_CHANGE_BUSY")):
+                raise HardViolation("issued public gate mismatch")
         events.append([view["time"],hashlib.sha256(packed(view)).hexdigest(),hashlib.sha256(packed(choice)).hexdigest()])
         return choice
 
@@ -68,6 +72,8 @@ def run():
     result, term = native_run(x,label,{},(),decider=choose)
     raw = Path("/out/native.jsonl.gz")
     retain(raw,result,term)
+    require(result["v3_received_maintenance"]==x["maintenance"] and not result["t3_unpurchased_evaluator_only"],
+            "maintenance or evaluator-only diagnostic identity")
     measured = score(x,result,term,label)
     require(len(events) == measured["clocks"] == 61 and result["v3_received_maintenance"] == x["maintenance"] and
             not result["t3_unpurchased_evaluator_only"], "physical interface identity")
@@ -76,8 +82,8 @@ def run():
             "native code identity")
     writes = [d["decision"]["request"] for d in result["policy_public_decisions"]
               if d["decision"]["request"] and d["decision"]["request"]["phase"] == "A"]
-    require(all(b["at"] >= a["planned_end"] + x["maintenance"]["recovery"] for a,b in zip(writes,writes[1:])),
-            "overlapping original maintenance")
+    if not all(b["at"] >= a["planned_end"] + x["maintenance"]["recovery"] for a,b in zip(writes,writes[1:])):
+        raise HardViolation("overlapping original maintenance")
     with raw.open("rb") as stream: raw_hash = hashlib.file_digest(stream,"sha256").hexdigest()
     # Select the exact numeric JSON tokens produced by the original scorer before rounding.
     saved = {k:measured[k] for k in ("L","U","person","tool","fee","clocks","runtime","integral_balances")}
@@ -90,8 +96,16 @@ def run():
 
 if __name__ == "__main__":
     os.umask(0o022)
+    if sys.argv[1:] == ["--imports"]:
+        from native_v3 import native_run
+        from run_panel import retain
+        from score_saved import score
+        from aegis_dc.source_identity import runtime_source_identity
+        send({"native_interface_available":True,"native_tree":runtime_source_identity(CORE),"facility_calls":0})
+        sys.exit(0)
     try:
         run()
     except Exception as failure:
-        store("failure.json", {"exception_type":type(failure).__name__, "reason":str(failure)})
+        store("failure.json", {"exception_type":type(failure).__name__, "reason":str(failure),
+                              "hard_violation":True if isinstance(failure, HardViolation) else None})
         raise

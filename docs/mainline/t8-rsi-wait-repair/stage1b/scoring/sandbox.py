@@ -31,7 +31,8 @@ def filter_bytes():
     ctx=so.seccomp_init(0x7fff0000)  # libseccomp SCMP_ACT_ALLOW
     if not ctx:raise RuntimeError("seccomp initialization")
     try:
-        for name in ("socket","socketpair","connect","ptrace","mount","umount2","setns","unshare"):
+        for name in ("socket","socketpair","connect","ptrace","mount","umount2","setns","unshare",
+                     "clone","clone3","fork","vfork"):
             nr=so.seccomp_syscall_resolve_name(name.encode())
             if nr<0 or so.seccomp_rule_add(ctx,0x00050000|errno.EPERM,nr,0)!=0:raise RuntimeError("seccomp rule")
         with tempfile.TemporaryFile() as f:
@@ -73,6 +74,8 @@ def spawn(image, role, program, args, log, mounts=(), probe=False):
                   "--ro-bind",str(image/"code/fit_program.py"),"/t8/fit_program.py"]
     if role=="audit":
         command+=["--ro-bind",str(image/"code/access_audit.py"),"/t8/access_audit.py"]
+    if role in ("search-O","search-R"):
+        command+=["--ro-bind",str(image/"audit-crypto"),"/audit-crypto"]
     for flag,src,dst in mounts:
         command.extend([flag,str(src),dst])
     with (image/"policy.bpf").open("rb") as rules:
@@ -85,13 +88,25 @@ def spawn(image, role, program, args, log, mounts=(), probe=False):
     return proc
 
 
-def audit_role(image, role, traces, path):
+def audit_role(image, role, traces, path, *, signed=True):
     """Auditor gets only traces. Its signed summary is retained by the external journal."""
     # A subordinate identity can traverse this bind mount but cannot write its read-only contents.
     for entry in traces.glob("os.*"):entry.chmod(0o444)
     traces.chmod(0o755)
-    p=spawn(image,"audit","/t8/access_audit.py",[role],path,
-            mounts=[("--ro-bind",traces,"/evidence")])
+    mounts=[("--ro-bind",traces,"/evidence")]
+    args=[role]
+    if signed:
+        mounts += [("--ro-bind",image/"audit-crypto","/audit-crypto"),
+                   ("--ro-bind",image.parent/"audit-credential","/signer")]
+        args.append("signed")
+    p=spawn(image,"audit","/t8/access_audit.py",args,path,mounts=mounts)
     out,_=p.communicate(timeout=20)
     if p.returncode:raise RuntimeError("independent OS trace check failed")
-    return json.loads(out)
+    result=json.loads(out)
+    if signed:
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+        key=os.environ["T8_AUDIT_PUBLIC"]
+        if result["signer"]!=key or result["payload"]["role"]!=role:raise ValueError("auditor identity")
+        raw=json.dumps(result["payload"],sort_keys=True,separators=(",",":"),ensure_ascii=True).encode()
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(key)).verify(bytes.fromhex(result["signature"]),raw)
+    return result

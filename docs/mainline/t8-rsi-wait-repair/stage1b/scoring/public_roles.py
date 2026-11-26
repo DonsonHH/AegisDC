@@ -45,14 +45,37 @@ def proposal_worker():
         seen = {tuple(program.validate_levels(v)) for v in request["seen"]}
         result = program.roster(request["ast"], request["incumbent"], seen, request["round"], request["slots"])
     else:
+        proof = request.pop("signed_feedback")
         program.require(operation == "select" and set(request) ==
                         {"arm","round","ast","incumbent","baseline","candidates","returns"}, "selection inputs")
-        for paid in [request["baseline"], *request["returns"]]:
+        sys.path.insert(0,"/audit-crypto")
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+        program.require(set(proof)=={"verification_key","packets"} and len(proof["packets"])==5,"signed FIT feedback")
+        signer=Ed25519PublicKey.from_public_bytes(bytes.fromhex(proof["verification_key"]))
+        for i,(paid,box) in enumerate(zip([request["baseline"], *request["returns"]],proof["packets"],strict=True)):
             program.require(set(paid) == {"fit_n","L_sum_us","person_sum_us","hard_violations","receipt"} and
                             paid["fit_n"] == 48, "aggregate-only score packet")
             ref = paid["receipt"]
             program.require(set(ref) == {"sha256","bytes","locator"} and
                             ref["locator"] == "objects/" + ref["sha256"], "opaque paid identity")
+            program.require(set(box)=={"signer","payload","signature"} and box["signer"]==proof["verification_key"] and
+                            program.fingerprint(box)==ref["sha256"],"original signed packet bytes")
+            signer.verify(bytes.fromhex(box["signature"]),program.canonical(box["payload"]))
+            binding=box["payload"]["binding"];data=box["payload"]["data"]
+            program.require(set(box["payload"])=={"binding","data"} and set(binding)==
+                            {"context","arm","round","slot","policy_id","roster_sha256"} and
+                            set(data)=={"scheduled","completed","status","L_sum_us","person_sum_us","hard_violations"},
+                            "fixed signed aggregate layout")
+            program.require(data["status"]=="COMPLETE" and data["scheduled"]==data["completed"]==48 and
+                            all(data[k]==paid[k] for k in ("L_sum_us","person_sum_us","hard_violations")),
+                            "aggregate matches signature")
+            program.require((i==0 and binding["arm"] in ("PARENT",request["arm"])) or
+                            (i>0 and (binding["arm"],binding["round"],binding["slot"])==(request["arm"],request["round"],i)),
+                            "own prepaid score only")
+            vector=request["incumbent"] if i==0 else request["candidates"][i-1]
+            program.require(binding["policy_id"]==program.policy_id(vector,
+                "d7086b26d427266dea39fea4be4dbc88008b46f13af4e4158a2c1d692c8ca4c4",
+                "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd"),"paid policy identity")
         result = program.rank_and_rewrite(request["arm"], request["round"], request["ast"],
                     tuple(request["incumbent"]), request["baseline"],
                     [tuple(v) for v in request["candidates"]], request["returns"])
@@ -62,8 +85,8 @@ def proposal_worker():
 def probe():
     # Public engineering-only evidence, never an attempted read of an actual research artifact.
     try:
-        Path("/outside-fixture").read_bytes()
-    except FileNotFoundError:
+        Path(sys.argv[2] if len(sys.argv)>2 else "/outside-fixture").read_bytes()
+    except (FileNotFoundError, PermissionError):
         hidden = True
     else:
         hidden = False
@@ -77,6 +100,8 @@ def probe():
           "uid_map":Path("/proc/self/uid_map").read_text().split(),
           "caps":next(line.split()[1] for line in Path("/proc/self/status").read_text().splitlines()
                       if line.startswith("CapEff:"))})
+    if len(sys.argv)>3 and sys.argv[3]=="hold":
+        program.require(json.loads(sys.stdin.buffer.readline())=={"close":True},"probe close")
 
 
 if __name__ == "__main__":

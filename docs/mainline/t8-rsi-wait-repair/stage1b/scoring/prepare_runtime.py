@@ -78,6 +78,14 @@ def build_image():
     inspect=[PY/"bin/python",Path("/usr/bin/setpriv")]
     for prefix in ("_hashlib","zlib","_bz2","_lzma","_socket","_ssl","_decimal","_ctypes","math","binascii","_uuid"):
         inspect.extend(extensions.glob(prefix+".*.so"))
+    site=stdlib/"site-packages"
+    for src in (site/"cryptography").rglob("*"):
+        if src.is_file() and src.suffix in (".py",".so") and "__pycache__" not in src.parts:
+            pinned_copy(src,image/"audit-crypto"/src.relative_to(site))
+            if src.suffix==".so":inspect.append(src)
+    for src in site.glob("_cffi_backend*.so"):
+        pinned_copy(src,image/"audit-crypto"/src.name)
+        inspect.append(src)
     env=dict(os.environ,LC_ALL="C")
     linked=subprocess.check_output(["ldd",*map(str,inspect)],text=True,env=env)
     require("not found" not in linked,"missing runtime shared library")
@@ -107,6 +115,10 @@ def copy_for_job(scratch):
     shutil.copytree(version/"image",image)
     actual={p.relative_to(image).as_posix():sandbox.filehash(p) for p in image.rglob("*") if p.is_file()}
     require(actual==manifests,"job-local image readback")
+    credential=scratch/"audit-credential"
+    shutil.copyfile(STUDY/"technical-keys"/"audit",credential)
+    os.chown(credential,sandbox.UID["audit"],sandbox.UID["audit"])
+    credential.chmod(0o400)
     return image
 
 

@@ -145,6 +145,9 @@ def actual(image, scratch, out, ordinal, levels):
         save(scratch/"access.json",audits)
         store_result={k:msg[k] for k in ("L","person","hard_violations")}
         save(scratch/"return.json",store_result)
+    except Exception as failure:
+        stop("position failed: "+type(failure).__name__)
+        raise
     finally:
         terminate(worker);terminate(evaluator)
         # A failed position keeps all available traces and native originals. The evaluator only has a local sink.
