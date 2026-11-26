@@ -11,4 +11,4 @@
 | 制板与核对合计实耗 / 上限 CPU 秒 | 3.681 / 300 |
 | 设施调用 / FIT 评分 / DEV 评分 | 0 / 0 / 0 |
 
-PI 使用已登记的 Ed25519 密钥，对 [receipt-signing.bin](receipt-signing.bin) **全部 402 字节**作分离签名。该文件为规范回执去掉唯一结尾 LF 后的原字节，SHA-256 为 `f5378967de5d8a361136811d5156f8be9aff39e87afe7c0385d16dc1432a8cee`。签名以 64 字节二进制文件 `receipt.sig` 放在本目录。执行方只读验证原请求、保存的回执与这份签名。输出 `VERIFIED PROCEDURAL PASS` 后才能启用共享父基线。这次查重已消费，后续核验只用已保存材料。[版本与消费记录](attempt.json) · [Slurm 终态](authoring-accounting.psv)
+初次发布 `a4f061f2` 时回执待签。PI 随后授权执行方在本机代签 [receipt-signing.bin](receipt-signing.bin) 的**全部 402 字节**，其 SHA-256 为 `f5378967de5d8a361136811d5156f8be9aff39e87afe7c0385d16dc1432a8cee`。正式验签器以原请求、原回执及 [64 字节分离签名](receipt.sig) 得到 `VERIFIED PROCEDURAL PASS`。这是同账号程序性放行。查重已经消费，后续核验只读保存材料。[代签记录](signature-provenance.json) · [版本与消费记录](attempt.json) · [Slurm 终态](authoring-accounting.psv)
