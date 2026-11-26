@@ -17,6 +17,8 @@ import tarfile
 
 HERE = Path(__file__).resolve().parent
 REGISTRATION = "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b"
+SHARED_FIT = "f8a4d6d320c090a4a74280542df5c864677dcfe78e79638843b1fad86887340f"
+SHARED_KEY_FINGERPRINT = "ae9b3a9714961a0f6f7e85288c414107c34df15934d382e97d9e11a947f74cb8"
 PANEL_LAW = "222cb1aaca8c2fe565696714981453f4422539b4a9d76c4bec4ea8849ea42a62"
 R1_DELIVERY = "adcc122f8d03facd45a48adf18dbd08fbf254c796b9ed84da17fd87da2ebee50"
 CRYPTO_VERSION = "44.0.0"
@@ -25,7 +27,7 @@ ROLE_PATTERN = r"^[a-z][a-z0-9_-]{0,31}(?![\s\S])"
 ROOT_RULE = {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"}
 ROLE_RULE = {"type": "string", "minLength": 1, "maxLength": 32, "pattern": ROLE_PATTERN}
 REQUEST = {
-    "registration_id": {"type": "string", "const": REGISTRATION},
+    "registration_id": {"type": "string", "enum": [REGISTRATION, SHARED_FIT]},
     "split": {"type": "string", "enum": ["FIT", "DEV"]},
     "batch_root": ROOT_RULE, "catalogue_root": ROOT_RULE,
 }
@@ -127,19 +129,23 @@ def conditions():
 
 
 def check_schemas():
+    shared_split = {"if": {"properties": {"registration_id": {"const": SHARED_FIT}}},
+                    "then": {"properties": {"split": {"const": "FIT"}}}}
     for name, fields in (("request", REQUEST), ("receipt", RECEIPT)):
         doc = parse((HERE / (name + ".schema.json")).read_bytes())
         expected = {"$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "title": f"T8 r0 {name} public payload", "type": "object", "additionalProperties": False,
-                    "required": list(fields), "properties": fields}
+                    "title": f"T8 {name} public payload", "type": "object", "additionalProperties": False,
+                    "required": list(fields), "properties": fields, "allOf": [shared_split]}
         if name == "receipt":
-            expected["allOf"] = conditions()
+            expected["allOf"].extend(conditions())
         need(canonical(doc) == canonical(expected))
 
 
 def validate_request(request):
     exact_keys(request, REQUEST)
-    need(request["registration_id"] == REGISTRATION and request["split"] in ("FIT", "DEV"))
+    need(request["registration_id"] in (REGISTRATION, SHARED_FIT) and request["split"] in ("FIT", "DEV"))
+    if request["registration_id"] == SHARED_FIT:
+        need(request["split"] == "FIT")
     need(is_root(request["batch_root"]) and is_root(request["catalogue_root"]))
 
 
@@ -158,13 +164,33 @@ def validate_receipt(receipt):
         need(complete and pct == 100)
 
 
+def registration_for(authority):
+    if authority["credential_separation"] == "shared_account":
+        need(authority["fingerprint_sha256"] == SHARED_KEY_FINGERPRINT and
+             authority["device_separation"] == "pi_local_no_device_separation")
+        return SHARED_FIT
+    need(authority["credential_separation"] == "independent" and
+         authority["fingerprint_sha256"] != SHARED_KEY_FINGERPRINT)
+    return REGISTRATION
+
+
+def verify_shared_pairing(key):
+    stage = HERE.parent / "stage1b"
+    amendment = parse(pinned(stage/"fit-shared-account.json", SHARED_FIT))
+    need(amendment["parent_registration_sha256"] == REGISTRATION and
+         amendment["public_key_fingerprint_sha256"] == sha(key) == SHARED_KEY_FINGERPRINT)
+    pair = stage / "key-pairing" / "ef37ca0e-challenge.txt"
+    original = pinned(pair, amendment["pairing_challenge_sha256"])
+    verify_signature(key, pair.with_suffix(".sig").read_bytes(), original)
+
+
 def authority_key(authority, engineering_keys):
     exact_keys(authority, AUTH_FIELDS)
     need(PI not in authority.values())
     custodian, auditor = authority["custodian_id"], authority["auditor_id"]
     need(is_role(custodian) and is_role(auditor) and custodian != auditor)
     need(authority["algorithm"] == "Ed25519" and authority["signing_method"] == "detached")
-    need(authority["credential_separation"] == "independent")
+    registered = registration_for(authority)
     need(authority["device_separation"] in ("separate_device", "pi_local_no_device_separation"))
     timestamp = authority["generated_at_utc"]
     need(type(timestamp) is str and re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", timestamp))
@@ -172,13 +198,17 @@ def authority_key(authority, engineering_keys):
     need(is_root(authority["public_key_hex"]) and is_root(authority["fingerprint_sha256"]))
     raw = bytes.fromhex(authority["public_key_hex"])
     need(hmac.compare_digest(sha(raw), authority["fingerprint_sha256"]) and raw not in engineering_keys)
+    if registered == SHARED_FIT:
+        verify_shared_pairing(raw)
     return raw
 
 
 def catalogue(doc, authority, *, template):
     exact_keys(doc, {"registration_id", "count_source", "issued_by", "catalogue_root",
                      "additional_realizations_and_aliases_reconciled", "sources"})
-    need(doc["registration_id"] == REGISTRATION and doc["count_source"] == "../r0/panel-law.json#/historical_catalogue")
+    need(doc["registration_id"] in (REGISTRATION, SHARED_FIT) and doc["count_source"] == "../r0/panel-law.json#/historical_catalogue")
+    if not (template and authority["credential_separation"] == PI):
+        need(doc["registration_id"] == registration_for(authority))
     if template:
         need(all(doc[k] == CUSTODIAN for k in ("issued_by", "catalogue_root", "additional_realizations_and_aliases_reconciled")))
     else:
@@ -214,6 +244,7 @@ def bound(request, receipt, authority, catalogue_root):
     validate_request(request)
     validate_receipt(receipt)
     need(all(request[k] == receipt[k] for k in REQUEST))
+    need(request["registration_id"] == registration_for(authority))
     need(request["catalogue_root"] == catalogue_root)
     need(all(receipt[k] == authority[k] for k in ("custodian_id", "auditor_id")))
 
@@ -272,8 +303,9 @@ def self_check(authority, declaration):
     check_schemas()
     request = {"registration_id": REGISTRATION, "split": "FIT",
                "batch_root": sha(b"format check only: batch"), "catalogue_root": sha(b"format check only: catalogue")}
-    ids = {"custodian_id": "format-custodian", "auditor_id": "format-auditor"}
-    receipt = {**request, **ids, "aggregate_coverage_pct": 100, "all_required_tests_complete": True, "decision": "PASS"}
+    roles = {"custodian_id": "format-custodian", "auditor_id": "format-auditor"}
+    ids = {**roles, "credential_separation": "independent", "fingerprint_sha256": sha(b"format-only role")}
+    receipt = {**request, **roles, "aggregate_coverage_pct": 100, "all_required_tests_complete": True, "decision": "PASS"}
     for obj, check in ((request, validate_request), (receipt, validate_receipt)):
         check(wire(canonical(obj) + b"\n"))
         for field in obj:
@@ -303,7 +335,16 @@ def self_check(authority, declaration):
                          ("catalogue_root",request["batch_root"]), ("custodian_id","other"), ("auditor_id","other")):
         expect_invalid(bound, request, {**receipt, field:wrong}, ids, request["catalogue_root"])
     expect_invalid(bound, request, receipt, ids, request["batch_root"])
-    print("PASS receipt schema: 9 required fields; aggregate coverage, complete BLOCKED and trusted bindings checked")
+    shared_ids = {**roles, "credential_separation": "shared_account", "fingerprint_sha256": SHARED_KEY_FINGERPRINT,
+                  "device_separation": "pi_local_no_device_separation"}
+    shared_request = {**request, "registration_id": SHARED_FIT}
+    shared_receipt = {**receipt, "registration_id": SHARED_FIT}
+    bound(shared_request, shared_receipt, shared_ids, request["catalogue_root"])
+    expect_invalid(bound, shared_request, shared_receipt, ids, request["catalogue_root"])
+    expect_invalid(bound, request, receipt, shared_ids, request["catalogue_root"])
+    expect_invalid(registration_for, {**shared_ids, "credential_separation": "independent"})
+    expect_invalid(validate_request, {**shared_request, "split": "DEV"})
+    print("PASS receipt schema: 9 required fields; coverage, BLOCKED and registration-specific trust checked")
     keys, example = engineering_evidence()
     exact_keys(authority, AUTH_FIELDS)
     pending = all(v == PI for v in authority.values())
@@ -311,7 +352,10 @@ def self_check(authority, declaration):
         expect_invalid(authority_key, authority, keys)
     else:
         authority_key(authority, keys)
-    print("PASS authority: " + ("all 9 fields PENDING_PI; formal verification unavailable" if pending else "published field format checked"))
+    if not pending and registration_for(authority) == SHARED_FIT:
+        print("PAIRING VERIFIED; shared-account FIT, procedural custody")
+    else:
+        print("PASS authority: " + ("all 9 fields PENDING_PI; formal verification unavailable" if pending else "published field format checked"))
     template = declaration["catalogue_root"] == CUSTODIAN
     if not template:
         need(not pending)
@@ -321,7 +365,7 @@ def self_check(authority, declaration):
         {**s, "custodian": {"version": s["reference_revision"], "expected_counts": s["registered_counts"],
                             "identity_encodings": s["required_encodings"]}} for s in declaration["sources"]
     ]
-    publication = {**declaration, "sources": public_rows, "issued_by": ids["custodian_id"],
+    publication = {**declaration, "registration_id": REGISTRATION, "sources": public_rows, "issued_by": ids["custodian_id"],
                    "catalogue_root": request["catalogue_root"], "additional_realizations_and_aliases_reconciled": True}
     need(catalogue(publication, ids, template=False) == request["catalogue_root"])
     expect_invalid(catalogue, {**publication, "sources": public_rows[:-1]}, ids, template=False)
@@ -358,23 +402,26 @@ def main():
         authority = parse((HERE/"authority.json").read_bytes())
         declaration = parse((HERE/"catalogue-coverage.json").read_bytes())
         need(type(authority) is dict and type(declaration) is dict)
-        need(type(authority) is dict and type(declaration) is dict)
         if args.check:
             self_check(authority, declaration)
             return 0
         check_schemas()
-        if PI in authority.values() or declaration.get("catalogue_root") == CUSTODIAN:
-            print("NOT READY: authority or catalogue pending")
+        if PI in authority.values():
+            print("NOT READY: authority pending")
             return 1
         keys, _ = engineering_evidence()
         key = authority_key(authority, keys)
+        if declaration.get("catalogue_root") == CUSTODIAN:
+            print("NOT READY: catalogue coverage pending")
+            return 1
         catalogue_root = catalogue(declaration, authority, template=False)
         request = read_wire(args.request)
         receipt = read_wire(args.receipt)
         bound(request, receipt, authority, catalogue_root)
         with args.signature.open("rb") as stream:
             verify_signature(key, stream.read(65), canonical(receipt))
-        print("VERIFIED " + receipt["decision"])
+        qualifier = "PROCEDURAL " if receipt["registration_id"] == SHARED_FIT else ""
+        print("VERIFIED " + qualifier + receipt["decision"])
         return 0 if receipt["decision"] == "PASS" else 3
     except (ValueError, KeyError, TypeError, OSError, ImportError, RecursionError, tarfile.TarError):
         # Never echo private paths, unexpected field names, untrusted payload values, or source-specific diagnostics.

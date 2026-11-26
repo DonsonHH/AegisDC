@@ -1,12 +1,12 @@
 # T8 正式查重保管端
 
-本次交付七个骨架文件。`authority.json` 等 PI 本人发布签发身份，`catalogue-coverage.json` 等保管端声明实际覆盖。正式查重次数为 0。
+**本次 FIT 采用方案 C：同账号程序性查重。** PI 和执行方共用 Windows 登录，公钥配对挑战验签通过。此签名证明登记密钥能够签名。关于谁看过批次，依据是操作记录与审阅时的实际说明。覆盖声明、正式查重与 FIT 评分分别记账。[生效登记](../stage1b/fit-shared-account.json)
 
 | 角色 | 保管与交接 |
 |---|---|
-| PI | 离线建密钥，保管私钥，本人提交公钥登记。用已认证渠道告知制板方和执行方该提交与公钥指纹。 |
+| PI | 保管签名密钥，发布公钥并签署回执。公钥原始登记在 `ef37ca0e`，配对签名在 `5f1b50df`。 |
 | 制板方 | 按冻结生成律一次制板，承诺整批根，经认证私交完整的新输入承诺和随机来源证明。提案方只能接收其获准看到的聚合信息。 |
-| 保管端与审计方 | 保管端独立持有只读旧目录及 H3 的预封输入承诺索引，与开发、评分、Slurm、仓库写入凭据分离。独立审计方核验身份、覆盖、访问和单次消费记录。保管端签发整批结论。 |
+| 保管端与审计方 | 同账号按角色核对完整旧目录、封存输入承诺、访问记录和一次性消费。逐行材料留在比对侧，审阅人如实说明人员的实际接触范围。 |
 | 执行方 | 保存最初提交的四字段请求，用事前认可的 PI 公钥和已发布旧目录根只读核验回执。 |
 
 ### 对外载荷
@@ -16,7 +16,7 @@
 | 请求 | `registration_id`、`split`、`batch_root`、`catalogue_root` |
 | 回执 | 上述四项，加上 `custodian_id`、`auditor_id`、`aggregate_coverage_pct`、`all_required_tests_complete`、`decision` |
 
-登记 ID 取冻结的 r0 登记文件 SHA-256。两个根均为不透明的整批承诺。两个角色 ID 必须逐字匹配 PI 登记的公开代号。请求与回执的字段集均封闭，结果只取 `PASS` 或 `BLOCKED`。签名以独立的 64 字节二进制附件传递。[请求格式](request.schema.json) · [回执格式](receipt.schema.json) · [r0 单次查询契约](../r0/design.json)
+同账号 FIT 的登记 ID 取本次修订文件的 SHA-256；r0 原登记 ID 对应原独立口径。验签器同时核对公钥、凭据口径、登记 ID 和 split。同一笔签名不能在这两种口径间通用。两个根是整批承诺，两个公开角色代号仍与登记逐字匹配。公开回执仍为九字段，决定取 `PASS` 或 `BLOCKED`，分离签名为 64 字节。[请求格式](request.schema.json) · [回执格式](receipt.schema.json) · [r0 单次查询契约](../r0/design.json)
 
 **聚合覆盖率按整批行数计算。** 令 N 为登记的批次大小，n 为已按完整冻结目录做完全部必要身份比较的输入行数，公开整数 `floor(100 × n / N)`。命中重合也算已完成比较。逐行结果、来源分解、匹配身份和失败原因保留在保管端。全局身份或权限核对尚有缺项时，完成标志为 false。只有覆盖率 100、全部必需测试完成、每项必需交集和批内重复均为零、权限有效，才能签发 `PASS`。完整核对后发现重合时仍应签 `BLOCKED`，此时覆盖率可以是 100。
 
@@ -29,6 +29,6 @@ python -B verify_receipt.py --check
 python -B verify_receipt.py --request original-request.json --receipt received-receipt.json --signature received-receipt.sig
 ```
 
-代码使用 Python 标准库，Ed25519 验证固定使用 `cryptography==44.0.0`。自检只读公开 r0、r1 和本目录，在内存中验证一份已封存的工程签名，并检查改动消息或签名后的拒绝行为。r1 两次工程作业中的签发公钥均排除在正式信任范围外。自检成功退出码为 0；正式核验时，0 表示验真的 `PASS`，3 表示验真的 `BLOCKED`，1 表示未就绪或无法验证，2 为命令行用法错误。[验签器](verify_receipt.py) · [所用验签 API](https://cryptography.io/en/44.0.0/hazmat/primitives/asymmetric/ed25519/)
+代码使用 Python 标准库，Ed25519 验证固定使用 `cryptography==44.0.0`。自检核对公开的配对原件和 r1 工程样例。正式验签会拒绝工程公钥，并将本次公钥限定到同账号 FIT。自检成功退出码为 0；正式核验中，同账号回执显示 `VERIFIED PROCEDURAL PASS`（0）或 `VERIFIED PROCEDURAL BLOCKED`（3）。未就绪或无法验证为 1，用法错误为 2。[验签器](verify_receipt.py) · [所用验签 API](https://cryptography.io/en/44.0.0/hazmat/primitives/asymmetric/ed25519/)
 
-下一步由 PI 审骨架并填写公钥登记。保管端发布覆盖声明后，执行方方可复核步骤 0。[PI 登记占位](authority.json) · [覆盖模板](catalogue-coverage.json) · [交接与停止规则](handoff.md)
+完整旧目录的实际覆盖和根哈希是步骤 0 的另一项依据。配对签名不占用正式查询机会。[当前公钥登记](authority.json) · [覆盖声明](catalogue-coverage.json) · [交接与停止规则](handoff.md)
