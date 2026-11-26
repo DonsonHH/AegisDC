@@ -1,9 +1,11 @@
 """Check the submission edition against frozen public sources and its real PDF figures."""
 import argparse
 import base64
+from contextlib import redirect_stdout
 from decimal import Decimal
 from functools import lru_cache
 import hashlib
+from io import StringIO
 import json
 from pathlib import Path
 import re
@@ -13,6 +15,7 @@ from xml.etree import ElementTree as ET
 
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
+from figure_values import verify_figure_values
 
 
 HERE = Path(__file__).resolve().parent
@@ -181,11 +184,59 @@ def checkout():
     print(f"PASS {len(paths)} publication files byte-for-byte and original evidence packages at their accepted versions")
 
 
+def document_identities(paper, html):
+    """Bind section 5 and the two public page counts to the delivered PDF files."""
+    title = paper.splitlines()[0].removeprefix("# ")
+    heading = "5　" + title.split("，", 1)[1].removesuffix("？") + "（C1）"
+    require(paper.splitlines().count("## " + heading) == 1 and
+            [h.get_text(strip=True) for h in html.find_all("h2")].count(heading) == 1,
+            "section 5 must match the manuscript title")
+    readme = (HERE/"README.md").read_text(encoding="utf8")
+    for name in ("manuscript", "reference-coverage"):
+        path = HERE / (name+".pdf")
+        pdf = PdfReader(path)
+        pages = len(pdf.pages)
+        require(pages == pdf.trailer["/Root"]["/Pages"]["/Count"] and
+                len({p.indirect_reference.idnum for p in pdf.pages}) == pages, "physical PDF page tree: "+name)
+        compact = "".join("".join(p.extract_text() or "" for p in pdf.pages).split())
+        if name == "manuscript":
+            require("".join(heading.split()) in compact and f"正文 PDF 共 {pages} 页" in readme,
+                    "delivered section heading or README page count")
+        else:
+            require(pages == 1 and "单独成册，共 1 页" in readme and
+                    all(s in compact for s in ("RESS", "Howard", "Fauriat", "Bennaceur", "Deloux", "Pun")),
+                    "one-page RESS coverage assessment")
+            assessment = (HERE / "reference-coverage.md").read_text(encoding="utf8")
+            expected_urls = set(re.findall(r"\[[^\]]+\]\((https://[^)\s]+)\)", assessment))
+            screen = BeautifulSoup((HERE / "reference-coverage.html").read_bytes(), "html.parser")
+            screen_urls = {a["href"] for a in screen.select("a[href]")}
+            pdf_urls = {annotation.get_object().get("/A", {}).get("/URI")
+                        for annotation in pdf.pages[0].get("/Annots", [])}
+            require(len(expected_urls) == 5 and expected_urls == screen_urls == pdf_urls,
+                    "RESS scope and four paper links in editable, screen and print editions")
+        data = path.read_bytes()
+        print(f"PDF {path.name} | pages={pages} | bytes={len(data)} | sha256={hashlib.sha256(data).hexdigest()}")
+
+
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check",action="store_true",help="verify the public text and rendered paper (default)")
     parser.add_argument("--checkout-bytes",action="store_true")
+    parser.add_argument("--refresh-record",action="store_true",
+                        help="write the verification record after all content checks succeed")
     args=parser.parse_args()
-    manuscript, page=publication()
-    illustrations(manuscript,page)
+    log = StringIO()
+    with redirect_stdout(log):
+        manuscript, page=publication()
+        illustrations(manuscript,page)
+        verify_figure_values(HERE/"figures", source, manuscript, page)
+        document_identities(manuscript, page)
+    record = log.getvalue()
+    print(record, end="")
+    path = HERE/"verification.txt"
+    if args.refresh_record:
+        path.write_bytes(record.encode())
+    else:
+        require(path.read_text(encoding="utf8") == record,
+                "verification.txt differs from the PDFs or checks; verify the edition before refreshing")
     if args.checkout_bytes:checkout()

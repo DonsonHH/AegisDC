@@ -63,9 +63,9 @@ h1{font-size:1.7rem}table{font-size:.79em}td,th{padding:.34em .28em}p{text-align
 """
 
 
-def make_html():
+def make_html(source=HERE / "manuscript.md"):
     md = MarkdownIt("commonmark", {"html": True}).enable("table")
-    pages = (HERE / "manuscript.md").read_text(encoding="utf8").split("<!-- page -->")
+    pages = source.read_text(encoding="utf8").split("<!-- page -->")
     main = "".join('<section class="sheet">' + md.render(p) + "</section>" for p in pages)
     doc = BeautifulSoup("<main>" + main + "</main>", "html.parser")
     title = doc.h1.get_text(strip=True)
@@ -168,7 +168,7 @@ def original_forms(pdf, output):
         writer.write(f)
 
 
-def render_pdf(html_path, output, executable):
+def render_pdf(html_path, output, executable, *, coverage_note=False):
     from playwright.sync_api import sync_playwright
     with sync_playwright() as playwright:
         options = {"executable_path": executable} if executable else {"channel":"chrome"}
@@ -193,7 +193,13 @@ def render_pdf(html_path, output, executable):
         data = page.pdf(format="A4", prefer_css_page_size=True, print_background=True,
                         display_header_footer=False)
         browser.close()
-    original_forms(data, output)
+    if coverage_note:
+        from pypdf import PdfReader
+        if len(PdfReader(BytesIO(data)).pages) != 1:
+            raise ValueError("The bibliography assessment must fit on one A4 page")
+        output.write_bytes(data)
+    else:
+        original_forms(data, output)
 
 
 if __name__ == "__main__":
@@ -203,7 +209,9 @@ if __name__ == "__main__":
     parser.add_argument("--html-only", action="store_true")
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    html_path = args.output_dir / "manuscript.html"
-    html_path.write_bytes(make_html().encode())
-    if not args.html_only:
-        render_pdf(html_path, args.output_dir / "manuscript.pdf", args.browser_executable)
+    for name in ("manuscript", "reference-coverage"):
+        html_path = args.output_dir / (name + ".html")
+        html_path.write_bytes(make_html(HERE / (name + ".md")).encode())
+        if not args.html_only:
+            render_pdf(html_path, args.output_dir / (name + ".pdf"), args.browser_executable,
+                       coverage_note=(name == "reference-coverage"))
