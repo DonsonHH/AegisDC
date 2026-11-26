@@ -278,8 +278,8 @@ def end(j,baseline_ref,frozen,keys,reason,first_missing_round,validate):
 
 def job(name,revision):
     sandbox.require_rootless()
-    plan=read(STUDY/"execution.json")
-    require(fingerprint(plan)==read(STUDY/"published-envelope.json")["fingerprint"],"published execution envelope")
+    plan=read(STUDY/"execution-recovery.json")
+    require(fingerprint(plan)==read(STUDY/"published-envelope-recovery.json")["fingerprint"],"published recovery envelope")
     require(plan["release_revision"]==revision==read(PK/"export.json")["revision"],"authorized score source revision")
     reservation=read(STUDY/"jobs"/(name+".json"))
     require(reservation["job"]==os.environ["SLURM_JOB_ID"] and reservation["cpus"]==int(os.environ["SLURM_CPUS_PER_TASK"])
@@ -292,11 +292,11 @@ def job(name,revision):
     scratch=Path(tempfile.mkdtemp(prefix="t8-fit-"+reservation["job"]+"-"))
     image=copy_for_job(scratch)
     validate=Draft202012Validator(read(PACKAGE/"r0/round-ledger.schema.json")).validate
-    j=restore_journal(keys["journal"],fingerprint(plan),name=="parent")
+    j=restore_journal(keys["journal"],fingerprint(plan),name=="parent-a2")
     broker=NativeBroker(j.store,keys["evaluator"],image,scratch,full_inputs)
     save(STUDY/"jobs"/(name+"-entry.json"),dict(job=reservation["job"],name=name,release=revision,context=j.context))
     frozen=env["frozen"]
-    if name=="parent":
+    if name=="parent-a2":
         (STUDY/"checkpoints").mkdir()
         shared=loop.policy(ZERO,DESIGN,frozen,j.store)
         base=loop.empty_slot(1);base["policy"]=shared
@@ -347,7 +347,7 @@ if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--init-keys",action="store_true")
     p.add_argument("--envelope",metavar="IMAGE_SHA256")
-    p.add_argument("--job",choices=("parent","pilot","r2O","r2R","r3O","r3R","r4O","r4R"))
+    p.add_argument("--job",choices=("parent-a2","pilot","r2O","r2R","r3O","r3R","r4O","r4R"))
     p.add_argument("--revision")
     a=p.parse_args()
     os.umask(0o077)
@@ -355,7 +355,7 @@ if __name__=="__main__":
         available=technical_keys(create=True)
         print("Technical study signers initialized:",", ".join(sorted(available)))
     elif a.envelope:
-        score_gate();record,_=envelope(a.envelope);save(STUDY/"execution.json",record)
+        score_gate();record,_=envelope(a.envelope);save(STUDY/"execution-recovery.json",record)
         print("Execution envelope",fingerprint(record))
     elif a.job and a.revision:
         try:job(a.job,a.revision)

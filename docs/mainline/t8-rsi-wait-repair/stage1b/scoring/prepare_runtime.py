@@ -117,7 +117,6 @@ def copy_for_job(scratch):
     require(actual==manifests,"job-local image readback")
     credential=scratch/"audit-credential"
     shutil.copyfile(STUDY/"technical-keys"/"audit",credential)
-    os.chown(credential,sandbox.UID["audit"],sandbox.UID["audit"])
     credential.chmod(0o400)
     return image
 

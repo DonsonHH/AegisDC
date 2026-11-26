@@ -1,0 +1,20 @@
+{
+  "study_release": "fe48036c09754f2841c72ea9d2add482f6888a39",
+  "execution_envelope_commit": "9831dce6aef159f20a4169e8daeaceecaf77e82c",
+  "job": "135577",
+  "state": "FAILED_BEFORE_STUDY_PYTHON_ENTRY",
+  "exit": "2:0",
+  "node": "cu02",
+  "reserved_cpu_s": 8640,
+  "actual_slurm_cpu_us": 106000,
+  "scheduled_shared_parent_rows": 48,
+  "native_entries": 0,
+  "scored_positions": 0,
+  "closed_rounds": 0,
+  "child_locks": 0,
+  "originals": "originals.sha256",
+  "evidence": "Slurm 和 .batch 终态一致。标准错误显示 Python 尝试打开重复拼接的启动路径后退出；已登记的真实入口文件存在。父作业入口、设施位置目录、共享父基线和研究签名账本均未创建。原始 .out/.err、提交意向与分配记录保存在私服。",
+  "runtime": "登录节点有分配给 renly 的多 UID/GID 映射，cu02 的容器启动器报告没有该多段映射。首个作业没有执行角色资格检查。",
+  "recovery_decision": "允许一次首入口前恢复",
+  "terms": "首个失败原样计费。恢复使用新作业名、同一 48 行和既有有效查重签名。先验实际角色隔离，通过后才进入首次设施调用。固定最多十个作业和原 CPU 总上限；无后续替补、重试或重发查重。"
+}

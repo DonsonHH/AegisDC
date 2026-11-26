@@ -14,6 +14,7 @@ def audit(root, role):
         allowed.append("/public/")
     if role in ("child","search-O","search-R","audit","probe"):
         allowed.append("/t8/")
+    if role == "probe": allowed.append("/role-marker")
     if role == "eval":
         allowed += ["/t8/", "/native/", "/out/", "/input.json",
                     "/share/home/renly/renly-patrol-rsi/mainline/V6-cold-launch-release-v1/source/"]

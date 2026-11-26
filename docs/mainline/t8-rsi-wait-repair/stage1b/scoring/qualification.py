@@ -28,14 +28,16 @@ def qualify(image, scratch, evidence):
     try:
         for role in sandbox.UID:
             procs[role]=sandbox.spawn(image,role,"/t8/public_roles.py",["probe",str(marker),"hold"],
-                                      root/("probe-"+role),probe=True)
+                                      root/("probe-"+role),probe=True,
+                                      mounts=[("--ro-bind",marker,"/role-marker")] if role=="eval" else ())
         for role,p in procs.items():
             q=receive(p)
             require(q["uid"]==q["gid"]==sandbox.UID[role] and int(q["caps"],16)==0 and
-                    q["hidden_engineering_marker"] and q["socket_denied"],"real file/network/UID isolation")
+                    q["no_new_privileges"]=="1" and q["hidden_engineering_marker"] and q["socket_denied"] and
+                    q["designated_marker_readable"]==(role=="eval"),"real file/network/UID isolation")
             observations[role]=q
         require(len({q["uid"] for q in observations.values()})==5,"five different role IDs")
-        for key in ("mnt","net","pid"):
+        for key in ("user","mnt","net","pid"):
             require(len({q["ns"][key] for q in observations.values()})==len(procs),"distinct "+key+" namespaces")
         for role,p in procs.items():
             transmit(p,{"close":True});p.stdin.close()

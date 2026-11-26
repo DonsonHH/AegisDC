@@ -102,7 +102,7 @@ def actual(image, scratch, out, ordinal, levels):
     policy=bind_broker(image)
     scratch.mkdir(exist_ok=False)
     sink=scratch/"sink";sink.mkdir(mode=0o755)
-    os.chown(sink,sandbox.UID["eval"],sandbox.UID["eval"])
+    sink.chmod(0o700)
     local_input=scratch/"input.json"
     local_input.write_bytes(original);local_input.chmod(0o444)
     worker=evaluator=None;role="parent" if levels is None else "child";events=[];previous={}

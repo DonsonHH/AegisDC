@@ -95,7 +95,11 @@ def probe():
             blocked = False
     except PermissionError:
         blocked = True
+    visible=Path("/role-marker")
+    shared_marker = visible.read_bytes()==b"public interface check\n" if visible.exists() else False
+    status=dict(line.split(":",1) for line in Path("/proc/self/status").read_text().splitlines() if ":" in line)
     emit({"uid":os.getuid(),"gid":os.getgid(),"hidden_engineering_marker":hidden,"socket_denied":blocked,
+          "designated_marker_readable":shared_marker,"no_new_privileges":status["NoNewPrivs"].strip(),
           "ns":{k:os.readlink("/proc/self/ns/"+k) for k in ("mnt","pid","net","user")},
           "uid_map":Path("/proc/self/uid_map").read_text().split(),
           "caps":next(line.split()[1] for line in Path("/proc/self/status").read_text().splitlines()

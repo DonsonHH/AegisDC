@@ -1,4 +1,4 @@
-"""Rootless, network-denied study roles, launched inside the allocated Podman subordinate-ID map."""
+"""Unprivileged role-specific Linux user, mount, PID and network namespaces on the allocated host."""
 
 import ctypes
 import errno
@@ -45,11 +45,9 @@ def filter_bytes():
 
 def require_rootless():
     maps=[list(map(int,line.split())) for line in Path("/proc/self/uid_map").read_text().splitlines()]
-    if os.geteuid()!=0 or not any(i==0 and host!=0 and n==1 for i,host,n in maps):
-        raise RuntimeError("require allocated unprivileged rootless user namespace")
-    if not all(any(i<=uid<i+n and host+uid-i!=0 for i,host,n in maps) for uid in set(UID.values())):
-        raise RuntimeError("missing delegated subordinate role identities")
-    return maps
+    if os.geteuid()==0 or os.geteuid()!=os.getuid():
+        raise RuntimeError("broker requires the ordinary unprivileged Slurm account")
+    return {"host_uid":os.geteuid(),"host_gid":os.getegid(),"outer_mapping":maps}
 
 
 def spawn(image, role, program, args, log, mounts=(), probe=False):
@@ -59,9 +57,9 @@ def spawn(image, role, program, args, log, mounts=(), probe=False):
     runtime=image/"runtime"
     command=["strace","-ff","-qq","-y","-s","256","-e",
              "trace=%file,read,readv,socket,socketpair,connect,clone,clone3,fork,vfork,ptrace,setns,unshare,mount",
-             "-e","raw=read,readv","-o",str(log/"os"),"bwrap","--unshare-pid","--unshare-net","--unshare-ipc",
-             "--unshare-uts","--new-session","--die-with-parent","--cap-add","CAP_SETUID","--cap-add","CAP_SETGID",
-             "--cap-add","CAP_SETPCAP","--proc","/proc","--dev","/dev","--ro-bind",str(runtime/"py"),"/runtime",
+             "-e","raw=read,readv","-o",str(log/"os"),"bwrap","--unshare-user","--uid",str(UID[role]),"--gid",str(UID[role]),
+             "--unshare-pid","--unshare-net","--unshare-ipc","--unshare-uts","--new-session","--die-with-parent",
+             "--cap-drop","ALL","--proc","/proc","--dev","/dev","--ro-bind",str(runtime/"py"),"/runtime",
              "--ro-bind",str(runtime/"syslib"),"/lib64","--setenv","LANG","C",
              "--setenv","LC_ALL","C","--setenv","PATH","/no-executables","--setenv","LD_LIBRARY_PATH","/runtime/lib"]
     if role in ("parent","child"):
@@ -79,9 +77,8 @@ def spawn(image, role, program, args, log, mounts=(), probe=False):
     for flag,src,dst in mounts:
         command.extend([flag,str(src),dst])
     with (image/"policy.bpf").open("rb") as rules:
-        command+=["--seccomp",str(rules.fileno()),"--chdir","/","/runtime/bin/setpriv",f"--reuid={UID[role]}",
-                  f"--regid={UID[role]}","--clear-groups","--no-new-privs","--bounding-set=-all","--inh-caps=-all",
-                  "--ambient-caps=-all","/runtime/bin/python3.13","-I","-S","-B",program,*args]
+        command+=["--seccomp",str(rules.fileno()),"--chdir","/","/runtime/bin/setpriv","--no-new-privs",
+                  "/runtime/bin/python3.13","-I","-S","-B",program,*args]
         with (log/"stderr").open("xb") as err:
             proc=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=err,
                     pass_fds=(rules.fileno(),),close_fds=True,env={"PATH":"/usr/bin:/bin","LANG":"C","LC_ALL":"C"})
