@@ -1,0 +1,15 @@
+{
+  "scope": "T8 stage 1b, shared-account FIT input freeze and one whole-batch comparison",
+  "decision": "接受目录，放行 FIT 查重",
+  "approved_catalogue_commit": "61ba7c531fdbc561fa7242629fbed0853bd6ed4f",
+  "registration_id": "f8a4d6d320c090a4a74280542df5c864677dcfe78e79638843b1fad86887340f",
+  "parent_registration_id": "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b",
+  "catalogue_root": "59cd699e7098493718ffb2c1ff8ba4dcd0deb31d7df710b833e2c1321455a119",
+  "historical_catalogue_code_sha256": "7af7e281e0c636fdfa09c8c72cc135fc3d57f92405a165d936f07e25275ae244",
+  "coverage_publication_sha256": "a8b8189f82aee4241c3f46a4f84b5269dd87f891b311e7581ec9af9ef8aaccba",
+  "curator": "一次按冻结发生器生成完整 48 行，不按重合、行为或成绩筛选。远端单 CPU、2 GiB、4 分钟、不重排和不重试。预算按原登记最多 300 实耗 CPU 秒，包括本地借助固定目录所作的文件核对。",
+  "private_batch_root": "SHA-256(r0 规范 JSON 的无末尾 LF 字节)，承诺登记、FIT、完整旧目录、版本固定的生成器和随机来源、制板作业、行数及按原顺序的四种身份。条件原件和原序编码留在远端。",
+  "comparison": "旧 T3/T7 比较原序 UTF-8 完整编码和对称规范化双字段运行身份；其余来源比较排序完整编码与三字段运行身份。所有四种身份均作批内重复检查，旧目录十项逐项比较至全分母。准确的匹配和分项账只在比对端留存。",
+  "single_use": "首次正式送达先在保管端以 (父登记 ID, FIT) 固定槽排他记账，随后通过主机密钥校验的私有通道读取同一已发布整批承诺。槽跨登记方式共用。一分钟统一发布窗口。回读已保存的结果不重做比较。",
+  "stop": "验得 PI 对实际九字段回执签名的 PASS 才能评分。BLOCKED、未取得可验签名、签名无效或超预算时保留现场；不重发、不重抽。"
+}
