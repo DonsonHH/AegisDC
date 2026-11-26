@@ -16,17 +16,17 @@
 
 ## 2　相关工作与贡献定位
 
-Memarzadeh 与 Pozzi 将检查、持续监测与系统级排程放入序贯决策，以后续行动价值衡量信息收益 [1]。Andriotis 与 Papakonstantinou 在部分可观测的工程维护问题中同时处理风险、不确定性与资源约束 [2]。本文沿用这类信息价值问题。研究对象的具体差异在于，电热与 IT 容量共同决定一项服务，采样、报告到达、写入生效和本人复核发生在不同时刻。即使某项观察能区分原因，只要返回时合法工单已失效，它对本窗的作用就可能改变方向。
+在 Howard 的信息价值（VoI）框架中，观测的价值取决于它能怎样改变后续行动及其预期后果 [1]。Memarzadeh 与 Pozzi 据此研究检查、持续监测与系统级排程 [2]。Andriotis 与 Papakonstantinou 将风险和资源约束纳入部分可观测的维护决策 [3]。Fauriat 与 Zio 根据信息的预期价值选择下一次检查或更换的时机 [4]。本文的 H2 比较同一冻结策略允许与禁用付费初检时的全窗服务缺额。全部 144 个条件的配对均差为 −55.83 秒（表 2），其中既计入读数改变后续处置的作用，也计入等待报告可能错过许可窗口的损失。
 
-Yanes Luis 等使用变分估计器和共享多智能体深度强化学习，在未知重要度的水域环境中优化持续重访 [3]。两项任务都要决定到哪里取证。我们用未交付服务的时间积分评价具名作业，可以选择不做初检，处理拒绝、过期和处置后的开放义务。原巡检分数与本文的缺额秒没有共同量纲。参数搜索另有成熟范式，例如 ParamILS 通过固定配置程序选择候选 [4]。本文分别追踪候选策略的改变和生成候选的程序的改变，由实际付费的后继候选识别两者。
-
-Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]。ExaDigiT 将功率与瞬态热流体模型耦合，并用 Frontier 的遥测回放核验其模型 [6]。本研究的重点是有限工程模型中可合法执行的检查和处置。单日实测可核对功率与冷却的量级，缺少同期的派工、授权和服务交付，无法据此标定现场核查收益。以下分别说明来源、假设、求解和验证范围，便于按经验仿真报告原则复核 [7]。
+Yanes Luis 等使用变分估计器和共享多智能体深度强化学习，在未知重要度的水域环境中优化持续重访 [5]。两项任务都要决定到哪里取证。我们用未交付服务的时间积分评价具名作业，可以选择不做初检，处理拒绝、过期和处置后的开放义务。原巡检分数与本文的缺额秒没有共同量纲。参数搜索另有成熟范式，例如 ParamILS 通过固定配置程序选择候选 [6]。本文分别追踪候选策略的改变和生成候选的程序的改变，由实际付费的后继候选识别两者。
 
 <!-- page -->
 
 ## 3　设施与信息边界
 
-物理、功能依赖、控制／信息和空间通行分别描述能量传递、服务瓶颈、记录发布和到场可行性。模型覆盖供配电、后备、设施冷却、设备冷却与环境、IT 服务、控制监控、空间通行及人员工具八域，原有自动保护在所有比较臂持续运行。多种瓶颈同时发生时，以实际交付的共同服务计算一次损失。每个比较臂独立拥有设施状态、证据、预算和回执。[设施边界与工程参照](evidence.md#model)
+Frontier 的公开功率、温度和流量数据提供了设施量级参照 [7]。ExaDigiT 将功率与瞬态热流体模型耦合，并用 Frontier 的遥测回放核验其模型 [8]。本研究的重点是有限工程模型中可合法执行的检查和处置。单日实测可核对功率与冷却的量级，缺少同期的派工、授权和服务交付，无法据此标定现场核查收益。以下分别说明来源、假设、求解和验证范围，便于按经验仿真报告原则复核 [9]。
+
+Bennaceur 与 Kloul 用形式模型分析供电、散热和网络间的依赖如何影响数据中心可靠性 [10]。本文在同一设施时钟上区分采样、报告到达、写入生效和本人复核。物理、功能依赖、控制／信息和空间通行分别描述能量传递、服务瓶颈、记录发布和到场可行性。模型覆盖供配电、后备、设施冷却、设备冷却与环境、IT 服务、控制监控、空间通行及人员工具八域，原有自动保护在所有比较臂持续运行。电热与 IT 容量共同支撑一项服务，多种瓶颈同时发生时按实际交付只计一次损失。每个比较臂独立拥有设施状态、证据、预算和回执。[设施边界与工程参照](evidence.md#model)
 
 ![设施、信息与窗末评价的边界](figures/facility-information-boundary.svg)
 
@@ -38,6 +38,8 @@ Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]�
 
 在线工人使用公开资产与作业目录及当前视图 h。对共同来源的复制记录去重，按采样、到达和失效时钟筛选。付费记录须与自己的任务、执行身份和版本相符。按公开设计先验及记录似然更新有限假设世界的权重。没有可支持的世界时保留冲突原因。对可行计划 π，排序评分为 **J(π | h) = E[L | h, π] + λ {E[T<sub>人</sub> | h, π] + κ E[F | h, π]}**。F 是发行费用单位数，工具受硬预算约束。预测分只用于选动作。实际成绩来自整窗设施记录。
 
+<!-- page -->
+
 > **算法 1　冻结在线策略**（执行角色 `V_COST`）
 >
 > 1. 在公开决策时刻检验目录和视图，拒绝未来记录，更新当前证据和后验。先尝试有权的本人复核 R 与续核 X。
@@ -46,8 +48,6 @@ Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]�
 > 4. 对初检，把假设世界按届时可收到的同一报告分组。同一组只选一套后续安排。留出 UNKNOWN 分支，暂缓自选处置，同时保留已承诺义务。按报告概率加权各分支的 J。
 > 5. 按最低预期 J 选第一步。同分先比较人秒和费用，再优先暂缓、按稳定标识破平。无可接纳的完整分支时暂缓。每时点最多发一个请求。
 > 6. 执行器独立检查准入并发布实际结果。拒绝、无效、超时和过期均留在原分母。下一公开时点重新决策。窗末由评价端以实际需求、交付与作业记录算分。
-
-<!-- page -->
 
 ### 3.2　先验、价格和工程假设的来源
 
@@ -62,6 +62,8 @@ Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]�
 
 *表 1　参数种类及来源。数值来自执行版设定或工程协议。Frontier 的设施观测和 Google 复盘约束量级或机制，不提供表中先验、工时门槛或人员到场时间。* [来源与文件行号](evidence.md#parameters)
 
+<!-- page -->
+
 ## 4　比较设计与统计单位
 
 服务比较使用冻结的六族合成留出面板，每族 24 条，共 144 条。每个条件的各臂从独立状态开始。P 只保留既有保护，报警响应根据已到报警派工，周期巡检按排程执行。强透明规则 B 对已打开且合法的工单排序并直接申请处置。B_cost 还能利用公开维护条款安排操作。只有同方法禁购消融保持 V\*\* 的其余决策逻辑一致。全知排程只供评价端在声明的行动集合内核实可达下界。
@@ -69,8 +71,6 @@ Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]�
 同方法禁购版仅在公开准入处禁用 I，仍可暂缓、直接处置、办理本人的 R 和 X。它从共同初态重新运行，作业顺序可随缺少报告而改变。算法框对应科学源码 `c5ecb743`，原生设施核心为 `0e5afde1`。冻结包和逐文件摘要见[执行身份与代码行](evidence.md#method)。
 
 三项比较在同一面板上依 H1、H2、H3 顺序检验。各族内有放回抽取同一条件的全部比较臂，再合并各族，按冻结规则重抽 10,000 次。双侧 95% 百分位区间上界严格小于零才进入下一项。维护时长和分族表为描述性分析。本文先解释 H2，因为它直接回答自选初检总的条件价值，协议的检验顺序与判断阈值按原登记执行。[冻结协议与比较定义](evidence.md#confirmation)
-
-<!-- page -->
 
 ## 5　何时值得等待一次付费核查（C1）
 
@@ -101,7 +101,7 @@ Frontier 的公开功率、温度和流量数据提供了设施量级参照 [5]�
 
 ## 6　两类事故机制的合成确认（C2）
 
-Google 伦敦复盘记载了备用路径实际断开、上游仍带电而控制器未发启动信号。荷兰复盘记载了转供过载及控制器离线后泵未重启 [8,9]。我们分别保留这两类有限机制。反事实干预只替换合成环境内有许可的处置，真实场站的操作权限和历史替代处置后果仍缺资料。
+Google 伦敦复盘记载了备用路径实际断开、上游仍带电而控制器未发启动信号 [11]。荷兰复盘记载了转供过载及控制器离线后泵未重启 [12]。我们分别保留这两类有限机制。反事实干预只替换合成环境内有许可的处置，真实场站的操作权限和历史替代处置后果仍缺资料。
 
 伦敦、荷兰各有 60 个条件，每族五个十二行块。同一条件内配对，再对两族均差等权。**120 行主分析包含 16 行与旧面板运行输入重合的条件**，继续保留原分母。剔除重合输入的子集仅用于描述。下表为边际双侧 95% 区间，三项双侧 p 值一起作 Holm 校正。对每臂，未舍入的 L > 0 记为发生一次合成事件。[分母、重合与分析登记](evidence.md#incidents)
 
@@ -172,20 +172,26 @@ C1 在预注册整板均值上部分成立。最能回答题目的现象，是�
 
 ## 参考文献
 
-[1] Memarzadeh M, Pozzi M. Value of information in sequential decision making: Component inspection, permanent monitoring and system-level scheduling. *Reliability Engineering & System Safety*, 154, 137–151, 2016. [DOI](https://doi.org/10.1016/j.ress.2016.05.014)
+[1] Howard RA. Information Value Theory. *IEEE Transactions on Systems Science and Cybernetics*, 2(1), 22–26, 1966. [DOI](https://doi.org/10.1109/TSSC.1966.300074)
 
-[2] Andriotis CP, Papakonstantinou KG. Deep reinforcement learning driven inspection and maintenance planning under incomplete information and constraints. *Reliability Engineering & System Safety*, 212, 107551, 2021. [DOI](https://doi.org/10.1016/j.ress.2021.107551)
+[2] Memarzadeh M, Pozzi M. Value of information in sequential decision making: Component inspection, permanent monitoring and system-level scheduling. *Reliability Engineering & System Safety*, 154, 137–151, 2016. [DOI](https://doi.org/10.1016/j.ress.2016.05.014)
 
-[3] Yanes Luis S, Basilico N, Antonazzi M, Gutiérrez-Reina D, Toral Marín S. Variational model-based Deep Reinforcement Learning for Non-Homogeneous Patrolling aquatic environments with multiple unmanned surface vehicles. *Expert Systems with Applications*, 270, 126483, 2025. [DOI](https://doi.org/10.1016/j.eswa.2025.126483)
+[3] Andriotis CP, Papakonstantinou KG. Deep reinforcement learning driven inspection and maintenance planning under incomplete information and constraints. *Reliability Engineering & System Safety*, 212, 107551, 2021. [DOI](https://doi.org/10.1016/j.ress.2021.107551)
 
-[4] Hutter F, Hoos HH, Leyton-Brown K, Stützle T. ParamILS: An Automatic Algorithm Configuration Framework. *Journal of Artificial Intelligence Research*, 36, 267–306, 2009. [DOI](https://doi.org/10.1613/jair.2861)
+[4] Fauriat W, Zio E. Optimization of an aperiodic sequential inspection and condition-based maintenance policy driven by value of information. *Reliability Engineering & System Safety*, 204, 107133, 2020. [DOI](https://doi.org/10.1016/j.ress.2020.107133)
 
-[5] Sun J, Gao Z, Grant D, et al. Energy dataset of Frontier supercomputer for waste heat recovery. *Scientific Data*, 11, 1077, 2024. [DOI](https://doi.org/10.1038/s41597-024-03913-w)
+[5] Yanes Luis S, Basilico N, Antonazzi M, Gutiérrez-Reina D, Toral Marín S. Variational model-based Deep Reinforcement Learning for Non-Homogeneous Patrolling aquatic environments with multiple unmanned surface vehicles. *Expert Systems with Applications*, 270, 126483, 2025. [DOI](https://doi.org/10.1016/j.eswa.2025.126483)
 
-[6] Brewer WH, Maiterth M, Kumar V, et al. A Digital Twin Framework for Liquid-cooled Supercomputers as Demonstrated at Exascale. *SC24*, 324–341, 2024. [DOI](https://doi.org/10.1109/SC41406.2024.00029)
+[6] Hutter F, Hoos HH, Leyton-Brown K, Stützle T. ParamILS: An Automatic Algorithm Configuration Framework. *Journal of Artificial Intelligence Research*, 36, 267–306, 2009. [DOI](https://doi.org/10.1613/jair.2861)
 
-[7] Monks T, Currie CSM, Onggo BS, Robinson S, Kunc M, Taylor SJE. Strengthening the reporting of empirical simulation studies: Introducing the STRESS guidelines. *Journal of Simulation*, 13(1), 55–67, 2019. [DOI](https://doi.org/10.1080/17477778.2018.1442155)
+[7] Sun J, Gao Z, Grant D, et al. Energy dataset of Frontier supercomputer for waste heat recovery. *Scientific Data*, 11, 1077, 2024. [DOI](https://doi.org/10.1038/s41597-024-03913-w)
 
-[8] Google Cloud. Incident report, europe-west2-b, 19–20 October 2026. Report issued 4 November 2026. [官方复盘](https://status.cloud.google.com/incidents/Xs2XTHzAVC9YnafnPyzj)
+[8] Brewer WH, Maiterth M, Kumar V, et al. A Digital Twin Framework for Liquid-cooled Supercomputers as Demonstrated at Exascale. *SC24*, 324–341, 2024. [DOI](https://doi.org/10.1109/SC41406.2024.00029)
 
-[9] Google Cloud. Incident report, europe-west4-a, 15–16 July 2026. Report issued 25 July 2026. [官方复盘](https://status.cloud.google.com/incidents/3BvH3LVGcupoYqV6F4Nw)
+[9] Monks T, Currie CSM, Onggo BS, Robinson S, Kunc M, Taylor SJE. Strengthening the reporting of empirical simulation studies: Introducing the STRESS guidelines. *Journal of Simulation*, 13(1), 55–67, 2019. [DOI](https://doi.org/10.1080/17477778.2018.1442155)
+
+[10] Bennaceur WM, Kloul L. Formal models for safety and performance analysis of a data center system. *Reliability Engineering & System Safety*, 193, 106643, 2020. [DOI](https://doi.org/10.1016/j.ress.2019.106643)
+
+[11] Google Cloud. Incident report, europe-west2-b, 19–20 October 2026. Report issued 4 November 2026. [官方复盘](https://status.cloud.google.com/incidents/Xs2XTHzAVC9YnafnPyzj)
+
+[12] Google Cloud. Incident report, europe-west4-a, 15–16 July 2026. Report issued 25 July 2026. [官方复盘](https://status.cloud.google.com/incidents/3BvH3LVGcupoYqV6F4Nw)

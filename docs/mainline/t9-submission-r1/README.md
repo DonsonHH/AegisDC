@@ -2,7 +2,7 @@
 
 [投稿修订稿（PDF）](manuscript.pdf) · [网页阅读](manuscript.html) · [可编辑正文](manuscript.md) · [版本与证据](evidence.md)
 
-正文 PDF 共 8 页（含参考文献）。[RESS 参考文献覆盖度自评](reference-coverage.pdf) 单独成册，共 1 页，另有[可编辑版](reference-coverage.md)。页数按发布 PDF 的实际页面计数。两份文件的字节数和 SHA-256 见[核验记录](verification.txt)。
+正文 PDF 共 8 页（含 12 项参考文献）。[RESS 参考文献覆盖度自评](reference-coverage.pdf) 单独成册，共 1 页，另有[可编辑版](reference-coverage.md)。页数按发布 PDF 的实际页面计数。两份文件的字节数和 SHA-256 见[核验记录](verification.txt)。
 
 本版从已验收的 [T9 正文](../t9-paper-final/manuscript.md) 派生，沿用 `28c59691` 的四项主张。C1 先报告同方法允许／禁用自选初检的差值，再报告整套方法差。原 H1→H2→H3 的顺序检验不变。稿内的 T8 工时表分别列出 FIT 实测均差与 38 块条件预测。
 

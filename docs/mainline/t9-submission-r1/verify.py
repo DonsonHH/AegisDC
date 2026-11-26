@@ -64,6 +64,35 @@ def matched_row(rows, position, value):
     return matching[0]
 
 
+def check_references(paper, html):
+    heading = "\n## 参考文献\n"
+    body, bibliography = paper.split(heading, 1)
+    entries = re.findall(r"^\[(\d+)\] (.+)$", bibliography, re.M)
+    numbers = [int(number) for number, _ in entries]
+    first_citations = dict.fromkeys(int(number) for group in re.findall(r"\[(\d+(?:,\s*\d+)*)\]", body)
+                                    for number in group.split(","))
+    require(numbers == list(first_citations) == list(range(1, len(entries) + 1)),
+            "reference list in first-citation order")
+    previous = source(PREFIX + "t9-submission-r1/manuscript.md",
+                      "327e5196f00fdfe346fb1af4c5706323fef21a1b").decode()
+    accepted = re.findall(r"^\[\d+\] (.+)$", previous.split(heading, 1)[1], re.M)
+    added = {"Howard": "10.1109/TSSC.1966.300074", "Fauriat 与 Zio": "10.1016/j.ress.2020.107133",
+             "Bennaceur 与 Kloul": "10.1016/j.ress.2019.106643"}
+    require(len(entries) == len(accepted) + len(added) and set(accepted) <= {work for _, work in entries},
+            "original bibliography retained")
+    numbers_by_url = {}
+    for (number, work), row in zip(entries, html.select(".references p"), strict=True):
+        link = row.find("a", href=True)
+        require(link and work.endswith("](" + link["href"] + ")") and
+                row.get_text(strip=True).startswith(f"[{number}] "), "editable and HTML reference identities")
+        numbers_by_url[link["href"]] = number
+    for authors, doi in added.items():
+        number = numbers_by_url.get("https://doi.org/" + doi)
+        require(number and re.search(re.escape(authors) + rf"[^。\n]*\[{number}\]", body),
+                "source cited beside its claim: " + authors)
+    return len(entries)
+
+
 def publication():
     paper = (HERE/"manuscript.md").read_text(encoding="utf8")
     supp = (HERE/"evidence.md").read_text(encoding="utf8")
@@ -127,13 +156,8 @@ def publication():
     for rev, name, first, last in refs:
         content=source(unquote(name),rev).decode().splitlines()
         require(1<=int(first)<=int(last or first)<=len(content),"source line range: "+name)
-    works=set(re.findall(r'^\[(\d+)\] ',paper.split("## 参考文献",1)[1],re.M))
-    cited=set()
-    for group in re.findall(r'\[([1-9][0-9, ]*)\]',paper.split("## 参考文献",1)[0]):
-        cited.update(v.strip() for v in group.split(","))
-    require(works==cited==set("123456789") and len(public.select(".references p"))==9,
-            "cited primary sources and published bibliography")
-    print(f"PASS eight frozen method files, six algorithm steps, nine bibliography entries and {len(refs)} pinned source links")
+    count = check_references(paper, public)
+    print(f"PASS eight frozen method files, six algorithm steps, {count} bibliography entries in first-citation order and {len(refs)} pinned source links")
     return paper,public
 
 
@@ -199,9 +223,13 @@ def document_identities(paper, html):
         require(pages == pdf.trailer["/Root"]["/Pages"]["/Count"] and
                 len({p.indirect_reference.idnum for p in pdf.pages}) == pages, "physical PDF page tree: "+name)
         compact = "".join("".join(p.extract_text() or "" for p in pdf.pages).split())
+        pdf_urls = {annotation.get_object().get("/A", {}).get("/URI")
+                    for page in pdf.pages for annotation in page.get("/Annots", [])}
         if name == "manuscript":
             require("".join(heading.split()) in compact and f"正文 PDF 共 {pages} 页" in readme,
                     "delivered section heading or README page count")
+            require({link["href"] for link in html.select(".references a[href]")} <= pdf_urls,
+                    "all manuscript references linked from the delivered PDF")
         else:
             require(pages == 1 and "单独成册，共 1 页" in readme and
                     all(s in compact for s in ("RESS", "Howard", "Fauriat", "Bennaceur", "Deloux", "Pun")),
@@ -210,8 +238,6 @@ def document_identities(paper, html):
             expected_urls = set(re.findall(r"\[[^\]]+\]\((https://[^)\s]+)\)", assessment))
             screen = BeautifulSoup((HERE / "reference-coverage.html").read_bytes(), "html.parser")
             screen_urls = {a["href"] for a in screen.select("a[href]")}
-            pdf_urls = {annotation.get_object().get("/A", {}).get("/URI")
-                        for annotation in pdf.pages[0].get("/Annots", [])}
             require(len(expected_urls) == 5 and expected_urls == screen_urls == pdf_urls,
                     "RESS scope and four paper links in editable, screen and print editions")
         data = path.read_bytes()
