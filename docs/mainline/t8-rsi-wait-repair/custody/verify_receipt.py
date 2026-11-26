@@ -212,7 +212,10 @@ def catalogue(doc, authority, *, template):
     if template:
         need(all(doc[k] == CUSTODIAN for k in ("issued_by", "catalogue_root", "additional_realizations_and_aliases_reconciled")))
     else:
-        need(is_root(doc["catalogue_root"]) and doc["issued_by"] == authority["custodian_id"] and
+        publishers = {authority["custodian_id"]}
+        if registration_for(authority) == SHARED_FIT:
+            publishers.add("codex-executor")
+        need(is_root(doc["catalogue_root"]) and doc["issued_by"] in publishers and
              doc["additional_realizations_and_aliases_reconciled"] is True)
     # Only the frozen public count references are read. No path named by a historical entry is opened.
     reference = parse(pinned(HERE.parent/"r0"/"panel-law.json", PANEL_LAW))["historical_catalogue"]
@@ -368,6 +371,9 @@ def self_check(authority, declaration):
     publication = {**declaration, "registration_id": REGISTRATION, "sources": public_rows, "issued_by": ids["custodian_id"],
                    "catalogue_root": request["catalogue_root"], "additional_realizations_and_aliases_reconciled": True}
     need(catalogue(publication, ids, template=False) == request["catalogue_root"])
+    expect_invalid(catalogue, {**publication, "issued_by": "codex-executor"}, ids, template=False)
+    shared_publication = {**publication, "registration_id": SHARED_FIT, "issued_by": "codex-executor"}
+    need(catalogue(shared_publication, shared_ids, template=False) == request["catalogue_root"])
     expect_invalid(catalogue, {**publication, "sources": public_rows[:-1]}, ids, template=False)
     expect_invalid(catalogue, {**publication, "additional_realizations_and_aliases_reconciled": False}, ids, template=False)
     wrong_encoding = {**public_rows[0], "custodian": {**public_rows[0]["custodian"], "identity_encodings": []}}

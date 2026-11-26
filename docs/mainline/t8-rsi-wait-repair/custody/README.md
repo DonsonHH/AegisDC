@@ -31,4 +31,4 @@ python -B verify_receipt.py --request original-request.json --receipt received-r
 
 代码使用 Python 标准库，Ed25519 验证固定使用 `cryptography==44.0.0`。自检核对公开的配对原件和 r1 工程样例。正式验签会拒绝工程公钥，并将本次公钥限定到同账号 FIT。自检成功退出码为 0；正式核验中，同账号回执显示 `VERIFIED PROCEDURAL PASS`（0）或 `VERIFIED PROCEDURAL BLOCKED`（3）。未就绪或无法验证为 1，用法错误为 2。[验签器](verify_receipt.py) · [所用验签 API](https://cryptography.io/en/44.0.0/hazmat/primitives/asymmetric/ed25519/)
 
-完整旧目录的实际覆盖和根哈希是步骤 0 的另一项依据。配对签名不占用正式查询机会。[当前公钥登记](authority.json) · [覆盖声明](catalogue-coverage.json) · [交接与停止规则](handoff.md)
+执行方已在同账号核对十项历史来源并发布整目录根 `59cd699e7098493718ffb2c1ff8ba4dcd0deb31d7df710b833e2c1321455a119`。声明发布者为 `codex-executor`；正式查重回执仍由已登记公钥验签。当前交付停在目录交审，正式 FIT 请求为 0。复核目录可运行 `python -B historical_catalogue.py --check`。[覆盖声明](catalogue-coverage.json) · [目录核对程序](../stage1b/historical_catalogue.py) · [当前公钥登记](authority.json)
