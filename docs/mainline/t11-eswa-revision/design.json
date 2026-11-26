@@ -1,0 +1,227 @@
+{
+  "id": "T11-0-ESWA-SUPP-v1",
+  "status": "FROZEN_FOR_PI_REVIEW_NO_RUN_AUTHORITY",
+  "analysis_label": "post hoc supplementary, nonconfirmatory",
+  "accepted_science": "361574a049f0cfbf816f62af92ff5fd398d77ae8",
+  "accepted_edition": "abc8ff50c751543a15f993f695939357c8257918",
+  "worker_revision": "c5ecb743d4ce0ee6ffaba1ad564bf05d82ff9fc5",
+  "native_core": "0e5afde1",
+  "panel": {
+    "kind": "previously consumed T4c public development v3 only",
+    "N": 72,
+    "per_family": 12,
+    "families": [
+      "WATER_HEAT",
+      "NETWORK_POWER",
+      "RESERVE_TRANSFER",
+      "COOLING_ACCESS",
+      "LONDON",
+      "NETHERLANDS"
+    ],
+    "input_revision": "fe1aa12d96779846476fe11f21d702a2d0169f2b",
+    "manifest": "docs/mainline/t4c-action-cost-v3/dev-manifest.json",
+    "manifest_sha256": "1408fa54fe27ee616954e8d9b4016e151a4171f724f7531fb817e8da5301b47d",
+    "archive": "docs/mainline/t4c-action-cost-v3/dev-inputs.jsonl.gz",
+    "archive_sha256": "882d4c17b91eb2067ff49885d95b535649a78f5e89ec8422f097fe448b0abf2e",
+    "score_revision": "16b2ca5978d042a4dced9d655cfa181e0832bde2",
+    "scores": "docs/mainline/t4c-action-cost-v3/development.json.gz",
+    "scores_sha256": "ebdb581eab18b17e47fc919c964b2304a134585955b5bd9ba1ea9b366f2b75e5",
+    "bcost_revision": "c18c12832dc8016c3673d8161b2d9979421e3dc7",
+    "bcost_base": "docs/mainline/t4d-cost-baseline-v1/development-result.json.gz",
+    "bcost_sha256": "ea7f7159c1e578d518247fd7f9a047b058d68c60ef313f9e2bfc135afb58a4a3",
+    "order": "dev-manifest.order; never selected by outcome",
+    "exclude": [
+      "sealed H2",
+      "sealed H3",
+      "any new panel",
+      "historical confirmation inputs"
+    ]
+  },
+  "estimands": {
+    "comparators": "archived V_COST minus new comparator on same input",
+    "oat": "perturbed V_COST minus archived V_COST on same input",
+    "primary": "L in normalized deficit-seconds",
+    "secondary": [
+      "U",
+      "person",
+      "tool",
+      "fee",
+      "issued I/A/R/X",
+      "legal NA/PV closures at 900/1800/2700/3600",
+      "refusals, failures, unfinished and directions"
+    ],
+    "bootstrap": {
+      "B": 10000,
+      "within": "family",
+      "unit": "complete condition with all roles together",
+      "full_scope_key": "overall",
+      "generator": "NumPy PCG64",
+      "seed": "big-endian first 16 bytes of SHA256(UTF8('AegisDC/T4c/paired/v1|' + scope_key))",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "interpolation": "linear",
+      "sign_epsilon": 1e-7
+    },
+    "incomplete": "keep all 72; suppress point estimate/CI for an incomplete scope; report completion and bounded primary contrast"
+  },
+  "parameters": {
+    "names": [
+      "lambda",
+      "kappa",
+      "fixed_match_probability",
+      "unknown_report_probability"
+    ],
+    "centre": [
+      1,
+      30,
+      0.95,
+      0.03125
+    ],
+    "grid": [
+      [
+        0.5,
+        1,
+        2
+      ],
+      [
+        15,
+        30,
+        60
+      ],
+      [
+        0.85,
+        0.95,
+        0.99
+      ],
+      [
+        0.015625,
+        0.03125,
+        0.0625
+      ]
+    ],
+    "oat_roles": [
+      "lambda_low",
+      "lambda_high",
+      "kappa_low",
+      "kappa_high",
+      "match_low",
+      "match_high",
+      "unknown_low",
+      "unknown_high"
+    ],
+    "plant_unchanged": true
+  },
+  "baselines": {
+    "myopic": "one optional observation and one elective downstream write; public feasibility and mandatory obligations retained",
+    "pomcp": {
+      "simulations_per_elective_root": 128,
+      "max_public_tree_steps": 4,
+      "discount": 1,
+      "uct_constant": "sqrt(2)",
+      "leaf": "no further elective work; schedule mandatory work to H and score common public forecast",
+      "root_choice": "most visits; least mean normalized cost, then WAIT, then stable public (subject,phase)",
+      "rng": "PCG64 keyed by canonical public history at the decision; one frozen stream; no private condition identifiers"
+    }
+  },
+  "allocation": {
+    "cores_per_job": 1,
+    "gib_per_job": 4,
+    "conditions_per_batch": 12,
+    "batches_per_role": 6,
+    "roles": 10,
+    "positions": 720,
+    "max_public_decisions": 43920,
+    "max_tree_transitions": 2248704,
+    "ordinary_jobs": 54,
+    "ordinary_job_s": 2400,
+    "pomcp_jobs": 6,
+    "pomcp_job_s": 15000,
+    "support": [
+      [
+        "public qualification and identity",
+        1,
+        1200
+      ],
+      [
+        "dev decision-timing log audit or isolated replay",
+        1,
+        7200
+      ],
+      [
+        "paired readback and packaging",
+        1,
+        1800
+      ]
+    ],
+    "max_jobs": 63,
+    "max_reserved_cpu_s": 229800,
+    "max_timing_worker_calls": 4392,
+    "scientific_retries": 0
+  },
+  "scenario_weighting": {
+    "source": "public per-condition score summaries only",
+    "sign": "V_COST minus comparator",
+    "roles": [
+      "P",
+      "B",
+      "B_COST",
+      "V_COST_NOPROBE",
+      "V_COST"
+    ],
+    "within_family": "equal over 12 distinct conditions including no-deficit rows",
+    "families_in_panel_order": true,
+    "frequency_denominator": 60,
+    "frequency_numerators": {
+      "balanced": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "ordinary_dominant": [
+        12,
+        12,
+        12,
+        12,
+        6,
+        6
+      ],
+      "incident_analogue_dominant": [
+        3,
+        3,
+        3,
+        3,
+        24,
+        24
+      ]
+    },
+    "illustrative_episodes_per_facility_year": 1,
+    "endpoint_units": [
+      "L/episode (s)",
+      "U/episode (native integral)",
+      "person-s/episode",
+      "tool-s/episode",
+      "fee units/episode"
+    ],
+    "uncertainty": "deterministic scenario means; population frequencies and annual field losses unidentified"
+  },
+  "current_activity": {
+    "facility_calls": 0,
+    "slurm_jobs": 0,
+    "h2_generate_read_derive": [
+      0,
+      0,
+      0
+    ],
+    "h3_generate_read_derive": [
+      0,
+      0,
+      0
+    ],
+    "full_manuscript_rewrite": false
+  }
+}
