@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 428" width="960" height="428" role="img" aria-labelledby="title desc">
+<title id="title">Evidence arrival, admissible work and end-of-window evaluation</title>
+<desc id="desc">The policy receives arrived records and issues at most one request. The executor checks hard limits before acting on the facility. Only delivered observations or receipts return to the policy. The evaluator reads actual demand and delivery. Offline search receives only the aggregate scores paid for by its arm.</desc>
+<defs>
+  <marker id="blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#146286"/></marker>
+  <marker id="dark" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#495866"/></marker>
+  <style>text{font-family:Arial,sans-serif;fill:#172d38}.cap{font-size:18px;font-weight:bold}.head{font-size:17px;font-weight:bold}.body{font-size:13.5px}.label{font-size:13px;fill:#415866}.flow{fill:none;stroke-width:2.4;stroke-linejoin:round}.cell{fill:white;stroke-width:1.4}</style>
+</defs>
+<rect x="1" y="1" width="958" height="426" rx="10" fill="#fff" stroke="#d4dde2"/>
+<rect x="9" y="10" width="942" height="112" rx="7" fill="#e8f3f7"/>
+<rect x="9" y="154" width="942" height="112" rx="7" fill="#f1f3f4"/>
+<rect x="9" y="301" width="942" height="116" rx="7" fill="#edf5f1"/>
+<g text-anchor="middle">
+  <text x="76" y="64" class="cap">Online policy</text><text x="76" y="89" class="label">Public view only</text>
+  <text x="76" y="206" class="cap">Plant and work</text><text x="76" y="231" class="label">Private state</text>
+  <text x="76" y="353" class="cap">Evaluation</text><text x="76" y="378" class="label">Full-window pairs</text>
+</g>
+<g class="cell" stroke="#87acbd">
+  <rect x="145" y="23" width="316" height="83" rx="5"/><rect x="574" y="23" width="355" height="83" rx="5"/>
+</g>
+<g class="cell" stroke="#a1adb4">
+  <rect x="145" y="168" width="316" height="84" rx="5"/><rect x="574" y="168" width="355" height="84" rx="5"/>
+</g>
+<g class="cell" stroke="#8ba99c">
+  <rect x="145" y="316" width="316" height="84" rx="5"/><rect x="574" y="316" width="355" height="84" rx="5"/>
+</g>
+<g>
+  <text x="160" y="48" class="head">Available evidence</text>
+  <text x="160" y="72" class="body">Orders, sparse sensors, own field readings</text><text x="160" y="93" class="body">Check origin, validity, execution ID and version</text>
+  <text x="589" y="48" class="head">Decision and first action</text>
+  <text x="589" y="72" class="body">Verify obligations first, then compare wait, inspect, act</text><text x="589" y="93" class="body">Each possible reading has one continuation</text>
+  <text x="589" y="194" class="head">Admission and execution</text>
+  <text x="589" y="218" class="body">Permit, access, trade, tools, shift and work window</text><text x="589" y="240" class="body">Keep refusals, invalid actions and unfinished work</text>
+  <text x="160" y="194" class="head">Coupled facility and local protection</text>
+  <text x="160" y="218" class="body">Power, backup, cooling, compute/network/storage</text><text x="160" y="240" class="body">Exogenous shocks, demand and actual delivery</text>
+  <text x="160" y="342" class="head">Independent evaluation</text>
+  <text x="160" y="366" class="body">Integrate L from demand and actual delivery</text><text x="160" y="388" class="body">Labour, fees, violations and valid closure</text>
+  <text x="589" y="342" class="head">Feedback to offline search</text>
+  <text x="589" y="366" class="body">T8 uses shared-parent or own-arm paid aggregates</text><text x="589" y="388" class="body">Update the program between rounds</text>
+</g>
+<g stroke="#146286" class="flow" marker-end="url(#blue)">
+  <path d="M462 75H569"/><path d="M748 106V164"/><path d="M285 167V111"/>
+</g>
+<g stroke="#495866" class="flow" marker-end="url(#dark)">
+  <path d="M573 224H466"/><path d="M285 252V311"/><path d="M462 367H569"/>
+</g>
+<g class="label">
+  <text x="518" y="63" text-anchor="middle">Update posterior</text>
+  <text x="761" y="141">One request or defer</text>
+  <text x="298" y="141">Admissible messages received</text>
+  <text x="518" y="211" text-anchor="middle">Action effect</text>
+  <text x="298" y="288">Native trajectory</text>
+  <text x="518" y="355" text-anchor="middle">Aggregate receipt</text>
+</g>
+</svg>
