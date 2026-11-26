@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T8 r0 receipt public payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registration_id", "split", "batch_root", "catalogue_root", "custodian_id", "auditor_id", "aggregate_coverage_pct", "all_required_tests_complete", "decision"],
+  "properties": {
+    "registration_id": {"type": "string", "const": "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b"},
+    "split": {"type": "string", "enum": ["FIT", "DEV"]},
+    "batch_root": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"},
+    "catalogue_root": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"},
+    "custodian_id": {"type":"string","minLength":1,"maxLength":32,"pattern":"^[a-z][a-z0-9_-]{0,31}(?![\\s\\S])"},
+    "auditor_id": {"type":"string","minLength":1,"maxLength":32,"pattern":"^[a-z][a-z0-9_-]{0,31}(?![\\s\\S])"},
+    "aggregate_coverage_pct": {"type": "integer", "minimum": 0, "maximum": 100},
+    "all_required_tests_complete": {"type": "boolean"},
+    "decision": {"type": "string", "enum": ["PASS", "BLOCKED"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"split": {"const": "FIT"}}},
+      "then": {"properties": {"aggregate_coverage_pct": {"enum": [0,2,4,6,8,10,12,14,16,18,20,22,25,27,29,31,33,35,37,39,41,43,45,47,50,52,54,56,58,60,62,64,66,68,70,72,75,77,79,81,83,85,87,89,91,93,95,97,100]}}}
+    },
+    {
+      "if": {"properties": {"all_required_tests_complete": {"const": true}}},
+      "then": {"properties": {"aggregate_coverage_pct": {"const": 100}}}
+    },
+    {
+      "if": {"properties": {"decision": {"const": "PASS"}}},
+      "then": {"properties": {"aggregate_coverage_pct": {"const": 100}, "all_required_tests_complete": {"const": true}}}
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "T8 r0 request public payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registration_id", "split", "batch_root", "catalogue_root"],
+  "properties": {
+    "registration_id": {"type": "string", "const": "06ff51c5578f00951c42b4dd2e53cfb4989b0b8be923056332241058d4eb9f3b"},
+    "split": {"type": "string", "enum": ["FIT", "DEV"]},
+    "batch_root": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"},
+    "catalogue_root": {"type": "string", "minLength": 64, "maxLength": 64, "pattern": "^[0-9a-f]{64}$"}
+  }
+}
