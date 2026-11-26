@@ -5,6 +5,7 @@ from copy import deepcopy
 import csv
 from decimal import Decimal
 import hashlib
+from html.parser import HTMLParser
 import json
 import os
 from pathlib import Path
@@ -160,6 +161,49 @@ def verify(folder):
 def sha_key(k):return hashlib.sha256(bytes.fromhex(k)).hexdigest()
 
 
+class ReviewCells(HTMLParser):
+    """Read rendered table cells without accepting the embedded Markdown as evidence."""
+
+    def __init__(self):
+        super().__init__()
+        self.cells = []
+        self.current = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "td":
+            self.current = []
+
+    def handle_data(self, value):
+        if self.current is not None:
+            self.current.append(value)
+
+    def handle_endtag(self, tag):
+        if tag == "td" and self.current is not None:
+            self.cells.append("".join(self.current).strip())
+            self.current = None
+
+
+def verify_review(folder):
+    result = read(folder / "results.json")
+    if result["status"] != "DUAL_LOCKED_PENDING_REVIEW":
+        return
+    timing = read(folder / "cpu-scope.json")
+    denominators = {"PARENT": result["baseline"]["completed"],
+                    **{a: result["arms"][a]["completed"] for a in ("O", "R")}}
+    check(timing["unit"] == "nanoseconds" and timing["per_position_cap_ns"] == 180_000_000_000 and
+          {a: v["positions"] for a, v in timing["arms"].items()} == denominators, "timing coverage")
+    for row in timing["arms"].values():
+        check(row["positions"] == 48 * row["slots"] and 0 < row["max_recorded_launch_to_terminal_ns"]
+              <= row["max_position_cpu_upper_bound_ns"] <= timing["per_position_cap_ns"], "timing upper bound")
+    page = ReviewCells()
+    page.feed((folder / "review.html").read_text(encoding="utf8"))
+    for i, slot in enumerate([result["baseline"], *(result["arms"][a]["locked"] for a in ("O", "R"))]):
+        score = slot["score"]
+        check(page.cells[3*i+1:3*i+3] == [f"{score['L_mean_s']:.6f}", f"{score['person_mean_s']:.6f}"],
+              "visible review table FIT scores")
+    print("PASS published timing summary covers 1,584 positions within cap and three rendered FIT score rows match")
+
+
 def checkout_bytes(folder):
     """Compare the declared public release to the actual checkout and its immutable Git objects."""
     root=HERE.parents[3]
@@ -191,4 +235,5 @@ if __name__=="__main__":
     parser.add_argument("--checkout-bytes",action="store_true")
     parser.add_argument("--folder",type=Path,default=HERE/"results");args=parser.parse_args()
     verify(args.folder.resolve())
+    verify_review(args.folder.resolve())
     if args.checkout_bytes:checkout_bytes(args.folder.resolve())
