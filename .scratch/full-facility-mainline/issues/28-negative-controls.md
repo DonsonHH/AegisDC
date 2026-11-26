@@ -20,7 +20,7 @@ Read the fixed mainline, accepted scope ADR, specification, predecessor evidence
 
 Pending implementation and acceptance.
 
-Owner `/root`, branch `donson/mainline-28-negative-controls`, isolated worktree `C:/Users/Donson/.codex/worktrees/mainline28-negative-controls/Renly`. Accepted predecessor `96b3c2b7`, refreshed integration tip `7dabde7d`. Progress, worktree, process and live agent checks found no existing implementer.
+Owner `/root`, branch `donson/mainline-28-negative-controls`, isolated worktree `<worktree-root>/mainline28-negative-controls/Renly`. Accepted predecessor `96b3c2b7`, refreshed integration tip `7dabde7d`. Progress, worktree, process and live agent checks found no existing implementer.
 
 [Proposed finite contract](../../../docs/mainline/28-negative-controls-contract.md): normal, false report with real paid verification, local protection, and too-late safety abort in the same V6 facility. All targets and budgets remain to be independently reviewed and frozen. No model, selector, plant or registered effect trial called.
 

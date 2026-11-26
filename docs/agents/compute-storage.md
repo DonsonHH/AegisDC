@@ -5,14 +5,14 @@ User requirement confirmed 2026-11-09. This governs infrastructure and artifact 
 ## Execution
 
 1. Select the authorized resource branch below. Use a host-key-verifying client and keep credentials out of project files and logs.
-2. **mu01 Slurm cluster:** use the installed `use-renly-slurm` skill. Before mutation, verify `renly`, `mu01` and `/share/home/renly`; inspect live partitions and `squeue -u renly`. Login-node work is limited to transfer, downloads, setup and lightweight inspection. Schedule computation through Slurm with explicit resources.
+2. **mu01 Slurm cluster:** use the installed `use-renly-slurm` skill. Before mutation, match the account, login node and exact home directory to the values in the installed private cluster contract; inspect live partitions and `squeue -u renly`. Login-node work is limited to transfer, downloads, setup and lightweight inspection. Schedule computation through Slurm with explicit resources.
 3. Stage code, exact input/config identities, dependencies and model files before computation. Slurm compute nodes are offline. Reuse a verified environment or prepare an isolated environment; record its dependency lock before qualification and keep shared environments stable during jobs.
 4. Preserve a unique job directory with source/config, stdout/stderr, environment and attempt/terminal records. A maintenance integrity job is not a research trial. Research attempts still require their own frozen protocol and budget.
 5. Confirm execution state/exit code (`sacct`forSlurm,the actual process/terminal record forcontainers), artifact identity and readability. Detailed trajectories, datasets and checkpoints stay on the private server; return the required plots, tables, summaries and integrity receipts.
 6. If remote access, scheduling or dependencies are unavailable, record the specific failure and retain local inputs. Continue independent editing and documentation where possible; local training/inference/evaluation is not an automatic fallback.
 7. Follow the same process/session to a terminal result. After an observation failure, inspect that handle and its artifacts before deciding to restart; recover a closed transfer by copying the same completed output. Package continuation retains original failures and authenticates reusable cached artifacts.
 
-The existing research storage root is `/share/home/renly/renly-patrol-rsi`. Use a separate named directory for each activity. The 2026-11-09 cleanup retention namespace is `local-archives/20261109-cleanup-01`; preserve its manifest and verification receipt when local copies are released. Discover current capacity and topology rather than treating this document as a live snapshot.
+The project storage root is the `renly-patrol-rsi` subdirectory of that verified remote home. Use a separate named directory for each activity. The 2026-11-09 cleanup retention namespace is `local-archives/20261109-cleanup-01`; preserve its manifest and verification receipt when local copies are released. Discover current capacity and topology rather than treating this document as a live snapshot.
 
 ## Dedicated SCNet containers
 

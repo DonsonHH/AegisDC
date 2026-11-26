@@ -22,6 +22,6 @@ Apply `docs/mainline/information-boundary.md` to proposal validation and executi
 
 Pending implementation and acceptance.
 
-Assigned independent ready slice: `/root/m4_23_intervention`, branch `donson/mainline-23-intervention`, managedworktree `C:/Users/Donson/.codex/worktrees/mainline23-intervention/Renly`. Blockers20/21 accepted; primary22 unchanged. Physical effects require separate Root acceptance.
+Assigned independent ready slice: `/root/m4_23_intervention`, branch `donson/mainline-23-intervention`, managedworktree `<worktree-root>/mainline23-intervention/Renly`. Blockers20/21 accepted; primary22 unchanged. Physical effects require separate Root acceptance.
 
 Root acceptance: `docs/mainline/evidence/23-root.json`; actual integrated source `80bfed982eb50b22b020e1a07e5fee1e4531d808`, 501 executed checks with zero skips, Spec335 saved checks, no unresolved Standards/Spec findings. Original independent decimal failure and correction preserved.
