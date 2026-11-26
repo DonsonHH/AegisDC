@@ -139,6 +139,13 @@ def verify(folder):
         total+=Decimal(j["actual_cpu_s"])
     check(total==Decimal(result["total_slurm_cpu_s"]) and len(result["jobs"])<=10 and
           sum(j["reserved_cpu_s"] for j in result["jobs"])==result["total_reserved_cpu_s"]<=285900,"reservation cap")
+    check(total+Decimal(result["local_intake_comparison_cpu_s"])<=285900 and
+          result["dev_positions"]==result["h2_access"]==result["h3_originals_access"]==0 and
+          all(j["stage"] in ("input","parent","parent-a2","pilot","r2O","r2R","r3O","r3R","r4O","r4R")
+              for j in result["jobs"]),"actual CPU ceiling and FIT-only stages")
+    if proof["dual_lock"]:
+        check(result["max_charged_position_cpu_us"]<=180_000_000 and result["observed_native_hard_violations"]==0 and
+              all(v["charged_arm_cpu_us"]<=138480*1_000_000 for v in result["arms"].values()),"hard and per-arm constraints")
     if "pilot_projection" in result:
         pp=result["pilot_projection"]
         check(Decimal(pp["planned_reserved_cpu_s"])<=6*Decimal(pp["pilot_total_cpu_s"]) and
@@ -153,7 +160,35 @@ def verify(folder):
 def sha_key(k):return hashlib.sha256(bytes.fromhex(k)).hexdigest()
 
 
+def checkout_bytes(folder):
+    """Compare the declared public release to the actual checkout and its immutable Git objects."""
+    root=HERE.parents[3]
+    manifest=read(folder/"delivery.json")
+    def blob(revision,path):
+        return subprocess.check_output(["git","cat-file","blob",revision+":"+path],cwd=root)
+    prefix=folder.relative_to(root).as_posix()+"/"
+    committed=set(subprocess.check_output(["git","ls-tree","-r","--name-only","HEAD","--",prefix],cwd=root).decode().splitlines())
+    check(committed=={prefix+x for x in [*manifest["public_files"],"delivery.json"]},"complete declared public result set")
+    for name,entry in manifest["public_files"].items():
+        data=(folder/name).read_bytes()
+        check(len(data)==entry["bytes"] and hashlib.sha256(data).hexdigest()==entry["sha256"] and
+              data==blob("HEAD",prefix+name),"published original bytes: "+name)
+    check((folder/"delivery.json").read_bytes()==blob("HEAD",prefix+"delivery.json"),"published manifest")
+    r=read(folder/"results.json")
+    for p,entry in manifest["versioned_dependencies"].items():
+        original=blob(entry["revision"],p)
+        check(hashlib.sha256(original).hexdigest()==entry["sha256"],"execution revision bytes: "+p)
+    check(manifest["versions"]["native_fit"]==r["execution_revision"] and
+          manifest["versions"]["input_job"]=="6fe60fde8ad51003918989051245f9de6bfbc315" and
+          manifest["versions"]["request"]=="ec5a3846457ef8f8435de1e6b641318b87ed229b" and
+          manifest["versions"]["signed_receipt"]=="7518bc3f66a03eb56b68640aa8fd5e0a6d169a01","execution publication mapping")
+    print(f"PASS {len(committed)} public delivery files byte-for-byte against Git; "
+          f"{len(manifest['versioned_dependencies'])} versioned source/evidence dependencies")
+
+
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument("--check",required=True,action="store_true")
+    parser.add_argument("--checkout-bytes",action="store_true")
     parser.add_argument("--folder",type=Path,default=HERE/"results");args=parser.parse_args()
     verify(args.folder.resolve())
+    if args.checkout_bytes:checkout_bytes(args.folder.resolve())
