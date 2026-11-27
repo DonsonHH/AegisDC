@@ -6,7 +6,7 @@ import time
 
 
 OAT = {
-    "lambda_low": ("versions.V3", 0.5), "lambda_high": ("versions.V3", 2.0),
+    "lambda_low": ("versions.V3", 0.5), "lambda_high": ("versions.V3", 2),
     "kappa_low": ("fee_in_person_seconds", 15), "kappa_high": ("fee_in_person_seconds", 60),
     "match_low": ("fixed_match_probability", 0.85), "match_high": ("fixed_match_probability", 0.99),
     "unknown_low": ("unknown_report_probability", 1 / 64),
