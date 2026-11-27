@@ -314,7 +314,7 @@ def main():
             need((act/"science-settled.json").is_file(),"science attempts not reconciled")
             start=cpu()
             __import__("native_readback").finalize(act)
-            subprocess.run([str(PYTHON),"-B",str(act/"source"/"analysis.py"),"--activity",str(act)],check=True)
+            subprocess.run([str(PYTHON),"-I","-B",str(act/"source"/"analysis.py"),"--activity",str(act)],check=True)
             save(act/"analysis-job.json",dict(job=os.environ["SLURM_JOB_ID"],cpu_s=cpu()-start,utc=now()))
         else:
             batch(act,arg.manifest,arg.label)

@@ -73,8 +73,11 @@ class Trajectory:
             # A public execution refusal at issuance identifies zero occupied time.
             # This changes sunk model cost only. The shared gate still reserves
             # from issued records exactly as in the frozen worker.
-            immediate_refusal = (ack is not None and ack["status"]=="rejected" and ack["observed_at_s"]==r["at"])
-            if not immediate_refusal:
+            if ack is not None and ack["status"]=="rejected":
+                pass  # Native admission refusals have no workforce occupancy.
+            elif ack is not None and ack["status"]=="aborted":
+                self.person += max(0.,ack["observed_at_s"]-r["at"])
+            else:
                 self.person += r["planned_end"]-r["at"]
             if ack is not None and ack["status"] != "completed":
                 continue

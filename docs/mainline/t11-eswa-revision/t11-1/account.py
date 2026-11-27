@@ -73,7 +73,7 @@ def main():
         if f.exists():
             row=read(f);jobs[row["job"]]=row
     need(jobs and len(jobs)<=63,"registered submissions")
-    columns=("JobIDRaw","JobName","State","ExitCode","ElapsedRaw","AllocCPUS","TimelimitRaw","TotalCPU","UserCPU",
+    columns=("JobIDRaw","JobName","State","ExitCode","ElapsedRaw","ReqCPUS","AllocCPUS","TimelimitRaw","TotalCPU","UserCPU",
              "SystemCPU","ReqMem","MaxRSS","Start","End")
     cmd=["sacct","-n","-P","-j",",".join(jobs),"--format="+",".join(columns)]
     raw=subprocess.check_output(cmd,text=True)
@@ -103,14 +103,19 @@ def main():
         rec=groups[job];name=row["name"]
         need(rec["State"].split()[0].rstrip("+") in end_states,"collect only after terminal: "+job)
         spec=reg["groups"][name]
-        need(int(rec["AllocCPUS"])==1 and int(rec["TimelimitRaw"])*60==spec["seconds"]==row["reserved_cpu_s"],
+        no_start=(rec["State"].split()[0].rstrip("+") in ("CANCELLED","BOOT_FAIL","DEADLINE","REVOKED","NODE_FAIL")
+                  and int(rec["AllocCPUS"] or 0)==0 and job+".batch" not in groups and rec["Start"] in ("","Unknown","N/A","None"))
+        need(int(rec["ReqCPUS"])==1 and (int(rec["AllocCPUS"] or 0)==1 or no_start)
+             and int(rec["TimelimitRaw"])*60==spec["seconds"]==row["reserved_cpu_s"],
              "scheduler CPU and time allocation: "+job)
-        reservation=int(rec["AllocCPUS"])*int(rec["TimelimitRaw"])*60
+        reservation=int(rec["ReqCPUS"])*int(rec["TimelimitRaw"])*60
         total_reserved+=reservation
         alloc=seconds(rec["TotalCPU"]); step=seconds(groups.get(job+".batch",{}).get("TotalCPU",""))
         measured_path=act/"job-costs"/(name+".json")
         measured=Decimal(str(read(measured_path)["process_cpu_s"])) if measured_path.is_file() else None
-        if alloc is not None and alloc>0:
+        if no_start:
+            actual=Decimal(0);origin="terminal before allocation, no batch step"
+        elif alloc is not None and alloc>0:
             actual=alloc;origin="Slurm allocation TotalCPU"
         elif step is not None and step>0:
             actual=step;origin="Slurm .batch TotalCPU"
@@ -120,6 +125,7 @@ def main():
             actual=None;origin="UNESTABLISHED";lower_bound=True
         if actual is not None: cpu_used+=actual;known+=1
         accounting.append(dict(job=job,group=name,kind=spec["kind"],state=rec["State"],exit_code=rec["ExitCode"],
+             requested_cpus=rec["ReqCPUS"],allocated_cpus=rec["AllocCPUS"],terminal_before_start=no_start,
              reserved_cpu_s=reservation,elapsed_wall_s=rec["ElapsedRaw"],allocation_reported_cpu_s=alloc,
              batch_reported_cpu_s=step,measured_workload_cpu_s=measured,reported_used_cpu_s=actual,
              actual_basis=origin,start=rec["Start"],end=rec["End"]))
@@ -167,7 +173,11 @@ def main():
         scheduled=[g for g in reg["groups"].values() if g.get("role")==role and (act/"submissions"/(g["name"]+".json")).is_file()]
         n_sub=12*len(scheduled); role_root=act/"positions"/role
         entered=len(list(role_root.glob("*/native-entry.json")));scored=len(list(role_root.glob("*/score.json")))
-        position_entries=len(list(role_root.glob("*/entry.json")))
+        attempted={p.parent.name for p in role_root.glob("*/entry.json")}|{p.parent.name for p in role_root.glob("*/failure.json")}
+        for g in scheduled:
+            terminal_file=act/"batches"/g["name"]/"terminal.json"
+            if terminal_file.is_file():attempted.update(r["key"] for r in read(terminal_file)["returns"])
+        position_entries=len(attempted)
         diagnosed=sum(1 for f in role_root.glob("*/failure.json") if
                       (obs:=read(f).get("observed") or {}).get("clocks")==61 and
                       all(k in obs for k in ("entry","raw_sha256","timing_sha256","IPC","L","U","person","tool","fee","runtime"))

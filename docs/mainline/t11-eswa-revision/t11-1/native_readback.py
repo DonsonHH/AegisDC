@@ -14,6 +14,10 @@ def finalize(activity):
     baseline=read(activity/"references"/"baseline-freeze.json")
     inputs=read(activity/"references"/"original-dev-manifest.json")
     settled=read(activity/"science-settled.json")
+    release=file_sha(activity/"source-manifest.json")
+    implementation=read(activity/"source-manifest.json")["implementation_revision"]
+    qualification=read(activity/"qualification"/"acceptance.json")
+    need(qualification["pass"] and qualification["implementation_manifest"]==release,"qualified execution release")
     index=[]
     verified=0;diagnostics=0
     for spec in (road["groups"][label] for label in road["order"] if road["groups"][label]["kind"]=="science"):
@@ -31,9 +35,11 @@ def finalize(activity):
                 e=read(start);need((e["key"],e["role"],e["input_sha256"],e["job"])==(key,role,record["input_sha256"],submitted_job),
                                     "retained entry identity")
                 record["status"]="PRE_NATIVE_INCOMPLETE"
+                need(e["manifest"]==release and e["implementation"]==implementation,"entry vs frozen implementation")
             if native.is_file():
                 n=read(native);need(start.is_file() and all(n[k]==v for k,v in e.items()) and
-                                    n["pid"]!=n["worker_pid"],"retained native process/entry")
+                                    n["pid"]!=n["worker_pid"] and n["bundle"]==qualification["bundle"],
+                                    "retained native process/entry/public bundle")
                 record["status"]="ENTERED_WITHOUT_COMPLETE_SCORE"
             if timing.is_file():
                 stamps=[]
@@ -54,6 +60,11 @@ def finalize(activity):
                 s=read(score) if score.is_file() else observed
                 need(native.is_file() and (unit/"native-return.json").is_file() and s["input_sha256"]==record["input_sha256"]
                      and s["key"]==key and s["role"]==role and s["entry"]==e,"score identity")
+                returned=read(unit/"native-return.json")
+                need((returned["key"],returned["role"],returned["job"],returned["input_sha256"])==
+                     (key,role,submitted_job,record["input_sha256"]) and
+                     returned["clocks"]==returned["worker_calls"]==61 and returned["source_tree"]==baseline["native_runtime"],
+                     "native return identity and actual call counts")
                 need((not score.is_file() or s["conformant"] is True) and s["clocks"]==61 and s["runtime"]==baseline["native_runtime"] and
                      s["raw_sha256"]==record["raw_sha256"] and s["timing_sha256"]==record["timing_sha256"] and
                      stamps==list(range(0,3601,60)),"score/trace/timing accounting")
