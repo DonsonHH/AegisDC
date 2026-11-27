@@ -278,7 +278,7 @@ class KnownReport:
         return 0.5
 
 
-def shared_delivered_report(settings, gate):
+def shared_delivered_report(bundle, settings, gate):
     from aegis_risk_dispatch import belief
     from baselines import elective_menu, guard
     from pomcp import Trajectory
@@ -311,14 +311,21 @@ def shared_delivered_report(settings, gate):
         demand(menu == (None, (SID, "A")), "same admissible continuation after CONFIG")
         traces.append((before_delivery, delivered, deepcopy(path.view), menu))
     demand(traces[0] == traces[1] and view == after, "common public result/history and immutable input")
+    decisions = {}
+    for role in METHODS:
+        left_reply, = run_worker(bundle, role, pub, [traces[0][2]])
+        right_reply, = run_worker(bundle, role, pub, [traces[1][2]])
+        demand(left_reply["decision"] == right_reply["decision"], role + ": shared reported history diverged")
+        decisions[role] = digest(left_reply["decision"])
     return dict(worlds_differ_on="hypothetical demand at 600 versus 1200", common_phase="I",
-                sampled=210, arrived=225, report="CONFIG", post_report_history=digest(traces[0][2]))
+                sampled=210, arrived=225, report="CONFIG", post_report_history=digest(traces[0][2]),
+                same_cold_worker_decisions=decisions)
 
 
 def simulated_silence(settings, gate):
     from aegis_risk_dispatch import belief
     from baselines import guard
-    from pomcp import Trajectory
+    from pomcp import Trajectory, search
     pub, view = static(), history(0)
     weights, _ = belief.posterior(pub, view, settings)
     early = next(w for w, _ in weights if w.family == "network" and w.alarm == "early")
@@ -337,8 +344,23 @@ def simulated_silence(settings, gate):
     actual, _ = belief.posterior(pub, history(120), settings)
     support = {w for w, _ in actual}
     demand(early not in support and late in support, "actual observed 120 s silence retains its frozen likelihood")
+    # Observe the unmodified search invocation in the fixture process. The frozen real-root
+    # posterior's function code identifies calls even if a module bound an import alias.
+    posterior_calls = []
+
+    def observe_calls(frame, event, arg):
+        if event == "call" and frame.f_code is belief.posterior.__code__:
+            posterior_calls.append(frame.f_locals["view"]["time"])
+
+    sys.setprofile(observe_calls)
+    try:
+        _, _, _, _, metrics = search(pub, view, weights, 1, settings, gate)
+    finally:
+        sys.setprofile(None)
+    demand(metrics["simulations"] == 128 and metrics["max_depth"] >= 3, "actual tree crossed the silent 120s tick")
+    demand(all(t == view["time"] for t in posterior_calls), "tree used real-channel silence below the root")
     return dict(root_supported=True, equal_simulated_histories=True, real_early_supported=False,
-                real_late_supported=True, simulated_timestamps=[60, 120])
+                real_late_supported=True, simulated_timestamps=[60, 120], real_posterior_call_times=posterior_calls)
 
 
 def seed_replay(bundle):
@@ -484,7 +506,7 @@ def main():
         "public_action_mask": lambda: public_action_mask(bundle, gate),
         "required_pending_refusal": lambda: required_pending_refusal(bundle),
         "one_intervention_voi": lambda: one_intervention_voi(bundle),
-        "shared_delivered_report": lambda: shared_delivered_report(settings, gate),
+        "shared_delivered_report": lambda: shared_delivered_report(bundle, settings, gate),
         "simulated_silence": lambda: simulated_silence(settings, gate),
         "seed_replay": lambda: seed_replay(bundle),
         "separate_leaf": lambda: separate_leaf(bundle, settings, gate),
@@ -496,11 +518,13 @@ def main():
                   python_sha256=FROZEN_PYTHON_SHA256, native_runs=0, facility_calls=0, checks={}, failed=[])
     with args.output.open("x", encoding="utf-8") as output:
         for name, probe in checks.items():
+            print(json.dumps({"check": name, "state": "started"}), flush=True)
             try:
                 report["checks"][name] = {"passed": True, "observations": probe()}
             except Exception as exc:
                 report["checks"][name] = {"passed": False, "error": f"{type(exc).__name__}: {exc}"}
                 report["failed"].append(name)
+            print(json.dumps({"check": name, **report["checks"][name]}, sort_keys=True, allow_nan=False), flush=True)
         report["passed"] = not report["failed"]
         report["status"] = "PASS" if report["passed"] else "FAIL"
         json.dump(report, output, sort_keys=True, ensure_ascii=False, allow_nan=False, indent=2)
