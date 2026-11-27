@@ -114,6 +114,17 @@ def verify_results(release,reg,hashes):
     require(qual["native_calls"]==w["facility_calls"]==w["native_runs"]==0 and w["status"]=="PASS" and
             w["passed"] is True and len(w["checks"])==10 and all(v["passed"] for v in w["checks"].values()) and
             sha((root/"qualification/public-witness.json").read_bytes())==qual["witness_sha256"],"public engineering outcome")
+    initial=qual["initial_implementation_manifest"];final=qual["implementation_manifest"]
+    previous=obj(HERE/"source-manifest-failed-qualification.json")
+    require(initial==sha((HERE/"source-manifest-failed-qualification.json").read_bytes()) and
+            final==account["source_manifest_sha256"] and
+            {n for n,v in release["files"].items() if previous["files"].get(n)!=v}=={"source/worker.py"},
+            "single-member engineering repair")
+    attempts=root/"qualification"/"attempts"
+    old=obj(attempts/initial/"public-witness.json"); accepted=obj(attempts/final/"receipt.json")
+    require(old["failed"]==["oat_single_change"] and old["native_runs"]==old["facility_calls"]==0 and
+            old["qualification_sha256"]==w["qualification_sha256"] and accepted["pass"] and
+            accepted["job"]==obj(attempts/initial/"receipt.json")["job"]==qual["job"],"retained original fixture and failure")
     scan=obj(root/"qualification/historical-fields.json")
     require(scan["eligible_rows"]==72 and scan["frames"]==61*scan["native_original_hashes_verified"]<=4392 and
             (scan["frames"]==4392 or scan["status"]=="TIMING_FRAMES_UNAVAILABLE" and scan["unavailable_frames"]),
@@ -137,6 +148,39 @@ def verify_results(release,reg,hashes):
     require(analysis["label"]=="事后补充、非确认" and analysis["sample"]["planned_conditions"]==72 and
             analysis["sample"]["planned_new_positions"]==720 and set(analysis["interpretation"])=={"MYOPIC","POMCP"},"scope and interpretive status")
     require(analysis["program_sha256"]==release["files"]["source/analysis.py"],"published analysis program")
+    source_design=json.loads(blob(BASE,"docs/mainline/t11-eswa-revision/design.json"))
+    expected_scopes={"overall":72,**{"family/"+f:12 for f in source_design["panel"]["families"]},
+                     **{"duration/"+str(d):24 for d in (0,600,1200)}}
+    require(set(analysis["scopes"])==set(expected_scopes),"registered scope set")
+    for name,size in expected_scopes.items():
+        scope=analysis["scopes"][name]
+        require(scope["n"]==size and set(scope["pairs"])==set(reg["roles"]),"registered scope denominator: "+name)
+        for role,pair in scope["pairs"].items():
+            direction=("V_COST",role) if role in ("MYOPIC","POMCP") else (role,"V_COST")
+            require((pair["left"],pair["right"])==direction and pair["planned"]==size,
+                    "paired direction or denominator: "+name+"/"+role)
+            estimates=pair["compliant_full_scope"]
+            require((estimates is None)==(pair["pairable"]<size),"missing/invalid pair estimate suppression")
+            if estimates is not None:
+                require(all(k in estimates and estimates[k]["lo"]<=estimates[k]["hi"] for k in
+                            ("L","U","person","tool","fee","refusals","NA_3600","PV_3600")),
+                        "uncertainty and required outcome coverage")
+    complete_rows=tsv(ap/"positions.tsv")
+    require(len(complete_rows)==720 and {(r["role"],r["key"],r["input_sha256"]) for r in complete_rows}==
+            {(r["role"],r["key"],r["input_sha256"]) for r in evidence},"per-position publication identity")
+    timer=analysis["timing"]
+    require(set(reg["roles"])|{"V_COST"}==set(timer),"timing role membership")
+    for role in [*reg["roles"],"V_COST"]:
+        group=timer[role]["groups"]["ALL"]
+        ipc=group["timing_ns"]["ipc_wall_ns"]
+        if ipc["n"]:
+            require(0<=ipc["median"]<=ipc["p95"]<=ipc["max"],"timing distribution: "+role)
+    t=timer["POMCP"]["groups"]["ALL"]["tree_counts"]
+    require((t["tree_steps"]["total"] or 0)<=2248704 and (t["leaf_evaluations"]["total"] or 0)<=562176,
+            "tree and leaf counters")
+    if timer["V_COST"]["validated_full_series"]:
+        require(timer["V_COST"]["groups"]["ALL"]["timing_ns"]["ipc_wall_ns"]["n"]==4392 and
+                timer["V_COST"]["source"] in ("archived_online","isolated_worker_replay"),"validated original timing scope")
     for role,pair in analysis["scopes"]["overall"]["pairs"].items():
         if role not in reg["roles"]:continue
         if pair["compliant_full_scope"] is not None:

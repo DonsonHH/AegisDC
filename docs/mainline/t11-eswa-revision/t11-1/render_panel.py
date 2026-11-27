@@ -58,6 +58,18 @@ def panel():
         p=pairs[role];mean=absolute[role]["compliant_full_scope_means"] or {}
         out.append(f'| {label} | {p["pairable"]}/{p["planned"]} | {fmt(mean.get("L"))} | {estimate(p,"L")} | '
                    f'{fmt(mean.get("person"))} | {fmt(mean.get("fee"))} |')
+    out+=["","## Absolute service, resource use and work closure","",
+          "Rows give condition means over each complete compliant scope. Refusals count the recorded candidate/admission "
+          "refusal entries. Failed or unfinished work is reported from the actual workforce records. NA and PV count "
+          "valid closures at window end, respectively without intervention and after verification of an applied intervention.","",
+          "| Policy | Deficit, s | Person-s | Tool-s | Fees | Refusal entries | Failed / unfinished work | NA / PV at 3,600 s | Hard / unresolved started positions |",
+          "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for role in ("V_COST","MYOPIC","POMCP",*OAT_NAMES):
+        role_data=absolute[role]; vals=role_data["compliant_full_scope_means"] or {};counts=role_data["counts"]
+        out.append("| "+" | ".join([NAMES[role],*[fmt(vals.get(key)) for key in ("L","person","tool","fee","refusals")],
+                   fmt(vals.get("failed_work"))+" / "+fmt(vals.get("unfinished_work")),
+                   fmt(vals.get("NA_3600"))+" / "+fmt(vals.get("PV_3600")),
+                   str(counts["hard_violations"])+" / "+str(counts["started_legality_unresolved"])])+" |")
     out+=["","## Decision time and scope","",
           "| Policy / measurement | Returned timed decisions | Median, ms | 95th percentile, ms | Maximum, ms |",
           "|---|---:|---:|---:|---:|"]
