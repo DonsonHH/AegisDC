@@ -144,7 +144,15 @@ def main():
     for group in reg["order"]:
         copy("batches/"+group+"/terminal.json","batches/"+group+".json")
     analysis=act/"analysis"
-    if analysis.is_dir():
+    readback_job=act/"submissions"/"analysis.json"
+    readback_status="NOT_RUN"
+    if readback_job.is_file():
+        analysis_id=read(readback_job)["job"]
+        state=groups[analysis_id]
+        readback_status="VERIFIED" if (state["State"]=="COMPLETED" and state["ExitCode"]=="0:0"
+                and (act/"analysis-job.json").is_file() and read(act/"analysis-job.json")["job"]==analysis_id
+                and (analysis/"native-readback-receipt.json").is_file() and (analysis/"SHA256SUMS.txt").is_file()) else "UNRESOLVED"
+    if readback_status=="VERIFIED":
         # Only compact, per-condition public analysis output. Original trajectories are never copied.
         for path in sorted(analysis.iterdir()):
             need(path.is_file() and not path.is_symlink() and path.suffix in (".json",".md",".tsv",".jsonl",".txt",".csv"),
@@ -172,7 +180,7 @@ def main():
                     unentered_positions=72-position_entries,submitted_but_unentered=n_sub-position_entries))
     write_table(output/"per-role-ledger.tsv",counts)
     save(output/"accounting.json",dict(claim="post hoc supplementary, nonconfirmatory",jobs=len(jobs),allocation_ids=sorted(jobs),
-         reserved_cpu_s=total_reserved,
+         reserved_cpu_s=total_reserved,statistical_readback=readback_status,
          reported_used_cpu_s=float(cpu_used),used_cpu_scope="lower_bound_or_partial" if lower_bound else "Slurm process CPU",
          allocations_with_cpu_measure=len(accounting) if known==len(accounting) else known,
          charged_native_calls=native,native_returns=returned,complete_new_scores=complete,

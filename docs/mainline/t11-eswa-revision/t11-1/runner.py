@@ -116,7 +116,7 @@ class PublicProcess:
 
 def hard_checks(pub,run,metrics,gate,role,timing_path):
     """Check actual issued work; a lawful rejection with no work is not a violation."""
-    from aegis_action_cost.planning import PublicCalendar
+    from aegis_action_cost.planning import PublicCalendar, sequences
     from aegis_risk_dispatch import policy,belief
     subjects={s["id"]:s for s in pub["subjects"]}
     actual={w[0] for w in metrics["work"]}
@@ -149,8 +149,13 @@ def hard_checks(pub,run,metrics,gate,role,timing_path):
                     for phase in ("A","I"):
                         if phase=="I" and sid+"::A" in cal.done:continue
                         allowed,_=gate.admit(pub,v,subject,phase)
-                        if allowed and cal.run((sid,phase),(),renew_initial=False) is not None:
-                            eligible.add((sid,phase))
+                        if not allowed:continue
+                        complete=cal.run((sid,phase),(),renew_initial=False) is not None
+                        if phase=="A" and not complete:
+                            other=[(k,"A") for k,item in subjects.items() if k!=sid and item["primary"] and
+                                   k in cal.opened and k+"::A" not in cal.done and item["write_window"][1]>v["time"]]
+                            complete=any(seq and cal.run((sid,phase),seq,renew_initial=False) is not None for seq in sequences(other))
+                        if complete:eligible.add((sid,phase))
             if req is not None and (req["subject"],req["phase"]) not in eligible:
                 raise HardViolation("executed elective request lacked a feasible calendar or public support")
             if role=="POMCP":
@@ -308,8 +313,8 @@ def main():
         elif arg.label=="analysis":
             need((act/"science-settled.json").is_file(),"science attempts not reconciled")
             start=cpu()
-            subprocess.run([str(PYTHON),"-B",str(act/"source"/"analysis.py"),"--activity",str(act)],check=True)
             __import__("native_readback").finalize(act)
+            subprocess.run([str(PYTHON),"-B",str(act/"source"/"analysis.py"),"--activity",str(act)],check=True)
             save(act/"analysis-job.json",dict(job=os.environ["SLURM_JOB_ID"],cpu_s=cpu()-start,utc=now()))
         else:
             batch(act,arg.manifest,arg.label)

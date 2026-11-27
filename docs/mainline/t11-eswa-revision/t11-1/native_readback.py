@@ -9,6 +9,7 @@ from operations import ORIGINAL, file_sha, need, now, packed, read, save, signat
 
 def finalize(activity):
     public=activity/"analysis"
+    public.mkdir(exist_ok=True)
     road=read(activity/"registration.json")
     baseline=read(activity/"references"/"baseline-freeze.json")
     inputs=read(activity/"references"/"original-dev-manifest.json")

@@ -2,7 +2,7 @@
 from collections import defaultdict
 
 from aegis_action_cost.permit import exposure
-from aegis_action_cost.planning import PublicCalendar, expected
+from aegis_action_cost.planning import PublicCalendar, expected, sequences
 from aegis_risk_dispatch import knowledge, policy
 
 
@@ -47,7 +47,14 @@ def menu_with_refusals(pub, view, gate, calendar=None):
             if calendar is None:
                 calendar = PublicCalendar(pub, view, gate)
             action = (sid, phase)
-            if calendar.run(action, (), renew_initial=False) is not None:
+            complete=calendar.run(action, (), renew_initial=False) is not None
+            if not complete and phase=="A":
+                # A may have a complete schedule with a later repositioning write.
+                # An I always requires the empty UNKNOWN continuation in the frozen rule.
+                remaining=[(k,"A") for k,sub in calendar.subjects.items() if k!=sid and sub["primary"] and
+                           k in calendar.opened and k+"::A" not in calendar.done and sub["write_window"][1]>view["time"]]
+                complete=any(seq and calendar.run(action,seq,renew_initial=False) is not None for seq in sequences(remaining))
+            if complete:
                 menu[action] = request
     return menu, refusals
 

@@ -632,6 +632,8 @@ def center_timing(root, rows):
     records = read_call_lines(path, issues)
     if path.is_file():
         hashes[path.name] = digest(path.read_bytes())
+    if status.get("validated") is True and (not path.is_file() or hashes[path.name]!=status.get("measurements_sha256")):
+        issues.append("CENTER_MEASUREMENTS_DIGEST_MISMATCH")
     keys = {r["key"]: r["units"][CENTER].input_sha256 for r in rows}
     times = defaultdict(list)
     for item in records:
@@ -648,18 +650,20 @@ def center_timing(root, rows):
     if not complete:
         issues.append("NO_COMPLETE_VALIDATED_CENTER_TIMING")
     startup_values = []
-    if complete:
+    startup_path = directory / "startups.jsonl"
+    if startup_path.is_file(): hashes[startup_path.name]=digest(startup_path.read_bytes())
+    startup_digest_ok=startup_path.name in hashes and hashes[startup_path.name]==status.get("startups_sha256")
+    if complete and not startup_digest_ok:
+        issues.append("CENTER_STARTUPS_DIGEST_MISMATCH")
+    if complete and startup_digest_ok:
         start_map = status.get("startup_ns_by_key", {})
         if not isinstance(start_map, dict):
             start_map = {}
         start_map = dict(start_map)
-        startup_path = directory / "startups.jsonl"
         for item in read_call_lines(startup_path, issues):
             key = item.get("key")
             if isinstance(key, str) and key in keys and item.get("input_sha256", keys[key]) == keys[key]:
                 start_map[key] = item.get("worker_startup_ns", item.get("startup_ns"))
-        if startup_path.is_file():
-            hashes[startup_path.name] = digest(startup_path.read_bytes())
         startup_values = [v for k, v in start_map.items() if k in keys and numeric(v) and v >= 0]
     return {"source": mode, "validated_full_series": complete, "planned_calls": 4392,
             "returned_records": len(records), "clock_complete_units": sum(times[k] == list(CLOCK) for k in keys),
