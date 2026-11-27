@@ -9,8 +9,6 @@ import time
 import traceback
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-
-sys.path.insert(0,str(Path(__file__).resolve().parent))
 from operations import (BASELINE_ROLES, ORIGINAL, PYTHON, SCIENCE, check_stage, cpu, file_sha,
                         in_allocation, need, now, original_identities, packed, public_bundle,
                         read, save, signature)
@@ -27,6 +25,7 @@ class PublicProcess:
         self.events=[]
         self.timing_file=timing_file
         self.stderr=(directory/"worker.stderr").open("xb")
+        self.attempt_log=None if center else (directory/"public-call-attempts.jsonl").open("xb")
         entry=bundle/("aegis_action_cost/worker.py" if center else "worker.py")
         flags=["-I","-S","-B"] if center else ["-I","-B"]
         self.proc=subprocess.Popen([str(PYTHON),*flags,str(entry),role],stdin=subprocess.PIPE,stdout=subprocess.PIPE,
@@ -71,6 +70,12 @@ class PublicProcess:
         need(timing["simulations"]<=128 and timing["max_depth"]<=4 and
              timing["tree_steps"]<=4*timing["simulations"] and
              timing["leaf_evaluations"]<=timing["simulations"],"planner operation ceiling")
+        need(timing["reason"]==answer["decision"]["rationale"]["reason"] and
+             timing["leaf_ns"]+timing["tree_ns"]<=timing["worker_wall_ns"] and
+             type(timing.get("effective_choices")) is int and timing["effective_choices"]>=0,
+             "recorded reason, legal-choice count and disjoint timing")
+        if self.role=="POMCP" and timing["effective_choices"]>1:
+            need(timing["simulations"]==128,"fixed POMCP root budget")
         if self.role!="POMCP":
             need(not any(timing[k] for k in ("tree_steps","leaf_evaluations","simulations","nodes","max_depth",
                                              "tree_ns","leaf_ns")),"non-tree accounting")
@@ -79,9 +84,12 @@ class PublicProcess:
 
     def choose(self,pub,view,role,plan):
         need(role==self.role and not plan and signature(pub)==self.static,"public-only ingress")
+        view_hash=signature(view)
+        self.attempt_log.write(packed({"time":view["time"],"view_sha256":view_hash})+b"\n")
+        self.attempt_log.flush()
         decision,timing=self.decision(view)
         t=view["time"]
-        self.events.append([t,signature(view),signature(decision)])
+        self.events.append([t,view_hash,signature(decision)])
         self.timing_file.write(packed(dict(time=t,**timing))+b"\n")
         self.timing_file.flush()
         return decision
@@ -89,9 +97,13 @@ class PublicProcess:
     def close(self):
         try:
             if self.proc.poll() is None:
-                self.proc.stdin.write(b'{"close":true}\n')
-                self.proc.stdin.flush()
-            self.proc.stdin.close()
+                try:
+                    self.proc.stdin.write(b'{"close":true}\n')
+                    self.proc.stdin.flush()
+                except BrokenPipeError:
+                    pass
+            try:self.proc.stdin.close()
+            except BrokenPipeError:pass
             return self.proc.wait(timeout=15)
         finally:
             if self.proc.poll() is None:
@@ -99,14 +111,54 @@ class PublicProcess:
                 self.proc.wait(timeout=15)
             self.proc.stdout.close()
             self.stderr.close()
+            if self.attempt_log is not None:self.attempt_log.close()
 
 
-def hard_checks(pub,run,metrics,gate):
+def hard_checks(pub,run,metrics,gate,role,timing_path):
     """Check actual issued work; a lawful rejection with no work is not a violation."""
+    from aegis_action_cost.planning import PublicCalendar
+    from aegis_risk_dispatch import policy,belief
     subjects={s["id"]:s for s in pub["subjects"]}
     actual={w[0] for w in metrics["work"]}
-    for row in run["policy_public_decisions"]:
+    settings=read(ORIGINAL/"public-only"/"aegis_risk_dispatch"/"settings.json")
+    if role in ("match_low","match_high"):
+        settings["fixed_match_probability"]=0.85 if role=="match_low" else 0.99
+    with timing_path.open("rb") as stream:timings=[json.loads(line) for line in stream]
+    for row,point in zip(run["policy_public_decisions"],timings,strict=True):
         v=row["view"]; req=row["decision"]["request"]
+        due,renew=policy.priorities(pub,v,gate)
+        forced,_=policy.first_legal(due+renew,pub,v,gate)
+        if forced is not None and req!=forced:
+            raise HardViolation("required own verification or renewal was skipped")
+        if req is not None and req["phase"] in ("R","X") and req!=forced:
+            raise HardViolation("unmatched mandatory work")
+        if (role=="POMCP" or req is not None) and forced is None:
+            posterior,_=belief.posterior(pub,v,settings)
+            paid={r["task"] for r in v["paid"]}
+            waiting=False
+            for work in (r for r in v["issued"] if r["phase"]=="I"):
+                ack=gate.ack(v,work["task"])
+                waiting|=(ack is None and v["time"]<=work["planned_end"]+pub["latency"]) or (
+                      bool(ack) and ack["status"]=="completed" and work["task"] not in paid and
+                      v["time"]<ack["observed_at_s"]+pub["latency"])
+            eligible=set()
+            if posterior and not waiting:
+                cal=PublicCalendar(pub,v,gate)
+                for sid,subject in subjects.items():
+                    if not subject["primary"] or sid not in cal.opened:continue
+                    for phase in ("A","I"):
+                        if phase=="I" and sid+"::A" in cal.done:continue
+                        allowed,_=gate.admit(pub,v,subject,phase)
+                        if allowed and cal.run((sid,phase),(),renew_initial=False) is not None:
+                            eligible.add((sid,phase))
+            if req is not None and (req["subject"],req["phase"]) not in eligible:
+                raise HardViolation("executed elective request lacked a feasible calendar or public support")
+            if role=="POMCP":
+                need(point["simulations"]==(128 if eligible else 0),"POMCP real-root budget vs independent mask")
+                if eligible:
+                    need(point["effective_choices"]==len(eligible)+1,"effective root choices vs calendar")
+        elif role=="POMCP":
+            need(point["simulations"]==point["tree_steps"]==point["leaf_evaluations"]==0,"mandatory root search accounting")
         if req is None: continue
         need(req["task"] in actual,"returned issued request missing actual record")
         s=subjects[req["subject"]]
@@ -181,10 +233,11 @@ def unit(activity,manifest,role,key,label):
         score={k:metrics[k] for k in selected}
         score["maintenance"]=run["v3_maintenance_events"]
         score["locks"]=[[q["at"],q["requested"]["subject"]] for q in clock if q["external_refusal"]]
-        hard_checks(pub,run,metrics,Gate(case["maintenance"]["recovery"]))
-        score.update(key=key,role=role,input_sha256=h,conformant=True,job=job,entry=entry,
+        score.update(key=key,role=role,input_sha256=h,job=job,entry=entry,
                      IPC=signature(child.events),raw_sha256=file_sha(raw),timing_sha256=file_sha(result/"timing.jsonl"),
                      elapsed_s=time.monotonic()-start,process_cpu_s=cpu()-startcpu,completed_utc=now())
+        hard_checks(pub,run,metrics,Gate(case["maintenance"]["recovery"]),role,result/"timing.jsonl")
+        score["conformant"]=True
         save(result/"score.json",score)
         print(key,role,"completed",flush=True)
     except BaseException as exc:
@@ -192,7 +245,9 @@ def unit(activity,manifest,role,key,label):
         category="HARD_VIOLATION" if isinstance(exc,HardViolation) else ("IDENTITY_OR_RUN_UNRESOLVED" if counted else "PRE_NATIVE_FAILURE")
         failure=dict(key=key,role=role,job=job,category=category,hard_violation=isinstance(exc,HardViolation),
                      native_call_counted=counted,terminal_utc=now(),error_type=type(exc).__name__)
-        if score is not None:failure["observed"]=score
+        if score is not None:
+            score["conformant"]=False if isinstance(exc,HardViolation) else None
+            failure["observed"]=score
         save(result/"failure.json",failure)
         stop(activity,category,label,job)
         raise

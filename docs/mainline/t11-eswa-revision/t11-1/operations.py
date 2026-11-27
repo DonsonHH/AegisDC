@@ -122,6 +122,7 @@ def center_rows(activity):
 
 
 def original_identities(activity):
+    from importlib.metadata import distribution
     ref=activity/"references"
     original=read(ref/"baseline-freeze.json")
     design=read(ref/"design.json")
@@ -135,6 +136,12 @@ def original_identities(activity):
     for path,digest in release["core_files"].items():
         need(file_sha(NATIVE_ROOT/path)==digest,"native core file: "+path)
     need(file_sha(PYTHON)==release["python"]["sha256"]==original["python"]["sha256"],"research interpreter")
+    environment=read(ref/"environment-lock.json")
+    package=distribution("numpy")
+    need(package.version==environment["numpy"]["version"] and file_sha(PYTHON)==environment["python"]["sha256"],
+         "registered numerical environment")
+    for path,digest in environment["numpy"]["files"].items():
+        need(file_sha(package.locate_file(path))==digest,"installed NumPy member: "+path)
     frozen=read(SCIENCE/"freeze.json")
     source_root=ORIGINAL/"source"
     need(original["scientific_source"]==design["worker_revision"] and frozen["files"]==original["sources"],
@@ -172,7 +179,8 @@ def original_identities(activity):
                 science_members=len(frozen["files"]),public_members=len(original_members),
                 original_ledger_sha256=result,python_sha256=original["python"]["sha256"],
                 native_core=release["core_revision"],native_tree=release["core_tree"],
-                worker_revision=original["scientific_source"],original_public_bundle=original["public_bundle_sha256"])
+                worker_revision=original["scientific_source"],original_public_bundle=original["public_bundle_sha256"],
+                numpy_version=package.version,numpy_members_verified=len(environment["numpy"]["files"]))
 
 
 def public_bundle(activity, *, create=False):

@@ -43,9 +43,18 @@ def inspect_archives(activity):
     plan=read(ORIGINAL/"source"/"docs"/"mainline"/"t4c-action-cost-v3"/"freeze.json")
     origins={key:group for group,slots in plan["groups"].items() for key,role in slots if role=="V_COST" and group.startswith("new")}
     schema=Counter(); searchable_logs=0;clock_hits=0; matched=0; unexpected=[]
+    verified_keys=[];unavailable=[];missing_logs=[]
     pattern=re.compile(rb"perf_counter|monotonic_ns|wall_ns|cpu_ns|dispatch_latency|decision_latency|timing_ns",re.I)
     for key,unit in units.items():
-        _,events,proposals,audit=history(key,unit,rows[key])
+        try:
+            _,events,proposals,audit=history(key,unit,rows[key])
+        except (FileNotFoundError,KeyError,IndexError,EOFError) as exc:
+            unavailable.append([key,type(exc).__name__]);continue
+        except ValueError as exc:
+            if str(exc).startswith(("full original decision history","original public clock")):
+                unavailable.append([key,"INCOMPLETE_TIMING_HISTORY"]);continue
+            raise
+        verified_keys.append(key)
         for event,proposal,record in zip(events,proposals,audit,strict=True):
             fields={"event":sorted(event),"proposal":sorted(proposal),"audit":sorted(record)}
             schema[packed(fields).decode()]+=1
@@ -58,12 +67,14 @@ def inspect_archives(activity):
         position=ORIGINAL/"positions"/("dev-"+key+"-V_COST")/"a1"
         logs=[position/"worker.stderr",ORIGINAL/"batches"/origins[key]/"a1"/(key+"-V_COST.log")]
         for f in logs:
-            need(f.is_file(),"missing historic process log "+f.name)
+            if not f.is_file():
+                missing_logs.append([key,f.name]);continue
             searchable_logs+=1
             clock_hits+=bool(pattern.search(f.read_bytes()))
-    status=("HISTORICAL_RTT_AVAILABLE" if matched==4392 else "NO_PER_DECISION_TIMING" if matched==0 and
+    status=("TIMING_FRAMES_UNAVAILABLE" if unavailable else "HISTORICAL_RTT_AVAILABLE" if matched==4392 else "NO_PER_DECISION_TIMING" if matched==0 and
             not unexpected and not clock_hits else "PARTIAL_OR_UNCLASSIFIED")
-    return dict(status=status,eligible_rows=72,frames=4392,native_original_hashes_verified=72,
+    return dict(status=status,eligible_rows=72,frames=61*len(verified_keys),native_original_hashes_verified=len(verified_keys),
+                missing_optional_logs=missing_logs,unavailable_frames=unavailable,
                 event_schema_counts=dict(schema),complete_wall_fields=matched,unit_logs_read=searchable_logs,
                 timer_log_hits=clock_hits,whole_position_elapsed_present=True,simulation_clock_is_not_runtime=True)
 
@@ -78,7 +89,7 @@ def measure(activity,manifest):
     total=0;validated_count=0;started_cpu=cpu()
     try:
         need(mode is not None,"partial or unclassified historic timing requires readback review")
-        with (directory/"measurements.jsonl").open("xb") as output,(directory/"startups.jsonl").open("xb") as startups:
+        with (directory/"measurements.jsonl").open("xb") as output,(directory/"startups.jsonl").open("xb") as startups, (directory/"dispatches.jsonl").open("xb") as dispatched:
             for key in keys:
                 public,frames,proposals,audit=history(key,units[key],rows[key])
                 folder=directory/key;folder.mkdir()
@@ -94,6 +105,8 @@ def measure(activity,manifest):
                         public_view=item["view"]
                         if worker is not None:
                             need(total<4392,"worker replay ceiling")
+                            dispatched.write(packed(dict(key=key,time=public_view["time"],view_sha256=proposal["view"])) + b"\n")
+                            dispatched.flush()
                             total+=1
                             answer,timing=worker.decision(public_view)
                             need(answer["request"]==proposal["requested"] and signature(answer)==proposal["proposal"],
@@ -102,6 +115,7 @@ def measure(activity,manifest):
                             wall=next(v for rec in (record,proposal,item) if (v:=historical_point(rec)) is not None)
                             timing=dict(ipc_wall_ns=wall,reason=item["decision"]["rationale"]["reason"])
                         output.write(packed(dict(key=key,time=public_view["time"],validated=True,mode=mode,**timing))+b"\n")
+                        output.flush()
                         validated_count+=1
                     output.flush()
                 finally:

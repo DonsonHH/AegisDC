@@ -343,8 +343,12 @@ def new_unit(directory, key, role, expected):
     actual.update(score)
     u.facts, u.metrics, errors = score_facts(actual)
     u.issues.extend(errors)
-    if numeric(score.get("clocks")) and score["clocks"] in range(62):
-        u.clocks = int(score["clocks"])
+    diagnostic_full = (isinstance(observed, dict) and entries_ok and identity(observed, key, role, expected)
+                       and observed.get("entry")==entry and (directory/"native-return.json").is_file()
+                       and all(re.fullmatch("[0-9a-f]{64}",str(observed.get(k,""))) for k in ("raw_sha256","IPC","timing_sha256")))
+    clock_source=score if u.score_present else observed if diagnostic_full else {}
+    if numeric(clock_source.get("clocks")) and clock_source["clocks"] in range(62):
+        u.clocks = int(clock_source["clocks"])
     elapsed = score.get("elapsed", score.get("elapsed_s", failure.get("elapsed_s")))
     if numeric(elapsed) and elapsed >= 0:
         u.elapsed_s = elapsed
@@ -365,7 +369,7 @@ def new_unit(directory, key, role, expected):
         _, score_metrics, score_errors = score_facts(score)
     if u.score_present:
         u.issues.extend("MISSING_SCORE_" + n for n in PAIR_FIELDS if n not in score_metrics)
-    u.complete_score = bool(score) and u.clocks == len(CLOCK) and all(n in score_metrics for n in PAIR_FIELDS) and not score_errors
+    u.complete_score = (bool(score) or diagnostic_full) and u.clocks == len(CLOCK) and all(n in score_metrics for n in PAIR_FIELDS) and not score_errors
     u.eligible = u.complete_score and u.legality == "CONFORMANT"
     if u.legality == "CONFORMANT":
         u.legal_L = u.metrics.get("L")

@@ -14,7 +14,7 @@ def finalize(activity):
     inputs=read(activity/"references"/"original-dev-manifest.json")
     settled=read(activity/"science-settled.json")
     index=[]
-    verified=0
+    verified=0;diagnostics=0
     for spec in (road["groups"][label] for label in road["order"] if road["groups"][label]["kind"]=="science"):
         batch=spec["name"];role=spec["role"]
         submitted=activity/"submissions"/(batch+".json")
@@ -25,7 +25,7 @@ def finalize(activity):
             timing=unit/"timing.jsonl"; raw=unit/"original.jsonl.gz"
             record={"batch":batch,"key":key,"role":role,"input_sha256":inputs["files"][key],"job":submitted_job,
                     "entered":int(start.exists()),"native_calls":int(native.exists()),"score_sha256":"","raw_sha256":"",
-                    "timing_sha256":"","timing_rows":0,"failure_sha256":"","status":"UNEXECUTED_SUFFIX"}
+                    "timing_sha256":"","timing_rows":0,"failure_sha256":"","as_run_diagnostic_sha256":"","status":"UNEXECUTED_SUFFIX"}
             if start.is_file():
                 e=read(start);need((e["key"],e["role"],e["input_sha256"],e["job"])==(key,role,record["input_sha256"],submitted_job),
                                     "retained entry identity")
@@ -40,13 +40,20 @@ def finalize(activity):
                     try:stamps.append(json.loads(line)["time"])
                     except (ValueError,KeyError):break
                 record.update(timing_sha256=file_sha(timing),timing_rows=len(stamps))
-            if failure.is_file(): record.update(failure_sha256=file_sha(failure),status=read(failure)["category"])
+            observed={}
+            if failure.is_file():
+                failed=read(failure)
+                record.update(failure_sha256=file_sha(failure),status=failed["category"])
+                observed=failed.get("observed") or {}
             if raw.is_file():record["raw_sha256"]=file_sha(raw)
-            if score.is_file():
-                s=read(score)
+            full_diagnostic=(not score.is_file() and observed.get("clocks")==61 and observed.get("key")==key
+                             and observed.get("role")==role and all(field in observed for field in
+                             ("entry","raw_sha256","timing_sha256","IPC","L","U","person","tool","fee","runtime")))
+            if score.is_file() or full_diagnostic:
+                s=read(score) if score.is_file() else observed
                 need(native.is_file() and (unit/"native-return.json").is_file() and s["input_sha256"]==record["input_sha256"]
                      and s["key"]==key and s["role"]==role and s["entry"]==e,"score identity")
-                need(s["conformant"] is True and s["clocks"]==61 and s["runtime"]==baseline["native_runtime"] and
+                need((not score.is_file() or s["conformant"] is True) and s["clocks"]==61 and s["runtime"]==baseline["native_runtime"] and
                      s["raw_sha256"]==record["raw_sha256"] and s["timing_sha256"]==record["timing_sha256"] and
                      stamps==list(range(0,3601,60)),"score/trace/timing accounting")
                 with gzip.open(raw,"rb") as f: header=json.loads(f.readline())["metadata"]
@@ -57,12 +64,18 @@ def finalize(activity):
                          for d,z in zip(decisions,proposals,strict=True)),"recorded public history")
                 transcript=signature([[z["at"],z["view"],z["proposal"]] for z in proposals])
                 need(transcript==s["IPC"],"scored IPC")
+                with (unit/"public-call-attempts.jsonl").open("rb") as stream:
+                    dispatched=[json.loads(line) for line in stream]
+                need(dispatched==[{"time":z["at"],"view_sha256":z["view"]} for z in proposals],"pre-call accounting")
                 case=read(ORIGINAL/"dev-inputs"/(key+".json"))
                 need(header["source_config"]==case["native"]["scenario"] and
                      header["inputs"]["dispatch_program"]==case["native"]["dispatch_program"] and
                      header["v3_received_maintenance"]==case["maintenance"],"original condition and actual execution")
-                record.update(score_sha256=file_sha(score),status="COMPLETE_COMPLIANT")
-                verified+=1
+                if score.is_file():
+                    record.update(score_sha256=file_sha(score),status="COMPLETE_COMPLIANT")
+                    verified+=1
+                else:
+                    record["as_run_diagnostic_sha256"]=signature(observed);diagnostics+=1
             index.append(record)
     need(len(index)==720 and len({(q["role"],q["key"]) for q in index})==720,"full denominator")
     with (public/"native-evidence-index.tsv").open("x",encoding="utf8",newline="") as f:
@@ -78,6 +91,7 @@ def finalize(activity):
                  if (activity/"batches"/label/"terminal.json").is_file()}
     save(public/"native-readback-receipt.json",dict(utc=now(),registered=720,committed_scores=verified,
          native_calls=sum(r["native_calls"] for r in index),index_sha256=file_sha(public/"native-evidence-index.tsv"),
-         metadata_and_clocks_checked=verified,original_bytes_hashed=sum(bool(r["raw_sha256"]) for r in index),
+         metadata_and_clocks_checked=verified+diagnostics,as_run_diagnostics_checked=diagnostics,
+         original_bytes_hashed=sum(bool(r["raw_sha256"]) for r in index),
          anchors=extras,batch_receipts=batch_index,center_scores_recomputed=0,
          sealed_h2_h3_accesses=[0,0]))

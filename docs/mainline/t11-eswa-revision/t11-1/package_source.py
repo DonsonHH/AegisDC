@@ -39,6 +39,7 @@ def build_sources(revision):
     add("source/stage0-identity.json",INTERPRETATION,REL+"/stage0-identity.json")
     add("references/interpretation-before-run.md",INTERPRETATION,REL+"/interpretation-before-run.md")
     add("registration.json",revision,REL+"/registration.json")
+    add("references/environment-lock.json",revision,REL+"/environment-lock.json")
     for name in NORMATIVE:add("references/"+name,T11_0,PARENT+name)
     design=json.loads(data["references/design.json"])
     p=design["panel"]
