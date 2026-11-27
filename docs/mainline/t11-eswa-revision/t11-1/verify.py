@@ -92,10 +92,21 @@ def verify_results(release,reg,hashes):
             account["center_native_runs"]==account["center_scores_created"]==account["scientific_retries"]==0 and
             account["sealed_H2_generate_read_derive"]==account["sealed_H3_generate_read_derive"]==[0,0,0],"fixed scientific boundary")
     jobs=tsv(root/"jobs.tsv"); by_role=tsv(root/"per-role-ledger.tsv")
+    with (root/"slurm-allocation-and-steps.psv").open(encoding="utf8") as f:
+        allocations={r["JobIDRaw"]:r for r in csv.DictReader(f,delimiter="|") if r["JobIDRaw"].isdigit()}
     require(len(jobs)==len({j["job"] for j in jobs})==account["jobs"]<=63 and
             sum(int(j["reserved_cpu_s"]) for j in jobs)==account["reserved_cpu_s"]<=229800,"allocated CPU and job caps")
     for j in jobs:
         require(j["group"] in reg["groups"] and int(j["reserved_cpu_s"])==reg["groups"][j["group"]]["seconds"],"job allocation")
+        record=allocations[j["job"]]
+        require(record["JobName"]==reg["groups"][j["group"]]["slurm_name"] and record["ReqCPUS"]=="1" and
+                record["ReqMem"].rstrip("cn") in ("4G","4.00G","4096M","4096","4194304K"),"registered resources and job identity")
+    for role in reg["roles"]:
+        science=sorted((j for j in jobs if reg["groups"][j["group"]].get("role")==role),
+                       key=lambda j:reg["groups"][j["group"]]["batch"])
+        for before,after in zip(science,science[1:]):
+            require(before["state"]=="COMPLETED" and before["exit_code"]=="0:0" and before["end"]<=after["start"],
+                    "a later batch started without the preceding success: "+role)
     require(abs(sum(float(j["reported_used_cpu_s"]) for j in jobs if j["reported_used_cpu_s"])-account["reported_used_cpu_s"])<1e-4,"actual CPU accounting")
     require({r["role"] for r in by_role}==set(reg["roles"]) and len(by_role)==10 and
             sum(int(r["planned"]) for r in by_role)==720,"full planned denominator")
@@ -120,6 +131,11 @@ def verify_results(release,reg,hashes):
             final==account["source_manifest_sha256"] and
             {n for n,v in release["files"].items() if previous["files"].get(n)!=v}=={"source/worker.py"},
             "single-member engineering repair")
+    original_worker=blob(*previous["file_origins"]["source/worker.py"])
+    registered_value=b'"lambda_high": ("versions.V3", 2.0)'
+    require(original_worker.count(registered_value)==1 and
+            original_worker.replace(registered_value,b'"lambda_high": ("versions.V3", 2)')==
+            blob(*release["file_origins"]["source/worker.py"]),"unchanged worker except for registered integer representation")
     attempts=root/"qualification"/"attempts"
     old=obj(attempts/initial/"public-witness.json"); accepted=obj(attempts/final/"receipt.json")
     require(old["failed"]==["oat_single_change"] and old["native_runs"]==old["facility_calls"]==0 and
@@ -196,6 +212,8 @@ def verify_results(release,reg,hashes):
 def main(checkout,write):
     release,reg,hashes=check_source()
     account=verify_results(release,reg,hashes)
+    from render_panel import panel
+    require((HERE/"manuscript-panel-en.md").read_bytes()==panel().encode(),"English post-hoc table vs sealed readback")
     if checkout:
         names={p[len(REL)+1:] for p in git("ls-tree","-r","--name-only","HEAD","--",REL+"/").decode().splitlines()}
     else:

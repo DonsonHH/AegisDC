@@ -1,0 +1,288 @@
+{
+  "bundle_sha256": "91766172d2782a1a342753097df99047c0350499451bd56f4cfdd5bb7053dfe9",
+  "checks": {
+    "oat_single_change": {
+      "error": "AssertionError: lambda_high frozen dispatch mismatch",
+      "passed": false
+    },
+    "one_intervention_voi": {
+      "observations": {
+        "report_table": {
+          "CONFIG": {
+            "continue_with": [
+              "N/n0"
+            ],
+            "cost": [
+              0.0,
+              159.99999999999997,
+              2.999999999999999,
+              249.99999999999994
+            ],
+            "probability": 0.4305555555555555
+          },
+          "LIMIT": {
+            "continue_with": [],
+            "cost": [
+              1740.0,
+              90.0,
+              1.0,
+              1860.0
+            ],
+            "probability": 0.5381944444444444
+          },
+          "UNKNOWN": {
+            "continue_with": [],
+            "cost": [
+              1883.333333333333,
+              90.00000000000003,
+              1.0,
+              2003.333333333333
+            ],
+            "probability": 0.03125
+          }
+        },
+        "selected": "I",
+        "two_work_orders": 5
+      },
+      "passed": true
+    },
+    "private_ingress_rejected": {
+      "observations": {
+        "MYOPIC": {
+          "prospective_record": 1,
+          "unknown_key": 1
+        },
+        "POMCP": {
+          "prospective_record": 1,
+          "unknown_key": 1
+        }
+      },
+      "passed": true
+    },
+    "public_action_mask": {
+      "observations": {
+        "done_before_I": {
+          "MYOPIC": "0ec307f3c5559072a2554a00c7f416739c1d4f50a0e96a1b5fba3ba0a1e26117",
+          "POMCP": "f234fce0cce0f6ce965c92e0a171652fc104d56159cfe19db324bfb2911a53e7",
+          "V_COST": "0ec307f3c5559072a2554a00c7f416739c1d4f50a0e96a1b5fba3ba0a1e26117"
+        },
+        "no_unschedulable_review": true,
+        "primary_live_original": true
+      },
+      "passed": true
+    },
+    "required_pending_refusal": {
+      "observations": {
+        "MYOPIC": {
+          "conflict": {
+            "chosen": "WAIT",
+            "reason": "UNSUPPORTED_PUBLIC_EVIDENCE",
+            "refusals": []
+          },
+          "own_renewal": {
+            "chosen": "X",
+            "reason": "MANDATORY_OWN_WORK",
+            "refusals": []
+          },
+          "own_review": {
+            "chosen": "R",
+            "reason": "MANDATORY_OWN_WORK",
+            "refusals": []
+          },
+          "pending_I": {
+            "chosen": "WAIT",
+            "reason": "AWAIT_OWN_PAID_RESULT",
+            "refusals": []
+          },
+          "zero_budget": {
+            "chosen": "WAIT",
+            "reason": "VALUE",
+            "refusals": [
+              [
+                "N/n0",
+                "A",
+                "BUDGET"
+              ],
+              [
+                "N/n0",
+                "I",
+                "BUDGET"
+              ]
+            ]
+          }
+        },
+        "POMCP": {
+          "conflict": {
+            "chosen": "WAIT",
+            "reason": "UNSUPPORTED_PUBLIC_EVIDENCE",
+            "refusals": []
+          },
+          "own_renewal": {
+            "chosen": "X",
+            "reason": "MANDATORY_OWN_WORK",
+            "refusals": []
+          },
+          "own_review": {
+            "chosen": "R",
+            "reason": "MANDATORY_OWN_WORK",
+            "refusals": []
+          },
+          "pending_I": {
+            "chosen": "WAIT",
+            "reason": "AWAIT_OWN_PAID_RESULT",
+            "refusals": []
+          },
+          "zero_budget": {
+            "chosen": "WAIT",
+            "reason": "NO_COMPLETE_ADMITTED_BRANCH",
+            "refusals": [
+              [
+                "N/n0",
+                "A",
+                "BUDGET"
+              ],
+              [
+                "N/n0",
+                "I",
+                "BUDGET"
+              ]
+            ]
+          }
+        }
+      },
+      "passed": true
+    },
+    "seed_replay": {
+      "observations": {
+        "replayed_decision": "7bfd96faaa2806e3f189cfee6a36274eced0fed1dbdd9b1fd97a47b9d4ae2c05",
+        "seed_hex": "afa80ab45dfc29c8ecadd30cf1c6a687",
+        "visits": [
+          27,
+          101
+        ]
+      },
+      "passed": true
+    },
+    "separate_leaf": {
+      "observations": {
+        "immediate_workforce_rejection": {
+          "fees": 1,
+          "follow_up": 0,
+          "person": 0.0
+        },
+        "late_report_fee": 1,
+        "late_report_issued": [
+          "I"
+        ],
+        "late_report_person": 90,
+        "search": {
+          "leaf_evaluations": 128,
+          "leaf_ns": 5147201,
+          "max_depth": 4,
+          "nodes": 15,
+          "simulations": 128,
+          "tree_ns": 7253716,
+          "tree_steps": 512
+        },
+        "write_branches": {
+          "legacy": {
+            "fees": 1,
+            "issued": [
+              "A"
+            ],
+            "loss": 540,
+            "outcome": "NO_EFFECT",
+            "person": 35.0
+          },
+          "path": {
+            "fees": 2,
+            "issued": [
+              "A",
+              "R"
+            ],
+            "loss": 0,
+            "outcome": "APPLIED",
+            "person": 70.0
+          }
+        }
+      },
+      "passed": true
+    },
+    "shared_delivered_report": {
+      "observations": {
+        "arrived": 225,
+        "common_phase": "I",
+        "post_report_history": "b0739e9a50763710a1c355d125a7681283bcc4b298a7474be598107f8d5f44ba",
+        "report": "CONFIG",
+        "same_cold_worker_decisions": {
+          "MYOPIC": "e0fe83f79702afd9bce3838bd709e3f2892d4641daa5642daa3b7f319826f306",
+          "POMCP": "4ec10003964a138b381b7196cf2fcd4efe82603cc45191399ac5321fca947bd8"
+        },
+        "sampled": 210,
+        "worlds_differ_on": "hypothetical demand at 600 versus 1200"
+      },
+      "passed": true
+    },
+    "simulated_silence": {
+      "observations": {
+        "equal_simulated_histories": true,
+        "real_early_supported": false,
+        "real_late_supported": true,
+        "real_posterior_call_times": [],
+        "root_supported": true,
+        "simulated_timestamps": [
+          60,
+          120
+        ]
+      },
+      "passed": true
+    },
+    "wait_inspect_act": {
+      "observations": {
+        "MYOPIC/A": {
+          "decision_sha256": "513585e7ccd1cfd737462fc9f65191d60b242359ed52bb1b482260afbe332297",
+          "phase": "A",
+          "public_sha256": "7e65aa8fd465464007638899151dc1a8f8d6fbdfafe383667cf40b0e2037c7eb"
+        },
+        "MYOPIC/I": {
+          "decision_sha256": "cd5a3aaffd436411269e28ccec1a111f57dc8544db92a6393f514d83d78d06cc",
+          "phase": "I",
+          "public_sha256": "8e073e882841fc9a347be3dc77f7cf38dd60cdbc8afdf27103fac3e18796e111"
+        },
+        "MYOPIC/WAIT": {
+          "decision_sha256": "0f718b4752bbcc66d10f4220aa040660ff88557703cdaf67dda662904bf6861a",
+          "phase": "WAIT",
+          "public_sha256": "876ce9e7d6ac3f298341da17259cd22f7c5e4bc28afaef0ecd0fedb7da68fc79"
+        },
+        "POMCP/A": {
+          "decision_sha256": "6d78c4b231b88b7d4558650725010d9bae481d8a9928771f5d1a08c6bff6de67",
+          "phase": "A",
+          "public_sha256": "7e65aa8fd465464007638899151dc1a8f8d6fbdfafe383667cf40b0e2037c7eb"
+        },
+        "POMCP/I": {
+          "decision_sha256": "7bfd96faaa2806e3f189cfee6a36274eced0fed1dbdd9b1fd97a47b9d4ae2c05",
+          "phase": "I",
+          "public_sha256": "8e073e882841fc9a347be3dc77f7cf38dd60cdbc8afdf27103fac3e18796e111"
+        },
+        "POMCP/WAIT": {
+          "decision_sha256": "8f7adcde25422249d2213f475d70a001136ec5b34dbfd4d6e5ce8290a9cb637d",
+          "phase": "WAIT",
+          "public_sha256": "876ce9e7d6ac3f298341da17259cd22f7c5e4bc28afaef0ecd0fedb7da68fc79"
+        }
+      },
+      "passed": true
+    }
+  },
+  "facility_calls": 0,
+  "failed": [
+    "oat_single_change"
+  ],
+  "frozen_public_bundle_sha256": "28811a22be4e30a34526448c8379a004a96fd951363c9eeb2eceecad947074cd",
+  "job": "135630",
+  "native_runs": 0,
+  "passed": false,
+  "python_sha256": "5b2187174e57eb543b1800d101a5f115afc24e52c1519b6f09e4759ca4d6abe6",
+  "qualification_sha256": "9eb294a05077004b8768d5bd9ff26678eba888492d375b9e2cdeda291745d4f7",
+  "source": "public engineering fixtures",
+  "status": "FAIL"
+}

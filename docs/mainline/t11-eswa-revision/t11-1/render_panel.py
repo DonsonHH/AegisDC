@@ -58,6 +58,11 @@ def panel():
         p=pairs[role];mean=absolute[role]["compliant_full_scope_means"] or {}
         out.append(f'| {label} | {p["pairable"]}/{p["planned"]} | {fmt(mean.get("L"))} | {estimate(p,"L")} | '
                    f'{fmt(mean.get("person"))} | {fmt(mean.get("fee"))} |')
+    labour_price=pairs["lambda_high"]
+    if labour_price["compliant_full_scope"] is not None:
+        out.extend(["",f'Raising the labour price from 1 to 2 changed mean labour by {estimate(labour_price,"person")} '
+                    f'person-seconds and mean service deficit by {estimate(labour_price,"L")} s. '
+                    'These one-factor contrasts describe the registered settings on the consumed panel.'])
     out+=["","## Absolute service, resource use and work closure","",
           "Rows give condition means over each complete compliant scope. Refusals count the recorded candidate/admission "
           "refusal entries. Failed or unfinished work is reported from the actual workforce records. NA and PV count "
