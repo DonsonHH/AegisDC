@@ -1,0 +1,44 @@
+{
+  "purpose": "Resolve two gaps in the cluster-wide job sequence against the accepted T11-1 allocation ledger.",
+  "accounting_read_utc": "2026-11-27T05:25:41Z",
+  "cluster_local_offset": "+0800",
+  "host": "mu01",
+  "project_account": "renly",
+  "registered_source": {
+    "commit": "93748f272939166b81ae4188299f096b0fa23fe2",
+    "path": "docs/mainline/t11-eswa-revision/t11-1/results/jobs.tsv",
+    "allocation_count": 63,
+    "matching_job_ids": []
+  },
+  "commands": [
+    "echo ALL_VISIBLE",
+    "sacct -n -P -j 135652,135693 --format=JobIDRaw,User,State,ExitCode,ElapsedRaw,ReqCPUS,AllocCPUS,TimelimitRaw,TotalCPU,Submit,Start,End | awk -F'|' 'BEGIN{OFS=\"|\"} {if ($2 != \"\") $2 = ($2 == \"renly\" ? \"project_account\" : \"different_account\"); print}'",
+    "echo FILTER_RENLY",
+    "sacct -n -P -u renly -j 135652,135693 --format=JobIDRaw,State,ExitCode,ElapsedRaw,ReqCPUS,AllocCPUS,TimelimitRaw,TotalCPU,Submit,Start,End",
+    "echo END"
+  ],
+  "columns": [
+    "JobIDRaw",
+    "User (categorised on cluster, allocation only)",
+    "State",
+    "ExitCode",
+    "ElapsedRaw",
+    "ReqCPUS",
+    "AllocCPUS",
+    "TimelimitRaw",
+    "TotalCPU",
+    "Submit",
+    "Start",
+    "End"
+  ],
+  "all_visible_rows": [
+    "135652|different_account|COMPLETED|0:0|2|1|1|120|00:02.289|2026-11-27T11:23:54|2026-11-27T11:23:54|2026-11-27T11:23:56",
+    "135652.batch||COMPLETED|0:0|2|1|1||00:02.289|2026-11-27T11:23:54|2026-11-27T11:23:54|2026-11-27T11:23:56",
+    "135693|different_account|RUNNING|0:0|3141|32|32|UNLIMITED|00:00:00|2026-11-27T12:33:20|2026-11-27T12:33:20|Unknown",
+    "135693.batch||RUNNING|0:0|3141|32|32||00:00:00|2026-11-27T12:33:20|2026-11-27T12:33:20|Unknown"
+  ],
+  "project_account_rows": [],
+  "exit_status": 0,
+  "disposition": "Both allocations belong to a different account. Neither allocation nor its batch step is chargeable to T11-1. RUNNING describes the instant of this query only.",
+  "access": "Read-only Slurm accounting. No job output, input or identity of another user was collected. No new allocation."
+}
