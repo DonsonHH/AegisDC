@@ -64,12 +64,18 @@ class Trajectory:
         self.pending = {}
         self.duration = exposure(view)
         self.last_issue = None
-        self.person = sum(r["planned_end"]-r["at"] for r in view["issued"])
+        self.person = 0.
         self.fees = len(view["issued"])
         writes = {r["task"] for r in view["writes"]}
         paid = {r["task"] for r in view["paid"]}
         for r in view["issued"]:
             ack = gate.ack(view, r["task"])
+            # A public execution refusal at issuance identifies zero occupied time.
+            # This changes sunk model cost only. The shared gate still reserves
+            # from issued records exactly as in the frozen worker.
+            immediate_refusal = (ack is not None and ack["status"]=="rejected" and ack["observed_at_s"]==r["at"])
+            if not immediate_refusal:
+                self.person += r["planned_end"]-r["at"]
             if ack is not None and ack["status"] != "completed":
                 continue
             end = ack["observed_at_s"] if ack is not None else r["planned_end"]

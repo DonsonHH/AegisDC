@@ -118,6 +118,12 @@ def verify_results(release,reg,hashes):
     require(scan["eligible_rows"]==72 and scan["frames"]==61*scan["native_original_hashes_verified"]<=4392 and
             (scan["frames"]==4392 or scan["status"]=="TIMING_FRAMES_UNAVAILABLE" and scan["unavailable_frames"]),
             "old development timing inspection")
+    if account.get("statistical_readback")=="UNRESOLVED":
+        adjudicated=[j for j in jobs if j["group"]=="analysis"]
+        require(len(adjudicated)==1 and (root/"science-settled.json").is_file() and
+                not (root/"analysis"/"analysis.json").exists(),"failed readback may not publish estimates")
+        print("PASS terminal readback failure retained; no statistical panel certified")
+        return account
     ap=root/"analysis";small=verify_sums(ap,"SHA256SUMS.txt")
     require({"panel.md","analysis.json","positions.tsv","scope-contrasts.tsv","timing.tsv"}<=small,"paired analysis artifacts")
     evidence=tsv(ap/"native-evidence-index.tsv"); raw=obj(ap/"native-readback-receipt.json")

@@ -404,6 +404,18 @@ def separate_leaf(bundle, settings, gate):
     demand(stream.draws == 1 and [r["phase"] for r in path.view["issued"]] == ["I"], "late leaf report cannot buy A")
     demand(person == 90 and fees == 1 and loss > 0, "late report only pays for I")
 
+    rejected=history(120)
+    previous=job("I",0,duration=90)
+    rejected["issued"].append(previous)
+    rejected["work"].append(dict(task_id=previous["task"],source_id="workforce-execution-report",
+        observed_at_s=0,arrived_at_s=15,status="rejected",reason="DECLARED_TASK_ADMISSION_REFUSAL",
+        location_id=None,origin_id="workforce:"+previous["task"],coverage="THIS_ISSUED_TASK_ONLY",
+        basis="SYNTHETIC_FINITE_TIMED_EXECUTION_CHANNEL"))
+    not_started=Trajectory(static(),rejected,world,settings,gate,KnownReport())
+    _,person_zero,one_fee=not_started.finish()
+    demand(person_zero==0 and one_fee==1 and len(not_started.view["issued"])==1,
+           "immediate workforce rejection: no occupied time, one fee, no follow-up")
+
     # A rejected public-model intervention still consumes its 35 s and one issuance. A successful
     # intervention must complete a linked R. The 3600 s renewal grant cannot fit either X.
     plant = static()
@@ -438,7 +450,8 @@ def separate_leaf(bundle, settings, gate):
            and 128 <= timing["tree_steps"] <= 512 and 1 <= timing["max_depth"] <= 4 and timing["nodes"] > 0,
            "registered root, transfer, depth and leaf budgets")
     demand(timing["leaf_ns"] > 0 and timing["tree_ns"] > 0, "separate measured tree and leaf intervals")
-    return dict(late_report_issued=["I"], late_report_person=90, late_report_fee=1,
+    return dict(immediate_workforce_rejection={"person":person_zero,"fees":one_fee,"follow_up":0},
+                late_report_issued=["I"], late_report_person=90, late_report_fee=1,
                 write_branches=branches, search={k: timing[k] for k in TREE_FIELDS})
 
 
